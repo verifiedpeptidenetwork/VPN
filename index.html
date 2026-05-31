@@ -2402,22 +2402,12 @@ document.addEventListener('keydown', function(e){
     <div class="section-header" style="flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;">
       <div class="section-title">Trusted Vendors</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:var(--neon-orange);text-shadow:0 0 8px rgba(255,107,0,0.5);letter-spacing:0.08em;text-transform:uppercase;">
-        ↓ Select a vendor to view their COA reports &amp; independent Helix Group testing
+        ↓ Select a vendor to view their COA reports &amp; independent lab testing
       </div>
       <div class="section-count" id="vendor-count" style="margin-left:auto;"></div>
     </div>
     <div class="vendors-grid" id="vendors-grid"></div>
 
-    <!-- Helix Group Funding Banner (below vendors) -->
-    <div class="helix-banner" style="margin-top:2rem;">
-      <div class="helix-banner-logo-wrap">
-        <img src="HELIXGROUPLOGO.png" class="helix-banner-logo" alt="The Helix Group" />
-      </div>
-      <div class="helix-banner-text">
-        <div class="helix-banner-title">Independent Testing Funded By The Helix Group</div>
-        <div class="helix-banner-sub">All independent COA, endotoxin &amp; heavy metal tests in this database are community-funded and commissioned by The Helix Group — Group Tested · Members Only · Community · Science · Confidence</div>
-      </div>
-    </div>
   </div>
 
   <!-- VENDOR DETAIL -->
@@ -2783,7 +2773,7 @@ document.addEventListener('keydown', function(e){
         <div style="background:#0d0a1e;border:1px solid rgba(255,255,255,0.08);padding:1.25rem 1.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-purple);margin-bottom:0.6rem;">3. INDEPENDENT TESTING &amp; COA DATA INTEGRITY</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:#f0e8ff;line-height:1.8;">
-            3.1 All COA, endotoxin, and heavy metal test results published on this Platform are sourced from <strong style="color:var(--neon-purple);">accredited third-party laboratories</strong> and/or community-funded independent testing commissioned by The Helix Group. VPN does not conduct laboratory testing itself.<br><br>
+            3.1 All COA, endotoxin, and heavy metal test results published on this Platform are sourced from <strong style="color:var(--neon-purple);">accredited third-party laboratories</strong>. VPN does not conduct laboratory testing itself.<br><br>
             3.2 While every effort is made to ensure accuracy, VPN makes <strong style="color:var(--neon-purple);">no warranty, express or implied,</strong> regarding the completeness, accuracy, or fitness for any particular purpose of any data published herein. Laboratory results reflect the specific batch and lot tested at the time of testing and may not be representative of all batches from any vendor.<br><br>
             3.3 COA data upload access is <strong style="color:var(--neon-purple);">restricted to authorized administrators only</strong> to preserve database integrity. Unauthorized attempts to modify, falsify, or corrupt data on this Platform may constitute a violation of applicable computer fraud and cybercrime statutes.
           </div>
@@ -3101,29 +3091,6 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-  <!-- Divider before inline guide -->
-  <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,var(--neon-purple),transparent);"></div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.2em;color:var(--neon-purple);text-shadow:0 0 10px rgba(191,0,255,0.6);">INLINE QUICK REFERENCE — 43 PEPTIDES</div>
-    <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--neon-purple));"></div>
-  </div>
-
-  <div class="qg-disclaimer">
-    ⚠ This is for research purposes only — not meant for human consumption. Educational reference only. Many peptides listed are research compounds and not FDA-approved for the uses shown. Dosing is general reference only — confirm all protocols with your physician. Use only under qualified medical supervision. © Arup Aditya
-  </div>
-  <input class="qg-search" id="qg-search" type="text" placeholder="Search peptide, benefit, side effect…" oninput="qgFilter()">
-  <div class="qg-filter-bar" id="qg-filters">
-    <button class="qg-filter qg-active" data-cat="all" onclick="qgCat(this,'all')">All</button>
-    <button class="qg-filter" data-cat="fat" onclick="qgCat(this,'fat')">Fat Loss</button>
-    <button class="qg-filter" data-cat="muscle" onclick="qgCat(this,'muscle')">GH / Muscle</button>
-    <button class="qg-filter" data-cat="heal" onclick="qgCat(this,'heal')">Healing</button>
-    <button class="qg-filter" data-cat="cog" onclick="qgCat(this,'cog')">Cognitive</button>
-    <button class="qg-filter" data-cat="immune" onclick="qgCat(this,'immune')">Immune</button>
-    <button class="qg-filter" data-cat="sex" onclick="qgCat(this,'sex')">Sexual Health</button>
-    <button class="qg-filter" data-cat="long" onclick="qgCat(this,'long')">Longevity</button>
-    <button class="qg-filter" data-cat="sleep" onclick="qgCat(this,'sleep')">Sleep</button>
-  </div>
-  <div id="qg-content"></div>
 </div>
 
 <!-- STUDIES VIEW -->
@@ -3578,15 +3545,6 @@ function renderVendorDetail(v) {
       </div>
     </div>
 
-    <div class="helix-banner" style="margin-bottom:1.5rem;">
-      <div class="helix-banner-logo-wrap">
-        <img src="HELIXGROUPLOGO.png" class="helix-banner-logo" alt="The Helix Group" />
-      </div>
-      <div class="helix-banner-text">
-        <div class="helix-banner-title">Independent Testing Funded By The Helix Group</div>
-        <div class="helix-banner-sub">All independent COA, endotoxin &amp; heavy metal tests for this vendor are community-funded and commissioned by The Helix Group — Group Tested &middot; Members Only &middot; Community &middot; Science &middot; Confidence</div>
-      </div>
-    </div>
 
     <div style="border:1px solid rgba(0,245,255,0.3);border-left:5px solid var(--neon-cyan);background:#0d0a1e;padding:1rem 1.4rem;margin-bottom:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
       <span style="font-size:1.5rem;flex-shrink:0;line-height:1;">🔒</span>
@@ -3765,7 +3723,7 @@ const reportStore = {};
       batch: batch,
       capColor: cap,
       notes: notes,
-      dataUrl: file,
+      dataUrl: 'coas/' + file,
       type: type,
       date: date,
       isPdf: false,
