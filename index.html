@@ -221,6 +221,9 @@
     font-size: 1rem;
   }
 
+  @media (max-width: 600px) {
+    #vendors-list-full .vendor-two-col { grid-template-columns: 1fr !important; }
+  }
   @media (max-width: 768px) {
     .hamburger-btn { display: flex; }
     .nav-pills { display: none; }
@@ -2329,8 +2332,8 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <nav class="nav-pills" id="desktop-nav">
-      <button class="nav-pill active" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
-      <button class="nav-pill nav-pill-testing" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
+      <button class="nav-pill active" onclick="showView('vendors'); setActiveNav(this);" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
+      <button class="nav-pill nav-pill-testing" onclick="showView('vendors'); setActiveNav(this);">🧪 Testing Results</button>
       <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
       <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
@@ -2351,8 +2354,8 @@ document.addEventListener('keydown', function(e){
 
 <!-- Mobile Nav Dropdown -->
 <div class="mobile-nav-dropdown" id="mobile-nav">
-  <button class="nav-pill" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
-  <button class="nav-pill nav-pill-testing" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
+  <button class="nav-pill" onclick="mobileNav('vendors')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
+  <button class="nav-pill nav-pill-testing" onclick="mobileNav('vendors')">🧪 Testing Results</button>
   <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
   <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
   <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
@@ -2496,6 +2499,24 @@ function mobileNav(view) {
     </div>
     <div class="vendors-grid" id="vendors-grid"></div>
 
+  </div>
+
+  <!-- VENDORS LIST PAGE -->
+  <div class="view" id="view-vendors">
+    <div class="section-header" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem 1.5rem;">
+      <div class="section-title">Trusted Vendors</div>
+      <span class="section-count" id="vendor-count-page"></span>
+    </div>
+
+    <div style="border:1px solid rgba(255,107,0,0.3);border-left:5px solid var(--neon-orange);background:#0d0a04;padding:1rem 1.4rem;margin-bottom:1.75rem;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
+        ⚠ All vendors listed are <strong style="color:var(--neon-orange);">wholesale research peptide suppliers.</strong> 
+        This database is for research verification purposes only. Nothing here constitutes an endorsement of human use of any compound. 
+        Always consult a qualified medical professional.
+      </div>
+    </div>
+
+    <div id="vendors-list-full" style="display:flex;flex-direction:column;gap:1.5rem;"></div>
   </div>
 
   <!-- VENDOR DETAIL -->
@@ -3530,6 +3551,7 @@ function showView(name) {
   document.getElementById('view-' + name).classList.add('active');
   window.scrollTo(0, 0);
   // Show hero only on home, hide on all other pages
+  if (name === 'vendors') renderVendorsList();
   var hero = document.getElementById('site-hero');
   if (hero) hero.style.display = (name === 'home') ? '' : 'none';
   var divider = document.getElementById('neon-divider');
@@ -4166,6 +4188,63 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Render vendor cards
+function renderVendorsList() {
+  const container = document.getElementById('vendors-list-full');
+  if (!container) return;
+  const countEl = document.getElementById('vendor-count-page');
+  if (countEl) countEl.textContent = VENDORS.length + ' verified vendors';
+
+  container.innerHTML = VENDORS.map(v => {
+    // Count COAs for this vendor
+    let coaCount = 0, endoCount = 0, hmCount = 0;
+    PEPTIDES.forEach(function(p) {
+      if ((reportStore[v.id+'||'+p+'||coa']||[]).length) coaCount++;
+      if ((reportStore[v.id+'||'+p+'||endotoxin']||[]).length) endoCount++;
+      if ((reportStore[v.id+'||'+p+'||heavy-metals']||[]).length) hmCount++;
+    });
+
+    const tags = v.tags.map(t => {
+      const cls = t.includes('Credit') || t.includes('Debit') || t.includes('Wire') || t.includes('Crypto') ? 'orange' : t.includes('Inner Circle') ? 'blue' : 'green';
+      return '<span class="tag ' + cls + '">' + t + '</span>';
+    }).join('');
+
+    const contacts = v.contacts.map(ct =>
+      '<div style="display:flex;gap:0.75rem;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;color:var(--neon-cyan);min-width:90px;">' + ct.label + '</span><span style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;color:#ffffff;">' + ct.value + '</span></div>'
+    ).join('');
+
+    const testBadges = [
+      coaCount  ? '<span style="background:rgba(0,245,255,0.15);border:1px solid var(--neon-cyan);color:var(--neon-cyan);font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">COA: ' + coaCount + '</span>' : '',
+      endoCount ? '<span style="background:rgba(0,255,100,0.1);border:1px solid #00ff64;color:#00ff64;font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">ENDOTOXIN: ' + endoCount + '</span>' : '',
+      hmCount   ? '<span style="background:rgba(255,107,0,0.1);border:1px solid var(--neon-orange);color:var(--neon-orange);font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">HEAVY METALS: ' + hmCount + '</span>' : ''
+    ].filter(Boolean).join('');
+
+    return '<div style="background:#0e0e14;border:2px solid rgba(0,245,255,0.2);border-left:6px solid var(--neon-cyan);overflow:hidden;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(0,245,255,0.15);gap:1rem;flex-wrap:wrap;">' +
+        '<div style="display:flex;align-items:center;gap:1rem;">' +
+          '<span style="font-size:2.5rem;">' + v.flag + '</span>' +
+          '<div>' +
+            '<div style="font-family:Bebas Neue,sans-serif;font-size:1.8rem;letter-spacing:0.08em;color:#ffffff;line-height:1;">' + v.name + '</div>' +
+            '<div style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:0.1em;">' + v.location + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<button onclick="openVendor(''+v.id+'')" style="font-family:Bebas Neue,sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.6rem 1.5rem;background:#0a0d22;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;white-space:nowrap;">View COA Database ↗</button>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">' +
+        '<div style="padding:1.25rem 1.5rem;border-right:1px solid rgba(255,255,255,0.06);">' +
+          '<div style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-orange);margin-bottom:0.5rem;">Contact Info</div>' +
+          contacts +
+        '</div>' +
+        '<div style="padding:1.25rem 1.5rem;">' +
+          '<div style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-orange);margin-bottom:0.5rem;">About</div>' +
+          '<div style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;margin-bottom:0.75rem;">' + (v.note||'') + '</div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem;">' + tags + '</div>' +
+          (testBadges ? '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;">' + testBadges + '</div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
 function renderVendors() {
   const grid = document.getElementById('vendors-grid');
   document.getElementById('vendor-count').textContent = VENDORS.length + ' verified vendors';
