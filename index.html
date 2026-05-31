@@ -28,7 +28,10 @@
 
   html, body {
     width: 100%;
+    height: 100%;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
   }
 
@@ -54,18 +57,14 @@
     font-weight: 700 !important;
   }
 
-  /* Grid + nebula background */
+  /* Stars only — clean dark background */
   body::before {
     content: '';
     position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(ellipse at 15% 20%, rgba(140,0,255,0.22) 0%, transparent 45%),
-      radial-gradient(ellipse at 85% 10%, rgba(0,200,255,0.18) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 65%, rgba(200,0,180,0.12) 0%, transparent 50%),
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: auto, auto, auto, 40px 40px, 40px 40px;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #050012;
     pointer-events: none;
     z-index: 0;
   }
