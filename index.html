@@ -307,6 +307,12 @@
     margin: 0 auto;
     padding: 2rem;
     background: transparent;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  @media (max-width: 768px) {
+    .main { padding: 1rem 0.75rem; }
   }
 
   /* === VIEWS === */
@@ -1058,6 +1064,14 @@
     .detail-stats { grid-template-columns: repeat(3,1fr); }
     .peptides-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 2.5rem; }
+    .guide-cards-grid { grid-template-columns: 1fr !important; }
+    .nav-pills { flex-wrap: wrap; gap: 0.4rem; }
+    .nav-pill { font-size: 0.75rem !important; padding: 0.4rem 0.75rem !important; }
+    .view { padding: 1rem !important; }
+    .section-title { font-size: 1.6rem !important; }
+  }
+  @media (max-width: 480px) {
+    .guide-cards-grid { grid-template-columns: 1fr !important; }
   }
 
   .hero-logo-wrap {
@@ -2315,8 +2329,6 @@ document.addEventListener('keydown', function(e){
       onmouseout="this.style.background='#1a0535';this.style.boxShadow='0 0 24px rgba(191,0,255,0.4), inset 0 0 0 1px rgba(191,0,255,0.15)'">
       💊 Peptide Pricing &amp; Comparison Tool
     </button>
-    <div style="margin-top:0.75rem;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(255,230,0,0.6);letter-spacing:0.05em;text-transform:uppercase;">Password</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.15em;color:#ffe600;text-shadow:0 0 16px rgba(255,230,0,0.6);">RetaInnerCircle2025</div>
   </div>
 </div>
 
@@ -3007,7 +3019,7 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- Resource Cards -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;" class="guide-cards-grid">
 
     <a id="rui-tool-card" href="ruic_peptide_comparison_tool.html?from=vpn" target="_blank" rel="noopener"
        style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#1a0535;border:2px solid var(--neon-purple);border-top:4px solid var(--neon-purple);text-decoration:none;box-shadow:0 0 22px rgba(191,0,255,0.25);transition:box-shadow 0.2s,transform 0.2s;"
