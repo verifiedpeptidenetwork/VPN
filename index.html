@@ -3504,6 +3504,20 @@ const VENDORS = [
 
 let currentVendor = null;
 
+function toggleMobileNav() {
+  var nav = document.getElementById('mobile-nav');
+  nav.classList.toggle('open');
+}
+
+function mobileNav(view) {
+  document.getElementById('mobile-nav').classList.remove('open');
+  showView(view);
+  var pills = document.querySelectorAll('#desktop-nav .nav-pill');
+  var viewMap = ['vendors','vendors','quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','terms'];
+  var idx = viewMap.indexOf(view);
+  if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
+}
+
 function setActiveNav(el) {
   document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
