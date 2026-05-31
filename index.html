@@ -9,7 +9,7 @@
   :root {
     --neon-pink: #ff2d78;
     --neon-cyan: #00f5ff;
-    --neon-purple: #bf00ff;
+    --neon-purple: #ffe600;
     --neon-orange: #ff6b00;
     --dark-bg: #050012;
     --card-bg: #0e0625;
@@ -40,6 +40,7 @@
     font-weight: 700;
     font-size: 17px;
     background: #050012;
+    min-width: 100vw;
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
@@ -71,7 +72,9 @@
 
   #starfield {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 0;
     pointer-events: none;
   }
@@ -80,8 +83,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
-    width: 100%;
+    width: 100vw;
     height: 340px;
     z-index: 0;
     pointer-events: none;
@@ -108,8 +110,10 @@
     position: relative;
     z-index: 10;
     padding: 0 2rem;
+    width: 100%;
+    box-sizing: border-box;
     border-bottom: 1px solid rgba(0,245,255,0.2);
-    background: rgba(5,2,15,0.95);
+    background: rgba(5,2,15,0.98);
     backdrop-filter: blur(10px);
   }
 
@@ -230,7 +234,7 @@
     text-transform: uppercase;
     padding: 0.4rem 1rem;
     border: 1px solid rgba(0,245,255,0.3);
-    background:#0d0520; var(--neon-cyan);
+    background:#0e0e0a; var(--neon-cyan);
     cursor: pointer;
     transition: all 0.2s;
     clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
@@ -331,7 +335,7 @@
 
   .hero-badge.cyan { border-color: var(--neon-cyan); color: var(--neon-cyan); background:#0a0a1e; }
   .hero-badge.pink { border-color: var(--neon-pink); color: var(--neon-pink); background:#0d0a18; }
-  .hero-badge.purple { border-color: var(--neon-purple); color: var(--neon-purple); background:#0d0520; }
+  .hero-badge.purple { border-color: #ffe600; color: #ffe600; background:#0e0e0a; }
 
   /* === DIVIDER === */
   .neon-divider {
@@ -1277,7 +1281,7 @@
   }
   .cat-weight{ border-color:rgba(255,107,0,0.4);color:var(--neon-orange);background:#0d0a04; }
   .cat-recovery{ border-color:rgba(0,255,100,0.4);color:#00ff64;background:#040d08; }
-  .cat-neuro{ border-color:rgba(191,0,255,0.4);color:var(--neon-purple);background:#0d0520; }
+  .cat-neuro{ border-color:rgba(191,0,255,0.4);color:#ffe600;background:#0e0e0a; }
   .cat-longevity{ border-color:rgba(0,245,255,0.4);color:var(--neon-cyan);background:#0a0a1e; }
   .cat-hormone{ border-color:rgba(255,45,120,0.4);color:var(--neon-pink);background:#0d0a18; }
   .cat-immune{ border-color:rgba(100,200,255,0.4);color:#64c8ff;background:rgba(100,200,255,0.05); }
@@ -1438,7 +1442,7 @@
   }
   .meta-manual   { background:rgba(160,140,192,0.1);color:var(--text-secondary);border:1px solid rgba(160,140,192,0.18); }
   .meta-ai       { background:rgba(0,245,255,0.1);color:var(--neon-cyan);border:1px solid rgba(0,245,255,0.22); }
-  .meta-ai-edited{ background:rgba(191,0,255,0.1);color:var(--neon-purple);border:1px solid rgba(191,0,255,0.22); }
+  .meta-ai-edited{ background:rgba(191,0,255,0.1);color:#ffe600;border:1px solid rgba(191,0,255,0.22); }
   .form-input.ai-prefilled { border-color:rgba(0,255,100,0.35);background:#040d08; }
   .ai-key-btn {
     font-family: 'Rajdhani', sans-serif;
@@ -1527,7 +1531,7 @@
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
     overflow: hidden;
-    background: #0d0520;
+    background: #0e0e0a;
     margin-bottom: 0;
   }
   .guide-preview-card:hover {
@@ -1536,7 +1540,7 @@
   .guide-orange { border-color: rgba(255,107,0,0.5); box-shadow: inset 0 0 0 0 transparent; }
   .guide-orange:hover { box-shadow: 0 8px 32px rgba(255,107,0,0.2); border-color: var(--neon-orange); }
   .guide-purple { border-color: rgba(191,0,255,0.5); }
-  .guide-purple:hover { box-shadow: 0 8px 32px rgba(191,0,255,0.2); border-color: var(--neon-purple); }
+  .guide-purple:hover { box-shadow: 0 8px 32px rgba(191,0,255,0.2); border-color: #ffe600; }
 
   .guide-preview-img-wrap {
     position: relative;
@@ -1679,10 +1683,10 @@
   .qg-cat-muscle { background:#110a18; color: var(--neon-pink); border-left: 3px solid var(--neon-pink); }
   .qg-cat-heal   { background: rgba(0,255,100,0.1); color: #00ff64; border-left: 3px solid #00ff64; }
   .qg-cat-cog    { background: rgba(0,245,255,0.1); color: var(--neon-cyan); border-left: 3px solid var(--neon-cyan); }
-  .qg-cat-immune { background: rgba(191,0,255,0.1); color: var(--neon-purple); border-left: 3px solid var(--neon-purple); }
+  .qg-cat-immune { background: rgba(191,0,255,0.1); color: #ffe600; border-left: 3px solid var(--neon-purple); }
   .qg-cat-sex    { background:#110a18; color: var(--neon-pink); border-left: 3px solid var(--neon-pink); }
   .qg-cat-long   { background: rgba(0,245,255,0.1); color: var(--neon-cyan); border-left: 3px solid var(--neon-cyan); }
-  .qg-cat-sleep  { background: rgba(191,0,255,0.1); color: var(--neon-purple); border-left: 3px solid var(--neon-purple); }
+  .qg-cat-sleep  { background: rgba(191,0,255,0.1); color: #ffe600; border-left: 3px solid var(--neon-purple); }
 
   .qg-card {
     background: var(--card-bg);
@@ -1838,7 +1842,7 @@
   .study-tag.human { border-color: rgba(0,255,100,0.4); color: #00ff64; }
   .study-tag.rct { border-color: rgba(0,245,255,0.5); color: var(--neon-cyan); }
   .study-tag.animal { border-color: rgba(255,107,0,0.35); color: var(--neon-orange); }
-  .study-tag.in-vitro { border-color: rgba(191,0,255,0.35); color: var(--neon-purple); }
+  .study-tag.in-vitro { border-color: rgba(191,0,255,0.35); color: #ffe600; }
   .study-link {
     display: inline-block;
     margin-top: 0.5rem;
@@ -1891,7 +1895,7 @@
 
 <!-- TERMS ACCEPTANCE MODAL (first visit) -->
 <div id="terms-gate" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(2,1,10,0.97);align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;">
-  <div style="max-width:680px;width:100%;margin:auto;border:2px solid #ffe600;background:#0d0520;padding:2rem;">
+  <div style="max-width:680px;width:100%;margin:auto;border:2px solid #ffe600;background:#0e0e0a;padding:2rem;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.15em;color:#ffe600;text-shadow:0 0 16px rgba(255,230,0,0.5);margin-bottom:0.35rem;text-align:center;">📋 Terms of Use</div>
     <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:1.25rem;">Verified Peptides Network — Please read and agree to continue</div>
 
@@ -1902,8 +1906,8 @@
       <div style="color:var(--neon-orange);font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">2. NO ENDORSEMENT OF HUMAN CONSUMPTION</div>
       VPN does not advocate, endorse, or condone the administration of any research chemical to any human being. Users who engage with any compound outside of an authorized research setting do so <strong style="color:var(--neon-orange);">entirely at their own risk</strong> and assume full legal and medical responsibility.
       <br><br>
-      <div style="color:var(--neon-purple);font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">3. PUBLIC SAFETY PURPOSE</div>
-      This database exists to <strong style="color:var(--neon-purple);">protect researchers and the public</strong> by providing transparent, third-party verified COA, endotoxin, and heavy metal testing data on research compounds sold by wholesale vendors. It is a community safety tool, not a commercial service.
+      <div style="color:#ffe600;font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">3. PUBLIC SAFETY PURPOSE</div>
+      This database exists to <strong style="color:#ffe600;">protect researchers and the public</strong> by providing transparent, third-party verified COA, endotoxin, and heavy metal testing data on research compounds sold by wholesale vendors. It is a community safety tool, not a commercial service.
       <br><br>
       <div style="color:#00ff64;font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">4. USER ELIGIBILITY</div>
       You confirm you are <strong style="color:#00ff64;">18 years of age or older</strong> and that you access this Platform solely for lawful research or educational purposes in compliance with all laws applicable in your jurisdiction.
@@ -1923,7 +1927,7 @@
     </div>
 
     <button id="terms-accept-btn" onclick="acceptTerms()"
-      style="width:100%;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;padding:0.85rem;background:#1a0535;border:2px solid #ffe600;color:#ffe600;cursor:pointer;text-shadow:0 0 10px rgba(255,230,0,0.5);">
+      style="width:100%;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;padding:0.85rem;background:#12100a;border:2px solid #ffe600;color:#ffe600;cursor:pointer;text-shadow:0 0 10px rgba(255,230,0,0.5);">
       ✓ I Agree — Enter Platform
     </button>
   </div>
@@ -2329,11 +2333,11 @@ document.addEventListener('keydown', function(e){
     <nav class="nav-pills" id="desktop-nav">
       <button class="nav-pill active" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
       <button class="nav-pill nav-pill-testing" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
-      <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Peptide Guide</button>
+      <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
       <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
       <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
-      <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Calculator</button>
+      <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
       <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
       <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
       <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
@@ -2351,11 +2355,11 @@ document.addEventListener('keydown', function(e){
 <div class="mobile-nav-dropdown" id="mobile-nav">
   <button class="nav-pill" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
   <button class="nav-pill nav-pill-testing" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
-  <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Peptide Guide</button>
+  <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
   <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
   <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
   <button class="nav-pill" onclick="mobileNav('studies')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
-  <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Calculator</button>
+  <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
   <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
   <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
   <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
@@ -2394,10 +2398,10 @@ function mobileNav(view) {
   <div style="margin-top:1.5rem;">
     <button onclick="window.open('ruic_peptide_comparison_tool.html?from=vpn','_blank')"
       style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.2em;padding:0.85rem 2.5rem;
-             background:#1a0535;
-             border:2px solid var(--neon-purple);color:var(--neon-purple);
-             text-shadow:0 0 14px rgba(191,0,255,0.8);
-             box-shadow:0 0 24px rgba(191,0,255,0.4), inset 0 0 0 1px rgba(191,0,255,0.15);
+             background:#12100a;
+             border:2px solid #ffe600;color:#ffe600;
+             text-shadow:0 0 10px rgba(255,230,0,0.5);
+             box-shadow:0 0 18px rgba(255,230,0,0.3), inset 0 0 0 1px rgba(191,0,255,0.15);
              cursor:pointer;text-transform:uppercase;"
       onmouseover="this.style.background='#2d0a5e';this.style.boxShadow='0 0 36px rgba(191,0,255,0.6), inset 0 0 0 1px rgba(191,0,255,0.3)'"
       onmouseout="this.style.background='#1a0535';this.style.boxShadow='0 0 24px rgba(191,0,255,0.4), inset 0 0 0 1px rgba(191,0,255,0.15)'">
@@ -2567,14 +2571,14 @@ function mobileNav(view) {
 
       <!-- Dr Amin Hedayat -->
       <a href="https://www.youtube.com/@DrAminHedayat" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-purple);border-left:6px solid var(--neon-purple);text-decoration:none;transition:box-shadow 0.2s;"
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid #ffe600;border-left:6px solid #ffe600;text-decoration:none;transition:box-shadow 0.2s;"
          onmouseover="this.style.boxShadow='0 0 18px rgba(191,0,255,0.25)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2rem;flex-shrink:0;">▶</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-purple);margin-bottom:0.15rem;">Dr Amin Hedayat — @DrAminHedayat</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:#ffe600;margin-bottom:0.15rem;">Dr Amin Hedayat — @DrAminHedayat</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Research · peptides · longevity · emerging science</div>
         </div>
-        <span style="color:var(--neon-purple);font-size:1rem;opacity:0.8;">↗</span>
+        <span style="color:#ffe600;font-size:1rem;opacity:0.8;">↗</span>
       </a>
 
       <!-- Dr Jones DC -->
@@ -2778,20 +2782,20 @@ function mobileNav(view) {
     <!-- TWO LETTER IMAGES SIDE BY SIDE -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.75rem;">
 
-      <div style="border:1px solid rgba(191,0,255,0.4);background:#0d0520;overflow:hidden;">
-        <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-purple);">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);">For a Woman</div>
+      <div style="border:1px solid rgba(191,0,255,0.4);background:#0e0e0a;overflow:hidden;">
+        <div style="padding:0.8rem 1.2rem;border-left:4px solid #ffe600;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;">For a Woman</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#d0c8e8;text-transform:uppercase;letter-spacing:0.05em;">Metabolic evaluation · hormones · thyroid · inflammation</div>
         </div>
         <div style="border-top:1px solid rgba(191,0,255,0.3);cursor:zoom-in;" onclick="openLightbox('TESTSFORWOMEN.png','Request for Medical Evaluation — For a Woman')">
           <img src="TESTSFORWOMEN.png" alt="Blood tests for women" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
         </div>
-        <div style="padding:0.6rem 1rem;background:#08021a;">
-          <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:var(--neon-purple);text-transform:uppercase;letter-spacing:0.05em;">Click to zoom · Download → Upload to ChatGPT or Grok → Extract text → Email your doctor</div>
+        <div style="padding:0.6rem 1rem;background:#0c0c08;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:#ffe600;text-transform:uppercase;letter-spacing:0.05em;">Click to zoom · Download → Upload to ChatGPT or Grok → Extract text → Email your doctor</div>
         </div>
       </div>
 
-      <div style="border:1px solid rgba(0,245,255,0.4);background:#0d0520;overflow:hidden;">
+      <div style="border:1px solid rgba(0,245,255,0.4);background:#0e0e0a;overflow:hidden;">
         <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-cyan);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-cyan);">For a Man</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#d0c8e8;text-transform:uppercase;letter-spacing:0.05em;">Low testosterone · metabolic health · hormones · inflammation</div>
@@ -2868,11 +2872,11 @@ function mobileNav(view) {
 
         <!-- Section 3 -->
         <div style="background:#0d0a1e;border:1px solid rgba(255,255,255,0.08);padding:1.25rem 1.5rem;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-purple);margin-bottom:0.6rem;">3. INDEPENDENT TESTING &amp; COA DATA INTEGRITY</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#ffe600;margin-bottom:0.6rem;">3. INDEPENDENT TESTING &amp; COA DATA INTEGRITY</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.8;">
-            3.1 All COA, endotoxin, and heavy metal test results published on this Platform are sourced from <strong style="color:var(--neon-purple);">accredited third-party laboratories</strong>. VPN does not conduct laboratory testing itself.<br><br>
-            3.2 While every effort is made to ensure accuracy, VPN makes <strong style="color:var(--neon-purple);">no warranty, express or implied,</strong> regarding the completeness, accuracy, or fitness for any particular purpose of any data published herein. Laboratory results reflect the specific batch and lot tested at the time of testing and may not be representative of all batches from any vendor.<br><br>
-            3.3 COA data upload access is <strong style="color:var(--neon-purple);">restricted to authorized administrators only</strong> to preserve database integrity. Unauthorized attempts to modify, falsify, or corrupt data on this Platform may constitute a violation of applicable computer fraud and cybercrime statutes.
+            3.1 All COA, endotoxin, and heavy metal test results published on this Platform are sourced from <strong style="color:#ffe600;">accredited third-party laboratories</strong>. VPN does not conduct laboratory testing itself.<br><br>
+            3.2 While every effort is made to ensure accuracy, VPN makes <strong style="color:#ffe600;">no warranty, express or implied,</strong> regarding the completeness, accuracy, or fitness for any particular purpose of any data published herein. Laboratory results reflect the specific batch and lot tested at the time of testing and may not be representative of all batches from any vendor.<br><br>
+            3.3 COA data upload access is <strong style="color:#ffe600;">restricted to authorized administrators only</strong> to preserve database integrity. Unauthorized attempts to modify, falsify, or corrupt data on this Platform may constitute a violation of applicable computer fraud and cybercrime statutes.
           </div>
         </div>
 
@@ -3010,12 +3014,12 @@ function mobileNav(view) {
 
       <!-- INPUT 3: VIAL MG -->
       <div style="margin-bottom:1.75rem;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-purple);margin-bottom:0.4rem;">💊 Vial MG (total in vial)</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ffe600;margin-bottom:0.4rem;">💊 Vial MG (total in vial)</div>
         <div style="display:flex;align-items:center;gap:0;">
           <input id="c-vial" type="number" min="0" step="1" placeholder="e.g. 5"
             style="flex:1;background:#0a0a1e;border:2px solid rgba(191,0,255,0.35);border-right:none;padding:1rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;outline:none;width:100%;"
             oninput="calcSimple()">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);background:#0d0520;border:2px solid rgba(191,0,255,0.35);padding:1rem 1.1rem;white-space:nowrap;">mg</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;background:#0e0e0a;border:2px solid rgba(191,0,255,0.35);padding:1rem 1.1rem;white-space:nowrap;">mg</span>
         </div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.5rem;">
           <button onclick="setSimple('c-vial',1)"   class="qbtn">1</button>
@@ -3107,27 +3111,27 @@ function mobileNav(view) {
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;position:relative;z-index:4;" class="guide-cards-grid">
 
     <a id="rui-tool-card" href="ruic_peptide_comparison_tool.html?from=vpn" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#1a0535;border:2px solid var(--neon-purple);border-top:4px solid var(--neon-purple);text-decoration:none;box-shadow:0 0 22px rgba(191,0,255,0.25);transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 32px rgba(191,0,255,0.45)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 22px rgba(191,0,255,0.25)';this.style.transform='none'">
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#12100a;border:2px solid #ffe600;border-top:4px solid #ffe600;text-decoration:none;box-shadow:0 0 18px rgba(255,230,0,0.3);transition:box-shadow 0.2s,transform 0.2s;"
+       onmouseover="this.style.boxShadow='0 0 32px rgba(255,230,0,0.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 22px rgba(191,0,255,0.25)';this.style.transform='none'">
       <span style="font-size:2rem;">💊</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-purple);text-shadow:0 0 12px rgba(191,0,255,0.6);line-height:1.1;">RUI Peptide Pricing Tool</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,0.5);line-height:1.1;">RUI Peptide Pricing Tool</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:var(--neon-cyan);letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">By Ian E. — Open Tool ↗</div>
-      <div style="margin-top:0.5rem;padding:0.5rem 0.75rem;background:#100520;border:1px solid rgba(191,0,255,0.4);border-radius:2px;">
+      <div style="margin-top:0.5rem;padding:0.5rem 0.75rem;background:#0e0e0a;border:1px solid rgba(191,0,255,0.4);border-radius:2px;">
         <div style="font-family:'Rajdhani',sans-serif;font-size: 1rem;font-weight:700;color:#a080c0;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.2rem;">Password</div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#fff;">RetaInnerCircle2025</div>
       </div>
     </a>
 
     <a href="Top Peptides Quick Reference.pdf" download
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#130828;border:2px solid var(--neon-purple);border-top:4px solid var(--neon-purple);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(191,0,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #ffe600;border-top:4px solid #ffe600;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       onmouseover="this.style.boxShadow='0 0 22px rgba(255,230,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
       <span style="font-size:2rem;">📋</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-purple);text-shadow:0 0 10px rgba(191,0,255,0.5);line-height:1.1;">Top Peptides — Quick Reference</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,0.5);line-height:1.1;">Top Peptides — Quick Reference</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">43 peptides · PDF Download ⬇</div>
     </a>
 
     <a href="The Ultimate Peptides Bible.pdf" download
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#130828;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
        onmouseover="this.style.boxShadow='0 0 22px rgba(255,107,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
       <span style="font-size:2rem;">📖</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">The Ultimate Peptides Bible</div>
@@ -3135,7 +3139,7 @@ function mobileNav(view) {
     </a>
 
     <a href="https://pep-pedia.org/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#130828;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
        onmouseover="this.style.boxShadow='0 0 22px rgba(0,245,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
       <span style="font-size:2rem;">🗄</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);line-height:1.1;">Pep-Pedia — 77 Research Peptides</div>
@@ -3143,7 +3147,7 @@ function mobileNav(view) {
     </a>
 
     <a href="https://peptidefox.com/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#130828;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
        onmouseover="this.style.boxShadow='0 0 22px rgba(255,45,120,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
       <span style="font-size:2rem;">🦊</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);line-height:1.1;">PeptideFox</div>
@@ -3151,7 +3155,7 @@ function mobileNav(view) {
     </a>
 
     <a href="https://peptidecritic.com/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#130828;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
        onmouseover="this.style.boxShadow='0 0 22px rgba(255,107,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
       <span style="font-size:2rem;">🔍</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">Peptide Critic</div>
@@ -3164,25 +3168,25 @@ function mobileNav(view) {
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;" class="guide-img-grid">
 
     <!-- RUI Pricing Tool Guide -->
-    <div style="border:1px solid rgba(191,0,255,0.4);background:#0d0520;overflow:hidden;">
-      <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-purple);">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);">Pricing Tool Access Guide</div>
+    <div style="border:1px solid rgba(191,0,255,0.4);background:#0e0e0a;overflow:hidden;">
+      <div style="padding:0.8rem 1.2rem;border-left:4px solid #ffe600;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;">Pricing Tool Access Guide</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#d0c8e8;text-transform:uppercase;letter-spacing:0.05em;">By Ian E. · Click image to zoom in</div>
       </div>
       <div style="border-top:1px solid rgba(191,0,255,0.3);cursor:zoom-in;" onclick="openLightbox('Private Pricing Inner circle .png','Private Pricing Inner circle .png')">
         <img src="Private Pricing Inner circle .png" alt="RUI Pricing Tool Guide" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
       </div>
-      <div style="padding:0.6rem 1rem;background:#08021a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:var(--neon-purple);text-transform:uppercase;letter-spacing:0.05em;">Click to zoom</div>
+      <div style="padding:0.6rem 1rem;background:#0c0c08;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:#ffe600;text-transform:uppercase;letter-spacing:0.05em;">Click to zoom</div>
         <a href="ruic_peptide_comparison_tool.html?from=vpn" target="_blank" rel="noopener"
-           style="font-family:'Bebas Neue',sans-serif;font-size: 1rem;letter-spacing:0.12em;padding:0.3rem 1rem;border:1px solid var(--neon-purple);color:var(--neon-purple);background:rgba(191,0,255,0.1);text-decoration:none;">
+           style="font-family:'Bebas Neue',sans-serif;font-size: 1rem;letter-spacing:0.12em;padding:0.3rem 1rem;border:1px solid rgba(255,230,0,0.5);color:#ffe600;background:rgba(191,0,255,0.1);text-decoration:none;">
           💊 Open Tool ↗
         </a>
       </div>
     </div>
 
     <!-- Crypto Guide -->
-    <div style="border:1px solid rgba(255,107,0,0.4);background:#0d0520;overflow:hidden;">
+    <div style="border:1px solid rgba(255,107,0,0.4);background:#0e0e0a;overflow:hidden;">
       <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-orange);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-orange);">Crypto — Gray Market Purchasing</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#d0c8e8;text-transform:uppercase;letter-spacing:0.05em;">Simple Guide · Click image to zoom in</div>
@@ -3708,7 +3712,7 @@ function _showAdminPrompt(onSuccess) {
   overlay.id = 'admin-gate-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(2,1,10,0.97);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;';
   overlay.innerHTML = `
-    <div style="text-align:center;max-width:420px;padding:2.5rem;border:2px solid var(--neon-pink);background:#0d0520;">
+    <div style="text-align:center;max-width:420px;padding:2.5rem;border:2px solid var(--neon-pink);background:#0e0e0a;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.6);margin-bottom:0.5rem;">🔒 ADMIN ACCESS ONLY</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;margin-bottom:0.5rem;line-height:1.6;">
         COA uploads are restricted to admins only.<br>
@@ -3723,7 +3727,7 @@ function _showAdminPrompt(onSuccess) {
         onkeydown="if(event.key==='Enter')document.getElementById('admin-pw-submit').click()">
       <div id="admin-pw-error" style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;color:var(--neon-pink);min-height:1.2rem;margin-bottom:0.5rem;"></div>
       <div style="display:flex;gap:0.75rem;justify-content:center;">
-        <button id="admin-pw-submit" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.5rem 1.5rem;background:#1a0535;border:1px solid var(--neon-pink);color:var(--neon-pink);cursor:pointer;">Unlock ↗</button>
+        <button id="admin-pw-submit" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.5rem 1.5rem;background:#12100a;border:1px solid var(--neon-pink);color:var(--neon-pink);cursor:pointer;">Unlock ↗</button>
         <button onclick="document.getElementById('admin-gate-overlay').remove()" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.5rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--text-secondary);cursor:pointer;">Cancel</button>
       </div>
     </div>`;
@@ -4280,7 +4284,7 @@ function calcR() {
   document.getElementById('c-badges').innerHTML =
     '<span style="font-family:Share Tech Mono,monospace;font-size: 1rem;padding:0.3rem 0.75rem;border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);background:#0d0a18;">' + units.toFixed(1) + ' units</span>' +
     '<span style="font-family:Share Tech Mono,monospace;font-size: 1rem;padding:0.3rem 0.75rem;border:1px solid rgba(0,245,255,0.3);color:var(--neon-cyan);background:#0a0a1e;">' + ml.toFixed(3) + ' ml</span>' +
-    '<span style="font-family:Share Tech Mono,monospace;font-size: 1rem;padding:0.3rem 0.75rem;border:1px solid rgba(191,0,255,0.3);color:var(--neon-purple);background:#0d0520;">' + dose + ' mg</span>';
+    '<span style="font-family:Share Tech Mono,monospace;font-size: 1rem;padding:0.3rem 0.75rem;border:1px solid rgba(191,0,255,0.3);color:#ffe600;background:#0e0e0a;">' + dose + ' mg</span>';
 
   result.style.display = 'block';
 
@@ -5109,8 +5113,8 @@ create policy "Public read" on reports for select using (true);
 create policy "Public insert" on reports for insert with check (true);</div>
       </div>
 
-      <div style="background:#0d0520;border:1px solid rgba(191,0,255,0.2);padding:1rem;">
-        <div style="font-family:'Bebas Neue',sans-serif;color:var(--neon-purple);letter-spacing:0.08em;margin-bottom:0.5rem;">Step 3 — Get Your Keys</div>
+      <div style="background:#0e0e0a;border:1px solid rgba(191,0,255,0.2);padding:1rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;color:#ffe600;letter-spacing:0.08em;margin-bottom:0.5rem;">Step 3 — Get Your Keys</div>
         <div style="font-family:'Share Tech Mono',monospace;font-size: 1rem;color:var(--text-secondary);line-height:1.8;">
           In Supabase → Project Settings → API:<br>
           Copy your <b style="color:var(--neon-cyan)">Project URL</b><br>
