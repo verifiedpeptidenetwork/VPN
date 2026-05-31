@@ -4182,92 +4182,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Render vendor cards
+
+
 function renderVendorsList() {
-  const container = document.getElementById('vendors-list-full');
+  var container = document.getElementById("vendors-list-full");
   if (!container) return;
-  const countEl = document.getElementById('vendor-count-page');
-  if (countEl) countEl.textContent = VENDORS.length + ' verified vendors';
-
-  container.innerHTML = VENDORS.map(v => {
-    // Count COAs for this vendor
-    let coaCount = 0, endoCount = 0, hmCount = 0;
-    PEPTIDES.forEach(function(p) {
-      if ((reportStore[v.id+'||'+p+'||coa']||[]).length) coaCount++;
-      if ((reportStore[v.id+'||'+p+'||endotoxin']||[]).length) endoCount++;
-      if ((reportStore[v.id+'||'+p+'||heavy-metals']||[]).length) hmCount++;
-    });
-
-    const tags = v.tags.map(t => {
-      const cls = t.includes('Credit') || t.includes('Debit') || t.includes('Wire') || t.includes('Crypto') ? 'orange' : t.includes('Inner Circle') ? 'blue' : 'green';
-      return '<span class="tag ' + cls + '">' + t + '</span>';
-    }).join('');
-
-    const contacts = v.contacts.map(ct =>
-      '<div style="display:flex;gap:0.75rem;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;color:var(--neon-cyan);min-width:90px;">' + ct.label + '</span><span style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;color:#ffffff;">' + ct.value + '</span></div>'
-    ).join('');
-
-    const testBadges = [
-      coaCount  ? '<span style="background:rgba(0,245,255,0.15);border:1px solid var(--neon-cyan);color:var(--neon-cyan);font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">COA: ' + coaCount + '</span>' : '',
-      endoCount ? '<span style="background:rgba(0,255,100,0.1);border:1px solid #00ff64;color:#00ff64;font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">ENDOTOXIN: ' + endoCount + '</span>' : '',
-      hmCount   ? '<span style="background:rgba(255,107,0,0.1);border:1px solid var(--neon-orange);color:var(--neon-orange);font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.1em;padding:0.2rem 0.7rem;">HEAVY METALS: ' + hmCount + '</span>' : ''
-    ].filter(Boolean).join('');
-
-    return '<div style="background:#0e0e14;border:2px solid rgba(0,245,255,0.2);border-left:6px solid var(--neon-cyan);overflow:hidden;">' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(0,245,255,0.15);gap:1rem;flex-wrap:wrap;">' +
-        '<div style="display:flex;align-items:center;gap:1rem;">' +
-          '<span style="font-size:2.5rem;">' + v.flag + '</span>' +
-          '<div>' +
-            '<div style="font-family:Bebas Neue,sans-serif;font-size:1.8rem;letter-spacing:0.08em;color:#ffffff;line-height:1;">' + v.name + '</div>' +
-            '<div style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:0.1em;">' + v.location + '</div>' +
-          '</div>' +
-        '</div>' +
-        '<button onclick="openVendor(''+v.id+'')" style="font-family:Bebas Neue,sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.6rem 1.5rem;background:#0a0d22;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;white-space:nowrap;">View COA Database ↗</button>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">' +
-        '<div style="padding:1.25rem 1.5rem;border-right:1px solid rgba(255,255,255,0.06);">' +
-          '<div style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-orange);margin-bottom:0.5rem;">Contact Info</div>' +
-          contacts +
-        '</div>' +
-        '<div style="padding:1.25rem 1.5rem;">' +
-          '<div style="font-family:Bebas Neue,sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-orange);margin-bottom:0.5rem;">About</div>' +
-          '<div style="font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;margin-bottom:0.75rem;">' + (v.note||'') + '</div>' +
-          '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem;">' + tags + '</div>' +
-          (testBadges ? '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;">' + testBadges + '</div>' : '') +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
-}
-
-
-function toggleMobileNav() {
-  var nav = document.getElementById('mobile-nav');
-  var btn = document.getElementById('hamburger-btn');
-  nav.classList.toggle('open');
-  // Animate hamburger bars
-  var bars = btn.querySelectorAll('span');
-  if (nav.classList.contains('open')) {
-    bars[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-    bars[1].style.opacity = '0';
-    bars[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-  } else {
-    bars[0].style.transform = '';
-    bars[1].style.opacity = '1';
-    bars[2].style.transform = '';
+  var countEl = document.getElementById("vendor-count-page");
+  if (countEl) countEl.textContent = VENDORS.length + " verified vendors";
+  var html = "";
+  for (var i = 0; i < VENDORS.length; i++) {
+    var v = VENDORS[i];
+    var coaCount = 0, endoCount = 0;
+    for (var j = 0; j < PEPTIDES.length; j++) {
+      var p = PEPTIDES[j];
+      if ((reportStore[v.id+"||"+p+"||coa"]||[]).length) coaCount++;
+      if ((reportStore[v.id+"||"+p+"||endotoxin"]||[]).length) endoCount++;
+    }
+    var tags = v.tags.map(function(tag) {
+      var cls = (tag.indexOf("Credit")>-1||tag.indexOf("Wire")>-1||tag.indexOf("Crypto")>-1) ? "orange" : "green";
+      return "<span class=\"tag "+cls+"\">"+tag+"</span>";
+    }).join("");
+    var contacts = v.contacts.map(function(ct) {
+      return "<div style=\"padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:1rem;\"><b style=\"color:#00f5ff;min-width:90px;font-size:0.9rem;\">"+ct.label+"</b><span style=\"color:#fff;font-size:1rem;\">"+ct.value+"</span></div>";
+    }).join("");
+    var badges = "";
+    if(coaCount) badges += "<span style=\"border:1px solid #00f5ff;color:#00f5ff;padding:0.2rem 0.7rem;font-size:0.9rem;margin-right:0.4rem;\">COA: "+coaCount+"</span>";
+    if(endoCount) badges += "<span style=\"border:1px solid #00ff64;color:#00ff64;padding:0.2rem 0.7rem;font-size:0.9rem;\">ENDOTOXIN: "+endoCount+"</span>";
+    html += "<div style=\"background:#0e0e14;border:2px solid rgba(0,245,255,0.2);border-left:6px solid #00f5ff;margin-bottom:1.5rem;overflow:hidden;\">";
+    html += "<div style=\"display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(0,245,255,0.15);gap:1rem;flex-wrap:wrap;\">";
+    html += "<div style=\"display:flex;align-items:center;gap:1rem;\"><span style=\"font-size:2.5rem;\">"+v.flag+"</span><div><div style=\"font-size:1.8rem;font-weight:700;color:#fff;\">"+v.name+"</div><div style=\"color:#00f5ff;font-size:0.9rem;text-transform:uppercase;\">"+v.location+"</div></div></div>";
+    html += "<button onclick=\"openVendor('"+v.id+"')\" style=\"padding:0.6rem 1.5rem;background:#0a0d22;border:2px solid #00f5ff;color:#00f5ff;cursor:pointer;font-size:1rem;\">View COA Database</button>";
+    html += "</div>";
+    html += "<div style=\"display:grid;grid-template-columns:1fr 1fr;\"><div style=\"padding:1.25rem 1.5rem;border-right:1px solid rgba(255,255,255,0.08);\">";
+    html += "<div style=\"color:#ff6b00;font-size:0.9rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;\">Contact</div>"+contacts+"</div>";
+    html += "<div style=\"padding:1.25rem 1.5rem;\"><div style=\"color:#ff6b00;font-size:0.9rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;\">About</div>";
+    html += "<div style=\"color:#fff;line-height:1.75;margin-bottom:0.75rem;\">"+(v.note||"")+"</div>";
+    html += "<div style=\"display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem;\">"+tags+"</div>";
+    html += "<div style=\"display:flex;flex-wrap:wrap;gap:0.4rem;\">"+badges+"</div></div></div></div>";
   }
-}
-
-function mobileNav(view) {
-  showView(view);
-  var nav = document.getElementById('mobile-nav');
-  nav.classList.remove('open');
-  var btn = document.getElementById('hamburger-btn');
-  if(btn) {
-    var bars = btn.querySelectorAll('span');
-    bars[0].style.transform = '';
-    bars[1].style.opacity = '1';
-    bars[2].style.transform = '';
-  }
+  container.innerHTML = html;
 }
 
 function renderVendors() {
