@@ -35,6 +35,7 @@
   body {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
+    font-size: 16px;
     background: #050012;
     color: var(--text-primary);
     min-height: 100vh;
@@ -173,9 +174,53 @@
     scrollbar-width: none;
     max-width: 100%;
   }
+  .nav-pills::-webkit-scrollbar { display: none; }
 
-  .nav-pills::-webkit-scrollbar {
+  /* Hamburger button — hidden on desktop */
+  .hamburger-btn {
     display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(0,245,255,0.4);
+    padding: 0.5rem 0.65rem;
+    flex-shrink: 0;
+  }
+  .hamburger-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: all 0.3s;
+  }
+
+  /* Mobile nav dropdown */
+  .mobile-nav-dropdown {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(5,2,15,0.98);
+    border-bottom: 1px solid rgba(0,245,255,0.2);
+    padding: 1rem;
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .mobile-nav-dropdown.open { display: flex; }
+  .mobile-nav-dropdown .nav-pill {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger-btn { display: flex; }
+    .nav-pills { display: none; }
   }
 
   .nav-pill {
@@ -311,7 +356,7 @@
     width: 100%;
   }
   @media (max-width: 768px) {
-    .main { padding: 1rem 0.75rem; }
+    .main { padding: 1rem 0.5rem; }
   }
 
   /* === VIEWS === */
@@ -2283,7 +2328,7 @@ document.addEventListener('keydown', function(e){
         <div class="logo-sub">LAB TESTED · VERIFIED · AUTHENTIC</div>
       </div>
     </div>
-    <nav class="nav-pills">
+    <nav class="nav-pills" id="desktop-nav">
       <button class="nav-pill active" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
       <button class="nav-pill nav-pill-testing" onclick="showView('home'); setActiveNav(this); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
       <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Peptide Guide</button>
@@ -2296,8 +2341,38 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
       <button class="nav-pill" onclick="showView('terms'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
     </nav>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- Mobile Nav Dropdown -->
+<div class="mobile-nav-dropdown" id="mobile-nav">
+  <button class="nav-pill" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
+  <button class="nav-pill nav-pill-testing" onclick="mobileNav('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); },100)">🧪 Testing Results</button>
+  <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Peptide Guide</button>
+  <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
+  <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
+  <button class="nav-pill" onclick="mobileNav('studies')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
+  <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(191,0,255,0.5);color:var(--neon-purple);">Calculator</button>
+  <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
+  <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
+  <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
+  <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
+</div>
+
+<script>
+function toggleMobileNav() {
+  document.getElementById('mobile-nav').classList.toggle('open');
+}
+function mobileNav(view) {
+  showView(view);
+  document.getElementById('mobile-nav').classList.remove('open');
+}
+</script>
 
 <!-- HERO -->
 <div class="hero">
