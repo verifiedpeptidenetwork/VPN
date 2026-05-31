@@ -1064,6 +1064,7 @@
     .peptides-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 2.5rem; }
     .guide-cards-grid { grid-template-columns: 1fr !important; }
+    .guide-img-grid { grid-template-columns: 1fr !important; }
     .nav-pills { flex-wrap: wrap; gap: 0.4rem; }
     .nav-pill { font-size: 0.75rem !important; padding: 0.4rem 0.75rem !important; }
     .view { padding: 1rem !important; }
@@ -1071,6 +1072,7 @@
   }
   @media (max-width: 480px) {
     .guide-cards-grid { grid-template-columns: 1fr !important; }
+    .guide-img-grid { grid-template-columns: 1fr !important; }
   }
 
   .hero-logo-wrap {
@@ -3074,32 +3076,41 @@ document.addEventListener('keydown', function(e){
 
   </div>
 
-  <!-- RUI Pricing Tool — image card (FIRST) -->
-  <div style="border:1px solid var(--neon-purple);background:#0d0520;overflow:hidden;margin-bottom:1rem;">
-    <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-purple);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:var(--neon-purple);">Simple Guide to Gain Access to the Pricing Tool</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:0.05em;">By Ian E. — Thank you for building this for the community! 🙏 &nbsp;·&nbsp; Click image to zoom in</div>
-      </div>
-      <a href="ruic_peptide_comparison_tool.html?from=vpn" target="_blank" rel="noopener"
-         style="flex-shrink:0;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.45rem 1.3rem;border:1px solid var(--neon-purple);color:var(--neon-purple);background:rgba(191,0,255,0.1);text-decoration:none;white-space:nowrap;">
-        💊 Open Pricing Tool ↗
-      </a>
-    </div>
-    <div style="border-top:1px solid rgba(191,0,255,0.4);cursor:zoom-in;" onclick="openLightbox('Private Pricing Inner circle .png','Private Pricing Inner circle .png')">
-      <img src="Private Pricing Inner circle .png" alt="RUI Pricing Tool Guide" style="width:100%;height:200px;object-fit:cover;object-position:top;display:block;">
-    </div>
-  </div>
+  <!-- Image Guide Cards — side by side like blood work section -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;" class="guide-img-grid">
 
-  <!-- Crypto Guide — image card (SECOND) -->
-  <div style="border:1px solid var(--neon-orange);background:#0d0520;overflow:hidden;margin-bottom:2rem;">
-    <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-orange);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:var(--neon-orange);">Simple Guide for Crypto — Gray Market Purchasing</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:var(--text-primary);text-transform:uppercase;letter-spacing:0.05em;">Click image to zoom in</div>
+    <!-- RUI Pricing Tool Guide -->
+    <div style="border:1px solid rgba(191,0,255,0.4);background:#0d0520;overflow:hidden;">
+      <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-purple);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);">Pricing Tool Access Guide</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:#a090c0;text-transform:uppercase;letter-spacing:0.05em;">By Ian E. · Click image to zoom in</div>
+      </div>
+      <div style="border-top:1px solid rgba(191,0,255,0.3);cursor:zoom-in;" onclick="openLightbox('Private Pricing Inner circle .png','Private Pricing Inner circle .png')">
+        <img src="Private Pricing Inner circle .png" alt="RUI Pricing Tool Guide" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
+      </div>
+      <div style="padding:0.6rem 1rem;background:#08021a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:var(--neon-purple);text-transform:uppercase;letter-spacing:0.05em;">Click to zoom</div>
+        <a href="ruic_peptide_comparison_tool.html?from=vpn" target="_blank" rel="noopener"
+           style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.3rem 1rem;border:1px solid var(--neon-purple);color:var(--neon-purple);background:rgba(191,0,255,0.1);text-decoration:none;">
+          💊 Open Tool ↗
+        </a>
+      </div>
     </div>
-    <div style="border-top:1px solid rgba(255,107,0,0.4);cursor:zoom-in;" onclick="openLightbox('Crypto summarized guide.png','Crypto summarized guide.png')">
-      <img src="Crypto summarized guide.png" alt="Crypto 101 Guide" style="width:100%;height:200px;object-fit:cover;object-position:top;display:block;">
+
+    <!-- Crypto Guide -->
+    <div style="border:1px solid rgba(255,107,0,0.4);background:#0d0520;overflow:hidden;">
+      <div style="padding:0.8rem 1.2rem;border-left:4px solid var(--neon-orange);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-orange);">Crypto — Gray Market Purchasing</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:#a090c0;text-transform:uppercase;letter-spacing:0.05em;">Simple Guide · Click image to zoom in</div>
+      </div>
+      <div style="border-top:1px solid rgba(255,107,0,0.3);cursor:zoom-in;" onclick="openLightbox('Crypto summarized guide.png','Crypto summarized guide.png')">
+        <img src="Crypto summarized guide.png" alt="Crypto 101 Guide" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
+      </div>
+      <div style="padding:0.6rem 1rem;background:#0d0802;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:var(--neon-orange);text-transform:uppercase;letter-spacing:0.05em;">Click to zoom</div>
+      </div>
     </div>
+
   </div>
 
 </div>
