@@ -134,16 +134,34 @@
     cursor: pointer;
   }
 
+  @keyframes logoGlow {
+    0%,100% {
+      filter:
+        drop-shadow(0 0 6px rgba(0,245,255,0.9))
+        drop-shadow(0 0 18px rgba(0,245,255,0.6))
+        drop-shadow(0 0 40px rgba(0,245,255,0.3))
+        drop-shadow(0 0 6px rgba(255,45,120,0.5));
+    }
+    50% {
+      filter:
+        drop-shadow(0 0 10px rgba(0,245,255,1))
+        drop-shadow(0 0 28px rgba(0,245,255,0.8))
+        drop-shadow(0 0 55px rgba(0,245,255,0.4))
+        drop-shadow(0 0 12px rgba(255,45,120,0.8))
+        drop-shadow(0 0 28px rgba(255,45,120,0.3));
+    }
+  }
+
   .logo-vpn {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     line-height: 1;
-    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+    background: linear-gradient(135deg, #00f5ff 0%, #ffffff 40%, #ff2d78 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 20px rgba(0,245,255,0.5));
+    animation: logoGlow 3s ease-in-out infinite;
+    position: relative;
   }
 
   .logo-text {
@@ -157,7 +175,7 @@
     font-size: 1.1rem;
     letter-spacing: 0.15em;
     color: var(--neon-cyan);
-    text-shadow: 0 0 10px var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0,245,255,0.4);
     line-height: 1;
   }
 
@@ -1116,7 +1134,7 @@
     98% { opacity: 0.9; }
   }
 
-  .logo-vpn { animation: flicker 8s infinite; }
+  /* logo-vpn uses logoGlow animation defined in logo section */
 
   .vendor-card { animation: none; }
 
@@ -2390,7 +2408,20 @@ document.addEventListener('keydown', function(e){
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill')); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100)">
-      <div class="logo-vpn">VPN</div>
+      <!-- VPN Logo image with animated glow ring -->
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <div style="position:absolute;inset:-5px;border-radius:50%;
+          box-shadow:
+            0 0 12px 3px rgba(0,245,255,0.75),
+            0 0 28px 6px rgba(0,245,255,0.35),
+            0 0 10px 2px rgba(255,45,120,0.6),
+            inset 0 0 10px rgba(0,245,255,0.1);
+          animation:logoGlow 3s ease-in-out infinite;
+          pointer-events:none;">
+        </div>
+        <img src="VPNLOGO.png" alt="VPN Logo"
+          style="height:58px;width:58px;object-fit:cover;border-radius:50%;display:block;position:relative;z-index:1;">
+      </div>
       <div class="logo-text">
         <div class="logo-title">Verified Peptides Network</div>
         <div class="logo-sub">LAB TESTED · VERIFIED · AUTHENTIC</div>
@@ -2564,11 +2595,11 @@ document.addEventListener('keydown', function(e){
         <div class="feature-card-arrow">›</div>
       </div>
 
-      <div class="feature-card orange" onclick="window.open('https://ruic-comptool.net/?from=vpn','_blank')">
+      <div class="feature-card orange" onclick="window.open('https://ruic-comptool.net/?from=vpn','_blank');navigator.clipboard&&navigator.clipboard.writeText('RetaInnerCircle2025')">
         <div class="feature-card-icon">💊</div>
         <div class="feature-card-text">
           <div class="feature-card-title">Peptide Price Comparison</div>
-          <div class="feature-card-sub">Compare vendors · Best value · Auto-unlocked</div>
+          <div class="feature-card-sub">Open tool · Password below ↗</div>
         </div>
         <div class="feature-card-arrow">↗</div>
       </div>
@@ -3578,14 +3609,27 @@ document.addEventListener('keydown', function(e){
   <!-- Resource Cards -->
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem;position:relative;z-index:4;" class="guide-cards-grid">
 
-    <a href="https://ruic-comptool.net/?from=vpn" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;box-shadow:0 0 18px rgba(255,45,120,0.2);"
-       onmouseover="this.style.boxShadow='0 0 32px rgba(255,45,120,0.45)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 18px rgba(255,45,120,0.2)';this.style.transform='none'">
-      <span style="font-size:2rem;">💊</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);line-height:1.1;">Peptide Price Comparison Tool</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;">Compare prices across vendors · ruic-comptool.net ↗</div>
-      <div style="margin-top:0.5rem;padding:0.4rem 0.75rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.3);font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:var(--neon-pink);text-transform:uppercase;letter-spacing:0.08em;">Find the best value · Live pricing tool</div>
-    </a>
+    <div style="display:flex;flex-direction:column;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);background:#0d0a1e;box-shadow:0 0 18px rgba(255,45,120,0.2);">
+      <a href="https://ruic-comptool.net/?from=vpn" onclick="navigator.clipboard&&navigator.clipboard.writeText('RetaInnerCircle2025')" target="_blank" rel="noopener"
+         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;text-decoration:none;transition:background 0.2s;"
+         onmouseover="this.style.background='rgba(255,45,120,0.06)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:2rem;">💊</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);line-height:1.1;">Peptide Price Comparison Tool</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;">Compare prices across vendors · ruic-comptool.net ↗</div>
+      </a>
+      <!-- Password strip -->
+      <div style="border-top:1px solid rgba(255,45,120,0.25);padding:0.75rem 1.25rem;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(255,45,120,0.65);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.2rem;">🔑 Password</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:#fff;">RetaInnerCircle2025</div>
+        </div>
+        <button onclick="navigator.clipboard.writeText('RetaInnerCircle2025');this.textContent='✅ Copied!';setTimeout(()=>this.textContent='📋 Copy',2000)"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 0.9rem;background:transparent;border:1px solid rgba(255,45,120,0.5);color:var(--neon-pink);cursor:pointer;white-space:nowrap;transition:background 0.2s;"
+          onmouseover="this.style.background='rgba(255,45,120,0.12)'" onmouseout="this.style.background='transparent'">
+          📋 Copy
+        </button>
+      </div>
+    </div>
 
     <a href="Top Peptides Quick Reference.pdf" download
        style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #ffe600;border-top:4px solid #ffe600;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
@@ -5860,6 +5904,54 @@ create policy "Public insert" on reports for insert with check (true);</div>
 </div>
 
 <script>
+/* ── Peptide Price Tool — copy password + open ───────────────────────────── */
+function openPriceTool() {
+  var pw = 'RetaInnerCircle2025';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(pw).then(function() {
+      showToast('🔑 Password copied! Paste it in the tool to unlock.', 'cyan');
+    }).catch(function() {
+      showToast('Password: ' + pw + '  (copy & paste to unlock)', 'orange');
+    });
+  } else {
+    showToast('Password: ' + pw + '  (copy & paste to unlock)', 'orange');
+  }
+  setTimeout(function() {
+    window.open('https://ruic-comptool.net/?from=vpn', '_blank');
+  }, 600);
+}
+
+function showToast(msg, color) {
+  var existing = document.getElementById('vpn-toast');
+  if (existing) existing.remove();
+  var colors = {
+    cyan:   { bg:'rgba(0,245,255,0.12)', border:'rgba(0,245,255,0.5)', text:'#00f5ff' },
+    orange: { bg:'rgba(255,107,0,0.12)', border:'rgba(255,107,0,0.5)', text:'#ff6b00' }
+  };
+  var c = colors[color] || colors.cyan;
+  var t = document.createElement('div');
+  t.id = 'vpn-toast';
+  t.style.cssText = [
+    'position:fixed','bottom:5.5rem','left:50%','transform:translateX(-50%)',
+    'z-index:99999','background:' + c.bg,
+    'border:1px solid ' + c.border,
+    'color:' + c.text,
+    'font-family:Rajdhani,sans-serif','font-weight:700','font-size:1rem',
+    'letter-spacing:0.05em','padding:0.75rem 1.5rem',
+    'white-space:nowrap','pointer-events:none',
+    'box-shadow:0 4px 24px rgba(0,0,0,0.5)',
+    'backdrop-filter:blur(8px)',
+    'transition:opacity 0.4s','opacity:0'
+  ].join(';');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(function() { t.style.opacity = '1'; });
+  setTimeout(function() {
+    t.style.opacity = '0';
+    setTimeout(function() { t.remove(); }, 400);
+  }, 4000);
+}
+
 function toggleEmailWidget() {
   var panel = document.getElementById('email-widget-panel');
   var dot = document.getElementById('widget-dot');
