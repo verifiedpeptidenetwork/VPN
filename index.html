@@ -3802,13 +3802,17 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLigh
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + name).classList.add('active');
-  window.scrollTo(0, 0);
   // Show hero only on home, hide on all other pages
   if (name === 'vendors') renderVendorsList();
   var hero = document.getElementById('site-hero');
   if (hero) hero.style.display = (name === 'home') ? '' : 'none';
   var divider = document.getElementById('neon-divider');
   if (divider) divider.style.display = (name === 'home') ? '' : 'none';
+  // Scroll to top AFTER layout settles from hero show/hide
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  requestAnimationFrame(function() {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  });
   // Add fade-in effect
   var view = document.getElementById('view-' + name);
   view.style.opacity = '0';
