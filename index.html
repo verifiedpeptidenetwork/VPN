@@ -2509,7 +2509,7 @@ document.addEventListener('keydown', function(e){
         <div class="feature-card-title">Videos — Doctors</div>
         <div class="feature-card-sub">Educational research channels</div>
       </div>
-      <div class="feature-card cyan" onclick="window.open('https://ruic-comptool.net/','_blank')" style="cursor:pointer;">
+      <div class="feature-card cyan" onclick="window.open('https://ruic-comptool.net/?from=vpn','_blank')" style="cursor:pointer;">
         <div class="feature-card-icon">💊</div>
         <div class="feature-card-title">Peptide Price Comparison</div>
         <div class="feature-card-sub">Compare prices across vendors · Best value</div>
@@ -3519,7 +3519,7 @@ document.addEventListener('keydown', function(e){
   <!-- Resource Cards -->
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem;position:relative;z-index:4;" class="guide-cards-grid">
 
-    <a href="https://ruic-comptool.net/" target="_blank" rel="noopener"
+    <a href="https://ruic-comptool.net/?from=vpn" target="_blank" rel="noopener"
        style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;box-shadow:0 0 18px rgba(255,45,120,0.2);"
        onmouseover="this.style.boxShadow='0 0 32px rgba(255,45,120,0.45)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 18px rgba(255,45,120,0.2)';this.style.transform='none'">
       <span style="font-size:2rem;">💊</span>
@@ -3754,29 +3754,6 @@ document.addEventListener('keydown', function(e){
 </div>
 
 <!-- FOOTER -->
-<!-- EMAIL CONTACT BANNER -->
-<div style="position:relative;z-index:5;background:linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,45,120,0.06));border-top:1px solid rgba(0,245,255,0.2);border-bottom:1px solid rgba(0,245,255,0.2);padding:2rem 5%;">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.15em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.4);margin-bottom:0.35rem;">Get In Touch</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;">Submit COA reports · Questions · Vendor submissions · Research enquiries</div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;align-items:stretch;">
-      <input id="email-subject" type="text" placeholder="Subject (e.g. Vendor Name · COA Submission)"
-        style="flex:1;min-width:200px;background:#0a0a1e;border:1px solid rgba(0,245,255,0.35);color:#fff;padding:0.75rem 1rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;outline:none;box-sizing:border-box;">
-      <button onclick="
-        var subj = document.getElementById('email-subject').value || 'VPN Database Enquiry';
-        window.location.href='mailto:vpnpepdata@yahoo.com?subject='+encodeURIComponent(subj);
-      " style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;padding:0.75rem 1.75rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;white-space:nowrap;transition:all 0.2s;"
-        onmouseover="this.style.background='rgba(0,245,255,0.12)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.35)'"
-        onmouseout="this.style.background='#0d0a1e';this.style.boxShadow='none'">
-        ✉ Email VPN
-      </button>
-    </div>
-    <div style="margin-top:0.85rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(0,245,255,0.5);letter-spacing:0.08em;">
-      vpnpepdata@yahoo.com · David or Said Kol will respond
-    </div>
-  </div>
-</div>
-
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-text">
@@ -5628,6 +5605,237 @@ create policy "Public insert" on reports for insert with check (true);</div>
     </div>
   </div>
 </div>
+
+<!-- ===== FLOATING EMAIL WIDGET ===== -->
+<style>
+  #email-widget-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9990;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d0a1e, #150d30);
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0,245,255,0.35), 0 4px 16px rgba(0,0,0,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: var(--neon-cyan);
+  }
+  #email-widget-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px rgba(0,245,255,0.55), 0 6px 20px rgba(0,0,0,0.5);
+  }
+  #email-widget-btn .unread-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 12px; height: 12px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+    border: 2px solid #05000f;
+    box-shadow: 0 0 6px var(--neon-pink);
+  }
+
+  #email-widget-panel {
+    position: fixed;
+    bottom: 5rem;
+    right: 1.5rem;
+    z-index: 9989;
+    width: 320px;
+    background: #0c0820;
+    border: 1px solid rgba(0,245,255,0.3);
+    box-shadow: 0 0 40px rgba(0,245,255,0.12), 0 12px 40px rgba(0,0,0,0.7);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: widgetOpen 0.2s ease-out;
+  }
+  #email-widget-panel.open { display: flex; }
+
+  @keyframes widgetOpen {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .widget-header {
+    background: linear-gradient(135deg, rgba(0,245,255,0.12), rgba(255,45,120,0.08));
+    border-bottom: 1px solid rgba(0,245,255,0.2);
+    padding: 1rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .widget-header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--neon-cyan);
+  }
+  .widget-header-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    margin-top: 0.1rem;
+  }
+  .widget-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .widget-close-btn:hover { color: var(--neon-pink); }
+
+  .widget-body {
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .widget-input {
+    background: #080616;
+    border: 1px solid rgba(0,245,255,0.2);
+    color: #fff;
+    padding: 0.6rem 0.85rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+  .widget-input:focus { border-color: var(--neon-cyan); }
+  .widget-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 500; }
+
+  .widget-send-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 0.7rem;
+    background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(255,45,120,0.1));
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .widget-send-btn:hover {
+    background: rgba(0,245,255,0.2);
+    box-shadow: 0 0 16px rgba(0,245,255,0.3);
+  }
+
+  .widget-footer {
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(0,245,255,0.4);
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+
+  .widget-sent-msg {
+    padding: 1.5rem 1.1rem;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .widget-sent-msg.show { display: flex; }
+
+  @media (max-width: 400px) {
+    #email-widget-panel { width: calc(100vw - 2rem); right: 1rem; }
+    #email-widget-btn  { right: 1rem; bottom: 1rem; }
+  }
+</style>
+
+<!-- Floating button -->
+<button id="email-widget-btn" onclick="toggleEmailWidget()" aria-label="Contact Us">
+  <span id="widget-btn-icon">✉</span>
+  <span class="unread-dot" id="widget-dot"></span>
+</button>
+
+<!-- Widget panel -->
+<div id="email-widget-panel">
+  <div class="widget-header">
+    <div>
+      <div class="widget-header-title">Contact VPN</div>
+      <div class="widget-header-sub">vpnpepdata@yahoo.com · We read everything</div>
+    </div>
+    <button class="widget-close-btn" onclick="toggleEmailWidget()">✕</button>
+  </div>
+
+  <!-- Form -->
+  <div class="widget-body" id="widget-form-body">
+    <input class="widget-input" id="w-name" type="text" placeholder="Your name (optional)">
+    <input class="widget-input" id="w-subject" type="text" placeholder="Subject · e.g. COA Submission · Vendor Name">
+    <textarea class="widget-input" id="w-message" rows="4" placeholder="Your message..."></textarea>
+    <button class="widget-send-btn" onclick="sendWidgetEmail()">✉ Send Message</button>
+  </div>
+
+  <!-- Sent confirmation -->
+  <div class="widget-sent-msg" id="widget-sent-msg">
+    <div style="font-size:2rem;">✅</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Opening your email app…</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);">David or Said Kol will get back to you.</div>
+    <button onclick="resetEmailWidget()" style="margin-top:0.5rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;background:transparent;border:none;color:rgba(0,245,255,0.5);cursor:pointer;text-decoration:underline;">Send another</button>
+  </div>
+
+  <div class="widget-footer">VPN · Research Use Only · Not Medical Advice</div>
+</div>
+
+<script>
+function toggleEmailWidget() {
+  var panel = document.getElementById('email-widget-panel');
+  var dot = document.getElementById('widget-dot');
+  var isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    document.getElementById('widget-btn-icon').textContent = '✉';
+  } else {
+    panel.classList.add('open');
+    document.getElementById('widget-btn-icon').textContent = '✕';
+    if (dot) dot.style.display = 'none';
+  }
+}
+
+function sendWidgetEmail() {
+  var name    = document.getElementById('w-name').value.trim();
+  var subject = document.getElementById('w-subject').value.trim() || 'VPN Database Enquiry';
+  var message = document.getElementById('w-message').value.trim();
+  if (name) message = 'From: ' + name + '\n\n' + message;
+  var mailto  = 'mailto:vpnpepdata@yahoo.com'
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body='    + encodeURIComponent(message);
+  window.location.href = mailto;
+  document.getElementById('widget-form-body').style.display = 'none';
+  document.getElementById('widget-sent-msg').classList.add('show');
+}
+
+function resetEmailWidget() {
+  document.getElementById('w-name').value = '';
+  document.getElementById('w-subject').value = '';
+  document.getElementById('w-message').value = '';
+  document.getElementById('widget-form-body').style.display = 'flex';
+  document.getElementById('widget-sent-msg').classList.remove('show');
+}
+</script>
 
 </body>
 </html>
