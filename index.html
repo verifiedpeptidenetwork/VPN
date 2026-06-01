@@ -2401,7 +2401,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
       <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
       <button class="nav-pill" onclick="mobileNav('team')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
-      <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">ℹ️ About</button>
+      <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">ℹ️ About Us</button>
       <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
     </div>
   </div>
@@ -2894,6 +2894,26 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
+    <!-- BONUS KNOWLEDGE -->
+    <div style="margin-top:2.5rem;">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.4));"></div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.2em;color:#ffe600;text-shadow:0 0 16px rgba(255,230,0,0.5);">⭐ BONUS KNOWLEDGE ⭐</div>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,230,0,0.4),transparent);"></div>
+      </div>
+      <div style="border:2px solid rgba(255,230,0,0.35);background:#0a0900;overflow:hidden;">
+        <div style="padding:0.85rem 1.25rem;border-bottom:1px solid rgba(255,230,0,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;">Zinc Ionophore Protocol — Research Reference</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Zinc = The Bullet · Ionophore = The Gun · Click image to zoom</div>
+          </div>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('rna.png','Zinc Ionophore — RNA Virus Protocol Reference')">
+          <img src="rna.png" alt="Zinc Ionophore & RNA Virus Protocol" style="width:100%;display:block;max-height:800px;object-fit:contain;background:#05050a;">
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- TERMS -->
@@ -3007,20 +3027,53 @@ document.addEventListener('keydown', function(e){
 
   <!-- ABOUT -->
   <div class="view" id="view-about">
-    <div style="max-width:700px;margin:0 auto;">
-      <div class="section-title" style="margin-bottom:1.5rem;">About VPN Database</div>
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:2rem;display:flex;flex-direction:column;gap:1.5rem;">
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--neon-cyan);margin-bottom:0.5rem;letter-spacing:0.08em;">What is this?</div>
-          <p style="color:var(--text-secondary);line-height:1.7;font-weight:500;font-size: 1.1rem;">The Verified Peptides Network COA Database is a centralized repository of certificates of authenticity, endotoxin test results, and heavy metal analysis for trusted wholesale peptide vendors. All reports are third-party verified.</p>
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <div class="section-title">About Us</div>
+      <span class="section-count">RUIC · RETA · Unfiltered Inner Circle</span>
+    </div>
+
+    <!-- VPN Admins Poster -->
+    <div style="margin-bottom:2rem;border:2px solid rgba(255,45,120,0.35);overflow:hidden;position:relative;cursor:zoom-in;" onclick="openLightbox('VPNADMINS.png','VPN Admins — Meet Our Team')">
+      <img src="VPNADMINS.png" alt="VPN Admins" style="width:100%;display:block;max-height:700px;object-fit:contain;background:#05000f;">
+    </div>
+
+    <!-- Disclaimer banner -->
+    <div style="border:2px solid #ff2020;border-left:6px solid #ff2020;background:rgba(255,32,32,0.06);padding:1rem 1.4rem;margin-bottom:2rem;display:flex;gap:1rem;align-items:flex-start;">
+      <span style="font-size:1.5rem;flex-shrink:0;">⚠</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.14em;color:#ff2020;margin-bottom:0.35rem;">Not For Human Consumption</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:var(--text-secondary);line-height:1.7;">All compounds, data, and content on this platform are intended exclusively for <strong style="color:#fff;">safety testing, quality verification, and scientific research purposes only.</strong> This database exists to protect the community by providing transparent, third-party verified COA, endotoxin, and heavy metal testing data. We upload your COAs, keep them safe, and protect the platform from false tests. <strong style="color:var(--neon-cyan);">We stand for integrity. Together, we raise the standard.</strong></div>
+      </div>
+    </div>
+
+    <!-- What We Do -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:2rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);padding:1.25rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-cyan);margin-bottom:0.75rem;">What We Do</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--text-secondary);">
+          <div>✅ Upload & Archive COAs</div>
+          <div>✅ Verify Test Results</div>
+          <div>✅ Protect Researchers</div>
+          <div>✅ Fight False Data</div>
+          <div>✅ Keep the Community Safe</div>
         </div>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--neon-pink);margin-bottom:0.5rem;letter-spacing:0.08em;">Test Types</div>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;">
-            <div class="contact-row"><span class="contact-label">COA</span><span class="contact-value">Certificate of Authenticity — purity and identity confirmation</span></div>
-            <div class="contact-row"><span class="contact-label">Endotoxin</span><span class="contact-value">LAL/rFC test — bacterial contamination screening</span></div>
-            <div class="contact-row"><span class="contact-label">Heavy Metals</span><span class="contact-value">ICP-MS analysis — lead, arsenic, cadmium, mercury limits</span></div>
-          </div>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);padding:1.25rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.75rem;">Why It Matters</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--text-secondary);">
+          <div>✅ False Tests Hurt Everyone</div>
+          <div>✅ Data Should Be Trusted</div>
+          <div>✅ Research Depends on Truth</div>
+          <div>✅ We Stand for Integrity</div>
+          <div>✅ Together, We Raise the Standard</div>
+        </div>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;padding:1.25rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;margin-bottom:0.75rem;">Test Types</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--text-secondary);">
+          <div><span style="color:var(--neon-cyan);">COA</span> — Purity & identity confirmation</div>
+          <div><span style="color:var(--neon-orange);">Endotoxin</span> — LAL/rFC bacterial screening</div>
+          <div><span style="color:#ffe600);">Heavy Metals</span> — ICP-MS lead, arsenic, cadmium, mercury</div>
         </div>
       </div>
     </div>
@@ -3325,21 +3378,6 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <!-- More Researchers Coming -->
-    <div style="border:2px dashed rgba(0,245,255,0.25);background:linear-gradient(135deg,rgba(0,245,255,0.04),rgba(255,45,120,0.04));padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;">
-      <div style="position:relative;z-index:1;">
-        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔬</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.15em;color:var(--neon-cyan);text-shadow:0 0 16px rgba(0,245,255,0.5);margin-bottom:0.5rem;">More Researchers Joining the Lab</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;margin-bottom:1rem;">The Team Is Growing · Watch This Space</div>
-        <div style="width:60px;height:2px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink));margin:0 auto 1.25rem;"></div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1.05rem;color:var(--text-secondary);line-height:1.75;max-width:560px;margin:0 auto;">Every addition is vetted. Every researcher is verified.<br><br><span style="color:var(--neon-cyan);">Science. Discipline. Dosage. Results. Repeat.</span></div>
-        <div style="margin-top:1.5rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
-          <div style="border:1px solid rgba(0,245,255,0.3);padding:0.5rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:rgba(0,245,255,0.6);">? ? ? · INCOMING</div>
-          <div style="border:1px solid rgba(255,45,120,0.3);padding:0.5rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:rgba(255,45,120,0.6);">? ? ? · INCOMING</div>
-          <div style="border:1px solid rgba(255,230,0,0.3);padding:0.5rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:rgba(255,230,0,0.6);">? ? ? · INCOMING</div>
-        </div>
-      </div>
-    </div>
   </div>
 
 <!-- CALCULATOR VIEW -->
