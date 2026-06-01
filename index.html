@@ -1498,68 +1498,98 @@
   .ai-key-btn:hover { border-color:var(--neon-cyan);color:var(--neon-cyan); }
 
   /* ── HOME FEATURE CARDS ──────────────────────────────────────────────────── */
+  /* ── FEATURE CARDS — horizontal pill style ───────────────────────────────── */
   .feature-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
     margin-bottom: 2rem;
   }
-  @media(max-width: 500px) { .feature-cards { grid-template-columns: 1fr 1fr; } }
-  .feature-card.pink::before  { background: linear-gradient(90deg, var(--neon-pink), transparent); }
-  .feature-card.pink::after   { background: radial-gradient(ellipse at 20% 50%, rgba(255,45,120,0.07) 0%, transparent 70%); }
-  .feature-card.pink:hover    { border-color: rgba(255,45,120,0.5); box-shadow: 0 6px 28px rgba(255,45,120,0.12); }
+  /* last card (7th) full-width if odd */
+  .feature-cards .feature-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  @media(max-width: 600px) {
+    .feature-cards { grid-template-columns: 1fr; }
+    .feature-cards .feature-card:last-child:nth-child(odd) { grid-column: auto; }
+  }
+
   .feature-card {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1rem 1.25rem;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    padding: 1.25rem 1.5rem;
+    border-left: 4px solid transparent;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s, transform 0.15s;
-    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
   }
-  .feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+  .feature-card:hover { transform: translateX(4px); }
+
+  /* Colour variants — left border + hover glow */
+  .feature-card.cyan   { border-left-color: var(--neon-cyan); }
+  .feature-card.pink   { border-left-color: var(--neon-pink); }
+  .feature-card.green  { border-left-color: #00ff64; }
+  .feature-card.purple { border-left-color: #ffe600; }
+  .feature-card.orange { border-left-color: var(--neon-orange); }
+
+  .feature-card.cyan:hover   { background:#091a1f; box-shadow: 0 0 20px rgba(0,245,255,0.1); }
+  .feature-card.pink:hover   { background:#1a0914; box-shadow: 0 0 20px rgba(255,45,120,0.1); }
+  .feature-card.green:hover  { background:#08180f; box-shadow: 0 0 20px rgba(0,255,100,0.1); }
+  .feature-card.purple:hover { background:#181400; box-shadow: 0 0 20px rgba(255,230,0,0.08); }
+  .feature-card.orange:hover { background:#180f04; box-shadow: 0 0 20px rgba(255,107,0,0.1); }
+
+  .feature-card-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border-radius: 2px;
+    transition: transform 0.2s;
   }
-  .feature-card.cyan::before  { background: linear-gradient(90deg, var(--neon-cyan), transparent); }
-  .feature-card.purple::before{ background: linear-gradient(90deg, var(--neon-purple), transparent); }
-  .feature-card.green::before { background: linear-gradient(90deg, #00ff64, transparent); }
-  .feature-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.25s;
-    pointer-events: none;
-  }
-  .feature-card.cyan::after   { background: radial-gradient(ellipse at 20% 50%, rgba(0,245,255,0.07) 0%, transparent 70%); }
-  .feature-card.purple::after { background: radial-gradient(ellipse at 20% 50%, rgba(255,230,0,) 0%, transparent 70%); }
-  .feature-card.green::after  { background: radial-gradient(ellipse at 20% 50%, rgba(0,255,100,0.07) 0%, transparent 70%); }
-  .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
-  .feature-card.cyan:hover   { border-color: rgba(0,245,255,0.5);  box-shadow: 0 6px 28px rgba(0,245,255,0.12); }
-  .feature-card.purple:hover { border-color: rgba(255,230,0,);  box-shadow: 0 6px 28px rgba(255,230,0,); }
-  .feature-card.green:hover  { border-color: rgba(0,255,100,0.5);  box-shadow: 0 6px 28px rgba(0,255,100,0.12); }
-  .feature-card:hover::after { opacity: 1; }
-  .feature-card-icon { font-size: 1.8rem; margin-bottom: 0.4rem; transition: transform 0.2s; }
-  .feature-card:hover .feature-card-icon { transform: scale(1.15); }
+  .feature-card:hover .feature-card-icon { transform: scale(1.12); }
+
+  .feature-card-text { flex: 1; min-width: 0; }
   .feature-card-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     letter-spacing: 0.1em;
     color: var(--text-primary);
+    line-height: 1.1;
     margin-bottom: 0.2rem;
   }
+  .feature-card.cyan   .feature-card-title { color: var(--neon-cyan); }
+  .feature-card.pink   .feature-card-title { color: var(--neon-pink); }
+  .feature-card.green  .feature-card-title { color: #00ff64; }
+  .feature-card.purple .feature-card-title { color: #ffe600; }
+  .feature-card.orange .feature-card-title { color: var(--neon-orange); }
+
   .feature-card-sub {
     font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
+    font-weight: 600;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  .feature-card-arrow {
+    font-size: 1rem;
+    flex-shrink: 0;
+    opacity: 0.3;
+    transition: opacity 0.2s, transform 0.2s;
+    color: #fff;
+  }
+  .feature-card:hover .feature-card-arrow { opacity: 0.9; transform: translateX(3px); }
 
   /* ── GUIDE PREVIEW CARDS ─────────────────────────────────────────────────── */
   .guide-preview-card {
@@ -2479,41 +2509,70 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <div class="feature-cards">
+
       <div class="feature-card cyan" onclick="showView('calculator')">
-        <div class="feature-card-icon">⚗</div>
-        <div class="feature-card-title">Reconstitution Calculator</div>
-        <div class="feature-card-sub">BAC water · dose · syringe units</div>
+        <div class="feature-card-icon">⚗️</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Reconstitution Calculator</div>
+          <div class="feature-card-sub">BAC water · dose · syringe units</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
+
       <div class="feature-card pink" onclick="showView('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);">
         <div class="feature-card-icon">🧪</div>
-        <div class="feature-card-title">COA Testing</div>
-        <div class="feature-card-sub">Select vendor → view COA · endotoxin · heavy metals</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">COA Testing</div>
+          <div class="feature-card-sub">Vendors · endotoxin · heavy metals</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
+
       <div class="feature-card green" onclick="showView('studies')">
         <div class="feature-card-icon">🔬</div>
-        <div class="feature-card-title">Peptide Studies</div>
-        <div class="feature-card-sub">Latest clinical &amp; preclinical research</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Peptide Studies</div>
+          <div class="feature-card-sub">Clinical &amp; preclinical research</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
+
       <div class="feature-card purple" onclick="showView('quick-guide')">
         <div class="feature-card-icon">📋</div>
-        <div class="feature-card-title">Peptide Guide</div>
-        <div class="feature-card-sub">PDFs · databases · protocols · reference</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Peptide Guide</div>
+          <div class="feature-card-sub">PDFs · databases · protocols</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
-      <div class="feature-card cyan" onclick="showView('supplies')">
+
+      <div class="feature-card green" onclick="showView('supplies')">
         <div class="feature-card-icon">🧫</div>
-        <div class="feature-card-title">Research Supplies</div>
-        <div class="feature-card-sub">Lab equipment · David's list</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Research Supplies</div>
+          <div class="feature-card-sub">Lab equipment · David's list</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
+
       <div class="feature-card pink" onclick="showView('videos')">
-        <div class="feature-card-icon">▶</div>
-        <div class="feature-card-title">Videos — Doctors</div>
-        <div class="feature-card-sub">Educational research channels</div>
+        <div class="feature-card-icon">▶️</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Videos — Doctors</div>
+          <div class="feature-card-sub">Educational research channels</div>
+        </div>
+        <div class="feature-card-arrow">›</div>
       </div>
-      <div class="feature-card cyan" onclick="window.open('https://ruic-comptool.net/?from=vpn','_blank')" style="cursor:pointer;">
+
+      <div class="feature-card orange" onclick="window.open('https://ruic-comptool.net/?from=vpn','_blank')">
         <div class="feature-card-icon">💊</div>
-        <div class="feature-card-title">Peptide Price Comparison</div>
-        <div class="feature-card-sub">Compare prices across vendors · Best value</div>
+        <div class="feature-card-text">
+          <div class="feature-card-title">Peptide Price Comparison</div>
+          <div class="feature-card-sub">Compare vendors · Best value · Auto-unlocked</div>
+        </div>
+        <div class="feature-card-arrow">↗</div>
       </div>
+
     </div>
 
     <div class="section-header" style="flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;">
