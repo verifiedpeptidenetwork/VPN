@@ -109,7 +109,7 @@
   .site-header {
     position: relative;
     z-index: 10;
-    padding: 0 2rem;
+    padding: 0 15%;
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(0,245,255,0.2);
@@ -229,6 +229,8 @@
   @media (max-width: 768px) {
     .hamburger-btn { display: flex; }
     .nav-pills { display: none; }
+    .site-header { padding: 0 5%; }
+    .hero { padding: 2rem 5% 2rem; }
   }
 
   .nav-pill {
@@ -268,7 +270,7 @@
     position: relative;
     z-index: 1;
     text-align: center;
-    padding: 3rem 2rem 2.5rem;
+    padding: 3rem 15% 2.5rem;
     overflow: hidden;
   }
 
@@ -357,13 +359,13 @@
     z-index: 2;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 15%;
     background: transparent;
     box-sizing: border-box;
     width: 100%;
   }
   @media (max-width: 768px) {
-    .main { padding: 1rem 0.5rem; }
+    .main { padding: 1rem 5%; }
   }
 
   /* === VIEWS === */
@@ -1119,7 +1121,7 @@
     .guide-img-grid { grid-template-columns: 1fr !important; }
     .nav-pills { flex-wrap: wrap; gap: 0.4rem; }
     .nav-pill { font-size: 1.05rem !important; padding: 0.4rem 0.75rem !important; }
-    .view { padding: 1rem !important; }
+    .view { padding: 1rem 5% !important; }
     .section-title { font-size: 1.6rem !important; }
   }
   @media (max-width: 480px) {
@@ -3671,7 +3673,7 @@ function renderVendorDetail(v) {
         <div class="detail-contacts">${contactsHtml}</div>
         <div class="vendor-tags" style="padding:0.75rem 0 0;border:none;">${tagsHtml}</div>
       </div>
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:1.25rem;max-width:300px;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:1.25rem;max-width:300px;width:100%;box-sizing:border-box;">
         <div style="font-family:'Share Tech Mono',monospace;font-size: 1rem;color:var(--neon-pink);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.75rem;">Vendor Notes</div>
         <p style="color:var(--text-secondary);font-size: 1rem;line-height:1.7;font-weight:500;">${v.note}</p>
       </div>
