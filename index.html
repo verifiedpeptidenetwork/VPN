@@ -2346,6 +2346,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
       <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
       <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
+      <button class="nav-pill" onclick="showView('team'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
       <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
       <button class="nav-pill" onclick="showView('terms'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
     </nav>
@@ -2367,6 +2368,7 @@ document.addEventListener('keydown', function(e){
     <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
     <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
     <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
+    <button class="nav-pill" onclick="mobileNav('team')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
     <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
     <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
   </div>
@@ -2394,13 +2396,12 @@ document.addEventListener('keydown', function(e){
 
 </div>
 
-<!-- TEAM OF RESEARCHERS — always visible below hero -->
-<section class="team-section" style="position:relative;z-index:2;padding:2.5rem 15%;background:transparent;">
+<!-- TEAM VIEW (nav section) -->
+<div class="view" id="view-team" style="display:none;">
 
-  <!-- Section Header -->
-  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.4);">Meet Our Team of Researchers</div>
-    <span style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.15em;color:var(--text-secondary);text-transform:uppercase;">Science · Discipline · Dosage · Results · Repeat</span>
+  <div class="section-header" style="margin-bottom:1.5rem;">
+    <div class="section-title">Meet Our Team of Researchers</div>
+    <span class="section-count">Science · Discipline · Dosage · Results · Repeat</span>
   </div>
 
   <!-- Team Banner -->
@@ -2561,7 +2562,7 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-</section>
+</div>
 
 <div class="neon-divider" id="neon-divider"></div>
 
@@ -3655,7 +3656,7 @@ function mobileNav(view) {
   document.getElementById('mobile-nav').classList.remove('open');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
-  var viewMap = ['vendors','vendors','quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','team','terms'];
+  var viewMap = ['vendors','vendors','quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','terms','team'];
   var idx = viewMap.indexOf(view);
   if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
 }
