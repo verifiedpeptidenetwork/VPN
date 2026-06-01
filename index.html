@@ -1500,12 +1500,11 @@
   /* ── HOME FEATURE CARDS ──────────────────────────────────────────────────── */
   .feature-cards {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
   }
-  @media(max-width: 900px) { .feature-cards { grid-template-columns: 1fr 1fr; } }
-  @media(max-width: 500px) { .feature-cards { grid-template-columns: 1fr; } }
+  @media(max-width: 500px) { .feature-cards { grid-template-columns: 1fr 1fr; } }
   .feature-card.pink::before  { background: linear-gradient(90deg, var(--neon-pink), transparent); }
   .feature-card.pink::after   { background: radial-gradient(ellipse at 20% 50%, rgba(255,45,120,0.07) 0%, transparent 70%); }
   .feature-card.pink:hover    { border-color: rgba(255,45,120,0.5); box-shadow: 0 6px 28px rgba(255,45,120,0.12); }
@@ -2480,45 +2479,40 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <div class="feature-cards">
-      <div class="feature-card cyan" onclick="showView('calculator'); setActiveNav(document.querySelector('.nav-pill:nth-child(5)'))">
+      <div class="feature-card cyan" onclick="showView('calculator')">
         <div class="feature-card-icon">⚗</div>
         <div class="feature-card-title">Reconstitution Calculator</div>
         <div class="feature-card-sub">BAC water · dose · syringe units</div>
       </div>
-      <div class="feature-card pink" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill:nth-child(1)')); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);">
+      <div class="feature-card pink" onclick="showView('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);">
         <div class="feature-card-icon">🧪</div>
         <div class="feature-card-title">COA Testing</div>
         <div class="feature-card-sub">Select vendor → view COA · endotoxin · heavy metals</div>
       </div>
-      <div class="feature-card green" onclick="showView('studies'); setActiveNav(document.querySelector('.nav-pill:nth-child(4)'))">
+      <div class="feature-card green" onclick="showView('studies')">
         <div class="feature-card-icon">🔬</div>
         <div class="feature-card-title">Peptide Studies</div>
         <div class="feature-card-sub">Latest clinical &amp; preclinical research</div>
       </div>
-      <div class="feature-card purple" onclick="showView('quick-guide'); setActiveNav(document.querySelector('.nav-pill:nth-child(3)'))">
+      <div class="feature-card purple" onclick="showView('quick-guide')">
         <div class="feature-card-icon">📋</div>
         <div class="feature-card-title">Peptide Guide</div>
         <div class="feature-card-sub">PDFs · databases · protocols · reference</div>
       </div>
-    </div>
-
-
-    <!-- SUPPLIES + VIDEOS FEATURE CARDS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;">
-      <div class="feature-card cyan" onclick="showView('supplies'); setActiveNav(document.querySelectorAll('.nav-pill')[9])" style="cursor:pointer;">
+      <div class="feature-card cyan" onclick="showView('supplies')">
         <div class="feature-card-icon">🧫</div>
         <div class="feature-card-title">Research Supplies</div>
         <div class="feature-card-sub">Lab equipment · David's list</div>
       </div>
-      <div class="feature-card pink" onclick="showView('videos'); setActiveNav(document.querySelectorAll('.nav-pill')[4])" style="cursor:pointer;">
+      <div class="feature-card pink" onclick="showView('videos')">
         <div class="feature-card-icon">▶</div>
         <div class="feature-card-title">Videos — Doctors</div>
-        <div class="feature-card-sub">Educational research channels · 5 doctors</div>
+        <div class="feature-card-sub">Educational research channels</div>
       </div>
       <div class="feature-card cyan" onclick="window.open('https://ruic-comptool.net/','_blank')" style="cursor:pointer;">
         <div class="feature-card-icon">💊</div>
         <div class="feature-card-title">Peptide Price Comparison</div>
-        <div class="feature-card-sub">Compare prices across vendors · Find the best value</div>
+        <div class="feature-card-sub">Compare prices across vendors · Best value</div>
       </div>
     </div>
 
