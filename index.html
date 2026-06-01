@@ -181,56 +181,81 @@
   }
   .nav-pills::-webkit-scrollbar { display: none; }
 
-  /* Hamburger button — hidden on large desktop */
+  /* Hamburger — always visible */
   .hamburger-btn {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
     background: transparent;
     border: 1px solid rgba(0,245,255,0.4);
-    padding: 0.5rem 0.65rem;
+    padding: 0.6rem 0.75rem;
     flex-shrink: 0;
     position: relative;
     z-index: 9999;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .hamburger-btn:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0,245,255,0.3);
   }
   .hamburger-btn span {
     display: block;
-    width: 22px;
+    width: 24px;
     height: 2px;
     background: var(--neon-cyan);
     transition: all 0.3s;
   }
 
-  /* Mobile nav dropdown */
+  /* Nav pills — always hidden (hamburger replaces them) */
+  .nav-pills { display: none !important; }
+
+  /* Researcher image click-to-expand */
+  #view-team img[onclick] {
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  #view-team img[onclick]:hover {
+    opacity: 0.88;
+    transform: scale(1.02);
+  }
+
+  /* Full nav dropdown */
   .mobile-nav-dropdown {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 9998;
     background: rgba(5,2,15,0.98);
-    border-bottom: 1px solid rgba(0,245,255,0.2);
-    padding: 1rem;
-    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(0,245,255,0.2);
+    padding: 1.5rem 2rem;
+    backdrop-filter: blur(16px);
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0;
   }
   .mobile-nav-dropdown.open { display: flex; }
+
+  .nav-dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+  }
+  @media (max-width: 900px)  { .nav-dropdown-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px)  { .nav-dropdown-grid { grid-template-columns: repeat(2, 1fr); } }
+
   .mobile-nav-dropdown .nav-pill {
     width: 100%;
-    text-align: left;
-    padding: 0.75rem 1rem;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
     font-size: 1rem;
+    clip-path: none;
+    border-radius: 0;
   }
 
   @media (max-width: 600px) {
     #vendors-list-full .vendor-two-col { grid-template-columns: 1fr !important; }
-  }
-  @media (max-width: 1100px) {
-    .hamburger-btn { display: flex; }
-    .nav-pills { display: none; }
   }
   @media (max-width: 768px) {
     .site-header { padding: 0 5%; }
@@ -2365,18 +2390,20 @@ document.addEventListener('keydown', function(e){
 
   <!-- Mobile Nav Dropdown -->
   <div class="mobile-nav-dropdown" id="mobile-nav">
-    <button class="nav-pill" onclick="mobileNav('vendors')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
-    <button class="nav-pill nav-pill-testing" onclick="mobileNav('vendors')">🧪 Testing Results</button>
-    <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
-    <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
-    <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
-    <button class="nav-pill" onclick="mobileNav('studies')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
-    <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
-    <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
-    <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
-    <button class="nav-pill" onclick="mobileNav('team')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
-    <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
-    <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
+    <div class="nav-dropdown-grid">
+      <button class="nav-pill" onclick="mobileNav('vendors')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🏪 Vendors</button>
+      <button class="nav-pill nav-pill-testing" onclick="mobileNav('vendors')">🧪 Testing Results</button>
+      <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📖 Peptide Guide</button>
+      <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🔬 Peptide Index</button>
+      <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
+      <button class="nav-pill" onclick="mobileNav('studies')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">📊 Studies</button>
+      <button class="nav-pill" onclick="mobileNav('calculator')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">🧮 Calculator</button>
+      <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
+      <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
+      <button class="nav-pill" onclick="mobileNav('team')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
+      <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">ℹ️ About</button>
+      <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
+    </div>
   </div>
 </header>
 
@@ -3019,7 +3046,7 @@ document.addEventListener('keydown', function(e){
       <!-- Glowrilla — LEAD SCIENTIST -->
       <div style="background:var(--card-bg);border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px rgba(0,245,255,0.15);">
         <div style="background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.06));padding:0.45rem 1rem;"><span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST</span></div>
-        <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla" onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla" onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:var(--neon-cyan);">Glowrilla</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Lead Scientist · GHK-Cu & Peptide Synthesis</div>
@@ -3031,7 +3058,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Leo Vitalis -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-eeE5CxKN.jpeg" alt="Dr. Leo Vitalis" onclick="openLightbox('RESEARCHERS/pro-eeE5CxKN.jpeg','Dr. Leo Vitalis')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-eeE5CxKN.jpeg" alt="Dr. Leo Vitalis" onclick="openLightbox('RESEARCHERS/pro-eeE5CxKN.jpeg','Dr. Leo Vitalis')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Dr. Leo Vitalis</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Chief Peptide Research Officer (C.P.R.O.)</div>
@@ -3043,7 +3070,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Ellie -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-8BorrxJ3.jpeg" alt="Researcher Ellie" onclick="openLightbox('RESEARCHERS/pro-8BorrxJ3.jpeg','Researcher Ellie')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-8BorrxJ3.jpeg" alt="Researcher Ellie" onclick="openLightbox('RESEARCHERS/pro-8BorrxJ3.jpeg','Researcher Ellie')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Ellie</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Chief Memory Officer (C.M.O.)</div>
@@ -3055,7 +3082,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Stryker -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-8pbikXDz.jpeg" alt="Dr. Stryker" onclick="openLightbox('RESEARCHERS/pro-8pbikXDz.jpeg','Dr. Stryker')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-8pbikXDz.jpeg" alt="Dr. Stryker" onclick="openLightbox('RESEARCHERS/pro-8pbikXDz.jpeg','Dr. Stryker')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);">Dr. Stryker</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Chief Tiger Officer (C.T.O.)</div>
@@ -3067,7 +3094,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Vixen -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-OhWQT1mw.jpeg" alt="Dr. Vixen" onclick="openLightbox('RESEARCHERS/pro-OhWQT1mw.jpeg','Dr. Vixen')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-OhWQT1mw.jpeg" alt="Dr. Vixen" onclick="openLightbox('RESEARCHERS/pro-OhWQT1mw.jpeg','Dr. Vixen')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Dr. Vixen</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Chief Strategy Officer (C.S.O.)</div>
@@ -3079,7 +3106,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Lab Rat -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-92OZumhb.jpeg" alt="Dr. Lab Rat" onclick="openLightbox('RESEARCHERS/pro-92OZumhb.jpeg','Dr. Lab Rat')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-92OZumhb.jpeg" alt="Dr. Lab Rat" onclick="openLightbox('RESEARCHERS/pro-92OZumhb.jpeg','Dr. Lab Rat')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Dr. Lab Rat</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Science · Real Results</div>
@@ -3091,7 +3118,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Echo -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-3umFbMnU.jpeg" alt="Dr. Echo" onclick="openLightbox('RESEARCHERS/pro-3umFbMnU.jpeg','Dr. Echo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-3umFbMnU.jpeg" alt="Dr. Echo" onclick="openLightbox('RESEARCHERS/pro-3umFbMnU.jpeg','Dr. Echo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Dr. Echo</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Chief Repeat Officer (C.R.O.)</div>
@@ -3103,7 +3130,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Research Rex -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-JlMw5aL2.jpeg" alt="Research Rex" onclick="openLightbox('RESEARCHERS/pro-JlMw5aL2.jpeg','Research Rex')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-JlMw5aL2.jpeg" alt="Research Rex" onclick="openLightbox('RESEARCHERS/pro-JlMw5aL2.jpeg','Research Rex')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#ffe600;">Research Rex</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-orange);text-transform:uppercase;">T-Rex · Peptide Efficacy Testing</div>
@@ -3115,7 +3142,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Research Sloth -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-x2XJ7FEI.jpeg" alt="Research Sloth" onclick="openLightbox('RESEARCHERS/pro-x2XJ7FEI.jpeg','Research Sloth')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-x2XJ7FEI.jpeg" alt="Research Sloth" onclick="openLightbox('RESEARCHERS/pro-x2XJ7FEI.jpeg','Research Sloth')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Research Sloth</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Recovery & Longevity Specialist</div>
@@ -3127,7 +3154,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher MikeA -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-AzZWTIWZ.jpeg" alt="Researcher MikeA" onclick="openLightbox('RESEARCHERS/pro-AzZWTIWZ.jpeg','Researcher MikeA')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-AzZWTIWZ.jpeg" alt="Researcher MikeA" onclick="openLightbox('RESEARCHERS/pro-AzZWTIWZ.jpeg','Researcher MikeA')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher MikeA</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Synthesis Specialist</div>
@@ -3139,7 +3166,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Wolverine -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-DXRviXz5.jpeg" alt="Researcher Wolverine" onclick="openLightbox('RESEARCHERS/pro-DXRviXz5.jpeg','Researcher Wolverine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-DXRviXz5.jpeg" alt="Researcher Wolverine" onclick="openLightbox('RESEARCHERS/pro-DXRviXz5.jpeg','Researcher Wolverine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);">Researcher Wolverine</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Research · TB-500 Specialist</div>
@@ -3151,7 +3178,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Bamboo -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-IKJjS80P.jpeg" alt="Researcher Bamboo" onclick="openLightbox('RESEARCHERS/pro-IKJjS80P.jpeg','Researcher Bamboo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-IKJjS80P.jpeg" alt="Researcher Bamboo" onclick="openLightbox('RESEARCHERS/pro-IKJjS80P.jpeg','Researcher Bamboo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Bamboo</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Pattern Discovery · Founding Algorithm Architect</div>
@@ -3163,7 +3190,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Gazelle -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-VB6OUess.jpeg" alt="Researcher Gazelle" onclick="openLightbox('RESEARCHERS/pro-VB6OUess.jpeg','Researcher Gazelle')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-VB6OUess.jpeg" alt="Researcher Gazelle" onclick="openLightbox('RESEARCHERS/pro-VB6OUess.jpeg','Researcher Gazelle')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#ffe600;">Researcher Gazelle</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Kinetics Specialist</div>
@@ -3175,7 +3202,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Gator -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-ZzH4MGNr.jpeg" alt="Researcher Gator" onclick="openLightbox('RESEARCHERS/pro-ZzH4MGNr.jpeg','Researcher Gator')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-ZzH4MGNr.jpeg" alt="Researcher Gator" onclick="openLightbox('RESEARCHERS/pro-ZzH4MGNr.jpeg','Researcher Gator')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Researcher Gator</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Quality Control · Pure · Potent · Verified</div>
@@ -3187,7 +3214,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Porcupine -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-gJgeIrCS.jpeg" alt="Researcher Porcupine" onclick="openLightbox('RESEARCHERS/pro-gJgeIrCS.jpeg','Researcher Porcupine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-gJgeIrCS.jpeg" alt="Researcher Porcupine" onclick="openLightbox('RESEARCHERS/pro-gJgeIrCS.jpeg','Researcher Porcupine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Porcupine</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Precision Mapping of Peptides</div>
@@ -3199,7 +3226,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Scurry -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-4380o7Gk.jpeg" alt="Researcher Scurry" onclick="openLightbox('RESEARCHERS/pro-4380o7Gk.jpeg','Researcher Scurry')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-4380o7Gk.jpeg" alt="Researcher Scurry" onclick="openLightbox('RESEARCHERS/pro-4380o7Gk.jpeg','Researcher Scurry')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Scurry</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Lab Mouse · Peptide Analysis Specialist</div>
@@ -3211,7 +3238,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Penny -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-pdKkFkat.jpeg" alt="Researcher Penny" onclick="openLightbox('RESEARCHERS/pro-pdKkFkat.jpeg','Researcher Penny')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;">
+        <img src="RESEARCHERS/pro-pdKkFkat.jpeg" alt="Researcher Penny" onclick="openLightbox('RESEARCHERS/pro-pdKkFkat.jpeg','Researcher Penny')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Penny</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Synthesis · Cool Under Pressure</div>
