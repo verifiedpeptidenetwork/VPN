@@ -161,27 +161,21 @@
   @keyframes retroGlow {
     0%,100% {
       box-shadow:
-        0 0 14px 4px rgba(255,210,0,0.95),
-        0 0 30px 8px rgba(255,110,0,0.6),
-        0 0 14px 3px rgba(255,30,0,0.75),
-        0 0 50px 12px rgba(255,70,0,0.25),
-        inset 0 0 12px rgba(255,200,0,0.15);
+        0 0 5px 2px rgba(255,210,0,0.95),
+        0 0 10px 2px rgba(255,100,0,0.7),
+        0 0 3px 1px rgba(255,40,0,0.8);
     }
     33% {
       box-shadow:
-        0 0 20px 6px rgba(255,80,0,1),
-        0 0 40px 10px rgba(255,30,0,0.7),
-        0 0 18px 4px rgba(200,0,0,0.8),
-        0 0 60px 14px rgba(180,0,0,0.2),
-        inset 0 0 14px rgba(255,80,0,0.18);
+        0 0 7px 2px rgba(255,80,0,1),
+        0 0 14px 3px rgba(255,30,0,0.75),
+        0 0 4px 1px rgba(200,0,0,0.9);
     }
     66% {
       box-shadow:
-        0 0 18px 5px rgba(255,200,0,1),
-        0 0 36px 9px rgba(255,140,0,0.65),
-        0 0 16px 4px rgba(255,50,0,0.8),
-        0 0 55px 13px rgba(255,80,0,0.22),
-        inset 0 0 14px rgba(255,180,0,0.18);
+        0 0 6px 2px rgba(255,200,0,1),
+        0 0 12px 2px rgba(255,140,0,0.8),
+        0 0 4px 1px rgba(255,50,0,0.85);
     }
   }
 
@@ -2449,9 +2443,11 @@ document.addEventListener('keydown', function(e){
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill')); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100)">
       <!-- VPN Logo image with animated glow ring -->
       <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <div style="position:absolute;inset:-5px;border-radius:50%;
+        <div style="position:absolute;inset:-3px;border-radius:50%;
           box-shadow:
-            0 0 14px 4px rgba(255,200,0,0.9), 0 0 32px 8px rgba(255,120,0,0.55), 0 0 14px 3px rgba(255,40,0,0.7), 0 0 48px 12px rgba(255,80,0,0.2), inset 0 0 12px rgba(255,200,0,0.12);
+            0 0 6px 2px rgba(255,210,0,0.95),
+            0 0 12px 2px rgba(255,100,0,0.7),
+            0 0 4px 1px rgba(255,40,0,0.8);
           animation:retroGlow 3s ease-in-out infinite;
           pointer-events:none;">
         </div>
@@ -2466,7 +2462,7 @@ document.addEventListener('keydown', function(e){
     <nav class="nav-pills" id="desktop-nav">
       <button class="nav-pill active" onclick="showView('vendors'); setActiveNav(this);" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Vendors</button>
       <button class="nav-pill nav-pill-testing" onclick="showView('vendors'); setActiveNav(this);">🧪 Testing Results</button>
-      <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Peptide Guide</button>
+      <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Tools &amp; Guides</button>
       <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
       <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
@@ -2489,7 +2485,7 @@ document.addEventListener('keydown', function(e){
     <div class="nav-dropdown-grid">
       <button class="nav-pill" onclick="mobileNav('vendors')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🏪 Vendors</button>
       <button class="nav-pill nav-pill-testing" onclick="mobileNav('vendors')">🧪 Testing Results</button>
-      <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📖 Peptide Guide</button>
+      <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">🛠 Tools &amp; Guides</button>
       <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🔬 Peptide Index</button>
       <button class="nav-pill" onclick="mobileNav('videos')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
       <button class="nav-pill" onclick="mobileNav('studies')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">📊 Studies</button>
@@ -2608,7 +2604,7 @@ document.addEventListener('keydown', function(e){
       <div class="feature-card purple" onclick="showView('quick-guide')">
         <div class="feature-card-icon">📋</div>
         <div class="feature-card-text">
-          <div class="feature-card-title">Peptide Guide</div>
+          <div class="feature-card-title">Tools &amp; Guides</div>
           <div class="feature-card-sub">PDFs · databases · protocols</div>
         </div>
         <div class="feature-card-arrow">›</div>
@@ -3700,7 +3696,7 @@ document.addEventListener('keydown', function(e){
 <!-- QUICK GUIDE VIEW -->
 <div class="view" id="view-quick-guide">
   <div class="section-header" style="margin-bottom:1.5rem;">
-    <div class="section-title">Peptide Guides &amp; Protocol Library</div>
+    <div class="section-title">Tools &amp; Guidess &amp; Protocol Library</div>
     <span class="section-count">PDFs · Databases · Reference Guides</span>
   </div>
 
