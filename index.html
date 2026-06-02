@@ -2664,31 +2664,6 @@ document.addEventListener('keydown', function(e){
       <div class="section-count" id="vendor-count" style="margin-left:auto;"></div>
     </div>
 
-    <!-- Vendor Filter Bar -->
-    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;align-items:center;">
-      <span style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.12em;color:var(--text-secondary);text-transform:uppercase;margin-right:0.25rem;">Filter:</span>
-      <button id="vf-all" onclick="setVendorFilter('all')"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;cursor:pointer;transition:all 0.2s;">
-        All Vendors
-      </button>
-      <button id="vf-coa" onclick="setVendorFilter('coa')"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1px solid rgba(0,245,255,0.35);background:transparent;color:var(--neon-cyan);cursor:pointer;transition:all 0.2s;">
-        ✅ Has COA
-      </button>
-      <button id="vf-endo" onclick="setVendorFilter('endo')"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1px solid rgba(0,255,100,0.35);background:transparent;color:#00ff64;cursor:pointer;transition:all 0.2s;">
-        🧫 Has Endotoxin
-      </button>
-      <button id="vf-hm" onclick="setVendorFilter('hm')"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1px solid rgba(255,230,0,0.35);background:transparent;color:#ffe600;cursor:pointer;transition:all 0.2s;">
-        ⚗️ Has Heavy Metals
-      </button>
-      <button id="vf-any" onclick="setVendorFilter('any')"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1px solid rgba(255,45,120,0.35);background:transparent;color:var(--neon-pink);cursor:pointer;transition:all 0.2s;">
-        🔬 Any Test Result
-      </button>
-    </div>
-
     <div class="vendors-grid" id="vendors-grid"></div>
 
   </div>
@@ -3747,6 +3722,22 @@ document.addEventListener('keydown', function(e){
       <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Reviews · guides · peptidecritic.com ↗</div>
     </a>
 
+    <a href="https://www.twc.health/pages/leadership" target="_blank" rel="noopener"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+      <span style="font-size:2rem;">🏥</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);line-height:1.1;">TWC Health — Leadership</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Medical team · clinic leadership · twc.health ↗</div>
+    </a>
+
+    <a href="https://zstacklife.com/" target="_blank" rel="noopener"
+       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+       onmouseover="this.style.boxShadow='0 0 22px rgba(0,245,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+      <span style="font-size:2rem;">⚡</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);line-height:1.1;">Z-Stack Life</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Dr. Zelenko protocol · zinc · immune support · zstacklife.com ↗</div>
+    </a>
+
   </div>
 
   <!-- Image Guide Cards -->
@@ -4185,8 +4176,11 @@ function renderVendorDetail(v) {
       return `<span class="test-badge test-upload" onclick="openModal('${v.name}','${p}','${type}',event)">⬆ Upload</span>`;
     }
 
+    var hasCoa = coa && coa.length > 0;
+    var hasEndo = endo && endo.length > 0;
+    var hasHm = hm && hm.length > 0;
     return `
-    <div class="peptide-card">
+    <div class="peptide-card" data-coa="${hasCoa?'1':'0'}" data-endo="${hasEndo?'1':'0'}" data-hm="${hasHm?'1':'0'}">
       <div class="peptide-card-header">
         <div class="peptide-name">${p}</div>
         <span class="peptide-status ${allDone ? 'status-verified' : 'status-pending'}">${allDone ? '✓ Full' : ''}</span>
@@ -4272,30 +4266,94 @@ function renderVendorDetail(v) {
       <div class="section-title" style="font-size:1.4rem;">Peptide COA Storage</div>
       <div class="peptide-search-wrap">
         <span class="peptide-search-icon">🔍</span>
-        <input class="search-box" id="peptide-search-input" type="text" placeholder="Type a peptide name to find it instantly..." oninput="filterPeptideCards(this.value)" autocomplete="off" />
+        <input class="search-box" id="peptide-search-input" type="text" placeholder="Search peptide..." oninput="filterPeptideCards(this.value)" autocomplete="off" />
       </div>
       <div class="search-result-count" id="search-result-count"></div>
     </div>
+
+    <!-- Peptide filter buttons -->
+    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem;align-items:center;">
+      <span style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.12em;color:var(--text-secondary);text-transform:uppercase;">Filter:</span>
+      <button id="pf-all" onclick="setPeptideFilter('all')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;">
+        All Peptides
+      </button>
+      <button id="pf-coa" onclick="setPeptideFilter('coa')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(0,245,255,0.35);background:transparent;color:var(--neon-cyan);cursor:pointer;">
+        ✅ Has COA
+      </button>
+      <button id="pf-endo" onclick="setPeptideFilter('endo')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(0,255,100,0.35);background:transparent;color:#00ff64;cursor:pointer;">
+        🧫 Has Endotoxin
+      </button>
+      <button id="pf-hm" onclick="setPeptideFilter('hm')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,230,0,0.35);background:transparent;color:#ffe600;cursor:pointer;">
+        ⚗️ Has Heavy Metals
+      </button>
+      <button id="pf-any" onclick="setPeptideFilter('any')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,45,120,0.35);background:transparent;color:var(--neon-pink);cursor:pointer;">
+        🔬 Has Any Test
+      </button>
+      <button id="pf-none" onclick="setPeptideFilter('none')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,107,0,0.35);background:transparent;color:var(--neon-orange);cursor:pointer;">
+        ⏳ No Tests Yet
+      </button>
+    </div>
+
     <div class="peptides-grid" id="vendor-peptide-grid">${peptidesHtml}</div>
   `;
 }
 
+var activePeptideFilter = 'all';
+
+function setPeptideFilter(f) {
+  activePeptideFilter = f;
+  var ids = ['pf-all','pf-coa','pf-endo','pf-hm','pf-any','pf-none'];
+  var activeMap = {
+    'pf-all':  'background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.6);',
+    'pf-coa':  'background:rgba(0,245,255,0.15);border-color:var(--neon-cyan);box-shadow:0 0 8px rgba(0,245,255,0.25);',
+    'pf-endo': 'background:rgba(0,255,100,0.12);border-color:#00ff64;box-shadow:0 0 8px rgba(0,255,100,0.2);',
+    'pf-hm':   'background:rgba(255,230,0,0.12);border-color:#ffe600;box-shadow:0 0 8px rgba(255,230,0,0.2);',
+    'pf-any':  'background:rgba(255,45,120,0.12);border-color:var(--neon-pink);box-shadow:0 0 8px rgba(255,45,120,0.2);',
+    'pf-none': 'background:rgba(255,107,0,0.12);border-color:var(--neon-orange);box-shadow:0 0 8px rgba(255,107,0,0.2);'
+  };
+  var filterToId = { all:'pf-all', coa:'pf-coa', endo:'pf-endo', hm:'pf-hm', any:'pf-any', none:'pf-none' };
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.style.boxShadow = 'none';
+    el.style.background = 'transparent';
+    el.style.borderColor = '';
+  });
+  var activeEl = document.getElementById(filterToId[f]);
+  if (activeEl) activeEl.style.cssText += activeMap[filterToId[f]];
+  filterPeptideCards(document.getElementById('peptide-search-input') ? document.getElementById('peptide-search-input').value : '');
+}
+
 function filterPeptideCards(query) {
   const cards = document.querySelectorAll('#vendor-peptide-grid .peptide-card');
-  const q = query.toLowerCase().trim();
+  const q = (query||'').toLowerCase().trim();
+  const f = activePeptideFilter;
   let visible = 0;
   cards.forEach(card => {
     const name = card.querySelector('.peptide-name').textContent.toLowerCase();
-    const show = name.includes(q);
+    const matchSearch = q === '' || name.includes(q);
+    var matchFilter = true;
+    if (f === 'coa')  matchFilter = card.dataset.coa  === '1';
+    if (f === 'endo') matchFilter = card.dataset.endo === '1';
+    if (f === 'hm')   matchFilter = card.dataset.hm   === '1';
+    if (f === 'any')  matchFilter = card.dataset.coa === '1' || card.dataset.endo === '1' || card.dataset.hm === '1';
+    if (f === 'none') matchFilter = card.dataset.coa !== '1' && card.dataset.endo !== '1' && card.dataset.hm !== '1';
+    const show = matchSearch && matchFilter;
     card.style.display = show ? '' : 'none';
     if (show) visible++;
   });
   const countEl = document.getElementById('search-result-count');
   if (countEl) {
-    if (q === '') {
+    if (q === '' && f === 'all') {
       countEl.textContent = '';
     } else {
-      countEl.textContent = visible === 0 ? 'No peptides found' : visible + ' peptide' + (visible !== 1 ? 's' : '') + ' found';
+      countEl.textContent = visible === 0 ? 'No peptides found' : visible + ' peptide' + (visible !== 1 ? 's' : '') + ' shown';
     }
   }
 }
