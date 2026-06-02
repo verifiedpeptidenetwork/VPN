@@ -2593,7 +2593,7 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <!-- VERIFY YOURSELF DISCLAIMER -->
-    <div style="border:1px solid rgba(255,32,32,0.3);border-left:4px solid #ff2020;background:rgba(255,32,32,0.04);padding:1rem 1.25rem;margin-bottom:1.75rem;display:flex;gap:0.9rem;align-items:flex-start;">
+    <div style="border:1px solid rgba(255,32,32,0.3);border-left:4px solid #ff2020;background:#0e0404;padding:1rem 1.25rem;margin-bottom:1.75rem;display:flex;gap:0.9rem;align-items:flex-start;">
       <span style="font-size:1.4rem;line-height:1;flex-shrink:0;">🔍</span>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff2020;margin-bottom:0.35rem;">Verify Everything — Do Not Follow Blindly</div>
@@ -2724,6 +2724,23 @@ document.addEventListener('keydown', function(e){
     <div class="section-header" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem 1.5rem;">
       <div class="section-title">Trusted Vendors</div>
       <span class="section-count" id="vendor-count-page"></span>
+    </div>
+
+    <!-- VPN Video -->
+    <div style="margin-bottom:1.75rem;border:2px solid rgba(0,245,255,0.35);overflow:hidden;background:#000;">
+      <div style="padding:0.55rem 1.25rem;border-bottom:1px solid rgba(0,245,255,0.2);background:rgba(0,245,255,0.05);display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-cyan);">▶ VPN — Verified Peptides Network</div>
+        <a href="https://youtube.com/shorts/Dv7XPwRFE68" target="_blank" rel="noopener"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:0.2rem 0.65rem;border:1px solid rgba(0,245,255,0.35);color:rgba(0,245,255,0.7);text-decoration:none;"
+          onmouseover="this.style.background='rgba(0,245,255,0.1)'" onmouseout="this.style.background='transparent'">↗ YouTube</a>
+      </div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;">
+        <iframe src="https://www.youtube.com/embed/Dv7XPwRFE68?rel=0&modestbranding=1"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy" title="VPN — Verified Peptides Network">
+        </iframe>
+      </div>
     </div>
 
     <div style="border:1px solid rgba(255,107,0,0.3);border-left:5px solid var(--neon-orange);background:#0d0a04;padding:1rem 1.4rem;margin-bottom:1.75rem;">
@@ -3274,15 +3291,18 @@ document.addEventListener('keydown', function(e){
           ↗ Open on YouTube
         </a>
       </div>
-      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;">
-        <iframe
-          src="https://www.youtube.com/embed/Dv7XPwRFE68?rel=0&modestbranding=1"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"
-          title="VPN — Verified Peptides Network">
-        </iframe>
+      <div id="yt-thumb-Dv7XPwRFE68" style="position:relative;width:100%;cursor:pointer;background:#000;"
+           onclick="this.innerHTML='<iframe src=\'https://www.youtube.com/embed/Dv7XPwRFE68?rel=0&autoplay=1\' style=\'width:100%;aspect-ratio:9/16;max-height:520px;border:none;\' allow=\'autoplay;encrypted-media;picture-in-picture\' allowfullscreen></iframe>';this.style.cursor='default';">
+        <img src="https://i.ytimg.com/vi/Dv7XPwRFE68/hqdefault.jpg" alt="VPN Video"
+          style="width:100%;max-height:420px;object-fit:cover;display:block;opacity:0.85;">
+        <!-- Play button overlay -->
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25);">
+          <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,0,0,0.9);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,0,0,0.5);transition:transform 0.2s;"
+               onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="border-left:28px solid #fff;border-top:16px solid transparent;border-bottom:16px solid transparent;margin-left:6px;"></div>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:0.75rem;left:0;right:0;text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(255,255,255,0.7);letter-spacing:0.1em;">CLICK TO PLAY</div>
       </div>
     </div>
 
@@ -3292,7 +3312,7 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <!-- Disclaimer banner -->
-    <div style="border:2px solid #ff2020;border-left:6px solid #ff2020;background:rgba(255,32,32,0.06);padding:1rem 1.4rem;margin-bottom:2rem;display:flex;gap:1rem;align-items:flex-start;">
+    <div style="border:2px solid #ff2020;border-left:6px solid #ff2020;background:#0e0404;padding:1rem 1.4rem;margin-bottom:2rem;display:flex;gap:1rem;align-items:flex-start;">
       <span style="font-size:1.5rem;flex-shrink:0;">⚠</span>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.14em;color:#ff2020;margin-bottom:0.35rem;">Not For Human Consumption</div>
@@ -5544,7 +5564,7 @@ function studiesRender(searchTerm) {
 
       // Extra details if present
       if (s.details) {
-        html += '<div style="margin-top:0.5rem;padding:0.6rem 0.85rem;background:rgba(0,245,255,0.04);border-left:3px solid rgba(0,245,255,0.3);font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text-secondary);line-height:1.65;">';
+        html += '<div style="margin-top:0.5rem;padding:0.6rem 0.85rem;background:#080e10;border-left:3px solid rgba(0,245,255,0.4);font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text-secondary);line-height:1.65;">';
         html += s.details;
         html += '</div>';
       }
@@ -5555,7 +5575,7 @@ function studiesRender(searchTerm) {
       html += '</div>';
 
       // Verify Yourself note — no direct link
-      html += '<div style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:rgba(255,230,0,0.05);border:1px solid rgba(255,230,0,0.2);display:flex;align-items:center;gap:0.6rem;">';
+      html += '<div style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:#0c0b00;border:1px solid rgba(255,230,0,0.25);display:flex;align-items:center;gap:0.6rem;">';
       html += '<span style="font-size:1rem;">🔍</span>';
       html += '<div style="font-family:\'Rajdhani\',sans-serif;font-weight:700;font-size:0.88rem;color:rgba(255,230,0,0.7);text-transform:uppercase;letter-spacing:0.08em;">Verify Yourself — Search the title on PubMed or Google Scholar for the full paper</div>';
       html += '</div>';
