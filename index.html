@@ -2497,7 +2497,8 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="mobileNav('supplies')" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
       <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
       <button class="nav-pill" onclick="mobileNav('team')" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
-      <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">ℹ️ About Us</button>
+      <button class="nav-pill" onclick="mobileNav('bonus')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">⭐ Bonus</button>
+    <button class="nav-pill" onclick="mobileNav('about')" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">ℹ️ About Us</button>
       <button class="nav-pill" onclick="mobileNav('terms')" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
     </div>
   </div>
@@ -2815,6 +2816,18 @@ document.addEventListener('keydown', function(e){
         <span style="color:var(--neon-orange);font-size:1rem;opacity:0.8;">↗</span>
       </a>
 
+      <!-- Reta Unfiltered — David's Channel -->
+      <a href="https://www.youtube.com/@RetaUnfiltered" target="_blank" rel="noopener"
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 18px rgba(255,45,120,0.25)'" onmouseout="this.style.boxShadow='none'">
+        <span style="font-size:2rem;flex-shrink:0;">▶</span>
+        <div style="flex:1;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.15rem;">Reta Unfiltered — @RetaUnfiltered</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">David's Channel · Peptides · Inner Circle · Unfiltered Research Content</div>
+        </div>
+        <span style="color:var(--neon-pink);font-size:1rem;opacity:0.8;">↗</span>
+      </a>
+
       <!-- Bioavailable Watchlist -->
       <a href="https://bioavailable-watchlist.pages.dev/watchlist/" target="_blank" rel="noopener"
          style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);border-style:dashed;text-decoration:none;transition:box-shadow 0.2s;"
@@ -3029,26 +3042,60 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <!-- BONUS KNOWLEDGE -->
-    <div style="margin-top:2.5rem;">
-      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.4));"></div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.2em;color:#ffe600;text-shadow:0 0 16px rgba(255,230,0,0.5);">⭐ BONUS KNOWLEDGE ⭐</div>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,230,0,0.4),transparent);"></div>
-      </div>
-      <div style="border:2px solid rgba(255,230,0,0.35);background:#0a0900;overflow:hidden;">
-        <div style="padding:0.85rem 1.25rem;border-bottom:1px solid rgba(255,230,0,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;">Zinc Ionophore Protocol — Research Reference</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Zinc = The Bullet · Ionophore = The Gun · Click image to zoom</div>
-          </div>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('rna.png?v=2','Zinc Ionophore — RNA Virus Protocol Reference')">
-          <img src="rna.png?v=2" alt="Zinc Ionophore & RNA Virus Protocol" style="width:100%;display:block;max-height:800px;object-fit:contain;background:#05050a;">
-        </div>
-      </div>
+  </div>
+
+  <!-- BONUS VIEW -->
+  <div class="view" id="view-bonus">
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <div class="section-title">⭐ Bonus Knowledge</div>
+      <span class="section-count">Extra resources · Research references · Community tools</span>
     </div>
 
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.4));"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#ffe600;">HEALTH & WELLNESS</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,230,0,0.4),transparent);"></div>
+    </div>
+
+    <!-- TWC + ZStack cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:2.5rem;">
+      <a href="https://www.twc.health/pages/leadership" target="_blank" rel="noopener"
+         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+        <span style="font-size:2rem;">🏥</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#00ff64;line-height:1.1;">The Wellness Company</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);line-height:1.5;">Medical team & clinic leadership. Board-certified doctors focused on health sovereignty and alternative medicine.</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#00ff64;text-transform:uppercase;letter-spacing:0.08em;margin-top:auto;">twc.health ↗</div>
+      </a>
+
+      <a href="https://zstacklife.com/" target="_blank" rel="noopener"
+         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(0,245,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
+        <span style="font-size:2rem;">⚡</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1.1;">Z-Stack Life</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);line-height:1.5;">Dr. Zelenko's protocol — zinc ionophore stack for immune support. The original COVID-19 early treatment pioneer.</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--neon-cyan);text-transform:uppercase;letter-spacing:0.08em;margin-top:auto;">zstacklife.com ↗</div>
+      </a>
+    </div>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.4));"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#ffe600;">ZINC IONOPHORE PROTOCOL</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,230,0,0.4),transparent);"></div>
+    </div>
+
+    <!-- Zinc Ionophore image -->
+    <div style="border:2px solid rgba(255,230,0,0.35);background:#0a0900;overflow:hidden;margin-bottom:2rem;">
+      <div style="padding:0.85rem 1.25rem;border-bottom:1px solid rgba(255,230,0,0.2);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#ffe600;">Zinc Ionophore Protocol — Research Reference</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Zinc = The Bullet · Ionophore = The Gun · Click image to zoom</div>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('rna.png?v=2','Zinc Ionophore — RNA Virus Protocol Reference')">
+        <img src="rna.png?v=2" alt="Zinc Ionophore & RNA Virus Protocol" style="width:100%;display:block;max-height:800px;object-fit:contain;background:#05050a;">
+      </div>
+    </div>
   </div>
 
   <!-- TERMS -->
@@ -3722,22 +3769,6 @@ document.addEventListener('keydown', function(e){
       <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Reviews · guides · peptidecritic.com ↗</div>
     </a>
 
-    <a href="https://www.twc.health/pages/leadership" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">🏥</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);line-height:1.1;">TWC Health — Leadership</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Medical team · clinic leadership · twc.health ↗</div>
-    </a>
-
-    <a href="https://zstacklife.com/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(0,245,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">⚡</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);line-height:1.1;">Z-Stack Life</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Dr. Zelenko protocol · zinc · immune support · zstacklife.com ↗</div>
-    </a>
-
   </div>
 
   <!-- Image Guide Cards -->
@@ -4061,7 +4092,7 @@ function mobileNav(view) {
   document.getElementById('mobile-nav').classList.remove('open');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
-  var viewMap = ['vendors','vendors','quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','terms','team'];
+  var viewMap = ['vendors','vendors','quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','terms','team','bonus'];
   var idx = viewMap.indexOf(view);
   if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
 }
