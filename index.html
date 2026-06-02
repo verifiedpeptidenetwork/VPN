@@ -158,6 +158,11 @@
     }
   }
 
+  @keyframes headerLogoSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
   @keyframes retroGlow {
     0%,100% {
       box-shadow:
@@ -2441,18 +2446,19 @@ document.addEventListener('keydown', function(e){
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill')); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100)">
-      <!-- VPN Logo image with animated glow ring -->
-      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <div style="position:absolute;inset:-3px;border-radius:50%;
-          box-shadow:
-            0 0 6px 2px rgba(255,210,0,0.95),
-            0 0 12px 2px rgba(255,100,0,0.7),
-            0 0 4px 1px rgba(255,40,0,0.8);
-          animation:retroGlow 3s ease-in-out infinite;
-          pointer-events:none;">
+      <!-- VPN Logo image with spinning retro glow ring -->
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:78px;height:78px;">
+        <!-- Spinning conic gradient ring -->
+        <div style="position:absolute;inset:-4px;border-radius:50%;
+          background:conic-gradient(from 0deg, #ffd700, #ff6600, #ff1500, #ff8800, #ffd700);
+          animation:headerLogoSpin 2.5s linear infinite;
+          filter:blur(2px);
+          z-index:0;pointer-events:none;">
         </div>
+        <!-- Dark backing to keep ring tight -->
+        <div style="position:absolute;inset:2px;border-radius:50%;background:var(--dark-bg);z-index:1;pointer-events:none;"></div>
         <img src="vpnlogo.png?v=2" alt="VPN Logo"
-          style="height:72px;width:72px;object-fit:cover;border-radius:50%;display:block;position:relative;z-index:1;">
+          style="height:72px;width:72px;object-fit:cover;border-radius:50%;display:block;position:relative;z-index:2;">
       </div>
       <div class="logo-text">
         <div class="logo-title">Verified Peptides Network</div>
