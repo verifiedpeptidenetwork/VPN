@@ -3225,6 +3225,28 @@ document.addEventListener('keydown', function(e){
       <span class="section-count">RUIC · RETA · Unfiltered Inner Circle</span>
     </div>
 
+    <!-- VPN Video -->
+    <div style="margin-bottom:2rem;border:2px solid rgba(0,245,255,0.35);overflow:hidden;position:relative;background:#000;">
+      <div style="padding:0.65rem 1.25rem;border-bottom:1px solid rgba(0,245,255,0.2);display:flex;align-items:center;justify-content:space-between;background:rgba(0,245,255,0.05);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);">▶ VPN — Verified Peptides Network</div>
+        <div style="display:flex;gap:0.5rem;">
+          <button id="vpn-video-btn" onclick="var v=document.getElementById('vpn-main-video');if(v.paused){v.play();this.textContent='⏸ Pause';}else{v.pause();this.textContent='▶ Play';}"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.3rem 0.9rem;background:transparent;border:1px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;">
+            ▶ Play
+          </button>
+          <button onclick="var v=document.getElementById('vpn-main-video');v.currentTime=0;v.pause();document.getElementById('vpn-video-btn').textContent='▶ Play';"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.3rem 0.9rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);cursor:pointer;">
+            ↩ Restart
+          </button>
+        </div>
+      </div>
+      <video id="vpn-main-video" style="width:100%;display:block;max-height:520px;background:#000;" preload="metadata" playsinline
+        onended="document.getElementById('vpn-video-btn').textContent='▶ Play'">
+        <source src="videovpn.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
     <!-- VPN Admins Poster -->
     <div style="margin-bottom:2rem;border:2px solid rgba(255,45,120,0.35);overflow:hidden;position:relative;cursor:zoom-in;" onclick="openLightbox('VPNADMINS.png?v=2','VPN Admins — Meet Our Team')">
       <img src="VPNADMINS.png?v=2" alt="VPN Admins" style="width:100%;display:block;max-height:700px;object-fit:contain;background:#05000f;">
@@ -6296,6 +6318,8 @@ function resetEmailWidget() {
 
 </body>
 </html>
+
+
 
 
 
