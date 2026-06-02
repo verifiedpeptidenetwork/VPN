@@ -4280,19 +4280,19 @@ function renderVendorDetail(v) {
       </button>
       <button id="pf-coa" onclick="setPeptideFilter('coa')"
         style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(0,245,255,0.35);background:transparent;color:var(--neon-cyan);cursor:pointer;">
-        ✅ Has COA
+        ✅ COA
       </button>
       <button id="pf-endo" onclick="setPeptideFilter('endo')"
         style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(0,255,100,0.35);background:transparent;color:#00ff64;cursor:pointer;">
-        🧫 Has Endotoxin
+        🧫 Endotoxin
       </button>
       <button id="pf-hm" onclick="setPeptideFilter('hm')"
         style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,230,0,0.35);background:transparent;color:#ffe600;cursor:pointer;">
-        ⚗️ Has Heavy Metals
+        ⚗️ Heavy Metals
       </button>
       <button id="pf-any" onclick="setPeptideFilter('any')"
         style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,45,120,0.35);background:transparent;color:var(--neon-pink);cursor:pointer;">
-        🔬 Has Any Test
+        🔬 Any Test
       </button>
       <button id="pf-none" onclick="setPeptideFilter('none')"
         style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;padding:0.3rem 0.8rem;border:1px solid rgba(255,107,0,0.35);background:transparent;color:var(--neon-orange);cursor:pointer;">
@@ -4308,54 +4308,93 @@ var activePeptideFilter = 'all';
 
 function setPeptideFilter(f) {
   activePeptideFilter = f;
-  var ids = ['pf-all','pf-coa','pf-endo','pf-hm','pf-any','pf-none'];
-  var activeMap = {
-    'pf-all':  'background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.6);',
-    'pf-coa':  'background:rgba(0,245,255,0.15);border-color:var(--neon-cyan);box-shadow:0 0 8px rgba(0,245,255,0.25);',
-    'pf-endo': 'background:rgba(0,255,100,0.12);border-color:#00ff64;box-shadow:0 0 8px rgba(0,255,100,0.2);',
-    'pf-hm':   'background:rgba(255,230,0,0.12);border-color:#ffe600;box-shadow:0 0 8px rgba(255,230,0,0.2);',
-    'pf-any':  'background:rgba(255,45,120,0.12);border-color:var(--neon-pink);box-shadow:0 0 8px rgba(255,45,120,0.2);',
-    'pf-none': 'background:rgba(255,107,0,0.12);border-color:var(--neon-orange);box-shadow:0 0 8px rgba(255,107,0,0.2);'
-  };
+
+  // Button styling
   var filterToId = { all:'pf-all', coa:'pf-coa', endo:'pf-endo', hm:'pf-hm', any:'pf-any', none:'pf-none' };
-  ids.forEach(function(id) {
+  Object.values(filterToId).forEach(function(id) {
     var el = document.getElementById(id);
-    if (!el) return;
-    el.style.boxShadow = 'none';
-    el.style.background = 'transparent';
-    el.style.borderColor = '';
+    if (el) { el.style.background = 'transparent'; el.style.boxShadow = 'none'; el.style.opacity = '0.65'; }
   });
+  var activeStyles = {
+    all:  { bg:'rgba(255,255,255,0.18)', sh:'none' },
+    coa:  { bg:'rgba(0,245,255,0.18)',   sh:'0 0 10px rgba(0,245,255,0.35)' },
+    endo: { bg:'rgba(0,255,100,0.15)',   sh:'0 0 10px rgba(0,255,100,0.3)' },
+    hm:   { bg:'rgba(255,230,0,0.15)',   sh:'0 0 10px rgba(255,230,0,0.3)' },
+    any:  { bg:'rgba(255,45,120,0.15)',  sh:'0 0 10px rgba(255,45,120,0.3)' },
+    none: { bg:'rgba(255,107,0,0.15)',   sh:'0 0 10px rgba(255,107,0,0.3)' }
+  };
   var activeEl = document.getElementById(filterToId[f]);
-  if (activeEl) activeEl.style.cssText += activeMap[filterToId[f]];
-  filterPeptideCards(document.getElementById('peptide-search-input') ? document.getElementById('peptide-search-input').value : '');
+  if (activeEl) {
+    activeEl.style.background = activeStyles[f].bg;
+    activeEl.style.boxShadow  = activeStyles[f].sh;
+    activeEl.style.opacity    = '1';
+  }
+
+  sortAndFilterPeptides(document.getElementById('peptide-search-input') ? document.getElementById('peptide-search-input').value : '');
+}
+
+function matchesPeptideFilter(card, f) {
+  var hasCoa  = card.dataset.coa  === '1';
+  var hasEndo = card.dataset.endo === '1';
+  var hasHm   = card.dataset.hm   === '1';
+  if (f === 'coa')  return hasCoa;
+  if (f === 'endo') return hasEndo;
+  if (f === 'hm')   return hasHm;
+  if (f === 'any')  return hasCoa || hasEndo || hasHm;
+  if (f === 'none') return !hasCoa && !hasEndo && !hasHm;
+  return true; // 'all'
+}
+
+function sortAndFilterPeptides(query) {
+  var grid = document.getElementById('vendor-peptide-grid');
+  if (!grid) return;
+  var cards = Array.from(grid.querySelectorAll('.peptide-card'));
+  var q = (query||'').toLowerCase().trim();
+  var f = activePeptideFilter;
+
+  // Apply search visibility
+  cards.forEach(function(card) {
+    var name = card.querySelector('.peptide-name') ? card.querySelector('.peptide-name').textContent.toLowerCase() : '';
+    var searchMatch = q === '' || name.includes(q);
+    card.style.display = searchMatch ? '' : 'none';
+  });
+
+  // Sort: matching filter goes to top, non-matching to bottom
+  // Remove all from DOM, re-insert in sorted order
+  var matching    = cards.filter(function(c) { return c.style.display !== 'none' && matchesPeptideFilter(c, f); });
+  var nonMatching = cards.filter(function(c) { return c.style.display !== 'none' && !matchesPeptideFilter(c, f); });
+  var hidden      = cards.filter(function(c) { return c.style.display === 'none'; });
+
+  // Style: matching = normal, non-matching = dimmed
+  matching.forEach(function(c) {
+    c.style.opacity = '1';
+    c.style.border  = '';
+  });
+  nonMatching.forEach(function(c) {
+    c.style.opacity = f === 'all' ? '1' : '0.35';
+  });
+
+  // Re-append in order: matching → non-matching → hidden
+  matching.concat(nonMatching).concat(hidden).forEach(function(c) {
+    grid.appendChild(c);
+  });
+
+  // Count
+  var countEl = document.getElementById('search-result-count');
+  if (countEl) {
+    var shown = matching.length + nonMatching.length;
+    if (f !== 'all') {
+      countEl.textContent = matching.length + ' with result · ' + nonMatching.length + ' pending';
+    } else if (q !== '') {
+      countEl.textContent = shown + ' peptide' + (shown !== 1 ? 's' : '') + ' found';
+    } else {
+      countEl.textContent = '';
+    }
+  }
 }
 
 function filterPeptideCards(query) {
-  const cards = document.querySelectorAll('#vendor-peptide-grid .peptide-card');
-  const q = (query||'').toLowerCase().trim();
-  const f = activePeptideFilter;
-  let visible = 0;
-  cards.forEach(card => {
-    const name = card.querySelector('.peptide-name').textContent.toLowerCase();
-    const matchSearch = q === '' || name.includes(q);
-    var matchFilter = true;
-    if (f === 'coa')  matchFilter = card.dataset.coa  === '1';
-    if (f === 'endo') matchFilter = card.dataset.endo === '1';
-    if (f === 'hm')   matchFilter = card.dataset.hm   === '1';
-    if (f === 'any')  matchFilter = card.dataset.coa === '1' || card.dataset.endo === '1' || card.dataset.hm === '1';
-    if (f === 'none') matchFilter = card.dataset.coa !== '1' && card.dataset.endo !== '1' && card.dataset.hm !== '1';
-    const show = matchSearch && matchFilter;
-    card.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  const countEl = document.getElementById('search-result-count');
-  if (countEl) {
-    if (q === '' && f === 'all') {
-      countEl.textContent = '';
-    } else {
-      countEl.textContent = visible === 0 ? 'No peptides found' : visible + ' peptide' + (visible !== 1 ? 's' : '') + ' shown';
-    }
-  }
+  sortAndFilterPeptides(query);
 }
 
 // ── ADMIN GATE ────────────────────────────────────────────────────────────────
