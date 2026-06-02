@@ -932,52 +932,85 @@
   .status-pending { border-color: rgba(255,107,0,0.5); color: var(--neon-orange); background:#0d0a04; }
   .status-verified { border-color: rgba(0,255,100,0.5); color: #00ff64; background:#040d08; }
 
+  /* ── Peptide Test Rows — clean columnar layout ───────── */
   .peptide-tests {
-    padding: 0.75rem 1rem;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0;
   }
 
   .test-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.1rem;
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: start;
+    gap: 0.5rem 0.75rem;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    min-height: 36px;
   }
+  .test-row:last-child { border-bottom: none; }
 
   .test-name {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--text-primary);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  /* Report chips container — wraps cleanly */
+  .test-reports {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
   }
 
   .test-badge {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: 1.1rem;
-    padding: 0.2rem 0.65rem;
+    font-size: 0.82rem;
+    padding: 0.2rem 0.6rem;
     border: 1px solid;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   .test-upload {
     border-color: rgba(0,245,255,0.3);
     color: var(--neon-cyan);
-    background:#0a0a1e;
+    background: rgba(0,245,255,0.04);
     cursor: pointer;
     transition: all 0.15s;
+    font-size: 0.8rem;
   }
+  .test-upload:hover { background:rgba(0,245,255,0.1); border-color: var(--neon-cyan); }
 
-  .test-upload:hover {
-    background:#0a0d22;
-    border-color: var(--neon-cyan);
+  /* Add-more (+) button */
+  .test-add {
+    border-color: rgba(0,245,255,0.2);
+    color: rgba(0,245,255,0.5);
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.45rem;
+    transition: all 0.15s;
   }
+  .test-add:hover { border-color:var(--neon-cyan); color:var(--neon-cyan); }
 
-  .test-done { border-color: rgba(0,255,100,0.3); color: #00ff64; background:#040d08; }
-  .test-none { border-color: rgba(160,140,192,0.2); color: var(--text-secondary); background: transparent; }
+  .test-done {
+    border-color: rgba(0,255,100,0.35);
+    color: #00ff64;
+    background: rgba(0,255,100,0.05);
+  }
+  .test-done:hover { background: rgba(0,255,100,0.1); }
+  .test-none { border-color: rgba(160,140,192,0.15); color: rgba(255,255,255,0.2); background: transparent; }
 
   /* === UPLOAD MODAL === */
   .modal-overlay {
@@ -4233,17 +4266,20 @@ function renderVendorDetail(v) {
       const typeKey = type === 'COA' ? 'coa' : type === 'Endotoxin' ? 'endotoxin' : type === 'Heavy Metals' ? 'heavy-metals' : type === 'Independent COA' ? 'independent-coa' : type === 'Independent Endotoxin' ? 'independent-endotoxin' : 'independent-heavy-metals';
       const key = v.id+'||'+p+'||'+typeKey;
       const reports = reportStore[key];
-      if(reports && reports.length > 0) {
-        const btns = reports.map((r,i) => {
+      if (reports && reports.length > 0) {
+        // Each report as its own numbered chip on a new line
+        const chips = reports.map((r, idx) => {
           const ms = r.metadataSource;
-          const mBadge = ms === 'ai_assisted' ? '<span class="meta-source-badge meta-ai">AI</span>'
-                       : ms === 'ai_edited'   ? '<span class="meta-source-badge meta-ai-edited">AI✎</span>'
-                       : '';
-          return `<span class="test-badge test-done" style="cursor:pointer;" onclick="viewReport('${v.id}','${p}','${typeKey}',${i})">👁 View${reports.length>1?' #'+(i+1):''}${mBadge}</span>`;
+          const aiTag = ms === 'ai_assisted' ? ' <span class="meta-source-badge meta-ai" style="font-size:0.65rem;padding:0.05rem 0.3rem;">AI</span>'
+                      : ms === 'ai_edited'   ? ' <span class="meta-source-badge meta-ai-edited" style="font-size:0.65rem;padding:0.05rem 0.3rem;">AI✎</span>'
+                      : '';
+          const label = reports.length === 1 ? '👁 View' : `👁 Report ${idx+1}`;
+          return `<span class="test-badge test-done" style="cursor:pointer;" onclick="viewReport('${v.id}','${p}','${typeKey}',${idx})">${label}${aiTag}</span>`;
         }).join('');
-        return btns + `<span class="test-badge test-upload" style="font-size:0.55rem;padding:0.1rem 0.4rem;" onclick="openModal('${v.name}','${p}','${type}',event)">+</span>`;
+        const addBtn = `<span class="test-badge test-add" onclick="openModal('${v.name}','${p}','${type}',event)" title="Add another result">＋</span>`;
+        return `<div class="test-reports">${chips}${addBtn}</div>`;
       }
-      return `<span class="test-badge test-upload" onclick="openModal('${v.name}','${p}','${type}',event)">⬆ Upload</span>`;
+      return `<div class="test-reports"><span class="test-badge test-upload" onclick="openModal('${v.name}','${p}','${type}',event)">⬆ Upload</span></div>`;
     }
 
     var hasCoa = coa && coa.length > 0;
@@ -4255,7 +4291,10 @@ function renderVendorDetail(v) {
         <div class="peptide-name">${p}</div>
         <span class="peptide-status ${allDone ? 'status-verified' : 'status-pending'}">${allDone ? '✓ Full' : ''}</span>
       </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size: 1rem;color:var(--neon-cyan);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;padding:0.3rem 0.5rem;background:#0a0a1e;border-left:3px solid var(--neon-cyan);">Vendor Tests</div>
+      <!-- Vendor Tests Section -->
+      <div style="padding:0.35rem 1rem 0.2rem;background:rgba(0,245,255,0.05);border-top:1px solid rgba(0,245,255,0.15);border-bottom:1px solid rgba(0,245,255,0.08);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.2em;color:var(--neon-cyan);text-transform:uppercase;">Vendor Tests</span>
+      </div>
       <div class="peptide-tests">
         <div class="test-row">
           <span class="test-name">COA</span>
@@ -4270,7 +4309,10 @@ function renderVendorDetail(v) {
           ${testBadge(hm, 'Heavy Metals')}
         </div>
       </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size: 1rem;color:var(--neon-pink);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.75rem;margin-bottom:0.4rem;padding:0.3rem 0.5rem;background:#0d0a18;border-left:3px solid var(--neon-pink);">Independent Testing</div>
+      <!-- Independent Testing Section -->
+      <div style="padding:0.35rem 1rem 0.2rem;background:rgba(255,45,120,0.05);border-top:1px solid rgba(255,45,120,0.15);border-bottom:1px solid rgba(255,45,120,0.08);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.2em;color:var(--neon-pink);text-transform:uppercase;">Independent Testing</span>
+      </div>
       <div class="peptide-tests">
         <div class="test-row">
           <span class="test-name">Indep. COA</span>
