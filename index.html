@@ -6300,6 +6300,8 @@ function closeAdminUpload() {
   document.getElementById('au-fill-count').textContent = '';
 }
 
+let batchTab = 'vendor';
+
 function renderBatchRows() {
   const vendorId = document.getElementById('au-vendor').value;
   const container = document.getElementById('au-batch-rows');
@@ -6307,58 +6309,58 @@ function renderBatchRows() {
     container.innerHTML = '<div style="text-align:center;padding:3rem;font-family:\'Rajdhani\',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides</div>';
     return;
   }
+  renderBatchTab();
+}
 
-  const VENDOR_TYPES = [
+function renderBatchTab() {
+  const container = document.getElementById('au-batch-rows');
+  const isVendor = batchTab === 'vendor';
+
+  const TYPES = isVendor ? [
     { key: 'coa',          label: 'COA',          color: 'var(--neon-cyan)' },
     { key: 'endotoxin',    label: 'Endotoxin',    color: '#ffe600' },
     { key: 'heavy-metals', label: 'Heavy Metals', color: 'var(--neon-pink)' },
-  ];
-  const INDEP_TYPES = [
-    { key: 'independent-coa',          label: 'Indep. COA',    color: 'var(--neon-cyan)' },
-    { key: 'independent-endotoxin',    label: 'Indep. Endo',   color: '#ffe600' },
-    { key: 'independent-heavy-metals', label: 'Indep. HM',     color: 'var(--neon-pink)' },
+  ] : [
+    { key: 'independent-coa',          label: 'Indep. COA',  color: 'var(--neon-cyan)' },
+    { key: 'independent-endotoxin',    label: 'Indep. Endo', color: '#ffe600' },
+    { key: 'independent-heavy-metals', label: 'Indep. HM',   color: 'var(--neon-pink)' },
   ];
 
-  // Vendor header
+  const tabColor    = isVendor ? 'var(--neon-cyan)' : 'var(--neon-pink)';
+  const tabBorderV  = isVendor ? '2px solid var(--neon-cyan)' : '1px solid rgba(0,245,255,0.2)';
+  const tabBorderI  = isVendor ? '1px solid rgba(255,45,120,0.2)' : '2px solid var(--neon-pink)';
+  const rowBg1      = isVendor ? '#0a0820' : '#0e0614';
+  const rowBg2      = isVendor ? '#0d0a28' : '#120818';
+  const inputBg     = isVendor ? '#060412' : '#07030f';
+  const inputBorder = isVendor ? 'rgba(255,255,255,0.08)' : 'rgba(255,45,120,0.12)';
+
   let html = `
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-cyan);padding:0.5rem 0.25rem 0.3rem;border-bottom:1px solid rgba(0,245,255,0.2);margin-bottom:0.3rem;">Vendor Testing</div>
-  <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
+  <!-- Tabs -->
+  <div style="display:flex;gap:0;margin-bottom:0.75rem;">
+    <button onclick="batchTab='vendor';renderBatchTab()"
+      style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.6rem 1.5rem;cursor:pointer;background:${isVendor?'#060e18':'#0a0a1e'};border:${tabBorderV};color:${isVendor?'var(--neon-cyan)':'rgba(255,255,255,0.35)'};transition:all 0.15s;">
+      Vendor Testing
+    </button>
+    <button onclick="batchTab='indep';renderBatchTab()"
+      style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.6rem 1.5rem;cursor:pointer;background:${!isVendor?'#0e0614':'#0a0a1e'};border:${tabBorderI};color:${!isVendor?'var(--neon-pink)':'rgba(255,255,255,0.35)'};transition:all 0.15s;">
+      Independent Testing
+    </button>
+  </div>
+
+  <!-- Column headers -->
+  <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.35rem;padding:0 0.25rem;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.3);">PEPTIDE</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);text-align:center;">COA</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600;text-align:center;">ENDOTOXIN</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-pink);text-align:center;">HEAVY METALS</div>
+    ${TYPES.map(t => `<div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:${t.color};text-align:center;">${t.label.toUpperCase()}</div>`).join('')}
   </div>`;
 
   PEPTIDES.forEach(function(p, i) {
-    const bg = i % 2 === 0 ? '#0a0820' : '#0d0a28';
+    const bg = i % 2 === 0 ? rowBg1 : rowBg2;
     html += `<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.25rem;background:${bg};padding:0.35rem 0.25rem;align-items:center;">
       <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${p}">${p}</div>
-      ${VENDOR_TYPES.map(function(t) {
+      ${TYPES.map(function(t) {
         return `<input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Drive link…" oninput="updateBatchCount()"
-          style="width:100%;background:#060412;border:1px solid rgba(255,255,255,0.08);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
-          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'" />`;
-      }).join('')}
-    </div>`;
-  });
-
-  // Independent Testing header
-  html += `
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-pink);padding:0.75rem 0.25rem 0.3rem;border-bottom:1px solid rgba(255,45,120,0.2);margin-bottom:0.3rem;margin-top:0.5rem;">Independent Testing</div>
-  <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.3);">PEPTIDE</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);text-align:center;">INDEP. COA</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600;text-align:center;">INDEP. ENDO</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-pink);text-align:center;">INDEP. HM</div>
-  </div>`;
-
-  PEPTIDES.forEach(function(p, i) {
-    const bg = i % 2 === 0 ? '#0e0614' : '#120818';
-    html += `<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.25rem;background:${bg};padding:0.35rem 0.25rem;align-items:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${p}">${p}</div>
-      ${INDEP_TYPES.map(function(t) {
-        return `<input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Drive link…" oninput="updateBatchCount()"
-          style="width:100%;background:#07030f;border:1px solid rgba(255,45,120,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
-          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='rgba(255,45,120,0.1)'" />`;
+          style="width:100%;background:${inputBg};border:1px solid ${inputBorder};color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
+          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='${inputBorder}'" />`;
       }).join('')}
     </div>`;
   });
