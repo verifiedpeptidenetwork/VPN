@@ -4445,81 +4445,58 @@ document.addEventListener('keydown', function(e){
   </div>
 </div>
 
-<!-- ADMIN QUICK UPLOAD PANEL -->
-<div id="admin-upload-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,2,15,0.95);z-index:10000;align-items:center;justify-content:center;overflow-y:auto;padding:2rem 1rem;">
-  <div style="background:#0e0625;border:2px solid var(--neon-cyan);box-shadow:0 0 40px rgba(0,245,255,0.2);width:min(560px,96vw);padding:2rem;position:relative;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.15em;color:var(--neon-cyan);">Admin — Upload COA</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.4);">Google Drive link → live on site instantly</div>
-      </div>
-      <button onclick="closeAdminUpload()" style="background:none;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;line-height:1;">✕</button>
-    </div>
+<!-- ADMIN BATCH UPLOAD PANEL -->
+<div id="admin-upload-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,2,15,0.97);z-index:10000;flex-direction:column;align-items:center;overflow-y:auto;padding:1.5rem 1rem;">
 
-    <!-- Vendor -->
-    <div style="margin-bottom:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Vendor</label>
-      <select id="au-vendor" style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;">
+  <!-- Header -->
+  <div style="width:min(900px,98vw);display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-shrink:0;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.15em;color:var(--neon-cyan);">⬆ Batch COA Upload</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.4);">Select vendor → paste Drive links next to each peptide → Submit All</div>
+    </div>
+    <button onclick="closeAdminUpload()" style="background:none;border:none;color:var(--text-secondary);font-size:2rem;cursor:pointer;line-height:1;flex-shrink:0;">✕</button>
+  </div>
+
+  <!-- Vendor + Global fields -->
+  <div style="width:min(900px,98vw);background:#0e0625;border:2px solid var(--neon-cyan);padding:1.25rem;margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;flex-shrink:0;">
+    <div>
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-cyan);display:block;margin-bottom:0.35rem;">Vendor</label>
+      <select id="au-vendor" onchange="renderBatchRows()" style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;">
         <option value="">— Select Vendor —</option>
       </select>
     </div>
-
-    <!-- Peptide -->
-    <div style="margin-bottom:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Peptide</label>
-      <select id="au-peptide" style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;">
-        <option value="">— Select Peptide —</option>
-      </select>
+    <div>
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.35rem;">Lab Name <span style="font-size:0.7em;opacity:0.5;">(optional)</span></label>
+      <input id="au-lab" type="text" placeholder="e.g. Janoshik" style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;" />
     </div>
-
-    <!-- Test Type -->
-    <div style="margin-bottom:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Test Type</label>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.4rem;">
-        <div class="au-type-btn active-au-type" data-type="coa" onclick="selectAuType(this,'coa')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#060e18;color:var(--neon-cyan);">COA</div>
-        <div class="au-type-btn" data-type="endotoxin" onclick="selectAuType(this,'endotoxin')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#0a0a1e;color:#fff;">Endotoxin</div>
-        <div class="au-type-btn" data-type="heavy-metals" onclick="selectAuType(this,'heavy-metals')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#0a0a1e;color:#fff;">Heavy Metals</div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;">
-        <div class="au-type-btn" data-type="independent-coa" onclick="selectAuType(this,'independent-coa')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. COA</div>
-        <div class="au-type-btn" data-type="independent-endotoxin" onclick="selectAuType(this,'independent-endotoxin')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. Endo</div>
-        <div class="au-type-btn" data-type="independent-heavy-metals" onclick="selectAuType(this,'independent-heavy-metals')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. HM</div>
-      </div>
+    <div>
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.35rem;">Batch / Lot # <span style="font-size:0.7em;opacity:0.5;">(optional)</span></label>
+      <input id="au-batch" type="text" placeholder="e.g. RT10-0502" style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;" />
     </div>
+  </div>
 
-    <!-- Google Drive Link -->
-    <div style="margin-bottom:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Google Drive Link</label>
-      <input id="au-drive-link" type="url" placeholder="https://drive.google.com/file/d/..."
-        style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;"
-        oninput="validateAuLink(this)" />
-      <div id="au-link-status" style="height:1.2em;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;margin-top:0.3rem;"></div>
-    </div>
+  <!-- Column headers -->
+  <div id="au-col-headers" style="display:none;width:min(900px,98vw);display:none;grid-template-columns:200px 1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.35rem;flex-shrink:0;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:rgba(255,255,255,0.4);padding-left:0.5rem;">PEPTIDE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:var(--neon-cyan);text-align:center;">COA</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#ffe600;text-align:center;">ENDOTOXIN</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:var(--neon-pink);text-align:center;">HEAVY METALS</div>
+  </div>
 
-    <!-- Batch & Lab -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
-      <div>
-        <label style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.3rem;">Batch / Lot # <span style="opacity:0.5;font-size:0.75em;">(optional)</span></label>
-        <input id="au-batch" type="text" placeholder="e.g. RT10-0502"
-          style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.8rem;box-sizing:border-box;outline:none;" />
-      </div>
-      <div>
-        <label style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.3rem;">Lab Name <span style="opacity:0.5;font-size:0.75em;">(optional)</span></label>
-        <input id="au-lab" type="text" placeholder="e.g. Janoshik"
-          style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.8rem;box-sizing:border-box;outline:none;" />
-      </div>
-    </div>
+  <!-- Peptide rows -->
+  <div id="au-batch-rows" style="width:min(900px,98vw);flex:1;margin-bottom:1rem;">
+    <div style="text-align:center;padding:3rem;font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides</div>
+  </div>
 
-    <div id="au-error" style="display:none;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:var(--neon-pink);margin-bottom:1rem;padding:0.5rem 0.75rem;border:1px solid rgba(255,45,120,0.3);background:#0d0408;"></div>
-
-    <div style="display:flex;gap:0.75rem;">
-      <button onclick="closeAdminUpload()" style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;padding:0.85rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);cursor:pointer;">Cancel</button>
-      <button onclick="submitAdminUpload()" style="flex:2;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;padding:0.85rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);box-shadow:0 0 18px rgba(0,245,255,0.2);cursor:pointer;text-transform:uppercase;transition:all 0.2s;"
-        onmouseover="this.style.boxShadow='0 0 30px rgba(0,245,255,0.5)'"
-        onmouseout="this.style.boxShadow='0 0 18px rgba(0,245,255,0.2)'">
-        Submit COA ↗
-      </button>
-    </div>
+  <!-- Footer -->
+  <div style="width:min(900px,98vw);display:flex;align-items:center;gap:1rem;flex-shrink:0;padding-bottom:1rem;">
+    <div id="au-fill-count" style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.4);flex:1;"></div>
+    <button onclick="closeAdminUpload()" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:0.8rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);cursor:pointer;">Cancel</button>
+    <button onclick="submitBatchUpload()" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;padding:0.8rem 2.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);box-shadow:0 0 18px rgba(0,245,255,0.2);cursor:pointer;transition:all 0.2s;"
+      onmouseover="this.style.boxShadow='0 0 30px rgba(0,245,255,0.5)'"
+      onmouseout="this.style.boxShadow='0 0 18px rgba(0,245,255,0.2)'">
+      Submit All ↗
+    </button>
   </div>
 </div>
 
@@ -4772,19 +4749,13 @@ function renderVendorDetail(v) {
       const key = v.id+'||'+p+'||'+typeKey;
       const reports = reportStore[key];
       if (reports && reports.length > 0) {
-        // Each report as its own numbered chip on a new line
         const chips = reports.map((r, idx) => {
-          const ms = r.metadataSource;
-          const aiTag = ms === 'ai_assisted' ? ' <span class="meta-source-badge meta-ai" style="font-size:0.65rem;padding:0.05rem 0.3rem;">AI</span>'
-                      : ms === 'ai_edited'   ? ' <span class="meta-source-badge meta-ai-edited" style="font-size:0.65rem;padding:0.05rem 0.3rem;">AI✎</span>'
-                      : '';
           const label = reports.length === 1 ? '👁 View' : `👁 Report ${idx+1}`;
-          return `<span class="test-badge test-done" style="cursor:pointer;" onclick="viewReport('${v.id}','${p}','${typeKey}',${idx})">${label}${aiTag}</span>`;
+          return `<span class="test-badge test-done" style="cursor:pointer;" onclick="viewReport('${v.id}','${p}','${typeKey}',${idx})">${label}</span>`;
         }).join('');
-        const addBtn = `<span class="test-badge test-add" onclick="openModal('${v.name}','${p}','${type}',event)" title="Add another result">＋</span>`;
-        return `<div class="test-reports">${chips}${addBtn}</div>`;
+        return `<div class="test-reports">${chips}</div>`;
       }
-      return `<div class="test-reports"><span class="test-badge test-upload" onclick="openModal('${v.name}','${p}','${type}',event)">⬆ Upload</span></div>`;
+      return `<div class="test-reports"><span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">—</span></div>`;
     }
 
     var hasCoa = coa && coa.length > 0;
@@ -5056,51 +5027,45 @@ function openModal(vendor, peptide, testType, e) {
 }
 
 function _doOpenModal(vendor, peptide, testType) {
-  selectedFile = null;
-  selectedFileDataUrl = null;
   currentUploadVendor = currentVendor ? currentVendor.id : vendor;
   currentUploadPeptide = peptide;
-  // Reset drop zone
-  const dz = document.getElementById('drop-zone');
-  if(dz) {
-    document.getElementById('drop-icon').textContent = '⬆';
-    document.getElementById('drop-icon').style.color = 'var(--neon-cyan)';
-    document.getElementById('drop-main').textContent = 'Drop your file here or click to browse';
-    document.getElementById('drop-main').style.color = '';
-    document.getElementById('file-chosen').style.display = 'none';
-    document.getElementById('file-input').value = '';
-  }
+
+  // Reset Drive link input
+  const dl = document.getElementById('drive-link-input');
+  if (dl) { dl.value = ''; dl.style.borderColor = 'rgba(0,245,255,0.3)'; }
+  const dls = document.getElementById('drive-link-status');
+  if (dls) dls.textContent = '';
+
+  // Reset batch/lab/notes
+  ['modal-batch','modal-lab','modal-notes'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
   document.getElementById('modal-peptide-title').textContent = peptide;
   document.getElementById('modal-context').textContent = vendor + ' — Select test type below';
+
   const typeMap = {'COA':'coa','Endotoxin':'endotoxin','Heavy Metals':'heavy-metals','Independent COA':'independent-coa','Independent Endotoxin':'independent-endotoxin','Independent Heavy Metals':'independent-heavy-metals'};
   const t = typeMap[testType] || 'coa';
   selectedType = t;
   document.querySelectorAll('.type-btn').forEach(b => {
     b.classList.toggle('active-type', b.dataset.type === t);
   });
+
   selectedCapColor = '';
   document.querySelectorAll('.cap-sw').forEach(function(b) {
     b.style.boxShadow = '';
     b.style.transform = '';
   });
-  // Reset AI extraction state
-  aiExtractionResult = null;
-  aiFieldsApplied = {};
-  aiExtractionAttempted = false;
+
   const aip = document.getElementById('ai-extraction-panel');
   if (aip) { aip.style.display = 'none'; aip.innerHTML = ''; }
+
   document.getElementById('upload-modal').classList.add('open');
 }
 
 function closeModal() {
   document.getElementById('upload-modal').classList.remove('open');
-  // Restore original form HTML so the upload works every time without a page refresh
-  if (_uploadModalOrigHTML) {
-    setTimeout(function() {
-      var m = document.querySelector('#upload-modal .modal');
-      if (m) m.innerHTML = _uploadModalOrigHTML;
-    }, 320);
-  }
 }
 
 let selectedType = 'coa';
@@ -6298,22 +6263,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== ADMIN QUICK UPLOAD PANEL =====
 let auSelectedType = 'coa';
 
+// ===== ADMIN BATCH UPLOAD =====
+
 function initAdminUploadPanel() {
-  // Populate vendor dropdown
   const vSel = document.getElementById('au-vendor');
   VENDORS.forEach(function(v) {
     const opt = document.createElement('option');
     opt.value = v.id;
     opt.textContent = v.flag + ' ' + v.name;
     vSel.appendChild(opt);
-  });
-  // Populate peptide dropdown
-  const pSel = document.getElementById('au-peptide');
-  PEPTIDES.forEach(function(p) {
-    const opt = document.createElement('option');
-    opt.value = p;
-    opt.textContent = p;
-    pSel.appendChild(opt);
   });
 }
 
@@ -6325,126 +6283,168 @@ function openAdminUpload() {
 
 function closeAdminUpload() {
   document.getElementById('admin-upload-overlay').style.display = 'none';
-  // Reset form
   document.getElementById('au-vendor').value = '';
-  document.getElementById('au-peptide').value = '';
-  document.getElementById('au-drive-link').value = '';
   document.getElementById('au-batch').value = '';
   document.getElementById('au-lab').value = '';
-  document.getElementById('au-link-status').textContent = '';
-  document.getElementById('au-error').style.display = 'none';
-  auSelectedType = 'coa';
-  document.querySelectorAll('.au-type-btn').forEach(function(b) {
-    b.style.background = '#0a0a1e';
-    b.classList.remove('active-au-type');
-  });
-  const first = document.querySelector('.au-type-btn[data-type="coa"]');
-  if (first) { first.style.background = '#060e18'; first.classList.add('active-au-type'); }
+  document.getElementById('au-batch-rows').innerHTML =
+    '<div style="text-align:center;padding:3rem;font-family:\'Rajdhani\',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides</div>';
+  document.getElementById('au-fill-count').textContent = '';
 }
 
-function selectAuType(el, type) {
-  auSelectedType = type;
-  document.querySelectorAll('.au-type-btn').forEach(function(b) {
-    b.style.background = '#0a0a1e';
-    b.classList.remove('active-au-type');
-  });
-  el.style.background = '#060e18';
-  el.classList.add('active-au-type');
-}
-
-function validateAuLink(input) {
-  const val = input.value.trim();
-  const status = document.getElementById('au-link-status');
-  if (!val) { status.textContent = ''; return; }
-  if (val.includes('drive.google.com') || val.includes('docs.google.com')) {
-    status.style.color = '#00ff64';
-    status.textContent = '✓ Valid Google Drive link';
-  } else {
-    status.style.color = 'var(--neon-pink)';
-    status.textContent = '✗ Must be a Google Drive link';
-  }
-}
-
-function showAuError(msg) {
-  const el = document.getElementById('au-error');
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(function() { el.style.display = 'none'; }, 3000);
-}
-
-function submitAdminUpload() {
-  const vendorId  = document.getElementById('au-vendor').value;
-  const peptide   = document.getElementById('au-peptide').value;
-  const rawLink   = document.getElementById('au-drive-link').value.trim();
-  const batch     = document.getElementById('au-batch').value.trim();
-  const lab       = document.getElementById('au-lab').value.trim();
-
-  if (!vendorId)  { showAuError('Please select a vendor.'); return; }
-  if (!peptide)   { showAuError('Please select a peptide.'); return; }
-  if (!rawLink || (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com'))) {
-    showAuError('Please paste a valid Google Drive link.'); return;
+function renderBatchRows() {
+  const vendorId = document.getElementById('au-vendor').value;
+  const container = document.getElementById('au-batch-rows');
+  if (!vendorId) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;font-family:\'Rajdhani\',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides</div>';
+    return;
   }
 
-  const driveUrl = normalizeDriveLink(rawLink);
-  const key = storeKey(vendorId, peptide, auSelectedType);
-  const newReport = {
-    name:      'Google Drive — ' + (lab || auSelectedType),
-    lab:       lab   || 'Unknown Lab',
-    batch:     batch || '—',
-    notes:     '',
-    capColor:  '',
-    driveUrl:  driveUrl,
-    rawDriveLink: rawLink,
-    type:      auSelectedType,
-    date:      new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
-    isPdf:     true,
-    metadataSource: 'manual'
-  };
+  const VENDOR_TYPES = [
+    { key: 'coa',          label: 'COA',          color: 'var(--neon-cyan)' },
+    { key: 'endotoxin',    label: 'Endotoxin',    color: '#ffe600' },
+    { key: 'heavy-metals', label: 'Heavy Metals', color: 'var(--neon-pink)' },
+  ];
+  const INDEP_TYPES = [
+    { key: 'independent-coa',          label: 'Indep. COA',    color: 'var(--neon-cyan)' },
+    { key: 'independent-endotoxin',    label: 'Indep. Endo',   color: '#ffe600' },
+    { key: 'independent-heavy-metals', label: 'Indep. HM',     color: 'var(--neon-pink)' },
+  ];
 
-  storeLocally(key, newReport);
-  saveReportToDB(vendorId, peptide, auSelectedType, newReport);
+  // Vendor header
+  let html = `
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-cyan);padding:0.5rem 0.25rem 0.3rem;border-bottom:1px solid rgba(0,245,255,0.2);margin-bottom:0.3rem;">Vendor Testing</div>
+  <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.3);">PEPTIDE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);text-align:center;">COA</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600;text-align:center;">ENDOTOXIN</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-pink);text-align:center;">HEAVY METALS</div>
+  </div>`;
 
-  // Re-render if currently viewing this vendor
+  PEPTIDES.forEach(function(p, i) {
+    const bg = i % 2 === 0 ? '#0a0820' : '#0d0a28';
+    html += `<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.25rem;background:${bg};padding:0.35rem 0.25rem;align-items:center;">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${p}">${p}</div>
+      ${VENDOR_TYPES.map(function(t) {
+        return `<input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Drive link…" oninput="updateBatchCount()"
+          style="width:100%;background:#060412;border:1px solid rgba(255,255,255,0.08);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
+          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'" />`;
+      }).join('')}
+    </div>`;
+  });
+
+  // Independent Testing header
+  html += `
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-pink);padding:0.75rem 0.25rem 0.3rem;border-bottom:1px solid rgba(255,45,120,0.2);margin-bottom:0.3rem;margin-top:0.5rem;">Independent Testing</div>
+  <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.3);">PEPTIDE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);text-align:center;">INDEP. COA</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600;text-align:center;">INDEP. ENDO</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-pink);text-align:center;">INDEP. HM</div>
+  </div>`;
+
+  PEPTIDES.forEach(function(p, i) {
+    const bg = i % 2 === 0 ? '#0e0614' : '#120818';
+    html += `<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.25rem;background:${bg};padding:0.35rem 0.25rem;align-items:center;">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${p}">${p}</div>
+      ${INDEP_TYPES.map(function(t) {
+        return `<input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Drive link…" oninput="updateBatchCount()"
+          style="width:100%;background:#07030f;border:1px solid rgba(255,45,120,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
+          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='rgba(255,45,120,0.1)'" />`;
+      }).join('')}
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  updateBatchCount();
+}
+
+function updateBatchCount() {
+  const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
+  let filled = 0;
+  inputs.forEach(function(inp) { if (inp.value.trim()) filled++; });
+  const el = document.getElementById('au-fill-count');
+  if (el) el.textContent = filled > 0 ? filled + ' COA' + (filled > 1 ? 's' : '') + ' ready to submit' : '';
+}
+
+function submitBatchUpload() {
+  const vendorId = document.getElementById('au-vendor').value;
+  if (!vendorId) { alert('Please select a vendor first.'); return; }
+
+  const lab   = document.getElementById('au-lab').value.trim();
+  const batch = document.getElementById('au-batch').value.trim();
+  const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
+  const date  = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+  let saved = 0;
+  const errors = [];
+
+  inputs.forEach(function(inp) {
+    const rawLink = inp.value.trim();
+    if (!rawLink) return;
+
+    if (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com')) {
+      errors.push(inp.dataset.peptide + ' — not a Drive link');
+      inp.style.borderColor = 'var(--neon-pink)';
+      return;
+    }
+
+    const peptide  = inp.dataset.peptide;
+    const testType = inp.dataset.type;
+    const driveUrl = normalizeDriveLink(rawLink);
+    const key      = storeKey(vendorId, peptide, testType);
+
+    const report = {
+      name: 'Google Drive — ' + (lab || testType),
+      lab:  lab   || 'Unknown Lab',
+      batch: batch || '—',
+      notes: '', capColor: '',
+      driveUrl: driveUrl,
+      rawDriveLink: rawLink,
+      type: testType,
+      date: date,
+      isPdf: true,
+      metadataSource: 'manual'
+    };
+
+    storeLocally(key, report);
+    saveReportToDB(vendorId, peptide, testType, report);
+    saved++;
+  });
+
   if (currentVendor && currentVendor.id === vendorId) renderVendorDetail(currentVendor);
 
-  // Show success inside panel
-  const panel = document.querySelector('#admin-upload-overlay > div');
-  const orig = panel.innerHTML;
-  panel.innerHTML = `
-    <div style="text-align:center;padding:3rem 1rem;">
-      <div style="font-size:3.5rem;color:#00ff64;text-shadow:0 0 20px #00ff64;margin-bottom:1rem;">✓</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#00ff64;letter-spacing:0.1em;margin-bottom:0.5rem;">COA Saved</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-secondary);line-height:2;">
-        Vendor: ${VENDORS.find(v=>v.id===vendorId)?.name || vendorId}<br>
-        Peptide: ${peptide}<br>
-        Type: ${auSelectedType.toUpperCase()}<br>
-        ${batch ? 'Batch: ' + batch + '<br>' : ''}
-        ${lab ? 'Lab: ' + lab + '<br>' : ''}
+  // Success screen
+  const overlay = document.getElementById('admin-upload-overlay');
+  overlay.innerHTML = `
+    <div style="text-align:center;padding:4rem 2rem;max-width:500px;">
+      <div style="font-size:4rem;color:#00ff64;text-shadow:0 0 30px #00ff64;margin-bottom:1rem;">✓</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#00ff64;letter-spacing:0.1em;margin-bottom:0.5rem;">${saved} COA${saved!==1?'s':''} Saved</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-secondary);margin-bottom:${errors.length?'1rem':'0'};">
+        ${VENDORS.find(v=>v.id===vendorId)?.name || vendorId} · ${lab||'Unknown Lab'}
       </div>
-      <div style="display:flex;gap:0.75rem;margin-top:1.5rem;justify-content:center;">
-        <button onclick="document.querySelector('#admin-upload-overlay > div').innerHTML = \`${orig.replace(/`/g,"'")}\`; initAdminUploadPanel();"
-          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:0.75rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;">
-          Upload Another
-        </button>
-        <button onclick="closeAdminUpload()"
-          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:0.75rem 1.5rem;background:#0d0a1e;border:2px solid #00ff64;color:#00ff64;cursor:pointer;">
-          Done
-        </button>
-      </div>
+      ${errors.length ? `<div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:1rem;">${errors.join('<br>')}</div>` : ''}
+      <button onclick="location.reload()"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;padding:0.85rem 2.5rem;background:#0d0a1e;border:2px solid #00ff64;color:#00ff64;cursor:pointer;margin-right:0.75rem;">
+        Done
+      </button>
+      <button onclick="document.getElementById('admin-upload-overlay').style.display='none';initAdminBatchFresh()"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;padding:0.85rem 2.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;">
+        Upload Another Vendor
+      </button>
     </div>
   `;
 }
 
-// Show/hide the floating upload button based on admin session
-(function() {
-  // Show the button after admin unlocks via any prompt
-  const origShowAdmin = window._showAdminPrompt;
-  // Poll for session unlock
-  setInterval(function() {
-    const btn = document.getElementById('admin-upload-btn');
-    if (btn) btn.style.display = sessionStorage.getItem('adminUnlocked') === '1' ? 'block' : 'none';
-  }, 1000);
-})();
+function initAdminBatchFresh() {
+  // Reload the overlay fresh for another vendor
+  openAdminUpload();
+}
+
+// Show floating button once admin unlocks
+setInterval(function() {
+  const btn = document.getElementById('admin-upload-btn');
+  if (btn) btn.style.display = sessionStorage.getItem('adminUnlocked') === '1' ? 'block' : 'none';
+}, 1000);
 </script>
 
 <script>
