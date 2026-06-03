@@ -273,18 +273,21 @@
   .mobile-nav-dropdown {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    top: calc(100% + 4px);
+    right: 1rem;
+    left: auto;
+    width: min(280px, calc(100vw - 2rem));
     z-index: 9998;
     background: rgba(5,2,15,0.99);
-    border-bottom: 2px solid rgba(0,245,255,0.2);
-    padding: 0.5rem 0;
-    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,245,255,0.25);
+    border-top: 2px solid var(--neon-cyan);
+    padding: 0.4rem 0;
+    backdrop-filter: blur(20px);
     flex-direction: column;
     gap: 0;
-    max-height: 85vh;
+    max-height: 80vh;
     overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 20px rgba(0,245,255,0.08);
   }
   .mobile-nav-dropdown.open { display: flex; }
 
