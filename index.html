@@ -2690,12 +2690,23 @@ document.addEventListener('keydown', function(e){
   <!-- HOME: VENDOR LIST -->
   <div class="view active" id="view-home">
 
+    <div class="section-header" style="flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;">
+      <div class="section-title">Trusted Vendors</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:var(--neon-orange);text-shadow:0 0 8px rgba(255,107,0,0.5);letter-spacing:0.08em;text-transform:uppercase;">
+        ↓ Select a vendor to view their COA reports &amp; independent lab testing
+      </div>
+      <div class="section-count" id="vendor-count" style="margin-left:auto;"></div>
+    </div>
+
+    <div class="vendors-grid" id="vendors-grid"></div>
+
     <!-- SITE-WIDE DISCLAIMER -->
-    <div style="border:1px solid rgba(255,107,0,0.45);border-left:4px solid var(--neon-orange);background:#0d0a04;padding:1rem 1.25rem;margin-bottom:0.75rem;display:flex;gap:0.9rem;align-items:flex-start;">
+    <div style="background:#0d0a1e;border:2px solid #ff2020;box-shadow:0 0 18px rgba(255,32,32,0.25);padding:1.1rem 1.5rem;margin-top:2rem;margin-bottom:0.75rem;display:flex;gap:1rem;align-items:flex-start;transition:box-shadow 0.2s;"
+      onmouseover="this.style.boxShadow='0 0 32px rgba(255,32,32,0.5)'" onmouseout="this.style.boxShadow='0 0 18px rgba(255,32,32,0.25)'">
       <span style="font-size:1.4rem;line-height:1;flex-shrink:0;">⚠</span>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff2020;margin-bottom:0.35rem;">Research Purposes Only — Not For Human Consumption</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:var(--text-secondary);line-height:1.6;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#ff2020;text-shadow:0 0 10px rgba(255,32,32,0.5);margin-bottom:0.35rem;text-transform:uppercase;">Research Purposes Only — Not For Human Consumption</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:var(--text-secondary);line-height:1.6;">
           All peptides and compounds referenced on this platform are <strong style="color:var(--text-primary);">research chemicals only</strong>.
           This database does <strong style="color:var(--text-primary);">not</strong> advocate, encourage, or endorse human use of any compound listed.
           Nothing here constitutes medical advice. Many compounds are <strong style="color:var(--text-primary);">not FDA-approved</strong> for human use and have not been evaluated for safety or efficacy in humans.
@@ -2705,10 +2716,11 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <!-- VERIFY YOURSELF DISCLAIMER -->
-    <div style="border:1px solid rgba(255,32,32,0.3);border-left:4px solid #ff2020;background:#0e0404;padding:1rem 1.25rem;margin-bottom:1.75rem;display:flex;gap:0.9rem;align-items:flex-start;">
+    <div style="background:#0d0a1e;border:2px solid #ff2020;box-shadow:0 0 18px rgba(255,32,32,0.25);padding:1.1rem 1.5rem;margin-bottom:0.75rem;display:flex;gap:1rem;align-items:flex-start;transition:box-shadow 0.2s;"
+      onmouseover="this.style.boxShadow='0 0 32px rgba(255,32,32,0.5)'" onmouseout="this.style.boxShadow='0 0 18px rgba(255,32,32,0.25)'">
       <span style="font-size:1.4rem;line-height:1;flex-shrink:0;">🔍</span>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff2020;margin-bottom:0.35rem;">Verify Everything — Do Not Follow Blindly</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#ff2020;text-shadow:0 0 10px rgba(255,32,32,0.5);margin-bottom:0.35rem;text-transform:uppercase;">Verify Everything — Do Not Follow Blindly</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:var(--text-secondary);line-height:1.6;">
           Everything provided on this platform — including COA data, study findings, vendor information, protocols, and any other content — is shared for <strong style="color:var(--text-primary);">informational and research reference purposes only.</strong>
           You are responsible for independently verifying all information before drawing any conclusions.
@@ -2720,15 +2732,16 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <!-- COA UPLOAD NOTICE -->
-    <div style="border:1px solid rgba(0,245,255,0.3);border-left:5px solid var(--neon-cyan);background:#0d0a1e;padding:1.1rem 1.5rem;margin-bottom:1.75rem;display:flex;gap:1rem;align-items:flex-start;">
-      <span style="font-size:1.6rem;flex-shrink:0;line-height:1;">🔒</span>
+    <div style="background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 18px rgba(0,245,255,0.25);padding:1.1rem 1.5rem;margin-bottom:1.75rem;display:flex;gap:1rem;align-items:flex-start;transition:box-shadow 0.2s;"
+      onmouseover="this.style.boxShadow='0 0 32px rgba(0,245,255,0.5)'" onmouseout="this.style.boxShadow='0 0 18px rgba(0,245,255,0.25)'">
+      <span style="font-size:1.4rem;line-height:1;flex-shrink:0;">🔒</span>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.14em;color:var(--neon-cyan);margin-bottom:0.4rem;">COA Uploads Are Admin-Restricted</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);margin-bottom:0.4rem;text-transform:uppercase;">COA Uploads Are Admin-Restricted</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
           To protect the integrity of this database, only <strong style="color:var(--neon-cyan);">authorized admins</strong> can upload COA, endotoxin, and heavy metal test results.
           This ensures nothing is submitted that could compromise the group or the vendors we trust.
         </div>
-        <div style="margin-top:0.7rem;font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;line-height:1.7;">
+        <div style="margin-top:0.7rem;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:#ffffff;line-height:1.7;">
           📧 <strong style="color:var(--neon-orange);">Have testing results to share?</strong> Send them to
           <strong style="color:#fff;">vpnpepdata@yahoo.com</strong><br>
           <span style="color:var(--text-secondary);">Subject format: </span>
@@ -2737,17 +2750,6 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
     </div>
-
-
-    <div class="section-header" style="flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;">
-      <div class="section-title">Trusted Vendors</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:var(--neon-orange);text-shadow:0 0 8px rgba(255,107,0,0.5);letter-spacing:0.08em;text-transform:uppercase;">
-        ↓ Select a vendor to view their COA reports &amp; independent lab testing
-      </div>
-      <div class="section-count" id="vendor-count" style="margin-left:auto;"></div>
-    </div>
-
-    <div class="vendors-grid" id="vendors-grid"></div>
 
   </div>
 
