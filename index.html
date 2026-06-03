@@ -2110,11 +2110,9 @@
     <div style="margin-bottom:1.75rem;display:inline-block;position:relative;">
       <!-- Spinning glow ring -->
       <div style="position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#ffd700,#ff6600,#ff1500,#ff8800,#ffcc00,#ffd700);animation:helixSpin 3s linear infinite;filter:blur(4px);z-index:0;"></div>
-      <!-- Dark backing circle -->
-      <div style="position:absolute;inset:-1px;border-radius:50%;background:#02010a;z-index:1;"></div>
-      <!-- Logo image clipped to circle -->
-      <div style="position:relative;z-index:2;width:240px;height:240px;border-radius:50%;overflow:hidden;animation:helixPulse 2.5s ease-in-out infinite;">
-        <img src="vpnlogo.png?v=2" style="width:100%;height:100%;object-fit:contain;" alt="VPN Logo" />
+      <!-- Logo image — full display, no clipping -->
+      <div style="position:relative;z-index:2;width:min(220px,60vw);height:min(220px,60vw);animation:helixPulse 2.5s ease-in-out infinite;">
+        <img src="vpnlogo.png?v=2" style="width:100%;height:100%;object-fit:contain;display:block;" alt="VPN Logo" />
       </div>
     </div>
 
