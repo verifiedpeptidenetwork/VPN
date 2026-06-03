@@ -3944,7 +3944,7 @@ document.addEventListener('keydown', function(e){
     <div style="background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;overflow:hidden;">
 
       <!-- Header + Download -->
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1.25rem 1.75rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1.25rem 1.75rem;cursor:pointer;" onclick="var b=document.getElementById('glp1-body');var a=document.getElementById('glp1-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
         <div style="display:flex;align-items:center;gap:0.75rem;">
           <span style="font-size:2rem;">💊</span>
           <div>
@@ -3952,10 +3952,16 @@ document.addEventListener('keydown', function(e){
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;">Vitamins · Supplements · Lifestyle for GLP-1 users</div>
           </div>
         </div>
-        <a href="Verified_Peptide_Network_GLP1_Guide.pdf" download
-          style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;transition:background 0.2s;"
-          onmouseover="this.style.background='rgba(0,255,100,0.15)'" onmouseout="this.style.background='rgba(0,255,100,0.06)'">⬇ Download PDF</a>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <a href="Verified_Peptide_Network_GLP1_Guide.pdf" download onclick="event.stopPropagation();"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;transition:background 0.2s;"
+            onmouseover="this.style.background='rgba(0,255,100,0.15)'" onmouseout="this.style.background='rgba(0,255,100,0.06)'">⬇ PDF</a>
+          <span id="glp1-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);white-space:nowrap;">▼ Expand</span>
+        </div>
       </div>
+
+      <!-- Collapsible body -->
+      <div id="glp1-body" style="display:none;">
 
       <!-- Disclaimer -->
       <div style="margin:0 1.25rem 1rem;border:1px solid rgba(255,32,32,0.3);border-left:4px solid #ff2020;background:#0e0404;padding:0.75rem 1rem;">
@@ -4030,6 +4036,7 @@ document.addEventListener('keydown', function(e){
         </div>
 
       </div>
+      </div><!-- end glp1-body -->
     </div>
 
     <a href="Top Peptides Quick Reference.pdf" download
