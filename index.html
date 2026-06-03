@@ -4414,18 +4414,24 @@ document.addEventListener('keydown', function(e){
         <input class="form-input" id="modal-notes" type="text" placeholder="e.g. Purity 99.2%, passed all limits" />
       </div>
 
-      <!-- Big drag-drop zone -->
-      <div class="drop-zone" id="drop-zone"
-        onclick="document.getElementById('file-input').click()"
-        ondragover="event.preventDefault();this.classList.add('drag-over')"
-        ondragleave="this.classList.remove('drag-over')"
-        ondrop="handleDrop(event)"
-        style="padding:2rem;border-width:2px;">
-        <div id="drop-icon" style="font-size:2.5rem;margin-bottom:0.5rem;color:var(--neon-cyan);">⬆</div>
-        <div id="drop-main" style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.25rem;">Drop your file here or click to browse</div>
-        <div class="drop-zone-text" style="font-size: 1rem;">PDF, PNG, JPG, JPEG — max 20MB</div>
-        <div id="file-chosen" style="display:none;margin-top:0.75rem;font-family:'Share Tech Mono',monospace;font-size: 1rem;color:#00ff64;letter-spacing:0.08em;"></div>
-        <input type="file" id="file-input" style="display:none" accept=".pdf,.png,.jpg,.jpeg" onchange="handleFileSelect(this)">
+      <!-- Google Drive Link Input -->
+      <div style="background:#060e10;border:2px solid rgba(0,245,255,0.35);padding:1.5rem;margin-bottom:0.5rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+          <span style="font-size:1.5rem;">📁</span>
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);">Paste Google Drive Link</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.45);">Upload the file to the <strong style="color:#ffe600;">VPN COA Database</strong> folder in Google Drive first, then paste the share link below</div>
+          </div>
+        </div>
+        <input id="drive-link-input" type="url" placeholder="https://drive.google.com/file/d/..."
+          style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.7rem 1rem;box-sizing:border-box;outline:none;transition:border-color 0.2s;"
+          oninput="validateDriveLink(this)"
+          onfocus="this.style.borderColor='var(--neon-cyan)'"
+          onblur="this.style.borderColor='rgba(0,245,255,0.3)'" />
+        <div id="drive-link-status" style="margin-top:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;height:1.2em;"></div>
+        <div style="margin-top:0.75rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.35);line-height:1.6;">
+          How to get the link: Google Drive → right-click file → <em style="color:rgba(255,255,255,0.55);">Share → Copy link</em> → set access to "Anyone with the link"
+        </div>
       </div>
 
       <!-- AI Extraction Results Panel -->
@@ -4438,6 +4444,92 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 </div>
+
+<!-- ADMIN QUICK UPLOAD PANEL -->
+<div id="admin-upload-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,2,15,0.95);z-index:10000;align-items:center;justify-content:center;overflow-y:auto;padding:2rem 1rem;">
+  <div style="background:#0e0625;border:2px solid var(--neon-cyan);box-shadow:0 0 40px rgba(0,245,255,0.2);width:min(560px,96vw);padding:2rem;position:relative;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.15em;color:var(--neon-cyan);">Admin — Upload COA</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.4);">Google Drive link → live on site instantly</div>
+      </div>
+      <button onclick="closeAdminUpload()" style="background:none;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;line-height:1;">✕</button>
+    </div>
+
+    <!-- Vendor -->
+    <div style="margin-bottom:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Vendor</label>
+      <select id="au-vendor" style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;">
+        <option value="">— Select Vendor —</option>
+      </select>
+    </div>
+
+    <!-- Peptide -->
+    <div style="margin-bottom:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Peptide</label>
+      <select id="au-peptide" style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;">
+        <option value="">— Select Peptide —</option>
+      </select>
+    </div>
+
+    <!-- Test Type -->
+    <div style="margin-bottom:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Test Type</label>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.4rem;">
+        <div class="au-type-btn active-au-type" data-type="coa" onclick="selectAuType(this,'coa')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#060e18;color:var(--neon-cyan);">COA</div>
+        <div class="au-type-btn" data-type="endotoxin" onclick="selectAuType(this,'endotoxin')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#0a0a1e;color:#fff;">Endotoxin</div>
+        <div class="au-type-btn" data-type="heavy-metals" onclick="selectAuType(this,'heavy-metals')" style="padding:0.6rem;text-align:center;border:1px solid rgba(0,245,255,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;background:#0a0a1e;color:#fff;">Heavy Metals</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;">
+        <div class="au-type-btn" data-type="independent-coa" onclick="selectAuType(this,'independent-coa')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. COA</div>
+        <div class="au-type-btn" data-type="independent-endotoxin" onclick="selectAuType(this,'independent-endotoxin')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. Endo</div>
+        <div class="au-type-btn" data-type="independent-heavy-metals" onclick="selectAuType(this,'independent-heavy-metals')" style="padding:0.6rem;text-align:center;border:1px solid rgba(255,45,120,0.3);cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.05em;background:#0a0a1e;color:var(--neon-pink);">Indep. HM</div>
+      </div>
+    </div>
+
+    <!-- Google Drive Link -->
+    <div style="margin-bottom:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);display:block;margin-bottom:0.4rem;">Google Drive Link</label>
+      <input id="au-drive-link" type="url" placeholder="https://drive.google.com/file/d/..."
+        style="width:100%;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.65rem 1rem;box-sizing:border-box;outline:none;"
+        oninput="validateAuLink(this)" />
+      <div id="au-link-status" style="height:1.2em;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;margin-top:0.3rem;"></div>
+    </div>
+
+    <!-- Batch & Lab -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+      <div>
+        <label style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.3rem;">Batch / Lot # <span style="opacity:0.5;font-size:0.75em;">(optional)</span></label>
+        <input id="au-batch" type="text" placeholder="e.g. RT10-0502"
+          style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.8rem;box-sizing:border-box;outline:none;" />
+      </div>
+      <div>
+        <label style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.3rem;">Lab Name <span style="opacity:0.5;font-size:0.75em;">(optional)</span></label>
+        <input id="au-lab" type="text" placeholder="e.g. Janoshik"
+          style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.8rem;box-sizing:border-box;outline:none;" />
+      </div>
+    </div>
+
+    <div id="au-error" style="display:none;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:var(--neon-pink);margin-bottom:1rem;padding:0.5rem 0.75rem;border:1px solid rgba(255,45,120,0.3);background:#0d0408;"></div>
+
+    <div style="display:flex;gap:0.75rem;">
+      <button onclick="closeAdminUpload()" style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;padding:0.85rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);cursor:pointer;">Cancel</button>
+      <button onclick="submitAdminUpload()" style="flex:2;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;padding:0.85rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);box-shadow:0 0 18px rgba(0,245,255,0.2);cursor:pointer;text-transform:uppercase;transition:all 0.2s;"
+        onmouseover="this.style.boxShadow='0 0 30px rgba(0,245,255,0.5)'"
+        onmouseout="this.style.boxShadow='0 0 18px rgba(0,245,255,0.2)'">
+        Submit COA ↗
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Admin Upload Button -->
+<button id="admin-upload-btn" onclick="openAdminUpload()"
+  style="position:fixed;bottom:5rem;right:1.5rem;z-index:9000;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.7rem 1.2rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,245,255,0.5);box-shadow:0 0 18px rgba(0,245,255,0.25);cursor:pointer;text-transform:uppercase;display:none;transition:all 0.2s;"
+  onmouseover="this.style.boxShadow='0 0 30px rgba(0,245,255,0.5)'"
+  onmouseout="this.style.boxShadow='0 0 18px rgba(0,245,255,0.25)'">
+  ⬆ Upload COA
+</button>
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -4947,6 +5039,8 @@ function _showAdminPrompt(onSuccess) {
     var pw = document.getElementById('admin-pw-input').value;
     if (_checkAdminPw(pw)) {
       overlay.remove();
+      sessionStorage.setItem('adminUnlocked', '1');
+      document.getElementById('admin-upload-btn').style.display = 'block';
       onSuccess();
     } else {
       document.getElementById('admin-pw-error').textContent = '✕ Incorrect password — contact David or Said Kol';
@@ -5120,7 +5214,8 @@ async function saveReportToDB(vendorId, peptide, testType, reportObj) {
       peptide:         peptide,
       test_type:       testType,
       file_name:       reportObj.name,
-      file_data:       reportObj.dataUrl,
+      file_data:       reportObj.driveUrl || null,   // store Drive URL, not base64
+      drive_url:       reportObj.driveUrl || null,
       lab:             reportObj.lab,
       batch:           reportObj.batch,
       notes:           reportObj.notes,
@@ -5154,112 +5249,93 @@ function selectCapColor(el, color) {
   el.style.transform = 'scale(1.08)';
 }
 
-function handleFileSelect(input) {
-  if(input.files && input.files[0]) {
-    selectedFile = input.files[0];
-    readFileAsDataUrl(selectedFile);
+function handleFileSelect(input) {}  // legacy no-op
+function handleDrop(e) { e.preventDefault(); }  // legacy no-op
+
+// Convert any Google Drive share URL into a preview-embed URL
+function normalizeDriveLink(url) {
+  // Already a preview link
+  if (url.includes('/preview')) return url;
+  // /view or /edit → /preview
+  const m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+  // docs.google.com open?id= style
+  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m2) return 'https://drive.google.com/file/d/' + m2[1] + '/preview';
+  return url;
+}
+
+function validateDriveLink(input) {
+  const val = input.value.trim();
+  const status = document.getElementById('drive-link-status');
+  if (!val) { status.textContent = ''; return; }
+  if (val.includes('drive.google.com') || val.includes('docs.google.com')) {
+    status.style.color = '#00ff64';
+    status.textContent = '✓ Valid Google Drive link';
+  } else {
+    status.style.color = 'var(--neon-pink)';
+    status.textContent = '✗ Must be a Google Drive share link';
   }
-}
-
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('drop-zone').classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if(file) { selectedFile = file; readFileAsDataUrl(file); }
-}
-
-function readFileAsDataUrl(file) {
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    selectedFileDataUrl = ev.target.result;
-    showFileChosen(file.name, file.size);
-    triggerAIExtraction();
-  };
-  reader.readAsDataURL(file);
-}
-
-function showFileChosen(name, size) {
-  const kb = (size/1024).toFixed(0);
-  document.getElementById('drop-icon').textContent = '✓';
-  document.getElementById('drop-icon').style.color = '#00ff64';
-  document.getElementById('drop-main').textContent = name;
-  document.getElementById('drop-main').style.color = '#00ff64';
-  const fc = document.getElementById('file-chosen');
-  fc.style.display = 'block';
-  fc.textContent = kb + ' KB — ready to submit';
 }
 
 function submitReport() {
   const batch = document.getElementById('modal-batch').value.trim();
-  const lab = document.getElementById('modal-lab').value.trim();
+  const lab   = document.getElementById('modal-lab').value.trim();
   const notes = document.getElementById('modal-notes').value.trim();
-  if(!selectedFile || !selectedFileDataUrl) {
-    document.getElementById('drop-zone').style.borderColor = 'var(--neon-pink)';
-    document.getElementById('drop-main').textContent = 'Please select a file first';
-    document.getElementById('drop-main').style.color = 'var(--neon-pink)';
-    setTimeout(()=>{
-      document.getElementById('drop-zone').style.borderColor = '';
-      document.getElementById('drop-main').textContent = 'Drop your file here or click to browse';
-      document.getElementById('drop-main').style.color = '';
+  const rawLink = document.getElementById('drive-link-input').value.trim();
+
+  if (!rawLink || (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com'))) {
+    const inp = document.getElementById('drive-link-input');
+    inp.style.borderColor = 'var(--neon-pink)';
+    document.getElementById('drive-link-status').style.color = 'var(--neon-pink)';
+    document.getElementById('drive-link-status').textContent = '✗ Please paste a valid Google Drive link first';
+    setTimeout(() => {
+      inp.style.borderColor = 'rgba(0,245,255,0.3)';
     }, 2000);
     return;
   }
 
-  // Capture AI metadata before clearing state
-  const metaSrc = determineMetadataSource();
-  const aiRaw = aiExtractionResult ? JSON.parse(JSON.stringify(aiExtractionResult)) : null;
-  aiExtractionResult = null;
-  aiFieldsApplied = {};
-  aiExtractionAttempted = false;
+  const driveUrl     = normalizeDriveLink(rawLink);
+  const vendorId     = currentUploadVendor;
+  const peptide      = currentUploadPeptide;
+  const key          = storeKey(vendorId, peptide, selectedType);
 
-  // Store the report locally + to Supabase
-  const vendorId = currentUploadVendor;
-  const peptide = currentUploadPeptide;
-  const key = storeKey(vendorId, peptide, selectedType);
   const newReport = {
-    name: selectedFile.name,
-    lab: lab || 'Unknown Lab',
-    batch: batch || '—',
-    notes: notes || '',
-    capColor: selectedCapColor || '',
-    dataUrl: selectedFileDataUrl,
-    type: selectedType,
-    date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
-    isPdf: selectedFile.type === 'application/pdf',
-    metadataSource: metaSrc,
-    aiExtraction: aiRaw
+    name:      'Google Drive — ' + (lab || selectedType),
+    lab:       lab   || 'Unknown Lab',
+    batch:     batch || '—',
+    notes:     notes || '',
+    capColor:  selectedCapColor || '',
+    driveUrl:  driveUrl,
+    rawDriveLink: rawLink,
+    type:      selectedType,
+    date:      new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+    isPdf:     true,
+    metadataSource: 'manual'
   };
+
   storeLocally(key, newReport);
-  // Save to DB in background (non-blocking)
   saveReportToDB(vendorId, peptide, selectedType, newReport);
 
-  const fname = selectedFile.name;
   const ftype = selectedType;
   const fbatch = batch;
   const flab = lab;
   const fcap = selectedCapColor;
-  const fmeta = metaSrc;
-
-  selectedFile = null;
-  selectedFileDataUrl = null;
   selectedCapColor = '';
 
-  // Re-render vendor detail to show new report
-  if(currentVendor) renderVendorDetail(currentVendor);
+  if (currentVendor) renderVendorDetail(currentVendor);
 
-  // Show success
   const modal = document.querySelector('#upload-modal .modal');
   modal.innerHTML = `
     <div style="text-align:center;padding:2rem 1rem;">
       <div style="font-size:3rem;color:#00ff64;text-shadow:0 0 20px #00ff64;margin-bottom:1rem;">✓</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#00ff64;letter-spacing:0.1em;margin-bottom:0.5rem;">Report Saved</div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size: 1rem;color:var(--text-secondary);letter-spacing:0.1em;line-height:2;text-transform:uppercase;">
-        File: ${fname}<br>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--text-secondary);letter-spacing:0.1em;line-height:2;text-transform:uppercase;">
+        Source: Google Drive<br>
         Type: ${ftype.toUpperCase()}<br>
         ${fbatch ? 'Batch: ' + fbatch + '<br>' : ''}
         ${flab ? 'Lab: ' + flab + '<br>' : ''}
         ${fcap ? 'Cap Color: ' + fcap + '<br>' : ''}
-        ${fmeta === 'ai_assisted' ? 'Metadata: AI-assisted ✓<br>' : fmeta === 'ai_edited' ? 'Metadata: AI-extracted, edited<br>' : ''}
         Status: ✓ On File — Viewable Now
       </div>
       <button class="btn-primary" style="margin-top:1.5rem;font-size:1rem;" onclick="closeModal()">Done</button>
@@ -5286,16 +5362,22 @@ function viewReport(vendorId, peptide, type, idx) {
     _metaBadge;
 
   const content = document.getElementById('viewer-content');
-  if(r.isPdf) {
+  if (r.driveUrl) {
+    content.innerHTML = '<iframe src="'+r.driveUrl+'" style="width:100%;height:520px;border:none;background:#000;" allowfullscreen></iframe>';
+  } else if(r.isPdf) {
     content.innerHTML = '<embed src="'+r.dataUrl+'" type="application/pdf" style="width:100%;height:500px;border:none;" />';
   } else {
     content.innerHTML = '<img src="'+r.dataUrl+'" style="max-width:100%;max-height:520px;object-fit:contain;display:block;margin:0 auto;border:1px solid var(--card-border);" />';
   }
   document.getElementById('viewer-download').onclick = function(){
-    const a = document.createElement('a');
-    a.href = r.dataUrl;
-    a.download = r.name;
-    a.click();
+    if (r.driveUrl) {
+      window.open(r.rawDriveLink || r.driveUrl, '_blank');
+    } else {
+      const a = document.createElement('a');
+      a.href = r.dataUrl;
+      a.download = r.name;
+      a.click();
+    }
   };
 
   // Wire up delete button
@@ -6205,12 +6287,164 @@ document.addEventListener('DOMContentLoaded', function() {
   loadReportsFromDB();
   qgRender();
   studiesRender();
+  initAdminUploadPanel();
   // Show setup banner if Supabase not configured
   setTimeout(function(){
     var banner = document.getElementById('supa-banner');
     if(banner && (!SUPA_URL || !SUPA_KEY)) banner.style.display = 'block';
   }, 2000);
 });
+
+// ===== ADMIN QUICK UPLOAD PANEL =====
+let auSelectedType = 'coa';
+
+function initAdminUploadPanel() {
+  // Populate vendor dropdown
+  const vSel = document.getElementById('au-vendor');
+  VENDORS.forEach(function(v) {
+    const opt = document.createElement('option');
+    opt.value = v.id;
+    opt.textContent = v.flag + ' ' + v.name;
+    vSel.appendChild(opt);
+  });
+  // Populate peptide dropdown
+  const pSel = document.getElementById('au-peptide');
+  PEPTIDES.forEach(function(p) {
+    const opt = document.createElement('option');
+    opt.value = p;
+    opt.textContent = p;
+    pSel.appendChild(opt);
+  });
+}
+
+function openAdminUpload() {
+  _showAdminPrompt(function() {
+    document.getElementById('admin-upload-overlay').style.display = 'flex';
+  });
+}
+
+function closeAdminUpload() {
+  document.getElementById('admin-upload-overlay').style.display = 'none';
+  // Reset form
+  document.getElementById('au-vendor').value = '';
+  document.getElementById('au-peptide').value = '';
+  document.getElementById('au-drive-link').value = '';
+  document.getElementById('au-batch').value = '';
+  document.getElementById('au-lab').value = '';
+  document.getElementById('au-link-status').textContent = '';
+  document.getElementById('au-error').style.display = 'none';
+  auSelectedType = 'coa';
+  document.querySelectorAll('.au-type-btn').forEach(function(b) {
+    b.style.background = '#0a0a1e';
+    b.classList.remove('active-au-type');
+  });
+  const first = document.querySelector('.au-type-btn[data-type="coa"]');
+  if (first) { first.style.background = '#060e18'; first.classList.add('active-au-type'); }
+}
+
+function selectAuType(el, type) {
+  auSelectedType = type;
+  document.querySelectorAll('.au-type-btn').forEach(function(b) {
+    b.style.background = '#0a0a1e';
+    b.classList.remove('active-au-type');
+  });
+  el.style.background = '#060e18';
+  el.classList.add('active-au-type');
+}
+
+function validateAuLink(input) {
+  const val = input.value.trim();
+  const status = document.getElementById('au-link-status');
+  if (!val) { status.textContent = ''; return; }
+  if (val.includes('drive.google.com') || val.includes('docs.google.com')) {
+    status.style.color = '#00ff64';
+    status.textContent = '✓ Valid Google Drive link';
+  } else {
+    status.style.color = 'var(--neon-pink)';
+    status.textContent = '✗ Must be a Google Drive link';
+  }
+}
+
+function showAuError(msg) {
+  const el = document.getElementById('au-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(function() { el.style.display = 'none'; }, 3000);
+}
+
+function submitAdminUpload() {
+  const vendorId  = document.getElementById('au-vendor').value;
+  const peptide   = document.getElementById('au-peptide').value;
+  const rawLink   = document.getElementById('au-drive-link').value.trim();
+  const batch     = document.getElementById('au-batch').value.trim();
+  const lab       = document.getElementById('au-lab').value.trim();
+
+  if (!vendorId)  { showAuError('Please select a vendor.'); return; }
+  if (!peptide)   { showAuError('Please select a peptide.'); return; }
+  if (!rawLink || (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com'))) {
+    showAuError('Please paste a valid Google Drive link.'); return;
+  }
+
+  const driveUrl = normalizeDriveLink(rawLink);
+  const key = storeKey(vendorId, peptide, auSelectedType);
+  const newReport = {
+    name:      'Google Drive — ' + (lab || auSelectedType),
+    lab:       lab   || 'Unknown Lab',
+    batch:     batch || '—',
+    notes:     '',
+    capColor:  '',
+    driveUrl:  driveUrl,
+    rawDriveLink: rawLink,
+    type:      auSelectedType,
+    date:      new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+    isPdf:     true,
+    metadataSource: 'manual'
+  };
+
+  storeLocally(key, newReport);
+  saveReportToDB(vendorId, peptide, auSelectedType, newReport);
+
+  // Re-render if currently viewing this vendor
+  if (currentVendor && currentVendor.id === vendorId) renderVendorDetail(currentVendor);
+
+  // Show success inside panel
+  const panel = document.querySelector('#admin-upload-overlay > div');
+  const orig = panel.innerHTML;
+  panel.innerHTML = `
+    <div style="text-align:center;padding:3rem 1rem;">
+      <div style="font-size:3.5rem;color:#00ff64;text-shadow:0 0 20px #00ff64;margin-bottom:1rem;">✓</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#00ff64;letter-spacing:0.1em;margin-bottom:0.5rem;">COA Saved</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-secondary);line-height:2;">
+        Vendor: ${VENDORS.find(v=>v.id===vendorId)?.name || vendorId}<br>
+        Peptide: ${peptide}<br>
+        Type: ${auSelectedType.toUpperCase()}<br>
+        ${batch ? 'Batch: ' + batch + '<br>' : ''}
+        ${lab ? 'Lab: ' + lab + '<br>' : ''}
+      </div>
+      <div style="display:flex;gap:0.75rem;margin-top:1.5rem;justify-content:center;">
+        <button onclick="document.querySelector('#admin-upload-overlay > div').innerHTML = \`${orig.replace(/`/g,"'")}\`; initAdminUploadPanel();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:0.75rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;">
+          Upload Another
+        </button>
+        <button onclick="closeAdminUpload()"
+          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:0.75rem 1.5rem;background:#0d0a1e;border:2px solid #00ff64;color:#00ff64;cursor:pointer;">
+          Done
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// Show/hide the floating upload button based on admin session
+(function() {
+  // Show the button after admin unlocks via any prompt
+  const origShowAdmin = window._showAdminPrompt;
+  // Poll for session unlock
+  setInterval(function() {
+    const btn = document.getElementById('admin-upload-btn');
+    if (btn) btn.style.display = sessionStorage.getItem('adminUnlocked') === '1' ? 'block' : 'none';
+  }, 1000);
+})();
 </script>
 
 <script>
