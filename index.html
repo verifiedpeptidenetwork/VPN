@@ -4480,41 +4480,31 @@ function sortAndFilterPeptides(query) {
   var q = (query||'').toLowerCase().trim();
   var f = activePeptideFilter;
 
-  // Apply search visibility
+  var visibleCount = 0;
+
   cards.forEach(function(card) {
-    var name = card.querySelector('.peptide-name') ? card.querySelector('.peptide-name').textContent.toLowerCase() : '';
-    var searchMatch = q === '' || name.includes(q);
-    card.style.display = searchMatch ? '' : 'none';
-  });
+    var name = (card.querySelector('.peptide-name') || {}).textContent || '';
+    var searchMatch = q === '' || name.toLowerCase().includes(q);
+    var filterMatch = matchesPeptideFilter(card, f);
 
-  // Sort: matching filter goes to top, non-matching to bottom
-  // Remove all from DOM, re-insert in sorted order
-  var matching    = cards.filter(function(c) { return c.style.display !== 'none' && matchesPeptideFilter(c, f); });
-  var nonMatching = cards.filter(function(c) { return c.style.display !== 'none' && !matchesPeptideFilter(c, f); });
-  var hidden      = cards.filter(function(c) { return c.style.display === 'none'; });
+    // Reset styles
+    card.style.opacity = '1';
 
-  // Style: matching = normal, non-matching = dimmed
-  matching.forEach(function(c) {
-    c.style.opacity = '1';
-    c.style.border  = '';
-  });
-  nonMatching.forEach(function(c) {
-    c.style.opacity = f === 'all' ? '1' : '0.35';
-  });
-
-  // Re-append in order: matching → non-matching → hidden
-  matching.concat(nonMatching).concat(hidden).forEach(function(c) {
-    grid.appendChild(c);
+    if (searchMatch && filterMatch) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
   });
 
   // Count
   var countEl = document.getElementById('search-result-count');
   if (countEl) {
-    var shown = matching.length + nonMatching.length;
     if (f !== 'all') {
-      countEl.textContent = matching.length + ' with result · ' + nonMatching.length + ' pending';
+      countEl.textContent = visibleCount + ' peptide' + (visibleCount !== 1 ? 's' : '') + ' — filter active';
     } else if (q !== '') {
-      countEl.textContent = shown + ' peptide' + (shown !== 1 ? 's' : '') + ' found';
+      countEl.textContent = visibleCount + ' peptide' + (visibleCount !== 1 ? 's' : '') + ' found';
     } else {
       countEl.textContent = '';
     }
