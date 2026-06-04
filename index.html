@@ -5424,7 +5424,7 @@ function viewReport(vendorId, peptide, type, idx) {
       }
     }
 
-    // Scan the COA image with AI and extract the verify code
+    // Scan the COA image with AI and extract the verify code + lab name
     window.scanDocumentForCode = async function() {
       const btn = document.getElementById('scan-doc-btn');
       const status = document.getElementById('scan-status');
@@ -5434,7 +5434,6 @@ function viewReport(vendorId, peptide, type, idx) {
       status.textContent = 'AI is reading the document…';
       try {
         let dataUrl = r.dataUrl;
-        // If dataUrl is a relative path (local file), fetch and convert to base64
         if (dataUrl && !dataUrl.startsWith('data:')) {
           const resp = await fetch(dataUrl);
           const blob = await resp.blob();
@@ -5448,15 +5447,32 @@ function viewReport(vendorId, peptide, type, idx) {
         const vc = result.verify_code;
         const bn = result.batch_number;
         const si = result.sample_id;
-        // Pick best available code: verify_code first, then batch_number, then sample_id
-        const found = (vc && vc.value && vc.confidence >= 0.5 ? vc.value : null)
-                   || (bn && bn.value && bn.confidence >= 0.7 ? bn.value : null)
-                   || (si && si.value && si.confidence >= 0.7 ? si.value : null);
-        if (found) {
-          status.innerHTML = '<span style="color:#00ff64;">✓ Code found — panel updated</span>';
-          renderVerifyPanel(found);
+        const ln = result.lab_name;
+
+        // Pick best verify code
+        const foundCode = (vc && vc.value && vc.confidence >= 0.5 ? vc.value : null)
+                       || (bn && bn.value && bn.confidence >= 0.7 ? bn.value : null)
+                       || (si && si.value && si.confidence >= 0.7 ? si.value : null);
+
+        // Pick detected lab name
+        const foundLab = (ln && ln.value && ln.confidence >= 0.5) ? ln.value : null;
+
+        // If lab was unknown and we found one, update r.lab so LAB_VERIFY matching works
+        if (foundLab && (!r.lab || r.lab.toLowerCase() === 'unknown lab' || r.lab.trim() === '')) {
+          r.lab = foundLab;
+          // Also update the meta bar in the viewer
+          const metaEl = document.getElementById('viewer-meta');
+          if (metaEl) {
+            metaEl.innerHTML = metaEl.innerHTML.replace(/Lab:.*?(&nbsp;|<)/, 'Lab: <strong style="color:#00ff64;">' + foundLab + '</strong> $1');
+          }
+        }
+
+        if (foundCode || foundLab) {
+          const labMsg = foundLab ? ` · Lab detected: <strong style="color:#00ff64;">${foundLab}</strong>` : '';
+          status.innerHTML = `<span style="color:#00ff64;">✓ Scan complete${labMsg}</span>`;
+          renderVerifyPanel(foundCode);
         } else {
-          status.innerHTML = '<span style="color:#ffe600;">⚠ Could not detect code automatically — enter it manually in the Batch field when uploading</span>';
+          status.innerHTML = '<span style="color:#ffe600;">⚠ Could not detect code or lab — enter them manually when uploading</span>';
           btn.disabled = false;
           btn.textContent = '🔍 SCAN DOCUMENT FOR CODE';
         }
@@ -6786,8 +6802,99 @@ function renderScanResults(files, vendorId) {
     </div>`;
   });
 
+  // AI auto-detect button (appears when any file has undetected peptide)
+  const undetectedCount = files.filter(f => !mapFileToPeptide(f.name)).length;
+  if (undetectedCount > 0) {
+    html += `<div style="margin-top:0.75rem;padding:0.75rem;background:#0a0020;border:1px solid #cc44ff;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:#cc44ff;flex:1;">
+        🤖 ${undetectedCount} file${undetectedCount>1?'s':''} couldn't be detected from filename — AI can scan each document and fill in the peptide automatically
+      </div>
+      <button id="ai-autodetect-btn" onclick="aiAutoDetectAll()"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;padding:0.5rem 1.1rem;background:#1a0040;border:2px solid #cc44ff;color:#cc44ff;cursor:pointer;white-space:nowrap;">
+        🤖 AI AUTO-DETECT ALL
+      </button>
+    </div>`;
+  }
+
   container.innerHTML = html;
   document.getElementById('au-fill-count').textContent = files.length + ' files ready — review then Submit All';
+}
+
+async function aiAutoDetectAll() {
+  const btn = document.getElementById('ai-autodetect-btn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = '⏳ SCANNING FILES…';
+
+  const peptideSelects = document.querySelectorAll('#au-batch-rows select[data-role="peptide"]');
+  let done = 0;
+  const total = peptideSelects.length;
+
+  for (const pSel of peptideSelects) {
+    if (pSel.value) { done++; continue; } // already detected, skip
+    const fileId = pSel.dataset.fileId;
+    btn.textContent = `⏳ SCANNING ${done+1}/${total}…`;
+    try {
+      // Fetch Drive file thumbnail (works cross-origin for shared files)
+      const thumbUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
+      const resp = await fetch(thumbUrl);
+      if (!resp.ok) throw new Error('fetch failed');
+      const blob = await resp.blob();
+      const dataUrl = await new Promise(function(res) {
+        const fr = new FileReader();
+        fr.onload = function() { res(fr.result); };
+        fr.readAsDataURL(blob);
+      });
+
+      const result = await extractCOAFields(dataUrl);
+      const cn = result.compound_name;
+      const pn = result.product_name;
+      const tt = result.test_type;
+
+      // Find best peptide match from AI result
+      const rawName = (cn && cn.confidence >= 0.5 ? cn.value : '')
+                   || (pn && pn.confidence >= 0.5 ? pn.value : '');
+      if (rawName) {
+        const lower = rawName.toLowerCase();
+        // Try to match to a PEPTIDES list option
+        const matchedOpt = Array.from(pSel.options).find(o =>
+          o.value && lower.includes(o.value.toLowerCase())
+        ) || Array.from(pSel.options).find(o =>
+          o.value && o.value.toLowerCase().split('-').some(part => lower.includes(part) && part.length > 3)
+        );
+        if (matchedOpt) {
+          pSel.value = matchedOpt.value;
+          pSel.style.borderColor = '#00ff64';
+          // Update status cell
+          const statusDiv = pSel.closest('div[style*="grid"]').querySelector('div:last-child');
+          if (statusDiv) { statusDiv.style.color = '#00ff64'; statusDiv.textContent = '✓ AI detected'; }
+        }
+      }
+
+      // Update test type if detected
+      if (tt && tt.value && tt.confidence >= 0.5) {
+        const typeSel = document.querySelector(`select[data-role="type"][data-file-id="${fileId}"]`);
+        if (typeSel) {
+          const ttLower = tt.value.toLowerCase();
+          const matchedType = Array.from(typeSel.options).find(o =>
+            ttLower.includes(o.value.replace(/-/g,' ').replace('independent','indep')) ||
+            ttLower.includes('endotoxin') && o.value.includes('endotoxin') ||
+            ttLower.includes('heavy') && o.value.includes('heavy') ||
+            ttLower.includes('purity') && o.value === 'coa'
+          );
+          if (matchedType) typeSel.value = matchedType.value;
+        }
+      }
+    } catch(e) {
+      console.warn('AI detect failed for', fileId, e.message);
+    }
+    done++;
+  }
+
+  btn.textContent = '✓ SCAN COMPLETE — REVIEW & SUBMIT';
+  btn.style.color = '#00ff64';
+  btn.style.borderColor = '#00ff64';
+  document.getElementById('au-fill-count').textContent = 'AI scan done — fix any remaining, then Submit All';
 }
 
 function initAdminBatchFresh() {
