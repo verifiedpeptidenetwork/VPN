@@ -4774,11 +4774,6 @@ function renderVendorDetail(v) {
   }).join('');
 
   const peptidesHtml = PEPTIDES.map((p, i) => {
-    const coa = 'pending';
-    const endo = 'pending';
-    const hm = 'pending';
-    const allDone = false;
-
     function testBadge(status, type) {
       const typeKey = type === 'COA' ? 'coa' : type === 'Endotoxin' ? 'endotoxin' : type === 'Heavy Metals' ? 'heavy-metals' : type === 'Independent COA' ? 'independent-coa' : type === 'Independent Endotoxin' ? 'independent-endotoxin' : 'independent-heavy-metals';
       const key = v.id+'||'+p+'||'+typeKey;
@@ -4793,9 +4788,10 @@ function renderVendorDetail(v) {
       return `<div class="test-reports"><span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">—</span></div>`;
     }
 
-    var hasCoa = coa && coa.length > 0;
-    var hasEndo = endo && endo.length > 0;
-    var hasHm = hm && hm.length > 0;
+    var hasCoa  = (reportStore[v.id+'||'+p+'||coa']||[]).length > 0;
+    var hasEndo = (reportStore[v.id+'||'+p+'||endotoxin']||[]).length > 0;
+    var hasHm   = (reportStore[v.id+'||'+p+'||heavy-metals']||[]).length > 0;
+    var allDone = hasCoa && hasEndo && hasHm;
     return `
     <div class="peptide-card" data-coa="${hasCoa?'1':'0'}" data-endo="${hasEndo?'1':'0'}" data-hm="${hasHm?'1':'0'}">
       <div class="peptide-card-header">
