@@ -5147,8 +5147,11 @@ const SUPA_URL = 'https://uyefbiupwwmcxsysztkf.supabase.co';
 const SUPA_KEY = 'sb_publishable_RkrTBUzQGd2UYcCIPASHSg_nBgn8qDL';
 
 let supaClient = null;
-if (SUPA_URL && SUPA_KEY) {
-  supaClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+function getSupaClient() {
+  if (!supaClient && window.supabase && SUPA_URL && SUPA_KEY) {
+    supaClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+  }
+  return supaClient;
 }
 
 // In-memory cache (populated from Supabase on load)
@@ -5247,9 +5250,10 @@ async function loadReportsFromDB() {
 }
 
 async function saveReportToDB(vendorId, peptide, testType, reportObj) {
-  if (!supaClient) return false;
+  const client = getSupaClient();
+  if (!client) return false;
   try {
-    const { error } = await supaClient.from('reports').insert([{
+    const { error } = await client.from('reports').insert([{
       vendor_id:       vendorId,
       peptide:         peptide,
       test_type:       testType,
@@ -5488,7 +5492,7 @@ function viewReport(vendorId, peptide, type, idx) {
       }
     }
 
-    // Scan the COA image with AI and extract the verify code + lab name
+    // Scan the COA image with AI — works for ANY lab, any file type
     window.scanDocumentForCode = async function() {
       const btn = document.getElementById('scan-doc-btn');
       const status = document.getElementById('scan-status');
@@ -5497,45 +5501,65 @@ function viewReport(vendorId, peptide, type, idx) {
       btn.textContent = '⏳ SCANNING…';
       status.textContent = 'AI is reading the document…';
       try {
-        let dataUrl = r.dataUrl;
-        if (dataUrl && !dataUrl.startsWith('data:')) {
-          const resp = await fetch(dataUrl);
+        let dataUrl = null;
+
+        // Priority 1: local file already as data URL
+        if (r.dataUrl && r.dataUrl.startsWith('data:')) {
+          dataUrl = r.dataUrl;
+
+        // Priority 2: local relative path — fetch and convert
+        } else if (r.dataUrl && !r.dataUrl.includes('drive.google')) {
+          const resp = await fetch(r.dataUrl);
           const blob = await resp.blob();
           dataUrl = await new Promise(function(res) {
             const fr = new FileReader();
             fr.onload = function() { res(fr.result); };
             fr.readAsDataURL(blob);
           });
+
+        // Priority 3: Google Drive file — use thumbnail endpoint
+        } else if (r.driveUrl) {
+          const fileIdMatch = r.driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+          if (fileIdMatch) {
+            const thumbUrl = 'https://drive.google.com/thumbnail?id=' + fileIdMatch[1] + '&sz=w1600';
+            const resp = await fetch(thumbUrl);
+            if (!resp.ok) throw new Error('Could not fetch Drive thumbnail');
+            const blob = await resp.blob();
+            dataUrl = await new Promise(function(res) {
+              const fr = new FileReader();
+              fr.onload = function() { res(fr.result); };
+              fr.readAsDataURL(blob);
+            });
+          }
         }
+
+        if (!dataUrl) throw new Error('No image available to scan');
+
         const result = await extractCOAFields(dataUrl);
         const vc = result.verify_code;
-        const bn = result.batch_number;
-        const si = result.sample_id;
         const ln = result.lab_name;
 
-        // Pick best verify code
-        const foundCode = (vc && vc.value && vc.confidence >= 0.5 ? vc.value : null)
-                       || (bn && bn.value && bn.confidence >= 0.7 ? bn.value : null)
-                       || (si && si.value && si.confidence >= 0.7 ? si.value : null);
+        // Only use verify_code — never fall back to batch_number or sample_id
+        const foundCode = (vc && vc.value && vc.confidence >= 0.4) ? vc.value.trim() : null;
+        const foundLab  = (ln && ln.value && ln.confidence >= 0.5)  ? ln.value.trim() : null;
 
-        // Pick detected lab name
-        const foundLab = (ln && ln.value && ln.confidence >= 0.5) ? ln.value : null;
-
-        // If lab was unknown/missing, update r.lab and re-render verify panel with correct lab link
-        if (foundLab && (!r.lab || r.lab.toLowerCase() === 'unknown lab' || r.lab.trim() === '')) {
+        // Always update lab if AI found one (overrides unknown, blank, or wrong)
+        if (foundLab) {
           r.lab = foundLab;
           const metaEl = document.getElementById('viewer-meta');
           if (metaEl) {
-            metaEl.innerHTML = metaEl.innerHTML.replace(/Lab:.*?(&nbsp;|<)/, 'Lab: <strong style="color:#00ff64;">' + foundLab + '</strong> $1');
+            metaEl.innerHTML = metaEl.innerHTML.replace(/(<b>Lab:<\/b>\s*)([^<&]+)/, '$1<strong style="color:#00ff64;">' + foundLab + '</strong>');
           }
         }
 
         if (foundCode || foundLab) {
-          const labMsg = foundLab ? ` · Lab detected: <strong style="color:#00ff64;">${foundLab}</strong>` : '';
-          status.innerHTML = `<span style="color:#00ff64;">✓ Scan complete${labMsg}</span>`;
+          const parts = [];
+          if (foundLab) parts.push('Lab: <strong style="color:#00ff64;">' + foundLab + '</strong>');
+          if (foundCode) parts.push('Code: <strong style="color:#00f5ff;">' + foundCode + '</strong>');
+          status.innerHTML = '<span style="color:#00ff64;">✓ ' + parts.join(' · ') + '</span>';
           renderVerifyPanel(foundCode);
         } else {
-          status.innerHTML = '<span style="color:#ffe600;">⚠ Could not detect code or lab — enter them manually when uploading</span>';
+          status.innerHTML = '<span style="color:#ffe600;">⚠ AI could not find a verification code — the document may be unclear or the code may not be visible</span>';
           btn.disabled = false;
           btn.textContent = '🔍 SCAN DOCUMENT FOR CODE';
         }
