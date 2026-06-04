@@ -4744,7 +4744,13 @@ function renderVendorDetail(v) {
 
   // Build peptide list — expandable rows, unlimited reports per test type
   function buildReportTimeline(vendorId, peptide, typeKey, colorVar, label) {
-    const reports = reportStore[vendorId+'||'+peptide+'||'+typeKey] || [];
+    const raw = reportStore[vendorId+'||'+peptide+'||'+typeKey] || [];
+    // Sort newest first — parse date string, fall back to index
+    const reports = raw.slice().sort(function(a,b){
+      const da = a.date ? new Date(a.date) : new Date(0);
+      const db = b.date ? new Date(b.date) : new Date(0);
+      return db - da;
+    });
     if (!reports.length) return `
       <div style="display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
         <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(255,255,255,0.3);">${label}</span>
@@ -4799,11 +4805,11 @@ function renderVendorDetail(v) {
     ].filter(Boolean).join('');
 
     return `
-    <div style="border:1px solid ${hasAny ? 'rgba(0,245,255,0.2)' : 'rgba(255,255,255,0.05)'};margin-bottom:0.3rem;background:${hasAny ? '#0a0820' : '#070515'};">
+    <div class="peptide-card" data-coa="${hasCoa?'1':'0'}" data-endo="${hasEndo?'1':'0'}" data-hm="${hasHm?'1':'0'}" style="border:1px solid ${hasAny ? 'rgba(0,245,255,0.2)' : 'rgba(255,255,255,0.05)'};margin-bottom:0.3rem;background:${hasAny ? '#0a0820' : '#070515'};">
       <div style="display:flex;align-items:center;gap:0.75rem;padding:0.55rem 0.85rem;cursor:pointer;user-select:none;"
            onclick="(function(el){var d=document.getElementById('${rowId}');if(!d)return;var open=d.style.display!=='none';d.style.display=open?'none':'block';el.querySelector('.row-arrow').textContent=open?'▶':'▼';})(this)">
         <span class="row-arrow" style="color:${hasAny?'#00f5ff':'rgba(255,255,255,0.2)'};font-size:0.6rem;flex-shrink:0;">${startOpen?'▼':'▶'}</span>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:${hasAny?'#fff':'rgba(255,255,255,0.3)'};">${p}</span>
+        <span class="peptide-name" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:${hasAny?'#fff':'rgba(255,255,255,0.3)'};">${p}</span>
         ${allVendor ? '<span style="font-size:0.65rem;color:#00ff64;font-family:\'Bebas Neue\',sans-serif;letter-spacing:1px;margin-left:0.25rem;">✓ FULL</span>' : ''}
         <div style="flex:1;display:flex;flex-wrap:wrap;gap:0.25rem;justify-content:flex-end;">${badges}</div>
         ${hasAny ? `<span style="font-size:0.7rem;color:rgba(255,255,255,0.3);font-family:'Rajdhani',sans-serif;flex-shrink:0;">${totalFiles} file${totalFiles>1?'s':''}</span>` : ''}
@@ -6611,7 +6617,7 @@ function updateBatchCount() {
   if (el) el.textContent = filled > 0 ? filled + ' COA' + (filled > 1 ? 's' : '') + ' ready to submit' : '';
 }
 
-function submitBatchUpload() {
+async function submitBatchUpload() {
   const vendorId = document.getElementById('au-vendor').value;
   if (!vendorId) { alert('Please select a vendor first.'); return; }
 
@@ -6626,22 +6632,19 @@ function submitBatchUpload() {
   const isFromScan  = scanSelects.length > 0;
 
   if (isFromScan) {
-    // Folder scan mode — read from dropdowns + hidden link inputs
-    scanSelects.forEach(function(pSel) {
+    for (const pSel of Array.from(scanSelects)) {
       const fileId   = pSel.dataset.fileId;
       const peptide  = pSel.value;
-      if (!peptide) return;
+      if (!peptide) continue;
       const typeSel  = document.querySelector(`select[data-role="type"][data-file-id="${fileId}"]`);
       const linkInp  = document.querySelector(`input[data-role="link"][data-file-id="${fileId}"]`);
       const testType = typeSel ? typeSel.value : 'coa';
       const driveUrl = linkInp ? linkInp.value : '';
-      if (!driveUrl) return;
-
+      if (!driveUrl) continue;
       const batchInp   = document.querySelector(`input[data-role="batch"][data-file-id="${fileId}"]`);
       const scannedLab = document.querySelector(`input[data-role="scanned-lab"][data-file-id="${fileId}"]`);
       const fileBatch  = (batchInp && batchInp.value) ? batchInp.value : (batch || '—');
       const fileLab    = (scannedLab && scannedLab.value) ? scannedLab.value : (lab || 'Unknown Lab');
-
       const key = storeKey(vendorId, peptide, testType);
       const report = {
         name: 'Google Drive — ' + (fileLab || testType),
@@ -6654,17 +6657,16 @@ function submitBatchUpload() {
       storeLocally(key, report);
       const ok = await saveReportToDB(vendorId, peptide, testType, report);
       if (ok) { saved++; } else { errors.push(peptide + ' (' + testType + ') — Supabase save failed'); }
-    });
+    }
   } else {
-    // Manual grid mode — read from url inputs
     const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
-    inputs.forEach(function(inp) {
+    for (const inp of Array.from(inputs)) {
       const rawLink = inp.value.trim();
-      if (!rawLink) return;
+      if (!rawLink) continue;
       if (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com')) {
         errors.push(inp.dataset.peptide + ' — not a Drive link');
         inp.style.borderColor = 'var(--neon-pink)';
-        return;
+        continue;
       }
       const peptide  = inp.dataset.peptide;
       const testType = inp.dataset.type;
@@ -6681,7 +6683,7 @@ function submitBatchUpload() {
       storeLocally(key, report);
       const ok2 = await saveReportToDB(vendorId, peptide, testType, report);
       if (ok2) { saved++; } else { errors.push(peptide + ' (' + testType + ') — Supabase save failed'); }
-    });
+    }
   }
 
   if (currentVendor && currentVendor.id === vendorId) renderVendorDetail(currentVendor);
