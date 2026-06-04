@@ -4536,7 +4536,7 @@ const PEPTIDES = [
   "Prostamax","Pinealon","Ovagen","Vesugen","Bronchogen","Vilon","Cartalax","Chonluten",
   "Livagen","Cardiogen","Cortagen","Pancragon","Thymogen","Crystagen","AHK-Cu",
   "Sermorelin","SLU-PP-332","Orforglipron","KPV","LL-37","L-Carnitine","PNC-27",
-  "Cerebrolysin","Neuroxelin Blend","Tri-Heal Blend","Tesa Blend"
+  "Cerebrolysin","Neuroxelin Blend","Tri-Heal Blend","Tesa Blend","Wolverine Stack"
 ];
 
 const VENDORS = [
@@ -5844,8 +5844,9 @@ const QG_CATEGORIES = [
   {
     id: 'heal', label: 'HEALING & RECOVERY', cls: 'qg-cat-heal',
     peptides: [
-      { name:'BPC-157', dose:'250–500 mcg', freq:'1–2x daily, SC or oral', course:'4–12 wks; acute injury 4–6 wks; maintenance 8–12 wks; cycles with TB-500', benefits:'Gut healing, tendon/ligament repair, neuroprotection, anti-inflammatory', side:'Generally very well-tolerated; mild fatigue rare', pair:'TB-500 (gold synergy), KPV (gut), Thymosin Alpha-1', avoid:'Active cancer (theoretical angiogenesis concern)' },
-      { name:'TB-500 (Thymosin Beta-4)', dose:'2–2.5 mg', freq:'2x weekly load ×4 wks, then weekly', course:'4-wk load phase, then 4–8 wks maintenance; repeat cycles as needed', benefits:'Systemic tissue repair, hair growth, anti-inflammatory, vascular healing', side:'Fatigue and lethargy during loading phase', pair:'BPC-157 (gold synergy), GHK-Cu', avoid:'Active cancer (theoretical angiogenesis concern)' },
+      { name:'Wolverine Stack (BPC-157 + TB-500)', dose:'BPC-157: 250–500 mcg · TB-500: 2–2.5 mg', freq:'BPC-157: 1–2x daily SC · TB-500: 2x weekly load then weekly', course:'4-wk load phase, then 4–8 wks maintenance; run together for full synergy; repeat cycles as needed', benefits:'The gold standard healing stack — BPC-157 targets local tissue repair (tendons, gut, ligaments) while TB-500 provides systemic regeneration; together they cover every angle of injury recovery, anti-inflammation, and tissue remodeling', side:'Very well tolerated; mild fatigue during TB-500 loading; theoretical angiogenesis concern with active cancer', pair:'GHK-Cu, KPV (gut focus), Thymosin Alpha-1, Ipamorelin/CJC', avoid:'Active malignancy (theoretical); do not stack with other angiogenic compounds' },
+      { name:'BPC-157', dose:'250–500 mcg', freq:'1–2x daily, SC or oral', course:'4–12 wks; acute injury 4–6 wks; maintenance 8–12 wks; cycles with TB-500', benefits:'Gut healing, tendon/ligament repair, neuroprotection, anti-inflammatory', side:'Generally very well-tolerated; mild fatigue rare', pair:'TB-500 (Wolverine Stack), KPV (gut), Thymosin Alpha-1', avoid:'Active cancer (theoretical angiogenesis concern)' },
+      { name:'TB-500 (Thymosin Beta-4)', dose:'2–2.5 mg', freq:'2x weekly load ×4 wks, then weekly', course:'4-wk load phase, then 4–8 wks maintenance; repeat cycles as needed', benefits:'Systemic tissue repair, hair growth, anti-inflammatory, vascular healing', side:'Fatigue and lethargy during loading phase', pair:'BPC-157 (Wolverine Stack — gold synergy), GHK-Cu', avoid:'Active cancer (theoretical angiogenesis concern)' },
       { name:'GHK-Cu', dose:'1–3 mg SC or topical', freq:'Daily, SC or topical', course:'8–12 wks SC; topical can be ongoing; 4-wk breaks recommended', benefits:'Skin regeneration, hair growth, wound healing, anti-aging, copper transport', side:'Copper accumulation if overdosed; injection site irritation', pair:'TB-500, BPC-157, Sermorelin', avoid:'High-dose copper supplements; Wilson\'s disease' },
       { name:'IGF-1 LR3', dose:'20–50 mcg', freq:'Daily post-workout, SC', course:'4 wks on, 4 wks off strictly; receptor downregulation risk with longer use', benefits:'Direct anabolic; muscle hyperplasia, recovery, glucose uptake', side:'Hypoglycemia, organ hypertrophy, joint pain, IGF-1 over-elevation', pair:'CJC/Ipa post-workout, BPC-157', avoid:'MK-677 (compounded IGF-1); active malignancy' },
       { name:'Pentosan Polysulfate (PPS)', dose:'3 mg/kg', freq:'1–2x weekly, IM', course:'6–12 wks; often 3 loading injections then monthly maintenance', benefits:'Joint repair (OA), interstitial cystitis, cartilage protection', side:'Bleeding risk, rare retinal toxicity (long-term)', pair:'BPC-157, TB-500', avoid:'Anticoagulants, NSAIDs (bleeding risk)' }
@@ -6686,7 +6687,10 @@ const PEPTIDE_KEYWORDS = {
   'sermorelin':  'Sermorelin',
   'abalo':       'Abaloparatide',
   'teriparatide':'Teriparatide',
-  'cerebrolysin':'Cerebrolysin',
+  'cerebrolysin':   'Cerebrolysin',
+  'wolverine':      'Wolverine Stack',
+  'wolverine stack':'Wolverine Stack',
+  'wolv':           'Wolverine Stack',
 };
 
 function mapFileToPeptide(filename) {
