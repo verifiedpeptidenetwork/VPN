@@ -6912,11 +6912,13 @@ function renderScanResults(files, vendorId) {
   <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-cyan);padding:0.5rem 0.25rem 0.4rem;border-bottom:1px solid rgba(0,245,255,0.2);margin-bottom:0.5rem;">
     ${vendor ? vendor.name : vendorId} — ${files.length} files detected · Fix any wrong peptide or test type below
   </div>
-  <div style="display:grid;grid-template-columns:2fr 2fr 1.5fr 2fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
+  <div style="display:grid;grid-template-columns:1.5fr 1.8fr 1.2fr 1.8fr 1.8fr 1.5fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">FILE NAME</div>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);">PEPTIDE</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600);">TEST TYPE</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">DRIVE LINK</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600;">TEST TYPE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#cc44ff;">LAB NAME</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-orange);">ACCESSION / TASK #</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">PREVIEW</div>
   </div>`;
 
   const inputStyle = 'width:100%;background:#060412;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.78rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;';
@@ -6938,22 +6940,24 @@ function renderScanResults(files, vendorId) {
     ].map(([v,l]) => `<option value="${v}" ${v===detectedType?'selected':''}>${l}</option>`).join('');
 
     const thumbUrl = 'https://drive.google.com/thumbnail?id=' + f.id + '&sz=w300';
-    html += `<div style="display:grid;grid-template-columns:2fr 2fr 1.5fr 2fr;gap:0.4rem;margin-bottom:0.3rem;background:${bg};padding:0.4rem 0.25rem;align-items:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${f.name}">${f.name}</div>
+    html += `<div style="display:grid;grid-template-columns:1.5fr 1.8fr 1.2fr 1.8fr 1.8fr 1.5fr;gap:0.4rem;margin-bottom:0.3rem;background:${bg};padding:0.4rem 0.25rem;align-items:start;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-top:0.35rem;" title="${f.name}">${f.name}</div>
       <div>
         <select data-file-id="${f.id}" data-role="peptide" style="${selectStyle}">
           <option value="">— Select —</option>${peptideOptions}
         </select>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:${detectedPeptide?'#00ff64':'#ffe600'};margin-top:2px;">${detectedPeptide ? '✓ Auto-detected' : '⚠ Select peptide'}</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:${detectedPeptide?'#00ff64':'#ffe600'};margin-top:2px;">${detectedPeptide ? '✓ Auto-detected' : '⚠ Select peptide'}</div>
       </div>
       <select data-file-id="${f.id}" data-role="type" style="${selectStyle}">${typeOptions}</select>
+      <input type="text" data-file-id="${f.id}" data-role="scanned-lab" placeholder="e.g. Janoshik" style="${inputStyle}border-color:rgba(204,68,255,0.3);" />
+      <input type="text" data-file-id="${f.id}" data-role="batch" placeholder="Task # or accession" style="${inputStyle}border-color:rgba(255,107,0,0.3);" />
       <div>
         <input type="hidden" data-file-id="${f.id}" data-role="link" value="${drivePreviewLink}" />
         <a href="${drivePreviewLink}" target="_blank" title="Open full document" style="display:block;position:relative;">
           <img src="${thumbUrl}" alt="preview"
-            style="width:100%;max-width:140px;height:70px;object-fit:cover;border:1px solid rgba(0,245,255,0.25);display:block;background:#0a0a1e;"
+            style="width:100%;max-width:130px;height:65px;object-fit:cover;border:1px solid rgba(0,245,255,0.25);display:block;background:#0a0a1e;"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div style="display:none;width:100%;max-width:140px;height:70px;border:1px dashed rgba(0,245,255,0.2);align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);">No preview</div>
+          <div style="display:none;width:100%;max-width:130px;height:65px;border:1px dashed rgba(0,245,255,0.2);align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);">No preview</div>
           <div style="position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,0.6);font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--neon-cyan);padding:1px 4px;">🔍 VIEW</div>
         </a>
       </div>
@@ -7058,31 +7062,23 @@ async function aiAutoDetectAll() {
         }
       }
 
-      // Store task number + unique key in a hidden input per file
+      // Fill visible batch/accession input
       if (foundCode) {
-        let batchInp = document.querySelector(`input[data-role="batch"][data-file-id="${fileId}"]`);
-        if (!batchInp) {
-          batchInp = document.createElement('input');
-          batchInp.type = 'hidden';
-          batchInp.dataset.role = 'batch';
-          batchInp.dataset.fileId = fileId;
-          if (row) row.appendChild(batchInp);
+        const batchInp = document.querySelector(`input[data-role="batch"][data-file-id="${fileId}"]`);
+        if (batchInp) {
+          batchInp.value = foundCode;
+          batchInp.style.borderColor = 'rgba(255,107,0,0.7)';
         }
-        batchInp.value = foundCode;
         statusParts.push('🔑 ' + foundCode);
       }
 
-      // Store lab name per file
+      // Fill visible lab name input
       if (foundLab) {
-        let labInp = document.querySelector(`input[data-role="scanned-lab"][data-file-id="${fileId}"]`);
-        if (!labInp) {
-          labInp = document.createElement('input');
-          labInp.type = 'hidden';
-          labInp.dataset.role = 'scanned-lab';
-          labInp.dataset.fileId = fileId;
-          if (row) row.appendChild(labInp);
+        const labInp = document.querySelector(`input[data-role="scanned-lab"][data-file-id="${fileId}"]`);
+        if (labInp) {
+          labInp.value = foundLab;
+          labInp.style.borderColor = 'rgba(204,68,255,0.7)';
         }
-        labInp.value = foundLab;
         statusParts.push('🏛 ' + foundLab);
       }
 
