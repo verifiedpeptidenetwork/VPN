@@ -4842,6 +4842,13 @@ function renderVendorDetail(v) {
   }).join('');
 
   document.getElementById('vendor-detail-content').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem;">
+      <button onclick="openAdminUpload()" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.55rem 1.25rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,245,255,0.5);box-shadow:0 0 12px rgba(0,245,255,0.2);cursor:pointer;transition:all 0.2s;"
+        onmouseover="this.style.boxShadow='0 0 24px rgba(0,245,255,0.5)'"
+        onmouseout="this.style.boxShadow='0 0 12px rgba(0,245,255,0.2)'">
+        ⬆ Upload COA
+      </button>
+    </div>
     <div class="detail-hero">
       <div>
         <div class="detail-vendor-name">${v.name}</div>
