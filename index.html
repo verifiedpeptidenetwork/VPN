@@ -4742,69 +4742,101 @@ function renderVendorDetail(v) {
     return `<span class="tag ${cls}">${t}</span>`;
   }).join('');
 
-  const peptidesHtml = PEPTIDES.map((p, i) => {
-    function testBadge(status, type) {
-      const typeKey = type === 'COA' ? 'coa' : type === 'Endotoxin' ? 'endotoxin' : type === 'Heavy Metals' ? 'heavy-metals' : type === 'Independent COA' ? 'independent-coa' : type === 'Independent Endotoxin' ? 'independent-endotoxin' : 'independent-heavy-metals';
-      const key = v.id+'||'+p+'||'+typeKey;
-      const reports = reportStore[key];
-      if (reports && reports.length > 0) {
-        const chips = reports.map((r, idx) => {
-          const label = reports.length === 1 ? '👁 View' : `👁 Report ${idx+1}`;
-          return `<span class="test-badge test-done" style="cursor:pointer;" onclick="viewReport('${v.id}','${p}','${typeKey}',${idx})">${label}</span>`;
-        }).join('');
-        return `<div class="test-reports">${chips}</div>`;
-      }
-      return `<div class="test-reports"><span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">—</span></div>`;
-    }
-
-    var hasCoa  = (reportStore[v.id+'||'+p+'||coa']||[]).length > 0;
-    var hasEndo = (reportStore[v.id+'||'+p+'||endotoxin']||[]).length > 0;
-    var hasHm   = (reportStore[v.id+'||'+p+'||heavy-metals']||[]).length > 0;
-    var allDone = hasCoa && hasEndo && hasHm;
+  // Build peptide list — expandable rows, unlimited reports per test type
+  function buildReportTimeline(vendorId, peptide, typeKey, colorVar, label) {
+    const reports = reportStore[vendorId+'||'+peptide+'||'+typeKey] || [];
+    if (!reports.length) return `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(255,255,255,0.3);">${label}</span>
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.18);font-family:'Rajdhani',sans-serif;font-weight:700;">PENDING</span>
+      </div>`;
     return `
-    <div class="peptide-card" data-coa="${hasCoa?'1':'0'}" data-endo="${hasEndo?'1':'0'}" data-hm="${hasHm?'1':'0'}">
-      <div class="peptide-card-header">
-        <div class="peptide-name">${p}</div>
-        <span class="peptide-status ${allDone ? 'status-verified' : 'status-pending'}">${allDone ? '✓ Full' : ''}</span>
+      <div style="border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0.75rem 0.3rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:${colorVar};">${label}</span>
+          <span style="font-size:0.72rem;color:${colorVar};font-family:'Rajdhani',sans-serif;font-weight:700;background:rgba(0,0,0,0.4);padding:1px 6px;border:1px solid ${colorVar}33;">${reports.length} FILE${reports.length>1?'S':''}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.25rem;padding:0 0.75rem 0.5rem;">
+          ${reports.map((r, idx) => `
+            <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.25);padding:0.3rem 0.6rem;gap:0.5rem;flex-wrap:wrap;">
+              <div style="flex:1;min-width:0;">
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                  ${r.lab || 'Lab N/A'} ${r.batch && r.batch !== '—' ? '· <span style="color:'+colorVar+';">'+r.batch+'</span>' : ''}
+                </div>
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.35);font-family:'Rajdhani',sans-serif;">${r.date || ''}</div>
+              </div>
+              <span class="test-badge test-done" style="cursor:pointer;white-space:nowrap;font-size:0.75rem;" onclick="viewReport('${vendorId}','${peptide.replace(/'/g,"\\'")}','${typeKey}',${idx})">👁 View #${idx+1}</span>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  const peptidesWithData = PEPTIDES.filter(p => {
+    return ['coa','endotoxin','heavy-metals','independent-coa','independent-endotoxin','independent-heavy-metals']
+      .some(t => (reportStore[v.id+'||'+p+'||'+t]||[]).length > 0);
+  });
+  const peptidesEmpty = PEPTIDES.filter(p => !peptidesWithData.includes(p));
+
+  function buildPeptideRow(p, startOpen) {
+    const hasCoa   = (reportStore[v.id+'||'+p+'||coa']||[]).length;
+    const hasEndo  = (reportStore[v.id+'||'+p+'||endotoxin']||[]).length;
+    const hasHm    = (reportStore[v.id+'||'+p+'||heavy-metals']||[]).length;
+    const hasICoa  = (reportStore[v.id+'||'+p+'||independent-coa']||[]).length;
+    const hasIEndo = (reportStore[v.id+'||'+p+'||independent-endotoxin']||[]).length;
+    const hasIHm   = (reportStore[v.id+'||'+p+'||independent-heavy-metals']||[]).length;
+    const totalFiles = hasCoa + hasEndo + hasHm + hasICoa + hasIEndo + hasIHm;
+    const allVendor = hasCoa && hasEndo && hasHm;
+    const hasAny = totalFiles > 0;
+    const rowId = 'prow-' + v.id + '-' + p.replace(/[^a-z0-9]/gi,'');
+
+    const badges = [
+      hasCoa  ? `<span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">COA×${hasCoa}</span>` : '',
+      hasEndo ? `<span style="background:#00ff6422;border:1px solid #00ff64;color:#00ff64;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">ENDO×${hasEndo}</span>` : '',
+      hasHm   ? `<span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">HM×${hasHm}</span>` : '',
+      hasICoa ? `<span style="background:#ff2d7822;border:1px solid #ff2d78;color:#ff2d78;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">I-COA×${hasICoa}</span>` : '',
+      hasIEndo? `<span style="background:#ff2d7822;border:1px solid #ff2d78;color:#ff2d78;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">I-ENDO×${hasIEndo}</span>` : '',
+      hasIHm  ? `<span style="background:#ff6b0022;border:1px solid #ff6b00;color:#ff6b00;font-size:0.65rem;font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">I-HM×${hasIHm}</span>` : '',
+    ].filter(Boolean).join('');
+
+    return `
+    <div style="border:1px solid ${hasAny ? 'rgba(0,245,255,0.2)' : 'rgba(255,255,255,0.05)'};margin-bottom:0.3rem;background:${hasAny ? '#0a0820' : '#070515'};">
+      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.55rem 0.85rem;cursor:pointer;user-select:none;"
+           onclick="(function(el){var d=document.getElementById('${rowId}');if(!d)return;var open=d.style.display!=='none';d.style.display=open?'none':'block';el.querySelector('.row-arrow').textContent=open?'▶':'▼';})(this)">
+        <span class="row-arrow" style="color:${hasAny?'#00f5ff':'rgba(255,255,255,0.2)'};font-size:0.6rem;flex-shrink:0;">${startOpen?'▼':'▶'}</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:${hasAny?'#fff':'rgba(255,255,255,0.3)'};">${p}</span>
+        ${allVendor ? '<span style="font-size:0.65rem;color:#00ff64;font-family:\'Bebas Neue\',sans-serif;letter-spacing:1px;margin-left:0.25rem;">✓ FULL</span>' : ''}
+        <div style="flex:1;display:flex;flex-wrap:wrap;gap:0.25rem;justify-content:flex-end;">${badges}</div>
+        ${hasAny ? `<span style="font-size:0.7rem;color:rgba(255,255,255,0.3);font-family:'Rajdhani',sans-serif;flex-shrink:0;">${totalFiles} file${totalFiles>1?'s':''}</span>` : ''}
       </div>
-      <!-- Vendor Tests Section -->
-      <div style="padding:0.35rem 1rem 0.2rem;background:#060e10;border-top:1px solid rgba(0,245,255,0.2);border-bottom:1px solid rgba(0,245,255,0.1);">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.2em;color:var(--neon-cyan);text-transform:uppercase;">Vendor Tests</span>
-      </div>
-      <div class="peptide-tests">
-        <div class="test-row">
-          <span class="test-name">COA</span>
-          ${testBadge(coa, 'COA')}
-        </div>
-        <div class="test-row">
-          <span class="test-name">Endotoxin</span>
-          ${testBadge(endo, 'Endotoxin')}
-        </div>
-        <div class="test-row">
-          <span class="test-name">Heavy Metals</span>
-          ${testBadge(hm, 'Heavy Metals')}
-        </div>
-      </div>
-      <!-- Independent Testing Section -->
-      <div style="padding:0.35rem 1rem 0.2rem;background:#0e0610;border-top:1px solid rgba(255,45,120,0.2);border-bottom:1px solid rgba(255,45,120,0.1);">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.2em;color:var(--neon-pink);text-transform:uppercase;">Independent Testing</span>
-      </div>
-      <div class="peptide-tests">
-        <div class="test-row">
-          <span class="test-name">Indep. COA</span>
-          ${testBadge('pending', 'Independent COA')}
-        </div>
-        <div class="test-row">
-          <span class="test-name">Indep. Endotoxin</span>
-          ${testBadge('pending', 'Independent Endotoxin')}
-        </div>
-        <div class="test-row">
-          <span class="test-name">Indep. Heavy Metals</span>
-          ${testBadge('pending', 'Independent Heavy Metals')}
+      <div id="${rowId}" style="display:${startOpen?'block':'none'};">
+        <div style="padding:0 0.5rem 0.5rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--neon-cyan);padding:0.3rem 0.25rem 0.1rem;opacity:0.7;">VENDOR TESTS</div>
+          ${buildReportTimeline(v.id, p, 'coa',          '#00f5ff', 'COA')}
+          ${buildReportTimeline(v.id, p, 'endotoxin',    '#00ff64', 'ENDOTOXIN')}
+          ${buildReportTimeline(v.id, p, 'heavy-metals', '#ffe600', 'HEAVY METALS')}
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--neon-pink);padding:0.5rem 0.25rem 0.1rem;opacity:0.7;">INDEPENDENT TESTS</div>
+          ${buildReportTimeline(v.id, p, 'independent-coa',          '#ff2d78', 'INDEP. COA')}
+          ${buildReportTimeline(v.id, p, 'independent-endotoxin',    '#ff2d78', 'INDEP. ENDOTOXIN')}
+          ${buildReportTimeline(v.id, p, 'independent-heavy-metals', '#ff6b00', 'INDEP. HEAVY METALS')}
         </div>
       </div>
     </div>`;
-  }).join('');
+  }
+
+  // Show peptides with data first (expanded), then empty ones (collapsed)
+  const peptidesHtml = `
+    ${peptidesWithData.length ? `
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--neon-cyan);margin-bottom:0.4rem;opacity:0.6;">
+        ON FILE — ${peptidesWithData.length} PEPTIDE${peptidesWithData.length>1?'S':''}
+      </div>
+      ${peptidesWithData.map(p => buildPeptideRow(p, true)).join('')}
+    ` : ''}
+    ${peptidesEmpty.length ? `
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:rgba(255,255,255,0.2);margin:0.75rem 0 0.4rem;opacity:0.6;">
+        PENDING — ${peptidesEmpty.length} PEPTIDES (CLICK TO EXPAND)
+      </div>
+      ${peptidesEmpty.map(p => buildPeptideRow(p, false)).join('')}
+    ` : ''}`;
 
   document.getElementById('vendor-detail-content').innerHTML = `
     <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem;">
