@@ -2670,13 +2670,13 @@ document.addEventListener('keydown', function(e){
       <img src="vpnlogo.png?v=2" alt="VPN Verified Peptides Network Logo" class="hero-logo-img" />
     </div>
     <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:-0.5rem;margin-bottom:1rem;background:linear-gradient(90deg,rgba(180,0,255,0.18),rgba(255,45,120,0.18));border:1px solid rgba(255,45,120,0.6);box-shadow:0 0 14px rgba(180,0,255,0.3);padding:0.35rem 1.1rem;display:inline-block;">
-      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">R</span><span style="color:rgba(255,180,255,0.85);">eta</span>&nbsp;
-      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">U</span><span style="color:rgba(255,180,255,0.85);">nfiltered</span>&nbsp;
-      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">I</span><span style="color:rgba(255,180,255,0.85);">ndex</span>&nbsp;
-      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">V</span><span style="color:rgba(255,180,255,0.85);">erified</span>&nbsp;
-      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">P</span><span style="color:rgba(255,180,255,0.85);">eptide</span>&nbsp;
-      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">N</span><span style="color:rgba(255,180,255,0.85);">etwork</span>&nbsp;
-      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">D</span><span style="color:rgba(255,180,255,0.85);">ata</span>
+      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">R</span><span style="color:#ffffff;">eta</span>&nbsp;
+      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">U</span><span style="color:#ffffff;">nfiltered</span>&nbsp;
+      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">I</span><span style="color:#ffffff;">ndex</span>&nbsp;
+      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">V</span><span style="color:#ffffff;">erified</span>&nbsp;
+      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">P</span><span style="color:#ffffff;">eptide</span>&nbsp;
+      <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">N</span><span style="color:#ffffff;">etwork</span>&nbsp;
+      <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">D</span><span style="color:#ffffff;">ata</span>
     </div>
     <div class="hero-eyebrow">INNER CIRCLE DATABASE</div>
   <h1 class="hero-title">
@@ -4996,7 +4996,7 @@ function _showAdminPrompt(onSuccess) {
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 20px rgba(255,45,120,0.6);margin-bottom:0.5rem;">🔒 ADMIN ACCESS ONLY</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;margin-bottom:0.5rem;line-height:1.6;">
         COA uploads are restricted to admins only.<br>
-        <span style="color:var(--neon-cyan);">Contact David or Said Kol for admin access.</span>
+        <span style="color:var(--neon-cyan);">Only admins can upload COAs.</span>
       </div>
       <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:600;color:var(--neon-orange);margin-bottom:1.5rem;border:1px solid rgba(255,107,0,0.3);padding:0.6rem 1rem;background:#0d0a04;">
         📧 To submit results: send to <strong style="color:#fff;">vpnpepdata@yahoo.com</strong><br>
@@ -5021,7 +5021,7 @@ function _showAdminPrompt(onSuccess) {
       document.getElementById('admin-upload-btn').style.display = 'block';
       onSuccess();
     } else {
-      document.getElementById('admin-pw-error').textContent = '✕ Incorrect password — contact David or Said Kol';
+      document.getElementById('admin-pw-error').textContent = '✕ Incorrect password — admin access only';
       document.getElementById('admin-pw-input').value = '';
       document.getElementById('admin-pw-input').focus();
     }
@@ -5365,51 +5365,109 @@ function viewReport(vendorId, peptide, type, idx) {
     if (verifyPanel.style.display !== 'none') {
       verifyPanel.style.display = 'none'; return;
     }
-    const lab = (r.lab || '').toLowerCase();
-    const batch = (r.batch || '').replace('—','').trim();
     const LAB_VERIFY = {
-      'janoshik':            { name: 'Janoshik',             url: 'https://janoshik.com/verify/',                 note: 'Go to janoshik.com/verify/ → paste the unique key from the bottom of the COA.' },
-      'finnrick':            { name: 'Finnrick',              url: 'https://finnrick.com/',                        note: 'Go to finnrick.com → use the report lookup to enter this code.' },
-      'krause':              { name: 'Krause Analytics',      url: 'https://krauseanalytics.com/',                 note: 'Go to krauseanalytics.com → enter the report number to verify.' },
-      'freedom diagnostics': { name: 'Freedom Diagnostics',   url: 'https://www.freedomdiagnosticstesting.com/',   note: 'Go to FreedomDiagnosticsTesting.com → paste the Search Code into the search box.' },
-      'colmaric':            { name: 'Colmaric Analyticals',  url: 'https://colmaricanalyticals.com/',             note: 'Go to colmaricanalyticals.com → search by report number.' },
-      'peptide sciences':    { name: 'Peptide Sciences',      url: 'https://www.peptidesciences.com/',             note: 'Contact Peptide Sciences directly to verify this report.' },
-      'acro':                { name: 'Acro Biosystems',       url: 'https://www.acrobiosystems.com/',              note: 'Verify via the Acro Biosystems website.' },
-      'ams':                 { name: 'AMS Bio',               url: 'https://amsbio.com/',                          note: 'Verify via the AMS Bio website.' },
-      'intertek':            { name: 'Intertek',              url: 'https://www.intertek.com/',                    note: 'Go to intertek.com and search for the report reference number.' },
-      'eurofins':            { name: 'Eurofins',              url: 'https://www.eurofins.com/',                    note: 'Contact Eurofins directly with the report number to verify.' },
+      'janoshik':            { name: 'Janoshik',             url: 'https://janoshik.com/verify/',                note: 'Go to janoshik.com/verify/ → paste the unique key from the bottom of the COA.' },
+      'finnrick':            { name: 'Finnrick',              url: 'https://finnrick.com/',                       note: 'Go to finnrick.com → use the report lookup to enter this code.' },
+      'krause':              { name: 'Krause Analytics',      url: 'https://krauseanalytics.com/',                note: 'Go to krauseanalytics.com → enter the report number to verify.' },
+      'freedom diagnostics': { name: 'Freedom Diagnostics',   url: 'https://www.freedomdiagnosticstesting.com/', note: 'Go to FreedomDiagnosticsTesting.com → paste the Search Code into the search box.' },
+      'colmaric':            { name: 'Colmaric Analyticals',  url: 'https://colmaricanalyticals.com/',            note: 'Go to colmaricanalyticals.com → search by report number.' },
+      'peptide sciences':    { name: 'Peptide Sciences',      url: 'https://www.peptidesciences.com/',            note: 'Contact Peptide Sciences directly to verify this report.' },
+      'acro':                { name: 'Acro Biosystems',       url: 'https://www.acrobiosystems.com/',             note: 'Verify via the Acro Biosystems website.' },
+      'ams':                 { name: 'AMS Bio',               url: 'https://amsbio.com/',                         note: 'Verify via the AMS Bio website.' },
+      'intertek':            { name: 'Intertek',              url: 'https://www.intertek.com/',                   note: 'Go to intertek.com and search for the report reference number.' },
+      'eurofins':            { name: 'Eurofins',              url: 'https://www.eurofins.com/',                   note: 'Contact Eurofins directly with the report number to verify.' },
     };
-    let matched = null;
-    for (const key of Object.keys(LAB_VERIFY)) {
-      if (lab.includes(key)) { matched = LAB_VERIFY[key]; break; }
-    }
-    if (!matched) {
-      verifyContent.innerHTML = `
-        <div style="color:#ffe600;margin-bottom:0.6rem;">⚠ No direct link on file for <strong>${r.lab || 'this lab'}</strong></div>
-        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;">Search for <strong style="color:#fff;">${r.lab || 'the lab'}</strong> online and enter the code below to confirm this COA is real.</div>
-        ${batch ? `<div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.5rem;">
-          <span style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:1px;">${batch}</span>
-          <button onclick="navigator.clipboard.writeText('${batch}');this.textContent='COPIED!';setTimeout(()=>this.textContent='COPY',1500)" style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.3rem 0.75rem;cursor:pointer;">COPY</button>
-        </div>` : ''}
-        <div style="font-size:0.85rem;color:rgba(255,255,255,0.35);">If nothing comes up on the lab site — the COA may be fake.</div>`;
-    } else {
-      verifyContent.innerHTML = `
-        <div style="margin-bottom:0.5rem;font-size:1rem;">Lab: <strong style="color:#00ff64;">${matched.name}</strong></div>
-        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;font-size:0.95rem;">${matched.note}</div>
-        ${batch ? `<div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.85rem;">
+
+    function renderVerifyPanel(codeOverride) {
+      const lab = (r.lab || '').toLowerCase();
+      const batch = codeOverride || (r.batch || '').replace('—','').trim();
+      let matched = null;
+      for (const key of Object.keys(LAB_VERIFY)) {
+        if (lab.includes(key)) { matched = LAB_VERIFY[key]; break; }
+      }
+
+      const codeBox = batch ? `
+        <div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.85rem;">
           <div>
             <div style="color:#888;font-size:0.7rem;letter-spacing:1px;margin-bottom:2px;">VERIFY CODE — PASTE THIS ON THEIR SITE</div>
-            <span style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:1px;">${batch}</span>
+            <span id="active-verify-code" style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:1px;">${batch}</span>
           </div>
-          <button onclick="navigator.clipboard.writeText('${batch}');this.textContent='COPIED!';setTimeout(()=>this.textContent='COPY CODE',1500)" style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.4rem 0.85rem;cursor:pointer;white-space:nowrap;">COPY CODE</button>
-        </div>` : '<div style="color:#ffe600;margin-bottom:0.75rem;font-size:0.85rem;">⚠ No verify code on file — enter the report number manually if you have it.</div>'}
-        <a href="${matched.url}" target="_blank" rel="noopener"
-          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.5rem 1.25rem;background:#0d1a0d;border:2px solid #00ff64;color:#00ff64;text-decoration:none;cursor:pointer;display:inline-block;transition:all 0.2s;"
-          onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,100,0.4)'" onmouseout="this.style.boxShadow='none'">
-          ↗ Open ${matched.name}
-        </a>
-        <div style="margin-top:0.75rem;font-size:0.85rem;color:rgba(255,255,255,0.35);">Copy the code above → paste it on their site → if the COA matches, it's <span style="color:#00ff64;">REAL</span>. If nothing comes up — it's <span style="color:#ff2d78;">FAKE</span>.</div>`;
+          <button onclick="navigator.clipboard.writeText('${batch}');this.textContent='COPIED!';setTimeout(()=>this.textContent='COPY CODE',1500)"
+            style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.4rem 0.85rem;cursor:pointer;white-space:nowrap;">COPY CODE</button>
+        </div>` : `<div style="color:#ffe600;margin-bottom:0.75rem;font-size:0.85rem;">⚠ No verify code on file — use Scan Document below to extract it automatically.</div>`;
+
+      const scanBtn = r.dataUrl ? `
+        <button id="scan-doc-btn" onclick="scanDocumentForCode()"
+          style="background:#0a0020;border:1px solid #cc44ff;color:#cc44ff;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:1px;padding:0.45rem 1rem;cursor:pointer;margin-top:0.5rem;display:inline-block;">
+          🔍 SCAN DOCUMENT FOR CODE
+        </button>
+        <div id="scan-status" style="color:#888;font-size:0.8rem;margin-top:0.4rem;"></div>` : '';
+
+      if (!matched) {
+        verifyContent.innerHTML = `
+          <div style="color:#ffe600;margin-bottom:0.6rem;">⚠ No direct link on file for <strong>${r.lab || 'this lab'}</strong></div>
+          <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;">Search for <strong style="color:#fff;">${r.lab || 'the lab'}</strong> online and paste the code below.</div>
+          ${codeBox}${scanBtn}
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.35);margin-top:0.5rem;">If nothing comes up on the lab site — the COA may be fake.</div>`;
+      } else {
+        verifyContent.innerHTML = `
+          <div style="margin-bottom:0.5rem;font-size:1rem;">Lab: <strong style="color:#00ff64;">${matched.name}</strong></div>
+          <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;font-size:0.95rem;">${matched.note}</div>
+          ${codeBox}
+          <a href="${matched.url}" target="_blank" rel="noopener"
+            style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.5rem 1.25rem;background:#0d1a0d;border:2px solid #00ff64;color:#00ff64;text-decoration:none;cursor:pointer;display:inline-block;transition:all 0.2s;"
+            onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,100,0.4)'" onmouseout="this.style.boxShadow='none'">
+            ↗ Open ${matched.name}
+          </a>
+          ${scanBtn}
+          <div style="margin-top:0.75rem;font-size:0.85rem;color:rgba(255,255,255,0.35);">Copy the code → paste on their site → if the COA matches, it's <span style="color:#00ff64;">REAL</span>. If nothing comes up — it's <span style="color:#ff2d78;">FAKE</span>.</div>`;
+      }
     }
+
+    // Scan the COA image with AI and extract the verify code
+    window.scanDocumentForCode = async function() {
+      const btn = document.getElementById('scan-doc-btn');
+      const status = document.getElementById('scan-status');
+      if (!btn || !status) return;
+      btn.disabled = true;
+      btn.textContent = '⏳ SCANNING…';
+      status.textContent = 'AI is reading the document…';
+      try {
+        let dataUrl = r.dataUrl;
+        // If dataUrl is a relative path (local file), fetch and convert to base64
+        if (dataUrl && !dataUrl.startsWith('data:')) {
+          const resp = await fetch(dataUrl);
+          const blob = await resp.blob();
+          dataUrl = await new Promise(function(res) {
+            const fr = new FileReader();
+            fr.onload = function() { res(fr.result); };
+            fr.readAsDataURL(blob);
+          });
+        }
+        const result = await extractCOAFields(dataUrl);
+        const vc = result.verify_code;
+        const bn = result.batch_number;
+        const si = result.sample_id;
+        // Pick best available code: verify_code first, then batch_number, then sample_id
+        const found = (vc && vc.value && vc.confidence >= 0.5 ? vc.value : null)
+                   || (bn && bn.value && bn.confidence >= 0.7 ? bn.value : null)
+                   || (si && si.value && si.confidence >= 0.7 ? si.value : null);
+        if (found) {
+          status.innerHTML = '<span style="color:#00ff64;">✓ Code found — panel updated</span>';
+          renderVerifyPanel(found);
+        } else {
+          status.innerHTML = '<span style="color:#ffe600;">⚠ Could not detect code automatically — enter it manually in the Batch field when uploading</span>';
+          btn.disabled = false;
+          btn.textContent = '🔍 SCAN DOCUMENT FOR CODE';
+        }
+      } catch(e) {
+        status.innerHTML = '<span style="color:#ff2d78;">✕ Scan failed: ' + e.message + '</span>';
+        btn.disabled = false;
+        btn.textContent = '🔍 SCAN DOCUMENT FOR CODE';
+      }
+    };
+
+    renderVerifyPanel(null);
     verifyPanel.style.display = 'block';
   };
 
@@ -6116,7 +6174,8 @@ Return a JSON object with exactly these fields:
   "sample_id":     { "value": "", "confidence": 0.0, "source_text": "" },
   "compound_name": { "value": "", "confidence": 0.0, "source_text": "" },
   "purity_result": { "value": "", "confidence": 0.0, "source_text": "" },
-  "test_type":     { "value": "", "confidence": 0.0, "source_text": "" }
+  "test_type":     { "value": "", "confidence": 0.0, "source_text": "" },
+  "verify_code":   { "value": "", "confidence": 0.0, "source_text": "" }
 }
 
 Rules:
@@ -6126,7 +6185,8 @@ Rules:
 - For batch/lot numbers: preserve exact capitalization and punctuation
 - For lab names: only extract if clearly labeled as a laboratory or testing facility
 - If a field is not clearly present, set value to "" and confidence to 0.0
-- Return ONLY the JSON object, no explanation or surrounding text`;
+- Return ONLY the JSON object, no explanation or surrounding text
+- verify_code: the unique key or code printed on the document specifically for verifying the report online. Look for text like "unique key", "verify at", "search code", "task number", "report number", "accession number", or any alphanumeric code near a verification URL. For Janoshik this is the unique key at the bottom (e.g. 28CI68KEPNS8). For Freedom Diagnostics this is the Search Code (e.g. Empi2604010106). Extract the code itself, not the URL.`;
 
 let aiExtractionResult = null;
 let aiFieldsApplied = {};
