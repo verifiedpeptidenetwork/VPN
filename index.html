@@ -4291,10 +4291,19 @@ document.addEventListener('keydown', function(e){
     </div>
     <div id="viewer-meta" style="font-family:'Share Tech Mono',monospace;font-size: 1rem;color:var(--text-secondary);letter-spacing:0.06em;margin-bottom:1rem;line-height:1.8;"></div>
     <div id="viewer-content" style="margin-bottom:1rem;"></div>
-    <div style="display:flex;gap:0.75rem;">
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
       <button class="btn-secondary" onclick="document.getElementById('viewer-modal').classList.remove('open')">Close</button>
       <button class="btn-primary" id="viewer-download" style="font-size:1rem;">⬇ Download</button>
+      <button id="viewer-verify-btn" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.5rem 1.25rem;background:#0d0a1e;border:2px solid #00ff64;color:#00ff64;cursor:pointer;text-shadow:0 0 8px rgba(0,255,100,0.5);box-shadow:0 0 12px rgba(0,255,100,0.2);transition:all 0.2s;"
+        onmouseover="this.style.boxShadow='0 0 24px rgba(0,255,100,0.5)'" onmouseout="this.style.boxShadow='0 0 12px rgba(0,255,100,0.2)'">
+        🔍 Verify COA
+      </button>
       <button id="viewer-delete-btn" class="btn-secondary" style="color:var(--neon-pink);border-color:rgba(255,45,120,0.4);margin-left:auto;">🗑 Delete</button>
+    </div>
+    <!-- Verify panel -->
+    <div id="viewer-verify-panel" style="display:none;margin-top:1rem;background:#04100d;border:2px solid rgba(0,255,100,0.35);padding:1rem 1.25rem;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:#00ff64;margin-bottom:0.6rem;">🔍 COA Verification</div>
+      <div id="viewer-verify-content" style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:rgba(255,255,255,0.75);line-height:1.8;"></div>
     </div>
     <!-- Delete confirmation section -->
     <div id="viewer-confirm" style="display:none;margin-top:1rem;padding:0.85rem 1rem;background:#0d0a18;border:1px solid rgba(255,45,120,0.35);">
@@ -5343,6 +5352,46 @@ function viewReport(vendorId, peptide, type, idx) {
       a.download = r.name;
       a.click();
     }
+  };
+
+  // Wire up verify button
+  const verifyBtn = document.getElementById('viewer-verify-btn');
+  const verifyPanel = document.getElementById('viewer-verify-panel');
+  const verifyContent = document.getElementById('viewer-verify-content');
+  verifyPanel.style.display = 'none';
+  verifyBtn.onclick = function() {
+    if (verifyPanel.style.display !== 'none') {
+      verifyPanel.style.display = 'none'; return;
+    }
+    const lab = (r.lab || '').toLowerCase();
+    const batch = (r.batch || '').replace('—','').trim();
+    const LAB_VERIFY = {
+      'janoshik':   { name: 'Janoshik', url: 'https://janoshik.com/', searchUrl: batch ? 'https://janoshik.com/?q='+encodeURIComponent(batch) : 'https://janoshik.com/', note: 'Enter the report number on their site to confirm results are real.' },
+      'colmaric':   { name: 'Colmaric Analyticals', url: 'https://colmaricanalyticals.com/', searchUrl: 'https://colmaricanalyticals.com/', note: 'Search by report number on their site.' },
+      'peptide sciences': { name: 'Peptide Sciences', url: 'https://www.peptidesciences.com/', searchUrl: 'https://www.peptidesciences.com/', note: 'Contact Peptide Sciences directly to verify.' },
+      'acro':       { name: 'Acro Biosystems', url: 'https://www.acrobiosystems.com/', searchUrl: 'https://www.acrobiosystems.com/', note: 'Verify via Acro Biosystems website.' },
+      'ams':        { name: 'AMS', url: 'https://amsbio.com/', searchUrl: 'https://amsbio.com/', note: 'Verify via AMS website.' },
+    };
+    let matched = null;
+    for (const key of Object.keys(LAB_VERIFY)) {
+      if (lab.includes(key)) { matched = LAB_VERIFY[key]; break; }
+    }
+    if (!matched) {
+      verifyContent.innerHTML = `
+        <div style="color:#ffe600;margin-bottom:0.5rem;">⚠ No automatic verification available for <strong>${r.lab || 'Unknown Lab'}</strong></div>
+        <div style="color:rgba(255,255,255,0.6);">To verify manually: search for the lab online and look up report number <strong style="color:#fff;">${batch || 'N/A'}</strong> on their website.</div>`;
+    } else {
+      verifyContent.innerHTML = `
+        <div style="margin-bottom:0.5rem;">Lab: <strong style="color:#00ff64;">${matched.name}</strong> &nbsp;|&nbsp; Report #: <strong style="color:#fff;">${batch || 'Not entered'}</strong></div>
+        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;">${matched.note}</div>
+        <a href="${matched.searchUrl}" target="_blank" rel="noopener"
+          style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.5rem 1.25rem;background:#0d1a0d;border:2px solid #00ff64;color:#00ff64;text-decoration:none;cursor:pointer;display:inline-block;transition:all 0.2s;"
+          onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,100,0.4)'" onmouseout="this.style.boxShadow='none'">
+          ↗ Open ${matched.name} Verification
+        </a>
+        <div style="margin-top:0.75rem;font-size:0.9rem;color:rgba(255,255,255,0.4);">Compare: the results on their site must match what's shown in the COA above. If they don't match — the COA is fake.</div>`;
+    }
+    verifyPanel.style.display = 'block';
   };
 
   // Wire up delete button
@@ -7221,6 +7270,267 @@ function resetEmailWidget() {
   document.getElementById('widget-sent-msg').classList.remove('show');
 }
 </script>
+
+<!-- ===== COA VERIFICATION SECTION ===== -->
+<section id="coa-verify" style="position:relative;z-index:10;padding:60px 20px 80px;max-width:1100px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:40px;">
+    <div style="display:inline-block;background:linear-gradient(135deg,#ff2d78,#00f5ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:3px;">
+      VERIFY YOUR COA
+    </div>
+    <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;margin-top:8px;letter-spacing:2px;">
+      EVERY COA IS INDEPENDENTLY VERIFIED — CLICK ANY CODE TO CONFIRM IT'S REAL
+    </div>
+    <div style="color:#aaa;font-size:0.9rem;margin-top:6px;">
+      Powered by <span style="color:#ff2d78;">Freedom Diagnostics</span> · FreedomDiagnosticsTesting.com
+    </div>
+  </div>
+
+  <!-- Search Code Input -->
+  <div style="display:flex;gap:10px;justify-content:center;margin-bottom:48px;flex-wrap:wrap;">
+    <input id="coa-search-input" type="text" placeholder="Paste a Search Code (e.g. Empi2604010106)"
+      style="background:#0e0625;border:1px solid #00f5ff;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:12px 18px;border-radius:6px;width:340px;outline:none;"/>
+    <button onclick="verifyCOA()"
+      style="background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;border:none;padding:12px 28px;border-radius:6px;cursor:pointer;">
+      VERIFY
+    </button>
+  </div>
+
+  <!-- COA Cards Grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;">
+
+    <!-- Empire Peptides Group Header -->
+    <div style="grid-column:1/-1;margin-bottom:-6px;">
+      <span style="background:#ff2d7822;border:1px solid #ff2d78;color:#ff2d78;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;padding:4px 16px;border-radius:20px;">
+        EMPIRE PEPTIDES
+      </span>
+    </div>
+
+    <!-- GHK-Cu 100mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">GHK-Cu 100mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Purity: 99.402% · Blue Cap</div>
+        </div>
+        <span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">HPLC/MS</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;" id="code-0752">Empi2604010106</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Empi2604010106',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- Reta 20mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">Reta 20mg (GLP-RT)</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Purity: 99.97% · Purple Cap</div>
+        </div>
+        <span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">HPLC/MS</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Empi2604010104</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Empi2604010104',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- 5-Amino 1MQ 50mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">5-Amino 1MQ 50mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Purity: 99.411% · Light Purple Cap</div>
+        </div>
+        <span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">HPLC/MS</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Empi2604010105</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Empi2604010105',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- TESA 10mg (Empire) -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">TESA 10mg (Tesamorelin)</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Purity: 99.79% · Net: 10.85mg</div>
+        </div>
+        <span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LC-MS</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Empi2605220117</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Empi2605220117',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- Pulse BioLabs Group Header -->
+    <div style="grid-column:1/-1;margin-top:10px;margin-bottom:-6px;">
+      <span style="background:#00f5ff22;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;padding:4px 16px;border-radius:20px;">
+        PULSE BIOLABS
+      </span>
+    </div>
+
+    <!-- BPC-157 10mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">BPC-157 10mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · Blue Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260386</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260386',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- Reta 10mg (Pulse) -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">Reta 10mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · Clear Blue Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260385</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260385',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- Tesa 10mg (Pulse) -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">Tesa 10mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · Black Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260387</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260387',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- GHK-CU 100mg (Pulse) -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">GHK-CU 100mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · Blue Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260389</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260389',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- TB-500 10mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">TB-500 10mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · Red Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260388</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260388',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+    <!-- NAD+ 100mg -->
+    <div class="coa-card" style="background:#0e0625;border:1px solid #1a0a35;border-radius:10px;padding:20px 22px;transition:border-color 0.2s;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;">NAD+ 100mg</div>
+          <div style="color:#aaa;font-size:0.82rem;margin-top:2px;">Endotoxin: Pass · White Cap</div>
+        </div>
+        <span style="background:#ffe60022;border:1px solid #ffe600;color:#ffe600;font-size:0.75rem;padding:3px 10px;border-radius:20px;white-space:nowrap;">LAL ASSAY</span>
+      </div>
+      <div style="background:#050012;border:1px solid #1a0a35;border-radius:6px;padding:10px 14px;margin-bottom:14px;">
+        <div style="color:#888;font-size:0.75rem;letter-spacing:1px;margin-bottom:3px;">SEARCH CODE</div>
+        <div style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;">Puls2605260384</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="copyCode('Puls2605260384',this)" style="flex:1;background:#1a0a35;border:1px solid #2a1a4a;color:#ccc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;">COPY CODE</button>
+        <a href="https://www.freedomdiagnosticstesting.com" target="_blank" style="flex:1;background:linear-gradient(135deg,#ff2d78,#ff6b00);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.85rem;padding:8px;border-radius:5px;cursor:pointer;text-decoration:none;text-align:center;">VERIFY NOW ↗</a>
+      </div>
+    </div>
+
+  </div><!-- end grid -->
+
+  <!-- Bottom note -->
+  <div style="text-align:center;margin-top:40px;color:#666;font-size:0.85rem;line-height:1.6;">
+    To verify: go to <span style="color:#00f5ff;">FreedomDiagnosticsTesting.com</span> → enter the Search Code above → if the COA appears, it's <span style="color:#00ff88;">REAL</span>. If nothing comes up, it's <span style="color:#ff2d78;">FAKE</span>.
+  </div>
+</section>
+
+<style>
+.coa-card:hover { border-color: #00f5ff !important; }
+</style>
+
+<script>
+function copyCode(code, btn) {
+  navigator.clipboard.writeText(code).then(function() {
+    var orig = btn.textContent;
+    btn.textContent = 'COPIED!';
+    btn.style.color = '#00f5ff';
+    setTimeout(function() { btn.textContent = orig; btn.style.color = '#ccc'; }, 1500);
+  });
+}
+
+function verifyCOA() {
+  var input = document.getElementById('coa-search-input').value.trim();
+  if (!input) return;
+  window.open('https://www.freedomdiagnosticstesting.com', '_blank');
+}
+</script>
+<!-- ===== END COA VERIFICATION SECTION ===== -->
 
 </body>
 </html>
