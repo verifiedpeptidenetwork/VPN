@@ -4496,9 +4496,31 @@ document.addEventListener('keydown', function(e){
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:var(--neon-pink);text-align:center;">HEAVY METALS</div>
   </div>
 
+  <!-- Folder Import Box -->
+  <div id="au-folder-import" style="width:min(900px,98vw);margin-bottom:1rem;background:#060e18;border:2px solid rgba(0,245,255,0.4);padding:1.25rem;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+      <span style="font-size:1.5rem;">📁</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);">Folder Auto-Import</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.4);">Share the vendor's Drive folder link — the site reads every file and maps them automatically</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+      <input id="au-folder-link" type="url" placeholder="https://drive.google.com/drive/folders/..."
+        style="flex:1;background:#0a0a1e;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;padding:0.6rem 0.9rem;outline:none;min-width:0;" />
+      <button onclick="scanDriveFolder()" id="au-scan-btn"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.6rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);cursor:pointer;white-space:nowrap;transition:all 0.2s;"
+        onmouseover="this.style.boxShadow='0 0 20px rgba(0,245,255,0.4)'"
+        onmouseout="this.style.boxShadow='none'">
+        🔍 Scan Folder
+      </button>
+    </div>
+    <div id="au-scan-status" style="margin-top:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;min-height:1.2em;"></div>
+  </div>
+
   <!-- Peptide rows -->
   <div id="au-batch-rows" style="width:min(900px,98vw);flex:1;margin-bottom:1rem;">
-    <div style="text-align:center;padding:3rem;font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides</div>
+    <div style="text-align:center;padding:3rem;font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,0.3);">← Select a vendor above to load peptides, or paste a folder link to auto-import</div>
   </div>
 
   <!-- Footer -->
@@ -5089,8 +5111,10 @@ let currentUploadVendor = '';
 let currentUploadPeptide = '';
 let _uploadModalOrigHTML = '';
 
+// ── GOOGLE DRIVE API ─────────────────────────────────────────────────────────
+const GDRIVE_API_KEY = 'AIzaSyCgVKLaTAYXD8VD8-YE4v1GwWTUuFDFjVY';
+
 // ── SUPABASE CONFIG ──────────────────────────────────────────────────────────
-// Paste your Supabase URL and anon key here after setup:
 const SUPA_URL = 'https://uyefbiupwwmcxsysztkf.supabase.co';
 const SUPA_KEY = 'sb_publishable_RkrTBUzQGd2UYcCIPASHSg_nBgn8qDL';
 
@@ -6387,44 +6411,67 @@ function submitBatchUpload() {
 
   const lab   = document.getElementById('au-lab').value.trim();
   const batch = document.getElementById('au-batch').value.trim();
-  const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
   const date  = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-
   let saved = 0;
   const errors = [];
 
-  inputs.forEach(function(inp) {
-    const rawLink = inp.value.trim();
-    if (!rawLink) return;
+  // Check if this is a folder-scan result (has select[data-role] elements)
+  const scanSelects = document.querySelectorAll('#au-batch-rows select[data-role="peptide"]');
+  const isFromScan  = scanSelects.length > 0;
 
-    if (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com')) {
-      errors.push(inp.dataset.peptide + ' — not a Drive link');
-      inp.style.borderColor = 'var(--neon-pink)';
-      return;
-    }
+  if (isFromScan) {
+    // Folder scan mode — read from dropdowns + hidden link inputs
+    scanSelects.forEach(function(pSel) {
+      const fileId   = pSel.dataset.fileId;
+      const peptide  = pSel.value;
+      if (!peptide) return;
+      const typeSel  = document.querySelector(`select[data-role="type"][data-file-id="${fileId}"]`);
+      const linkInp  = document.querySelector(`input[data-role="link"][data-file-id="${fileId}"]`);
+      const testType = typeSel ? typeSel.value : 'coa';
+      const driveUrl = linkInp ? linkInp.value : '';
+      if (!driveUrl) return;
 
-    const peptide  = inp.dataset.peptide;
-    const testType = inp.dataset.type;
-    const driveUrl = normalizeDriveLink(rawLink);
-    const key      = storeKey(vendorId, peptide, testType);
-
-    const report = {
-      name: 'Google Drive — ' + (lab || testType),
-      lab:  lab   || 'Unknown Lab',
-      batch: batch || '—',
-      notes: '', capColor: '',
-      driveUrl: driveUrl,
-      rawDriveLink: rawLink,
-      type: testType,
-      date: date,
-      isPdf: true,
-      metadataSource: 'manual'
-    };
-
-    storeLocally(key, report);
-    saveReportToDB(vendorId, peptide, testType, report);
-    saved++;
-  });
+      const key = storeKey(vendorId, peptide, testType);
+      const report = {
+        name: 'Google Drive — ' + (lab || testType),
+        lab: lab || 'Unknown Lab', batch: batch || '—',
+        notes: '', capColor: '',
+        driveUrl: driveUrl, rawDriveLink: driveUrl,
+        type: testType, date: date, isPdf: true,
+        metadataSource: 'auto_drive'
+      };
+      storeLocally(key, report);
+      saveReportToDB(vendorId, peptide, testType, report);
+      saved++;
+    });
+  } else {
+    // Manual grid mode — read from url inputs
+    const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
+    inputs.forEach(function(inp) {
+      const rawLink = inp.value.trim();
+      if (!rawLink) return;
+      if (!rawLink.includes('drive.google.com') && !rawLink.includes('docs.google.com')) {
+        errors.push(inp.dataset.peptide + ' — not a Drive link');
+        inp.style.borderColor = 'var(--neon-pink)';
+        return;
+      }
+      const peptide  = inp.dataset.peptide;
+      const testType = inp.dataset.type;
+      const driveUrl = normalizeDriveLink(rawLink);
+      const key      = storeKey(vendorId, peptide, testType);
+      const report = {
+        name: 'Google Drive — ' + (lab || testType),
+        lab: lab || 'Unknown Lab', batch: batch || '—',
+        notes: '', capColor: '',
+        driveUrl: driveUrl, rawDriveLink: rawLink,
+        type: testType, date: date, isPdf: true,
+        metadataSource: 'manual'
+      };
+      storeLocally(key, report);
+      saveReportToDB(vendorId, peptide, testType, report);
+      saved++;
+    });
+  }
 
   if (currentVendor && currentVendor.id === vendorId) renderVendorDetail(currentVendor);
 
@@ -6448,6 +6495,202 @@ function submitBatchUpload() {
       </button>
     </div>
   `;
+}
+
+// ===== GOOGLE DRIVE FOLDER SCAN =====
+
+// Keyword → peptide name map
+const PEPTIDE_KEYWORDS = {
+  'reta':        'Retatrutide',
+  'retatrutide': 'Retatrutide',
+  'tirz':        'Tirzepatide',
+  'tirzepatide': 'Tirzepatide',
+  'sema':        'Semaglutide',
+  'semaglutide': 'Semaglutide',
+  'semax':       'Semax',
+  'nasemax':     'Na Semax',
+  'na semax':    'Na Semax',
+  'selank':      'Selank',
+  'naselank':    'Na Selank',
+  'na selank':   'Na Selank',
+  'cagri':       'Cagrilintide',
+  'cagrilintide':'Cagrilintide',
+  'mazd':        'Mazdutide',
+  'survo':       'Survodutide',
+  '5amino':      '5-Amino-1MQ',
+  '5-amino':     '5-Amino-1MQ',
+  '5 amino':     '5-Amino-1MQ',
+  'vip':         'VIP',
+  'bpc':         'BPC-157',
+  'bpc157':      'BPC-157',
+  'tb500':       'TB-500',
+  'tb-500':      'TB-500',
+  'tb 500':      'TB-500',
+  'aod':         'AOD-9604',
+  'testagen':    'Testagen',
+  'hexarelin':   'Hexarelin',
+  'hgh':         'HGH Fragment 176-191',
+  'pt141':       'PT-141',
+  'pt-141':      'PT-141',
+  'pe2228':      'PE-22-28',
+  'pe-22':       'PE-22-28',
+  'kiss':        'Kisspeptin',
+  'epitalon':    'Epitalon',
+  'naepitalon':  'Na Epitalon',
+  'melanotan1':  'Melanotan I',
+  'melanotan2':  'Melanotan II',
+  'mt1':         'Melanotan I',
+  'mt2':         'Melanotan II',
+  'cjc':         'CJC-1295 No DAC',
+  'ipamorelin':  'Ipamorelin',
+  'ipa':         'Ipamorelin',
+  'ghrp2':       'GHRP-2',
+  'ghrp6':       'GHRP-6',
+  'tesa':        'Tesamorelin',
+  'tesamorelin': 'Tesamorelin',
+  'motsc':       'MOTS-C',
+  'mots':        'MOTS-C',
+  'ss31':        'SS-31',
+  'thymosin':    'Thymosin Alpha-1',
+  'ta1':         'Thymosin Alpha-1',
+  'thymulin':    'Thymulin',
+  'adamax':      'Adamax',
+  'foxo':        'FOXO4-DRI',
+  'oxytocin':    'Oxytocin',
+  'snap':        'SNAP-8',
+  'dsip':        'DSIP',
+  'ghkcu':       'GHK-Cu',
+  'ghk':         'GHK-Cu',
+  'nad':         'NAD+',
+  'glutathione': 'Glutathione',
+  'kpv':         'KPV',
+  'll37':        'LL-37',
+  'sermorelin':  'Sermorelin',
+  'abalo':       'Abaloparatide',
+  'teriparatide':'Teriparatide',
+  'cerebrolysin':'Cerebrolysin',
+};
+
+function mapFileToPeptide(filename) {
+  const lower = filename.toLowerCase().replace(/[_\-\.]/g,' ');
+  // Try longest match first
+  const sorted = Object.keys(PEPTIDE_KEYWORDS).sort((a,b) => b.length - a.length);
+  for (const kw of sorted) {
+    if (lower.includes(kw)) return PEPTIDE_KEYWORDS[kw];
+  }
+  return null;
+}
+
+function detectTestType(filename) {
+  const lower = filename.toLowerCase();
+  if (lower.includes('indep') || lower.includes('independent')) {
+    if (lower.includes('endo')) return 'independent-endotoxin';
+    if (lower.includes('hm') || lower.includes('heavy') || lower.includes('metal')) return 'independent-heavy-metals';
+    return 'independent-coa';
+  }
+  if (lower.includes('endo') || lower.includes('lal') || lower.includes('rfc')) return 'endotoxin';
+  if (lower.includes('heavy') || lower.includes('metal') || lower.includes('icp') || lower.includes(' hm')) return 'heavy-metals';
+  return 'coa';
+}
+
+function extractFolderId(url) {
+  const m = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : null;
+}
+
+async function scanDriveFolder() {
+  const vendorId = document.getElementById('au-vendor').value;
+  if (!vendorId) {
+    setAuScanStatus('⚠ Select a vendor first', '#ffe600'); return;
+  }
+  const folderUrl = document.getElementById('au-folder-link').value.trim();
+  const folderId  = extractFolderId(folderUrl);
+  if (!folderId) {
+    setAuScanStatus('✗ Not a valid Drive folder link', 'var(--neon-pink)'); return;
+  }
+
+  const btn = document.getElementById('au-scan-btn');
+  btn.textContent = '⏳ Scanning…';
+  btn.style.opacity = '0.6';
+  setAuScanStatus('Reading folder contents…', 'rgba(255,255,255,0.5)');
+
+  try {
+    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${GDRIVE_API_KEY}&fields=files(id,name,mimeType,webViewLink)&pageSize=200`;
+    const res  = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) {
+      setAuScanStatus('✗ ' + data.error.message, 'var(--neon-pink)');
+      btn.textContent = '🔍 Scan Folder'; btn.style.opacity = '1';
+      return;
+    }
+
+    const files = (data.files || []).filter(f => f.mimeType && f.mimeType.startsWith('image') || (f.mimeType||'').includes('pdf'));
+    if (!files.length) {
+      setAuScanStatus('No image/PDF files found in that folder', '#ffe600');
+      btn.textContent = '🔍 Scan Folder'; btn.style.opacity = '1';
+      return;
+    }
+
+    renderScanResults(files, vendorId);
+    setAuScanStatus('✓ Found ' + files.length + ' file' + (files.length>1?'s':'') + ' — review and submit', '#00ff64');
+  } catch(e) {
+    setAuScanStatus('✗ Network error — check your connection', 'var(--neon-pink)');
+  }
+  btn.textContent = '🔍 Scan Folder'; btn.style.opacity = '1';
+}
+
+function setAuScanStatus(msg, color) {
+  const el = document.getElementById('au-scan-status');
+  if (el) { el.textContent = msg; el.style.color = color; }
+}
+
+function renderScanResults(files, vendorId) {
+  const container = document.getElementById('au-batch-rows');
+  const vendor = VENDORS.find(v => v.id === vendorId);
+
+  let html = `
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.2em;color:var(--neon-cyan);padding:0.5rem 0.25rem 0.4rem;border-bottom:1px solid rgba(0,245,255,0.2);margin-bottom:0.5rem;">
+    ${vendor ? vendor.name : vendorId} — ${files.length} files detected · Fix any wrong peptide or test type below
+  </div>
+  <div style="display:grid;grid-template-columns:2fr 2fr 1.5fr 2fr;gap:0.4rem;margin-bottom:0.4rem;padding:0 0.25rem;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">FILE NAME</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--neon-cyan);">PEPTIDE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ffe600);">TEST TYPE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">DRIVE LINK</div>
+  </div>`;
+
+  const inputStyle = 'width:100%;background:#060412;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.78rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;';
+  const selectStyle = 'width:100%;background:#060412;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.78rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;';
+
+  files.forEach(function(f, i) {
+    const detectedPeptide  = mapFileToPeptide(f.name) || '';
+    const detectedType     = detectTestType(f.name);
+    const drivePreviewLink = 'https://drive.google.com/file/d/' + f.id + '/preview';
+    const bg = i % 2 === 0 ? '#0a0820' : '#0d0a28';
+
+    const peptideOptions = PEPTIDES.map(p =>
+      `<option value="${p}" ${p === detectedPeptide ? 'selected' : ''}>${p}</option>`
+    ).join('');
+
+    const typeOptions = [
+      ['coa','COA'],['endotoxin','Endotoxin'],['heavy-metals','Heavy Metals'],
+      ['independent-coa','Indep. COA'],['independent-endotoxin','Indep. Endo'],['independent-heavy-metals','Indep. HM']
+    ].map(([v,l]) => `<option value="${v}" ${v===detectedType?'selected':''}>${l}</option>`).join('');
+
+    html += `<div style="display:grid;grid-template-columns:2fr 2fr 1.5fr 2fr;gap:0.4rem;margin-bottom:0.3rem;background:${bg};padding:0.4rem 0.25rem;align-items:center;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${f.name}">${f.name}</div>
+      <select data-file-id="${f.id}" data-role="peptide" style="${selectStyle}">
+        <option value="">— Select —</option>${peptideOptions}
+      </select>
+      <select data-file-id="${f.id}" data-role="type" style="${selectStyle}">${typeOptions}</select>
+      <input type="hidden" data-file-id="${f.id}" data-role="link" value="${drivePreviewLink}" />
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:${detectedPeptide?'#00ff64':'#ffe600'};">${detectedPeptide ? '✓ Auto-detected' : '⚠ Select peptide'}</div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  document.getElementById('au-fill-count').textContent = files.length + ' files ready — review then Submit All';
 }
 
 function initAdminBatchFresh() {
