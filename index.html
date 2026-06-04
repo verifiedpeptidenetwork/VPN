@@ -2710,7 +2710,7 @@ document.addEventListener('keydown', function(e){
         <div class="feature-card-arrow">›</div>
       </div>
 
-      <div class="feature-card pink" onclick="showView('home'); setTimeout(function(){ document.getElementById('vendors-grid').scrollIntoView({behavior:'smooth'}); }, 100);">
+      <div class="feature-card pink" onclick="showView('coa-verify'); setActiveNav(null);">
         <div class="feature-card-icon">🧪</div>
         <div class="feature-card-text">
           <div class="feature-card-title">COA Database & Verifying</div>
@@ -7552,8 +7552,10 @@ function resetEmailWidget() {
 }
 </script>
 
-<!-- ===== COA VERIFICATION SECTION ===== -->
-<section id="coa-verify" style="position:relative;z-index:10;padding:60px 20px 80px;max-width:1100px;margin:0 auto;">
+<!-- ===== COA VERIFICATION VIEW ===== -->
+<div class="view" id="view-coa-verify">
+<button class="back-btn" onclick="showView('home')">← Back to Home</button>
+<section id="coa-verify" style="position:relative;z-index:10;padding:20px 20px 80px;max-width:1100px;margin:0 auto;">
   <div style="text-align:center;margin-bottom:40px;">
     <div style="display:inline-block;background:linear-gradient(135deg,#ff2d78,#00f5ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:3px;">
       VERIFY YOUR COA
@@ -7812,6 +7814,7 @@ function verifyCOA() {
 }
 </script>
 <!-- ===== END COA VERIFICATION SECTION ===== -->
+</div><!-- end view-coa-verify -->
 
 </body>
 </html>
