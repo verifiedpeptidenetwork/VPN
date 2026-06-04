@@ -6528,19 +6528,53 @@ function renderBatchTab() {
   </div>`;
 
   PEPTIDES.forEach(function(p, i) {
+    const vendorId = document.getElementById('au-vendor').value;
     const bg = i % 2 === 0 ? rowBg1 : rowBg2;
-    html += `<div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.25rem;background:${bg};padding:0.35rem 0.25rem;align-items:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${p}">${p}</div>
-      ${TYPES.map(function(t) {
-        return `<input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Drive link…" oninput="updateBatchCount()"
-          style="width:100%;background:${inputBg};border:1px solid ${inputBorder};color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.75rem;padding:0.35rem 0.4rem;box-sizing:border-box;outline:none;min-width:0;"
-          onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='${inputBorder}'" />`;
-      }).join('')}
+    const safeId = p.replace(/[^a-z0-9]/gi,'');
+
+    const typeCells = TYPES.map(function(t) {
+      const existing = vendorId ? (reportStore[vendorId+'||'+p+'||'+t.key] || []) : [];
+      const existingHtml = existing.length ? `
+        <div style="margin-bottom:0.3rem;display:flex;flex-wrap:wrap;gap:0.2rem;">
+          ${existing.map((_,idx) => `<span style="font-size:0.65rem;background:${t.color}22;border:1px solid ${t.color}55;color:${t.color};font-family:'Bebas Neue',sans-serif;padding:1px 5px;letter-spacing:1px;">FILE ${idx+1} ✓</span>`).join('')}
+        </div>` : '';
+      const slotId = `slots-${safeId}-${t.key}`;
+      return `<div style="display:flex;flex-direction:column;gap:0.2rem;">
+        ${existingHtml}
+        <div id="${slotId}">
+          <input type="url" data-peptide="${p}" data-type="${t.key}" placeholder="Paste Drive link…" oninput="updateBatchCount()"
+            style="width:100%;background:${inputBg};border:1px solid ${inputBorder};color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.72rem;padding:0.3rem 0.4rem;box-sizing:border-box;outline:none;"
+            onfocus="this.style.borderColor='${t.color}'" onblur="this.style.borderColor='${inputBorder}'" />
+        </div>
+        <button onclick="addUploadSlot('${slotId}','${p}','${t.key}','${t.color}','${inputBg}','${inputBorder}')"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:1px;color:${t.color};background:transparent;border:1px dashed ${t.color}44;cursor:pointer;padding:1px 4px;text-align:left;">+ ADD</button>
+      </div>`;
+    }).join('');
+
+    html += `<div style="display:grid;grid-template-columns:160px 1fr 1fr 1fr;gap:0.4rem;margin-bottom:0.3rem;background:${bg};padding:0.4rem 0.25rem;align-items:start;">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.82rem;color:#fff;padding-left:0.25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-top:0.3rem;" title="${p}">${p}</div>
+      ${typeCells}
     </div>`;
   });
 
   container.innerHTML = html;
   updateBatchCount();
+}
+
+function addUploadSlot(slotId, peptide, typeKey, color, bg, border) {
+  const container = document.getElementById(slotId);
+  if (!container) return;
+  const inp = document.createElement('input');
+  inp.type = 'url';
+  inp.dataset.peptide = peptide;
+  inp.dataset.type = typeKey;
+  inp.placeholder = 'Paste Drive link…';
+  inp.oninput = updateBatchCount;
+  inp.style.cssText = `width:100%;background:${bg};border:1px solid ${border};color:#fff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.72rem;padding:0.3rem 0.4rem;box-sizing:border-box;outline:none;margin-top:0.2rem;`;
+  inp.onfocus = function(){ this.style.borderColor = color; };
+  inp.onblur  = function(){ this.style.borderColor = border; };
+  container.appendChild(inp);
+  inp.focus();
 }
 
 function updateBatchCount() {
