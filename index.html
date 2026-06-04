@@ -6544,10 +6544,15 @@ function submitBatchUpload() {
       const driveUrl = linkInp ? linkInp.value : '';
       if (!driveUrl) return;
 
+      const batchInp   = document.querySelector(`input[data-role="batch"][data-file-id="${fileId}"]`);
+      const scannedLab = document.querySelector(`input[data-role="scanned-lab"][data-file-id="${fileId}"]`);
+      const fileBatch  = (batchInp && batchInp.value) ? batchInp.value : (batch || '—');
+      const fileLab    = (scannedLab && scannedLab.value) ? scannedLab.value : (lab || 'Unknown Lab');
+
       const key = storeKey(vendorId, peptide, testType);
       const report = {
-        name: 'Google Drive — ' + (lab || testType),
-        lab: lab || 'Unknown Lab', batch: batch || '—',
+        name: 'Google Drive — ' + (fileLab || testType),
+        lab: fileLab, batch: fileBatch,
         notes: '', capColor: '',
         driveUrl: driveUrl, rawDriveLink: driveUrl,
         type: testType, date: date, isPdf: true,
@@ -6850,13 +6855,29 @@ async function aiAutoDetectAll() {
       const cn = result.compound_name;
       const pn = result.product_name;
       const tt = result.test_type;
+      const vc = result.verify_code;
+      const bn = result.batch_number;
+      const si = result.sample_id;
+      const ln = result.lab_name;
 
-      // Find best peptide match from AI result
+      // Best peptide name from AI
       const rawName = (cn && cn.confidence >= 0.5 ? cn.value : '')
                    || (pn && pn.confidence >= 0.5 ? pn.value : '');
+
+      // Best verify/task code — verify_code first (unique key), then batch_number (task #), then sample_id
+      const foundCode = (vc && vc.value && vc.confidence >= 0.5 ? vc.value : null)
+                     || (bn && bn.value && bn.confidence >= 0.6 ? bn.value : null)
+                     || (si && si.value && si.confidence >= 0.6 ? si.value : null);
+
+      const foundLab = (ln && ln.value && ln.confidence >= 0.5) ? ln.value : null;
+
+      const row = pSel.closest('div[style*="grid"]');
+      const statusDiv = row ? row.querySelector('div:last-child') : null;
+      let statusParts = [];
+
+      // Auto-fill peptide dropdown
       if (rawName) {
         const lower = rawName.toLowerCase();
-        // Try to match to a PEPTIDES list option
         const matchedOpt = Array.from(pSel.options).find(o =>
           o.value && lower.includes(o.value.toLowerCase())
         ) || Array.from(pSel.options).find(o =>
@@ -6865,26 +6886,58 @@ async function aiAutoDetectAll() {
         if (matchedOpt) {
           pSel.value = matchedOpt.value;
           pSel.style.borderColor = '#00ff64';
-          // Update status cell
-          const statusDiv = pSel.closest('div[style*="grid"]').querySelector('div:last-child');
-          if (statusDiv) { statusDiv.style.color = '#00ff64'; statusDiv.textContent = '✓ AI detected'; }
+          statusParts.push('✓ ' + matchedOpt.value);
         }
       }
 
-      // Update test type if detected
+      // Auto-fill test type
       if (tt && tt.value && tt.confidence >= 0.5) {
         const typeSel = document.querySelector(`select[data-role="type"][data-file-id="${fileId}"]`);
         if (typeSel) {
           const ttLower = tt.value.toLowerCase();
           const matchedType = Array.from(typeSel.options).find(o =>
-            ttLower.includes(o.value.replace(/-/g,' ').replace('independent','indep')) ||
-            ttLower.includes('endotoxin') && o.value.includes('endotoxin') ||
-            ttLower.includes('heavy') && o.value.includes('heavy') ||
-            ttLower.includes('purity') && o.value === 'coa'
+            (ttLower.includes('endotoxin') && o.value.includes('endotoxin')) ||
+            (ttLower.includes('heavy') && o.value.includes('heavy')) ||
+            (ttLower.includes('purity') && o.value === 'coa') ||
+            (ttLower.includes('coa') && o.value === 'coa')
           );
           if (matchedType) typeSel.value = matchedType.value;
         }
       }
+
+      // Store task number + unique key in a hidden input per file
+      if (foundCode) {
+        let batchInp = document.querySelector(`input[data-role="batch"][data-file-id="${fileId}"]`);
+        if (!batchInp) {
+          batchInp = document.createElement('input');
+          batchInp.type = 'hidden';
+          batchInp.dataset.role = 'batch';
+          batchInp.dataset.fileId = fileId;
+          if (row) row.appendChild(batchInp);
+        }
+        batchInp.value = foundCode;
+        statusParts.push('🔑 ' + foundCode);
+      }
+
+      // Store lab name per file
+      if (foundLab) {
+        let labInp = document.querySelector(`input[data-role="scanned-lab"][data-file-id="${fileId}"]`);
+        if (!labInp) {
+          labInp = document.createElement('input');
+          labInp.type = 'hidden';
+          labInp.dataset.role = 'scanned-lab';
+          labInp.dataset.fileId = fileId;
+          if (row) row.appendChild(labInp);
+        }
+        labInp.value = foundLab;
+        statusParts.push('🏛 ' + foundLab);
+      }
+
+      if (statusDiv && statusParts.length) {
+        statusDiv.style.color = '#00ff64';
+        statusDiv.innerHTML = statusParts.join('<br>');
+      }
+
     } catch(e) {
       console.warn('AI detect failed for', fileId, e.message);
     }
