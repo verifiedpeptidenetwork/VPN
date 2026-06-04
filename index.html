@@ -4364,8 +4364,8 @@ document.addEventListener('keydown', function(e){
     <div class="modal-form">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
         <div class="form-field">
-          <label class="form-label">Batch / Lot #</label>
-          <input class="form-input" id="modal-batch" type="text" placeholder="e.g. RT10-0502" />
+          <label class="form-label">Batch / Lot # <span style="color:#00f5ff;font-size:0.8em;">(= Lab Verify Code)</span></label>
+          <input class="form-input" id="modal-batch" type="text" placeholder="e.g. Empi2604010106 or report #" />
         </div>
         <div class="form-field">
           <label class="form-label">Lab Name</label>
@@ -4452,8 +4452,8 @@ document.addEventListener('keydown', function(e){
       <input id="au-lab" type="text" placeholder="e.g. Janoshik" style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;" />
     </div>
     <div>
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.35rem;">Batch / Lot # <span style="font-size:0.7em;opacity:0.5;">(optional)</span></label>
-      <input id="au-batch" type="text" placeholder="e.g. RT10-0502" style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;" />
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:rgba(255,255,255,0.5);display:block;margin-bottom:0.35rem;">Batch / Lab Verify Code <span style="font-size:0.7em;color:#00f5ff;">(the code members paste on the lab site to verify)</span></label>
+      <input id="au-batch" type="text" placeholder="e.g. Empi2604010106, Janoshik report #, etc." style="width:100%;background:#0a0a1e;border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;padding:0.55rem 0.75rem;box-sizing:border-box;outline:none;" />
     </div>
   </div>
 
@@ -4984,7 +4984,7 @@ function filterPeptideCards(query) {
 
 // ── ADMIN GATE ────────────────────────────────────────────────────────────────
 // ⚠ ADMIN PASSWORD — only share with David and Said Kol.
-const _ADMIN_PW = 'deen1439';
+const _ADMIN_PW = 'deen2026';
 function _checkAdminPw(pw) { return pw === _ADMIN_PW; }
 
 function _showAdminPrompt(onSuccess) {
@@ -5002,7 +5002,7 @@ function _showAdminPrompt(onSuccess) {
         📧 To submit results: send to <strong style="color:#fff;">vpnpepdata@yahoo.com</strong><br>
         Subject: <em>Vendor Name · Test Type · COA or Group Testing</em>
       </div>
-      <input id="admin-pw-input" type="password" placeholder="Enter admin password…"
+      <input id="admin-pw-input" type="password" placeholder="Enter admin password…" autocomplete="new-password"
         style="width:100%;padding:0.65rem 1rem;background:#02010a;border:1px solid rgba(255,45,120,0.5);color:#ffffff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.1em;margin-bottom:0.75rem;outline:none;"
         onkeydown="if(event.key==='Enter')document.getElementById('admin-pw-submit').click()">
       <div id="admin-pw-error" style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;color:var(--neon-pink);min-height:1.2rem;margin-bottom:0.5rem;"></div>
@@ -5118,26 +5118,28 @@ const reportStore = {};
       metadataSource: 'manual'
     });
   }
-  // GHK-Cu 100mg — purity — COA 2604010106
-  add('GHK-Cu',       'coa',       'IMG_0752.jpeg', '2604010106', 'Blue Cap',        '104.66mg net · 99.402% purity',    'Apr 2, 2026');
-  // Retatrutide 20mg — purity — COA 2604010104
-  add('Retatrutide',  'coa',       'IMG_0753.jpeg', '2604010104', 'Purple Cap',      '25.80mg net · GLP RT · 99.97%',    'Apr 2, 2026');
-  // 5-Amino-1MQ — purity — COA 2604010105
-  add('5-Amino-1MQ',  'coa',       'IMG_0754.jpeg', '2604010105', 'Light Purple Cap','5.27mg net · 99.411% purity',      'Apr 2, 2026');
-  // Tesamorelin 10mg — purity — COA 2605220117
-  add('Tesamorelin',  'coa',       'IMG_1198.jpeg', '2605220117', 'White',           '10.85mg net · 99.79% purity',      'May 24, 2026');
-  // Tesamorelin 10mg — endotoxin — COA 2605220117
-  add('Tesamorelin',  'endotoxin', 'IMG_1242.jpeg', '2605220117', 'White',           'Pass · TESA 10mg',                 'May 24, 2026');
+  // GHK-Cu 100mg — purity
+  add('GHK-Cu',       'coa',       'IMG_0752.jpeg', 'Empi2604010106',  'Blue Cap',        '104.66mg net · 99.402% purity',       'Apr 2, 2026');
+  // Retatrutide 20mg — purity
+  add('Retatrutide',  'coa',       'IMG_0753.jpeg', 'Empi2604010104',  'Purple Cap',      '25.80mg net · GLP RT · 99.97%',       'Apr 2, 2026');
+  // 5-Amino-1MQ — purity
+  add('5-Amino-1MQ',  'coa',       'IMG_0754.jpeg', 'Empi2604010105',  'Light Purple Cap','5.27mg net · 99.411% purity',         'Apr 2, 2026');
+  // Tesamorelin 10mg — purity
+  add('Tesamorelin',  'coa',       'IMG_1198.jpeg', 'Empi2605220117',  'White',           '10.85mg net · 99.79% purity',         'May 24, 2026');
+  // Tesamorelin 10mg — endotoxin
+  add('Tesamorelin',  'endotoxin', 'IMG_1198.jpeg', 'Empi2605220117',  'White',           'Pass · TESA 10mg',                    'May 24, 2026');
   // Retatrutide 10mg — endotoxin
-  add('Retatrutide',  'endotoxin', 'IMG_1243.jpeg', 'Batch-Reta10', 'Purple Cap',    'Reta 10mg endotoxin report',       'May 2026');
-  // Retatrutide 20mg — endotoxin
-  add('Retatrutide',  'endotoxin', 'IMG_1244.jpeg', '2604010104',  'Purple Cap',     'Reta 20mg endotoxin report',       'Apr 2026');
-  // NAD+ 1000mg — endotoxin
-  add('NAD+',         'endotoxin', 'IMG_1245.jpeg', 'Batch-NAD1000','White',         'NAD+ 1000mg endotoxin report',     'May 2026');
+  add('Retatrutide',  'endotoxin', 'IMG_1243.jpeg', 'Puls2605260385',  'Clear Blue Cap',  'Reta 10mg endotoxin pass',            'May 27, 2026');
+  // Tesamorelin 10mg — endotoxin (Pulse batch)
+  add('Tesamorelin',  'endotoxin', 'IMG_1244.jpeg', 'Puls2605260387',  'Black Cap',       'Tesa 10mg endotoxin pass',            'May 27, 2026');
+  // GHK-CU 100mg — endotoxin
+  add('GHK-Cu',       'endotoxin', 'IMG_1245.jpeg', 'Puls2605260389',  'Blue Cap',        'GHK-CU 100mg endotoxin pass',         'May 27, 2026');
   // TB-500 10mg — endotoxin
-  add('TB-500',       'endotoxin', 'IMG_1246.jpeg', 'Batch-TB10',  'Blue Cap',       'TB-500 10mg endotoxin report',     'May 2026');
-  // BPC-157 10mg — endotoxin — COA 2605260386
-  add('BPC-157',      'endotoxin', 'IMG_1247.jpeg', '2605260386',  'Blue Cap',       'Pass (x2 replicates) · BPC-157 10mg', 'May 27, 2026');
+  add('TB-500',       'endotoxin', 'IMG_1246.jpeg', 'Puls2605260388',  'Red Cap',         'TB-500 10mg endotoxin pass',          'May 27, 2026');
+  // BPC-157 10mg — endotoxin
+  add('BPC-157',      'endotoxin', 'IMG_1242.jpeg', 'Puls2605260386',  'Blue Cap',        'Pass (x2 replicates) · BPC-157 10mg', 'May 27, 2026');
+  // NAD+ 100mg — endotoxin
+  add('NAD+',         'endotoxin', 'IMG_1247.jpeg', 'Puls2605260384',  'White Cap',       'NAD+ 100mg endotoxin pass',           'May 27, 2026');
 })();
 
 function storeLocally(key, report) {
@@ -5366,11 +5368,16 @@ function viewReport(vendorId, peptide, type, idx) {
     const lab = (r.lab || '').toLowerCase();
     const batch = (r.batch || '').replace('—','').trim();
     const LAB_VERIFY = {
-      'janoshik':   { name: 'Janoshik', url: 'https://janoshik.com/', searchUrl: batch ? 'https://janoshik.com/?q='+encodeURIComponent(batch) : 'https://janoshik.com/', note: 'Enter the report number on their site to confirm results are real.' },
-      'colmaric':   { name: 'Colmaric Analyticals', url: 'https://colmaricanalyticals.com/', searchUrl: 'https://colmaricanalyticals.com/', note: 'Search by report number on their site.' },
-      'peptide sciences': { name: 'Peptide Sciences', url: 'https://www.peptidesciences.com/', searchUrl: 'https://www.peptidesciences.com/', note: 'Contact Peptide Sciences directly to verify.' },
-      'acro':       { name: 'Acro Biosystems', url: 'https://www.acrobiosystems.com/', searchUrl: 'https://www.acrobiosystems.com/', note: 'Verify via Acro Biosystems website.' },
-      'ams':        { name: 'AMS', url: 'https://amsbio.com/', searchUrl: 'https://amsbio.com/', note: 'Verify via AMS website.' },
+      'janoshik':            { name: 'Janoshik',             url: 'https://janoshik.com/verify/',                 note: 'Go to janoshik.com/verify/ → paste the unique key from the bottom of the COA.' },
+      'finnrick':            { name: 'Finnrick',              url: 'https://finnrick.com/',                        note: 'Go to finnrick.com → use the report lookup to enter this code.' },
+      'krause':              { name: 'Krause Analytics',      url: 'https://krauseanalytics.com/',                 note: 'Go to krauseanalytics.com → enter the report number to verify.' },
+      'freedom diagnostics': { name: 'Freedom Diagnostics',   url: 'https://www.freedomdiagnosticstesting.com/',   note: 'Go to FreedomDiagnosticsTesting.com → paste the Search Code into the search box.' },
+      'colmaric':            { name: 'Colmaric Analyticals',  url: 'https://colmaricanalyticals.com/',             note: 'Go to colmaricanalyticals.com → search by report number.' },
+      'peptide sciences':    { name: 'Peptide Sciences',      url: 'https://www.peptidesciences.com/',             note: 'Contact Peptide Sciences directly to verify this report.' },
+      'acro':                { name: 'Acro Biosystems',       url: 'https://www.acrobiosystems.com/',              note: 'Verify via the Acro Biosystems website.' },
+      'ams':                 { name: 'AMS Bio',               url: 'https://amsbio.com/',                          note: 'Verify via the AMS Bio website.' },
+      'intertek':            { name: 'Intertek',              url: 'https://www.intertek.com/',                    note: 'Go to intertek.com and search for the report reference number.' },
+      'eurofins':            { name: 'Eurofins',              url: 'https://www.eurofins.com/',                    note: 'Contact Eurofins directly with the report number to verify.' },
     };
     let matched = null;
     for (const key of Object.keys(LAB_VERIFY)) {
@@ -5378,18 +5385,30 @@ function viewReport(vendorId, peptide, type, idx) {
     }
     if (!matched) {
       verifyContent.innerHTML = `
-        <div style="color:#ffe600;margin-bottom:0.5rem;">⚠ No automatic verification available for <strong>${r.lab || 'Unknown Lab'}</strong></div>
-        <div style="color:rgba(255,255,255,0.6);">To verify manually: search for the lab online and look up report number <strong style="color:#fff;">${batch || 'N/A'}</strong> on their website.</div>`;
+        <div style="color:#ffe600;margin-bottom:0.6rem;">⚠ No direct link on file for <strong>${r.lab || 'this lab'}</strong></div>
+        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;">Search for <strong style="color:#fff;">${r.lab || 'the lab'}</strong> online and enter the code below to confirm this COA is real.</div>
+        ${batch ? `<div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.5rem;">
+          <span style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:1px;">${batch}</span>
+          <button onclick="navigator.clipboard.writeText('${batch}');this.textContent='COPIED!';setTimeout(()=>this.textContent='COPY',1500)" style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.3rem 0.75rem;cursor:pointer;">COPY</button>
+        </div>` : ''}
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.35);">If nothing comes up on the lab site — the COA may be fake.</div>`;
     } else {
       verifyContent.innerHTML = `
-        <div style="margin-bottom:0.5rem;">Lab: <strong style="color:#00ff64;">${matched.name}</strong> &nbsp;|&nbsp; Report #: <strong style="color:#fff;">${batch || 'Not entered'}</strong></div>
-        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;">${matched.note}</div>
-        <a href="${matched.searchUrl}" target="_blank" rel="noopener"
+        <div style="margin-bottom:0.5rem;font-size:1rem;">Lab: <strong style="color:#00ff64;">${matched.name}</strong></div>
+        <div style="color:rgba(255,255,255,0.6);margin-bottom:0.75rem;font-size:0.95rem;">${matched.note}</div>
+        ${batch ? `<div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.85rem;">
+          <div>
+            <div style="color:#888;font-size:0.7rem;letter-spacing:1px;margin-bottom:2px;">VERIFY CODE — PASTE THIS ON THEIR SITE</div>
+            <span style="color:#00f5ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:1px;">${batch}</span>
+          </div>
+          <button onclick="navigator.clipboard.writeText('${batch}');this.textContent='COPIED!';setTimeout(()=>this.textContent='COPY CODE',1500)" style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.4rem 0.85rem;cursor:pointer;white-space:nowrap;">COPY CODE</button>
+        </div>` : '<div style="color:#ffe600;margin-bottom:0.75rem;font-size:0.85rem;">⚠ No verify code on file — enter the report number manually if you have it.</div>'}
+        <a href="${matched.url}" target="_blank" rel="noopener"
           style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.5rem 1.25rem;background:#0d1a0d;border:2px solid #00ff64;color:#00ff64;text-decoration:none;cursor:pointer;display:inline-block;transition:all 0.2s;"
           onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,100,0.4)'" onmouseout="this.style.boxShadow='none'">
-          ↗ Open ${matched.name} Verification
+          ↗ Open ${matched.name}
         </a>
-        <div style="margin-top:0.75rem;font-size:0.9rem;color:rgba(255,255,255,0.4);">Compare: the results on their site must match what's shown in the COA above. If they don't match — the COA is fake.</div>`;
+        <div style="margin-top:0.75rem;font-size:0.85rem;color:rgba(255,255,255,0.35);">Copy the code above → paste it on their site → if the COA matches, it's <span style="color:#00ff64;">REAL</span>. If nothing comes up — it's <span style="color:#ff2d78;">FAKE</span>.</div>`;
     }
     verifyPanel.style.display = 'block';
   };
@@ -6302,6 +6321,12 @@ document.addEventListener('DOMContentLoaded', function() {
   qgRender();
   studiesRender();
   initAdminUploadPanel();
+
+  // Prevent browser back button from leaving the site
+  history.pushState(null, '', window.location.href);
+  window.addEventListener('popstate', function() {
+    history.pushState(null, '', window.location.href);
+  });
   // Show setup banner if Supabase not configured
   setTimeout(function(){
     var banner = document.getElementById('supa-banner');
