@@ -5227,9 +5227,10 @@ function storeLocally(key, report) {
 
 // Load all reports from Supabase into reportStore on page load
 async function loadReportsFromDB() {
-  if (!supaClient) return;
+  const client = getSupaClient();
+  if (!client) return;
   try {
-    const { data, error } = await supaClient
+    const { data, error } = await client
       .from('reports')
       .select('*')
       .order('created_at', { ascending: true });
@@ -5286,11 +5287,11 @@ async function saveReportToDB(vendorId, peptide, testType, reportObj) {
       metadata_source: reportObj.metadataSource || 'manual',
       ai_extraction:   reportObj.aiExtraction || null
     }]);
-    if (error) { console.warn('Supabase save error:', error.message); return false; }
+    if (error) { console.warn('Supabase save error:', error.message, error.code, error.hint); return error.message || 'unknown error'; }
     return true;
   } catch(e) {
     console.warn('Failed to save report:', e);
-    return false;
+    return e.message || 'exception';
   }
 }
 
@@ -6694,11 +6695,11 @@ async function submitBatchUpload() {
         notes: '', capColor: '',
         driveUrl: driveUrl, rawDriveLink: driveUrl,
         type: testType, date: date, isPdf: true,
-        metadataSource: 'auto_drive'
+        metadataSource: 'manual'
       };
       storeLocally(key, report);
       const ok = await saveReportToDB(vendorId, peptide, testType, report);
-      if (ok) { saved++; } else { errors.push(peptide + ' (' + testType + ') — Supabase save failed'); }
+      if (ok === true) { saved++; } else { errors.push(peptide + ' (' + testType + ') — ' + (ok || 'Supabase save failed')); }
     }
   } else {
     const inputs = document.querySelectorAll('#au-batch-rows input[type="url"]');
@@ -6724,7 +6725,7 @@ async function submitBatchUpload() {
       };
       storeLocally(key, report);
       const ok2 = await saveReportToDB(vendorId, peptide, testType, report);
-      if (ok2) { saved++; } else { errors.push(peptide + ' (' + testType + ') — Supabase save failed'); }
+      if (ok2 === true) { saved++; } else { errors.push(peptide + ' (' + testType + ') — ' + (ok2 || 'Supabase save failed')); }
     }
   }
 
@@ -6936,14 +6937,26 @@ function renderScanResults(files, vendorId) {
       ['independent-coa','Indep. COA'],['independent-endotoxin','Indep. Endo'],['independent-heavy-metals','Indep. HM']
     ].map(([v,l]) => `<option value="${v}" ${v===detectedType?'selected':''}>${l}</option>`).join('');
 
+    const thumbUrl = 'https://drive.google.com/thumbnail?id=' + f.id + '&sz=w300';
     html += `<div style="display:grid;grid-template-columns:2fr 2fr 1.5fr 2fr;gap:0.4rem;margin-bottom:0.3rem;background:${bg};padding:0.4rem 0.25rem;align-items:center;">
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${f.name}">${f.name}</div>
-      <select data-file-id="${f.id}" data-role="peptide" style="${selectStyle}">
-        <option value="">— Select —</option>${peptideOptions}
-      </select>
+      <div>
+        <select data-file-id="${f.id}" data-role="peptide" style="${selectStyle}">
+          <option value="">— Select —</option>${peptideOptions}
+        </select>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:${detectedPeptide?'#00ff64':'#ffe600'};margin-top:2px;">${detectedPeptide ? '✓ Auto-detected' : '⚠ Select peptide'}</div>
+      </div>
       <select data-file-id="${f.id}" data-role="type" style="${selectStyle}">${typeOptions}</select>
-      <input type="hidden" data-file-id="${f.id}" data-role="link" value="${drivePreviewLink}" />
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:${detectedPeptide?'#00ff64':'#ffe600'};">${detectedPeptide ? '✓ Auto-detected' : '⚠ Select peptide'}</div>
+      <div>
+        <input type="hidden" data-file-id="${f.id}" data-role="link" value="${drivePreviewLink}" />
+        <a href="${drivePreviewLink}" target="_blank" title="Open full document" style="display:block;position:relative;">
+          <img src="${thumbUrl}" alt="preview"
+            style="width:100%;max-width:140px;height:70px;object-fit:cover;border:1px solid rgba(0,245,255,0.25);display:block;background:#0a0a1e;"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div style="display:none;width:100%;max-width:140px;height:70px;border:1px dashed rgba(0,245,255,0.2);align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);">No preview</div>
+          <div style="position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,0.6);font-family:'Rajdhani',sans-serif;font-size:0.6rem;color:var(--neon-cyan);padding:1px 4px;">🔍 VIEW</div>
+        </a>
+      </div>
     </div>`;
   });
 
