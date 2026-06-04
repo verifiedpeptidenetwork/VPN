@@ -5521,10 +5521,9 @@ function viewReport(vendorId, peptide, type, idx) {
         // Pick detected lab name
         const foundLab = (ln && ln.value && ln.confidence >= 0.5) ? ln.value : null;
 
-        // If lab was unknown and we found one, update r.lab so LAB_VERIFY matching works
+        // If lab was unknown/missing, update r.lab and re-render verify panel with correct lab link
         if (foundLab && (!r.lab || r.lab.toLowerCase() === 'unknown lab' || r.lab.trim() === '')) {
           r.lab = foundLab;
-          // Also update the meta bar in the viewer
           const metaEl = document.getElementById('viewer-meta');
           if (metaEl) {
             metaEl.innerHTML = metaEl.innerHTML.replace(/Lab:.*?(&nbsp;|<)/, 'Lab: <strong style="color:#00ff64;">' + foundLab + '</strong> $1');
@@ -5770,7 +5769,7 @@ function renderPeptideIndex() {
     <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:pointer;"
       onmouseover="this.style.borderColor='rgba(255,45,120,0.4)';this.style.background='rgba(255,45,120,0.05)'"
       onmouseout="this.style.borderColor='var(--card-border)';this.style.background='var(--card-bg)'"
-      onclick="showView('studies');setActiveNav(null);setTimeout(function(){var el=document.querySelector('[data-peptide-study=\\'${p}\\']')||Array.from(document.querySelectorAll('.study-peptide-title,.qg-study-name')).find(function(e){return e.textContent.trim().toLowerCase().includes('${p.toLowerCase()}');});if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},300)">
+      onclick="showView('studies');setActiveNav(null);setTimeout(function(){var el=document.querySelector('[data-peptide-study=\\'${p.toLowerCase()}\\']')||Array.from(document.querySelectorAll('.study-peptide-header')).find(function(e){return e.textContent.trim().toLowerCase().includes('${p.toLowerCase()}');});if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},400)">
       <span style="font-weight:600;font-size: 1rem;">${p}</span>
       <span style="font-family:'Share Tech Mono',monospace;font-size: 0.96rem;color:var(--neon-pink);">→</span>
     </div>
@@ -6175,7 +6174,7 @@ function studiesRender(searchTerm) {
     const catNames  = { fat:'Fat Loss', muscle:'GH / Muscle', heal:'Healing', cog:'Cognitive', immune:'Immune', long:'Longevity', sex:'Sexual Health' };
     const col = catColors[block.cat] || 'var(--neon-cyan)';
 
-    html += '<div class="study-peptide-block" data-scat="' + block.cat + '">';
+    html += '<div class="study-peptide-block" data-scat="' + block.cat + '" data-peptide-study="' + block.peptide.toLowerCase() + '">';
     html += '<div class="study-peptide-header" style="border-left-color:' + col + ';background:rgba(0,0,0,0.15);">';
     html += block.peptide;
     html += '<span class="study-peptide-cat-tag" style="background:rgba(0,0,0,0.3);color:' + col + ';border:1px solid ' + col + '33;">' + (catNames[block.cat] || block.cat) + '</span>';
@@ -6267,7 +6266,7 @@ Rules:
 - For lab names: only extract if clearly labeled as a laboratory or testing facility
 - If a field is not clearly present, set value to "" and confidence to 0.0
 - Return ONLY the JSON object, no explanation or surrounding text
-- verify_code: the unique key or code printed on the document specifically for verifying the report online. Look for text like "unique key", "verify at", "search code", "task number", "report number", "accession number", or any alphanumeric code near a verification URL. For Janoshik this is the unique key at the bottom (e.g. 28CI68KEPNS8). For Freedom Diagnostics this is the Search Code (e.g. Empi2604010106). Extract the code itself, not the URL.`;
+- verify_code: the accession number, task number, or unique verification key printed on the document. This is what you type into the lab's website to confirm the COA is real. Priority order: (1) any code labeled "Task Number", "Accession Number", "Accession #", "Report Number", "Search Code", or "Unique Key" — (2) any alphanumeric code near a "verify at" URL at the bottom of the document. For Janoshik: Task Number like #92383 AND the unique key at the bottom like 28CI68KEPNS8 — return the unique key. For Freedom Diagnostics: the Search Code like Empi2604010106. DO NOT return batch numbers, lot numbers, or dates. Extract only the verification code itself, not any URL.`;
 
 let aiExtractionResult = null;
 let aiFieldsApplied = {};
