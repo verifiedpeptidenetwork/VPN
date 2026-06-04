@@ -2210,9 +2210,11 @@
     <div style="margin-bottom:1.75rem;display:inline-block;position:relative;width:min(220px,62vw);height:min(220px,62vw);">
       <!-- Spinning glow ring -->
       <div style="position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#ffd700,#ff6600,#ff1500,#ff8800,#ffcc00,#ffd700);animation:helixSpin 3s linear infinite;filter:blur(4px);z-index:0;"></div>
-      <!-- Logo image — full circular display -->
+      <!-- Dark backing so glow doesn't bleed through transparent PNG corners -->
+      <div style="position:absolute;inset:0;border-radius:50%;background:#02010a;z-index:1;"></div>
+      <!-- Logo image -->
       <img src="vpnlogo.png?v=2" alt="VPN Logo"
-        style="position:relative;z-index:2;width:100%;height:100%;object-fit:contain;display:block;animation:helixPulse 2.5s ease-in-out infinite;" />
+        style="position:relative;z-index:2;width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;animation:helixPulse 2.5s ease-in-out infinite;" />
     </div>
 
     <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.35em;
@@ -2871,24 +2873,6 @@ document.addEventListener('keydown', function(e){
       </button>
     </div>
 
-    <!-- VPN Video -->
-    <div style="margin-bottom:1.75rem;border:2px solid rgba(0,245,255,0.35);overflow:hidden;background:#000;">
-      <div style="padding:0.55rem 1.25rem;border-bottom:1px solid rgba(0,245,255,0.2);background:rgba(0,245,255,0.05);display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-cyan);">▶ VPN — Verified Peptides Network</div>
-        <a href="https://drive.google.com/file/d/1PO0UopygZhJDnrAsiCgy8qS6UTfocRrR/view" target="_blank" rel="noopener"
-          style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:0.2rem 0.65rem;border:1px solid rgba(0,245,255,0.35);color:rgba(0,245,255,0.7);text-decoration:none;"
-          onmouseover="this.style.background='rgba(0,245,255,0.1)'" onmouseout="this.style.background='transparent'">↗ YouTube</a>
-      </div>
-      <div style="background:#000;display:flex;justify-content:center;padding:0;">
-        <!-- Extra height compensates for Drive controls bar on mobile -->
-        <div style="width:min(480px,100%);position:relative;padding-bottom:min(calc(177.78% + 70px), 85vh);">
-          <iframe src="https://drive.google.com/file/d/1PO0UopygZhJDnrAsiCgy8qS6UTfocRrR/preview"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;"
-            allow="autoplay" allowfullscreen loading="lazy">
-          </iframe>
-        </div>
-      </div>
-    </div>
 
     <div style="border:1px solid rgba(255,107,0,0.3);border-left:5px solid var(--neon-orange);background:#0d0a04;padding:1rem 1.4rem;margin-bottom:1.75rem;">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
@@ -3580,31 +3564,7 @@ document.addEventListener('keydown', function(e){
       <span class="section-count">RUIC · RETA · Unfiltered Inner Circle</span>
     </div>
 
-    <!-- VPN Video (YouTube embed) -->
-    <div style="margin-bottom:2rem;border:2px solid rgba(0,245,255,0.35);overflow:hidden;background:#000;">
-      <div style="padding:0.65rem 1.25rem;border-bottom:1px solid rgba(0,245,255,0.2);background:rgba(0,245,255,0.05);display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);">▶ VPN — Verified Peptides Network</div>
-        <a href="https://drive.google.com/file/d/1PO0UopygZhJDnrAsiCgy8qS6UTfocRrR/view" target="_blank" rel="noopener"
-          style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;padding:0.25rem 0.75rem;border:1px solid rgba(0,245,255,0.35);color:rgba(0,245,255,0.7);text-decoration:none;transition:all 0.2s;"
-          onmouseover="this.style.background='rgba(0,245,255,0.1)'" onmouseout="this.style.background='transparent'">
-          ↗ Open in Drive
-        </a>
-      </div>
-      <div style="background:#000;display:flex;justify-content:center;padding:0;">
-        <!-- Extra height compensates for Drive controls bar on mobile -->
-        <div style="width:min(480px,100%);position:relative;padding-bottom:min(calc(177.78% + 70px), 85vh);">
-          <iframe src="https://drive.google.com/file/d/1PO0UopygZhJDnrAsiCgy8qS6UTfocRrR/preview"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;"
-            allow="autoplay" allowfullscreen loading="lazy">
-          </iframe>
-        </div>
-      </div>
-    </div>
 
-    <!-- VPN Admins Poster -->
-    <div style="margin-bottom:2rem;border:2px solid rgba(255,45,120,0.35);overflow:hidden;position:relative;cursor:zoom-in;" onclick="openLightbox('VPNADMINS.png?v=2','VPN Admins — Meet Our Team')">
-      <img src="VPNADMINS.png?v=2" alt="VPN Admins" style="width:100%;display:block;max-height:700px;object-fit:contain;background:#05000f;">
-    </div>
 
     <!-- Disclaimer banner -->
     <div style="border:2px solid #ff2020;border-left:6px solid #ff2020;background:#0e0404;padding:1rem 1.4rem;margin-bottom:2rem;display:flex;gap:1rem;align-items:flex-start;">
