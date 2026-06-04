@@ -4839,7 +4839,11 @@ function renderVendorDetail(v) {
     ` : ''}`;
 
   document.getElementById('vendor-detail-content').innerHTML = `
-    <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem;">
+    <div style="display:flex;justify-content:flex-end;gap:0.6rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+      <button onclick="(async function(btn){btn.textContent='⏳ Loading…';btn.disabled=true;Object.keys(reportStore).forEach(function(k){if(k.startsWith('${v.id}||'))delete reportStore[k];});await loadReportsFromDB();btn.textContent='🔄 Refresh';btn.disabled=false;})(this)"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.55rem 1.25rem;background:#0d0a1e;border:2px solid #00ff64;color:#00ff64;cursor:pointer;">
+        🔄 Refresh
+      </button>
       <button onclick="openAdminUpload()" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.55rem 1.25rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,245,255,0.5);box-shadow:0 0 12px rgba(0,245,255,0.2);cursor:pointer;transition:all 0.2s;"
         onmouseover="this.style.boxShadow='0 0 24px rgba(0,245,255,0.5)'"
         onmouseout="this.style.boxShadow='0 0 12px rgba(0,245,255,0.2)'">
@@ -5191,6 +5195,9 @@ async function loadReportsFromDB() {
     data.forEach(function(row) {
       const key = row.vendor_id + '||' + row.peptide + '||' + row.test_type;
       if (!reportStore[key]) reportStore[key] = [];
+      // Resolve Drive URL from either drive_url or file_data columns
+      const driveUrl = row.drive_url
+        || (row.file_data && (row.file_data.includes('drive.google') || row.file_data.includes('docs.google')) ? row.file_data : null);
       reportStore[key].push({
         name:           row.file_name,
         lab:            row.lab,
@@ -5198,6 +5205,8 @@ async function loadReportsFromDB() {
         notes:          row.notes,
         capColor:       row.cap_color || '',
         dataUrl:        row.file_data,
+        driveUrl:       driveUrl,
+        rawDriveLink:   driveUrl,
         type:           row.test_type,
         date:           new Date(row.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
         isPdf:          row.file_name && row.file_name.endsWith('.pdf'),
@@ -5208,7 +5217,10 @@ async function loadReportsFromDB() {
     });
     console.log('Loaded', data.length, 'reports from database');
     // Re-render current vendor if open
-    if (currentVendor) renderVendorDetail(currentVendor);
+    if (currentVendor) {
+      try { renderVendorDetail(currentVendor); }
+      catch(renderErr) { console.error('renderVendorDetail failed after DB load:', renderErr); }
+    }
   } catch(e) {
     console.warn('Failed to load reports:', e);
   }
@@ -5738,7 +5750,7 @@ function renderPeptideIndex() {
     <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:pointer;"
       onmouseover="this.style.borderColor='rgba(255,45,120,0.4)';this.style.background='rgba(255,45,120,0.05)'"
       onmouseout="this.style.borderColor='var(--card-border)';this.style.background='var(--card-bg)'"
-      onclick="openPeptideModal('${p}')">
+      onclick="showView('studies');setActiveNav(null);setTimeout(function(){var el=document.querySelector('[data-peptide-study=\\'${p}\\']')||Array.from(document.querySelectorAll('.study-peptide-title,.qg-study-name')).find(function(e){return e.textContent.trim().toLowerCase().includes('${p.toLowerCase()}');});if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},300)">
       <span style="font-weight:600;font-size: 1rem;">${p}</span>
       <span style="font-family:'Share Tech Mono',monospace;font-size: 0.96rem;color:var(--neon-pink);">→</span>
     </div>
