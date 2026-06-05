@@ -4666,20 +4666,88 @@ document.addEventListener('keydown', function(e){
 </footer>
 
 <script>
-const PEPTIDES = [
-  "Retatrutide","Tirzepatide","Semaglutide","Semax","Na Semax","Selank","Na Selank",
-  "Cagrilintide","Mazdutide","Survodutide","5-Amino-1MQ","VIP","BPC-157","TB-500",
-  "Abaloparatide","Testagen","Teriparatide","AOD-9604","Hexarelin","HGH Fragment 176-191",
-  "PT-141","PE-22-28","Kisspeptin","Epitalon","Na Epitalon","Melanotan I","Melanotan II",
-  "CJC-1295 DAC","CJC-1295 No DAC","CJC/Ipamorelin 5/5","CJC/Ipamorelin 6/11",
-  "CJC/Ipamorelin 10/10","GHRP-2","GHRP-6","Tesamorelin","MOTS-C","SS-31","Ipamorelin",
-  "Thymosin Alpha-1","Thymulin","Adamax","IllumiNeuro Blend","FOXO4-DRI","Oxytocin",
-  "SNAP-8","DSIP","GHK-Cu","GHK-Cu/KPV","NAD+","GLOW Blend","KLOW Blend","Glutathione",
-  "Prostamax","Pinealon","Ovagen","Vesugen","Bronchogen","Vilon","Cartalax","Chonluten",
-  "Livagen","Cardiogen","Cortagen","Pancragon","Thymogen","Crystagen","AHK-Cu",
-  "Sermorelin","SLU-PP-332","Orforglipron","KPV","LL-37","L-Carnitine","PNC-27",
-  "Cerebrolysin","Neuroxelin Blend","Tri-Heal Blend","Tesa Blend","Wolverine Stack"
+const PEPTIDE_DATA = [
+  { name: "Retatrutide",               use: "Triple agonist (GLP-1/GIP/Glucagon) — next-gen weight loss" },
+  { name: "Tirzepatide",               use: "Dual GLP-1/GIP agonist — powerful weight loss & metabolic health" },
+  { name: "Semaglutide",              use: "GLP-1 agonist — weight loss & blood sugar control" },
+  { name: "Semax",                    use: "Nootropic — focus, memory, neuroprotection & BDNF boost" },
+  { name: "Na Semax",                 use: "N-acetyl Semax — enhanced bioavailability nootropic" },
+  { name: "Selank",                   use: "Anxiolytic nootropic — reduces anxiety, improves mood & cognition" },
+  { name: "Na Selank",                use: "N-acetyl Selank — longer-acting anxiety relief & cognitive support" },
+  { name: "Cagrilintide",             use: "Amylin analog — appetite suppression & weight management" },
+  { name: "Mazdutide",                use: "GLP-1/Glucagon dual agonist — metabolic health & fat loss" },
+  { name: "Survodutide",              use: "GLP-1/Glucagon agonist — obesity & NASH treatment research" },
+  { name: "5-Amino-1MQ",             use: "NNMT inhibitor — fat loss, metabolism & muscle preservation" },
+  { name: "VIP",                      use: "Vasoactive intestinal peptide — inflammation, immune & gut health" },
+  { name: "BPC-157",                  use: "Body protection compound — gut healing, tendon & tissue repair" },
+  { name: "TB-500",                   use: "Thymosin Beta-4 — accelerates healing & reduces inflammation" },
+  { name: "Abaloparatide",            use: "PTH analog — bone density & osteoporosis treatment" },
+  { name: "Testagen",                 use: "Testosterone bioregulator — supports natural T-level maintenance" },
+  { name: "Teriparatide",             use: "Parathyroid hormone analog — bone formation & fracture repair" },
+  { name: "AOD-9604",                 use: "HGH fragment — fat burning without blood sugar impact" },
+  { name: "Hexarelin",                use: "Potent GHRP — strong GH release, cardiac & muscle protection" },
+  { name: "HGH Fragment 176-191",     use: "Isolated GH fat-loss fragment — targets adipose tissue" },
+  { name: "PT-141",                   use: "Bremelanotide — sexual arousal & libido enhancement" },
+  { name: "PE-22-28",                 use: "Antidepressant peptide — mood, cognition & neuroplasticity" },
+  { name: "Kisspeptin",               use: "Hormone regulator — testosterone, LH & fertility support" },
+  { name: "Epitalon",                 use: "Telomere lengthening — longevity & anti-aging" },
+  { name: "Na Epitalon",              use: "Sodium Epitalon — bioavailable epitalon variant for longevity" },
+  { name: "Melanotan I",              use: "Skin tanning & UV protection via melanogenesis" },
+  { name: "Melanotan II",             use: "Tanning + libido enhancement + appetite suppression" },
+  { name: "CJC-1295 DAC",            use: "Long-acting GHRH analog — sustained GH pulse elevation" },
+  { name: "CJC-1295 No DAC",         use: "Short-acting GHRH — mimics natural GH release pulse" },
+  { name: "CJC/Ipamorelin 5/5",      use: "GH release blend (5mg/5mg) — fat loss & muscle support" },
+  { name: "CJC/Ipamorelin 6/11",     use: "GH release blend (6mg/11mg) — enhanced GH output" },
+  { name: "CJC/Ipamorelin 10/10",    use: "High-dose GH release blend — body recomposition" },
+  { name: "GHRP-2",                   use: "GH releasing peptide — strong GH pulse, appetite stimulation" },
+  { name: "GHRP-6",                   use: "GH releasing peptide — muscle growth & hunger increase" },
+  { name: "Tesamorelin",              use: "FDA-approved GHRH — reduces visceral fat, raises IGF-1" },
+  { name: "MOTS-C",                   use: "Mitochondrial peptide — metabolic health, insulin sensitivity & longevity" },
+  { name: "SS-31",                    use: "Mitochondria-targeting antioxidant — energy & cellular protection" },
+  { name: "Ipamorelin",               use: "Selective GH secretagogue — lean gains, minimal side effects" },
+  { name: "Thymosin Alpha-1",         use: "Immune modulator — enhances immune function & antiviral defense" },
+  { name: "Thymulin",                 use: "Thymus hormone — immune regulation & T-cell maturation" },
+  { name: "Adamax",                   use: "Neuroprotective stack — cognition, nerve repair & brain health" },
+  { name: "IllumiNeuro Blend",        use: "Nootropic blend — focus, neuroprotection & mental clarity" },
+  { name: "FOXO4-DRI",                use: "Senolytic peptide — clears senescent cells for anti-aging" },
+  { name: "Oxytocin",                 use: "Bonding hormone — social connection, stress relief & recovery" },
+  { name: "SNAP-8",                   use: "Wrinkle-reducing peptide — expression line relaxation (cosmetic)" },
+  { name: "DSIP",                     use: "Delta sleep-inducing peptide — sleep quality & stress reduction" },
+  { name: "GHK-Cu",                   use: "Copper peptide — tissue regeneration, collagen & wound healing" },
+  { name: "GHK-Cu/KPV",              use: "Copper peptide + anti-inflammatory — healing & gut health" },
+  { name: "NAD+",                     use: "Coenzyme for energy, DNA repair & sirtuin longevity pathways" },
+  { name: "GLOW Blend",               use: "Skin & beauty blend — collagen, brightness & anti-aging" },
+  { name: "KLOW Blend",               use: "Metabolic support blend — weight management & energy" },
+  { name: "Glutathione",              use: "Master antioxidant — detox, immune support & skin health" },
+  { name: "Prostamax",                use: "Peptide bioregulator — prostate health & male urinary function" },
+  { name: "Pinealon",                 use: "Pineal gland bioregulator — sleep, longevity & neuroprotection" },
+  { name: "Ovagen",                   use: "Liver bioregulator — hepatic function & detoxification support" },
+  { name: "Vesugen",                  use: "Vascular bioregulator — blood vessel health & circulation" },
+  { name: "Bronchogen",               use: "Lung bioregulator — respiratory health & bronchial support" },
+  { name: "Vilon",                    use: "Immune bioregulator — longevity & immune system modulation" },
+  { name: "Cartalax",                 use: "Cartilage bioregulator — joint health & connective tissue repair" },
+  { name: "Chonluten",                use: "Bronchial & intestinal bioregulator — mucosal health" },
+  { name: "Livagen",                  use: "Liver & immune bioregulator — DNA repair & immune support" },
+  { name: "Cardiogen",                use: "Heart bioregulator — cardiac muscle health & protection" },
+  { name: "Cortagen",                 use: "Brain cortex bioregulator — cognition & neurological health" },
+  { name: "Pancragon",                use: "Pancreatic bioregulator — blood sugar & digestive enzyme support" },
+  { name: "Thymogen",                 use: "Thymus bioregulator — immune system restoration" },
+  { name: "Crystagen",                use: "Urinary system bioregulator — kidney & bladder health" },
+  { name: "AHK-Cu",                   use: "Copper tripeptide — hair growth, scalp health & skin repair" },
+  { name: "Sermorelin",               use: "GHRH analog — natural GH stimulation & anti-aging" },
+  { name: "SLU-PP-332",              use: "Exercise mimetic — activates muscle & metabolic pathways" },
+  { name: "Orforglipron",            use: "Oral GLP-1 agonist — weight loss without injection" },
+  { name: "KPV",                      use: "Anti-inflammatory tripeptide — gut healing & skin conditions" },
+  { name: "LL-37",                    use: "Antimicrobial peptide — immune defense & wound healing" },
+  { name: "L-Carnitine",             use: "Amino acid — fat metabolism, energy & cardiovascular support" },
+  { name: "PNC-27",                   use: "Anticancer research peptide — selectively targets cancer cells" },
+  { name: "Cerebrolysin",            use: "Neuropeptide blend — cognitive function, stroke recovery & BDNF" },
+  { name: "Neuroxelin Blend",        use: "Neural support blend — neuroprotection & cognitive enhancement" },
+  { name: "Tri-Heal Blend",          use: "Triple healing stack — tissue repair, inflammation & recovery" },
+  { name: "Tesa Blend",              use: "Tesamorelin blend — GH release & visceral fat reduction" },
+  { name: "Wolverine Stack",          use: "Comprehensive healing stack — rapid recovery & tissue repair" }
 ];
+const PEPTIDES = PEPTIDE_DATA.map(p => p.name);
 
 const VENDORS = [
   {
@@ -5978,14 +6046,17 @@ function renderVendors() {
 // Render peptide index
 function renderPeptideIndex() {
   const grid = document.getElementById('peptide-index-grid');
-  document.getElementById('peptide-index-count').textContent = PEPTIDES.length + ' peptides tracked';
-  grid.innerHTML = PEPTIDES.map(p => `
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:pointer;"
+  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' peptides tracked';
+  grid.innerHTML = PEPTIDE_DATA.map(({name: p, use}) => `
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:0.75rem;transition:all 0.2s;cursor:pointer;"
       onmouseover="this.style.borderColor='rgba(255,45,120,0.4)';this.style.background='rgba(255,45,120,0.05)'"
       onmouseout="this.style.borderColor='var(--card-border)';this.style.background='var(--card-bg)'"
       onclick="showView('studies');setActiveNav(null);setTimeout(function(){var el=document.querySelector('[data-peptide-study=\\'${p.toLowerCase()}\\']')||Array.from(document.querySelectorAll('.study-peptide-header')).find(function(e){return e.textContent.trim().toLowerCase().includes('${p.toLowerCase()}');});if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},400)">
-      <span style="font-weight:600;font-size: 1rem;">${p}</span>
-      <span style="font-family:'Share Tech Mono',monospace;font-size: 0.96rem;color:var(--neon-pink);">→</span>
+      <div style="display:flex;flex-direction:column;gap:0.2rem;min-width:0;">
+        <span style="font-weight:700;font-size:1rem;white-space:nowrap;">${p}</span>
+        <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,190,230,0.65);line-height:1.3;">${use}</span>
+      </div>
+      <span style="color:var(--neon-pink);flex-shrink:0;">→</span>
     </div>
   `).join('');
 }
