@@ -163,6 +163,11 @@
     to   { transform: rotate(360deg); }
   }
 
+  @keyframes latestPulse {
+    0%,100% { box-shadow: 0 0 24px rgba(180,0,255,0.4), 0 0 6px rgba(255,45,120,0.3); }
+    50% { box-shadow: 0 0 40px rgba(180,0,255,0.8), 0 0 16px rgba(255,45,120,0.6); }
+  }
+
   @keyframes retroGlow {
     0%,100% {
       box-shadow:
@@ -2691,7 +2696,83 @@ document.addEventListener('keydown', function(e){
     <span class="hero-badge purple">Wholesale Verified</span>
   </div>
 
-  <div style="margin-top:1.75rem;">
+  <!-- LATEST NEWS BUTTON -->
+  <div style="margin-top:1.75rem;position:relative;display:inline-block;" id="latest-news-wrap">
+    <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.22em;padding:0.9rem 2.6rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 14px rgba(180,0,255,0.9);box-shadow:0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3);cursor:pointer;text-transform:uppercase;transition:all 0.2s;position:relative;animation:latestPulse 2s ease-in-out infinite;"
+      onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 40px rgba(180,0,255,0.7)'"
+      onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3)'">
+      🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
+    </button>
+    <div id="latest-news-dropdown" style="display:none;position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(600px,92vw);background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:999;text-align:left;">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
+        <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
+      </div>
+
+      <!-- Scrollable news feed -->
+      <div style="max-height:62vh;overflow-y:auto;display:flex;flex-direction:column;">
+
+        <!-- NEWS ITEM 1: New CC Vendors -->
+        <div style="border-bottom:2px solid rgba(0,245,255,0.15);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">NEW</span>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 2 NEW CC VENDORS — VENDOR UPDATE</div>
+          </div>
+          <p style="margin-bottom:0.65rem;">We're excited to share that <strong style="color:#fff;">BioPeptides</strong> and <strong style="color:#fff;">Peptide Labs</strong> are officially the next 2 vendors we're currently vetting that offer <span style="color:#ffe600;">Debit/Credit Card processing 💳</span></p>
+          <div style="margin:0.65rem 0;display:flex;flex-direction:column;gap:0.25rem;">
+            <div>✅ Easy ordering process</div>
+            <div>✅ Strong product selection</div>
+            <div>✅ Fast shipping</div>
+            <div>✅ Large library of 3rd-Party COAs</div>
+            <div>✅ Excellent communication throughout the process</div>
+          </div>
+          <p style="margin:0.65rem 0;">One of the biggest pain points for newer people has always been navigating crypto and complicated checkout systems. Seeing vendors move toward more accessible payment options is something we know a lot of you have been asking for.</p>
+          <p style="color:rgba(255,230,100,0.85);margin-bottom:0.5rem;">That said — we still believe <strong style="color:#ffe600;">verification matters MORE than convenience</strong> — sending these out for testing now!</p>
+          <p style="color:rgba(200,220,255,0.6);font-size:0.9rem;font-style:italic;">We have more vendors currently being vetted that are expected to offer CC processing as well 👀 More updates coming soon. — David.</p>
+        </div>
+
+        <!-- NEWS ITEM 2: Direct Vendor Access -->
+        <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(180,0,255,0.1);border:1px solid rgba(180,0,255,0.4);color:#cc44ff;">UPDATE</span>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#cc44ff;">🔥 DIRECT ACCESS TO VENDORS IN COMMUNITY</div>
+          </div>
+          <p style="margin-bottom:0.65rem;">We now have <strong style="color:#ff2d78;">DIRECT ACCESS TO OUR VENDORS RIGHT HERE INSIDE THE COMMUNITY.</strong></p>
+          <div style="margin:0.65rem 0;display:flex;flex-direction:column;gap:0.25rem;">
+            <div>✅ No more hunting down contact information</div>
+            <div>✅ No more figuring out unfamiliar apps</div>
+            <div>✅ No more wondering if you're talking to the right person</div>
+            <div>✅ Faster communication &amp; more transparency than ever before</div>
+          </div>
+          <p style="margin:0.65rem 0;font-style:italic;color:rgba(200,180,255,0.8);">To my knowledge, no other peptide community has ever done this.</p>
+          <div style="background:rgba(180,0,255,0.07);border:1px solid rgba(180,0,255,0.25);border-left:3px solid #cc44ff;padding:0.75rem 1rem;margin:0.75rem 0;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.18em;color:#cc44ff;margin-bottom:0.4rem;">VENDORS NOW IN THE COMMUNITY</div>
+            <div style="display:flex;flex-direction:column;gap:0.25rem;font-size:0.93rem;">
+              <div>🇨🇳 <strong style="color:#fff;">Kerui Peptides</strong> — @Mi a Z</div>
+              <div>🇨🇳 <strong style="color:#fff;">Lilipeptides</strong> — @Mia Becky</div>
+              <div>🇨🇳 <strong style="color:#fff;">WanShun Peptides (Sophie)</strong> — @Yan Liu</div>
+              <div>🇺🇸 <strong style="color:#fff;">Peptide Laboratory</strong> — @Audrey Carter</div>
+              <div style="color:rgba(255,255,255,0.4);font-style:italic;font-size:0.88rem;">⏳ Still to accept: Innopeptides &amp; BioPeptide Sciences</div>
+            </div>
+          </div>
+          <p style="color:#ffe600;font-weight:700;text-align:center;font-size:1rem;margin-top:0.5rem;">Transparency. Truth. Trust. 👊</p>
+          <div style="text-align:center;margin-top:0.85rem;">
+            <a href="https://www.skool.com/reta-unfiltered-inner-circle" target="_blank" rel="noopener"
+              style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
+              onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
+              onmouseout="this.style.boxShadow='0 0 20px rgba(180,0,255,0.5)'">
+              🎉 JOIN THE INNER CIRCLE ON SKOOL ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;">
     <button onclick="openAdminUpload()" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.2em;padding:0.85rem 2.5rem;background:#0d0a1e;border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);box-shadow:0 0 18px rgba(0,245,255,0.25);cursor:pointer;text-transform:uppercase;transition:all 0.2s;"
       onmouseover="this.style.background='#051a1e';this.style.boxShadow='0 0 32px rgba(0,245,255,0.5)'"
       onmouseout="this.style.background='#0d0a1e';this.style.boxShadow='0 0 18px rgba(0,245,255,0.25)'">
@@ -4124,6 +4205,18 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
+    <!-- Lose It Calorie Tracker -->
+    <div style="display:flex;flex-direction:column;border:2px solid #ff6b00;border-top:4px solid #ff6b00;background:#0d0a1e;box-shadow:0 0 18px rgba(255,107,0,0.2);">
+      <a href="https://www.loseit.com/" target="_blank" rel="noopener"
+         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;text-decoration:none;transition:background 0.2s;"
+         onmouseover="this.style.background='rgba(255,107,0,0.06)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:2rem;">🍎</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#ff6b00;text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">Lose It! — Free Calorie Counter</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;">Track calories & nutrition · loseit.com ↗</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,200,150,0.75);line-height:1.5;">Free calorie counter, food diary, and diet tracker. Log meals, set goals, and track macros. Works alongside GLP-1 protocols to maximize results.</div>
+      </a>
+    </div>
+
     <!-- GLP-1 Success Guide -->
     <div style="background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;overflow:hidden;">
 
@@ -4601,6 +4694,7 @@ const VENDORS = [
     ],
     tags: ["Wholesale 10-Vial Kits", "Wire Transfer", "Crypto", "3rd Party Tested"],
     country: "china",
+    skool: "https://www.skool.com/@mi-a-z-8963?g=retaunfiltered&p=1",
     note: "Sells 10-vial wholesale kits. All 3rd party testing done to verify peptide quality. Accepts credit card and debit card payments."
   },
   {
@@ -4615,6 +4709,7 @@ const VENDORS = [
     ],
     tags: ["Wholesale 10-Vial Kits", "3rd Party Tested"],
     country: "china",
+    skool: "https://www.skool.com/@mia-be-5587?g=retaunfiltered&p=1",
     note: "Wholesale 10-vial kit vendor. All peptides verified by 3rd party labs."
   },
   {
@@ -4629,6 +4724,7 @@ const VENDORS = [
     ],
     tags: ["Wholesale 10-Vial Kits", "Credit Card", "Debit Card", "3rd Party Tested", "Inner Circle Tested"],
     country: "china",
+    skool: "https://www.skool.com/retaunfiltered",
     note: "Top-tier Inner Circle tested vendor. Sells 10-vial wholesale kits. Accepts credit & debit card payments."
   },
   {
@@ -4690,6 +4786,18 @@ const VENDORS = [
 
 let currentVendor = null;
 
+function toggleLatestNews() {
+  var d = document.getElementById('latest-news-dropdown');
+  d.style.display = d.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', function(e) {
+  var wrap = document.getElementById('latest-news-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    var d = document.getElementById('latest-news-dropdown');
+    if (d) d.style.display = 'none';
+  }
+});
+
 function toggleMobileNav() {
   var nav = document.getElementById('mobile-nav');
   nav.classList.toggle('open');
@@ -4740,24 +4848,26 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
 
-function showView(name) {
+function showViewInternal(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + name).classList.add('active');
-  // Show hero only on home, hide on all other pages
   if (name === 'vendors') renderVendorsList();
   var hero = document.getElementById('site-hero');
   if (hero) hero.style.display = (name === 'home') ? '' : 'none';
   var divider = document.getElementById('neon-divider');
   if (divider) divider.style.display = (name === 'home') ? '' : 'none';
-  // Scroll to top AFTER layout settles from hero show/hide
   window.scrollTo({ top: 0, behavior: 'instant' });
   requestAnimationFrame(function() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   });
-  // Add fade-in effect
   var view = document.getElementById('view-' + name);
   view.style.opacity = '0';
   setTimeout(function(){ view.style.transition = 'opacity 0.25s'; view.style.opacity = '1'; }, 10);
+}
+
+function showView(name) {
+  history.pushState({ vpnView: name }, '', '#' + name);
+  showViewInternal(name);
 }
 
 function openVendor(id) {
@@ -5816,6 +5926,16 @@ function renderVendors() {
     if (d.hm   > 0) badges += `<span style="border:1px solid #ffe600;color:#ffe600;padding:0.15rem 0.5rem;font-size:0.8rem;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.08em;">HM: ${d.hm}</span>`;
     var badgeRow = badges ? `<div style="display:flex;flex-wrap:wrap;gap:0.35rem;padding:0.5rem 1.25rem;border-top:1px solid var(--card-border);">${badges}</div>` : '';
 
+    const skoolBtn = v.skool ? `<div style="padding:0.6rem 1.25rem;border-top:1px solid rgba(180,0,255,0.25);background:rgba(180,0,255,0.07);">
+        <a href="${v.skool}" target="_blank" rel="noopener"
+          onclick="event.stopPropagation();"
+          style="display:flex;align-items:center;justify-content:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.5rem 1rem;background:linear-gradient(135deg,rgba(180,0,255,0.2),rgba(255,45,120,0.15));border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;text-shadow:0 0 8px rgba(180,0,255,0.6);transition:all 0.2s;width:100%;box-sizing:border-box;"
+          onmouseover="this.style.background='linear-gradient(135deg,rgba(180,0,255,0.35),rgba(255,45,120,0.25))';this.style.boxShadow='0 0 18px rgba(180,0,255,0.4)'"
+          onmouseout="this.style.background='linear-gradient(135deg,rgba(180,0,255,0.2),rgba(255,45,120,0.15))';this.style.boxShadow='none'">
+          🎉 JOIN VENDOR IN INNER CIRCLE ↗
+        </a>
+      </div>` : '';
+
     return `
     <div class="vendor-card" onclick="openVendor('${v.id}')">
       <div class="vendor-card-header">
@@ -5828,6 +5948,7 @@ function renderVendors() {
       <div class="vendor-card-body">${contacts}</div>
       ${badgeRow}
       <div class="vendor-tags">${tags}</div>
+      ${skoolBtn}
       <div class="vendor-cta">
         <span>View COA Database</span>
         <span class="cta-arrow">→</span>
@@ -6537,10 +6658,11 @@ document.addEventListener('DOMContentLoaded', function() {
   studiesRender();
   initAdminUploadPanel();
 
-  // Prevent browser back button from leaving the site
-  history.pushState(null, '', window.location.href);
-  window.addEventListener('popstate', function() {
-    history.pushState(null, '', window.location.href);
+  // Back button navigates within the site using the view history stack
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.vpnView) {
+      showViewInternal(e.state.vpnView);
+    }
   });
   // Show setup banner if Supabase not configured
   setTimeout(function(){
@@ -7695,7 +7817,7 @@ function resetEmailWidget() {
   document.getElementById('widget-sent-msg').classList.remove('show');
 }
 </script>
-
+
 
 </body>
 </html>
