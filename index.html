@@ -899,6 +899,12 @@
     gap: 1rem;
   }
 
+  @media (min-width: 1024px) {
+    .peptides-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   .peptide-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -5825,12 +5831,26 @@ function viewReport(vendorId, peptide, type, idx) {
             style="background:#1a0a35;border:1px solid #00f5ff;color:#00f5ff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:1px;padding:0.4rem 0.85rem;cursor:pointer;white-space:nowrap;">COPY CODE</button>
         </div>` : `<div style="color:#ffe600;margin-bottom:0.75rem;font-size:0.85rem;">⚠ No verify code on file — use Scan Document below to extract it automatically.</div>`;
 
-      const scanBtn = r.dataUrl ? `
-        <button id="scan-doc-btn" onclick="scanDocumentForCode()"
-          style="background:#0a0020;border:1px solid #cc44ff;color:#cc44ff;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:1px;padding:0.45rem 1rem;cursor:pointer;margin-top:0.5rem;display:inline-block;">
-          🔍 SCAN DOCUMENT FOR CODE
-        </button>
-        <div id="scan-status" style="color:#888;font-size:0.8rem;margin-top:0.4rem;"></div>` : '';
+      const scanBtn = `
+        <div style="margin-top:0.75rem;">
+          <div style="color:#ffe600;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.15em;margin-bottom:0.35rem;">📋 PASTE VERIFY CODE FROM THE DOCUMENT ABOVE:</div>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <input id="manual-verify-input" type="text" placeholder="e.g. 28CI8KEPNS8"
+              style="flex:1;background:#050012;border:1px solid rgba(0,245,255,0.5);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;padding:0.5rem 0.75rem;outline:none;letter-spacing:2px;" />
+            <button onclick="(function(){var v=document.getElementById('manual-verify-input').value.trim();if(!v)return;renderVerifyPanel(v);document.getElementById('scan-status').innerHTML='<span style=color:#00ff64>✓ Code applied: '+v+'</span>';})()"
+              style="background:#0a1a00;border:2px solid #00ff64;color:#00ff64;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;padding:0.5rem 1.1rem;cursor:pointer;white-space:nowrap;">
+              ✓ APPLY
+            </button>
+          </div>
+          <div id="scan-status" style="font-size:0.82rem;margin-top:0.35rem;min-height:1.1em;"></div>
+        </div>
+        <div style="margin-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.6rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <button id="scan-doc-btn" onclick="scanDocumentForCode()"
+            style="background:#0a0020;border:1px solid #cc44ff;color:#cc44ff;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:1px;padding:0.35rem 0.85rem;cursor:pointer;">
+            🔍 AUTO-SCAN DOCUMENT
+          </button>
+          <span style="color:rgba(255,255,255,0.3);font-size:0.75rem;">Auto-scan requires hosted connection — paste manually if offline</span>
+        </div>`;
 
       if (!matched) {
         verifyContent.innerHTML = `
@@ -5882,7 +5902,7 @@ function viewReport(vendorId, peptide, type, idx) {
         } else if (r.driveUrl) {
           const fileIdMatch = r.driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
           if (fileIdMatch) {
-            const thumbUrl = 'https://drive.google.com/thumbnail?id=' + fileIdMatch[1] + '&sz=w1600';
+            const thumbUrl = 'https://drive.google.com/thumbnail?id=' + fileIdMatch[1] + '&sz=w3200';
             const resp = await fetch(thumbUrl);
             if (!resp.ok) throw new Error('Could not fetch Drive thumbnail');
             const blob = await resp.blob();
@@ -5901,7 +5921,7 @@ function viewReport(vendorId, peptide, type, idx) {
         const ln = result.lab_name;
 
         // Only use verify_code — never fall back to batch_number or sample_id
-        const foundCode = (vc && vc.value && vc.confidence >= 0.4) ? vc.value.trim() : null;
+        const foundCode = (vc && vc.value && vc.confidence >= 0.2) ? vc.value.trim() : null;
         const foundLab  = (ln && ln.value && ln.confidence >= 0.5)  ? ln.value.trim() : null;
 
         // Always update lab if AI found one (overrides unknown, blank, or wrong)
@@ -6666,7 +6686,7 @@ Rules:
 - For lab names: only extract if clearly labeled as a laboratory or testing facility
 - If a field is not clearly present, set value to "" and confidence to 0.0
 - Return ONLY the JSON object, no explanation or surrounding text
-- verify_code: the accession number, task number, or unique verification key printed on the document. This is what you type into the lab's website to confirm the COA is real. Priority order: (1) any code labeled "Task Number", "Accession Number", "Accession #", "Report Number", "Search Code", or "Unique Key" — (2) any alphanumeric code near a "verify at" URL at the bottom of the document. For Janoshik: Task Number like #92383 AND the unique key at the bottom like 28CI68KEPNS8 — return the unique key. For Freedom Diagnostics: the Search Code like Empi2604010106. DO NOT return batch numbers, lot numbers, or dates. Extract only the verification code itself, not any URL.`;
+- verify_code: the accession number, task number, or unique verification key printed on the document. This is what you type into the lab's website to confirm the COA is real. Priority order: (1) any alphanumeric code near a "Verify this test at" URL or labeled "Unique Key" at the bottom of the document — (2) any code labeled "Task Number", "Accession Number", "Accession #", "Report Number", or "Search Code". For Janoshik COAs: FIRST look for the unique key at the very bottom near "Verify this test at www.janoshik.com/verify/" — it looks like 28CI8KEPNS8 or ZQQM9MRNUJSF. If that is not visible, use the Task Number (e.g. #92387) — strip the # symbol and return just the number. BOTH are valid for verification on janoshik.com. For Freedom Diagnostics: the Search Code like Empi2604010106. DO NOT return batch numbers, lot numbers, or dates. Extract only the verification code itself, not any URL. If you see a Task Number anywhere on a Janoshik document, always extract it — confidence 0.9.`;
 
 let aiExtractionResult = null;
 let aiFieldsApplied = {};
