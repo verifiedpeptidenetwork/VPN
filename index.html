@@ -2780,67 +2780,6 @@ document.addEventListener('keydown', function(e){
 
   </div>
 
-  <!-- NEWS DROPDOWN -->
-  <div style="margin-top:1.75rem;position:relative;display:inline-block;z-index:9990;" id="latest-news-wrap">
-    <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.22em;padding:0.9rem 2.6rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 14px rgba(180,0,255,0.9);box-shadow:0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3);cursor:pointer;text-transform:uppercase;transition:all 0.2s;position:relative;animation:latestPulse 2s ease-in-out infinite;"
-      onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 40px rgba(180,0,255,0.7)'"
-      onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3)'">
-      🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
-    </button>
-    <div id="latest-news-dropdown" style="display:none;position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(600px,92vw);background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:99990;text-align:left;">
-
-      <!-- Header -->
-      <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
-        <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
-      </div>
-
-      <!-- News feed -->
-      <div style="max-height:62vh;overflow-y:auto;display:flex;flex-direction:column;">
-
-        <!-- NEWS: No Vendors/COAs on this site -->
-        <div style="border-bottom:1px solid rgba(255,45,120,0.2);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);">IMPORTANT</span>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-pink);">🔒 VENDOR &amp; COA INFO — NOT ON THIS SITE</div>
-          </div>
-          <p style="margin-bottom:0.65rem;"><strong style="color:#fff;">No vendor information or COAs will be provided on this website.</strong> This site exists solely as a research guide and tool hub for the community.</p>
-          <p style="margin-bottom:0.65rem;">All vendor information is located within the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> on Skool — this is intentional, to <strong style="color:var(--neon-pink);">protect this community</strong> and ensure vendor access remains within a trusted, verified space.</p>
-          <div style="margin:0.75rem 0;display:flex;flex-direction:column;gap:0.3rem;">
-            <div>✅ Vendor contacts — Inside the Skool community</div>
-            <div>✅ COAs &amp; lab results — David will provide via Skool</div>
-            <div>✅ Vendor vetting updates — Announced inside Skool only</div>
-            <div>✅ This site — Research guides, tools &amp; education only</div>
-          </div>
-          <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.93rem;color:rgba(255,200,220,0.85);">
-            This keeps vendor information protected and ensures the community remains a safe space. If you need vendor access, join the Inner Circle.
-          </div>
-        </div>
-
-        <!-- NEWS: COA Separate Project -->
-        <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">ANNOUNCEMENT</span>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 COA DATABASE — SEPARATE PROJECT COMING</div>
-          </div>
-          <p style="margin-bottom:0.75rem;">David is personally testing from each vendor and will be providing all <strong style="color:#fff;">Certificates of Analysis (COAs)</strong> under a <strong style="color:var(--neon-cyan);">dedicated separate project</strong> — full announcement coming soon inside the community.</p>
-          <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.92rem;color:rgba(200,220,255,0.75);">
-            <strong style="color:var(--neon-cyan);">Watch for David's announcement</strong> inside the Skool community. Join to be the first to know when the COA project goes live.
-          </div>
-          <div style="text-align:center;margin-top:1rem;">
-            <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
-              style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
-              onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
-              onmouseout="this.style.boxShadow='0 0 20px rgba(180,0,255,0.5)'">
-              🎉 JOIN RETA UNFILTERED ON SKOOL ↗
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
 </div>
 
 
@@ -2856,8 +2795,8 @@ document.addEventListener('keydown', function(e){
     <div style="background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;gap:1.25rem;align-items:flex-start;">
       <span style="font-size:1.75rem;flex-shrink:0;">🧪</span>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);margin-bottom:0.4rem;">Vendor Info &amp; COAs — Inside The Skool Community</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;">David is personally testing from each vendor and providing all <strong style="color:var(--neon-cyan);">COAs</strong> inside the community for full transparency. A dedicated COA project will be announced by David soon.</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);margin-bottom:0.4rem;">Vendors &amp; COAs — Reta Unfiltered Inner Circle on Skool</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;">No vendor info or COAs will be provided on this website — all of that lives inside the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> to protect this community. David is personally testing from each vendor and will provide all COAs there for full transparency.</div>
         <div style="margin-top:0.75rem;">
           <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
             style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.6rem 1.5rem;background:linear-gradient(135deg,rgba(0,245,255,0.15),rgba(255,45,120,0.1));border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;box-shadow:0 0 14px rgba(0,245,255,0.3);transition:all 0.2s;"
@@ -2981,11 +2920,74 @@ document.addEventListener('keydown', function(e){
     </div>
 
     <!-- SUGGESTIONS EMAIL -->
-    <div style="text-align:center;padding:1rem 1.5rem;border:1px solid rgba(0,245,255,0.2);border-left:4px solid var(--neon-cyan);background:rgba(0,245,255,0.04);display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
+    <div style="text-align:center;padding:1rem 1.5rem;border:1px solid rgba(0,245,255,0.2);border-left:4px solid var(--neon-cyan);background:rgba(0,245,255,0.04);display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem;">
       <span style="font-size:1.3rem;">💡</span>
       <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--text-secondary);letter-spacing:0.04em;">
         Have a suggestion or resource to share?
         <a href="mailto:vpnpepdata@yahoo.com" style="color:var(--neon-cyan);text-decoration:none;margin-left:0.35rem;text-shadow:0 0 8px rgba(0,245,255,0.4);">vpnpepdata@yahoo.com ✉</a>
+      </div>
+    </div>
+
+    <!-- NEWS DROPDOWN -->
+    <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+      <div style="position:relative;display:inline-block;z-index:9990;" id="latest-news-wrap">
+        <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.22em;padding:0.9rem 2.6rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 14px rgba(180,0,255,0.9);box-shadow:0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3);cursor:pointer;text-transform:uppercase;transition:all 0.2s;position:relative;animation:latestPulse 2s ease-in-out infinite;"
+          onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 40px rgba(180,0,255,0.7)'"
+          onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3)'">
+          🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
+        </button>
+        <div id="latest-news-dropdown" style="display:none;position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(600px,92vw);background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:99990;text-align:left;">
+
+          <!-- Header -->
+          <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
+            <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
+          </div>
+
+          <!-- News feed -->
+          <div style="max-height:62vh;overflow-y:auto;display:flex;flex-direction:column;">
+
+            <!-- NEWS: No Vendors/COAs on this site -->
+            <div style="border-bottom:1px solid rgba(255,45,120,0.2);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);">IMPORTANT</span>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-pink);">🔒 VENDOR &amp; COA INFO — NOT ON THIS SITE</div>
+              </div>
+              <p style="margin-bottom:0.65rem;"><strong style="color:#fff;">No vendor information or COAs will be provided on this website.</strong> This site exists solely as a research guide and tool hub for the community.</p>
+              <p style="margin-bottom:0.65rem;">All vendor information is located within the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> on Skool — this is intentional, to <strong style="color:var(--neon-pink);">protect this community</strong> and ensure vendor access remains within a trusted, verified space.</p>
+              <div style="margin:0.75rem 0;display:flex;flex-direction:column;gap:0.3rem;">
+                <div>✅ Vendor contacts — Inside the Skool community only</div>
+                <div>✅ COAs &amp; lab results — David will provide via Skool</div>
+                <div>✅ Vendor vetting updates — Announced inside Skool only</div>
+                <div>✅ This site — Research guides, tools &amp; education only</div>
+              </div>
+              <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.93rem;color:rgba(255,200,220,0.85);">
+                This keeps vendor information protected and ensures the community remains a safe space. If you need vendor access, join the Inner Circle.
+              </div>
+            </div>
+
+            <!-- NEWS: COA Separate Project -->
+            <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">ANNOUNCEMENT</span>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 COA DATABASE — SEPARATE PROJECT COMING</div>
+              </div>
+              <p style="margin-bottom:0.75rem;">David is personally testing from each vendor and will be providing all <strong style="color:#fff;">Certificates of Analysis (COAs)</strong> under a <strong style="color:var(--neon-cyan);">dedicated separate project</strong> — full announcement coming soon inside the community.</p>
+              <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.92rem;color:rgba(200,220,255,0.75);">
+                <strong style="color:var(--neon-cyan);">Watch for David's announcement</strong> inside the Skool community. Join to be the first to know when the COA project goes live.
+              </div>
+              <div style="text-align:center;margin-top:1rem;">
+                <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
+                  style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
+                  onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
+                  onmouseout="this.style.boxShadow='0 0 20px rgba(180,0,255,0.5)'">
+                  🎉 JOIN RETA UNFILTERED ON SKOOL ↗
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
 
