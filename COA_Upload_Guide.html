@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN COA Upload Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    background: #050012;
+    color: #ffffff;
+    padding: 3rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 1.5rem; }
+    .no-print { display: none; }
+    h1 { color: #003366; }
+    h2 { color: #003366; border-color: #003366; }
+    h3 { color: #003366; }
+    .step { border-color: #003366; background: #f0f4ff; }
+    .step-num { background: #003366; }
+    .rule-table th { background: #003366; }
+    .tip { background: #fff8e1; border-color: #f0a500; color: #333; }
+    .tip strong { color: #c07000; }
+    .note { background: #e8f5e9; border-color: #2e7d32; color: #333; }
+  }
+
+  /* Print button */
+  .no-print {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 0.65rem 1.5rem;
+    background: #0d0a1e;
+    border: 2px solid #00f5ff;
+    color: #00f5ff;
+    cursor: pointer;
+    text-shadow: 0 0 8px rgba(0,245,255,0.5);
+    box-shadow: 0 0 18px rgba(0,245,255,0.2);
+    transition: all 0.2s;
+  }
+  .no-print:hover { box-shadow: 0 0 30px rgba(0,245,255,0.5); }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(0,245,255,0.3);
+  }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.35em;
+    color: rgba(0,245,255,0.6);
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.15em;
+    color: #00f5ff;
+    text-shadow: 0 0 30px rgba(0,245,255,0.4);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+  }
+
+  /* Section headers */
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    color: #ffe600;
+    border-left: 4px solid #ffe600;
+    padding-left: 0.75rem;
+    margin: 2.5rem 0 1.25rem;
+    text-shadow: 0 0 10px rgba(255,230,0,0.3);
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: #00f5ff;
+    margin: 1.25rem 0 0.5rem;
+  }
+
+  /* Steps */
+  .step {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: #0e0625;
+    border: 1px solid rgba(0,245,255,0.2);
+    border-left: 4px solid #00f5ff;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    background: #00f5ff;
+    color: #050012;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .step-body { flex: 1; }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+  }
+  .step-body p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+  }
+  .step-body ul {
+    margin: 0.4rem 0 0 1.2rem;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  .step-body li { margin-bottom: 0.15rem; }
+
+  /* Highlight */
+  .hl-cyan { color: #00f5ff; font-weight: 700; }
+  .hl-yellow { color: #ffe600; font-weight: 700; }
+  .hl-pink { color: #ff2d78; font-weight: 700; }
+  .hl-green { color: #00ff64; font-weight: 700; }
+
+  /* Tip / Note boxes */
+  .tip {
+    background: #0d0a04;
+    border: 1px solid rgba(255,230,0,0.4);
+    border-left: 4px solid #ffe600;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+  }
+  .tip strong { color: #ffe600; }
+  .note {
+    background: #04100d;
+    border: 1px solid rgba(0,255,100,0.3);
+    border-left: 4px solid #00ff64;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+  }
+  .note strong { color: #00ff64; }
+
+  /* Reference table */
+  .rule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
+  .rule-table th {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.12em;
+    font-size: 0.95rem;
+    background: #0d0a1e;
+    color: #00f5ff;
+    padding: 0.65rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid rgba(0,245,255,0.3);
+  }
+  .rule-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.75);
+    vertical-align: top;
+  }
+  .rule-table tr:nth-child(even) td { background: #0a0820; }
+
+  /* Quick ref badges */
+  .badge {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    margin: 0.15rem 0.15rem 0.15rem 0;
+  }
+  .badge-cyan { border: 1px solid #00f5ff; color: #00f5ff; background: rgba(0,245,255,0.08); }
+  .badge-pink { border: 1px solid #ff2d78; color: #ff2d78; background: rgba(255,45,120,0.08); }
+  .badge-yellow { border: 1px solid #ffe600; color: #ffe600; background: rgba(255,230,0,0.08); }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 2.5rem 0;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0,245,255,0.2);
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">⬇ Save as PDF</button>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo-text">VERIFIED PEPTIDES NETWORK — INNER CIRCLE</div>
+  <h1>COA Upload Guide</h1>
+  <div class="subtitle">How to add lab test results to the database · Admin use only</div>
+</div>
+
+<!-- Overview -->
+<h2>Overview</h2>
+<p style="font-size:1.1rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:1rem;">
+  This guide explains how to upload a Certificate of Analysis (COA), endotoxin test, or heavy metals test to the VPN database. The process has three parts: saving the file to Google Drive, copying its link, and pasting it into the website's upload panel.
+</p>
+<div class="note">
+  <strong>Who can do this:</strong> Only admins (David or Said Kol). Members can view COAs but cannot upload them.
+</div>
+
+<hr class="divider">
+
+<!-- What you need -->
+<h2>Before You Start</h2>
+<div class="step">
+  <div class="step-num">✓</div>
+  <div class="step-body">
+    <div class="step-title">What You Need</div>
+    <ul>
+      <li>Access to <span class="hl-cyan">Google Drive</span> (VPN COA Database folder is already set up)</li>
+      <li>The <span class="hl-yellow">COA file</span> — a photo or PDF of the lab test document</li>
+      <li>The <span class="hl-pink">admin password</span> — ask David or Said Kol</li>
+      <li>The <span class="hl-cyan">VPN website</span> open in your browser</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Step by step -->
+<h2>Step-by-Step Instructions</h2>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <div class="step-title">Upload the File to Google Drive</div>
+    <ul>
+      <li>Open <span class="hl-cyan">Google Drive</span> and go to the <span class="hl-yellow">VPN COA Database</span> folder</li>
+      <li>Click into the correct <span class="hl-cyan">vendor subfolder</span> (e.g. Kerui Peptides, Sophie, Anya, etc.)</li>
+      <li><span class="hl-green">Drag your COA file</span> directly into that folder — or click <strong>New → File Upload</strong></li>
+      <li>Wait for the upload to finish (you'll see a checkmark)</li>
+    </ul>
+    <div class="tip">
+      <strong>Tip:</strong> Keep the original filename — you can rename it later if needed. The name does not affect how it appears on the site.
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <div class="step-title">Get the Shareable Link</div>
+    <ul>
+      <li><span class="hl-cyan">Right-click</span> the file you just uploaded in Drive</li>
+      <li>Click <span class="hl-yellow">Share → Copy link</span></li>
+      <li>Make sure it says <span class="hl-green">"Anyone with the link can view"</span></li>
+      <li>If it says "Restricted" — click the dropdown and change it to Anyone with the link</li>
+      <li>Click <span class="hl-cyan">Copy link</span> — the link is now on your clipboard</li>
+    </ul>
+    <div class="note">
+      <strong>Important:</strong> If this is set to "Restricted", members will get an Access Denied error when they try to view the COA. Always set it to "Anyone with the link."
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <div class="step-title">Open the Admin Upload Panel on the Website</div>
+    <ul>
+      <li>Go to the <span class="hl-cyan">VPN website</span> main page</li>
+      <li>Click the <span class="hl-yellow">⬆ Upload COA — Admin</span> button (above Meet The Researchers)</li>
+      <li>A password prompt will appear — enter the <span class="hl-pink">admin password</span></li>
+      <li>The <span class="hl-cyan">Batch COA Upload</span> panel will open</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <div class="step-title">Fill in the Upload Form</div>
+    <p>Once the panel is open:</p>
+    <ul>
+      <li>Select the <span class="hl-cyan">Vendor</span> from the dropdown — match it to the Drive folder you used</li>
+      <li>Enter the <span class="hl-yellow">Lab Name</span> (e.g. Janoshik) — optional but recommended</li>
+      <li>Enter the <span class="hl-yellow">Batch / Lot #</span> if visible on the document — optional</li>
+      <li>Choose the tab: <span class="hl-cyan">Vendor Testing</span> or <span class="hl-pink">Independent Testing</span></li>
+      <li>Find the <span class="hl-yellow">peptide name</span> in the list (scroll to find it)</li>
+      <li>Click the correct column (COA, Endotoxin, or Heavy Metals) and <span class="hl-green">paste the Drive link</span></li>
+      <li>Repeat for any other peptides you have files for</li>
+      <li>Click <span class="hl-cyan">Submit All</span></li>
+    </ul>
+    <div class="tip">
+      <strong>Tip:</strong> You can paste multiple links in one session — one per peptide row. You don't have to submit after each one. Fill everything in first, then hit Submit All.
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <div class="step-title">Done — It's Live Immediately</div>
+    <p>The COA is now on the website. Members will see a <span class="hl-green">👁 View</span> button next to that peptide. When they click it, the document opens directly from Google Drive — no login required on their end.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Vendor vs Independent -->
+<h2>Vendor Testing vs Independent Testing</h2>
+<p style="font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:1rem;">
+  The upload panel has two tabs. Use the correct one depending on who ordered the test:
+</p>
+<table class="rule-table">
+  <tr>
+    <th>Tab</th>
+    <th>When to use it</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td><span class="badge badge-cyan">Vendor Testing</span></td>
+    <td>The vendor (Kerui, Sophie, etc.) provided the COA document themselves</td>
+    <td>Kerui sends you their Janoshik COA for Retatrutide</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-pink">Independent Testing</span></td>
+    <td>The VPN group independently ordered and paid for the lab test</td>
+    <td>The inner circle sends a peptide to Janoshik themselves and receives the results</td>
+  </tr>
+</table>
+
+<hr class="divider">
+
+<!-- Test type reference -->
+<h2>Test Type Reference</h2>
+<table class="rule-table">
+  <tr>
+    <th>Column</th>
+    <th>What it tests</th>
+    <th>Lab method</th>
+  </tr>
+  <tr>
+    <td><span class="badge badge-cyan">COA</span></td>
+    <td>Purity of the peptide — confirms it is what it says it is and how pure it is</td>
+    <td>HPLC, Mass Spec</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-yellow">Endotoxin</span></td>
+    <td>Tests for bacterial toxins (endotoxins) that can cause serious reactions</td>
+    <td>LAL or rFC test</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-pink">Heavy Metals</span></td>
+    <td>Tests for dangerous metals like lead, arsenic, mercury, and cadmium</td>
+    <td>ICP-MS analysis</td>
+  </tr>
+</table>
+
+<hr class="divider">
+
+<!-- Quick rules -->
+<h2>Rules to Always Follow</h2>
+<table class="rule-table">
+  <tr>
+    <th>Rule</th>
+    <th>Why It Matters</th>
+  </tr>
+  <tr>
+    <td>Always set Drive files to <span class="hl-green">"Anyone with the link can view"</span></td>
+    <td>Members get an Access Denied error if this is set to Restricted</td>
+  </tr>
+  <tr>
+    <td>Upload to the <span class="hl-cyan">correct vendor subfolder</span> in Drive</td>
+    <td>Keeps the Drive organized and easy to find files later</td>
+  </tr>
+  <tr>
+    <td>Match the vendor folder to the <span class="hl-yellow">vendor you select</span> in the upload form</td>
+    <td>Ensures the COA appears under the right vendor on the website</td>
+  </tr>
+  <tr>
+    <td>Only use <span class="hl-cyan">Google Drive links</span> — not Dropbox, OneDrive, or direct file uploads</td>
+    <td>The site is built to embed Google Drive previews specifically</td>
+  </tr>
+  <tr>
+    <td>Never share the <span class="hl-pink">admin password</span> with members</td>
+    <td>Only admins should be able to add or delete COAs</td>
+  </tr>
+</table>
+
+<hr class="divider">
+
+<!-- What members see -->
+<h2>What Members See</h2>
+<p style="font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:1rem;">
+  Members never interact with Google Drive or the upload form. Here is their experience:
+</p>
+<div class="step">
+  <div class="step-num">→</div>
+  <div class="step-body">
+    <p>Member opens the website → clicks a vendor → scrolls to a peptide → sees <span class="hl-green">👁 View</span> next to a test type → clicks it → the COA document opens in a full-screen viewer, embedded directly from Google Drive. No Google account needed, no login, no downloading.</p>
+    <p style="margin-top:0.5rem;">If no COA has been uploaded yet, they see a <span style="color:rgba(255,255,255,0.3);font-weight:700;">—</span> (dash) indicating it is pending.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Quick checklist -->
+<h2>Quick Upload Checklist</h2>
+<table class="rule-table">
+  <tr>
+    <th>Step</th>
+    <th>Done?</th>
+  </tr>
+  <tr><td>File uploaded to correct vendor folder in Google Drive</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>File sharing set to "Anyone with the link can view"</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Link copied to clipboard</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Admin upload panel opened on website (password entered)</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Correct vendor selected in dropdown</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Correct tab selected (Vendor or Independent)</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Drive link pasted into correct peptide row and test column</td><td style="color:#00ff64;">☐</td></tr>
+  <tr><td>Submit All clicked</td><td style="color:#00ff64;">☐</td></tr>
+</table>
+
+<div class="footer">
+  VPN — Verified Peptides Network · Inner Circle Database · Admin Guide · For Research Use Only
+</div>
+
+</body>
+</html>
