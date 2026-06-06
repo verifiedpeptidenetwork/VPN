@@ -313,6 +313,7 @@
   }
 
   @media (max-width: 600px) {
+    #home-researcher-grid { grid-template-columns: 1fr !important; }
     #vendors-list-full .vendor-two-col { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 768px) {
@@ -2790,6 +2791,59 @@ document.addEventListener('keydown', function(e){
 
   <!-- HOME VIEW -->
   <div class="view active" id="view-home">
+
+    <!-- CALCULATOR PROMO — TOP FEATURED -->
+    <div style="border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);background:linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,45,120,0.04));box-shadow:0 0 28px rgba(0,245,255,0.18);margin-bottom:1.5rem;display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;cursor:pointer;transition:box-shadow 0.2s;"
+         onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
+         onmouseover="this.style.boxShadow='0 0 40px rgba(0,245,255,0.35)'"
+         onmouseout="this.style.boxShadow='0 0 28px rgba(0,245,255,0.18)'">
+      <span style="font-size:2.5rem;flex-shrink:0;">⚗️</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">Reconstitution Calculator</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.75);margin-top:0.2rem;">BAC water · Dosing · Syringe units — Calculate everything instantly</div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);padding:0.55rem 1.25rem;border:2px solid var(--neon-cyan);background:rgba(0,245,255,0.08);white-space:nowrap;flex-shrink:0;">OPEN CALCULATOR →</div>
+    </div>
+
+    <!-- GLOWRILLA FEATURE + MEET THE RESEARCHERS -->
+    <div id="home-researcher-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem;align-items:stretch;">
+
+      <!-- Glowrilla face -->
+      <div style="background:var(--card-bg);border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);overflow:hidden;box-shadow:0 0 24px rgba(0,245,255,0.15);cursor:zoom-in;"
+           onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist · Verified Peptide Network')">
+        <div style="background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.06));padding:0.4rem 1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST — CLICK TO ZOOM</span>
+        </div>
+        <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla — Lead Scientist"
+             style="width:100%;height:320px;object-fit:cover;object-position:top center;display:block;">
+        <div style="padding:0.85rem 1.1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:var(--neon-cyan);">🦍 Glowrilla</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;color:var(--neon-pink);text-transform:uppercase;">Lead Scientist · GHK-Cu & Peptide Synthesis</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.9rem;font-weight:600;color:#ffe600;margin-top:0.4rem;">"No hype. Just hard data."</div>
+        </div>
+      </div>
+
+      <!-- Meet The Researchers CTA -->
+      <div style="background:linear-gradient(135deg,#0d0a1e,#080616);border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);box-shadow:0 0 20px rgba(255,45,120,0.15);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.75rem 1.25rem;text-align:center;gap:1rem;cursor:pointer;transition:box-shadow 0.2s;"
+           onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
+           onmouseover="this.style.boxShadow='0 0 36px rgba(255,45,120,0.35)'"
+           onmouseout="this.style.boxShadow='0 0 20px rgba(255,45,120,0.15)'">
+        <div style="font-size:3rem;">🧬</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 14px rgba(255,45,120,0.6);line-height:1.1;">Meet The Researchers</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">The VPN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.65rem 1.5rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.08);margin-top:0.25rem;">VIEW THE TEAM →</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:0.25rem;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🦍 Glowrilla</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🦁 Leonidas</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🐘 Ellie</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🐯 Tiger & more</span>
+        </div>
+      </div>
+
+    </div>
 
     <!-- SKOOL / COA notice -->
     <div style="background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;gap:1.25rem;align-items:flex-start;">
