@@ -314,6 +314,7 @@
 
   @media (max-width: 600px) {
     #home-researcher-grid { grid-template-columns: 1fr !important; }
+    #home-researcher-grid img { min-height:240px !important; height:240px !important; }
     #vendors-list-full .vendor-two-col { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 768px) {
@@ -2679,7 +2680,8 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
       <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
       <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
-      <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies &amp; Templates</button>
+      <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
+      <button class="nav-pill" onclick="showView('templates'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">🏷️ Templates</button>
       <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
       <button class="nav-pill" onclick="showView('team'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
       <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
@@ -2713,7 +2715,8 @@ document.addEventListener('keydown', function(e){
       <!-- Health -->
       <div style="padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(0,255,100,0.4);">HEALTH</div>
       <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🩸 Blood Work</button>
-      <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🧫 Supplies &amp; Templates</button>
+      <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🧫 Supplies</button>
+      <button class="nav-pill" onclick="mobileNav('templates')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🏷️ Templates</button>
       <button class="nav-pill" onclick="mobileNav('videos')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">▶ Videos</button>
       <button class="nav-pill" onclick="mobileNav('bonus')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">⭐ Bonus</button>
 
@@ -2755,11 +2758,68 @@ document.addEventListener('keydown', function(e){
   <div class="hero-badges">
     <button onclick="showView('quick-guide'); setActiveNav(document.querySelector('[onclick*=quick-guide]'))" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(0,245,255,0.15)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">Research Guides</button>
     <button onclick="showView('all-peptides'); setActiveNav(document.querySelector('[onclick*=all-peptides]'))" class="hero-badge pink" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(255,45,120,0.15)';this.style.boxShadow='0 0 18px rgba(255,45,120,0.5)'" onmouseout="this.style.background='#0d0a18';this.style.boxShadow='none'">Peptide Index</button>
-    <button onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))" class="hero-badge purple" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(255,230,0,0.15)';this.style.boxShadow='0 0 18px rgba(255,230,0,0.5)'" onmouseout="this.style.background='#0e0e0a';this.style.boxShadow='none'">Community Tools</button>
+    <button onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))" class="hero-badge purple" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(255,230,0,0.15)';this.style.boxShadow='0 0 18px rgba(255,230,0,0.5)'" onmouseout="this.style.background='#0e0e0a';this.style.boxShadow='none'">Calculator</button>
+    <button onclick="showView('templates'); setActiveNav(document.querySelector('[onclick*=templates]'))" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;border-color:var(--neon-orange);color:var(--neon-orange);background:#0e0a04;" onmouseover="this.style.background='rgba(255,107,0,0.15)';this.style.boxShadow='0 0 18px rgba(255,107,0,0.5)'" onmouseout="this.style.background='#0e0a04';this.style.boxShadow='none'">Templates</button>
   </div>
 
   <!-- SITE PURPOSE & GLP DISCLAIMER -->
   <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.75rem;max-width:700px;text-align:left;margin-left:auto;margin-right:auto;width:100%;">
+
+    <!-- Latest News between the lines -->
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.5));"></div>
+      <div style="position:relative;z-index:9990;" id="latest-news-wrap">
+        <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;padding:0.65rem 2rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 12px rgba(180,0,255,0.9);box-shadow:0 0 20px rgba(180,0,255,0.4);cursor:pointer;text-transform:uppercase;transition:all 0.2s;white-space:nowrap;animation:latestPulse 2s ease-in-out infinite;"
+          onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 36px rgba(180,0,255,0.7)'"
+          onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 20px rgba(180,0,255,0.4)'">
+          🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
+        </button>
+        <div id="latest-news-dropdown" style="display:none;position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(600px,92vw);background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:99990;text-align:left;">
+          <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
+            <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
+          </div>
+          <div style="max-height:62vh;overflow-y:auto;display:flex;flex-direction:column;">
+            <div style="border-bottom:1px solid rgba(255,45,120,0.2);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);">IMPORTANT</span>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-pink);">🔒 VENDOR &amp; COA INFO — NOT ON THIS SITE</div>
+              </div>
+              <p style="margin-bottom:0.65rem;"><strong style="color:#fff;">No vendor information or COAs will be provided on this website.</strong> This site exists solely as a research guide and tool hub for the community.</p>
+              <p style="margin-bottom:0.65rem;">All vendor information is located within the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> on Skool — intentionally, to <strong style="color:var(--neon-pink);">protect this community</strong> and ensure vendor access remains within a trusted, verified space.</p>
+              <div style="margin:0.75rem 0;display:flex;flex-direction:column;gap:0.3rem;">
+                <div>✅ Vendor contacts — Inside the Skool community only</div>
+                <div>✅ COAs &amp; lab results — David will provide via Skool</div>
+                <div>✅ Vendor vetting updates — Announced inside Skool only</div>
+                <div>✅ This site — Research guides, tools &amp; education only</div>
+              </div>
+              <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.93rem;color:rgba(255,200,220,0.85);">
+                This keeps vendor information protected and ensures the community remains a safe space. If you need vendor access, join the Inner Circle.
+              </div>
+            </div>
+            <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
+              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">ANNOUNCEMENT</span>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 COA DATABASE — SEPARATE PROJECT COMING</div>
+              </div>
+              <p style="margin-bottom:0.75rem;">David is personally testing from each vendor and will be providing all <strong style="color:#fff;">Certificates of Analysis (COAs)</strong> under a <strong style="color:var(--neon-cyan);">dedicated separate project</strong> — full announcement coming soon inside the community.</p>
+              <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.92rem;color:rgba(200,220,255,0.75);">
+                <strong style="color:var(--neon-cyan);">Watch for David's announcement</strong> inside the Skool community. Join to be the first to know when the COA project goes live.
+              </div>
+              <div style="text-align:center;margin-top:1rem;">
+                <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
+                  style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
+                  onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
+                  onmouseout="this.style.boxShadow='0 0 20px rgba(180,0,255,0.5)'">
+                  🎉 JOIN RETA UNFILTERED ON SKOOL ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,230,0,0.5),transparent);"></div>
+    </div>
 
     <!-- Purpose notice -->
     <div style="border:1px solid rgba(0,245,255,0.25);border-left:4px solid var(--neon-cyan);background:rgba(0,245,255,0.04);padding:0.85rem 1.1rem;display:flex;gap:0.75rem;align-items:flex-start;">
@@ -2792,7 +2852,51 @@ document.addEventListener('keydown', function(e){
   <!-- HOME VIEW -->
   <div class="view active" id="view-home">
 
-    <!-- CALCULATOR PROMO — TOP FEATURED -->
+    <!-- GLOWRILLA + MEET THE RESEARCHERS — COMBINED, ABOVE CALCULATOR -->
+    <div id="home-researcher-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:1.5rem;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);box-shadow:0 0 28px rgba(255,45,120,0.2);overflow:hidden;">
+
+      <!-- Left: Glowrilla image -->
+      <div style="display:flex;flex-direction:column;background:var(--card-bg);">
+        <div style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(255,45,120,0.06));padding:0.4rem 1rem;border-bottom:1px solid rgba(0,245,255,0.15);">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST — CLICK TO ZOOM</span>
+        </div>
+        <div style="cursor:zoom-in;flex:1;" onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist · Verified Peptide Network')">
+          <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla — Lead Scientist"
+               style="width:100%;height:100%;min-height:300px;object-fit:cover;object-position:top center;display:block;">
+        </div>
+      </div>
+
+      <!-- Right: Meet The Researchers info -->
+      <div style="background:linear-gradient(135deg,#0d0a1e,#080616);border-left:1px solid rgba(255,45,120,0.3);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1.5rem;text-align:center;gap:1rem;">
+        <div style="font-size:2.5rem;">🧬</div>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1;">🦍 Glowrilla</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;color:var(--neon-pink);text-transform:uppercase;margin-top:0.2rem;">Lead Scientist · GHK-Cu &amp; Peptide Synthesis</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.9rem;font-weight:600;color:#ffe600;margin-top:0.3rem;">"No hype. Just hard data."</div>
+        </div>
+        <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,120,0.4),transparent);margin:0.25rem 0;"></div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,0.6);line-height:1.1;">Meet The Researchers</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:var(--text-secondary);line-height:1.6;">The VPN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦍 Glowrilla</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦁 Leonidas</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🐘 Ellie</span>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🐯 Tiger &amp; more</span>
+        </div>
+        <button onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
+          style="width:100%;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.15em;padding:0.75rem 1rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.08);cursor:pointer;transition:all 0.2s;text-transform:uppercase;margin-top:0.25rem;"
+          onmouseover="this.style.background='rgba(255,45,120,0.22)';this.style.boxShadow='0 0 20px rgba(255,45,120,0.5)'"
+          onmouseout="this.style.background='rgba(255,45,120,0.08)';this.style.boxShadow='none'">
+          VIEW THE TEAM →
+        </button>
+      </div>
+
+    </div>
+
+    <!-- CALCULATOR PROMO -->
     <div style="border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);background:linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,45,120,0.04));box-shadow:0 0 28px rgba(0,245,255,0.18);margin-bottom:1.5rem;display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;cursor:pointer;transition:box-shadow 0.2s;"
          onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
          onmouseover="this.style.boxShadow='0 0 40px rgba(0,245,255,0.35)'"
@@ -2803,108 +2907,6 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.75);margin-top:0.2rem;">BAC water · Dosing · Syringe units — Calculate everything instantly</div>
       </div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);padding:0.55rem 1.25rem;border:2px solid var(--neon-cyan);background:rgba(0,245,255,0.08);white-space:nowrap;flex-shrink:0;">OPEN CALCULATOR →</div>
-    </div>
-
-    <!-- NEWS DROPDOWN -->
-    <div style="display:flex;justify-content:center;margin-bottom:1.75rem;">
-      <div style="position:relative;display:inline-block;z-index:9990;" id="latest-news-wrap">
-        <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.22em;padding:0.9rem 2.6rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 14px rgba(180,0,255,0.9);box-shadow:0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3);cursor:pointer;text-transform:uppercase;transition:all 0.2s;position:relative;animation:latestPulse 2s ease-in-out infinite;"
-          onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 40px rgba(180,0,255,0.7)'"
-          onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 24px rgba(180,0,255,0.4),0 0 6px rgba(255,45,120,0.3)'">
-          🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
-        </button>
-        <div id="latest-news-dropdown" style="display:none;position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);width:min(600px,92vw);background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:99990;text-align:left;">
-
-          <!-- Header -->
-          <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
-            <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
-          </div>
-
-          <!-- News feed -->
-          <div style="max-height:62vh;overflow-y:auto;display:flex;flex-direction:column;">
-
-            <!-- NEWS: No Vendors/COAs on this site -->
-            <div style="border-bottom:1px solid rgba(255,45,120,0.2);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
-              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);">IMPORTANT</span>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-pink);">🔒 VENDOR &amp; COA INFO — NOT ON THIS SITE</div>
-              </div>
-              <p style="margin-bottom:0.65rem;"><strong style="color:#fff;">No vendor information or COAs will be provided on this website.</strong> This site exists solely as a research guide and tool hub for the community.</p>
-              <p style="margin-bottom:0.65rem;">All vendor information is located within the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> on Skool — intentionally, to <strong style="color:var(--neon-pink);">protect this community</strong> and ensure vendor access remains within a trusted, verified space.</p>
-              <div style="margin:0.75rem 0;display:flex;flex-direction:column;gap:0.3rem;">
-                <div>✅ Vendor contacts — Inside the Skool community only</div>
-                <div>✅ COAs &amp; lab results — David will provide via Skool</div>
-                <div>✅ Vendor vetting updates — Announced inside Skool only</div>
-                <div>✅ This site — Research guides, tools &amp; education only</div>
-              </div>
-              <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.93rem;color:rgba(255,200,220,0.85);">
-                This keeps vendor information protected and ensures the community remains a safe space. If you need vendor access, join the Inner Circle.
-              </div>
-            </div>
-
-            <!-- NEWS: COA Separate Project -->
-            <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
-              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">ANNOUNCEMENT</span>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 COA DATABASE — SEPARATE PROJECT COMING</div>
-              </div>
-              <p style="margin-bottom:0.75rem;">David is personally testing from each vendor and will be providing all <strong style="color:#fff;">Certificates of Analysis (COAs)</strong> under a <strong style="color:var(--neon-cyan);">dedicated separate project</strong> — full announcement coming soon inside the community.</p>
-              <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.92rem;color:rgba(200,220,255,0.75);">
-                <strong style="color:var(--neon-cyan);">Watch for David's announcement</strong> inside the Skool community. Join to be the first to know when the COA project goes live.
-              </div>
-              <div style="text-align:center;margin-top:1rem;">
-                <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
-                  style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
-                  onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
-                  onmouseout="this.style.boxShadow='0 0 20px rgba(180,0,255,0.5)'">
-                  🎉 JOIN RETA UNFILTERED ON SKOOL ↗
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- GLOWRILLA FEATURE + MEET THE RESEARCHERS -->    <div id="home-researcher-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem;align-items:stretch;">
-
-      <!-- Glowrilla face -->
-      <div style="background:var(--card-bg);border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);overflow:hidden;box-shadow:0 0 24px rgba(0,245,255,0.15);cursor:zoom-in;"
-           onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist · Verified Peptide Network')">
-        <div style="background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.06));padding:0.4rem 1rem;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST — CLICK TO ZOOM</span>
-        </div>
-        <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla — Lead Scientist"
-             style="width:100%;height:320px;object-fit:cover;object-position:top center;display:block;">
-        <div style="padding:0.85rem 1.1rem;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:var(--neon-cyan);">🦍 Glowrilla</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;color:var(--neon-pink);text-transform:uppercase;">Lead Scientist · GHK-Cu & Peptide Synthesis</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.9rem;font-weight:600;color:#ffe600;margin-top:0.4rem;">"No hype. Just hard data."</div>
-        </div>
-      </div>
-
-      <!-- Meet The Researchers CTA -->
-      <div style="background:linear-gradient(135deg,#0d0a1e,#080616);border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);box-shadow:0 0 20px rgba(255,45,120,0.15);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.75rem 1.25rem;text-align:center;gap:1rem;cursor:pointer;transition:box-shadow 0.2s;"
-           onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
-           onmouseover="this.style.boxShadow='0 0 36px rgba(255,45,120,0.35)'"
-           onmouseout="this.style.boxShadow='0 0 20px rgba(255,45,120,0.15)'">
-        <div style="font-size:3rem;">🧬</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 14px rgba(255,45,120,0.6);line-height:1.1;">Meet The Researchers</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text-secondary);line-height:1.6;">The VPN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.65rem 1.5rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.08);margin-top:0.25rem;">VIEW THE TEAM →</div>
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:0.25rem;">
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🦍 Glowrilla</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🦁 Leonidas</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🐘 Ellie</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">🐯 Tiger & more</span>
-        </div>
-      </div>
-
     </div>
 
     <!-- SKOOL / COA notice -->
@@ -2984,14 +2986,14 @@ document.addEventListener('keydown', function(e){
         <div style="margin-top:0.85rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-pink);opacity:0.7;">OPEN TOOLS →</div>
       </div>
 
-      <!-- Supplies & Templates -->
+      <!-- Supplies -->
       <div onclick="showView('supplies')" style="cursor:pointer;background:#0d0a1e;border:2px solid rgba(0,245,255,0.4);border-top:4px solid var(--neon-cyan);padding:1.25rem 1.5rem;transition:box-shadow 0.2s,transform 0.2s;"
            onmouseover="this.style.boxShadow='0 0 24px rgba(0,245,255,0.2)';this.style.transform='translateY(-2px)'"
            onmouseout="this.style.boxShadow='none';this.style.transform='none'">
         <div style="font-size:2rem;margin-bottom:0.6rem;">🧫</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.1em;color:var(--neon-cyan);margin-bottom:0.4rem;">Supplies &amp; Templates</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.1em;color:var(--neon-cyan);margin-bottom:0.4rem;">Supplies</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:var(--text-secondary);line-height:1.65;">
-          Recommended syringes · BAC water · Bacteriostatic supplies · Label templates · Niimbot printer · Autoject2 injection aid
+          Recommended syringes · BAC water · Bacteriostatic supplies · Niimbot printer · Autoject2 injection aid
         </div>
         <div style="margin-top:0.85rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:var(--neon-cyan);opacity:0.7;">VIEW SUPPLIES →</div>
       </div>
@@ -3021,7 +3023,7 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <!-- Label Templates -->
-      <div onclick="showView('supplies'); setTimeout(function(){ var el=document.querySelector('#view-supplies'); if(el) el.scrollIntoView({behavior:'smooth'}); },300)"
+      <div onclick="showView('templates'); setActiveNav(document.querySelector('[onclick*=templates]'))"
            style="cursor:pointer;background:#0d0a1e;border:2px solid rgba(255,107,0,0.4);border-top:4px solid var(--neon-orange);padding:1.25rem 1.5rem;transition:box-shadow 0.2s,transform 0.2s;"
            onmouseover="this.style.boxShadow='0 0 24px rgba(255,107,0,0.2)';this.style.transform='translateY(-2px)'"
            onmouseout="this.style.boxShadow='none';this.style.transform='none'">
@@ -3199,7 +3201,7 @@ document.addEventListener('keydown', function(e){
   <!-- SUPPLIES -->
   <div class="view" id="view-supplies">
     <div class="section-header" style="margin-bottom:1.25rem;">
-      <div class="section-title">Research Supplies &amp; Templates</div>
+      <div class="section-title">Research Supplies</div>
       <span class="section-count">Lab equipment · reference tools</span>
     </div>
 
@@ -3356,58 +3358,56 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <!-- VPN Label Templates -->
-    <div style="margin-top:2rem;">
-      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,120,0.4));"></div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.2em;color:var(--neon-pink);">🏷️ VPN Label Templates</div>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,45,120,0.4),transparent);"></div>
-      </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;line-height:1.65;">
-        Download these label templates for your <strong style="color:var(--neon-pink);">Niimbot 2</strong> label maker. Print and apply directly to your research vials. Three styles available — classic black & white, neon colour, and VPN branded.
-      </div>
+  </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-        <!-- Label 1 -->
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Classic B&W Labels</div>
-            <a href="LABEL1.png" download="VPN-Labels-Classic.png"
-              style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Download</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('LABEL1.png','VPN Classic B&W Labels')">
-            <img src="LABEL1.png" alt="VPN Classic Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
-          </div>
-        </div>
-
-        <!-- Label 2 -->
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">Neon Colour Labels</div>
-            <a href="LABEL 2.png" download="VPN-Labels-Neon.png"
-              style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Download</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('LABEL 2.png','VPN Neon Colour Labels')">
-            <img src="LABEL 2.png" alt="VPN Neon Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
-          </div>
-        </div>
-
-        <!-- Label 3 -->
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">VPN Branded Labels</div>
-            <a href="LABEL 3.png" download="VPN-Labels-Branded.png"
-              style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Download</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('LABEL 3.png','VPN Branded Labels')">
-            <img src="LABEL 3.png" alt="VPN Branded Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
-          </div>
-        </div>
-
-      </div>
+  <!-- LABEL TEMPLATES — OWN PAGE -->
+  <div class="view" id="view-templates">
+    <div class="section-header" style="margin-bottom:1.25rem;">
+      <div class="section-title">🏷️ Label Templates</div>
+      <span class="section-count">Niimbot-compatible · Vial labels · VPN branded</span>
     </div>
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;line-height:1.65;">
+      Download these label templates for your <strong style="color:var(--neon-pink);">Niimbot 2</strong> label maker. Print and apply directly to your research vials. Three styles available — classic black &amp; white, neon colour, and VPN branded.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
 
+      <!-- Label 1 -->
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
+        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Classic B&amp;W Labels</div>
+          <a href="LABEL1.png" download="VPN-Labels-Classic.png"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Download</a>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('LABEL1.png','VPN Classic B&W Labels')">
+          <img src="LABEL1.png" alt="VPN Classic Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
+        </div>
+      </div>
+
+      <!-- Label 2 -->
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
+        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">Neon Colour Labels</div>
+          <a href="LABEL 2.png" download="VPN-Labels-Neon.png"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Download</a>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('LABEL 2.png','VPN Neon Colour Labels')">
+          <img src="LABEL 2.png" alt="VPN Neon Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
+        </div>
+      </div>
+
+      <!-- Label 3 -->
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
+        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">VPN Branded Labels</div>
+          <a href="LABEL 3.png" download="VPN-Labels-Branded.png"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Download</a>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('LABEL 3.png','VPN Branded Labels')">
+          <img src="LABEL 3.png" alt="VPN Branded Labels" style="width:100%;display:block;object-fit:cover;max-height:180px;" title="Click to zoom">
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- BLOOD WORK -->
@@ -5380,7 +5380,7 @@ function mobileNav(view) {
   document.getElementById('mobile-nav').classList.remove('open');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
-  var viewMap = ['quick-guide','all-peptides','videos','studies','calculator','supplies','bloodwork','about','terms','team','bonus'];
+  var viewMap = ['quick-guide','all-peptides','videos','studies','calculator','supplies','templates','bloodwork','about','terms','team','bonus'];
   var idx = viewMap.indexOf(view);
   if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
 }
