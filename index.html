@@ -2780,7 +2780,7 @@ document.addEventListener('keydown', function(e){
           onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 20px rgba(180,0,255,0.4)'">
           🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
         </button>
-        <div id="latest-news-dropdown" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,92vw);max-height:80vh;overflow-y:auto;background:#0a0018;border:2px solid #cc44ff;box-shadow:0 0 40px rgba(180,0,255,0.5),0 8px 40px rgba(0,0,0,0.8);z-index:99990;text-align:left;">
+        <div id="latest-news-dropdown" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,92vw);max-height:80vh;overflow-y:auto;background:#140828;border:2px solid #cc44ff;box-shadow:0 0 60px rgba(180,0,255,0.7),0 0 120px rgba(180,0,255,0.3);z-index:99990;text-align:left;">
           <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
             <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
@@ -5429,7 +5429,7 @@ function toggleLatestNews() {
     d.style.display = 'block';
     var bd = document.createElement('div');
     bd.id = 'news-backdrop';
-    bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99989;';
+    bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99989;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);';
     bd.onclick = function() { toggleLatestNews(); };
     document.body.appendChild(bd);
   }
