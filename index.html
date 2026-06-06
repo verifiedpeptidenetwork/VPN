@@ -163,8 +163,7 @@
     to   { transform: rotate(360deg); }
   }
 
-  @keyframes latestPulse {
-    0%,100% { box-shadow: 0 0 24px rgba(180,0,255,0.4), 0 0 6px rgba(255,45,120,0.3); }
+  
     50% { box-shadow: 0 0 40px rgba(180,0,255,0.8), 0 0 16px rgba(255,45,120,0.6); }
   }
 
@@ -2240,16 +2239,16 @@
       VPN does not advocate, endorse, or condone the administration of any research chemical to any human being. Users who engage with any compound outside of an authorized research setting do so <strong style="color:var(--neon-orange);">entirely at their own risk</strong> and assume full legal and medical responsibility.
       <br><br>
       <div style="color:#ffe600;font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">3. PUBLIC SAFETY PURPOSE</div>
-      This platform exists to <strong style="color:#ffe600;">protect researchers and the community</strong> by providing educational research guides, tools, and references. All vendor information and COAs are provided by David inside the Reta Unfiltered Inner Circle on Skool — not on this website. It is a community education tool, not a commercial service.
+      This platform exists to <strong style="color:#ffe600;">protect researchers and the community</strong> by providing educational research guides, tools, and references. This is a community education and research tool, not a commercial service.
       <br><br>
       <div style="color:#00ff64;font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">4. USER ELIGIBILITY</div>
       You confirm you are <strong style="color:#00ff64;">18 years of age or older</strong> and that you access this Platform solely for lawful research or educational purposes in compliance with all laws applicable in your jurisdiction.
       <br><br>
       <div style="color:var(--neon-pink);font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">5. LIMITATION OF LIABILITY</div>
-      VPN, its administrators, and contributors shall not be liable for any damages arising from use of or reliance on any content on this Platform. Vendor listings do not constitute endorsement of any vendor's products for any purpose.
+      VPN, its administrators, and contributors shall not be liable for any damages arising from use of or reliance on any content on this Platform. Nothing on this platform constitutes endorsement of any compound for any purpose.
       <br><br>
       <div style="color:#ffe600;font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.12em;margin-bottom:0.5rem;">6. DATA INTEGRITY</div>
-      All COA data is sourced from accredited third-party labs. VPN makes no warranty of completeness or accuracy. Lab results reflect specific batches tested at the time of testing only.
+      All data is provided for educational and research reference only. VPN makes no warranty of completeness or accuracy.
     </div>
 
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
@@ -2770,49 +2769,23 @@ document.addEventListener('keydown', function(e){
 
   <!-- SITE PURPOSE & GLP DISCLAIMER -->
   <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.75rem;max-width:700px;text-align:left;margin-left:auto;margin-right:auto;width:100%;">
-
-    <!-- Latest News between the lines -->
-    <div style="display:flex;align-items:center;gap:1rem;">
-      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,230,0,0.5));"></div>
-      <div style="position:relative;z-index:10000;" id="latest-news-wrap">
-        <button onclick="toggleLatestNews()" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;padding:0.65rem 2rem;background:linear-gradient(135deg,#1a0030,#0d0022);border:2px solid #cc44ff;color:#cc44ff;text-shadow:0 0 12px rgba(180,0,255,0.9);box-shadow:0 0 20px rgba(180,0,255,0.4);cursor:pointer;text-transform:uppercase;transition:all 0.2s;white-space:nowrap;animation:latestPulse 2s ease-in-out infinite;"
-          onmouseover="this.style.background='#1f0040';this.style.boxShadow='0 0 36px rgba(180,0,255,0.7)'"
-          onmouseout="this.style.background='linear-gradient(135deg,#1a0030,#0d0022)';this.style.boxShadow='0 0 20px rgba(180,0,255,0.4)'">
-          🚨 LATEST <span style="color:#ff2d78;">NEWS</span> ▼
-        </button>
-        <div id="latest-news-dropdown" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,92vw);max-height:80vh;overflow-y:auto;background:#140828;border:2px solid #cc44ff;box-shadow:0 0 60px rgba(180,0,255,0.7),0 0 120px rgba(180,0,255,0.3);z-index:99990;text-align:left;">
-          <div style="background:linear-gradient(135deg,rgba(180,0,255,0.15),rgba(255,45,120,0.1));border-bottom:1px solid rgba(180,0,255,0.4);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.8);">🚨 LATEST COMMUNITY NEWS</div>
-            <button onclick="toggleLatestNews()" style="background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:1.2rem;cursor:pointer;padding:0.2rem 0.5rem;">✕</button>
-          </div>
-          <div style="display:flex;flex-direction:column;">
-            <div style="border-bottom:1px solid rgba(255,45,120,0.2);padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
-              <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);">IMPORTANT</span>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-pink);">🔒 VENDOR &amp; COA INFO — NOT ON THIS SITE</div>
-              </div>
-              <p style="margin-bottom:0.65rem;"><strong style="color:#fff;">No vendor information or COAs will be provided on this website.</strong> This site exists solely as a research guide and tool hub for the community.</p>
-              <p style="margin-bottom:0.65rem;">All vendor information is located within the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> on Skool — intentionally, to <strong style="color:var(--neon-pink);">protect this community</strong> and ensure vendor access remains within a trusted, verified space.</p>
+              
               <div style="margin:0.75rem 0;display:flex;flex-direction:column;gap:0.3rem;">
-                <div>✅ Vendor contacts — Inside the Skool community only</div>
-                <div>✅ COAs &amp; lab results — David will provide via Skool</div>
-                <div>✅ Vendor vetting updates — Announced inside Skool only</div>
+                
+                
+                
                 <div>✅ This site — Research guides, tools &amp; education only</div>
               </div>
               <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.93rem;color:rgba(255,200,220,0.85);">
-                This keeps vendor information protected and ensures the community remains a safe space. If you need vendor access, join the Inner Circle.
-              </div>
+                
             </div>
             <div style="padding:1.25rem 1.5rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.97rem;color:var(--text-secondary);line-height:1.7;">
               <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
                 <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(0,245,255,0.1);border:1px solid rgba(0,245,255,0.4);color:var(--neon-cyan);">ANNOUNCEMENT</span>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧪 COA DATABASE — SEPARATE PROJECT COMING</div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:var(--neon-cyan);">
               </div>
-              <p style="margin-bottom:0.75rem;">David is personally testing from each vendor and will be providing all <strong style="color:#fff;">Certificates of Analysis (COAs)</strong> under a <strong style="color:var(--neon-cyan);">dedicated separate project</strong> — full announcement coming soon inside the community.</p>
               <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-top:0.75rem;font-size:0.92rem;color:rgba(200,220,255,0.75);">
-                <strong style="color:var(--neon-cyan);">Watch for David's announcement</strong> inside the Skool community. Join to be the first to know when the COA project goes live.
-              </div>
-              <div style="text-align:center;margin-top:1rem;">
+                <div style="text-align:center;margin-top:1rem;">
                 <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
                   style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.65rem 1.75rem;background:linear-gradient(135deg,#cc44ff,#ff2d78);color:#fff;text-decoration:none;text-shadow:none;box-shadow:0 0 20px rgba(180,0,255,0.5);transition:all 0.2s;"
                   onmouseover="this.style.boxShadow='0 0 35px rgba(180,0,255,0.8)'"
@@ -2832,7 +2805,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;flex-shrink:0;">🔬</span>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.18em;color:var(--neon-cyan);margin-bottom:0.2rem;">FOR RESEARCH PURPOSES ONLY</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(200,220,240,0.8);line-height:1.55;">This platform is a <strong style="color:#fff;">research guide and education hub</strong> for the community. Vendor information and COAs are provided by David inside the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle on Skool</strong> — not on this website. Nothing here constitutes medical advice or an endorsement of any compound for human use.</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(200,220,240,0.8);line-height:1.55;">This platform is a <strong style="color:#fff;">research guide and education hub</strong> for the community. Nothing here constitutes medical advice or an endorsement of any compound for human use.</div>
       </div>
     </div>
 
@@ -2902,12 +2875,12 @@ document.addEventListener('keydown', function(e){
 
     </div>
 
-    <!-- SKOOL / COA notice -->
+    <!-- SKOOL / COMMUNITY notice -->
     <div style="background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;gap:1.25rem;align-items:flex-start;">
-      <span style="font-size:1.75rem;flex-shrink:0;">🧪</span>
+      <span style="font-size:1.75rem;flex-shrink:0;">🔬</span>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);margin-bottom:0.4rem;">Vendors &amp; COAs — Reta Unfiltered Inner Circle on Skool</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;">No vendor info or COAs will be provided on this website — all of that lives inside the <strong style="color:#ffe600;">Reta Unfiltered Inner Circle</strong> to protect this community. David is personally testing from each vendor and will provide all COAs there for full transparency.</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);margin-bottom:0.4rem;">Join The Inner Circle — Reta Unfiltered on Skool</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.7;">This website is a research guide and education hub. Join the community for discussion, updates, and more from David and the team.</div>
         <div style="margin-top:0.75rem;">
           <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
             style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;padding:0.6rem 1.5rem;background:linear-gradient(135deg,rgba(0,245,255,0.15),rgba(255,45,120,0.1));border:2px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;box-shadow:0 0 14px rgba(0,245,255,0.3);transition:all 0.2s;"
@@ -3711,7 +3684,7 @@ document.addEventListener('keydown', function(e){
         <div style="background:#0d0a1e;border:1px solid rgba(255,255,255,0.08);padding:1.25rem 1.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-cyan);margin-bottom:0.6rem;">1. PURPOSE &amp; SCOPE OF THE PLATFORM</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.8;">
-            1.1 The Verified Peptides Network is a <strong style="color:var(--neon-cyan);">community-operated, independent research reference database</strong> dedicated solely to documenting and sharing third-party laboratory testing results — including Certificates of Analysis (COA), endotoxin tests, and heavy metal screening — conducted on peptide compounds sourced from wholesale research vendors.<br><br>
+            1.1 The Verified Peptides Network is a <strong style="color:var(--neon-cyan);">community-operated research education platform</strong> dedicated to providing research guides, tools, and educational resources for the peptide research community.<br><br>
             1.2 The express purpose of this Platform is to <strong style="color:var(--neon-cyan);">protect the research community and the general public</strong> by providing transparent, independently verified data on compound purity, identity, and contamination levels. This serves as a public safety resource to reduce the risk of harm from untested or misrepresented research chemicals.<br><br>
             1.3 All compounds referenced are classified as <strong style="color:var(--neon-cyan);">research chemicals only.</strong> They are sold and used exclusively for in-vitro laboratory research, preclinical animal studies, and scientific investigation. They are <u>not</u> intended, approved, or marketed for human therapeutic use, human consumption, or veterinary administration unless specifically authorized by the applicable regulatory authority in the User's jurisdiction.
           </div>
@@ -3729,11 +3702,9 @@ document.addEventListener('keydown', function(e){
 
         <!-- Section 3 -->
         <div style="background:#0d0a1e;border:1px solid rgba(255,255,255,0.08);padding:1.25rem 1.5rem;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#ffe600;margin-bottom:0.6rem;">3. INDEPENDENT TESTING &amp; COA DATA INTEGRITY</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#ffe600;margin-bottom:0.6rem;">3. CONTENT &amp; DATA ACCURACY</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.8;">
-            3.1 All COA, endotoxin, and heavy metal test results published on this Platform are sourced from <strong style="color:#ffe600;">accredited third-party laboratories</strong>. VPN does not conduct laboratory testing itself.<br><br>
-            3.2 While every effort is made to ensure accuracy, VPN makes <strong style="color:#ffe600;">no warranty, express or implied,</strong> regarding the completeness, accuracy, or fitness for any particular purpose of any data published herein. Laboratory results reflect the specific batch and lot tested at the time of testing and may not be representative of all batches from any vendor.<br><br>
-            3.3 COA data upload access is <strong style="color:#ffe600;">restricted to authorized administrators only</strong> to preserve database integrity. Unauthorized attempts to modify, falsify, or corrupt data on this Platform may constitute a violation of applicable computer fraud and cybercrime statutes.
+            3.1 All content on this platform is provided for educational and research reference purposes only. VPN makes no warranty, express or implied, regarding the completeness or accuracy of any information published herein.
           </div>
         </div>
 
@@ -3752,7 +3723,7 @@ document.addEventListener('keydown', function(e){
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-pink);margin-bottom:0.6rem;">5. LIMITATION OF LIABILITY &amp; INDEMNIFICATION</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.8;">
             5.1 <strong style="color:var(--neon-pink);">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW,</strong> VPN, its administrators, contributors, and affiliated community members shall not be liable for any direct, indirect, incidental, consequential, punitive, or special damages arising from or related to your use of or reliance on any content, data, or information available on this Platform.<br><br>
-            5.2 VPN is not liable for the actions, products, or representations of any vendor listed on this Platform. Vendor listings do not constitute endorsement, recommendation, or certification of any vendor's products for any purpose.<br><br>
+            5.2 VPN is not liable for any actions taken based on information provided on this Platform. Nothing here constitutes an endorsement, recommendation, or certification of any compound, product, or service for any purpose.<br><br>
             5.3 You agree to <strong style="color:var(--neon-pink);">indemnify, defend, and hold harmless</strong> VPN and its administrators from any claims, damages, losses, liabilities, costs, or expenses (including legal fees) arising from your violation of these Terms or your use of this Platform.
           </div>
         </div>
@@ -3762,7 +3733,7 @@ document.addEventListener('keydown', function(e){
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-cyan);margin-bottom:0.6rem;">6. INTELLECTUAL PROPERTY &amp; DATA SUBMISSIONS</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.8;">
             6.1 All original content, design, and compilation of data on this Platform is the intellectual property of VPN and its contributors. Unauthorized reproduction, distribution, or commercial use is prohibited.<br><br>
-            6.2 By submitting COA data or testing results to VPN, contributors grant VPN a <strong style="color:var(--neon-cyan);">non-exclusive, royalty-free license</strong> to publish, display, and distribute such data for community research and public safety purposes. Contributors warrant that submitted data is authentic and obtained from accredited laboratories.
+            6.2 By submitting content to VPN, contributors grant VPN a <strong style="color:var(--neon-cyan);">non-exclusive, royalty-free license</strong> to publish and display such content for community education purposes. Contributors warrant that submitted content is accurate and their own.
           </div>
         </div>
 
@@ -3842,12 +3813,12 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);padding:1.25rem;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.75rem;">Vendor Info &amp; COAs</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.75rem;">Community &amp; Resources</div>
         <div style="display:flex;flex-direction:column;gap:0.4rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--text-secondary);">
-          <div>🔒 Not on this website</div>
-          <div>✅ David provides all COAs on Skool</div>
-          <div>✅ Vendor contacts inside Skool only</div>
-          <div>✅ Protected to keep the community safe</div>
+          <div>🎉 Join on Skool</div>
+          <div>✅ Research discussions & updates</div>
+          
+          <div>✅ David's testing results & announcements</div>
           <div style="margin-top:0.35rem;">
             <a href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener"
               style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.35rem 0.85rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);display:inline-block;">
@@ -5418,29 +5389,6 @@ const VENDORS = [
 
 let currentVendor = null;
 
-function toggleLatestNews() {
-  var d = document.getElementById('latest-news-dropdown');
-  var isOpen = d.style.display !== 'none';
-  if (isOpen) {
-    d.style.display = 'none';
-    var bd = document.getElementById('news-backdrop');
-    if (bd) bd.remove();
-  } else {
-    d.style.display = 'block';
-    var bd = document.createElement('div');
-    bd.id = 'news-backdrop';
-    bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99989;';
-    bd.onclick = function() { toggleLatestNews(); };
-    document.body.appendChild(bd);
-  }
-}
-document.addEventListener('click', function(e) {
-  var wrap = document.getElementById('latest-news-wrap');
-  var backdrop = document.getElementById('news-backdrop');
-  if (backdrop && !document.getElementById('latest-news-dropdown').contains(e.target) && wrap && !wrap.contains(e.target)) {
-    toggleLatestNews();
-  }
-});
 
 function toggleMobileNav() {
   var nav = document.getElementById('mobile-nav');
