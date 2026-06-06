@@ -2683,6 +2683,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
       <button class="nav-pill" onclick="showView('templates'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">🏷️ Templates</button>
       <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
+      <button class="nav-pill" onclick="showView('workouts'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">💪 Workouts</button>
       <button class="nav-pill" onclick="showView('team'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🧬 Meet The Team</button>
       <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">About</button>
       <button class="nav-pill" onclick="showView('terms'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Terms</button>
@@ -2717,6 +2718,7 @@ document.addEventListener('keydown', function(e){
       <!-- Health -->
       <div style="padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(0,255,100,0.4);">HEALTH</div>
       <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🩸 Blood Work</button>
+      <button class="nav-pill" onclick="mobileNav('workouts')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">💪 Workouts</button>
       <button class="nav-pill" onclick="mobileNav('videos')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">▶ Videos</button>
       <button class="nav-pill" onclick="mobileNav('bonus')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">⭐ Bonus</button>
 
@@ -4443,26 +4445,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- ── GLP-1 MEDICATION GUIDE ─────────────────────────── -->
   <div class="qg-section-label green">💊 GLP-1 MEDICATION GUIDE</div>
-  <div style="background:#0e0e0a;border:1px solid rgba(0,255,100,0.3);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:1.75rem;">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;" onclick="var b=document.getElementById('glp1-body');var a=document.getElementById('glp1-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-    <div style="display:flex;align-items:center;gap:0.75rem;">
-      <span style="font-size:1.6rem;">💊</span>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:#00ff64;line-height:1.1;">GLP-1 Medication Success Guide</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(200,230,200,0.55);text-transform:uppercase;letter-spacing:0.05em;">Vitamins · Supplements · Lifestyle · For Prescribed Patients Only</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:0.5rem;align-items:center;">
-      <a href="Verified_Peptide_Network_GLP1_Guide.pdf" download onclick="event.stopPropagation();"
-        style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.35rem 0.85rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;">⬇ PDF</a>
-      <span id="glp1-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,255,100,0.55);white-space:nowrap;">▼ Expand</span>
-    </div>
-  </div>
-
-  <!-- Resource Cards -->
-
-    <!-- GLP-1 Success Guide -->
-    <div style="background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;overflow:hidden;">
+  <div style="background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;overflow:hidden;margin-bottom:1.75rem;">
 
       <!-- Header + Download -->
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1.25rem 1.75rem;cursor:pointer;" onclick="var b=document.getElementById('glp1-body');var a=document.getElementById('glp1-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
@@ -4565,155 +4548,19 @@ document.addEventListener('keydown', function(e){
       </div><!-- end glp1-body -->
   </div>
 
-  <!-- ── WORKOUT & EXERCISE GUIDES ─────────────────────── -->
-  <div style="margin-bottom:1rem;margin-top:1.75rem;">
+  <!-- ── WORKOUT & EXERCISE GUIDES — moved to own page ── -->
+  <div style="margin-bottom:1.75rem;margin-top:1.75rem;">
     <div class="qg-section-label green">💪 WORKOUT &amp; EXERCISE GUIDES</div>
-
-    <!-- Quad Strength — FEATURED / 60+ SPOTLIGHT -->
-    <div style="border:3px solid #00ff64;border-top:5px solid #00ff64;background:linear-gradient(160deg,#030d06,#040c09,#060e10);margin-bottom:1.25rem;overflow:hidden;box-shadow:0 0 40px rgba(0,255,100,0.35),0 0 80px rgba(0,255,100,0.12),inset 0 0 30px rgba(0,255,100,0.04);position:relative;animation:quad60Pulse 3s ease-in-out infinite;">
-
-      <!-- TOP BANNER — full width attention bar -->
-      <div style="background:linear-gradient(90deg,#00ff64,#00cc50,#00ff64);padding:0.45rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
-        <div style="display:flex;align-items:center;gap:0.6rem;">
-          <span style="font-size:1.2rem;">👴👵</span>
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.22em;color:#000;">⭐ SPECIALLY FOR AGES 60+ — NO GYM NEEDED</span>
-        </div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#000;opacity:0.7;">CHAIR SUPPORTED · SAFE · EFFECTIVE</span>
+    <div style="border:2px solid #00ff64;border-left:6px solid #00ff64;background:linear-gradient(135deg,rgba(0,255,100,0.06),rgba(0,245,255,0.03));padding:1.1rem 1.5rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;transition:box-shadow 0.2s;box-shadow:0 0 18px rgba(0,255,100,0.15);"
+         onclick="showView('workouts'); setActiveNav(document.querySelector('[onclick*=workouts]'))"
+         onmouseover="this.style.boxShadow='0 0 32px rgba(0,255,100,0.35)'"
+         onmouseout="this.style.boxShadow='0 0 18px rgba(0,255,100,0.15)'">
+      <span style="font-size:2.2rem;flex-shrink:0;">💪</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);">Workout &amp; Exercise Guides</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:rgba(255,255,255,0.65);margin-top:0.15rem;">Ages 60+ · Leg workouts · 3-Day splits · Zone 2 Cardio · GLP workout plans</div>
       </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1.1rem 1.4rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-quad-body');var a=document.getElementById('workout-quad-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <span style="font-size:2.5rem;">🦵</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;line-height:1.1;text-shadow:0 0 18px rgba(0,255,100,0.7);">5 Standing Exercises That Restore Quad Strength</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:rgba(180,255,180,0.75);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.15rem;">Faster Than Gym Machines After 60 · Builds Balance &amp; Daily Mobility</div>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.4rem;">
-              <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ NO EQUIPMENT</span>
-              <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ CHAIR SUPPORTED</span>
-              <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ JOINT FRIENDLY</span>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0;">
-          <a href="guides-pictures/guide-quad-workout.png" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.5rem 1.1rem;border:2px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.12);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-quad-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00ff64;white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-quad-body" style="display:none;border-top:2px solid rgba(0,255,100,0.3);">
-        <img src="guides-pictures/guide-quad-workout.png" alt="5 Standing Exercises for Quad Strength" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-quad-workout.png','5 Standing Exercises — Quad Strength After 60')" />
-      </div>
-    </div>
-
-    <!-- Leg Strength = Longer Life -->
-    <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-leg-body');var a=document.getElementById('workout-leg-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.8rem;">🏋️</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1.1;">Leg Strength = Longer Life</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(200,230,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Gym &amp; Home Workouts · Romanian Deadlift · Lunges · Step Ups · Calf Raise</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <a href="guides-pictures/guide-leg-strength.jpg" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-leg-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,245,255,0.55);white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-leg-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-        <img src="guides-pictures/guide-leg-strength.jpg" alt="Leg Strength = Longer Life" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-leg-strength.jpg','Leg Strength = Longer Life')" />
-      </div>
-    </div>
-
-    <!-- 3-Day Resistance Training Schedule -->
-    <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-3day-body');var a=document.getElementById('workout-3day-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.8rem;">📅</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1.1;">3-Day Resistance Training Schedule</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(180,220,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Beginner Friendly · Mon Chest+Biceps · Wed Back+Triceps · Fri Shoulders+Legs</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <a href="guides-pictures/guide-3day-resistance.png" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-3day-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,245,255,0.55);white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-3day-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-        <img src="guides-pictures/guide-3day-resistance.png" alt="3-Day Resistance Training Schedule" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-3day-resistance.png','3-Day Resistance Training Schedule')" />
-      </div>
-    </div>
-
-    <!-- 4x4x4 Cardio Session -->
-    <div style="border:1px solid rgba(255,230,0,0.35);border-top:3px solid #ffe600;background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-4x4-body');var a=document.getElementById('workout-4x4-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.8rem;">🚴</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:#ffe600;line-height:1.1;">4×4×4 Cardio Session</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,230,180,0.6);text-transform:uppercase;letter-spacing:0.06em;">Treadmill · Fan Bike · Bike Machine · Interval Training Guide</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <a href="guides-pictures/guide-4x4x4-cardio.png" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.06);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-4x4-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,230,0,0.55);white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-4x4-body" style="display:none;border-top:1px solid rgba(255,230,0,0.2);">
-        <img src="guides-pictures/guide-4x4x4-cardio.png" alt="4x4x4 Cardio Session" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-4x4x4-cardio.png','4×4×4 Cardio Session — Treadmill, Fan Bike, or Bike Machine')" />
-      </div>
-    </div>
-
-    <!-- GLP Medication Split -->
-    <div style="border:1px solid rgba(255,107,0,0.35);border-top:3px solid var(--neon-orange);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-glpsplit-body');var a=document.getElementById('workout-glpsplit-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.8rem;">💊</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">Why This Split Works on GLP Medication</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,200,160,0.6);text-transform:uppercase;letter-spacing:0.06em;">3-Day Resistance Split · Mon/Wed/Fri · Cardio on Off Days · Full Weekly Plan</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <a href="guides-pictures/guide-glp-split.png" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.06);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-glpsplit-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,107,0,0.55);white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-glpsplit-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
-        <img src="guides-pictures/guide-glp-split.png" alt="GLP Medication Workout Split" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-glp-split.png','Why This Split Works on GLP Medication')" />
-      </div>
-    </div>
-
-    <!-- Zone 2 Cardio -->
-    <div style="border:1px solid rgba(255,107,0,0.35);border-top:3px solid var(--neon-orange);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
-           onclick="var b=document.getElementById('workout-zone2-body');var a=document.getElementById('workout-zone2-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.8rem;">❤️</span>
-          <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">Zone 2 Cardio — 30 Min · 5 Days a Week</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,200,180,0.6);text-transform:uppercase;letter-spacing:0.06em;">Strong Heart · Long Life · Heart Rate Guide by Age</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <a href="guides-pictures/guide-zone2-cardio.png" download onclick="event.stopPropagation();"
-            style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.06);white-space:nowrap;">⬇ Download</a>
-          <span id="workout-zone2-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,107,0,0.55);white-space:nowrap;">▼ Expand</span>
-        </div>
-      </div>
-      <div id="workout-zone2-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
-        <img src="guides-pictures/guide-zone2-cardio.png" alt="Zone 2 Cardio Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-zone2-cardio.png','Zone 2 Cardio — Strong Heart. Long Life.')" />
-      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:#00ff64;padding:0.5rem 1.1rem;border:2px solid #00ff64;background:rgba(0,255,100,0.08);white-space:nowrap;flex-shrink:0;">VIEW WORKOUTS →</div>
     </div>
   </div>
 
@@ -4874,6 +4721,159 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
+  </div>
+
+</div>
+
+<!-- WORKOUTS VIEW -->
+<div class="view" id="view-workouts">
+  <div class="section-header" style="margin-bottom:1.25rem;">
+    <div class="section-title">💪 Workout &amp; Exercise Guides</div>
+    <span class="section-count">Ages 60+ · Leg workouts · Splits · Zone 2 Cardio · GLP plans</span>
+  </div>
+
+  <!-- Quad Strength — FEATURED / 60+ SPOTLIGHT -->
+  <div style="border:3px solid #00ff64;border-top:5px solid #00ff64;background:linear-gradient(160deg,#030d06,#040c09,#060e10);margin-bottom:1.25rem;overflow:hidden;box-shadow:0 0 40px rgba(0,255,100,0.35),0 0 80px rgba(0,255,100,0.12),inset 0 0 30px rgba(0,255,100,0.04);position:relative;animation:quad60Pulse 3s ease-in-out infinite;">
+    <div style="background:linear-gradient(90deg,#00ff64,#00cc50,#00ff64);padding:0.45rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <span style="font-size:1.2rem;">👴👵</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.22em;color:#000;">⭐ SPECIALLY FOR AGES 60+ — NO GYM NEEDED</span>
+      </div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#000;opacity:0.7;">CHAIR SUPPORTED · SAFE · EFFECTIVE</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1.1rem 1.4rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-quad-body');var a=document.getElementById('workout-quad-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span style="font-size:2.5rem;">🦵</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;line-height:1.1;text-shadow:0 0 18px rgba(0,255,100,0.7);">5 Standing Exercises That Restore Quad Strength</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:rgba(180,255,180,0.75);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.15rem;">Faster Than Gym Machines After 60 · Builds Balance &amp; Daily Mobility</div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.4rem;">
+            <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ NO EQUIPMENT</span>
+            <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ CHAIR SUPPORTED</span>
+            <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.35);color:#00ff64;padding:0.1rem 0.5rem;letter-spacing:0.08em;">✓ JOINT FRIENDLY</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-quad-workout.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 1rem;border:1px solid #00ff64;color:#000;text-decoration:none;background:#00ff64;white-space:nowrap;font-weight:700;">⬇ Download</a>
+        <span id="workout-quad-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00ff64;white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-quad-body" style="display:none;border-top:2px solid rgba(0,255,100,0.3);">
+      <img src="guides-pictures/guide-quad-workout.png" alt="5 Standing Exercises for Quad Strength" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-quad-workout.png','5 Standing Exercises — Quad Strength After 60')" />
+    </div>
+  </div>
+
+  <!-- Leg Workout -->
+  <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-leg-body');var a=document.getElementById('workout-leg-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">🏋️</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1.1;">Leg Workout Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(200,230,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Gym &amp; Home Workouts · Romanian Deadlift · Lunges · Step Ups · Calf Raise</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-leg-workout.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
+        <span id="workout-leg-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,245,255,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-leg-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
+      <img src="guides-pictures/guide-leg-workout.png" alt="Leg Workout Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-leg-workout.png','Leg Workout Guide')" />
+    </div>
+  </div>
+
+  <!-- 3-Day Split -->
+  <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-3day-body');var a=document.getElementById('workout-3day-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">📅</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1.1;">3-Day Full Body Workout Split</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(200,230,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Push · Pull · Legs · Beginner to Intermediate · Home or Gym</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-3day-split.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
+        <span id="workout-3day-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,245,255,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-3day-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
+      <img src="guides-pictures/guide-3day-split.png" alt="3-Day Workout Split" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-3day-split.png','3-Day Full Body Workout Split')" />
+    </div>
+  </div>
+
+  <!-- 4x4 Training -->
+  <div style="border:1px solid rgba(255,230,0,0.35);border-top:3px solid #ffe600;background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-4x4-body');var a=document.getElementById('workout-4x4-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">⚡</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:#ffe600;line-height:1.1;">4×4 Training Method</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,230,180,0.6);text-transform:uppercase;letter-spacing:0.06em;">4 Sets · 4 Reps · Heavy Compound Movements · Strength &amp; Power</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-4x4-training.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.06);white-space:nowrap;">⬇ Download</a>
+        <span id="workout-4x4-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,230,0,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-4x4-body" style="display:none;border-top:1px solid rgba(255,230,0,0.2);">
+      <img src="guides-pictures/guide-4x4-training.png" alt="4x4 Training Method" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-4x4-training.png','4×4 Training Method')" />
+    </div>
+  </div>
+
+  <!-- GLP Workout Split -->
+  <div style="border:1px solid rgba(255,107,0,0.35);border-top:3px solid var(--neon-orange);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-glpsplit-body');var a=document.getElementById('workout-glpsplit-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">💊</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">GLP Medication Workout Split</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,200,180,0.6);text-transform:uppercase;letter-spacing:0.06em;">Why This Split Works on GLP Medication · Muscle Preservation</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-glp-split.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.06);white-space:nowrap;">⬇ Download</a>
+        <span id="workout-glpsplit-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,107,0,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-glpsplit-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
+      <img src="guides-pictures/guide-glp-split.png" alt="GLP Medication Workout Split" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-glp-split.png','Why This Split Works on GLP Medication')" />
+    </div>
+  </div>
+
+  <!-- Zone 2 Cardio -->
+  <div style="border:1px solid rgba(255,107,0,0.35);border-top:3px solid var(--neon-orange);background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-zone2-body');var a=document.getElementById('workout-zone2-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">❤️</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">Zone 2 Cardio — 30 Min · 5 Days a Week</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(240,200,180,0.6);text-transform:uppercase;letter-spacing:0.06em;">Strong Heart · Long Life · Heart Rate Guide by Age</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="guides-pictures/guide-zone2-cardio.png" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.4rem 0.9rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.06);white-space:nowrap;">⬇ Download</a>
+        <span id="workout-zone2-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,107,0,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-zone2-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
+      <img src="guides-pictures/guide-zone2-cardio.png" alt="Zone 2 Cardio Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-zone2-cardio.png','Zone 2 Cardio — Strong Heart. Long Life.')" />
+    </div>
   </div>
 
 </div>
@@ -5391,7 +5391,7 @@ function mobileNav(view) {
   document.getElementById('mobile-nav').classList.remove('open');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
-  var viewMap = ['quick-guide','all-peptides','videos','studies','calculator','supplies','templates','bloodwork','about','terms','team','bonus'];
+  var viewMap = ['quick-guide','all-peptides','videos','studies','calculator','supplies','templates','bloodwork','workouts','about','terms','team','bonus'];
   var idx = viewMap.indexOf(view);
   if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
 }
