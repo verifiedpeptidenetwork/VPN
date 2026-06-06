@@ -1265,12 +1265,44 @@
   @media (min-width: 1024px) {
     .guide-cards-grid {
       grid-template-columns: repeat(2, 1fr) !important;
-      gap: 2rem !important;
+      gap: 1.5rem !important;
     }
-    .guide-cards-grid > div {
-      min-height: 200px;
-    }
+    .guide-cards-grid > div { min-height: 180px; }
+    .qg-tools-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .qg-links-grid { grid-template-columns: repeat(3, 1fr) !important; }
   }
+  @media (max-width: 640px) {
+    .qg-disclaimer-grid { grid-template-columns: 1fr !important; }
+    .qg-tools-grid { grid-template-columns: 1fr !important; }
+    .qg-links-grid { grid-template-columns: 1fr !important; }
+  }
+  /* Section divider labels */
+  .qg-section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.28em;
+    padding: 0.4rem 1rem;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .qg-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    opacity: 0.3;
+  }
+  .qg-section-label.cyan  { color: var(--neon-cyan);  background: rgba(0,245,255,0.04);  border-left: 3px solid var(--neon-cyan);  }
+  .qg-section-label.cyan::after  { background: var(--neon-cyan); }
+  .qg-section-label.green { color: #00ff64; background: rgba(0,255,100,0.04); border-left: 3px solid #00ff64; }
+  .qg-section-label.green::after { background: #00ff64; }
+  .qg-section-label.pink  { color: var(--neon-pink);  background: rgba(255,45,120,0.04);  border-left: 3px solid var(--neon-pink); }
+  .qg-section-label.pink::after  { background: var(--neon-pink); }
+  .qg-section-label.purple{ color: #cc44ff; background: rgba(180,0,255,0.04); border-left: 3px solid #cc44ff; }
+  .qg-section-label.purple::after{ background: #cc44ff; }
+  .qg-section-label.orange{ color: var(--neon-orange);background: rgba(255,107,0,0.04); border-left: 3px solid var(--neon-orange);}
+  .qg-section-label.orange::after{ background: var(--neon-orange); }
 
   .hero-logo-wrap {
     display: flex;
@@ -2872,7 +2904,7 @@ document.addEventListener('keydown', function(e){
         <div class="feature-card-icon">📋</div>
         <div class="feature-card-text">
           <div class="feature-card-title">Tools &amp; Guides</div>
-          <div class="feature-card-sub">PDFs · databases · protocols</div>
+          <div class="feature-card-sub">PDFs · Workouts · Databases · Protocols</div>
         </div>
         <div class="feature-card-arrow">›</div>
       </div>
@@ -4289,13 +4321,13 @@ document.addEventListener('keydown', function(e){
 
 <!-- QUICK GUIDE VIEW -->
 <div class="view" id="view-quick-guide">
-  <div class="section-header" style="margin-bottom:1.5rem;">
-    <div class="section-title">Tools &amp; Guides &amp; Protocol Library</div>
-    <span class="section-count">PDFs · Databases · Reference Guides</span>
+  <div class="section-header" style="margin-bottom:1.25rem;">
+    <div class="section-title">Tools &amp; Guides</div>
+    <span class="section-count">PDFs · Databases · Workout Guides · Protocol Library</span>
   </div>
 
-  <!-- Disclaimers -->
-  <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.75rem;">
+  <!-- Disclaimers — 2 col desktop, stacked mobile -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.75rem;" class="qg-disclaimer-grid">
 
     <div style="border:1px solid rgba(0,245,255,0.25);border-left:4px solid var(--neon-cyan);background:rgba(0,245,255,0.04);padding:0.85rem 1.1rem;display:flex;gap:0.75rem;align-items:flex-start;">
       <span style="font-size:1.2rem;flex-shrink:0;">🔬</span>
@@ -4315,42 +4347,135 @@ document.addEventListener('keydown', function(e){
 
   </div>
 
-  <!-- Resource Cards -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem;position:relative;z-index:4;" class="guide-cards-grid">
+  <!-- ── TOOLS & RESOURCES ─────────────────────────────── -->
+  <div class="qg-section-label pink">💊 TOOLS &amp; RESOURCES</div>
+  <div style="display:grid;grid-template-columns:1fr;gap:0.85rem;margin-bottom:1.75rem;" class="qg-tools-grid">
 
-    <div style="display:flex;flex-direction:column;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);background:#0d0a1e;box-shadow:0 0 18px rgba(255,45,120,0.2);">
+    <!-- Price Comparison -->
+    <div style="border:1px solid rgba(255,45,120,0.35);border-left:4px solid var(--neon-pink);background:#0d0a1e;display:flex;flex-direction:column;">
       <a href="https://ruic-comptool.net/?from=vpn" onclick="navigator.clipboard&&navigator.clipboard.writeText('RetaInnerCircle2025')" target="_blank" rel="noopener"
-         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;text-decoration:none;transition:background 0.2s;"
+         style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;text-decoration:none;transition:background 0.2s;"
          onmouseover="this.style.background='rgba(255,45,120,0.06)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:2rem;">💊</span>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);line-height:1.1;">Peptide Price Comparison Tool</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;">Compare prices across vendors · ruic-comptool.net ↗</div>
-      </a>
-      <!-- Password strip -->
-      <div style="border-top:1px solid rgba(255,45,120,0.25);padding:0.75rem 1.25rem;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
-        <div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(255,45,120,0.65);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.2rem;">🔑 Password</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:#fff;">RetaInnerCircle2025</div>
+        <span style="font-size:1.75rem;flex-shrink:0;">💊</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-pink);line-height:1.1;">Peptide Price Comparison Tool</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;">Compare prices across vendors · ruic-comptool.net ↗</div>
         </div>
-        <button onclick="navigator.clipboard.writeText('RetaInnerCircle2025');this.textContent='✅ Copied!';setTimeout(()=>this.textContent='📋 Copy',2000)"
-          style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 0.9rem;background:transparent;border:1px solid rgba(255,45,120,0.5);color:var(--neon-pink);cursor:pointer;white-space:nowrap;transition:background 0.2s;"
-          onmouseover="this.style.background='rgba(255,45,120,0.12)'" onmouseout="this.style.background='transparent'">
-          📋 Copy
-        </button>
+        <span style="color:var(--neon-pink);flex-shrink:0;">↗</span>
+      </a>
+      <div style="border-top:1px solid rgba(255,45,120,0.2);padding:0.6rem 1.25rem;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:space-between;gap:0.75rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(255,45,120,0.6);text-transform:uppercase;letter-spacing:0.12em;">🔑 Password:</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.08em;color:#fff;">RetaInnerCircle2025</span>
+        </div>
+        <button onclick="navigator.clipboard.writeText('RetaInnerCircle2025');this.textContent='✅';setTimeout(()=>this.textContent='📋',1800)"
+          style="font-size:0.9rem;padding:0.2rem 0.55rem;background:transparent;border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);cursor:pointer;">📋</button>
       </div>
     </div>
 
-    <!-- Lose It Calorie Tracker -->
-    <div style="display:flex;flex-direction:column;border:2px solid #ff6b00;border-top:4px solid #ff6b00;background:#0d0a1e;box-shadow:0 0 18px rgba(255,107,0,0.2);">
+    <!-- Lose It -->
+    <div style="border:1px solid rgba(255,107,0,0.35);border-left:4px solid var(--neon-orange);background:#0d0a1e;">
       <a href="https://www.loseit.com/" target="_blank" rel="noopener"
-         style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;text-decoration:none;transition:background 0.2s;"
+         style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;text-decoration:none;transition:background 0.2s;"
          onmouseover="this.style.background='rgba(255,107,0,0.06)'" onmouseout="this.style.background='transparent'">
-        <span style="font-size:2rem;">🍎</span>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#ff6b00;text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">Lose It! — Free Calorie Counter</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;">Track calories & nutrition · loseit.com ↗</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,200,150,0.75);line-height:1.5;">Free calorie counter, food diary, and diet tracker. Log meals, set goals, and track macros. Works alongside GLP-1 protocols to maximize results.</div>
+        <span style="font-size:1.75rem;flex-shrink:0;">🍎</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">Lose It! — Free Calorie Counter</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;">Track calories &amp; macros · loseit.com ↗</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,200,150,0.6);margin-top:0.2rem;">Works alongside GLP-1 protocols to maximize results</div>
+        </div>
+        <span style="color:var(--neon-orange);flex-shrink:0;">↗</span>
       </a>
     </div>
+
+    <!-- VPN Research Guide PDF -->
+    <div style="border:1px solid rgba(255,230,0,0.35);border-left:4px solid #ffe600;background:#0d0a1e;">
+      <a href="VPN_Peptide_Research_Guide.pdf" download="VPN_Peptide_Research_Guide.pdf"
+         style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;text-decoration:none;transition:background 0.2s;"
+         onmouseover="this.style.background='rgba(255,230,0,0.06)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:1.75rem;flex-shrink:0;">📋</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:#ffe600;line-height:1.1;">VPN Peptide Research Field Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;">44 peptides · 8 categories · PDF Download ⬇</div>
+        </div>
+        <span style="color:#ffe600;flex-shrink:0;">⬇</span>
+      </a>
+    </div>
+
+    <!-- Ultimate Peptides Bible -->
+    <div style="border:1px solid rgba(255,107,0,0.35);border-left:4px solid var(--neon-orange);background:#0d0a1e;">
+      <a href="The Ultimate Peptides Bible.pdf" download
+         style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;text-decoration:none;transition:background 0.2s;"
+         onmouseover="this.style.background='rgba(255,107,0,0.06)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:1.75rem;flex-shrink:0;">📖</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:var(--neon-orange);line-height:1.1;">The Ultimate Peptides Bible</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;">500+ protocols · PDF Download ⬇</div>
+        </div>
+        <span style="color:var(--neon-orange);flex-shrink:0;">⬇</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ── EXTERNAL DATABASES ─────────────────────────────── -->
+  <div class="qg-section-label cyan">🗄 EXTERNAL DATABASES</div>
+  <div style="display:grid;grid-template-columns:1fr;gap:0.75rem;margin-bottom:1.75rem;" class="qg-links-grid">
+
+    <a href="https://pep-pedia.org/" target="_blank" rel="noopener"
+       style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1.1rem;background:#0d0a1e;border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);text-decoration:none;transition:background 0.2s;"
+       onmouseover="this.style.background='rgba(0,245,255,0.05)'" onmouseout="this.style.background='#0d0a1e'">
+      <span style="font-size:1.5rem;flex-shrink:0;">🗄</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-cyan);">Pep-Pedia — 77 Research Peptides</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;">In-depth profiles · pep-pedia.org</div>
+      </div>
+      <span style="color:var(--neon-cyan);opacity:0.6;">↗</span>
+    </a>
+
+    <a href="https://peptidefox.com/" target="_blank" rel="noopener"
+       style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1.1rem;background:#0d0a1e;border:1px solid rgba(255,45,120,0.25);border-left:3px solid var(--neon-pink);text-decoration:none;transition:background 0.2s;"
+       onmouseover="this.style.background='rgba(255,45,120,0.05)'" onmouseout="this.style.background='#0d0a1e'">
+      <span style="font-size:1.5rem;flex-shrink:0;">🦊</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-pink);">PeptideFox</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;">Protocols · stacks · peptidefox.com</div>
+      </div>
+      <span style="color:var(--neon-pink);opacity:0.6;">↗</span>
+    </a>
+
+    <a href="https://peptidecritic.com/" target="_blank" rel="noopener"
+       style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1.1rem;background:#0d0a1e;border:1px solid rgba(255,107,0,0.25);border-left:3px solid var(--neon-orange);text-decoration:none;transition:background 0.2s;"
+       onmouseover="this.style.background='rgba(255,107,0,0.05)'" onmouseout="this.style.background='#0d0a1e'">
+      <span style="font-size:1.5rem;flex-shrink:0;">🔍</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-orange);">Peptide Critic</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;">Reviews · guides · peptidecritic.com</div>
+      </div>
+      <span style="color:var(--neon-orange);opacity:0.6;">↗</span>
+    </a>
+
+  </div>
+
+  <!-- ── GLP-1 MEDICATION GUIDE ─────────────────────────── -->
+  <div class="qg-section-label green">💊 GLP-1 MEDICATION GUIDE</div>
+  <div style="background:#0e0e0a;border:1px solid rgba(0,255,100,0.3);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:1.75rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;" onclick="var b=document.getElementById('glp1-body');var a=document.getElementById('glp1-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <span style="font-size:1.6rem;">💊</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;color:#00ff64;line-height:1.1;">GLP-1 Medication Success Guide</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(200,230,200,0.55);text-transform:uppercase;letter-spacing:0.05em;">Vitamins · Supplements · Lifestyle · For Prescribed Patients Only</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;align-items:center;">
+      <a href="Verified_Peptide_Network_GLP1_Guide.pdf" download onclick="event.stopPropagation();"
+        style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.35rem 0.85rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;">⬇ PDF</a>
+      <span id="glp1-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(0,255,100,0.55);white-space:nowrap;">▼ Expand</span>
+    </div>
+  </div>
+
+  <!-- Resource Cards -->
 
     <!-- GLP-1 Success Guide -->
     <div style="background:#0e0e0a;border:2px solid #00ff64;border-top:4px solid #00ff64;overflow:hidden;">
@@ -4454,55 +4579,11 @@ document.addEventListener('keydown', function(e){
 
       </div>
       </div><!-- end glp1-body -->
-    </div>
-
-    <a href="VPN_Peptide_Research_Guide.pdf" download="VPN_Peptide_Research_Guide.pdf"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid #ffe600;border-top:4px solid #ffe600;text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(255,230,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">📋</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,0.5);line-height:1.1;">VPN Peptide Research Field Guide</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">44 peptides · 8 categories · PDF Download ⬇</div>
-    </a>
-
-    <a href="The Ultimate Peptides Bible.pdf" download
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(255,107,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">📖</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">The Ultimate Peptides Bible</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">500+ protocols · PDF Download ⬇</div>
-    </a>
-
-    <a href="https://pep-pedia.org/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(0,245,255,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">🗄</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);line-height:1.1;">Pep-Pedia — 77 Research Peptides</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">In-depth profiles · pep-pedia.org ↗</div>
-    </a>
-
-    <a href="https://peptidefox.com/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(255,45,120,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">🦊</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);line-height:1.1;">PeptideFox</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Protocols · stacks · peptidefox.com ↗</div>
-    </a>
-
-    <a href="https://peptidecritic.com/" target="_blank" rel="noopener"
-       style="display:flex;flex-direction:column;gap:0.6rem;padding:1.5rem 1.75rem;background:#0e0e0a;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);text-decoration:none;transition:box-shadow 0.2s,transform 0.2s;"
-       onmouseover="this.style.boxShadow='0 0 22px rgba(255,107,0,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='none'">
-      <span style="font-size:2rem;">🔍</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.1;">Peptide Critic</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:#ffffff;letter-spacing:0.05em;text-transform:uppercase;margin-top:auto;">Reviews · guides · peptidecritic.com ↗</div>
-    </a>
-
   </div>
 
-  <!-- ══════════════════════════════════════════════════════ -->
-  <!-- WORKOUT & EXERCISE GUIDES -->
-  <!-- ══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom:1rem;margin-top:1.5rem;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.25em;color:#00ff64;border-left:4px solid #00ff64;padding:0.4rem 0.9rem;background:rgba(0,255,100,0.05);margin-bottom:1rem;">💪 WORKOUT &amp; EXERCISE GUIDES</div>
+  <!-- ── WORKOUT & EXERCISE GUIDES ─────────────────────── -->
+  <div style="margin-bottom:1rem;margin-top:1.75rem;">
+    <div class="qg-section-label green">💪 WORKOUT &amp; EXERCISE GUIDES</div>
 
     <!-- Quad Strength -->
     <div style="border:1px solid rgba(0,255,100,0.35);border-top:3px solid #00ff64;background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
@@ -4637,11 +4718,9 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════ -->
-  <!-- PEPTIDE COMPOUND GUIDES -->
-  <!-- ══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom:1rem;margin-top:0.5rem;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.25em;color:#cc44ff;border-left:4px solid #cc44ff;padding:0.4rem 0.9rem;background:rgba(180,0,255,0.05);margin-bottom:1rem;">🔬 PEPTIDE COMPOUND GUIDES</div>
+  <!-- ── PEPTIDE COMPOUND GUIDES ───────────────────────── -->
+  <div style="margin-bottom:1rem;margin-top:1.75rem;">
+    <div class="qg-section-label purple">🔬 PEPTIDE COMPOUND GUIDES</div>
 
     <!-- GHK-Cu What to Expect -->
     <div style="border:1px solid rgba(0,255,100,0.35);border-top:3px solid #00ff64;background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
@@ -4776,7 +4855,10 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-  <!-- Image Guide Cards -->
+  <!-- ── VISUAL GUIDES ─────────────────────────────────── -->
+  <div style="margin-top:1.75rem;margin-bottom:0.9rem;">
+    <div class="qg-section-label orange">🖼 VISUAL GUIDES &amp; INFOGRAPHICS</div>
+  </div>
   <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem;" class="guide-img-grid">
 
     <!-- Crypto Guide -->
