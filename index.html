@@ -2505,7 +2505,7 @@ function updateDots(){
 function checkPin(){
   if(pinEntry === CORRECT_PIN){
     // Unlock!
-    sessionStorage.setItem('pinUnlocked','1');
+    try { sessionStorage.setItem('pinUnlocked','1'); } catch(e) {}
     const ps = document.getElementById('pin-screen');
     ps.style.animation = 'unlockFade 0.6s ease forwards';
     // Flash green dots
@@ -2527,10 +2527,14 @@ function checkPin(){
   }
 }
 
-// Skip PIN if already unlocked this session (prevents re-trigger on mobile zoom/reload)
-if (sessionStorage.getItem('pinUnlocked') === '1') {
-  document.getElementById('pin-screen').style.display = 'none';
-}
+// Skip PIN if already unlocked this session
+(function(){
+  var unlocked = false;
+  try { unlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
+  if (unlocked) {
+    document.getElementById('pin-screen').style.display = 'none';
+  }
+})();
 
 // Shooting star animation on PIN screen
 (function(){
@@ -5422,11 +5426,15 @@ function acceptTerms() {
     document.getElementById('terms-accept-btn').textContent = '⚠ Please check the box above to agree';
     return;
   }
-  localStorage.setItem('vpn-terms-accepted', '1');
+  try { localStorage.setItem('vpn-terms-accepted', '1'); } catch(e) {}
+  try { sessionStorage.setItem('vpn-terms-accepted', '1'); } catch(e) {}
   document.getElementById('terms-gate').style.display = 'none';
 }
 (function(){
-  if (!localStorage.getItem('vpn-terms-accepted')) {
+  var accepted = false;
+  try { accepted = !!localStorage.getItem('vpn-terms-accepted'); } catch(e) {}
+  if (!accepted) { try { accepted = !!sessionStorage.getItem('vpn-terms-accepted'); } catch(e) {} }
+  if (!accepted) {
     document.getElementById('terms-gate').style.display = 'flex';
   }
 })();
@@ -5831,7 +5839,7 @@ function _showAdminPrompt(onSuccess) {
     var pw = document.getElementById('admin-pw-input').value;
     if (_checkAdminPw(pw)) {
       overlay.remove();
-      sessionStorage.setItem('adminUnlocked', '1');
+      try { sessionStorage.setItem('adminUnlocked', '1'); } catch(e) {}
       document.getElementById('admin-upload-btn').style.display = 'block';
       onSuccess();
     } else {
