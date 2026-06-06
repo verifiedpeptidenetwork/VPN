@@ -2709,14 +2709,14 @@ document.addEventListener('keydown', function(e){
       <div style="padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(255,230,0,0.4);">TOOLS</div>
       <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🛠 Tools &amp; Guides</button>
       <button class="nav-pill" onclick="mobileNav('calculator')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🧮 Calculator</button>
+      <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🧫 Supplies</button>
+      <button class="nav-pill" onclick="mobileNav('templates')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🏷️ Templates</button>
 
       <div style="margin:0.2rem 1.1rem;border-top:1px solid rgba(255,255,255,0.06);"></div>
 
       <!-- Health -->
       <div style="padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(0,255,100,0.4);">HEALTH</div>
       <button class="nav-pill" onclick="mobileNav('bloodwork')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🩸 Blood Work</button>
-      <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">🧫 Supplies</button>
-      <button class="nav-pill" onclick="mobileNav('templates')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🏷️ Templates</button>
       <button class="nav-pill" onclick="mobileNav('videos')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">▶ Videos</button>
       <button class="nav-pill" onclick="mobileNav('bonus')" style="border:none;border-left:3px solid #00ff64;color:#00ff64;clip-path:none;">⭐ Bonus</button>
 
@@ -2894,19 +2894,6 @@ document.addEventListener('keydown', function(e){
         </button>
       </div>
 
-    </div>
-
-    <!-- CALCULATOR PROMO -->
-    <div style="border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);background:linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,45,120,0.04));box-shadow:0 0 28px rgba(0,245,255,0.18);margin-bottom:1.5rem;display:flex;align-items:center;gap:1.25rem;padding:1.1rem 1.5rem;cursor:pointer;transition:box-shadow 0.2s;"
-         onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
-         onmouseover="this.style.boxShadow='0 0 40px rgba(0,245,255,0.35)'"
-         onmouseout="this.style.boxShadow='0 0 28px rgba(0,245,255,0.18)'">
-      <span style="font-size:2.5rem;flex-shrink:0;">⚗️</span>
-      <div style="flex:1;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">Reconstitution Calculator</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.75);margin-top:0.2rem;">BAC water · Dosing · Syringe units — Calculate everything instantly</div>
-      </div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);padding:0.55rem 1.25rem;border:2px solid var(--neon-cyan);background:rgba(0,245,255,0.08);white-space:nowrap;flex-shrink:0;">OPEN CALCULATOR →</div>
     </div>
 
     <!-- SKOOL / COA notice -->
@@ -3371,7 +3358,31 @@ document.addEventListener('keydown', function(e){
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
 
-      <!-- Label 1 -->
+      <!-- Label Sheet 1 — Color Animals -->
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;grid-column:1/-1;">
+        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">Neon Animal Labels — Full Sheet (15 designs)</div>
+          <a href="LABELS_COLOR.png" download="VPN-Labels-Neon-Animals.png"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Download</a>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('LABELS_COLOR.png','Neon Animal Labels — Full Sheet')">
+          <img src="LABELS_COLOR.png" alt="Neon Animal Vial Labels" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+        </div>
+      </div>
+
+      <!-- Label Sheet 2 — B&W Animals -->
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;grid-column:1/-1;">
+        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Classic B&amp;W Animal Labels — Full Sheet (15 designs)</div>
+          <a href="LABELS_BW.png" download="VPN-Labels-Classic-Animals.png"
+            style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Download</a>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('LABELS_BW.png','Classic B&W Animal Labels — Full Sheet')">
+          <img src="LABELS_BW.png" alt="Classic B&W Animal Vial Labels" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+        </div>
+      </div>
+
+      <!-- Original Label 1 -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Classic B&amp;W Labels</div>
