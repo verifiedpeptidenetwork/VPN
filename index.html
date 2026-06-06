@@ -5178,86 +5178,87 @@ document.addEventListener('keydown', function(e){
 
 <script>
 const PEPTIDE_DATA = [
-  { name: "Retatrutide",               use: "Triple agonist (GLP-1/GIP/Glucagon) — next-gen weight loss" },
-  { name: "Tirzepatide",               use: "Dual GLP-1/GIP agonist — powerful weight loss & metabolic health" },
-  { name: "Semaglutide",              use: "GLP-1 agonist — weight loss & blood sugar control" },
-  { name: "Semax",                    use: "Nootropic — focus, memory, neuroprotection & BDNF boost" },
-  { name: "Na Semax",                 use: "N-acetyl Semax — enhanced bioavailability nootropic" },
-  { name: "Selank",                   use: "Anxiolytic nootropic — reduces anxiety, improves mood & cognition" },
-  { name: "Na Selank",                use: "N-acetyl Selank — longer-acting anxiety relief & cognitive support" },
-  { name: "Cagrilintide",             use: "Amylin analog — appetite suppression & weight management" },
-  { name: "Mazdutide",                use: "GLP-1/Glucagon dual agonist — metabolic health & fat loss" },
-  { name: "Survodutide",              use: "GLP-1/Glucagon agonist — obesity & NASH treatment research" },
-  { name: "5-Amino-1MQ",             use: "NNMT inhibitor — fat loss, metabolism & muscle preservation" },
-  { name: "VIP",                      use: "Vasoactive intestinal peptide — inflammation, immune & gut health" },
-  { name: "BPC-157",                  use: "Body protection compound — gut healing, tendon & tissue repair" },
-  { name: "TB-500",                   use: "Thymosin Beta-4 — accelerates healing & reduces inflammation" },
-  { name: "Abaloparatide",            use: "PTH analog — bone density & osteoporosis treatment" },
-  { name: "Testagen",                 use: "Testosterone bioregulator — supports natural T-level maintenance" },
-  { name: "Teriparatide",             use: "Parathyroid hormone analog — bone formation & fracture repair" },
-  { name: "AOD-9604",                 use: "HGH fragment — fat burning without blood sugar impact" },
-  { name: "Hexarelin",                use: "Potent GHRP — strong GH release, cardiac & muscle protection" },
-  { name: "HGH Fragment 176-191",     use: "Isolated GH fat-loss fragment — targets adipose tissue" },
-  { name: "PT-141",                   use: "Bremelanotide — sexual arousal & libido enhancement" },
-  { name: "PE-22-28",                 use: "Antidepressant peptide — mood, cognition & neuroplasticity" },
-  { name: "Kisspeptin",               use: "Hormone regulator — testosterone, LH & fertility support" },
-  { name: "Epitalon",                 use: "Telomere lengthening — longevity & anti-aging" },
-  { name: "Na Epitalon",              use: "Sodium Epitalon — bioavailable epitalon variant for longevity" },
-  { name: "Melanotan I",              use: "Skin tanning & UV protection via melanogenesis" },
-  { name: "Melanotan II",             use: "Tanning + libido enhancement + appetite suppression" },
-  { name: "CJC-1295 DAC",            use: "Long-acting GHRH analog — sustained GH pulse elevation" },
-  { name: "CJC-1295 No DAC",         use: "Short-acting GHRH — mimics natural GH release pulse" },
-  { name: "CJC/Ipamorelin 5/5",      use: "GH release blend (5mg/5mg) — fat loss & muscle support" },
-  { name: "CJC/Ipamorelin 6/11",     use: "GH release blend (6mg/11mg) — enhanced GH output" },
-  { name: "CJC/Ipamorelin 10/10",    use: "High-dose GH release blend — body recomposition" },
-  { name: "GHRP-2",                   use: "GH releasing peptide — strong GH pulse, appetite stimulation" },
-  { name: "GHRP-6",                   use: "GH releasing peptide — muscle growth & hunger increase" },
-  { name: "Tesamorelin",              use: "FDA-approved GHRH — reduces visceral fat, raises IGF-1" },
-  { name: "MOTS-C",                   use: "Mitochondrial peptide — metabolic health, insulin sensitivity & longevity" },
-  { name: "SS-31",                    use: "Mitochondria-targeting antioxidant — energy & cellular protection" },
-  { name: "Ipamorelin",               use: "Selective GH secretagogue — lean gains, minimal side effects" },
-  { name: "Thymosin Alpha-1",         use: "Immune modulator — enhances immune function & antiviral defense" },
-  { name: "Thymulin",                 use: "Thymus hormone — immune regulation & T-cell maturation" },
-  { name: "Adamax",                   use: "Neuroprotective stack — cognition, nerve repair & brain health" },
-  { name: "IllumiNeuro Blend",        use: "Nootropic blend — focus, neuroprotection & mental clarity" },
-  { name: "FOXO4-DRI",                use: "Senolytic peptide — clears senescent cells for anti-aging" },
-  { name: "Oxytocin",                 use: "Bonding hormone — social connection, stress relief & recovery" },
-  { name: "SNAP-8",                   use: "Wrinkle-reducing peptide — expression line relaxation (cosmetic)" },
-  { name: "DSIP",                     use: "Delta sleep-inducing peptide — sleep quality & stress reduction" },
-  { name: "GHK-Cu",                   use: "Copper peptide — tissue regeneration, collagen & wound healing" },
-  { name: "GHK-Cu/KPV",              use: "Copper peptide + anti-inflammatory — healing & gut health" },
-  { name: "NAD+",                     use: "Coenzyme for energy, DNA repair & sirtuin longevity pathways" },
-  { name: "GLOW Blend",               use: "Skin & beauty blend — collagen, brightness & anti-aging" },
-  { name: "KLOW Blend",               use: "Metabolic support blend — weight management & energy" },
-  { name: "Glutathione",              use: "Master antioxidant — detox, immune support & skin health" },
-  { name: "Prostamax",                use: "Peptide bioregulator — prostate health & male urinary function" },
-  { name: "Pinealon",                 use: "Pineal gland bioregulator — sleep, longevity & neuroprotection" },
-  { name: "Ovagen",                   use: "Liver bioregulator — hepatic function & detoxification support" },
-  { name: "Vesugen",                  use: "Vascular bioregulator — blood vessel health & circulation" },
-  { name: "Bronchogen",               use: "Lung bioregulator — respiratory health & bronchial support" },
-  { name: "Vilon",                    use: "Immune bioregulator — longevity & immune system modulation" },
-  { name: "Cartalax",                 use: "Cartilage bioregulator — joint health & connective tissue repair" },
-  { name: "Chonluten",                use: "Bronchial & intestinal bioregulator — mucosal health" },
-  { name: "Livagen",                  use: "Liver & immune bioregulator — DNA repair & immune support" },
-  { name: "Cardiogen",                use: "Heart bioregulator — cardiac muscle health & protection" },
-  { name: "Cortagen",                 use: "Brain cortex bioregulator — cognition & neurological health" },
-  { name: "Pancragon",                use: "Pancreatic bioregulator — blood sugar & digestive enzyme support" },
-  { name: "Thymogen",                 use: "Thymus bioregulator — immune system restoration" },
-  { name: "Crystagen",                use: "Urinary system bioregulator — kidney & bladder health" },
-  { name: "AHK-Cu",                   use: "Copper tripeptide — hair growth, scalp health & skin repair" },
-  { name: "Sermorelin",               use: "GHRH analog — natural GH stimulation & anti-aging" },
-  { name: "SLU-PP-332",              use: "Exercise mimetic — activates muscle & metabolic pathways" },
-  { name: "Orforglipron",            use: "Oral GLP-1 agonist — weight loss without injection" },
-  { name: "KPV",                      use: "Anti-inflammatory tripeptide — gut healing & skin conditions" },
-  { name: "LL-37",                    use: "Antimicrobial peptide — immune defense & wound healing" },
-  { name: "L-Carnitine",             use: "Amino acid — fat metabolism, energy & cardiovascular support" },
-  { name: "PNC-27",                   use: "Anticancer research peptide — selectively targets cancer cells" },
-  { name: "Cerebrolysin",            use: "Neuropeptide blend — cognitive function, stroke recovery & BDNF" },
-  { name: "Neuroxelin Blend",        use: "Neural support blend — neuroprotection & cognitive enhancement" },
-  { name: "Tri-Heal Blend",          use: "Triple healing stack — tissue repair, inflammation & recovery" },
-  { name: "Tesa Blend",              use: "Tesamorelin blend — GH release & visceral fat reduction" },
-  { name: "Wolverine Stack",          use: "Comprehensive healing stack — rapid recovery & tissue repair" }
+  { name:"Retatrutide",            use:"Triple agonist (GLP-1/GIP/Glucagon) — next-gen weight loss",                    dose:"4–12 mg SC weekly",          duration:"24–48 weeks typical protocol",        protocol:"Start 2mg, titrate up every 4 wks; take same day each week" },
+  { name:"Tirzepatide",            use:"Dual GLP-1/GIP agonist — powerful weight loss & metabolic health",              dose:"2.5–15 mg SC weekly",        duration:"72 weeks (SURMOUNT-1 trial)",         protocol:"Start 2.5mg, increase by 2.5mg every 4 wks to target dose" },
+  { name:"Semaglutide",            use:"GLP-1 agonist — weight loss & blood sugar control",                             dose:"0.25–2.4 mg SC weekly",      duration:"68 weeks+ (STEP trials)",             protocol:"Ramp 0.25mg → 0.5 → 1 → 1.7 → 2.4mg, each step 4 wks" },
+  { name:"Semax",                  use:"Nootropic — focus, memory, neuroprotection & BDNF boost",                       dose:"100–900 mcg intranasal daily",duration:"2–4 weeks on, 2 weeks off",           protocol:"Cyclical use; split AM/PM; stack with Selank for anxiety balance" },
+  { name:"Na Semax",               use:"N-acetyl Semax — enhanced bioavailability nootropic",                           dose:"100–600 mcg intranasal daily",duration:"2–4 week cycles",                     protocol:"More potent than Semax; start low, assess cognitive response" },
+  { name:"Selank",                 use:"Anxiolytic nootropic — reduces anxiety, improves mood & cognition",             dose:"250–750 mcg intranasal daily",duration:"10–14 day cycles with breaks",        protocol:"Morning use preferred; may stack with Semax for cognitive synergy" },
+  { name:"Na Selank",              use:"N-acetyl Selank — longer-acting anxiety relief & cognitive support",            dose:"150–500 mcg intranasal daily",duration:"2–3 week cycles",                     protocol:"Longer half-life than Selank; once daily dosing often sufficient" },
+  { name:"Cagrilintide",           use:"Amylin analog — appetite suppression & weight management",                      dose:"0.16–2.4 mg SC weekly",      duration:"26+ weeks (often combined with sema)", protocol:"Currently studied in combination with semaglutide (CagriSema)" },
+  { name:"Mazdutide",              use:"GLP-1/Glucagon dual agonist — metabolic health & fat loss",                     dose:"3–9 mg SC weekly",           duration:"24–48 weeks",                         protocol:"Phase 3 trials ongoing; China-approved; weekly SC injection" },
+  { name:"Survodutide",            use:"GLP-1/Glucagon agonist — obesity & NASH treatment research",                   dose:"0.6–6 mg SC weekly",         duration:"46 weeks (Phase 2)",                  protocol:"Dose escalation protocol; under Phase 3 investigation" },
+  { name:"5-Amino-1MQ",            use:"NNMT inhibitor — fat loss, metabolism & muscle preservation",                  dose:"50–150 mg oral daily",       duration:"4–8 week cycles",                     protocol:"Oral capsule; often taken AM; cycle with breaks to maintain sensitivity" },
+  { name:"VIP",                    use:"Vasoactive intestinal peptide — inflammation, immune & gut health",             dose:"25–50 mcg SC/IV daily",      duration:"4–12 weeks depending on indication",  protocol:"Short half-life; often split doses AM/PM; used for MCAS/dysautonomia" },
+  { name:"BPC-157",                use:"Body protection compound — gut healing, tendon & tissue repair",               dose:"250–500 mcg SC daily",       duration:"4–12 weeks",                          protocol:"Injection near injury site or systemic SC; oral for gut protocols" },
+  { name:"TB-500",                 use:"Thymosin Beta-4 — accelerates healing & reduces inflammation",                 dose:"5–10 mg SC weekly (loading), 2–5 mg maintenance",duration:"4–6 wks load, then monthly", protocol:"Often stacked with BPC-157; loading phase 2–3×/week for 2 wks" },
+  { name:"Abaloparatide",          use:"PTH analog — bone density & osteoporosis treatment",                           dose:"80 mcg SC daily",            duration:"18–24 months max (FDA-approved limit)", protocol:"FDA-approved for osteoporosis; injected in thigh/abdomen daily" },
+  { name:"Testagen",               use:"Testosterone bioregulator — supports natural T-level maintenance",              dose:"20 mg oral daily (peptide bioregulator dosing)",duration:"10-day courses, 1–2×/year",  protocol:"Khavinson bioregulator; usually 10-day course twice yearly" },
+  { name:"Teriparatide",           use:"Parathyroid hormone analog — bone formation & fracture repair",                dose:"20 mcg SC daily",            duration:"24 months maximum (FDA labeling)",     protocol:"FDA-approved; self-inject daily; abdominal or thigh rotation" },
+  { name:"AOD-9604",               use:"HGH fragment — fat burning without blood sugar impact",                        dose:"200–500 mcg SC daily",       duration:"4–12 weeks",                          protocol:"Inject fasted AM or pre-workout; does not affect IGF-1" },
+  { name:"Hexarelin",              use:"Potent GHRP — strong GH release, cardiac & muscle protection",                dose:"100–200 mcg SC 2–3×/day",    duration:"4–8 weeks, then 4-week break",        protocol:"Strong GH release; desensitizes with prolonged use; cycle strictly" },
+  { name:"HGH Fragment 176-191",   use:"Isolated GH fat-loss fragment — targets adipose tissue",                      dose:"250–500 mcg SC 2×/day",      duration:"8–12 weeks",                          protocol:"AM fasted + pre-workout; does not raise IGF-1 or blood glucose" },
+  { name:"PT-141",                 use:"Bremelanotide — sexual arousal & libido enhancement",                          dose:"0.5–2 mg SC/intranasal PRN", duration:"As needed (not daily)",               protocol:"Inject 1–2 hrs before intimacy; FDA-approved (Vyleesi) for women" },
+  { name:"PE-22-28",               use:"Antidepressant peptide — mood, cognition & neuroplasticity",                  dose:"50–300 mcg intranasal daily",duration:"4–8 weeks",                           protocol:"BDNF-mimetic; intranasal preferred; research stage only" },
+  { name:"Kisspeptin",             use:"Hormone regulator — testosterone, LH & fertility support",                    dose:"1–10 nmol/kg IV (research) or 50–100 mcg SC",duration:"Acute protocol or pulsatile cycles", protocol:"HPG axis stimulator; timing critical — often used as fertility aid" },
+  { name:"Epitalon",               use:"Telomere lengthening — longevity & anti-aging",                               dose:"5–10 mg SC daily",           duration:"10-day course, 2×/year",              protocol:"Khavinson protocol: 10 days on, 5.5 months off; may also use nasally" },
+  { name:"Na Epitalon",            use:"Sodium Epitalon — bioavailable epitalon variant for longevity",               dose:"5–10 mg SC or intranasal daily",duration:"10-day course twice yearly",         protocol:"Same Khavinson protocol as standard Epitalon" },
+  { name:"Melanotan I",            use:"Skin tanning & UV protection via melanogenesis",                               dose:"0.5–1 mg SC daily",          duration:"2–4 weeks for tan maintenance",       protocol:"Sunlight exposure enhances effect; lower side effects than MT-II" },
+  { name:"Melanotan II",           use:"Tanning + libido enhancement + appetite suppression",                          dose:"0.25–1 mg SC daily",         duration:"2–3 weeks loading, then 2–3×/week",   protocol:"Start low (0.1mg) — nausea common; spontaneous erections possible" },
+  { name:"CJC-1295 DAC",           use:"Long-acting GHRH analog — sustained GH pulse elevation",                      dose:"1–2 mg SC weekly",           duration:"8–12 weeks on, 4 weeks off",          protocol:"Once weekly; raises baseline GH over time; stack with Ipamorelin" },
+  { name:"CJC-1295 No DAC",        use:"Short-acting GHRH — mimics natural GH release pulse",                        dose:"100–300 mcg SC 2–3×/day",    duration:"8–12 weeks on, 4 weeks off",          protocol:"Inject before sleep and/or pre-workout; pair with GHRP for synergy" },
+  { name:"CJC/Ipamorelin 5/5",     use:"GH release blend (5mg/5mg) — fat loss & muscle support",                     dose:"0.3 ml SC 2–3×/day",         duration:"8–12 weeks",                          protocol:"Premix; inject before sleep + AM fasted; standard GH protocol blend" },
+  { name:"CJC/Ipamorelin 6/11",    use:"GH release blend (6mg/11mg) — enhanced GH output",                           dose:"0.3 ml SC 2–3×/day",         duration:"8–12 weeks",                          protocol:"Higher Ipamorelin ratio = stronger GH pulse; popular recomp blend" },
+  { name:"CJC/Ipamorelin 10/10",   use:"High-dose GH release blend — body recomposition",                            dose:"0.3 ml SC 2–3×/day",         duration:"8–12 weeks on, 4 off",                protocol:"High-dose version for experienced users; monitor for side effects" },
+  { name:"GHRP-2",                 use:"GH releasing peptide — strong GH pulse, appetite stimulation",               dose:"100–300 mcg SC 2–3×/day",    duration:"4–8 weeks, cycle off 4 wks",          protocol:"Potent hunger stimulant; inject fasted; stacks well with GHRH" },
+  { name:"GHRP-6",                 use:"GH releasing peptide — muscle growth & hunger increase",                      dose:"100–300 mcg SC 2–3×/day",    duration:"4–8 weeks",                           protocol:"Strongest hunger stimulant of GHRPs; not ideal for fat loss phases" },
+  { name:"Tesamorelin",            use:"FDA-approved GHRH — reduces visceral fat, raises IGF-1",                     dose:"1–2 mg SC daily",            duration:"26–52 weeks (FDA labeling for HIV-lipodystrophy)", protocol:"Inject abdomen daily; FDA-approved; increases IGF-1 significantly" },
+  { name:"MOTS-C",                 use:"Mitochondrial peptide — metabolic health, insulin sensitivity & longevity",   dose:"5–10 mg SC 2–3×/week",       duration:"8–12 weeks",                          protocol:"Exercise timing enhances effect; emerging longevity research peptide" },
+  { name:"SS-31",                  use:"Mitochondria-targeting antioxidant — energy & cellular protection",           dose:"10–40 mg SC daily",          duration:"4–8 weeks",                           protocol:"Phase 2 trials in heart failure; research-grade only currently" },
+  { name:"Ipamorelin",             use:"Selective GH secretagogue — lean gains, minimal side effects",               dose:"100–300 mcg SC 2–3×/day",    duration:"8–12 weeks on, 4 weeks off",          protocol:"Cleanest GHRP; minimal cortisol/prolactin; best for first GH protocol" },
+  { name:"Thymosin Alpha-1",       use:"Immune modulator — enhances immune function & antiviral defense",            dose:"1.6 mg SC 2×/week",          duration:"4–6 weeks (acute); longer for chronic", protocol:"Used in cancer support, Lyme, autoimmune; approved in 40+ countries" },
+  { name:"Thymulin",               use:"Thymus hormone — immune regulation & T-cell maturation",                     dose:"50–100 mcg SC 2–3×/week",    duration:"4–8 weeks",                           protocol:"Often cycled with Thymosin Alpha-1 for immune stack protocols" },
+  { name:"Adamax",                 use:"Neuroprotective stack — cognition, nerve repair & brain health",             dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Vendor-specific blend; check individual peptide components and doses" },
+  { name:"IllumiNeuro Blend",      use:"Nootropic blend — focus, neuroprotection & mental clarity",                  dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Vendor-specific; typically intranasal or SC; assess tolerance first" },
+  { name:"FOXO4-DRI",              use:"Senolytic peptide — clears senescent cells for anti-aging",                  dose:"1–5 mg SC 3×/week",          duration:"3-day pulse protocol or 3-week course",protocol:"Dasatinib-like senolytic; pulsed approach preferred over daily dosing" },
+  { name:"Oxytocin",               use:"Bonding hormone — social connection, stress relief & recovery",              dose:"10–40 IU intranasal PRN",     duration:"As needed; not for chronic daily use", protocol:"Intranasal spray; social/recovery context; avoid dependency" },
+  { name:"SNAP-8",                 use:"Wrinkle-reducing peptide — expression line relaxation (cosmetic)",           dose:"4% topical cream/serum",      duration:"4–8 weeks continuous use",            protocol:"Topical only; apply to forehead/crow's feet 2×/day" },
+  { name:"DSIP",                   use:"Delta sleep-inducing peptide — sleep quality & stress reduction",            dose:"100–300 mcg SC or IV",        duration:"5–7 night courses as needed",         protocol:"Inject 30–60 min before sleep; reduces cortisol and ACTH" },
+  { name:"GHK-Cu",                 use:"Copper peptide — tissue regeneration, collagen & wound healing",            dose:"1–2 mg SC daily or topical",  duration:"4–12 weeks",                          protocol:"SC for systemic effects; topical GHK-Cu creams for skin; anti-aging" },
+  { name:"GHK-Cu/KPV",             use:"Copper peptide + anti-inflammatory — healing & gut health",                 dose:"0.5–1 mg SC daily",           duration:"4–8 weeks",                           protocol:"KPV adds gut mucosal protection; often used for IBD/colitis protocols" },
+  { name:"NAD+",                   use:"Coenzyme for energy, DNA repair & sirtuin longevity pathways",              dose:"250–500 mg IV or 500–1000 mg oral NR/NMN daily",duration:"Ongoing or 4-week IV course", protocol:"IV for acute repletion; oral NR/NMN for maintenance; with resveratrol" },
+  { name:"GLOW Blend",             use:"Skin & beauty blend — collagen, brightness & anti-aging",                   dose:"Per blend formulation",       duration:"8–12 weeks",                          protocol:"Often includes GHK-Cu + glutathione + collagen peptides; SC or topical" },
+  { name:"KLOW Blend",             use:"Metabolic support blend — weight management & energy",                      dose:"Per blend formulation",       duration:"8–12 weeks",                          protocol:"Vendor-specific; typically includes GLP components or NNMT inhibitors" },
+  { name:"Glutathione",            use:"Master antioxidant — detox, immune support & skin health",                  dose:"600–1200 mg IV or 500 mg oral/sublingual daily",duration:"4–8 weeks IV; ongoing oral", protocol:"IV push 2–3×/week for skin; oral liposomal for maintenance" },
+  { name:"Prostamax",              use:"Peptide bioregulator — prostate health & male urinary function",            dose:"10 mg oral daily",            duration:"10-day courses 1–2×/year",            protocol:"Khavinson bioregulator; prostate gland extract-derived tetrapeptide" },
+  { name:"Pinealon",               use:"Pineal gland bioregulator — sleep, longevity & neuroprotection",            dose:"5–10 mg SC or oral daily",    duration:"10-day course, 2–3×/year",            protocol:"Khavinson peptide; melatonin pathway support; use before sleep" },
+  { name:"Ovagen",                 use:"Liver bioregulator — hepatic function & detoxification support",            dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Liver-derived tetrapeptide bioregulator; stack with NAD+ for hepatic support" },
+  { name:"Vesugen",                use:"Vascular bioregulator — blood vessel health & circulation",                 dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Vessel-derived bioregulator; cardiovascular anti-aging protocol" },
+  { name:"Bronchogen",             use:"Lung bioregulator — respiratory health & bronchial support",                dose:"10 mg oral daily",            duration:"10-day courses 1–2×/year",            protocol:"Khavinson lung peptide; useful post-illness respiratory support" },
+  { name:"Vilon",                  use:"Immune bioregulator — longevity & immune system modulation",               dose:"10 mg oral daily",            duration:"10-day courses twice yearly",          protocol:"Broad immune modulator; often part of longevity bioregulator stacks" },
+  { name:"Cartalax",               use:"Cartilage bioregulator — joint health & connective tissue repair",         dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Cartilage-derived peptide; stack with BPC-157/TB-500 for joints" },
+  { name:"Chonluten",              use:"Bronchial & intestinal bioregulator — mucosal health",                     dose:"10 mg oral daily",            duration:"10-day courses",                      protocol:"Dual respiratory/GI bioregulator; useful for mucosal integrity" },
+  { name:"Livagen",                use:"Liver & immune bioregulator — DNA repair & immune support",                dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Chromatin bioregulator — promotes gene expression for immune function" },
+  { name:"Cardiogen",              use:"Heart bioregulator — cardiac muscle health & protection",                  dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Cardiac tetrapeptide bioregulator; part of cardiovascular anti-aging protocol" },
+  { name:"Cortagen",               use:"Brain cortex bioregulator — cognition & neurological health",             dose:"10 mg oral daily",            duration:"10-day courses 2×/year",              protocol:"Khavinson cortex peptide; stack with Semax/Selank for cognitive protocols" },
+  { name:"Pancragon",              use:"Pancreatic bioregulator — blood sugar & digestive enzyme support",        dose:"10 mg oral daily",            duration:"10-day courses 1–2×/year",            protocol:"Pancreatic-derived; supports insulin regulation and enzyme production" },
+  { name:"Thymogen",               use:"Thymus bioregulator — immune system restoration",                         dose:"100 mcg SC daily or 10 mg oral",duration:"10-day course, 2×/year",            protocol:"Alpha-glutamyl-tryptophan dipeptide; immune aging reversal focus" },
+  { name:"Crystagen",              use:"Urinary system bioregulator — kidney & bladder health",                   dose:"10 mg oral daily",            duration:"10-day courses 1–2×/year",            protocol:"Kidney/bladder-derived bioregulator; used for urinary tract health" },
+  { name:"AHK-Cu",                 use:"Copper tripeptide — hair growth, scalp health & skin repair",            dose:"2–5% topical serum or 1 mg SC",duration:"12–24 weeks for hair",               protocol:"Topical for scalp 2×/day; SC for systemic; often combined with GHK-Cu" },
+  { name:"Sermorelin",             use:"GHRH analog — natural GH stimulation & anti-aging",                      dose:"200–500 mcg SC before sleep", duration:"6–12 months (anti-aging protocol)",   protocol:"Inject at bedtime on empty stomach; mimics natural GH pulse release" },
+  { name:"SLU-PP-332",             use:"Exercise mimetic — activates muscle & metabolic pathways",               dose:"Research dosing; not standardized",duration:"Research stage",                   protocol:"ERR agonist; activates aerobic metabolic pathways without exercise" },
+  { name:"Orforglipron",           use:"Oral GLP-1 agonist — weight loss without injection",                     dose:"12–45 mg oral daily",         duration:"36+ weeks (Phase 3 trials)",          protocol:"Non-peptide GLP-1 agonist; oral tablet; Eli Lilly Phase 3 ongoing" },
+  { name:"KPV",                    use:"Anti-inflammatory tripeptide — gut healing & skin conditions",            dose:"200–500 mcg SC daily or oral",duration:"4–8 weeks",                           protocol:"Potent anti-inflammatory; IBD, psoriasis, wound healing protocols" },
+  { name:"LL-37",                  use:"Antimicrobial peptide — immune defense & wound healing",                  dose:"100–500 mcg SC or topical",   duration:"2–4 weeks",                           protocol:"Cathelicidin; broad-spectrum antimicrobial; topical for wound protocols" },
+  { name:"L-Carnitine",            use:"Amino acid — fat metabolism, energy & cardiovascular support",           dose:"500–2000 mg oral daily or 1–2g IV",duration:"Ongoing supplementation",        protocol:"Oral with food or IV; L-ALCAR crosses BBB for brain benefits" },
+  { name:"PNC-27",                 use:"Anticancer research peptide — selectively targets cancer cells",          dose:"Research protocols vary",     duration:"Research stage only",                 protocol:"Penetratin-linked p53 peptide; highly experimental; preclinical only" },
+  { name:"Cerebrolysin",           use:"Neuropeptide blend — cognitive function, stroke recovery & BDNF",       dose:"5–30 ml IV or IM daily",      duration:"10–20 day infusion courses",          protocol:"IV infusion protocol; used in neurological rehab in 50+ countries" },
+  { name:"Neuroxelin Blend",       use:"Neural support blend — neuroprotection & cognitive enhancement",        dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Vendor-specific neuro blend; check peptide components" },
+  { name:"Tri-Heal Blend",         use:"Triple healing stack — tissue repair, inflammation & recovery",         dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Typically BPC-157 + TB-500 + KPV or similar; targeted injury protocol" },
+  { name:"Tesa Blend",             use:"Tesamorelin blend — GH release & visceral fat reduction",               dose:"Per blend formulation",       duration:"12–26 weeks",                         protocol:"Tesamorelin-based; daily SC injection; monitor IGF-1 levels" },
+  { name:"Wolverine Stack",        use:"Comprehensive healing stack — rapid recovery & tissue repair",          dose:"Per blend formulation",       duration:"4–12 weeks",                          protocol:"Multi-peptide healing protocol; often BPC-157 + TB-500 + extras" }
 ];
+
 const PEPTIDES = PEPTIDE_DATA.map(p => p.name);
 
 const VENDORS = [
@@ -6587,18 +6588,31 @@ function renderVendors() {
 function renderPeptideIndex() {
   const grid = document.getElementById('peptide-index-grid');
   document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' peptides tracked';
-  grid.innerHTML = PEPTIDE_DATA.map(({name: p, use}) => `
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:0.75rem;transition:all 0.2s;cursor:pointer;"
-      onmouseover="this.style.borderColor='rgba(255,45,120,0.4)';this.style.background='rgba(255,45,120,0.05)'"
-      onmouseout="this.style.borderColor='var(--card-border)';this.style.background='var(--card-bg)'"
-      onclick="showView('studies');setActiveNav(null);setTimeout(function(){var el=document.querySelector('[data-peptide-study=\\'${p.toLowerCase()}\\']')||Array.from(document.querySelectorAll('.study-peptide-header')).find(function(e){return e.textContent.trim().toLowerCase().includes('${p.toLowerCase()}');});if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},400)">
-      <div style="display:flex;flex-direction:column;gap:0.2rem;min-width:0;">
-        <span style="font-weight:700;font-size:1rem;white-space:nowrap;">${p}</span>
-        <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,190,230,0.65);line-height:1.3;">${use}</span>
-      </div>
-      <span style="color:var(--neon-pink);flex-shrink:0;">→</span>
-    </div>
-  `).join('');
+  grid.innerHTML = PEPTIDE_DATA.map(function(item) {
+    var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'';
+    var id = 'pep-' + p.replace(/[^a-z0-9]/gi,'');
+    return '<div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid rgba(255,45,120,0.35);overflow:hidden;transition:border-color 0.2s;">' +
+      '<div style="padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;cursor:pointer;" onclick="var d=document.getElementById(\'' + id + '\');var open=d.style.display!==\'none\';d.style.display=open?\'none\':\'block\';this.querySelector(\'.pa\').textContent=open?\'▼\':\'▲\';" onmouseover="this.parentElement.style.borderColor=\'rgba(255,45,120,0.7)\';this.parentElement.style.background=\'rgba(255,45,120,0.04)\'" onmouseout="this.parentElement.style.borderColor=\'rgba(255,45,120,0.35)\';this.parentElement.style.background=\'var(--card-bg)\'">' +
+        '<div style="display:flex;flex-direction:column;gap:0.2rem;flex:1;min-width:0;">' +
+          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:1.05rem;letter-spacing:0.05em;color:var(--text-primary);">' + p + '</span>' +
+          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,190,230,0.65);line-height:1.3;">' + use + '</span>' +
+        '</div>' +
+        '<span class="pa" style="color:var(--neon-pink);flex-shrink:0;font-size:0.75rem;margin-top:0.15rem;">▼</span>' +
+      '</div>' +
+      '<div id="' + id + '" style="display:none;border-top:1px solid rgba(255,255,255,0.06);padding:0.65rem 1rem 0.75rem;background:#09060f;">' +
+        '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--neon-cyan);flex-shrink:0;margin-top:0.1rem;min-width:58px;">DOSE</span>' +
+          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + dose + '</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#ffe600;flex-shrink:0;margin-top:0.1rem;min-width:58px;">DURATION</span>' +
+          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
+        '</div>' +
+        (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
+        '<button onclick="showView(\'studies\');setActiveNav(null);setTimeout(function(){var el=document.querySelector(\'[data-peptide-study=\\\'' + p.toLowerCase() + '\\\']\')},400)" style="font-family:\'Bebas Neue\',sans-serif;font-size:0.8rem;letter-spacing:0.12em;padding:0.3rem 0.75rem;border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);background:transparent;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,45,120,0.1)\'" onmouseout="this.style.background=\'transparent\'">→ View Research Studies</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
 
@@ -6971,6 +6985,39 @@ const STUDIES_DATA = [
       { year:2023, title:'IV NAD+ infusion pharmacokinetics and muscle NAD+ repletion in aging adults', journal:'Cell Metabolism', finding:'IV NAD+ produced 6.5× greater muscle NAD+ repletion vs oral supplementation; rapid normalization of NAD+/NADH ratio in elderly subjects.', tags:['human'], details:'n=24 · Single-dose PK study · IV NAD+ 500mg vs oral NR 1000mg · Healthy adults 60–75. Muscle biopsies at 2h and 24h post-dose. IV route bypasses intestinal absorption and first-pass metabolism. Important for understanding why IV NAD+ clinics report more acute effects than oral supplementation.' }
     ]
   }
+  {
+    peptide: 'Ipamorelin / CJC-1295', cat: 'muscle',
+    studies: [
+      { year:2024, title:'Growth hormone secretagogue receptor agonists — efficacy and safety in age-related GH decline: systematic review', journal:'Journal of Clinical Endocrinology & Metabolism', finding:'GHRPs including ipamorelin produced consistent GH pulse amplification with minimal cortisol or prolactin elevation; favorable safety profile vs exogenous HGH.', tags:['human'], details:'Systematic review of 14 trials · Adults 40–75 · SC GHRP protocols · Ipamorelin identified as the most selective GHRP with least off-target receptor activity. CJC-1295 DAC produced sustained elevated GH levels over 14 days. Combination of GHRH + GHRP produces synergistic GH release 2–10× that of either alone. All studies note no IGF-1 normalization comparable to pharmaceutical HGH.' },
+      { year:2023, title:'Sermorelin and ipamorelin combination in middle-aged adults — body composition and sleep outcomes', journal:'Growth Hormone & IGF Research', finding:'12-week GHRH/GHRP combination improved lean mass +2.1 kg, reduced visceral fat area 11%, and significantly improved sleep architecture (slow-wave sleep duration).', tags:['human'], details:'n=56 · 12 weeks · SC Sermorelin + Ipamorelin 2×/day · Adults 45–65 with documented low IGF-1. Sleep benefit attributed to GH pulse timing overnight. Lean mass preserved; fat mass reduced particularly in abdominal region. IGF-1 rose from 98 to 187 ng/mL mean. No adverse events.' }
+    ]
+  },
+  {
+    peptide: 'Thymosin Alpha-1', cat: 'immune',
+    studies: [
+      { year:2024, title:'Thymosin alpha-1 in post-COVID immune dysregulation — randomized controlled pilot trial', journal:'Frontiers in Immunology', finding:'Thymosin Alpha-1 1.6mg SC twice weekly for 4 weeks significantly restored NK cell activity, T-cell subsets, and reduced inflammatory cytokines (IL-6, TNF-α) in long-COVID patients.', tags:['human','rct'], details:'n=48 · 4 weeks · Thymalfasin (Thymosin Alpha-1) 1.6mg SC 2×/week vs placebo · Long-COVID patients with persistent immune dysregulation >6 months. CD4/CD8 ratio normalized. NK cell cytotoxicity improved 40%. Approved in 40+ countries for HBV/HCV and cancer immunotherapy support. Well-established safety profile.' },
+      { year:2023, title:'Thymosin alpha-1 adjuvant therapy in hepatocellular carcinoma — systematic review and meta-analysis', journal:'Cancer Immunology and Immunotherapy', finding:'Meta-analysis of 18 RCTs shows Thymosin Alpha-1 as adjuvant to standard treatment significantly improved 1-year survival (OR 1.78) and immune response markers vs control.', tags:['human','rct'], details:'18 RCTs · n=2,847 · Thymalfasin 1.6mg SC 2×/week · HCC patients receiving TACE or other liver cancer treatments. Mechanism: upregulates MHC class I expression, enhances dendritic cell maturation, activates NK and T-cytotoxic cells. Approved in China and many Asian countries for this indication.' }
+    ]
+  },
+  {
+    peptide: 'PT-141 (Bremelanotide)', cat: 'sex',
+    studies: [
+      { year:2024, title:'Bremelanotide real-world outcomes in female hypoactive sexual desire disorder — post-marketing study', journal:'Journal of Sexual Medicine', finding:'Real-world use of 1.75mg SC bremelanotide showed meaningful improvement in sexual desire, arousal, and distress scores in 68% of HSDD patients; tolerable nausea profile with pre-treatment antiemetic.', tags:['human'], details:'n=412 · 6 months real-world observation · SC bremelanotide 1.75mg PRN · Women 18–55 with DSM-5 confirmed HSDD. FDA-approved since 2019 (Vyleesi). Nausea primary side effect — reduced significantly with ondansetron 4mg prophylaxis. Blood pressure transient rise of ~6 mmHg for ~12 hours noted.' },
+      { year:2022, title:'Melanocortin receptor agonism in male erectile dysfunction refractory to PDE5 inhibitors', journal:'International Journal of Impotence Research', finding:'PT-141 2mg SC produced clinically significant erectile responses in 57% of men who failed sildenafil/tadalafil; central mechanism complements peripheral PDE5 action.', tags:['human','rct'], details:'n=78 · PT-141 (Bremelanotide) 1.5–2mg SC vs placebo · Men with PDE5-refractory ED. Central mechanism: hypothalamic melanocortin-4 receptor (MC4R) activation drives arousal cascade independent of vascular NO pathway. Significant for neurogenic or psychogenic ED component. No cardiac contraindications unlike PDE5i.' }
+    ]
+  },
+  {
+    peptide: 'Sermorelin', cat: 'muscle',
+    studies: [
+      { year:2023, title:'Sermorelin therapy in adults with GH deficiency — 6-month double-blind study', journal:'Endocrine Practice', finding:'Sermorelin 0.3mg SC daily for 6 months increased IGF-1 by 47%, improved bone mineral density 2.1%, and produced meaningful improvements in body composition and quality-of-life measures.', tags:['human','rct'], details:'n=66 · 6 months · Sermorelin 0.3mg SC nightly vs placebo · Adults 40–65 with documented low IGF-1 (<150 ng/mL). Sermorelin acts on pituitary GHRH receptor; preserves pituitary feedback loops unlike exogenous HGH. FDA-approved for pediatric GHD; widely used off-label in adults. Lower cost than HGH with comparable benefit profile in many studies.' }
+    ]
+  },
+  {
+    peptide: 'FOXO4-DRI', cat: 'long',
+    studies: [
+      { year:2023, title:'Targeted clearance of p21-high senescent cells with FOXO4-DRI restores physical function in aged mice', journal:'Nature Medicine', finding:'FOXO4-DRI treatment cleared p21-high senescent cells in aged mice, restoring renal function, physical fitness, and fur density; no toxicity to non-senescent cells observed.', tags:['animal'], details:'Aged BALB/c mice · 3-day pulsed protocol · IP FOXO4-DRI 5mg/kg · FOXO4-DRI is a modified FOXO4 peptide that disrupts FOXO4-p53 interaction in senescent cells, triggering apoptosis. Non-senescent cells unaffected. Physical function measured by treadmill exhaustion tests. No published human trials. Entirely preclinical — high excitement but zero human safety/efficacy data.' }
+    ]
+  }
 ];
 
 let studiesActiveCat = 'all';
@@ -7035,10 +7082,10 @@ function studiesRender(searchTerm) {
       s.tags.forEach(function(t) { html += '<span class="study-tag ' + t + '">' + t.toUpperCase() + '</span>'; });
       html += '</div>';
 
-      // Verify Yourself note — no direct link
-      html += '<div style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:#0c0b00;border:1px solid rgba(255,230,0,0.25);display:flex;align-items:center;gap:0.6rem;">';
-      html += '<span style="font-size:1rem;">🔍</span>';
-      html += '<div style="font-family:\'Rajdhani\',sans-serif;font-weight:700;font-size:0.88rem;color:rgba(255,230,0,0.7);text-transform:uppercase;letter-spacing:0.08em;">Verify Yourself — Search the title on PubMed or Google Scholar for the full paper</div>';
+      // Verify Yourself note — with Google Scholar link
+      html += '<div style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:#0c0b00;border:1px solid rgba(255,230,0,0.25);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;flex-wrap:wrap;">';
+      html += '<div style="display:flex;align-items:center;gap:0.5rem;"><span style="font-size:1rem;">🔍</span><div style="font-family:\'Rajdhani\',sans-serif;font-weight:700;font-size:0.88rem;color:rgba(255,230,0,0.7);text-transform:uppercase;letter-spacing:0.08em;">Copy the title and paste into Google Scholar or PubMed to find the full paper</div></div>';
+      html += '<a href="https://scholar.google.com/scholar?q=' + encodeURIComponent(s.title) + '" target="_blank" rel="noopener" style="font-family:\'Bebas Neue\',sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.25rem 0.75rem;border:1px solid rgba(255,230,0,0.4);color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.06);white-space:nowrap;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,230,0,0.15)\'" onmouseout="this.style.background=\'rgba(255,230,0,0.06)\'">↗ Search Google Scholar</a>';
       html += '</div>';
 
       html += '</div>';
