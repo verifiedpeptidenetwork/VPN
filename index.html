@@ -5824,6 +5824,8 @@ function viewReport(vendorId, peptide, type, idx) {
       for (const key of Object.keys(LAB_VERIFY)) {
         if (lab.includes(key)) { matched = LAB_VERIFY[key]; break; }
       }
+      window._vpnRenderVerify = renderVerifyPanel;
+      window._vpnVerifyUrl = matched ? matched.url : null;
 
       const codeBox = batch ? `
         <div style="background:#050012;border:1px solid #00f5ff;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:0.85rem;">
@@ -5841,9 +5843,19 @@ function viewReport(vendorId, peptide, type, idx) {
           <div style="display:flex;gap:0.5rem;align-items:center;">
             <input id="manual-verify-input" type="text" placeholder="e.g. 28CI8KEPNS8"
               style="flex:1;background:#050012;border:1px solid rgba(0,245,255,0.5);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;padding:0.5rem 0.75rem;outline:none;letter-spacing:2px;" />
-            <button onclick="(function(){var v=document.getElementById('manual-verify-input').value.trim();if(!v)return;renderVerifyPanel(v);document.getElementById('scan-status').innerHTML='<span style=color:#00ff64>✓ Code applied: '+v+'</span>';})()"
+            <button onclick="(function(){
+              var v=document.getElementById('manual-verify-input').value.trim();
+              if(!v){document.getElementById('scan-status').innerHTML='<span style=color:#ff2d78>⚠ Please enter a code first</span>';return;}
+              if(window._vpnRenderVerify) window._vpnRenderVerify(v);
+              try{navigator.clipboard.writeText(v);}catch(e){}
+              var st=document.getElementById('scan-status');
+              if(st) st.innerHTML='<span style=color:#00ff64>✓ Code set to <strong>'+v+'</strong> — copied to clipboard!</span>';
+              if(window._vpnVerifyUrl){
+                setTimeout(function(){window.open(window._vpnVerifyUrl,'_blank');},400);
+              }
+            })()"
               style="background:#0a1a00;border:2px solid #00ff64;color:#00ff64;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;padding:0.5rem 1.1rem;cursor:pointer;white-space:nowrap;">
-              ✓ APPLY
+              ✓ APPLY &amp; OPEN
             </button>
           </div>
           <div id="scan-status" style="font-size:0.82rem;margin-top:0.35rem;min-height:1.1em;"></div>
