@@ -2988,6 +2988,17 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Share Tech Mono',monospace;font-size: 0.96rem;color:var(--text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;">Latest clinical &amp; preclinical research · 16 peptides covered → View Studies</div>
       </div>
     </div>
+    <!-- Search bar -->
+    <div style="position:relative;margin-bottom:1.25rem;">
+      <input id="peptide-search"
+        type="text"
+        placeholder="🔍  Search peptides by name or use…"
+        oninput="filterPeptideIndex()"
+        style="width:100%;box-sizing:border-box;background:#0a0616;border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.04em;padding:0.75rem 1rem 0.75rem 1rem;outline:none;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--neon-cyan)';this.style.boxShadow='0 0 16px rgba(0,245,255,0.2)'"
+        onblur="this.style.borderColor='rgba(0,245,255,0.25)';this.style.boxShadow='none'">
+      <div id="peptide-search-count" style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(0,245,255,0.5);margin-top:0.4rem;letter-spacing:0.06em;"></div>
+    </div>
     <div id="peptide-index-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.75rem;"></div>
   </div>
 
@@ -7257,34 +7268,63 @@ function renderVendors() {
 }
 
 // Render peptide index
+function buildPeptideCard(item) {
+  var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'';
+  var id = 'pep-' + p.replace(/[^a-z0-9]/gi,'');
+  return '<div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid rgba(255,45,120,0.35);overflow:hidden;transition:border-color 0.2s;">' +
+    '<div style="padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;cursor:pointer;" onclick="var d=document.getElementById(\'' + id + '\');var open=d.style.display!==\'none\';d.style.display=open?\'none\':\'block\';this.querySelector(\'.pa\').textContent=open?\'▼\':\'▲\';" onmouseover="this.parentElement.style.borderColor=\'rgba(255,45,120,0.7)\';this.parentElement.style.background=\'rgba(255,45,120,0.04)\'" onmouseout="this.parentElement.style.borderColor=\'rgba(255,45,120,0.35)\';this.parentElement.style.background=\'var(--card-bg)\'">' +
+      '<div style="display:flex;flex-direction:column;gap:0.2rem;flex:1;min-width:0;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:1.05rem;letter-spacing:0.05em;color:var(--text-primary);">' + p + '</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,190,230,0.65);line-height:1.3;">' + use + '</span>' +
+      '</div>' +
+      '<span class="pa" style="color:var(--neon-pink);flex-shrink:0;font-size:0.75rem;margin-top:0.15rem;">▼</span>' +
+    '</div>' +
+    '<div id="' + id + '" style="display:none;border-top:1px solid rgba(255,255,255,0.06);padding:0.65rem 1rem 0.75rem;background:#09060f;">' +
+      '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--neon-cyan);flex-shrink:0;margin-top:0.1rem;min-width:58px;">DOSE</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + dose + '</span>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#ffe600;flex-shrink:0;margin-top:0.1rem;min-width:58px;">DURATION</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
+      '</div>' +
+      (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
+      '<button onclick="showView(\'studies\');setActiveNav(null);setTimeout(function(){var el=document.querySelector(\'[data-peptide-study=\\\'' + p.toLowerCase() + '\\\']\')},400)" style="font-family:\'Bebas Neue\',sans-serif;font-size:0.8rem;letter-spacing:0.12em;padding:0.3rem 0.75rem;border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);background:transparent;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,45,120,0.1)\'" onmouseout="this.style.background=\'transparent\'">→ View Research Studies</button>' +
+    '</div>' +
+  '</div>';
+}
+
 function renderPeptideIndex() {
-  const grid = document.getElementById('peptide-index-grid');
-  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' peptides tracked';
-  grid.innerHTML = PEPTIDE_DATA.map(function(item) {
-    var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'';
-    var id = 'pep-' + p.replace(/[^a-z0-9]/gi,'');
-    return '<div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid rgba(255,45,120,0.35);overflow:hidden;transition:border-color 0.2s;">' +
-      '<div style="padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;cursor:pointer;" onclick="var d=document.getElementById(\'' + id + '\');var open=d.style.display!==\'none\';d.style.display=open?\'none\':\'block\';this.querySelector(\'.pa\').textContent=open?\'▼\':\'▲\';" onmouseover="this.parentElement.style.borderColor=\'rgba(255,45,120,0.7)\';this.parentElement.style.background=\'rgba(255,45,120,0.04)\'" onmouseout="this.parentElement.style.borderColor=\'rgba(255,45,120,0.35)\';this.parentElement.style.background=\'var(--card-bg)\'">' +
-        '<div style="display:flex;flex-direction:column;gap:0.2rem;flex:1;min-width:0;">' +
-          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:1.05rem;letter-spacing:0.05em;color:var(--text-primary);">' + p + '</span>' +
-          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,190,230,0.65);line-height:1.3;">' + use + '</span>' +
-        '</div>' +
-        '<span class="pa" style="color:var(--neon-pink);flex-shrink:0;font-size:0.75rem;margin-top:0.15rem;">▼</span>' +
-      '</div>' +
-      '<div id="' + id + '" style="display:none;border-top:1px solid rgba(255,255,255,0.06);padding:0.65rem 1rem 0.75rem;background:#09060f;">' +
-        '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
-          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--neon-cyan);flex-shrink:0;margin-top:0.1rem;min-width:58px;">DOSE</span>' +
-          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + dose + '</span>' +
-        '</div>' +
-        '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
-          '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#ffe600;flex-shrink:0;margin-top:0.1rem;min-width:58px;">DURATION</span>' +
-          '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
-        '</div>' +
-        (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
-        '<button onclick="showView(\'studies\');setActiveNav(null);setTimeout(function(){var el=document.querySelector(\'[data-peptide-study=\\\'' + p.toLowerCase() + '\\\']\')},400)" style="font-family:\'Bebas Neue\',sans-serif;font-size:0.8rem;letter-spacing:0.12em;padding:0.3rem 0.75rem;border:1px solid rgba(255,45,120,0.4);color:var(--neon-pink);background:transparent;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,45,120,0.1)\'" onmouseout="this.style.background=\'transparent\'">→ View Research Studies</button>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  // Sort alphabetically
+  var sorted = PEPTIDE_DATA.slice().sort(function(a, b) {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  });
+  var grid = document.getElementById('peptide-index-grid');
+  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' peptides — A to Z';
+  grid.innerHTML = sorted.map(buildPeptideCard).join('');
+}
+
+function filterPeptideIndex() {
+  var q = document.getElementById('peptide-search').value.trim().toLowerCase();
+  var sorted = PEPTIDE_DATA.slice().sort(function(a, b) {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  });
+  var filtered = q ? sorted.filter(function(item) {
+    return item.name.toLowerCase().includes(q) || item.use.toLowerCase().includes(q);
+  }) : sorted;
+  var grid = document.getElementById('peptide-index-grid');
+  var countEl = document.getElementById('peptide-search-count');
+  if (q) {
+    countEl.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '') + ' for "' + q + '"';
+    countEl.style.color = filtered.length ? 'rgba(0,245,255,0.6)' : 'rgba(255,45,120,0.7)';
+  } else {
+    countEl.textContent = '';
+  }
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:2rem;text-align:center;font-family:\'Bebas Neue\',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:rgba(255,45,120,0.6);">No peptides found for "' + q + '"</div>';
+  } else {
+    grid.innerHTML = filtered.map(buildPeptideCard).join('');
+  }
 }
 
 
