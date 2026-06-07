@@ -479,6 +479,14 @@
   .view { display: none; }
   .view.active { display: block; position: relative; z-index: 3; transition: opacity 0.25s; }
 
+  /* Tools & Guides — clean desktop layout */
+  #view-quick-guide {
+    max-width: 960px;
+  }
+  #view-quick-guide .qg-section-label {
+    margin-bottom: 0.75rem;
+  }
+
   /* === SECTION HEADER === */
   .section-header {
     display: flex;
@@ -2746,7 +2754,8 @@ document.addEventListener('keydown', function(e){
   <div class="hero-logo-wrap">
       <img src="vpnlogo.png?v=3" alt="VPN Verified Peptides Network Logo" class="hero-logo-img" />
     </div>
-    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:-0.5rem;margin-bottom:1rem;background:linear-gradient(90deg,rgba(180,0,255,0.18),rgba(255,45,120,0.18));border:1px solid rgba(255,45,120,0.6);box-shadow:0 0 14px rgba(180,0,255,0.3);padding:0.35rem 1.1rem;display:inline-block;">
+    <!-- Acronym bar -->
+    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:-0.5rem;margin-bottom:1rem;background:rgba(0,0,0,0.82);border:1px solid rgba(255,45,120,0.7);box-shadow:0 0 18px rgba(180,0,255,0.35),inset 0 0 20px rgba(0,0,0,0.5);padding:0.45rem 1.3rem;display:inline-block;backdrop-filter:blur(6px);">
       <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">R</span><span style="color:#ffffff;">eta</span>&nbsp;
       <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">U</span><span style="color:#ffffff;">nfiltered</span>&nbsp;
       <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">I</span><span style="color:#ffffff;">ndex</span>&nbsp;
@@ -2755,13 +2764,16 @@ document.addEventListener('keydown', function(e){
       <span style="color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,1);">N</span><span style="color:#ffffff;">etwork</span>&nbsp;
       <span style="color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);">D</span><span style="color:#ffffff;">ata</span>
     </div>
-    <div class="hero-eyebrow">INNER CIRCLE RESEARCH HUB</div>
-  <h1 class="hero-title">
-    <span class="cyan">Research</span> <span class="pink">Guides</span><br>&amp; Tools
-  </h1>
-  <p class="hero-desc">
-    Peptide research guides, study references, calculators, protocols, and educational resources — curated by the VPN inner circle.
-  </p>
+    <!-- Eyebrow + Title + Desc on solid dark backdrop -->
+    <div style="display:inline-block;background:rgba(0,0,0,0.78);border:1px solid rgba(0,245,255,0.2);box-shadow:0 0 32px rgba(0,0,0,0.7);backdrop-filter:blur(8px);padding:1rem 2rem 1.1rem;margin-bottom:0.5rem;max-width:680px;width:100%;box-sizing:border-box;">
+      <div class="hero-eyebrow" style="margin-bottom:0.6rem;">INNER CIRCLE RESEARCH HUB</div>
+      <h1 class="hero-title" style="margin-bottom:0.75rem;">
+        <span class="cyan">Research</span> <span class="pink">Guides</span><br>&amp; Tools
+      </h1>
+      <p class="hero-desc" style="margin-bottom:0;">
+        Peptide research guides, study references, calculators, protocols, and educational resources — curated by the VPN inner circle.
+      </p>
+    </div>
   <div class="hero-badges">
     <button onclick="showView('quick-guide'); setActiveNav(document.querySelector('[onclick*=quick-guide]'))" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(0,245,255,0.15)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">Research Guides</button>
     <button onclick="showView('all-peptides'); setActiveNav(document.querySelector('[onclick*=all-peptides]'))" class="hero-badge pink" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(255,45,120,0.15)';this.style.boxShadow='0 0 18px rgba(255,45,120,0.5)'" onmouseout="this.style.background='#0d0a18';this.style.boxShadow='none'">Peptide Index</button>
@@ -3452,7 +3464,7 @@ document.addEventListener('keydown', function(e){
       <!-- HOME FITNESS GUIDES — dropdown -->
       <div style="margin-top:1.5rem;">
         <details style="background:#020d07;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;">
-          <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;" onclick="this.parentElement.querySelector('.details-arrow').textContent=this.parentElement.open?'▲':'▼'">
+          <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
             <div style="display:flex;align-items:center;gap:0.75rem;">
               <span style="font-size:1.5rem;">🏋️</span>
               <div>
@@ -3460,42 +3472,16 @@ document.addEventListener('keydown', function(e){
                 <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(200,255,210,0.7);margin-top:0.15rem;">Equipment guide + Home Fitness Guide — click to expand</div>
               </div>
             </div>
-            <span class="details-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00ff64;flex-shrink:0;">▼</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00ff64;flex-shrink:0;">▼</span>
           </summary>
-
           <div style="padding:1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
-
-            <!-- How to buy intro -->
             <div style="background:#031209;border:2px solid rgba(0,255,100,0.4);border-left:5px solid #00ff64;padding:0.85rem 1.1rem;margin-bottom:1.25rem;">
               <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#00ff64;margin-bottom:0.3rem;">🛒 Here's How to Buy Them</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,255,210,0.85);line-height:1.65;">
-                All 5 pieces of equipment are linked directly on Amazon above — scroll up to the green equipment cards. Buy one at a time as your budget allows. You don't need everything at once. Start with whatever fits your space and lifestyle. 😊
-              </div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,255,210,0.85);line-height:1.65;">All 5 pieces of equipment are linked directly on Amazon above — scroll up to the green equipment cards. Buy one at a time as your budget allows. You don't need everything at once. 😊</div>
             </div>
-
-            <!-- Two images side by side -->
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
-                <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Home Gym Equipment Guide</div>
-                  <a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a>
-                </div>
-                <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide — Build Your Home Gym')">
-                  <img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-                </div>
-              </div>
-
-              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;">
-                <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ff6b00;">Home Fitness Guide</div>
-                  <a href="cheatsheet/HOMEFITNESS_GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a>
-                </div>
-                <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS_GUIDE.png','VPN Home Fitness Guide — Rebounder, Walking Pad & Vibration Plate')">
-                  <img src="cheatsheet/HOMEFITNESS_GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-                </div>
-              </div>
-
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#00ff64;">Home Gym Equipment Guide</div><a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide')"><img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#ff6b00;">Home Fitness Guide</div><a href="cheatsheet/HOMEFITNESS_GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS_GUIDE.png','VPN Home Fitness Guide')"><img src="cheatsheet/HOMEFITNESS_GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
             </div>
           </div>
         </details>
@@ -4679,7 +4665,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- ── TOOLS & RESOURCES ─────────────────────────────── -->
   <div class="qg-section-label pink">💊 TOOLS &amp; RESOURCES</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:0.85rem;margin-bottom:1.75rem;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.85rem;margin-bottom:1.75rem;max-width:100%;">
 
     <!-- Lose It -->
     <a href="https://www.loseit.com/" target="_blank" rel="noopener"
@@ -4723,8 +4709,7 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- ── RESEARCH GUIDES ─────────────────────────────────── -->
-  <div class="qg-section-label purple">📖 RESEARCH GUIDES</div>
-  <div id="guides-section" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:0.85rem;margin-bottom:1.75rem;">
+  <div class="qg-section-label purple" style="margin-top:0.5rem;">📖 RESEARCH GUIDES</div>
 
   <!-- ── EXTERNAL DATABASES ─────────────────────────────── -->
   <div class="qg-section-label cyan">🗄 EXTERNAL DATABASES</div>
@@ -5207,309 +5192,97 @@ document.addEventListener('keydown', function(e){
     <span class="section-count">Dosing · Reconstitution · Protocols · Guides</span>
   </div>
   <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:2rem;line-height:1.6;">
-    Quick-reference cheat sheets organized by category — dosing charts, reconstitution guides, protocol playbooks, and fitness guides. Click any image to zoom. All for research purposes only.
+    Quick-reference cheat sheets organized by category. Click any image to zoom. All for research purposes only.
   </div>
 
-  <!-- helper macro — reusable card -->
-
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 1 — GLP-1 / WEIGHT LOSS PEPTIDES          -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 1 — GLP-1 / WEIGHT LOSS ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--neon-pink);">
-      <span style="font-size:1.4rem;">🔥</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,0.5);">GLP-1 · Weight Loss · Metabolic Peptides</div>
+      <span style="font-size:1.3rem;">🔥</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.4);">GLP-1 · Weight Loss · Metabolic Peptides</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">Tirzepatide Reconstitution Chart</div>
-          <a href="cheatsheet/tirzcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tirzcheat.jpg','Tirzepatide Reconstitution Chart')">
-          <img src="cheatsheet/tirzcheat.jpg" alt="Tirzepatide Reconstitution Chart" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">Retatrutide Reconstitution Guide</div>
-          <a href="cheatsheet/retacheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/retacheat.jpg','Retatrutide Reconstitution Guide')">
-          <img src="cheatsheet/retacheat.jpg" alt="Retatrutide Reconstitution Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">AOD-9604 Research Guide</div>
-          <a href="cheatsheet/AOD.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/AOD.png','AOD-9604 Research Guide — Dosing, Reconstitution & Fat Loss')">
-          <img src="cheatsheet/AOD.png" alt="AOD-9604 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">KLOW 80mg Guide</div>
-          <a href="cheatsheet/klowcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/klowcheat.jpg','KLOW 80mg — Dosing & Protocol Guide')">
-          <img src="cheatsheet/klowcheat.jpg" alt="KLOW Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">Peptide &amp; Metabolism Tactical Playbook</div>
-          <a href="cheatsheet/metabolic%20domino%20and%20lock.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/metabolic%20domino%20and%20lock.jpg','The Ultimate Peptide & Metabolism Tactical Playbook')">
-          <img src="cheatsheet/metabolic%20domino%20and%20lock.jpg" alt="Metabolic Domino & Lock Playbook" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">Tirzepatide Reconstitution Chart</div><a href="cheatsheet/tirzcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tirzcheat.jpg','Tirzepatide Reconstitution Chart')"><img src="cheatsheet/tirzcheat.jpg" alt="Tirzepatide Reconstitution Chart" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Retatrutide Reconstitution Guide</div><a href="cheatsheet/retacheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/retacheat.jpg','Retatrutide Reconstitution Guide')"><img src="cheatsheet/retacheat.jpg" alt="Retatrutide Reconstitution Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ff6b00;">AOD-9604 Research Guide</div><a href="cheatsheet/AOD.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/AOD.png','AOD-9604 Research Guide — Fat Loss & Dosing')"><img src="cheatsheet/AOD.png" alt="AOD-9604 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ffe600;">KLOW 80mg Guide</div><a href="cheatsheet/klowcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/klowcheat.jpg','KLOW 80mg — Dosing & Protocol Guide')"><img src="cheatsheet/klowcheat.jpg" alt="KLOW Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ffe600;">Peptide &amp; Metabolism Tactical Playbook</div><a href="cheatsheet/metabolic%20domino%20and%20lock.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/metabolic%20domino%20and%20lock.jpg','The Ultimate Peptide & Metabolism Tactical Playbook')"><img src="cheatsheet/metabolic%20domino%20and%20lock.jpg" alt="Metabolic Playbook" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 2 — GH / LONGEVITY / MITOCHONDRIAL        -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 2 — GH / LONGEVITY / MITOCHONDRIAL ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--neon-cyan);">
-      <span style="font-size:1.4rem;">⚡</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.5);">GH · Longevity · Mitochondrial</div>
+      <span style="font-size:1.3rem;">⚡</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.4);">GH · Longevity · Mitochondrial</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Tesamorelin Reconstitution Chart</div>
-          <a href="cheatsheet/tesacheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tesacheat.jpg','Tesamorelin Reconstitution Chart')">
-          <img src="cheatsheet/tesacheat.jpg" alt="Tesamorelin Reconstitution Chart" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">MOTS-c Dosing Guide</div>
-          <a href="cheatsheet/motccheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/motccheat.jpg','MOTS-c Dosing Guide')">
-          <img src="cheatsheet/motccheat.jpg" alt="MOTS-c Dosing Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-orange);">MOTS-c + SS-31 Mitochondrial Stack</div>
-          <a href="cheatsheet/motcss31cheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/motcss31cheat.jpg','MOTS-c + SS-31 — The Ultimate Mitochondrial Stack')">
-          <img src="cheatsheet/motcss31cheat.jpg" alt="MOTS-c + SS-31 Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Tesamorelin Reconstitution Chart</div><a href="cheatsheet/tesacheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tesacheat.jpg','Tesamorelin Reconstitution Chart')"><img src="cheatsheet/tesacheat.jpg" alt="Tesamorelin Reconstitution Chart" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ffe600;">MOTS-c Dosing Guide</div><a href="cheatsheet/motccheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/motccheat.jpg','MOTS-c Dosing Guide')"><img src="cheatsheet/motccheat.jpg" alt="MOTS-c Dosing Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-orange);">MOTS-c + SS-31 Mitochondrial Stack</div><a href="cheatsheet/motcss31cheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/motcss31cheat.jpg','MOTS-c + SS-31 — The Ultimate Mitochondrial Stack')"><img src="cheatsheet/motcss31cheat.jpg" alt="MOTS-c + SS-31 Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 3 — HEALING · RECOVERY · TISSUE REPAIR    -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 3 — HEALING · RECOVERY ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #00ff64;">
-      <span style="font-size:1.4rem;">🛡️</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 12px rgba(0,255,100,0.5);">Healing · Recovery · Tissue Repair</div>
+      <span style="font-size:1.3rem;">🛡️</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.4);">Healing · Recovery · Tissue Repair</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">BPC-157 Research Guide</div>
-          <a href="cheatsheet/BPC.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/BPC.png','BPC-157 Research Guide — Healing, Dosing & Reconstitution')">
-          <img src="cheatsheet/BPC.png" alt="BPC-157 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">TB-500 Research Guide</div>
-          <a href="cheatsheet/TB500.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/TB500.png','TB-500 Research Guide — Tissue Repair, Dosing & Reconstitution')">
-          <img src="cheatsheet/TB500.png" alt="TB-500 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">KPV Research Guide</div>
-          <a href="cheatsheet/kpv.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/kpv.png','KPV (Lys-Pro-Val) Research Guide — Anti-Inflammatory, Gut & Immune')">
-          <img src="cheatsheet/kpv.png" alt="KPV Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">The Wolverine Stack Research Guide</div>
-          <a href="cheatsheet/WOLVERINE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/WOLVERINE.png','The Wolverine Stack — BPC-157, TB-500, KPV, AOD-9604, GHK-Cu')">
-          <img src="cheatsheet/WOLVERINE.png" alt="The Wolverine Stack Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ffe600;">BPC-157 Research Guide</div><a href="cheatsheet/BPC.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/BPC.png','BPC-157 Research Guide — Healing, Dosing & Reconstitution')"><img src="cheatsheet/BPC.png" alt="BPC-157 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#cc44ff;">TB-500 Research Guide</div><a href="cheatsheet/TB500.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/TB500.png','TB-500 Research Guide — Tissue Repair, Dosing & Reconstitution')"><img src="cheatsheet/TB500.png" alt="TB-500 Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">KPV Research Guide</div><a href="cheatsheet/kpv.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/kpv.png','KPV Research Guide — Anti-Inflammatory, Gut & Immune')"><img src="cheatsheet/kpv.png" alt="KPV Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">The Wolverine Stack</div><a href="cheatsheet/WOLVERINE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/WOLVERINE.png','The Wolverine Stack — BPC-157, TB-500, KPV, AOD-9604, GHK-Cu')"><img src="cheatsheet/WOLVERINE.png" alt="The Wolverine Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 4 — SKIN · HAIR · ANTI-AGING              -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 4 — SKIN · HAIR · HORMONES ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #cc44ff;">
-      <span style="font-size:1.4rem;">✨</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:#cc44ff;text-shadow:0 0 12px rgba(180,0,255,0.5);">Skin · Hair · Anti-Aging · Hormones</div>
+      <span style="font-size:1.3rem;">✨</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.4);">Skin · Hair · Anti-Aging · Hormones</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">GHK-Cu Cheat Sheet</div>
-          <a href="cheatsheet/ghkcucheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/ghkcucheat.jpg','GHK-Cu Cheat Sheet — Dosing & Reconstitution')">
-          <img src="cheatsheet/ghkcucheat.jpg" alt="GHK-Cu Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">Enclomiphene — How It Works in Your Body</div>
-          <a href="cheatsheet/enclomophine.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/enclomophine.png','Enclomiphene — How It Works in Your Body (SERM, LH/FSH, Natural Testosterone)')">
-          <img src="cheatsheet/enclomophine.png" alt="Enclomiphene Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#cc44ff;">GHK-Cu Cheat Sheet</div><a href="cheatsheet/ghkcucheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/ghkcucheat.jpg','GHK-Cu Cheat Sheet — Dosing & Reconstitution')"><img src="cheatsheet/ghkcucheat.jpg" alt="GHK-Cu Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">Enclomiphene — How It Works</div><a href="cheatsheet/enclomophine.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/enclomophine.png','Enclomiphene — How It Works (SERM, LH/FSH, Natural Testosterone)')"><img src="cheatsheet/enclomophine.png" alt="Enclomiphene Research Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 5 — RECONSTITUTION & DOSING FUNDAMENTALS  -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 5 — RECONSTITUTION & VIAL ACCURACY ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--neon-orange);">
-      <span style="font-size:1.4rem;">🧪</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:var(--neon-orange);text-shadow:0 0 12px rgba(255,107,0,0.5);">Reconstitution · Dosing · Vial Accuracy</div>
+      <span style="font-size:1.3rem;">🧪</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.4);">Reconstitution · Dosing · Vial Accuracy</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">How to Reconstitute a Peptide Vial</div>
-          <a href="cheatsheet/reconvialcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/reconvialcheat.jpg','How to Reconstitute a Peptide Vial — Units vs MG Guide')">
-          <img src="cheatsheet/reconvialcheat.jpg" alt="Reconstitution Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-cyan);">Why Vial Overfill / Underfill Matters</div>
-          <a href="cheatsheet/OVERFILL.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/OVERFILL.png','Why Vial Overfill or Underfill Matters — Dosing Impact Guide')">
-          <img src="cheatsheet/OVERFILL.png" alt="Why Vial Overfill or Underfill Matters" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">Why Test for Quantity — Vial Verification</div>
-          <a href="cheatsheet/VIALOVERFILL.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/VIALOVERFILL.png','Why Test for Quantity — Verify Your Vial, Know Your Dose')">
-          <img src="cheatsheet/VIALOVERFILL.png" alt="Why Test for Quantity — Vial Verification" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">How to Reconstitute a Peptide Vial</div><a href="cheatsheet/reconvialcheat.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/reconvialcheat.jpg','How to Reconstitute a Peptide Vial — Units vs MG Guide')"><img src="cheatsheet/reconvialcheat.jpg" alt="Reconstitution Cheat Sheet" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Why Vial Overfill / Underfill Matters</div><a href="cheatsheet/OVERFILL.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/OVERFILL.png','Why Vial Overfill or Underfill Matters — Dosing Impact Guide')"><img src="cheatsheet/OVERFILL.png" alt="Vial Overfill Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Why Test for Quantity — Vial Verification</div><a href="cheatsheet/VIALOVERFILL.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/VIALOVERFILL.png','Why Test for Quantity — Verify Your Vial, Know Your Dose')"><img src="cheatsheet/VIALOVERFILL.png" alt="Vial Verification Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 6 — FITNESS · HOME GYM                    -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 6 — FITNESS & HOME GYM ═══ -->
   <div style="margin-bottom:2.5rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #00ff64;">
-      <span style="font-size:1.4rem;">🏋️</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 12px rgba(0,255,100,0.5);">Fitness · Home Gym Guides</div>
+      <span style="font-size:1.3rem;">🏋️</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.4);">Fitness · Home Gym Guides</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">Home Gym Equipment Guide</div>
-          <a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide — Build Your Home Gym')">
-          <img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">Home Fitness Guide — Rebounder · Walking Pad · Vibration Plate</div>
-          <a href="cheatsheet/HOMEFITNESS_GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS_GUIDE.png','VPN Home Fitness Guide — Rebounder, Walking Pad & Vibration Plate')">
-          <img src="cheatsheet/HOMEFITNESS_GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Home Gym Equipment Guide</div><a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide')"><img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ff6b00;">Home Fitness Guide</div><a href="cheatsheet/HOMEFITNESS_GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS_GUIDE.png','VPN Home Fitness Guide — Rebounder, Walking Pad & Vibration Plate')"><img src="cheatsheet/HOMEFITNESS_GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- CATEGORY 7 — PROTOCOL PLAYBOOKS & COMMUNITY        -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ CATEGORY 7 — PLAYBOOKS & COMMUNITY ═══ -->
   <div style="margin-bottom:2rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--neon-pink);">
-      <span style="font-size:1.4rem;">📖</span>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,0.5);">Protocol Playbooks · Community References</div>
+      <span style="font-size:1.3rem;">📖</span>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.4);">Protocol Playbooks · Community References</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:var(--neon-pink);">The Peptide Tactical Playbook</div>
-          <a href="cheatsheet/playbookguide.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/playbookguide.jpg','The Peptide Tactical Playbook — Retro Miami Edition')">
-          <img src="cheatsheet/playbookguide.jpg" alt="Peptide Tactical Playbook" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
-      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
-        <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">Community Research Reference</div>
-          <a href="cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a>
-        </div>
-        <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg','Community Research Reference')">
-          <img src="cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg" alt="Community Research Reference" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-        </div>
-      </div>
-
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">The Peptide Tactical Playbook</div><a href="cheatsheet/playbookguide.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/playbookguide.jpg','The Peptide Tactical Playbook — Retro Miami Edition')"><img src="cheatsheet/playbookguide.jpg" alt="Peptide Tactical Playbook" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#cc44ff;">Community Research Reference</div><a href="cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(180,0,255,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg','Community Research Reference')"><img src="cheatsheet/Photo%20from%20Pside%20Koleno%281%29.jpg" alt="Community Research Reference" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
     </div>
   </div>
 
