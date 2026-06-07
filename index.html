@@ -2775,24 +2775,24 @@ document.addEventListener('keydown', function(e){
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,220,240,0.75);margin-top:0.15rem;">PDFs · Protocols · Field guides</div>
     </div>
 
+    <div onclick="showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'))" style="cursor:pointer;border:1px solid rgba(255,45,120,0.4);border-left:3px solid var(--neon-pink);background:#140810;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#200d18'" onmouseout="this.style.background='#140810'">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-pink);">🔬 Peptide Index</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(240,180,210,0.75);margin-top:0.15rem;">What each peptide does · 70+ listed</div>
+    </div>
+
     <div onclick="showView('workouts');setActiveNav(document.querySelector('[onclick*=workouts]'))" style="cursor:pointer;border:1px solid rgba(0,255,100,0.4);border-left:3px solid #00ff64;background:#08140a;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#0d2010'" onmouseout="this.style.background='#08140a'">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#00ff64;">💪 Workout Guides</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(180,230,180,0.75);margin-top:0.15rem;">For all ages including 60+ · Splits · Zone 2 Cardio</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(180,230,180,0.75);margin-top:0.15rem;">All ages incl. 60+ · Splits · Zone 2</div>
     </div>
 
     <div onclick="showView('studies');setActiveNav(document.querySelector('[onclick*=studies]'))" style="cursor:pointer;border:1px solid rgba(180,0,255,0.4);border-left:3px solid #cc44ff;background:#0d0814;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#160d20'" onmouseout="this.style.background='#0d0814'">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#cc44ff;">🔬 Research Studies</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(210,180,240,0.75);margin-top:0.15rem;">Clinical · Preclinical · Safety</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#cc44ff;">🔭 Research Studies</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(210,180,240,0.75);margin-top:0.15rem;">Clinical · Preclinical · Safety data</div>
     </div>
 
-    <div onclick="showView('calculator');setActiveNav(document.querySelector('[onclick*=calculator]'))" style="cursor:pointer;border:1px solid rgba(255,230,0,0.4);border-left:3px solid #ffe600;background:#141200;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#201c00'" onmouseout="this.style.background='#141200'">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ffe600;">⚗️ Calculator</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(240,230,160,0.75);margin-top:0.15rem;">BAC water · Dosing · Units</div>
-    </div>
-
-    <div onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'))" style="cursor:pointer;border:1px solid rgba(255,45,120,0.4);border-left:3px solid var(--neon-pink);background:#140810;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#200d18'" onmouseout="this.style.background='#140810'">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-pink);">▶ Doctor Videos</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(240,180,210,0.75);margin-top:0.15rem;">Research physicians · Education</div>
+    <div onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'))" style="cursor:pointer;border:1px solid rgba(0,245,255,0.4);border-left:3px solid var(--neon-cyan);background:#080c14;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#0d1a24'" onmouseout="this.style.background='#080c14'">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-cyan);">▶ Doctor Videos</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,220,240,0.75);margin-top:0.15rem;">Research physicians · Education</div>
     </div>
 
     <div onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'))" style="cursor:pointer;border:1px solid rgba(255,107,0,0.4);border-left:3px solid var(--neon-orange);background:#140a04;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#201408'" onmouseout="this.style.background='#140a04'">
@@ -2808,6 +2808,21 @@ document.addEventListener('keydown', function(e){
     <div onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'))" style="cursor:pointer;border:1px solid rgba(255,45,120,0.4);border-left:3px solid var(--neon-pink);background:#140810;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#200d18'" onmouseout="this.style.background='#140810'">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-pink);">🩸 Blood Work</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(240,180,210,0.75);margin-top:0.15rem;">Know your numbers · Lab panels</div>
+    </div>
+
+    <div onclick="showView('team');setActiveNav(document.querySelector('[onclick*=team]'))" style="cursor:pointer;border:1px solid rgba(0,245,255,0.4);border-left:3px solid var(--neon-cyan);background:#080c14;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#0d1a24'" onmouseout="this.style.background='#080c14'">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--neon-cyan);">🧬 Meet The Team</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,220,240,0.75);margin-top:0.15rem;">The VPN inner circle researchers</div>
+    </div>
+
+    <div onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'))" style="cursor:pointer;border:1px solid rgba(255,230,0,0.4);border-left:3px solid #ffe600;background:#141200;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#201c00'" onmouseout="this.style.background='#141200'">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ffe600;">⭐ Bonus Content</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(240,230,160,0.75);margin-top:0.15rem;">Extra resources · Community extras</div>
+    </div>
+
+    <div onclick="showView('about');setActiveNav(document.querySelector('[onclick*=about]'))" style="cursor:pointer;border:1px solid rgba(180,0,255,0.4);border-left:3px solid #cc44ff;background:#0d0814;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#160d20'" onmouseout="this.style.background='#0d0814'">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#cc44ff;">ℹ About VPN</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(210,180,240,0.75);margin-top:0.15rem;">Our mission · Research integrity</div>
     </div>
 
   </div>
