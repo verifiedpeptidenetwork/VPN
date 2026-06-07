@@ -2318,9 +2318,9 @@
     </div>
 
     <!-- Error msg -->
-    <div id="pin-error" style="font-family:'Share Tech Mono',monospace;font-size: 1rem;
-      color:var(--neon-pink);letter-spacing:0.15em;height:1rem;margin-bottom:1rem;
-      text-shadow:0 0 8px var(--neon-pink);transition:opacity 0.3s;opacity:0;">
+    <div id="pin-error" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;
+      color:var(--neon-pink);letter-spacing:0.12em;min-height:2.5rem;margin-bottom:0.75rem;
+      text-shadow:0 0 8px var(--neon-pink);transition:opacity 0.3s;opacity:0;line-height:1.4;padding:0 0.5rem;">
       INCORRECT PIN — TRY AGAIN
     </div>
 
@@ -2408,27 +2408,69 @@
   .pin-key {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
-    letter-spacing: 0.08em;
-    padding: 1.2rem;
-    background:#0d0d1a;
-    border: 1px solid rgba(0,245,255,0.15);
-    color: var(--text-primary);
+    letter-spacing: 0.1em;
+    padding: 1.1rem;
+    background: linear-gradient(145deg, #0a0a1f, #12082a);
+    border: 1px solid rgba(0,245,255,0.25);
+    border-bottom: 3px solid rgba(255,45,120,0.5);
+    color: var(--neon-cyan);
     cursor: pointer;
     transition: all 0.12s;
-    border-radius: 0;
+    border-radius: 4px;
+    text-shadow: 0 0 12px rgba(0,245,255,0.7);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .pin-key::before {
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(0,245,255,0.4),transparent);
   }
   .pin-key:hover {
-    background: rgba(0,245,255,0.1);
+    background: linear-gradient(145deg, #0e1030, #1a0a3a);
     border-color: var(--neon-cyan);
-    color: var(--neon-cyan);
-    box-shadow: 0 0 15px rgba(0,245,255,0.2);
+    border-bottom-color: var(--neon-pink);
+    color: #fff;
+    text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px rgba(0,245,255,0.4);
+    box-shadow: 0 0 20px rgba(0,245,255,0.25), 0 0 40px rgba(255,45,120,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+    transform: translateY(-1px);
   }
   .pin-key:active {
-    background: rgba(0,245,255,0.2);
-    transform: scale(0.95);
+    background: linear-gradient(145deg, #1a0a3a, #0e1030);
+    transform: translateY(1px) scale(0.97);
+    box-shadow: 0 0 30px rgba(255,45,120,0.4), inset 0 2px 8px rgba(0,0,0,0.4);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    text-shadow: 0 0 16px var(--neon-pink);
   }
-  .pin-key-clear { color: var(--text-secondary); font-size: 1.05rem !important; }
-  .pin-key-del { color: var(--neon-pink); }
+  .pin-key-clear {
+    color: rgba(255,230,0,0.7) !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.15em !important;
+    border-color: rgba(255,230,0,0.2) !important;
+    border-bottom-color: rgba(255,230,0,0.4) !important;
+    text-shadow: 0 0 10px rgba(255,230,0,0.5) !important;
+  }
+  .pin-key-clear:hover {
+    color: #ffe600 !important;
+    border-color: #ffe600 !important;
+    text-shadow: 0 0 16px #ffe600 !important;
+    box-shadow: 0 0 20px rgba(255,230,0,0.25) !important;
+  }
+  .pin-key-del {
+    color: var(--neon-pink) !important;
+    text-shadow: 0 0 10px rgba(255,45,120,0.6) !important;
+    border-color: rgba(255,45,120,0.25) !important;
+    border-bottom-color: rgba(255,45,120,0.5) !important;
+  }
+  .pin-key-del:hover {
+    color: #fff !important;
+    text-shadow: 0 0 20px var(--neon-pink) !important;
+    box-shadow: 0 0 20px rgba(255,45,120,0.3) !important;
+  }
 
   @keyframes shake {
     0%,100%{transform:translateX(0)}
@@ -2476,7 +2518,31 @@
 
 // PIN logic
 let pinEntry = '';
+let wrongAttempts = 0;
 const CORRECT_PIN = '1448';
+
+const FUNNY_WRONG_MSGS = [
+  "🚨 NOPE. GLOWRILLA IS WATCHING YOU.",
+  "🦍 WRONG. THE GORILLA IS NOT IMPRESSED.",
+  "🌴 MIAMI SAYS NO. TRY AGAIN AMIGO.",
+  "💊 THAT'S NOT A PEPTIDE. THAT'S JUST WRONG.",
+  "🔬 INCORRECT. GO ASK LEONIDAS.",
+  "🚔 VPN SECURITY ACTIVATED. JK. BUT STILL. NO.",
+  "🦁 LEONIDAS ROARS IN DISGUST.",
+  "🐘 ELLIE NEVER FORGETS — AND THAT WAS WRONG.",
+  "🌊 WRONG PIN. THE VIBE IS OFF.",
+  "💀 ACCESS DENIED. NICE TRY THOUGH.",
+  "🕶️ THIS AIN'T IT CHIEF. VERY MIAMI. WRONG CODE.",
+  "🎵 DO DO DO DO DO DO DO... STILL WRONG.",
+  "🦊 FOX SAYS: OUTSMARTED BY A KEYPAD. EMBARRASSING.",
+  "🐯 TIGER GROWLS. YOU GOT THE WRONG NUMBER.",
+  "🌺 THE VIBE IS IMMACULATE. THE PIN IS NOT.",
+  "💅 BESTIE. THAT IS NOT THE CODE.",
+  "🏝️ SO CLOSE. YET SO FAR. LIKE MIAMI FROM SIBERIA.",
+  "🧬 ERROR 404: CORRECT PIN NOT FOUND IN YOUR BRAIN.",
+  "🦔 WOMMY IS SHAKING HER HEAD AT YOU.",
+  "🔑 THE KEY IS OUT THERE... IN THE RUIC GROUP.",
+];
 
 function pinPress(d){
   if(pinEntry.length >= 4) return;
@@ -2505,11 +2571,9 @@ function updateDots(){
 
 function checkPin(){
   if(pinEntry === CORRECT_PIN){
-    // Unlock!
     try { sessionStorage.setItem('pinUnlocked','1'); } catch(e) {}
     const ps = document.getElementById('pin-screen');
     ps.style.animation = 'unlockFade 0.6s ease forwards';
-    // Flash green dots
     for(let i=0;i<4;i++){
       const dot = document.getElementById('dot-'+i);
       dot.style.background='#00ff64';
@@ -2517,14 +2581,17 @@ function checkPin(){
     }
     setTimeout(()=>{ ps.style.display='none'; }, 650);
   } else {
-    // Wrong
-    document.getElementById('pin-error').style.opacity='1';
+    wrongAttempts++;
+    const msg = FUNNY_WRONG_MSGS[wrongAttempts % FUNNY_WRONG_MSGS.length];
+    const errEl = document.getElementById('pin-error');
+    errEl.textContent = msg;
+    errEl.style.opacity='1';
     for(let i=0;i<4;i++) document.getElementById('dot-'+i).classList.add('error');
     setTimeout(()=>{
-      document.getElementById('pin-error').style.opacity='0';
+      errEl.style.opacity='0';
       pinEntry='';
       updateDots();
-    }, 1200);
+    }, 1800);
   }
 }
 
