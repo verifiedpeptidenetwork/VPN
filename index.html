@@ -6149,6 +6149,7 @@ function storeLocally(key, report) {
 async function loadReportsFromDB() {
   const client = getSupaClient();
   if (!client) return;
+  (async function() {
   try {
     const { data, error } = await client
       .from('reports')
@@ -6187,6 +6188,7 @@ async function loadReportsFromDB() {
   } catch(e) {
     console.warn('Failed to load reports:', e);
   }
+  })(); // end async IIFE
 }
 
 async function saveReportToDB(vendorId, peptide, testType, reportObj) {
