@@ -479,6 +479,19 @@
   .view { display: none; }
   .view.active { display: block; position: relative; z-index: 3; transition: opacity 0.25s; }
   #view-quick-guide { max-width: 960px; }
+
+  /* Cheat Sheet Vault — responsive grid */
+  #view-cheatsheets .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+  }
+  @media (max-width: 900px) {
+    #view-cheatsheets .cs-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    #view-cheatsheets .cs-grid { grid-template-columns: 1fr; }
+  }
   #view-quick-guide .qg-section-label { margin-bottom: 0.75rem; }
 
   /* === SECTION HEADER === */
@@ -2747,7 +2760,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <nav class="nav-pills" id="desktop-nav">
-      <button class="nav-pill" onclick="showView('cheatsheets'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">📋 Cheat Sheets</button>
+      <button class="nav-pill" onclick="showView('cheatsheets'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">🗄️ Cheat Sheet Vault</button>
       <button class="nav-pill active" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Tools &amp; Guides</button>
       <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
@@ -2781,7 +2794,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Tools -->
       <div style="padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(255,230,0,0.4);">TOOLS</div>
-      <button class="nav-pill" onclick="mobileNav('cheatsheets')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">📋 Cheat Sheets</button>
+      <button class="nav-pill" onclick="mobileNav('cheatsheets')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🗄️ Cheat Sheet Vault</button>
       <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🛠 Tools &amp; Guides</button>
       <button class="nav-pill" onclick="mobileNav('calculator')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🧮 Calculator</button>
       <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid #ffe600;color:#ffe600;clip-path:none;">🧫 Supplies</button>
@@ -2854,7 +2867,7 @@ document.addEventListener('keydown', function(e){
   <div style="margin-top:1.75rem;width:100%;max-width:780px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:0.6rem;text-align:left;">
 
     <div onclick="showView('cheatsheets');setActiveNav(document.querySelector('[onclick*=cheatsheets]'))" style="cursor:pointer;border:1px solid rgba(255,230,0,0.5);border-left:3px solid #ffe600;background:#0a0a0a;padding:0.7rem 0.9rem;transition:background 0.2s;" onmouseover="this.style.background='#1a1800'" onmouseout="this.style.background='#0a0a0a'">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ffe600;">📋 Cheat Sheets</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ffe600;">🗄️ Cheat Sheet Vault</div>
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:#fff;margin-top:0.15rem;">Dosing · Reconstitution · Playbooks</div>
     </div>
 
@@ -3561,7 +3574,7 @@ document.addEventListener('keydown', function(e){
               <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#00ff64;margin-bottom:0.3rem;">🛒 Here's How to Buy Them</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,255,210,0.85);line-height:1.65;">All 5 pieces of equipment are linked directly on Amazon above — scroll up to the green equipment cards. Buy one at a time as your budget allows. You don't need everything at once. 😊</div>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
               <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#00ff64;">Home Gym Equipment Guide</div><a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide')"><img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
               <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#ff6b00;">Home Fitness Guide</div><a href="cheatsheet/HOMEFITNESS%20GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS%20GUIDE.png','VPN Home Fitness Guide')"><img src="cheatsheet/HOMEFITNESS%20GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
             </div>
@@ -4962,6 +4975,227 @@ document.addEventListener('keydown', function(e){
       </div><!-- end glp1-body -->
   </div>
 
+  <!-- ── GLP SAFETY & RESEARCH INFOGRAPHICS ───────────── -->
+  <div style="margin-top:1.75rem;margin-bottom:1rem;">
+    <div class="qg-section-label pink">📊 GLP DOSAGE GUIDES</div>
+  </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Retatrutide Dose Safety Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Start 0.5mg · Titrate every 4–8 weeks · Monitor heart rate · When to stop</div>
+        </div>
+        <a href="cheatsheet/reta-dose-safety-guide.webp" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/reta-dose-safety-guide.webp','Retatrutide Dose Safety Guide')">
+        <img src="cheatsheet/reta-dose-safety-guide.webp" alt="Retatrutide Dose Safety Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">Tirzepatide Safe Titration Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">2.5mg start · Step-up schedule · When to stay · Emergency signs</div>
+        </div>
+        <a href="cheatsheet/tirz-safe-titration.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tirz-safe-titration.png','Tirzepatide Safe Titration Guide')">
+        <img src="cheatsheet/tirz-safe-titration.png" alt="Tirzepatide Safe Titration Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Tirzepatide Appetite Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Know your baseline · Start low · Good response vs too suppressed · Educational</div>
+        </div>
+        <a href="cheatsheet/tirz-appetite-guide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tirz-appetite-guide.png','Tirzepatide Appetite Guide')">
+        <img src="cheatsheet/tirz-appetite-guide.png" alt="Tirzepatide Appetite Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00f5ff;">Starting Tirzepatide After Switching From Retatrutide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Throat · Stomach · Lower abdomen · What helps · When to get help urgently</div>
+        </div>
+        <a href="cheatsheet/tirz-switch-from-reta.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00f5ff;color:#00f5ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/tirz-switch-from-reta.png','Starting Tirzepatide After Switching From Retatrutide')">
+        <img src="cheatsheet/tirz-switch-from-reta.png" alt="Starting Tirzepatide After Switching From Retatrutide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+  <div style="margin-top:1.5rem;margin-bottom:1rem;">
+    <div class="qg-section-label orange">🏥 GLP HEALTH &amp; EDUCATION INFOGRAPHICS</div>
+  </div>
+
+    <!-- GLP Medication Safety — Rule-Outs & Cautions -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">GLP Medication Safety — Rule-Outs & Cautions</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Vision · Thyroid · Pancreatitis · Educational only</div>
+        </div>
+        <a href="cheatsheet/glp-safety-ruleouts.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/glp-safety-ruleouts.png','GLP Medication Safety — Rule-Outs & Cautions')">
+        <img src="cheatsheet/glp-safety-ruleouts.png" alt="GLP Medication Safety — Rule-Outs & Cautions" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Retatrutide Phase 3 Results -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00f5ff;">Retatrutide Phase 3 Results</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">The data · The mechanism · vs Tirzepatide & Semaglutide</div>
+        </div>
+        <a href="cheatsheet/retatrutide-phase3.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00f5ff;color:#00f5ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/retatrutide-phase3.png','Retatrutide Phase 3 Results')">
+        <img src="cheatsheet/retatrutide-phase3.png" alt="Retatrutide Phase 3 Results" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Pancreas Pain Area -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">Pancreas Pain Area</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">GLP medications & gastroparesis · Watch for upper belly pain</div>
+        </div>
+        <a href="cheatsheet/pancreas-pain-area.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/pancreas-pain-area.png','Pancreas Pain Area')">
+        <img src="cheatsheet/pancreas-pain-area.png" alt="Pancreas Pain Area" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Gallbladder Pain Area -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">Gallbladder Pain Area</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Right upper abdomen · May radiate to shoulder blade · GLP users</div>
+        </div>
+        <a href="cheatsheet/gallbladder-pain-area.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/gallbladder-pain-area.png','Gallbladder Pain Area')">
+        <img src="cheatsheet/gallbladder-pain-area.png" alt="Gallbladder Pain Area" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Warning Signs While on GLP Medications -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Warning Signs While on GLP Medications</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Common · Call clinician · Urgent ER signs · Tirz guide</div>
+        </div>
+        <a href="cheatsheet/glp-warning-signs.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/glp-warning-signs.png','Warning Signs While on GLP Medications')">
+        <img src="cheatsheet/glp-warning-signs.png" alt="Warning Signs While on GLP Medications" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- The Whoosh Effect — Why You Might Not Be Losing Weight (Yet) -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">The Whoosh Effect — Why You Might Not Be Losing Weight (Yet)</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Fat cell process · Stay hydrated · Trust the process · VPN</div>
+        </div>
+        <a href="cheatsheet/whoosh-effect.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/whoosh-effect.png','The Whoosh Effect — Why You Might Not Be Losing Weight (Yet)')">
+        <img src="cheatsheet/whoosh-effect.png" alt="The Whoosh Effect — Why You Might Not Be Losing Weight (Yet)" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+
+
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">Berberine — Natural Support for Insulin Resistance & Metabolic Health</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Like Metformin · Like GLP-1 · Dosing for Men & Women · Amazon pick</div>
+        </div>
+        <a href="cheatsheet/berberine-guide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/berberine-guide.png','Berberine — Natural Support for Insulin Resistance & Metabolic Health')">
+        <img src="cheatsheet/berberine-guide.png" alt="Berberine — Natural Support for Insulin Resistance & Metabolic Health" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">Why No One Should Feel Guilty About Using GLP Medications</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Food noise · Metabolic dysfunction · Peptides vs steroids · You deserve better</div>
+        </div>
+        <a href="cheatsheet/no-guilt-glp-medications.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/no-guilt-glp-medications.png','Why No One Should Feel Guilty About Using GLP Medications')">
+        <img src="cheatsheet/no-guilt-glp-medications.png" alt="Why No One Should Feel Guilty About Using GLP Medications" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">Fat Loss Can Mobilize Toxins — Here's What Really Happens</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Fat cells release stored toxins · Liver support · Temporary effects</div>
+        </div>
+        <a href="cheatsheet/fat-loss-toxins.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/fat-loss-toxins.png','Fat Loss Can Mobilize Toxins — Here's What Really Happens')">
+        <img src="cheatsheet/fat-loss-toxins.png" alt="Fat Loss Can Mobilize Toxins — Here's What Really Happens" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00f5ff;">Why Sugar Cravings Can Happen on Tirzepatide or Retatrutide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Common reasons · What helps · Protein first · Educational only</div>
+        </div>
+        <a href="cheatsheet/sugar-cravings-tirz-reta.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00f5ff;color:#00f5ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/sugar-cravings-tirz-reta.png','Why Sugar Cravings Can Happen on Tirzepatide or Retatrutide')">
+        <img src="cheatsheet/sugar-cravings-tirz-reta.png" alt="Why Sugar Cravings Can Happen on Tirzepatide or Retatrutide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">When You May Need to Eat More on Tirzepatide or Retatrutide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Under-eating stall · Signs · What usually helps first · Educational</div>
+        </div>
+        <a href="cheatsheet/when-to-eat-more-tirz-reta.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/when-to-eat-more-tirz-reta.png','When You May Need to Eat More on Tirzepatide or Retatrutide')">
+        <img src="cheatsheet/when-to-eat-more-tirz-reta.png" alt="When You May Need to Eat More on Tirzepatide or Retatrutide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">Headache Came Out of Nowhere — Should You Take Electrolytes?</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Common reasons · Before bed approach · Red flags · GLP dose increase</div>
+        </div>
+        <a href="cheatsheet/glp-headache-electrolytes.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/glp-headache-electrolytes.png','Headache Came Out of Nowhere — Should You Take Electrolytes?')">
+        <img src="cheatsheet/glp-headache-electrolytes.png" alt="Headache Came Out of Nowhere — Should You Take Electrolytes?" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">GLP Headache Area Compared to Other Headache Types</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">5 headache maps · GLP vs tension vs migraine vs sinus vs cluster · Red flags</div>
+        </div>
+        <a href="cheatsheet/glp-headache-area.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/glp-headache-area.png','GLP Headache Area Compared to Other Headache Types')">
+        <img src="cheatsheet/glp-headache-area.png" alt="GLP Headache Area Compared to Other Headache Types" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
   <!-- ── WORKOUT & EXERCISE GUIDES — moved to own page ── -->
   <div style="margin-bottom:1.75rem;margin-top:1.75rem;">
     <div class="qg-section-label green">💪 WORKOUT &amp; EXERCISE GUIDES</div>
@@ -4981,6 +5215,32 @@ document.addEventListener('keydown', function(e){
   <!-- ── PEPTIDE COMPOUND GUIDES ───────────────────────── -->
   <div style="margin-bottom:1rem;margin-top:1.75rem;">
     <div class="qg-section-label purple">🔬 PEPTIDE COMPOUND GUIDES</div>
+    <!-- CJC-1295 + Ipamorelin Guide -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">CJC-1295 + Ipamorelin — Growth Hormone Support Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Beginner · Intermediate · Advanced protocols · Timing · Stacks well with · VPN</div>
+        </div>
+        <a href="cheatsheet/cjc-ipamorelin-guide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/cjc-ipamorelin-guide.png','CJC-1295 + Ipamorelin — Growth Hormone Support Guide')">
+        <img src="cheatsheet/cjc-ipamorelin-guide.png" alt="CJC-1295 + Ipamorelin Growth Hormone Support Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00ff64;">Rotation Injection Guide — VPN</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Stomach · Arms · Thighs · Glutes · Safe zones · Needle size guide · Rotate Smart</div>
+        </div>
+        <a href="cheatsheet/rotation-injection-guide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/rotation-injection-guide.png','Rotation Injection Guide — VPN')">
+        <img src="cheatsheet/rotation-injection-guide.png" alt="Rotation Injection Guide — VPN" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
 
     <!-- GHK-Cu What to Expect -->
     <div style="border:1px solid rgba(0,255,100,0.35);border-top:3px solid #00ff64;background:#080e10;margin-bottom:0.75rem;overflow:hidden;">
@@ -5136,6 +5396,100 @@ document.addEventListener('keydown', function(e){
     </div>
 
   </div>
+
+
+    <!-- Resting Heart Rate After Weight Training -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00f5ff;">Resting Heart Rate After Weight Training</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Especially on retatrutide or tirzepatide · Normal ranges · When to worry</div>
+        </div>
+        <a href="cheatsheet/resting-heart-rate-training.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #00f5ff;color:#00f5ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/resting-heart-rate-training.png','Resting Heart Rate After Weight Training')">
+        <img src="cheatsheet/resting-heart-rate-training.png" alt="Resting Heart Rate After Weight Training" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Heart Rate Still Above 120 — 3 Hours After Training? -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Heart Rate Still Above 120 — 3 Hours After Training?</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">What to do · When to seek help · GLP medication users</div>
+        </div>
+        <a href="cheatsheet/heart-rate-120-3hrs.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/heart-rate-120-3hrs.png','Heart Rate Still Above 120 — 3 Hours After Training?')">
+        <img src="cheatsheet/heart-rate-120-3hrs.png" alt="Heart Rate Still Above 120 — 3 Hours After Training?" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Request for Medical Evaluation — For a Woman -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#cc44ff;">Request for Medical Evaluation — For a Woman</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Weight loss resistance · Lab work template · Bring to your doctor</div>
+        </div>
+        <a href="cheatsheet/medical-eval-woman.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #cc44ff;color:#cc44ff;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/medical-eval-woman.png','Request for Medical Evaluation — For a Woman')">
+        <img src="cheatsheet/medical-eval-woman.png" alt="Request for Medical Evaluation — For a Woman" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Peptides vs Steroids vs Hormones — The Complete Breakdown -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffe600;">Peptides vs Steroids vs Hormones — The Complete Breakdown</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">What they are · How they differ · Core mechanisms explained</div>
+        </div>
+        <a href="cheatsheet/peptides-vs-steroids-vs-hormones.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ffe600;color:#ffe600;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/peptides-vs-steroids-vs-hormones.png','Peptides vs Steroids vs Hormones — The Complete Breakdown')">
+        <img src="cheatsheet/peptides-vs-steroids-vs-hormones.png" alt="Peptides vs Steroids vs Hormones — The Complete Breakdown" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Skinny Fat & Visceral Fat — Men -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6b00;">Skinny Fat & Visceral Fat — Men</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Skinny doesn't mean healthy · Testosterone suppression · DEXA scan</div>
+        </div>
+        <a href="cheatsheet/skinny-fat-visceral-men.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/skinny-fat-visceral-men.png','Skinny Fat & Visceral Fat — Men')">
+        <img src="cheatsheet/skinny-fat-visceral-men.png" alt="Skinny Fat & Visceral Fat — Men" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+    <!-- Skinny Fat & Visceral Fat — Women -->
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Skinny Fat & Visceral Fat — Women</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Hormone suppression · PCOS risk · What visceral fat does to women · DEXA</div>
+        </div>
+        <a href="cheatsheet/skinny-fat-visceral-women.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/skinny-fat-visceral-women.png','Skinny Fat & Visceral Fat — Women')">
+        <img src="cheatsheet/skinny-fat-visceral-women.png" alt="Skinny Fat & Visceral Fat — Women" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
+
+
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff2d78;overflow:hidden;margin-bottom:0.85rem;">
+      <div style="padding:0.65rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff2d78;">Skinny Doesn't Mean Healthy — Women (Visceral Fat & Hormones)</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-top:0.1rem;">Hormone suppression · PCOS risk · DEXA scan · What you can do · SAHKOL</div>
+        </div>
+        <a href="cheatsheet/skinny-fat-visceral-women2.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.08em;padding:0.2rem 0.6rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;margin-left:0.75rem;">⬇ Save</a>
+      </div>
+      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/skinny-fat-visceral-women2.png','Skinny Doesn't Mean Healthy — Women (Visceral Fat & Hormones)')">
+        <img src="cheatsheet/skinny-fat-visceral-women2.png" alt="Skinny Doesn't Mean Healthy — Women (Visceral Fat & Hormones)" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+      </div>
+    </div>
 
 </div>
 
@@ -5408,8 +5762,8 @@ document.addEventListener('keydown', function(e){
 </div>
 <div class="view" id="view-cheatsheets">
   <div class="section-header" style="margin-bottom:1.25rem;">
-    <div class="section-title">📋 Cheat Sheets</div>
-    <span class="section-count">Dosing · Reconstitution · Protocols · Guides</span>
+    <div class="section-title">🗄️ Cheat Sheet Vault</div>
+    <span class="section-count">Dosing · Reconstitution · Protocols · Peptide Guides · Fitness · Playbooks</span>
   </div>
   <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:2rem;line-height:1.6;">
     Quick-reference cheat sheets organized by category. Click any image to zoom. All for research purposes only.
@@ -5420,7 +5774,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">🔥</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 10px var(--neon-pink)55;">GLP-1 · Weight Loss · Metabolic Peptides</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">Tirzepatide Reconstitution Chart</div>
@@ -5474,7 +5828,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">⚡</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-cyan);text-shadow:0 0 10px var(--neon-cyan)55;">GH · Longevity · Mitochondrial</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Tesamorelin Reconstitution Chart</div>
@@ -5510,7 +5864,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">🛡️</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 10px #00ff6455;">Healing · Recovery · Tissue Repair</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ffe600;overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#ffe600;">BPC-157 Research Guide</div>
@@ -5555,7 +5909,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">✨</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#cc44ff;text-shadow:0 0 10px #cc44ff55;">Skin · Hair · Anti-Aging · Hormones</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#cc44ff;">GHK-Cu Cheat Sheet</div>
@@ -5582,7 +5936,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">🧪</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-orange);text-shadow:0 0 10px var(--neon-orange)55;">Reconstitution · Dosing · Vial Accuracy</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">How to Reconstitute a Peptide Vial</div>
@@ -5618,7 +5972,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">🏋️</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:#00ff64;text-shadow:0 0 10px #00ff6455;">Fitness · Home Gym Guides</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Home Gym Equipment Guide</div>
@@ -5645,7 +5999,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.3rem;">📖</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-pink);text-shadow:0 0 10px var(--neon-pink)55;">Protocol Playbooks · Community References</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
         <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-pink);">The Peptide Tactical Playbook</div>
