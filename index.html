@@ -2598,7 +2598,7 @@ function checkPin(){
     setTimeout(()=>{ ps.style.display='none'; }, 650);
   } else {
     wrongAttempts++;
-    const msg = wrongAttempts === 1 ? "OOOO! IM TELLING DAVID AND SAID THEN SECOND SECURITY BREACH!!! JP" : FUNNY_WRONG_MSGS[wrongAttempts % FUNNY_WRONG_MSGS.length];
+    const msg = wrongAttempts === 1 ? "OOOO! IM TELLING DAVID AND SAID" : wrongAttempts === 2 ? "Security breach admins notified!" : FUNNY_WRONG_MSGS[wrongAttempts % FUNNY_WRONG_MSGS.length];
     const errEl = document.getElementById('pin-error');
     errEl.textContent = msg;
     errEl.style.opacity='1';
