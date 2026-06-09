@@ -463,6 +463,24 @@
     z-index: 1;
   }
 
+  /* Force solid black backgrounds on content boxes (override transparent/semi-transparent inline styles) */
+  .hero [style*="background:rgba(0,0,0"],
+  .hero [style*="background: rgba(0,0,0"],
+  .main [style*="background:rgba(0,0,0"],
+  .main [style*="background: rgba(0,0,0"],
+  .main [style*="background:#0"],
+  .main [style*="background: #0"],
+  .main [style*="background:rgba(0,245,255"],
+  .main [style*="background:rgba(255,45,120"],
+  .main [style*="background:rgba(255,230,0"],
+  .main [style*="background:rgba(255,107,0"],
+  .main [style*="background:rgba(180,0,255"],
+  .main [style*="background:rgba(0,255,100"],
+  .hero [style*="background:#0"],
+  .hero [style*="background: #0"] {
+    background: #000 !important;
+  }
+
   /* === MAIN CONTENT === */
   .main {
     position: relative;
