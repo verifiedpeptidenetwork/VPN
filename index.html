@@ -2595,7 +2595,7 @@ function checkPin(){
     setTimeout(()=>{ ps.style.display='none'; }, 650);
   } else {
     wrongAttempts++;
-    const msg = FUNNY_WRONG_MSGS[wrongAttempts % FUNNY_WRONG_MSGS.length];
+    const msg = wrongAttempts === 1 ? "OOOO! IM TELLING DAVID AND SAID THEN SECOND SECURITY BREACH!!! JP" : FUNNY_WRONG_MSGS[wrongAttempts % FUNNY_WRONG_MSGS.length];
     const errEl = document.getElementById('pin-error');
     errEl.textContent = msg;
     errEl.style.opacity='1';
@@ -3572,10 +3572,6 @@ document.addEventListener('keydown', function(e){
             <div style="background:#031209;border:2px solid rgba(0,255,100,0.4);border-left:5px solid #00ff64;padding:0.85rem 1.1rem;margin-bottom:1.25rem;">
               <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#00ff64;margin-bottom:0.3rem;">🛒 Here's How to Buy Them</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,255,210,0.85);line-height:1.65;">All 5 pieces of equipment are linked directly on Amazon above — scroll up to the green equipment cards. Buy one at a time as your budget allows. You don't need everything at once. 😊</div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
-              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#00ff64;">Home Gym Equipment Guide</div><a href="cheatsheet/HOMEEQUIPMENT.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEEQUIPMENT.jpg','VPN Home Gym Equipment Guide')"><img src="cheatsheet/HOMEEQUIPMENT.jpg" alt="Home Gym Equipment Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
-              <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #ff6b00;overflow:hidden;"><div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:#ff6b00;">Home Fitness Guide</div><a href="cheatsheet/HOMEFITNESS%20GUIDE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;padding:0.2rem 0.5rem;border:1px solid #ff6b00;color:#ff6b00;text-decoration:none;background:rgba(255,107,0,0.08);">⬇ Save</a></div><div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/HOMEFITNESS%20GUIDE.png','VPN Home Fitness Guide')"><img src="cheatsheet/HOMEFITNESS%20GUIDE.png" alt="Home Fitness Guide" style="width:100%;display:block;object-fit:contain;" title="Click to zoom"></div></div>
             </div>
           </div>
         </details>
@@ -5556,10 +5552,10 @@ document.addEventListener('keydown', function(e){
         <span style="font-size:1.5rem;">📖</span>
         <div>
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);">Protocol Playbooks · Community References</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,200,0.6);margin-top:0.1rem;">Peptide Tactical Playbook · Metabolic Domino · Meet Our Researchers</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,200,0.6);margin-top:0.1rem;">Peptide Tactical Playbook · Metabolic Domino</div>
         </div>
       </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,45,120,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,45,120,0.7);flex-shrink:0;">▼ 2 SHEETS</span>
     </summary>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;padding:1rem 1.25rem;border-top:1px solid rgba(255,45,120,0.15);">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
@@ -5578,15 +5574,6 @@ document.addEventListener('keydown', function(e){
           </div>
           <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/metabolic%20domino%20and%20lock.jpg','Peptide &amp; Metabolism Tactical Playbook')">
             <img src="cheatsheet/metabolic%20domino%20and%20lock.jpg" alt="Peptide &amp; Metabolism Tactical Playbook" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-          </div>
-        </div>
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Meet Our Researchers</div>
-            <a href="cheatsheet/meet%20our%20researchers_.jpg" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/meet%20our%20researchers_.jpg','Meet Our Researchers — Science. Chaos. Results.')">
-            <img src="cheatsheet/meet%20our%20researchers_.jpg" alt="Meet Our Researchers — VPN Plushie Team" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
           </div>
         </div>
         </div>
