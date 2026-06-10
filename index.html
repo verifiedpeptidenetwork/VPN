@@ -2597,7 +2597,11 @@ const FUNNY_WRONG_MSGS = [
   "🔑 THE KEY IS OUT THERE... IN THE VPN COMMUNITY.",
 ];
 
+let lastPinPress = 0;
 function pinPress(d){
+  const now = Date.now();
+  if(now - lastPinPress < 250) return; // ignore double-fire (touch + click on mobile)
+  lastPinPress = now;
   if(pinEntry.length >= 4) return;
   pinEntry += d;
   updateDots();
