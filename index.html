@@ -2383,6 +2383,15 @@
       <button class="pin-key" onclick="pinPress('0')">0</button>
       <button class="pin-key pin-key-del" onclick="pinDel()">⌫</button>
     </div>
+
+    <!-- Fallback text input — for phones where the keypad taps don't register -->
+    <div style="margin-top:1.25rem;">
+      <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.15em;color:rgba(255,255,255,0.4);margin-bottom:0.4rem;text-transform:uppercase;">Having trouble? Type your PIN here</div>
+      <input id="pin-fallback-input" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"
+        placeholder="• • • •"
+        style="width:100%;box-sizing:border-box;text-align:center;letter-spacing:0.6em;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;background:#0a0a1f;border:2px solid rgba(0,245,255,0.35);border-radius:4px;padding:0.7rem 1rem;outline:none;"
+        oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,4); pinEntry=this.value; updateDots(); if(pinEntry.length===4) setTimeout(checkPin,150);">
+    </div>
   </div>
 </div>
 
@@ -2611,6 +2620,8 @@ function updateDots(){
     dot.classList.toggle('filled', i < pinEntry.length);
     dot.classList.remove('error');
   }
+  const fb = document.getElementById('pin-fallback-input');
+  if(fb && fb.value !== pinEntry) fb.value = pinEntry;
 }
 
 function checkPin(){
