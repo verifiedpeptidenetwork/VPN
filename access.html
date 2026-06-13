@@ -249,6 +249,73 @@
     transform: translateY(-2px);
     box-shadow: 0 0 30px rgba(255,230,0,0.7);
   }
+
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .popup-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .popup-box {
+    position: relative;
+    max-width: 340px;
+    width: 90%;
+    background: var(--card-bg);
+    border: 2px solid var(--neon-orange);
+    border-radius: 12px;
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255,107,0,0.4);
+    transform: scale(0.85);
+    transition: transform 0.2s;
+  }
+
+  .popup-overlay.show .popup-box {
+    transform: scale(1);
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .popup-close:hover {
+    color: var(--neon-orange);
+  }
+
+  .popup-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .popup-msg {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--neon-orange);
+    text-shadow: 0 0 8px var(--neon-orange);
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -276,6 +343,14 @@
     Not a member yet? Join the Skool to get the code.
   </div>
   <a class="skool-btn" href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener">JOIN THE SKOOL</a>
+</div>
+
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close" aria-label="Close">✕</button>
+    <div class="popup-icon">⚠️</div>
+    <div class="popup-msg" id="popup-msg"></div>
+  </div>
 </div>
 
 <script>
@@ -316,6 +391,7 @@
       window.location.href = 'home.html';
     } else {
       var jokes = [
+        '⚠ TRYING TO SNEAK IN ARE WE!',
         'WRONG. THE GORILLA IS DISAPPOINTED.',
         'NOT EVEN CLOSE, BIG GUY.',
         'ACCESS DENIED. TRY YOUR EX\'S BIRTHDAY.',
@@ -327,7 +403,7 @@
         'NEGATIVE. JOIN THE SKOOL, GET THE CODE.',
         'INCORRECT. THE VIAL REMAINS LOCKED.'
       ];
-      showError(jokes[Math.floor(Math.random() * jokes.length)]);
+      showPopup(jokes[Math.floor(Math.random() * jokes.length)]);
       inputs.forEach(function(i){ i.value=''; i.classList.remove('filled'); });
       inputs[0].focus();
     }
@@ -339,6 +415,26 @@
     panel.classList.remove('shake');
     requestAnimationFrame(function(){ panel.classList.add('shake'); });
   }
+
+  var popupOverlay = document.getElementById('popup-overlay');
+  var popupMsg = document.getElementById('popup-msg');
+  var popupClose = document.getElementById('popup-close');
+
+  function showPopup(msg){
+    popupMsg.textContent = msg;
+    popupOverlay.classList.add('show');
+    panel.classList.remove('shake');
+    requestAnimationFrame(function(){ panel.classList.add('shake'); });
+  }
+
+  function hidePopup(){
+    popupOverlay.classList.remove('show');
+  }
+
+  popupClose.addEventListener('click', hidePopup);
+  popupOverlay.addEventListener('click', function(e){
+    if (e.target === popupOverlay) hidePopup();
+  });
 
   inputs[0].focus();
 </script>
