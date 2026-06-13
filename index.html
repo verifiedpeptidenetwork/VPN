@@ -9666,7 +9666,10 @@ create policy "Public insert" on reports for insert with check (true);</div>
     font-size: 1.4rem;
     transition: transform 0.2s, box-shadow 0.2s;
     color: var(--neon-cyan);
+    padding: 0;
+    overflow: hidden;
   }
+  #email-widget-btn img { display: block; }
   #email-widget-btn:hover {
     transform: scale(1.08);
     box-shadow: 0 0 30px rgba(0,245,255,0.55), 0 6px 20px rgba(0,0,0,0.5);
@@ -9807,7 +9810,7 @@ create policy "Public insert" on reports for insert with check (true);</div>
 
 <!-- Floating button -->
 <button id="email-widget-btn" onclick="toggleEmailWidget()" aria-label="Contact Us">
-  <span id="widget-btn-icon">✉</span>
+  <span id="widget-btn-icon"><img src="gorilla-icon.png" alt="Email" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></span>
   <span class="unread-dot" id="widget-dot"></span>
 </button>
 
@@ -9895,10 +9898,10 @@ function toggleEmailWidget() {
   var isOpen = panel.classList.contains('open');
   if (isOpen) {
     panel.classList.remove('open');
-    document.getElementById('widget-btn-icon').textContent = '✉';
+    document.getElementById('widget-btn-icon').innerHTML = '<img src="gorilla-icon.png" alt="Email" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
   } else {
     panel.classList.add('open');
-    document.getElementById('widget-btn-icon').textContent = '✕';
+    document.getElementById('widget-btn-icon').innerHTML = '✕';
     if (dot) dot.style.display = 'none';
   }
 }
