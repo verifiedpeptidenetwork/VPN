@@ -2318,7 +2318,7 @@
     50% { box-shadow: 0 0 8px rgba(255,200,0,1), 0 0 100px rgba(255,107,0,0.85), 0 0 220px rgba(255,45,120,0.65), 0 0 360px rgba(180,0,255,0.45), 0 20px 60px rgba(0,0,0,0.6); }
   }
   .gate-logo-ring {
-    width: 90px; height: 90px; margin: 0 auto 1.25rem;
+    width: 150px; height: 150px; margin: 0 auto 1.25rem;
     border-radius: 50%; border: 3px solid var(--neon-cyan);
     display: flex; align-items: center; justify-content: center;
     font-size: 2.5rem;
@@ -2374,6 +2374,19 @@
     margin-top: 1.75rem; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
     letter-spacing: 0.15em; color: rgba(232,224,240,0.4);
   }
+  .gate-skool-note {
+    margin-top: 1.25rem; font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-secondary);
+  }
+  .gate-skool-btn {
+    display: inline-block; margin-top: 0.6rem; padding: 0.6rem 1.4rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 0.2em;
+    color: var(--dark-bg); background: var(--neon-purple);
+    border-radius: 8px; text-decoration: none;
+    box-shadow: 0 0 20px rgba(255,230,0,0.4);
+    transition: transform 0.1s, box-shadow 0.2s;
+  }
+  .gate-skool-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,230,0,0.7); }
 </style>
 <div id="gate-overlay">
   <div class="gate-panel">
@@ -2391,6 +2404,11 @@
       <button type="submit" class="gate-enter-btn">ENTER</button>
       <div class="gate-error-msg" id="gate-error-msg"></div>
     </form>
+
+    <div class="gate-skool-note">
+      Don't have the passcode? Join the Skool community to get it.<br>
+      <a class="gate-skool-btn" href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener">🎉 JOIN THE SKOOL</a>
+    </div>
 
     <div class="gate-footer-note">VERIFIED PEPTIDES NETWORK — RESTRICTED ACCESS</div>
   </div>
@@ -2447,7 +2465,16 @@
         'ERROR 404: GAINS NOT FOUND.',
         'WRONG CODE. GO DO A SET OF PUSHUPS.',
         'BRO THINKS HE\'S HACKING THE PENTAGON.',
-        'INCORRECT. THE VIAL REMAINS LOCKED.'
+        'INCORRECT. THE VIAL REMAINS LOCKED.',
+        'NOPE. THE GORILLA SAW THAT.',
+        'WRONG PIN. JOIN THE SKOOL, CHAMP.',
+        'ERROR: BRAIN.EXE NOT FOUND.',
+        'THAT\'S A SKIP DAY PIN, NOT AN ACCESS PIN.',
+        'DENIED. EVEN YOUR GAINS ARE CONFUSED.',
+        'WRONG. GO ASK THE SKOOL NICELY.',
+        'NEGATIVE, GHOST RIDER, THE PATTERN IS FULL.',
+        'BUZZ. WRONG ANSWER, TRY AGAIN.',
+        'THE VAULT LAUGHS AT YOUR ATTEMPT.'
       ];
       showError(jokes[Math.floor(Math.random() * jokes.length)]);
       inputs.forEach(function(i){ i.value=''; i.classList.remove('filled'); });
