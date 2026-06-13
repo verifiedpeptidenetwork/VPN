@@ -2272,13 +2272,202 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+<style>
+  #gate-overlay {
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--dark-bg);
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  #gate-overlay::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,45,120,0.12), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(0,245,255,0.12), transparent 40%);
+    pointer-events: none;
+  }
+  .gate-panel {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 420px;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 0 0 1px rgba(0,245,255,0.08), 0 0 40px rgba(255,45,120,0.15), 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .gate-panel::before {
+    content: '';
+    position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    opacity: 0.6;
+    animation: gate-borderflow 6s linear infinite;
+  }
+  @keyframes gate-borderflow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .gate-logo-ring {
+    width: 90px; height: 90px; margin: 0 auto 1.25rem;
+    border-radius: 50%; border: 3px solid var(--neon-cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: 0 0 15px rgba(0,245,255,0.5), inset 0 0 15px rgba(0,245,255,0.2);
+    animation: gate-spin 12s linear infinite;
+  }
+  @keyframes gate-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .gate-h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.3em; font-size: 1.5rem; color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0,245,255,0.4);
+    margin-bottom: 0.4rem;
+  }
+  .gate-sub {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.8rem;
+    color: var(--neon-pink); letter-spacing: 0.15em;
+    text-shadow: 0 0 8px var(--neon-pink); margin-bottom: 1.75rem;
+  }
+  .gate-pin-fields { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .gate-pin-fields input {
+    width: 48px; height: 58px; text-align: center; font-size: 1.6rem;
+    font-family: 'Share Tech Mono', monospace; color: var(--text-primary);
+    background: var(--mid-bg); border: 2px solid var(--card-border);
+    border-radius: 8px; outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-text-security: disc;
+  }
+  .gate-pin-fields input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0,245,255,0.5); }
+  .gate-pin-fields input.filled { border-color: var(--neon-pink); box-shadow: 0 0 12px rgba(255,45,120,0.4); }
+  .gate-enter-btn {
+    width: 100%; padding: 0.95rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.25em;
+    color: var(--dark-bg); background: var(--neon-cyan);
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(0,245,255,0.5);
+  }
+  .gate-enter-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,245,255,0.8); }
+  .gate-enter-btn:active { transform: translateY(0); }
+  .gate-error-msg {
+    margin-top: 1rem; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem;
+    color: var(--neon-orange); letter-spacing: 0.1em; min-height: 1.2em;
+    text-shadow: 0 0 6px var(--neon-orange); opacity: 0; transition: opacity 0.2s;
+  }
+  .gate-error-msg.show { opacity: 1; }
+  .gate-shake { animation: gate-shake 0.4s; }
+  @keyframes gate-shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
+  .gate-footer-note {
+    margin-top: 1.75rem; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.15em; color: rgba(232,224,240,0.4);
+  }
+</style>
+<div id="gate-overlay">
+  <div class="gate-panel">
+    <div class="gate-logo-ring"><img src="gorilla-icon.png" alt="VPN" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+    <h1 class="gate-h1">VPN ACCESS</h1>
+    <div class="gate-sub">ENTER ACCESS PIN</div>
+
+    <form id="gate-pin-form" autocomplete="off">
+      <div class="gate-pin-fields">
+        <input type="tel" inputmode="numeric" maxlength="1" data-idx="0">
+        <input type="tel" inputmode="numeric" maxlength="1" data-idx="1">
+        <input type="tel" inputmode="numeric" maxlength="1" data-idx="2">
+        <input type="tel" inputmode="numeric" maxlength="1" data-idx="3">
+      </div>
+      <button type="submit" class="gate-enter-btn">ENTER</button>
+      <div class="gate-error-msg" id="gate-error-msg"></div>
+    </form>
+
+    <div class="gate-footer-note">VERIFIED PEPTIDES NETWORK — RESTRICTED ACCESS</div>
+  </div>
+</div>
 <script>
-  try {
-    if (sessionStorage.getItem('vpn_access') !== 'granted') {
-      window.location.replace('index.html');
+(function(){
+  var CORRECT_PIN = "1448";
+  var overlay = document.getElementById('gate-overlay');
+  if (sessionStorage.getItem('vpn_access') === 'granted') {
+    overlay.style.display = 'none';
+    return;
+  }
+  var inputs = Array.prototype.slice.call(document.querySelectorAll('.gate-pin-fields input'));
+  var form = document.getElementById('gate-pin-form');
+  var errorMsg = document.getElementById('gate-error-msg');
+  var panel = document.querySelector('.gate-panel');
+
+  inputs.forEach(function(inp, i){
+    inp.addEventListener('input', function(){
+      inp.value = inp.value.replace(/[^0-9]/g, '');
+      if (inp.value) {
+        inp.classList.add('filled');
+        if (i < inputs.length - 1) inputs[i+1].focus();
+      } else {
+        inp.classList.remove('filled');
+      }
+    });
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Backspace' && !inp.value && i > 0) {
+        inputs[i-1].focus();
+      }
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var pin = inputs.map(function(i){ return i.value; }).join('');
+
+    if (pin.length < 4) {
+      showError('ENTER ALL 4 DIGITS, CHAMP');
+      return;
     }
-  } catch(e) {}
+
+    if (pin === CORRECT_PIN) {
+      sessionStorage.setItem('vpn_access', 'granted');
+      overlay.style.display = 'none';
+    } else {
+      var jokes = [
+        'WRONG. THE GORILLA IS DISAPPOINTED.',
+        'NOT EVEN CLOSE, BIG GUY.',
+        'ACCESS DENIED. TRY YOUR EX\'S BIRTHDAY.',
+        'NICE TRY, FED.',
+        'THAT PIN BELONGS IN THE TRASH.',
+        'ERROR 404: GAINS NOT FOUND.',
+        'WRONG CODE. GO DO A SET OF PUSHUPS.',
+        'BRO THINKS HE\'S HACKING THE PENTAGON.',
+        'INCORRECT. THE VIAL REMAINS LOCKED.'
+      ];
+      showError(jokes[Math.floor(Math.random() * jokes.length)]);
+      inputs.forEach(function(i){ i.value=''; i.classList.remove('filled'); });
+      inputs[0].focus();
+    }
+  });
+
+  function showError(msg){
+    errorMsg.textContent = msg;
+    errorMsg.classList.add('show');
+    panel.classList.remove('gate-shake');
+    requestAnimationFrame(function(){ panel.classList.add('gate-shake'); });
+  }
+
+  inputs[0].focus();
+})();
 </script>
+<!-- ── END ACCESS GATE ── -->
 
 <!-- TERMS ACCEPTANCE MODAL (first visit) -->
 <div id="terms-gate" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(2,1,10,0.97);align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;">
