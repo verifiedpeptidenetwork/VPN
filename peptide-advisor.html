@@ -669,11 +669,22 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   </div>
 
   <div class="info-row">
-    <div class="info-field" style="flex-direction:row;align-items:center;gap:0.6rem;display:flex;">
+    <div class="info-field" style="flex-direction:row;align-items:center;gap:0.6rem;display:flex;flex-wrap:wrap;">
       <button type="button" id="bac-lock-btn" class="pep-input" style="cursor:pointer;width:auto;text-align:left;" onclick="toggleBacLock()">🔒 Lock Ratio: ON</button>
       <span id="bac-ratio-label" style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--cyan);"></span>
+      <input id="bac-custom-ratio" type="number" min="0" step="0.1" placeholder="custom mg/mL" class="pep-input" style="display:none;width:120px;" oninput="onCustomRatioInput()">
     </div>
   </div>
+
+  <details style="margin-bottom:0.75rem;">
+    <summary style="cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--muted);">ℹ️ What does "Lock Ratio" mean? (example)</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.6;padding:0.6rem 0 0;">
+      When <strong style="color:var(--cyan);">Lock Ratio</strong> is ON, the vial (mg) and water (mL) fields stay tied together at a fixed mg-per-mL ratio.
+      Example: if the ratio is <strong style="color:var(--cyan);">5 mg per mL</strong> (10mg vial / 2mL water), typing <strong>20</strong> in the vial field auto-fills <strong>4</strong> in the water field, and typing <strong>1</strong> in the water field auto-fills <strong>5</strong> in the vial field.
+      <br><br>
+      Turn it <strong style="color:var(--pink);">OFF</strong> to set a custom ratio — type your own mg-per-mL value in the box that appears, then turn the lock back <strong style="color:var(--cyan);">ON</strong> to use that custom ratio going forward.
+    </div>
+  </details>
 
   <div class="info-row">
     <div class="info-field">
@@ -864,13 +875,23 @@ function recalcRatioFromFields(){
 function toggleBacLock(){
   bacLocked = !bacLocked;
   var btn = document.getElementById('bac-lock-btn');
+  var customEl = document.getElementById('bac-custom-ratio');
   if (bacLocked) {
     btn.textContent = '🔒 Lock Ratio: ON';
-    recalcRatioFromFields();
+    var custom = parseFloat(customEl.value);
+    if (custom > 0) bacRatio = custom; else recalcRatioFromFields();
+    customEl.style.display = 'none';
   } else {
     btn.textContent = '🔓 Lock Ratio: OFF (custom)';
+    customEl.value = bacRatio.toFixed(2);
+    customEl.style.display = 'inline-block';
   }
   updateBacRatioLabel();
+}
+
+function onCustomRatioInput(){
+  var custom = parseFloat(document.getElementById('bac-custom-ratio').value);
+  if (custom > 0) bacRatio = custom;
 }
 
 function onVialWaterInput(changed){
