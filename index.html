@@ -42,7 +42,7 @@
     background:
       repeating-linear-gradient(90deg, rgba(0,240,255,0.06) 0px, rgba(0,240,255,0.06) 1px, transparent 1px, transparent 60px),
       repeating-linear-gradient(0deg, rgba(0,240,255,0.06) 0px, rgba(0,240,255,0.06) 1px, transparent 1px, transparent 60px),
-      linear-gradient(180deg, #05020c 0%, #0b0617 50%, #05020c 100%) fixed;
+      linear-gradient(180deg, #2b0a4e 0%, #6e1f6e 40%, #ff5e9e 75%, #ffd84a 100%) fixed;
     background-attachment: fixed;
     min-width: 100vw;
     color: var(--text-primary);
@@ -51,7 +51,7 @@
   }
 
   p, span, div, li, label, strong, em, b {
-    text-shadow: 0 0 6px rgba(255,255,255,0.15);
+    text-shadow: 0 0 8px rgba(0,0,0,0.85), 0 0 16px rgba(0,0,0,0.6);
   }
 
   /* Global: replace Share Tech Mono with bold Rajdhani everywhere — CSS classes + inline styles */
@@ -2405,8 +2405,11 @@
   #gate-overlay .gate-visual-content { position: absolute; inset: 0; z-index: 2; text-align: center; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 3rem; }
   #gate-overlay .gate-visual-content img {
     position: absolute; top: 14%; left: 50%; transform: translate(-50%, 0);
-    width: 220px; height: 220px; max-width: 55vw; max-height: 55vw; object-fit: cover; border-radius: 50%;
-    border: none; box-shadow: 0 0 40px rgba(0,0,0,0.25); margin-bottom: 1rem; margin-top: 20px;
+    width: 460px; height: 460px; max-width: 75vw; max-height: 75vw; object-fit: cover; border-radius: 50%;
+    border: none; box-shadow: 0 0 60px rgba(0,0,0,0.25); margin-bottom: 1rem; margin-top: 20px;
+  }
+  @media (max-width: 800px) {
+    #gate-overlay .gate-visual-content img { width: 220px; height: 220px; max-width: 55vw; max-height: 55vw; }
   }
   #gate-overlay .gate-visual-title {
     font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: 0.25em;
@@ -3077,6 +3080,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
       <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
       <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">🧫 Supplies</button>
+      <button class="nav-pill" onclick="showView('vendors'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">🤝 Vendors</button>
       <button class="nav-pill" onclick="showView('templates'); setActiveNav(this)" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);">🏷️ Templates</button>
       <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">🩸 Blood Work</button>
       <button class="nav-pill" onclick="showView('vitamins'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">💊 Vitamins</button>
@@ -3112,6 +3116,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="mobileNav('quick-guide')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🛠 Tools &amp; Guides</button>
       <button class="nav-pill" onclick="mobileNav('calculator')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🧮 Calculator</button>
       <button class="nav-pill" onclick="mobileNav('supplies')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🧫 Supplies</button>
+      <button class="nav-pill" onclick="mobileNav('vendors')" style="border:none;border-left:3px solid var(--neon-pink);color:var(--neon-pink);clip-path:none;">🤝 Vendors</button>
       <button class="nav-pill" onclick="mobileNav('templates')" style="border:none;border-left:3px solid var(--neon-orange);color:var(--neon-orange);clip-path:none;">🏷️ Templates</button>
 
       <div style="margin:0.2rem 1.1rem;border-top:1px solid rgba(255,255,255,0.06);"></div>
@@ -3589,152 +3594,6 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <!-- VENDOR RED FLAGS GUIDE (dropdown) -->
-    <div style="border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);background:#0d0814;box-shadow:0 0 24px rgba(255,45,120,0.18);margin-bottom:1.75rem;overflow:hidden;">
-      <button onclick="(function(btn){var d=document.getElementById('vendor-redflags');var open=d.style.display!=='none';d.style.display=open?'none':'block';btn.querySelector('.rf-arrow').textContent=open?'▼':'▲';})(this)"
-        style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;background:linear-gradient(135deg,rgba(255,45,120,0.12),rgba(180,0,255,0.06));border:none;cursor:pointer;text-align:left;">
-        <span style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.4rem;">🚩</span>
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);">Vendors To Avoid — Biggest Grey Market Red Flags</span>
-        </span>
-        <span class="rf-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--neon-pink);">▼</span>
-      </button>
-
-      <div id="vendor-redflags" style="display:none;padding:1.25rem 1.4rem;background:#08050f;border-top:1px solid rgba(255,45,120,0.2);">
-
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:1.25rem;">
-          Most people don't get scammed because they're stupid — they get scammed because they're desperate, rushed, or new, and scammers know exactly how to exploit that. Before sending money to any source, know the red flags, the psychological traps used against you, and how to protect yourself.
-        </div>
-
-        <!-- How scammers work -->
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-cyan);margin-bottom:0.6rem;">HOW SCAMMERS ACTUALLY WORK</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.6rem;margin-bottom:1.5rem;">
-          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.25rem;">Emotional Manipulation</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.5;">Urgency, fear &amp; FOMO override your critical thinking before you act.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.25rem;">Authority Fakery</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.5;">Fake lab tests, fake reviews &amp; fake tracking create an illusion of legitimacy.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.25rem;">Irreversible Payments</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.5;">Payment methods chosen specifically because they can't be disputed, reversed, or traced.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.25rem;">Silence Incentives</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.5;">Burned buyers stay quiet — which protects the scammer's next victim cycle.</div>
-          </div>
-        </div>
-
-        <!-- 7 Red Flags -->
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-pink);margin-bottom:0.6rem;">THE 7 RED FLAGS</div>
-        <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;">
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">1 · "Shipping Protection" Fees</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A vendor asks you to add $25–$50 for "shipping insurance" or "customs protection" after the price is agreed. Real businesses price shipping in upfront — never pay surprise add-on fees.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">2 · "Pre-Pay Your Customs Fees"</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">"Your package is held in customs — send another payment to release it." This always follows fake tracking numbers and seizure notices. Treat any mid-shipment fee demand as a confirmed scam. Don't pay.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">3 · Irreversible &amp; Anonymous Payments Only</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A vendor who only accepts Apple Pay, Cash App, Venmo, Zelle, PayPal F&amp;F, or crypto to fresh wallets — with no alternatives — is choosing payment methods that can't be disputed or traced. Combined with other red flags, this is a major warning sign.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">4 · Artificial Urgency &amp; Scarcity</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">"Only 3 kits left." "Sale ends in 10 minutes." Manufactured urgency is designed to shut down your critical thinking. Real vendors don't need to rush you — take 24 hours minimum to verify reputation.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">5 · No Verified Community Presence</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">Screenshots of "happy customers" are trivially faked. What can't be faked is years of consistent, independent community discussion across unconnected groups. If nobody reputable has heard of a vendor, that's a major red flag.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">6 · Fake Lab Tests &amp; Unverifiable COAs</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A PDF means nothing by itself — purity %, batch numbers, and lab names can all be fabricated. Find the lab, match the document, and confirm the batch independently. A real lab welcomes verification; a fake one has no trail.</div>
-          </div>
-          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">7 · Evasive, Inconsistent Communication</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">Dodged questions, copy-paste responses, shifting answers, and refusal to give timestamped proof or batch info. Confusion is often intentional — it makes a vendor harder to hold accountable later.</div>
-          </div>
-        </div>
-
-        <!-- Checklist -->
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:#ffe600;margin-bottom:0.6rem;">CHECKLIST — BEFORE YOU SEND A DOLLAR</div>
-        <div style="display:flex;flex-direction:column;gap:0.3rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:1.25rem;">
-          <div>✅ Surprise fees added after the price was agreed? <strong style="color:#ffe600;">Walk away.</strong></div>
-          <div>✅ Asked for more money mid-shipment to "release" your order? <strong style="color:#ffe600;">Confirmed scam.</strong></div>
-          <div>✅ Only accepts irreversible, non-disputable payment with no alternatives? <strong style="color:#ffe600;">High risk.</strong></div>
-          <div>✅ Creating urgency, scarcity, or emotional pressure? <strong style="color:#ffe600;">Give it 24 hours.</strong></div>
-          <div>✅ No independent community discussion of this vendor anywhere? <strong style="color:#ffe600;">Major red flag.</strong></div>
-          <div>✅ Lab untraceable, batch unverifiable, vendor gets defensive about COAs? <strong style="color:#ffe600;">Don't proceed.</strong></div>
-        </div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,220,0.85);line-height:1.6;">
-          If you hit two or more of these red flags at once — stop. The grey market rewards patience, research, and community. Scammers reward desperation, silence, and haste.
-        </div>
-      </div>
-    </div>
-
-    <!-- PAYMENT & PRICING GUIDE (dropdown) -->
-    <div style="border:2px solid #00ff64;border-left:6px solid #00ff64;background:#0a160f;box-shadow:0 0 24px rgba(0,255,100,0.18);margin-bottom:1.75rem;overflow:hidden;">
-      <button onclick="(function(btn){var d=document.getElementById('payment-pricing');var open=d.style.display!=='none';d.style.display=open?'none':'block';btn.querySelector('.pp-arrow').textContent=open?'▼':'▲';})(this)"
-        style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;background:linear-gradient(135deg,rgba(0,255,100,0.12),rgba(0,255,255,0.06));border:none;cursor:pointer;text-align:left;">
-        <span style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.4rem;">💳</span>
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);">Payment & Pricing Guide</span>
-        </span>
-        <span class="pp-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#00ff64;">▼</span>
-      </button>
-
-      <div id="payment-pricing" style="display:none;padding:1.25rem 1.4rem;background:#08050f;border-top:1px solid rgba(0,255,100,0.2);">
-
-        <div style="border:1px solid rgba(0,255,100,0.3);background:rgba(0,255,100,0.05);padding:1rem;margin-bottom:1.25rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:#ffffff;line-height:1.7;">
-          Before sending any payment, run through this quick checklist:
-          <ul style="margin:0.5rem 0 0 1.25rem;padding:0;">
-            <li>Confirm the total.</li>
-            <li>Ask about current payment options.</li>
-            <li>Follow the rep's process.</li>
-          </ul>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.25rem;">
-          <div style="border:1px solid rgba(0,255,255,0.25);border-left:4px solid var(--neon-cyan);background:#0a0616;padding:1rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-cyan);margin-bottom:0.5rem;">PRICING & PAYMENT</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;">
-              Clear pricing matters. Before ordering, confirm your total cost, shipping details, and the payment options currently available through your rep. Payment methods can change, so always verify before sending payment.
-            </div>
-          </div>
-
-          <div style="border:1px solid rgba(180,0,255,0.25);border-left:4px solid var(--neon-purple);background:#0a0616;padding:1rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-purple);margin-bottom:0.5rem;">WHAT TO EXPECT AFTER PAYMENT</div>
-            <div style="display:flex;flex-direction:column;gap:0.3rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.5;">
-              <div>✅ Order confirmation</div>
-              <div>✅ Product photo confirmation</div>
-              <div>✅ Shipping label photo</div>
-              <div>⏱ Tracking may take 12–24 hours to update</div>
-              <div>⏱ Initial tracking delays can be normal</div>
-            </div>
-          </div>
-
-          <div style="border:1px solid rgba(255,159,28,0.25);border-left:4px solid var(--neon-orange);background:#0a0616;padding:1rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-orange);margin-bottom:0.5rem;">CUSTOMER SERVICE</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;">
-              If you have questions, reach out through WhatsApp for the fastest communication. Be respectful of time zones, keep your messages clear, and confirm details directly with the rep.
-            </div>
-          </div>
-        </div>
-
-        <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);border-top:1px solid rgba(0,255,100,0.2);border-bottom:1px solid rgba(0,255,100,0.2);padding:0.85rem 0;margin-bottom:1rem;">
-          CLEAR PROCESS. REAL UPDATES. LESS GUESSWORK.
-        </div>
-
-        <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);">
-          » CHECK WITH YOUR REP «
-        </div>
-      </div>
-    </div>
-
     <div style="display:flex;flex-direction:column;gap:1rem;">
 
       <!-- BAC WATER SECTION HEADER -->
@@ -4088,6 +3947,352 @@ document.addEventListener('keydown', function(e){
     </div>
 
   </div>
+
+  <!-- VENDORS -->
+  <div class="view" id="view-vendors">
+    <div class="section-header" style="margin-bottom:1.25rem;">
+      <div class="section-title">Verified Vendors</div>
+      <span class="section-count">Inner Circle contacts · China & USA</span>
+    </div>
+
+    <!-- Disclaimer -->
+    <div style="border:1px solid rgba(255,107,0,0.45);border-left:5px solid var(--neon-orange);background:#0d0a1e;padding:1rem 1.4rem;margin-bottom:1.75rem;display:flex;gap:1rem;align-items:flex-start;">
+      <span style="font-size:1.5rem;flex-shrink:0;line-height:1;">⚠</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#ff2020;margin-bottom:0.3rem;">Verify Independently — No Guarantees</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
+          Contacts below are shared by the community for research purposes only. VPN does not process payments or guarantee any transaction.
+          Always confirm current pricing, payment methods, and contact details directly with the rep — read the Red Flags &amp; Payment guides below before reaching out.
+        </div>
+      </div>
+    </div>
+
+    <!-- VENDOR CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.1rem;margin-bottom:1.75rem;">
+
+      <!-- Kerui Peptides -->
+      <div style="border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);background:#0d0814;box-shadow:0 0 18px rgba(255,45,120,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);">Kerui Peptides</div>
+          <div style="font-size:1.3rem;">🇨🇳</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">China — MIA</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 4472 2635</span><br>
+          🏷 Brand: Kerui Peptides (MIA)
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Sells 10-vial wholesale kits. All 3rd party testing done to verify peptide quality. Accepts credit card and debit card payments.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Wire Transfer</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Crypto</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">3rd Party Tested</span>
+        </div>
+      </div>
+
+      <!-- LiliPeptide Luna -->
+      <div style="border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);background:#0a0f16;box-shadow:0 0 18px rgba(0,245,255,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);">LiliPeptide Luna</div>
+          <div style="font-size:1.3rem;">🇨🇳</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">China</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 6553 6423</span><br>
+          👤 Contact: Luna
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Wholesale 10-vial kit vendor. All peptides verified by 3rd party labs.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);">3rd Party Tested</span>
+        </div>
+      </div>
+
+      <!-- Sophie (Wanshun) -->
+      <div style="border:2px solid var(--neon-purple);border-left:6px solid var(--neon-purple);background:#0f0a16;box-shadow:0 0 18px rgba(180,0,255,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);text-shadow:0 0 10px rgba(180,0,255,0.5);">Sophie (Wanshun)</div>
+          <div style="font-size:1.3rem;">🇨🇳</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">China</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 6729 1670</span><br>
+          👤 Contact: Sophie
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Top-tier Inner Circle tested vendor. Sells 10-vial wholesale kits. Accepts credit &amp; debit card payments.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Credit Card</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Debit Card</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">3rd Party Tested</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Inner Circle Tested</span>
+        </div>
+      </div>
+
+      <!-- Anya -->
+      <div style="border:2px solid var(--neon-orange);border-left:6px solid var(--neon-orange);background:#160f0a;box-shadow:0 0 18px rgba(255,159,28,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,159,28,0.5);">Anya</div>
+          <div style="font-size:1.3rem;">🇨🇳</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">China</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 6886 0568</span><br>
+          👤 Contact: Anya
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Inner Circle tested. Wholesale 10-vial kits. 3rd party quality verification on all batches.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-orange);color:var(--neon-orange);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-orange);color:var(--neon-orange);">3rd Party Tested</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-orange);color:var(--neon-orange);">Inner Circle Tested</span>
+        </div>
+      </div>
+
+      <!-- Marvel Peptide -->
+      <div style="border:2px solid #00ff64;border-left:6px solid #00ff64;background:#0a160f;box-shadow:0 0 18px rgba(0,255,100,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);">Marvel Peptide</div>
+          <div style="font-size:1.3rem;">🇨🇳</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">China</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 6705 9715</span>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Wholesale peptide vendor with 3rd party verified product quality.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid #00ff64;color:#00ff64;">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid #00ff64;color:#00ff64;">3rd Party Tested</span>
+        </div>
+      </div>
+
+      <!-- InnoPeptide (Loreler) -->
+      <div style="border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);background:#0d0814;box-shadow:0 0 18px rgba(255,45,120,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);">InnoPeptide (Loreler)</div>
+          <div style="font-size:1.3rem;">🇺🇸</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">USA</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          ☎ Phone: <span style="color:var(--neon-cyan);">+1 (231) 392-1328</span><br>
+          👤 Contact: Loreler
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          US-based vendor. Accepts credit card and debit card. Sells 10-vial wholesale kits.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Credit Card</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">Debit Card</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">3rd Party Tested</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-pink);color:var(--neon-pink);">USA Based</span>
+        </div>
+      </div>
+
+      <!-- Peptide Laboratory -->
+      <div style="border:2px solid var(--neon-cyan);border-left:6px solid var(--neon-cyan);background:#0a0f16;box-shadow:0 0 18px rgba(0,245,255,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,245,255,0.5);">Peptide Laboratory</div>
+          <div style="font-size:1.3rem;">🇺🇸</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">USA</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          👤 Contact: Audrey Carter<br>
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 5588 6802</span><br>
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+852 6938 5146</span><br>
+          📱 WhatsApp: <span style="color:var(--neon-cyan);">+44 7366 662602</span>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Inner Circle verified vendor. Contact Audrey Carter directly via WhatsApp or through the community.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);">Wholesale 10-Vial Kits</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);">3rd Party Tested</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);">Inner Circle Tested</span>
+        </div>
+      </div>
+
+      <!-- Instant Peptides -->
+      <div style="border:2px solid var(--neon-purple);border-left:6px solid var(--neon-purple);background:#0f0a16;box-shadow:0 0 18px rgba(180,0,255,0.15);padding:1.1rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--neon-purple);text-shadow:0 0 10px rgba(180,0,255,0.5);">Instant Peptides</div>
+          <div style="font-size:1.3rem;">🇺🇸</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text-secondary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">USA</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#fff;line-height:1.6;margin-bottom:0.6rem;">
+          🌐 Website: instantpeptides.com<br>
+          ☎ Phone: <span style="color:var(--neon-cyan);">+1 (954) 204-8265</span>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:0.7rem;">
+          Single vial re-seller for retail quantities. US-based. Accepts credit card payments.
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Single Vial Re-seller</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">Credit Card</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.08em;padding:0.2rem 0.5rem;border:1px solid var(--neon-purple);color:var(--neon-purple);">USA Based</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VENDOR RED FLAGS GUIDE (dropdown) -->
+    <div style="border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);background:#0d0814;box-shadow:0 0 24px rgba(255,45,120,0.18);margin-bottom:1.75rem;overflow:hidden;">
+      <button onclick="(function(btn){var d=document.getElementById('vendor-redflags');var open=d.style.display!=='none';d.style.display=open?'none':'block';btn.querySelector('.rf-arrow').textContent=open?'▼':'▲';})(this)"
+        style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;background:linear-gradient(135deg,rgba(255,45,120,0.12),rgba(180,0,255,0.06));border:none;cursor:pointer;text-align:left;">
+        <span style="display:flex;align-items:center;gap:0.75rem;">
+          <span style="font-size:1.4rem;">🚩</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.5);">Vendors To Avoid — Biggest Grey Market Red Flags</span>
+        </span>
+        <span class="rf-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--neon-pink);">▼</span>
+      </button>
+
+      <div id="vendor-redflags" style="display:none;padding:1.25rem 1.4rem;background:#08050f;border-top:1px solid rgba(255,45,120,0.2);">
+
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:1.25rem;">
+          Most people don't get scammed because they're stupid — they get scammed because they're desperate, rushed, or new, and scammers know exactly how to exploit that. Before sending money to any source, know the red flags, the psychological traps used against you, and how to protect yourself.
+        </div>
+
+        <!-- How scammers work -->
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-cyan);margin-bottom:0.6rem;">HOW SCAMMERS ACTUALLY WORK</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:1.5rem;">
+          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:1.1rem 1.25rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.6rem;">Emotional Manipulation</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.65;">Urgency, fear &amp; FOMO override your critical thinking before you act.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:1.1rem 1.25rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.6rem;">Authority Fakery</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.65;">Fake lab tests, fake reviews &amp; fake tracking create an illusion of legitimacy.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:1.1rem 1.25rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.6rem;">Irreversible Payments</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.65;">Payment methods chosen specifically because they can't be disputed, reversed, or traced.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(0,245,255,0.2);border-left:3px solid var(--neon-cyan);padding:1.1rem 1.25rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-cyan);margin-bottom:0.6rem;">Silence Incentives</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.65;">Burned buyers stay quiet — which protects the scammer's next victim cycle.</div>
+          </div>
+        </div>
+
+        <!-- 7 Red Flags -->
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--neon-pink);margin-bottom:0.6rem;">THE 7 RED FLAGS</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;">
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">1 · "Shipping Protection" Fees</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A vendor asks you to add $25–$50 for "shipping insurance" or "customs protection" after the price is agreed. Real businesses price shipping in upfront — never pay surprise add-on fees.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">2 · "Pre-Pay Your Customs Fees"</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">"Your package is held in customs — send another payment to release it." This always follows fake tracking numbers and seizure notices. Treat any mid-shipment fee demand as a confirmed scam. Don't pay.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">3 · Irreversible &amp; Anonymous Payments Only</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A vendor who only accepts Apple Pay, Cash App, Venmo, Zelle, PayPal F&amp;F, or crypto to fresh wallets — with no alternatives — is choosing payment methods that can't be disputed or traced. Combined with other red flags, this is a major warning sign.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">4 · Artificial Urgency &amp; Scarcity</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">"Only 3 kits left." "Sale ends in 10 minutes." Manufactured urgency is designed to shut down your critical thinking. Real vendors don't need to rush you — take 24 hours minimum to verify reputation.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">5 · No Verified Community Presence</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">Screenshots of "happy customers" are trivially faked. What can't be faked is years of consistent, independent community discussion across unconnected groups. If nobody reputable has heard of a vendor, that's a major red flag.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">6 · Fake Lab Tests &amp; Unverifiable COAs</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">A PDF means nothing by itself — purity %, batch numbers, and lab names can all be fabricated. Find the lab, match the document, and confirm the batch independently. A real lab welcomes verification; a fake one has no trail.</div>
+          </div>
+          <div style="background:#0a0616;border:1px solid rgba(255,45,120,0.2);border-left:3px solid var(--neon-pink);padding:0.7rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;color:var(--neon-pink);margin-bottom:0.25rem;">7 · Evasive, Inconsistent Communication</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:#fff;line-height:1.55;">Dodged questions, copy-paste responses, shifting answers, and refusal to give timestamped proof or batch info. Confusion is often intentional — it makes a vendor harder to hold accountable later.</div>
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:#ffe600;margin-bottom:0.6rem;">CHECKLIST — BEFORE YOU SEND A DOLLAR</div>
+        <div style="display:flex;flex-direction:column;gap:0.3rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:1.25rem;">
+          <div>✅ Surprise fees added after the price was agreed? <strong style="color:#ffe600;">Walk away.</strong></div>
+          <div>✅ Asked for more money mid-shipment to "release" your order? <strong style="color:#ffe600;">Confirmed scam.</strong></div>
+          <div>✅ Only accepts irreversible, non-disputable payment with no alternatives? <strong style="color:#ffe600;">High risk.</strong></div>
+          <div>✅ Creating urgency, scarcity, or emotional pressure? <strong style="color:#ffe600;">Give it 24 hours.</strong></div>
+          <div>✅ No independent community discussion of this vendor anywhere? <strong style="color:#ffe600;">Major red flag.</strong></div>
+          <div>✅ Lab untraceable, batch unverifiable, vendor gets defensive about COAs? <strong style="color:#ffe600;">Don't proceed.</strong></div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,220,0.85);line-height:1.6;">
+          If you hit two or more of these red flags at once — stop. The grey market rewards patience, research, and community. Scammers reward desperation, silence, and haste.
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT & PRICING GUIDE (dropdown) -->
+    <div style="border:2px solid #00ff64;border-left:6px solid #00ff64;background:#0a160f;box-shadow:0 0 24px rgba(0,255,100,0.18);margin-bottom:1.75rem;overflow:hidden;">
+      <button onclick="(function(btn){var d=document.getElementById('payment-pricing');var open=d.style.display!=='none';d.style.display=open?'none':'block';btn.querySelector('.pp-arrow').textContent=open?'▼':'▲';})(this)"
+        style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;background:linear-gradient(135deg,rgba(0,255,100,0.12),rgba(0,255,255,0.06));border:none;cursor:pointer;text-align:left;">
+        <span style="display:flex;align-items:center;gap:0.75rem;">
+          <span style="font-size:1.4rem;">💳</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);">Payment & Pricing Guide</span>
+        </span>
+        <span class="pp-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#00ff64;">▼</span>
+      </button>
+
+      <div id="payment-pricing" style="display:none;padding:1.25rem 1.4rem;background:#08050f;border-top:1px solid rgba(0,255,100,0.2);">
+
+        <div style="border:1px solid rgba(0,255,100,0.3);background:rgba(0,255,100,0.05);padding:1rem;margin-bottom:1.25rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:#ffffff;line-height:1.7;">
+          Before sending any payment, run through this quick checklist:
+          <ul style="margin:0.5rem 0 0 1.25rem;padding:0;">
+            <li>Confirm the total.</li>
+            <li>Ask about current payment options.</li>
+            <li>Follow the rep's process.</li>
+          </ul>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.25rem;">
+          <div style="border:1px solid rgba(0,255,255,0.25);border-left:4px solid var(--neon-cyan);background:#0a0616;padding:1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-cyan);margin-bottom:0.5rem;">PRICING & PAYMENT</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;">
+              Clear pricing matters. Before ordering, confirm your total cost, shipping details, and the payment options currently available through your rep. Payment methods can change, so always verify before sending payment.
+            </div>
+          </div>
+
+          <div style="border:1px solid rgba(180,0,255,0.25);border-left:4px solid var(--neon-purple);background:#0a0616;padding:1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-purple);margin-bottom:0.5rem;">WHAT TO EXPECT AFTER PAYMENT</div>
+            <div style="display:flex;flex-direction:column;gap:0.3rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.5;">
+              <div>✅ Order confirmation</div>
+              <div>✅ Product photo confirmation</div>
+              <div>✅ Shipping label photo</div>
+              <div>⏱ Tracking may take 12–24 hours to update</div>
+              <div>⏱ Initial tracking delays can be normal</div>
+            </div>
+          </div>
+
+          <div style="border:1px solid rgba(255,159,28,0.25);border-left:4px solid var(--neon-orange);background:#0a0616;padding:1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-orange);margin-bottom:0.5rem;">CUSTOMER SERVICE</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.6;">
+              If you have questions, reach out through WhatsApp for the fastest communication. Be respectful of time zones, keep your messages clear, and confirm details directly with the rep.
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);border-top:1px solid rgba(0,255,100,0.2);border-bottom:1px solid rgba(0,255,100,0.2);padding:0.85rem 0;margin-bottom:1rem;">
+          CLEAR PROCESS. REAL UPDATES. LESS GUESSWORK.
+        </div>
+
+        <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;color:var(--neon-cyan);">
+          » CHECK WITH YOUR REP «
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 
   <!-- LABEL TEMPLATES — OWN PAGE -->
   <div class="view" id="view-templates">
@@ -7314,7 +7519,7 @@ function mobileNav(view) {
   document.getElementById('hamburger-btn').classList.remove('open');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
-  var viewMap = ['quick-guide','cheatsheets','all-peptides','videos','studies','calculator','supplies','templates','bloodwork','vitamins','workouts','about','terms','team','bonus'];
+  var viewMap = ['quick-guide','cheatsheets','all-peptides','videos','studies','calculator','supplies','vendors','templates','bloodwork','vitamins','workouts','about','terms','team','bonus'];
   var idx = viewMap.indexOf(view);
   if (idx >= 0 && pills[idx]) setActiveNav(pills[idx]);
 }
