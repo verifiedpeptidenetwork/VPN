@@ -312,7 +312,7 @@
   /* Nav pills shown on desktop, hamburger replaces on mobile */
   .nav-pills { display: none !important; }
   @media (min-width: 1024px) {
-    .nav-pills { display: flex !important; }
+    .nav-pills { display: flex !important; flex-wrap: wrap; overflow: visible; row-gap: 0.35rem; }
     .hamburger-btn, .mobile-nav-dropdown { display: none !important; }
   }
 
@@ -3235,11 +3235,7 @@ document.addEventListener('keydown', function(e){
     </div>
     <div style="clear:both;background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(255,45,120,0.06));border:2px solid var(--neon-cyan);box-shadow:0 0 32px rgba(0,245,255,0.18);backdrop-filter:blur(8px);padding:1.2rem 2rem 1.3rem;margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);">
       <div class="hero-eyebrow" style="margin-bottom:0.6rem;">⚡ INNER CIRCLE RESEARCH HUB</div>
-      <h1 class="hero-title" style="margin-bottom:0.75rem;font-family:'Monoton',cursive;letter-spacing:0.04em;line-height:1.5;">
-        <span style="display:inline-block;transform:rotate(-4deg);color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,1),0 0 30px rgba(0,245,255,0.7);">Research Supplies,</span><br>
-        <span style="display:inline-block;transform:rotate(3deg);color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,1),0 0 30px rgba(255,45,120,0.7);">Guides</span><br>
-        <span style="display:inline-block;transform:rotate(-2deg);color:#ff9100;text-shadow:0 0 12px rgba(255,145,0,1),0 0 30px rgba(255,145,0,0.7);">&amp; Tools</span>
-      </h1>
+      <h1 class="hero-title" style="margin-bottom:0.75rem;font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.2;">Research Supplies, Guides &amp; Tools</h1>
       <p class="hero-desc" style="margin-bottom:0;">
         Peptide research guides, study references, calculators, protocols, and educational resources — curated by the VPN inner circle.
       </p>
@@ -3357,9 +3353,9 @@ document.addEventListener('keydown', function(e){
       </div>
     </a>
 
-    <a href="Pdf/VPN_Peptide_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);">
-      <div class="dir-card-title">📥 Full Cheat Sheet Guide (PDF)</div>
-      <div class="dir-card-desc">Download the complete VPN guide</div>
+    <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);">
+      <div class="dir-card-title">📥 Download Your Quick Cheat Sheet</div>
+      <div class="dir-card-desc">VPN Peptide Research Guide (PDF)</div>
     </a>
 
     <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('templates');setActiveNav(document.querySelector('[onclick*=templates]'))">
@@ -3417,11 +3413,11 @@ document.addEventListener('keydown', function(e){
     <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:1.5rem;margin-bottom:1.5rem;align-items:stretch;">
 
       <!-- PDF CHEAT SHEET DOWNLOAD -->
-      <a href="VPN_Peptide_Research_Guide.pdf" download style="display:flex;align-items:center;gap:1rem;padding:1.4rem 1.6rem;background:linear-gradient(135deg,rgba(0,245,255,0.14),rgba(255,45,120,0.08));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.18);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%);">
+      <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.4rem 1.6rem;background:linear-gradient(135deg,rgba(0,245,255,0.14),rgba(255,45,120,0.08));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.18);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%);">
         <span style="font-size:2.4rem;flex-shrink:0;">📄</span>
         <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.12em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">VPN Peptide Cheat Sheet</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.25rem;">Download the full PDF guide ⬇</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.12em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">📥 Download Your Quick Cheat Sheet</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.25rem;">VPN Peptide Research Guide (PDF) ⬇</div>
         </div>
       </a>
 
@@ -5122,8 +5118,8 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <a href="VPN_Peptide_Research_Guide.pdf" download style="display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:2rem;padding:0.9rem 1.4rem;background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.1));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);text-transform:uppercase;text-decoration:none;">
-      📄 Download the VPN Peptide Cheat Sheet (PDF)
+    <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:2rem;padding:0.9rem 1.4rem;background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.1));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);text-transform:uppercase;text-decoration:none;">
+      📥 Download Your Quick Cheat Sheet (PDF)
     </a>
     <div style="border:1px solid rgba(0,245,255,0.2);border-left:5px solid var(--neon-cyan);background:#0d0a1e;padding:1rem 1.4rem;margin-bottom:1.5rem;">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:var(--text-secondary);line-height:1.75;">
