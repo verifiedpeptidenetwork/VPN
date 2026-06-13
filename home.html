@@ -2431,12 +2431,17 @@
   }
   .gate-logo-ring {
     width: 150px; height: 150px; margin: 0 auto 1.25rem;
+    position: relative; z-index: 1;
     border-radius: 50%; border: 3px solid var(--neon-cyan);
     display: flex; align-items: center; justify-content: center;
     font-size: 2.5rem;
     box-shadow: 0 0 15px rgba(0,245,255,0.5), inset 0 0 15px rgba(0,245,255,0.2);
     animation: gate-spin 12s linear infinite;
-    position: relative; z-index: 1;
+  }
+  @media (min-width: 1024px) {
+    .gate-panel { max-width: 560px; padding: 3.5rem 3rem; }
+    .gate-logo-ring { width: 220px; height: 220px; }
+    .gate-brand-title { font-size: 2.6rem; }
   }
   @keyframes gate-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .gate-h1 {
