@@ -633,6 +633,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="goal-card" data-goal="cognitive"><span class="goal-icon">🧠</span>Cognitive</div>
     <div class="goal-card" data-goal="libido"><span class="goal-icon">❤️</span>Libido / Hormones</div>
     <div class="goal-card" data-goal="insulin"><span class="goal-icon">🍬</span>Insulin Resistance</div>
+    <div class="goal-card" data-goal="thyroid"><span class="goal-icon">🦋</span>Thyroid Support</div>
     <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
     <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
   </div>
@@ -768,7 +769,7 @@ document.getElementById('gender-row').addEventListener('click', function(e){
 
 // goal -> peptide keys mapping
 var GOAL_MAP = {
-  fatloss:    ['reta','tirz','aod','mots','tesa'],
+  fatloss:    ['reta','tirz','cagri','aod','mots','tesa'],
   muscle:     ['bpc','tb500','mots','cjcipa'],
   antiaging:  ['nad','ghk','epi','mots'],
   recovery:   ['bpc','tb500','kpv','glow','klow'],
@@ -778,6 +779,7 @@ var GOAL_MAP = {
   skin:       ['ghk','bpc','kpv','glow','klow'],
   cognitive:  ['nad','semax','selank','mots'],
   insulin:    ['mots','ss31','reta'],
+  thyroid:    ['bpc','tb500','cjcipa'],
   inflammation: ['kpv','ghk','bpc'],
   hair:       ['ghk']
 };
@@ -786,6 +788,7 @@ var GOAL_MAP = {
 var PEPTIDES = {
   reta:   { name:'Retatrutide', desc:'A strong fat-loss peptide that affects three different hunger/metabolism pathways at once. Still being studied in late-stage trials — one of the most powerful fat-loss compounds in research. Dosed once a week.', vial:10, water:2, start:1, step:1, weeks:4, freq:1 },
   tirz:   { name:'Tirzepatide', desc:'Reduces appetite and helps the body manage blood sugar and fat. Usually started low and slowly increased over time, once a week.', vial:10, water:2, start:2.5, step:2.5, weeks:4, freq:1 },
+  cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
   aod:    { name:'AOD-9604', desc:'A small piece of growth hormone that has been studied for helping the body burn fat — without the muscle-building effects of full growth hormone. Usually injected daily, 5 days a week, for 8-12 weeks.', vial:5, water:2, start:0.3, step:0.1, weeks:8, freq:5 },
   mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
   bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
