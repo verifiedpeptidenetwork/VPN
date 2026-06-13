@@ -421,6 +421,23 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   letter-spacing: 0.08em;
   white-space: nowrap;
 }
+.add-btn {
+  font-family: var(--orb);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+  background: rgba(170,255,0,0.06);
+  border: 1px solid var(--lime);
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.add-btn:hover {
+  background: rgba(170,255,0,0.18);
+  box-shadow: 0 0 12px rgba(170,255,0,0.4);
+}
 .pep-result-desc {
   font-family: var(--bar);
   font-size: 1.15rem;
@@ -726,9 +743,12 @@ function renderSuggestions(){
     var p = PEPTIDES[key];
     var matches = counts[key];
     return '<div class="pep-result" data-key="' + key + '">'
-      + '<div class="pep-result-top" onclick="togglePep(this)">'
-      +   '<div class="pep-result-name">' + p.name + '</div>'
-      +   '<div class="pep-result-match">MATCHES ' + matches + ' GOAL' + (matches>1?'S':'') + ' ▾</div>'
+      + '<div class="pep-result-top">'
+      +   '<div class="pep-result-name" style="cursor:pointer;" onclick="togglePep(this)">' + p.name + '</div>'
+      +   '<div style="display:flex;align-items:center;gap:10px;">'
+      +     '<div class="pep-result-match" style="cursor:pointer;" onclick="togglePep(this)">MATCHES ' + matches + ' GOAL' + (matches>1?'S':'') + ' ▾</div>'
+      +     '<button class="add-btn" onclick="useForSchedule(\'' + key + '\', event)" title="Add to schedule builder">+ ADD</button>'
+      +   '</div>'
       + '</div>'
       + '<div class="pep-result-desc">' + p.desc + '</div>'
       + '<div class="pep-result-detail">'
@@ -744,9 +764,6 @@ function renderSuggestions(){
 function togglePep(el){
   var card = el.closest('.pep-result');
   card.classList.toggle('open');
-  if (card.classList.contains('open')) {
-    useForSchedule(card.getAttribute('data-key'));
-  }
 }
 
 function useForSchedule(key, ev){
