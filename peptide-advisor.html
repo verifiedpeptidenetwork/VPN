@@ -346,6 +346,9 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   #schedule-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; margin:0 !important; }
   #schedule-box::before { display:none !important; }
   #schedule-actions, #shopping-list-box { display:none !important; }
+  #shopping-list-box button { display:none !important; }
+  body.print-shopping #schedule-list { display:none !important; }
+  body.print-shopping #shopping-list-box { display:block !important; }
   .schedule-row, .pep-result { border-color:#999 !important; background:#fff !important; box-shadow:none !important; }
   .schedule-row { display:flex !important; }
   .schedule-week, .schedule-dose, .response-label { color:#000 !important; text-shadow:none !important; }
@@ -862,6 +865,7 @@ function showShoppingList(){
       + '<div class="shopping-item" style="border-bottom:1px solid var(--border);"><span>Bacteriostatic water for ' + s.name + '</span><span class="qty">~' + waterNeeded + ' mL</span></div>';
   });
   html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">Totals are rough estimates based on the schedule above — buy a little extra to cover priming syringes and spills.</div>';
+  html += '<button class="btn-secondary" style="margin-top:14px;" onclick="downloadShoppingPDF()">⬇ Download Shopping List PDF</button>';
   box.innerHTML = html;
   box.style.display = 'block';
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -869,6 +873,12 @@ function showShoppingList(){
 
 function downloadPDF(){
   window.print();
+}
+
+function downloadShoppingPDF(){
+  document.body.classList.add('print-shopping');
+  window.print();
+  document.body.classList.remove('print-shopping');
 }
 
 function exportPlan(){
