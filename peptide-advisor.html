@@ -657,11 +657,18 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="info-row">
     <div class="info-field">
       <label>💊 How Much Is In The Vial (mg)</label>
-      <input id="b-vial" class="pep-input" type="number" min="0" step="0.5" placeholder="e.g. 10">
+      <input id="b-vial" class="pep-input" type="number" min="0" step="0.5" placeholder="e.g. 10" oninput="onVialWaterInput('vial')">
     </div>
     <div class="info-field">
       <label>💧 How Much Water To Add (mL)</label>
-      <input id="b-water" class="pep-input" type="number" min="0" step="0.1" placeholder="e.g. 2">
+      <input id="b-water" class="pep-input" type="number" min="0" step="0.1" placeholder="e.g. 2" oninput="onVialWaterInput('water')">
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field" style="flex-direction:row;align-items:center;gap:0.6rem;display:flex;">
+      <button type="button" id="bac-lock-btn" class="pep-input" style="cursor:pointer;width:auto;text-align:left;" onclick="toggleBacLock()">🔒 Lock Ratio: ON</button>
+      <span id="bac-ratio-label" style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--cyan);"></span>
     </div>
   </div>
 
@@ -836,6 +843,50 @@ function togglePep(el){
   card.classList.toggle('open');
 }
 
+var bacLocked = true;
+var bacRatio = 5; // mg per mL (10mg / 2mL default)
+
+function updateBacRatioLabel(){
+  var lbl = document.getElementById('bac-ratio-label');
+  if (!bacLocked) { lbl.textContent = ''; return; }
+  lbl.textContent = bacRatio.toFixed(2) + ' mg per mL';
+}
+
+function recalcRatioFromFields(){
+  var vial  = parseFloat(document.getElementById('b-vial').value);
+  var water = parseFloat(document.getElementById('b-water').value);
+  if (vial > 0 && water > 0) bacRatio = vial / water;
+}
+
+function toggleBacLock(){
+  bacLocked = !bacLocked;
+  var btn = document.getElementById('bac-lock-btn');
+  if (bacLocked) {
+    btn.textContent = '🔒 Lock Ratio: ON';
+    recalcRatioFromFields();
+  } else {
+    btn.textContent = '🔓 Lock Ratio: OFF (custom)';
+  }
+  updateBacRatioLabel();
+}
+
+function onVialWaterInput(changed){
+  if (!bacLocked) return;
+  var vialEl  = document.getElementById('b-vial');
+  var waterEl = document.getElementById('b-water');
+  var vial  = parseFloat(vialEl.value);
+  var water = parseFloat(waterEl.value);
+
+  if (changed === 'vial') {
+    if (vial > 0) waterEl.value = parseFloat((vial / bacRatio).toFixed(2));
+  } else {
+    if (water > 0) vialEl.value = parseFloat((water * bacRatio).toFixed(2));
+  }
+  updateBacRatioLabel();
+}
+
+updateBacRatioLabel();
+
 function useForSchedule(key, ev){
   if (ev) {
     ev.stopPropagation();
@@ -851,6 +902,8 @@ function useForSchedule(key, ev){
   document.getElementById('b-weeks').value = p.weeks;
   document.getElementById('b-freq').value  = p.freq;
   document.getElementById('b-time').value  = p.time || 'am';
+  if (p.vial > 0 && p.water > 0) bacRatio = p.vial / p.water;
+  updateBacRatioLabel();
   buildSchedule(true);
 }
 
