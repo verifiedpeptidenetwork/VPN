@@ -3304,10 +3304,29 @@ document.addEventListener('keydown', function(e){
   <!-- HOME VIEW -->
   <div class="view active" id="view-home">
 
-    <!-- PDF CHEAT SHEET DOWNLOAD -->
-    <a href="VPN_Peptide_Research_Guide.pdf" download style="display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:1.5rem;padding:0.9rem 1.4rem;background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.1));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-cyan);text-transform:uppercase;text-decoration:none;">
-      📄 Download the VPN Peptide Cheat Sheet (PDF)
-    </a>
+    <!-- TOP ROW: PDF download + Researchers teaser, angled cards -->
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:1.5rem;margin-bottom:1.5rem;align-items:stretch;">
+
+      <!-- PDF CHEAT SHEET DOWNLOAD -->
+      <a href="VPN_Peptide_Research_Guide.pdf" download style="display:flex;align-items:center;gap:1rem;padding:1.4rem 1.6rem;background:linear-gradient(135deg,rgba(0,245,255,0.14),rgba(255,45,120,0.08));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.18);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%);">
+        <span style="font-size:2.4rem;flex-shrink:0;">📄</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.12em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">VPN Peptide Cheat Sheet</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.25rem;">Download the full PDF guide ⬇</div>
+        </div>
+      </a>
+
+      <!-- Glowrilla teaser -->
+      <div style="position:relative;overflow:hidden;border:2px solid var(--neon-pink);box-shadow:0 0 24px rgba(255,45,120,0.18);clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px);cursor:zoom-in;"
+           onclick="openLightbox('inneranimal.png','We All Have Our Inner Animal · Verified Peptide Network')">
+        <img src="inneranimal.png" alt="We All Have Our Inner Animal" style="width:100%;height:100%;min-height:120px;object-fit:cover;object-position:top center;display:block;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(5,0,18,0.9),transparent 60%);"></div>
+        <div style="position:absolute;bottom:0.75rem;left:1rem;right:1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#fff;text-shadow:0 0 12px rgba(255,45,120,0.7);">🦍 Glowrilla — Lead Scientist</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.82rem;font-weight:600;color:#ffe600;">"No hype. Just hard data."</div>
+        </div>
+      </div>
+    </div>
 
     <!-- PRICING TOOL — TOP -->
     <div style="border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);background:#0d0a1e;box-shadow:0 0 22px rgba(255,45,120,0.15);margin-bottom:1.5rem;">
@@ -3338,33 +3357,13 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
-    <div style="margin-bottom:1.5rem;"></div>
-
-    <div id="home-researcher-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:1.5rem;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);box-shadow:0 0 28px rgba(255,45,120,0.2);overflow:visible;position:relative;z-index:1;">
-
-      <!-- Left: Glowrilla image -->
-      <div style="display:flex;flex-direction:column;background:var(--card-bg);overflow:hidden;">
-        <div style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(255,45,120,0.06));padding:0.4rem 1rem;border-bottom:1px solid rgba(0,245,255,0.15);">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST — CLICK TO ZOOM</span>
-        </div>
-        <div style="cursor:zoom-in;flex:1;" onclick="openLightbox('inneranimal.png','We All Have Our Inner Animal · Verified Peptide Network')">
-          <img src="inneranimal.png" alt="We All Have Our Inner Animal"
-               style="width:100%;height:100%;min-height:300px;object-fit:cover;object-position:top center;display:block;">
-        </div>
-      </div>
-
-      <!-- Right: Meet The Researchers info -->
-      <div style="background:linear-gradient(135deg,#0d0a1e,#080616);border-left:1px solid rgba(255,45,120,0.3);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem 1.5rem;text-align:center;gap:1rem;">
-        <div style="font-size:2.5rem;">🧬</div>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.08em;color:var(--neon-cyan);line-height:1;">🦍 Glowrilla</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;color:var(--neon-pink);text-transform:uppercase;margin-top:0.2rem;">Lead Scientist · GHK-Cu &amp; Peptide Synthesis</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.9rem;font-weight:600;color:#ffe600;margin-top:0.3rem;">"No hype. Just hard data."</div>
-        </div>
-        <div style="width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,120,0.4),transparent);margin:0.25rem 0;"></div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,0.6);line-height:1.1;">Meet The Researchers</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:var(--text-secondary);line-height:1.6;">The VPN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;">
+    <!-- MEET THE RESEARCHERS — angled banner -->
+    <div style="position:relative;display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.6rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#0d0a1e,#160a24);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);clip-path:polygon(0 0,calc(100% - 28px) 0,100% 100%,28px 100%);">
+      <div style="font-size:2.5rem;flex-shrink:0;">🧬</div>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(0,245,255,0.6);line-height:1.1;">Meet The Researchers</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:var(--text-secondary);line-height:1.5;margin-top:0.2rem;">The VPN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem;">
           <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦍 Glowrilla</span>
           <span style="color:rgba(255,255,255,0.2);">·</span>
           <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦁 Leonidas</span>
@@ -3373,25 +3372,17 @@ document.addEventListener('keydown', function(e){
           <span style="color:rgba(255,255,255,0.2);">·</span>
           <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🐯 Tiger &amp; more</span>
         </div>
-        <button onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
-          style="width:100%;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.15em;padding:0.75rem 1rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.08);cursor:pointer;transition:all 0.2s;text-transform:uppercase;margin-top:0.25rem;"
-          onmouseover="this.style.background='rgba(255,45,120,0.22)';this.style.boxShadow='0 0 20px rgba(255,45,120,0.5)'"
-          onmouseout="this.style.background='rgba(255,45,120,0.08)';this.style.boxShadow='none'">
-          VIEW THE TEAM →
-        </button>
       </div>
-
-    </div>
-
-    <!-- COPYRIGHT — home researcher section -->
-    <div style="text-align:center;padding:0.75rem 1rem;margin-bottom:1.5rem;background:#000;border:1px solid rgba(255,255,255,0.07);">
-      <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">
-        © Born in Noor Labs · May 20, 2026 · Verified Peptides Network (VPN) · Created by Said Kolenovic · All content for educational &amp; research purposes only · Unauthorized reproduction prohibited
-      </span>
+      <button onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
+        style="flex-shrink:0;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.75rem 1.4rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.08);cursor:pointer;transition:all 0.2s;text-transform:uppercase;white-space:nowrap;"
+        onmouseover="this.style.background='rgba(255,45,120,0.22)';this.style.boxShadow='0 0 20px rgba(255,45,120,0.5)'"
+        onmouseout="this.style.background='rgba(255,45,120,0.08)';this.style.boxShadow='none'">
+        VIEW TEAM →
+      </button>
     </div>
 
     <!-- COMMUNITY + CONTACT -->
-    <div style="background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);margin-bottom:2rem;overflow:hidden;">
+    <div style="position:relative;background:#0d0a1e;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.15);margin-bottom:1.5rem;overflow:hidden;clip-path:polygon(0 0,100% 0,100% 100%,28px 100%,0 calc(100% - 28px));">
       <div style="display:flex;gap:1.25rem;align-items:flex-start;padding:1.25rem 1.5rem;">
         <span style="font-size:1.75rem;flex-shrink:0;">🔬</span>
         <div style="flex:1;">
@@ -3413,7 +3404,20 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
 
+    <!-- COPYRIGHT -->
+    <div style="text-align:center;padding:0.75rem 1rem;margin-bottom:2rem;background:#000;border:1px solid rgba(255,255,255,0.07);">
+      <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">
+        © Born in Noor Labs · May 20, 2026 · Verified Peptides Network (VPN) · Created by Said Kolenovic · All content for educational &amp; research purposes only · Unauthorized reproduction prohibited
+      </span>
+    </div>
+
   </div>
+
+  <style>
+    @media (max-width: 768px) {
+      #view-home > div[style*="grid-template-columns:1.3fr 1fr"] { grid-template-columns: 1fr !important; }
+    }
+  </style>
 
   <!-- ALL PEPTIDES -->
   <div class="view" id="view-all-peptides">
