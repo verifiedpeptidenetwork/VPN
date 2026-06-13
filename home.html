@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VPN Verified Peptides Network | Research Guides</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Rajdhani:wght@500;600;700&amp;family=Share+Tech+Mono&amp;family=Permanent+Marker&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Rajdhani:wght@500;600;700&amp;family=Share+Tech+Mono&amp;family=Permanent+Marker&amp;family=Bangers&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --neon-pink: #ff2d78;
@@ -2341,36 +2341,74 @@
 <style>
   #gate-overlay {
     position: fixed; inset: 0; z-index: 99999;
-    background-color: #1a0f14;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.55) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.4) 3px, transparent 3px),
-      linear-gradient(rgba(40,15,25,0.9) 1px, transparent 1px);
-    background-size: 60px 30px, 60px 30px, 60px 30px;
-    background-position: 0 0, 0 0, 0 15px;
-    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, #1a0a2e 0%, #3a1050 35%, #6e1a5e 55%, #a8285a 70%, #ff6b3d 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 1.5rem;
+    overflow: hidden;
   }
+  /* Setting sun */
   #gate-overlay::before {
     content: '';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(circle at 15% 25%, rgba(255,45,120,0.35), transparent 35%),
-      radial-gradient(circle at 85% 75%, rgba(0,245,255,0.3), transparent 35%),
-      radial-gradient(circle at 75% 15%, rgba(180,0,255,0.25), transparent 35%),
-      radial-gradient(circle at 25% 85%, rgba(255,230,0,0.15), transparent 30%);
+    position: absolute;
+    left: 50%; top: 58%;
+    width: min(70vw, 520px); height: min(70vw, 520px);
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe600 0%, #ff8a00 40%, #ff2d78 70%, transparent 75%);
+    box-shadow: 0 0 120px rgba(255,107,0,0.6), 0 0 240px rgba(255,45,120,0.4);
+    opacity: 0.85;
+  }
+  /* Synthwave grid floor */
+  #gate-overlay::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0; height: 55%;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.5) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(0,245,255,0.5) 1.5px, transparent 1.5px);
+    background-size: 60px 40px;
+    transform: perspective(300px) rotateX(60deg);
+    transform-origin: bottom;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     pointer-events: none;
+  }
+  .gate-brand {
+    position: relative; z-index: 1;
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+  .gate-brand-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.3em;
+    background: linear-gradient(135deg, var(--neon-cyan), #fff, var(--neon-pink));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255,255,255,0.4);
+  }
+  .gate-brand-sub {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem;
+    letter-spacing: 0.35em; color: rgba(255,255,255,0.55);
+    margin-top: 0.2rem;
   }
   .gate-panel {
     position: relative; z-index: 1;
-    width: 100%; max-width: 420px;
-    background: var(--card-bg);
+    width: 100%; max-width: 460px;
+    background: rgba(8,4,20,0.78);
     border: 2px solid var(--neon-cyan);
-    border-radius: 14px;
+    border-radius: 18px;
     padding: 2.5rem 2rem;
     text-align: center;
+    backdrop-filter: blur(14px);
     box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(255,45,120,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6);
     animation: gate-pulse 3s ease-in-out infinite;
+    overflow: hidden;
+  }
+  .gate-panel::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    border-radius: 18px;
   }
   @keyframes gate-pulse {
     0%, 100% { box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(255,45,120,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6); }
@@ -2383,20 +2421,23 @@
     font-size: 2.5rem;
     box-shadow: 0 0 15px rgba(0,245,255,0.5), inset 0 0 15px rgba(0,245,255,0.2);
     animation: gate-spin 12s linear infinite;
+    position: relative; z-index: 1;
   }
   @keyframes gate-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .gate-h1 {
+    position: relative; z-index: 1;
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.3em; font-size: 1.5rem; color: var(--neon-cyan);
     text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0,245,255,0.4);
     margin-bottom: 0.4rem;
   }
   .gate-sub {
+    position: relative; z-index: 1;
     font-family: 'Share Tech Mono', monospace; font-size: 0.8rem;
     color: var(--neon-pink); letter-spacing: 0.15em;
     text-shadow: 0 0 8px var(--neon-pink); margin-bottom: 1.75rem;
   }
-  .gate-pin-fields { display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .gate-pin-fields { position: relative; z-index: 1; display: flex; justify-content: center; gap: 0.6rem; margin-bottom: 1.5rem; }
   .gate-pin-fields input {
     width: 48px; height: 58px; text-align: center; font-size: 1.6rem;
     font-family: 'Share Tech Mono', monospace; color: var(--text-primary);
@@ -2408,6 +2449,7 @@
   .gate-pin-fields input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0,245,255,0.5); }
   .gate-pin-fields input.filled { border-color: var(--neon-pink); box-shadow: 0 0 12px rgba(255,45,120,0.4); }
   .gate-enter-btn {
+    position: relative; z-index: 1;
     width: 100%; padding: 0.95rem;
     font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.25em;
     color: var(--dark-bg); background: var(--neon-cyan);
@@ -2418,6 +2460,7 @@
   .gate-enter-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,245,255,0.8); }
   .gate-enter-btn:active { transform: translateY(0); }
   .gate-error-msg {
+    position: relative; z-index: 1;
     margin-top: 1rem; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem;
     color: var(--neon-orange); letter-spacing: 0.1em; min-height: 1.2em;
     text-shadow: 0 0 6px var(--neon-orange); opacity: 0; transition: opacity 0.2s;
@@ -2430,10 +2473,12 @@
     40%, 80% { transform: translateX(8px); }
   }
   .gate-footer-note {
+    position: relative; z-index: 1;
     margin-top: 1.75rem; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
     letter-spacing: 0.15em; color: rgba(232,224,240,0.4);
   }
   .gate-skool-note {
+    position: relative; z-index: 1;
     margin-top: 1.25rem; font-family: 'Rajdhani', sans-serif; font-weight: 700;
     font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-secondary);
   }
@@ -2446,8 +2491,23 @@
     transition: transform 0.1s, box-shadow 0.2s;
   }
   .gate-skool-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,230,0,0.7); }
+  .gate-brand { position: relative; z-index: 1; text-align: center; margin-bottom: 1.25rem; }
+  .gate-brand-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.25em;
+    background: linear-gradient(135deg, var(--neon-cyan), #fff, var(--neon-pink));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255,255,255,0.4);
+  }
+  .gate-brand-sub {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem;
+    letter-spacing: 0.35em; color: rgba(255,255,255,0.55); margin-top: 0.2rem;
+  }
 </style>
 <div id="gate-overlay">
+  <div class="gate-brand">
+    <div class="gate-brand-title">VERIFIED PEPTIDES NETWORK</div>
+    <div class="gate-brand-sub">LAB TESTED · VERIFIED · AUTHENTIC</div>
+  </div>
   <div class="gate-panel">
     <div class="gate-logo-ring"><img src="gorilla-icon.png" alt="VPN" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
     <h1 class="gate-h1">VPN ACCESS</h1>
