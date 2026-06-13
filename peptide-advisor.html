@@ -365,6 +365,15 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .shopping-item:last-child { border-bottom:none; }
 .shopping-item span.qty { color: var(--lime); font-family: var(--orb); white-space:nowrap; }
 
+.pdf-tip {
+  font-family: var(--bar);
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.pdf-tip strong { color: var(--cyan); }
+
 @media print {
   body::after { display:none !important; }
   body { background:#fff !important; color:#000 !important; }
@@ -907,7 +916,11 @@ function showShoppingList(){
       + '<div class="shopping-item" style="border-bottom:1px solid var(--border);"><span>Bacteriostatic water for ' + s.name + '</span><span class="qty">~' + waterNeeded + ' mL</span></div>';
   });
   html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">Totals are rough estimates based on the schedule above — buy a little extra to cover priming syringes and spills.</div>';
-  html += '<button class="btn-secondary" style="margin-top:14px;" onclick="downloadShoppingPDF()">⬇ Download Shopping List PDF</button>';
+  html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">'
+        + '<button class="btn-secondary" onclick="downloadShoppingPDF()">⬇ Download Shopping List PDF</button>'
+        + '<button class="btn-secondary" onclick="copyShoppingText()">📋 Copy as Text</button>'
+        + '</div>'
+        + '<div class="pdf-tip">Tip: when the print screen opens, choose <strong>"Save as PDF"</strong> as the printer/destination. If your device doesn\'t offer that, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>';
   box.innerHTML = html;
   box.style.display = 'block';
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -921,6 +934,63 @@ function downloadShoppingPDF(){
   document.body.classList.add('print-shopping');
   window.print();
   document.body.classList.remove('print-shopping');
+}
+
+function copyToClipboard(text){
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('Copied! Now paste it into Notes (phone) or Notepad (desktop) and save.');
+    }).catch(function(){ fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); alert('Copied! Now paste it into Notes (phone) or Notepad (desktop) and save.'); }
+  catch(err){ alert('Could not copy automatically — please select and copy the text manually.'); }
+  document.body.removeChild(ta);
+}
+
+function copyScheduleText(){
+  if (SCHEDULES.length === 0) return;
+  var lines = ['YOUR DOSE SCHEDULE', ''];
+  SCHEDULES.forEach(function(s){
+    var concentration = s.vial / s.water;
+    lines.push(s.name + ' — ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + s.freq + 'x per week');
+    s.rows.forEach(function(r, i){
+      var weekStart = i*r.weeks + 1;
+      var weekEnd = weekStart + r.weeks - 1;
+      var drawML = r.dose / concentration;
+      var units = drawML * 100;
+      lines.push('  Weeks ' + weekStart + (r.weeks>1 ? ('-'+weekEnd) : '') + ': ' + r.dose.toFixed(2) + ' mg per dose (' + drawML.toFixed(3) + ' mL = ' + units.toFixed(1) + ' units on a 100u syringe), ' + s.freq + 'x/week');
+    });
+    lines.push('  This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + s.name + '. Educational reference only.');
+    lines.push('');
+  });
+  copyToClipboard(lines.join('\n'));
+}
+
+function copyShoppingText(){
+  if (SCHEDULES.length === 0) return;
+  var lines = ['SHOPPING LIST', ''];
+  SCHEDULES.forEach(function(s){
+    var totalMg = 0;
+    s.rows.forEach(function(r){ totalMg += r.dose * r.weeks * s.freq; });
+    var vialsNeeded = Math.ceil(totalMg / s.vial);
+    var waterNeeded = vialsNeeded * s.water;
+    lines.push(s.name + ' — ' + s.vial + 'mg vials (need ~' + totalMg.toFixed(1) + 'mg total): ' + vialsNeeded + ' vial' + (vialsNeeded>1?'s':''));
+    lines.push('  Bacteriostatic water for ' + s.name + ': ~' + waterNeeded + ' mL');
+  });
+  lines.push('');
+  lines.push('Totals are rough estimates — buy a little extra to cover priming syringes and spills.');
+  copyToClipboard(lines.join('\n'));
 }
 
 function exportPlan(){
