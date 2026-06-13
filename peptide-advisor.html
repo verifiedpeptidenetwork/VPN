@@ -837,6 +837,13 @@ document.getElementById('goals-grid').addEventListener('click', function(e){
   else { SELECTED_GOALS.add(g); card.classList.add('selected'); }
 });
 
+var GOAL_LABELS = {
+  fatloss:'Fat Loss', muscle:'Muscle Growth', antiaging:'Anti-Aging', recovery:'Recovery',
+  sleep:'Sleep', gut:'Gut Health', joints:'Joints', skin:'Skin & Hair', cognitive:'Cognitive',
+  libido:'Libido / Hormones', insulin:'Insulin Resistance', thyroid:'Thyroid Support',
+  inflammation:'Inflammation', hair:'Hair'
+};
+
 function renderSuggestions(){
   var box = document.getElementById('suggestions-box');
   var list = document.getElementById('suggestions-list');
@@ -846,10 +853,17 @@ function renderSuggestions(){
     return;
   }
   var counts = {};
+  var matchedGoals = {};
   SELECTED_GOALS.forEach(function(g){
-    (GOAL_MAP[g]||[]).forEach(function(k){ counts[k] = (counts[k]||0) + 1; });
+    (GOAL_MAP[g]||[]).forEach(function(k){
+      counts[k] = (counts[k]||0) + 1;
+      (matchedGoals[k] = matchedGoals[k] || []).push(g);
+    });
     if (SELECTED_GENDER && GENDER_GOAL_MAP[SELECTED_GENDER] && GENDER_GOAL_MAP[SELECTED_GENDER][g]){
-      GENDER_GOAL_MAP[SELECTED_GENDER][g].forEach(function(k){ counts[k] = (counts[k]||0) + 1; });
+      GENDER_GOAL_MAP[SELECTED_GENDER][g].forEach(function(k){
+        counts[k] = (counts[k]||0) + 1;
+        (matchedGoals[k] = matchedGoals[k] || []).push(g);
+      });
     }
   });
   // filter out peptides not applicable to selected gender
@@ -871,6 +885,7 @@ function renderSuggestions(){
       +   '</div>'
       + '</div>'
       + '<div class="pep-result-desc">' + p.desc + '</div>'
+      + '<div class="pep-result-desc" style="color:var(--cyan);"><strong>Why we suggest this:</strong> Matches your selected goal' + (matchedGoals[key].length>1?'s':'') + ' — ' + matchedGoals[key].map(function(g){ return GOAL_LABELS[g] || g; }).join(', ') + '. As always, do your own independent research and verify with a licensed doctor before using.</div>'
       + '<div class="pep-result-detail">'
       +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
       +   '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
@@ -1000,7 +1015,7 @@ function buildSchedule(silent){
       + '<div class="schedule-week">WEEKS ' + weekStart + (r.weeks>1 ? ('–'+weekEnd) : '') + '</div>'
       + '<div style="flex:1;">'
       +   '<div class="schedule-dose">' + r.dose.toFixed(2) + ' mg per dose</div>'
-      +   '<div class="schedule-detail">' + r.ml.toFixed(3) + ' mL = ' + r.units.toFixed(1) + ' units on a 100u syringe · ' + freq + 'x/week</div>'
+      +   '<div class="schedule-detail">' + r.ml.toFixed(3) + ' mL = <strong style="font-size:1.35em;color:var(--cyan);">' + r.units.toFixed(1) + ' UNITS</strong> on a 100u syringe · ' + freq + 'x/week</div>'
       + '</div></div>';
   });
   html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + name + '. Educational reference only.</div>';
