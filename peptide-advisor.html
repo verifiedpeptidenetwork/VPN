@@ -339,15 +339,17 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .shopping-item span.qty { color: var(--lime); font-family: var(--orb); white-space:nowrap; }
 
 @media print {
-  header, .toolbar-row, .goals-grid, .gender-row, #gender-row,
-  .btn-primary, .btn-secondary, .back-link, .rainbow-strip,
-  .disclaimer ~ .gender-row, .section-heading:first-of-type,
-  #goals-grid, .response-label span[onclick] { display:none !important; }
+  body * { display:none !important; }
   body::after { display:none !important; }
   body { background:#fff !important; color:#000 !important; }
-  .response-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; }
+  #schedule-box, #schedule-box * { display:revert !important; }
+  #schedule-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; margin:0 !important; }
+  #schedule-actions, #schedule-actions * { display:none !important; }
   .schedule-row, .pep-result { border-color:#999 !important; background:#fff !important; box-shadow:none !important; }
-  .schedule-week, .schedule-dose, .pep-result-name, .response-label, .pep-result-match { color:#000 !important; text-shadow:none !important; }
+  .schedule-row { display:flex !important; }
+  .schedule-week, .schedule-dose, .response-label { color:#000 !important; text-shadow:none !important; }
+  .response-label span[onclick] { display:none !important; }
+  .response-label .pulse-dot { display:none !important; }
   .schedule-detail, .pep-result-desc, .shopping-item { color:#333 !important; }
   .disclaimer { color:#000 !important; background:#fff !important; }
 }
