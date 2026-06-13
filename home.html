@@ -39,11 +39,26 @@
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 17px;
-    background: var(--dark-bg);
+    background: url('GLOWRILLAWALLPAPER.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     min-width: 100vw;
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Dark scrim behind content so text stays readable over the wallpaper */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(5,0,18,0.72);
+    pointer-events: none;
+    z-index: 0;
   }
 
   /* Global: replace Share Tech Mono with bold Rajdhani everywhere — CSS classes + inline styles */
@@ -2291,11 +2306,16 @@
     position: relative; z-index: 1;
     width: 100%; max-width: 420px;
     background: var(--card-bg);
-    border: 2px solid var(--card-border);
+    border: 2px solid var(--neon-cyan);
     border-radius: 14px;
     padding: 2.5rem 2rem;
     text-align: center;
-    box-shadow: 0 0 0 1px rgba(0,245,255,0.08), 0 0 40px rgba(255,45,120,0.15), 0 20px 60px rgba(0,0,0,0.6);
+    box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(255,45,120,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6);
+    animation: gate-pulse 3s ease-in-out infinite;
+  }
+  @keyframes gate-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(255,45,120,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6); }
+    50% { box-shadow: 0 0 8px rgba(255,200,0,1), 0 0 100px rgba(255,107,0,0.85), 0 0 220px rgba(255,45,120,0.65), 0 0 360px rgba(180,0,255,0.45), 0 20px 60px rgba(0,0,0,0.6); }
   }
   .gate-logo-ring {
     width: 90px; height: 90px; margin: 0 auto 1.25rem;
