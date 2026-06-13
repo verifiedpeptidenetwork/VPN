@@ -1584,13 +1584,49 @@
   .qbtn.qactive { border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.1); }
 
   .adv-goal-btn {
-    font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;
-    padding:0.6rem 1rem;background:#0d0a1e;
-    border:2px solid rgba(255,255,255,0.2);color:#fff;
-    cursor:pointer;transition:all 0.15s;
+    font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.08em;
+    padding:1rem 1.1rem;background:rgba(0,0,0,0.5);
+    border:1px solid rgba(255,255,255,0.12);color:#fff;
+    cursor:pointer;transition:all 0.2s;
+    display:flex;align-items:center;gap:0.65rem;
+    text-transform:uppercase;user-select:none;
   }
-  .adv-goal-btn:hover { border-color:var(--neon-cyan);color:var(--neon-cyan); }
-  .adv-goal-btn.active { border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.12);box-shadow:0 0 14px rgba(255,45,120,0.35); }
+  .adv-goal-btn:hover { border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.07);box-shadow:0 0 16px rgba(255,45,120,0.2); }
+  .adv-goal-btn.active {
+    border-color:var(--neon-pink);color:var(--neon-pink);background:rgba(255,45,120,0.12);
+    box-shadow:0 0 20px rgba(255,45,120,0.3), inset 0 0 20px rgba(255,45,120,0.05);
+    text-shadow:0 0 10px rgba(255,45,120,0.6);
+  }
+  .adv-goal-icon { font-size:1.3rem;flex-shrink:0; }
+
+  .adv-response-box {
+    background: rgba(0,0,0,0.75);
+    border: 1px solid rgba(0,245,255,0.25);
+    padding: 1.5rem;
+    margin-top: 1.25rem;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0,245,255,0.06), inset 0 0 40px rgba(0,0,0,0.4);
+  }
+  .adv-response-box::before {
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-pink), transparent);
+  }
+  .adv-response-label {
+    font-family:'Share Tech Mono',monospace;
+    font-size:0.7rem;color:#00ff64;letter-spacing:0.14em;
+    margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;
+    text-shadow:0 0 10px #00ff64;text-transform:uppercase;
+  }
+  .adv-pulse-dot {
+    width:8px;height:8px;border-radius:50%;
+    background:#00ff64;box-shadow:0 0 10px #00ff64;
+    animation:adv-pulse 1.4s infinite;
+  }
+  @keyframes adv-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
+
+  @media (max-width:560px) {
+    #adv-goals { grid-template-columns: repeat(2,1fr) !important; }
+  }
 
   /* ── AI EXTRACTION STYLES ─────────────────────────────────────────────── */
   .ai-panel {
@@ -4719,16 +4755,16 @@ document.addEventListener('keydown', function(e){
     <div style="max-width:600px;margin:0 auto 2rem;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:var(--neon-cyan);margin-bottom:0.75rem;">1️⃣ What are your goals?</div>
       <div id="adv-goals" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.5rem;">
-        <button class="adv-goal-btn" data-goal="fatloss" onclick="toggleGoal(this)">🔥 Fat Loss</button>
-        <button class="adv-goal-btn" data-goal="muscle" onclick="toggleGoal(this)">💪 Muscle / Recovery</button>
-        <button class="adv-goal-btn" data-goal="antiaging" onclick="toggleGoal(this)">🧬 Anti-Aging / Longevity</button>
-        <button class="adv-goal-btn" data-goal="skin" onclick="toggleGoal(this)">✨ Skin / Hair</button>
-        <button class="adv-goal-btn" data-goal="gut" onclick="toggleGoal(this)">🩹 Healing / Gut</button>
-        <button class="adv-goal-btn" data-goal="sleep" onclick="toggleGoal(this)">😴 Sleep / GH Boost</button>
-        <button class="adv-goal-btn" data-goal="cognitive" onclick="toggleGoal(this)">🧠 Cognitive / Energy</button>
+        <button class="adv-goal-btn" data-goal="fatloss" onclick="toggleGoal(this)"><span class="adv-goal-icon">🔥</span>Fat Loss</button>
+        <button class="adv-goal-btn" data-goal="muscle" onclick="toggleGoal(this)"><span class="adv-goal-icon">💪</span>Muscle / Recovery</button>
+        <button class="adv-goal-btn" data-goal="antiaging" onclick="toggleGoal(this)"><span class="adv-goal-icon">🧬</span>Anti-Aging</button>
+        <button class="adv-goal-btn" data-goal="skin" onclick="toggleGoal(this)"><span class="adv-goal-icon">✨</span>Skin / Hair</button>
+        <button class="adv-goal-btn" data-goal="gut" onclick="toggleGoal(this)"><span class="adv-goal-icon">🩹</span>Healing / Gut</button>
+        <button class="adv-goal-btn" data-goal="sleep" onclick="toggleGoal(this)"><span class="adv-goal-icon">😴</span>Sleep / GH Boost</button>
+        <button class="adv-goal-btn" data-goal="cognitive" onclick="toggleGoal(this)"><span class="adv-goal-icon">🧠</span>Cognitive / Energy</button>
       </div>
-      <div id="adv-suggestions" style="margin-top:1.25rem;display:none;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-pink);margin-bottom:0.6rem;">Suggested Peptides For Your Goals:</div>
+      <div id="adv-suggestions" class="adv-response-box" style="display:none;">
+        <div class="adv-response-label"><span class="adv-pulse-dot"></span>Suggested Peptides For Your Goals</div>
         <div id="adv-suggestions-list" style="display:flex;flex-direction:column;gap:0.6rem;"></div>
       </div>
     </div>
@@ -4790,7 +4826,7 @@ document.addEventListener('keydown', function(e){
         GENERATE SCHEDULE →
       </button>
 
-      <div id="adv-schedule" style="display:none;"></div>
+      <div id="adv-schedule" class="adv-response-box" style="display:none;"></div>
     </div>
   </div>
 
@@ -4978,7 +5014,7 @@ document.addEventListener('keydown', function(e){
       dose = dose + step;
       if (step === 0) break; // flat dosing, no titration
     }
-    var html = '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:var(--neon-pink);margin-bottom:0.75rem;">' + name + ' — Suggested Schedule</div>';
+    var html = '<div class="adv-response-label"><span class="adv-pulse-dot"></span>' + name + ' — Suggested Schedule</div>';
     html += '<div style="font-family:\'Rajdhani\',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week</div>';
     rows.forEach(function(r, i){
       var weekStart = i*r.weeks + 1;
