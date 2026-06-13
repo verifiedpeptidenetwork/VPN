@@ -2272,7 +2272,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
+<script>
+  try {
+    if (sessionStorage.getItem('vpn_access') !== 'granted') {
+      window.location.replace('access.html');
+    }
+  } catch(e) {}
+</script>
 
 <!-- TERMS ACCEPTANCE MODAL (first visit) -->
 <div id="terms-gate" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(2,1,10,0.97);align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;">
