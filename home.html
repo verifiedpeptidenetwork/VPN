@@ -355,23 +355,26 @@
 
   .nav-dropdown-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     gap: 4px;
   }
   @media (max-width: 640px) {
-    .nav-dropdown-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-dropdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .mobile-nav-dropdown { width: calc(100vw - 2rem); }
   }
 
   .mobile-nav-dropdown .nav-pill {
     width: 100%;
+    min-width: 0;
     text-align: left;
     padding: 0.7rem 0.9rem;
     font-size: 0.9rem;
     clip-path: none;
     border-radius: 10px;
     background: rgba(255,255,255,0.02);
+    white-space: normal;
+    overflow-wrap: break-word;
     transition: background 0.15s, transform 0.15s, padding-left 0.15s;
   }
   .mobile-nav-dropdown .nav-pill:hover,
