@@ -636,6 +636,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="goal-card" data-goal="thyroid"><span class="goal-icon">🦋</span>Thyroid Support</div>
     <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
     <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
+    <div class="goal-card" data-goal="energy"><span class="goal-icon">⚡</span>Energy</div>
   </div>
 
   <button class="btn-primary" onclick="renderSuggestions()">RUN ANALYSIS →</button>
@@ -792,7 +793,8 @@ var GOAL_MAP = {
   insulin:    ['mots','ss31','reta'],
   thyroid:    ['bpc','tb500','cjcipa'],
   inflammation: ['kpv','ghk','bpc'],
-  hair:       ['ghk']
+  hair:       ['ghk'],
+  energy:     ['nad','mots','ss31']
 };
 
 // peptide info + default protocol values
@@ -841,7 +843,93 @@ var GOAL_LABELS = {
   fatloss:'Fat Loss', muscle:'Muscle Growth', antiaging:'Anti-Aging', recovery:'Recovery',
   sleep:'Sleep', gut:'Gut Health', joints:'Joints', skin:'Skin & Hair', cognitive:'Cognitive',
   libido:'Libido / Hormones', insulin:'Insulin Resistance', thyroid:'Thyroid Support',
-  inflammation:'Inflammation', hair:'Hair'
+  inflammation:'Inflammation', hair:'Hair', energy:'Energy'
+};
+
+// short goal-specific "why this helps" blurbs, keyed by goal -> peptide key
+var GOAL_REASONS = {
+  fatloss: {
+    reta:  'A triple-pathway peptide studied for major reductions in appetite and body fat — one of the strongest fat-loss compounds in research.',
+    tirz:  'Reduces appetite and improves blood sugar control, helping create the calorie deficit needed for fat loss.',
+    cagri: 'An amylin-analog studied for reducing food intake and appetite, often stacked with GLP-1s for enhanced fat loss.',
+    aod:   'A GH fragment studied specifically for fat-burning without the muscle-building side effects of full growth hormone.',
+    mots:  'Boosts metabolism and mitochondrial efficiency, helping the body burn through fat stores more effectively.',
+    tesa:  'Increases natural growth hormone release, which is studied for reducing visceral (belly) fat specifically.'
+  },
+  muscle: {
+    bpc:    'Supports recovery from training-related tendon and muscle strain so you can train harder and more consistently.',
+    tb500:  'Studied for muscle tissue repair and flexibility, helping reduce downtime between training sessions.',
+    mots:   'Studied for improving exercise performance and energy output, supporting harder training for muscle growth.',
+    cjcipa: 'Boosts natural growth hormone release, studied for supporting lean muscle growth and body composition.'
+  },
+  antiaging: {
+    nad: 'Replenishes a key cellular energy molecule that declines with age — studied for cellular repair and longevity.',
+    ghk: 'A copper peptide studied for boosting collagen production and reversing signs of skin aging.',
+    epi: 'Studied for supporting telomere health and cellular longevity at a deep, foundational level.',
+    mots: 'Supports mitochondrial function, which is central to healthy aging and cellular energy production.'
+  },
+  recovery: {
+    bpc:   'Known as the go-to "healing" peptide — studied for repairing tendons, ligaments, and soft tissue injuries.',
+    tb500: 'Studied for speeding up tissue repair and reducing inflammation after injury.',
+    kpv:   'An anti-inflammatory peptide that helps calm inflammation that can slow down recovery.',
+    glow:  'A combined stack of GHK-Cu, BPC-157, and TB-500 — studied together for skin healing and tissue recovery.',
+    klow:  'A bigger stack adding KPV to GLOW — targets recovery alongside gut and skin healing.'
+  },
+  sleep: {
+    cjcipa: 'Often dosed at night — studied for improving deep sleep quality alongside growth hormone release.',
+    tesa:   'Raises natural growth hormone, which plays a role in deep sleep cycles.',
+    dsip:   'Short for "Delta Sleep-Inducing Peptide" — studied specifically for helping you fall asleep and stay asleep.'
+  },
+  gut: {
+    bpc:   'Originally studied for healing the gut lining — a top choice for digestive and gut-health support.',
+    kpv:   'Studied for calming gut inflammation, useful for conditions like leaky gut or IBS-type symptoms.',
+    tb500: 'Supports tissue repair throughout the body, including the gut lining.',
+    klow:  'Combines KPV with healing peptides BPC-157 and TB-500, aimed specifically at gut health plus repair.'
+  },
+  joints: {
+    bpc:   'Studied for repairing ligaments and tendons — commonly used for joint pain and injury recovery.',
+    tb500: 'Studied for improving flexibility and healing connective tissue around joints.',
+    ghk:   'Supports collagen production, which is a key building block for healthy joint tissue.'
+  },
+  skin: {
+    ghk:  'A copper peptide studied for boosting collagen and elastin — directly supports skin firmness and texture.',
+    bpc:  'Supports tissue repair, which can help with skin healing and overall skin health.',
+    kpv:  'Anti-inflammatory effects studied for calming skin conditions and irritation.',
+    glow: 'A stack combining GHK-Cu, BPC-157, and TB-500 — built specifically for skin and healing support.',
+    klow: 'Adds KPV to the GLOW stack for skin support alongside gut and tissue healing.'
+  },
+  cognitive: {
+    nad:    'Supports brain cell energy production — studied for mental clarity and protecting against cognitive decline.',
+    semax:  'A brain-focused peptide studied for improving focus, memory, and mental performance.',
+    selank: 'Studied for reducing stress and anxiety while keeping the mind clear and focused.',
+    mots:   'Supports mitochondrial energy production, which is important for sustained mental energy and focus.'
+  },
+  insulin: {
+    mots: 'Studied for improving how the body responds to insulin by supporting mitochondrial function.',
+    ss31: 'Targets mitochondria and is studied for helping the body respond better to insulin.',
+    reta: 'Affects multiple metabolic pathways studied for improving blood sugar regulation and insulin sensitivity.'
+  },
+  thyroid: {
+    bpc:    'Supports overall tissue repair, which can be helpful when thyroid issues cause inflammation-related damage.',
+    tb500:  'Studied for tissue repair and reducing inflammation that can affect thyroid function.',
+    cjcipa: 'Supports overall hormone balance through increased natural growth hormone release.'
+  },
+  inflammation: {
+    kpv: 'A potent anti-inflammatory peptide studied for reducing inflammation throughout the body.',
+    ghk: 'Studied for anti-inflammatory effects alongside its skin and tissue repair benefits.',
+    bpc: 'Studied for reducing inflammation while supporting healing of damaged tissue.'
+  },
+  hair: {
+    ghk: 'A copper peptide studied for stimulating hair follicles and supporting healthier hair growth.'
+  },
+  libido: {
+    pt141: 'Works directly on the brain pathways involved in sexual arousal — studied for boosting libido in both men and women.'
+  },
+  energy: {
+    nad:  'Directly fuels cellular energy production (ATP) — the core "energy" peptide, studied for fighting fatigue and supporting mitochondrial function.',
+    mots: 'A mitochondrial-derived peptide studied for boosting metabolism and exercise stamina — helps your cells produce more usable energy.',
+    ss31: 'Targets mitochondria directly — studied for improving cellular energy output and reducing fatigue, especially when paired with MOTS-c.'
+  }
 };
 
 function renderSuggestions(){
@@ -885,7 +973,7 @@ function renderSuggestions(){
       +   '</div>'
       + '</div>'
       + '<div class="pep-result-desc">' + p.desc + '</div>'
-      + '<div class="pep-result-desc" style="color:var(--cyan);"><strong>Why we suggest this:</strong> Matches your selected goal' + (matchedGoals[key].length>1?'s':'') + ' — ' + matchedGoals[key].map(function(g){ return GOAL_LABELS[g] || g; }).join(', ') + '. As always, do your own independent research and verify with a licensed doctor before using.</div>'
+      + '<div class="pep-result-desc" style="color:var(--cyan);"><strong>Why we suggest this:</strong> Matches your selected goal' + (matchedGoals[key].length>1?'s':'') + ' — ' + matchedGoals[key].map(function(g){ return GOAL_LABELS[g] || g; }).join(', ') + '. ' + matchedGoals[key].map(function(g){ return (GOAL_REASONS[g] && GOAL_REASONS[g][key]) || ''; }).filter(Boolean).join(' ') + ' As always, do your own independent research and verify with a licensed doctor before using.</div>'
       + '<div class="pep-result-detail">'
       +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
       +   '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
