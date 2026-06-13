@@ -339,12 +339,13 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .shopping-item span.qty { color: var(--lime); font-family: var(--orb); white-space:nowrap; }
 
 @media print {
-  body * { display:none !important; }
   body::after { display:none !important; }
   body { background:#fff !important; color:#000 !important; }
-  #schedule-box, #schedule-box * { display:revert !important; }
+  body > *:not(main) { display:none !important; }
+  main > *:not(#schedule-box) { display:none !important; }
   #schedule-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; margin:0 !important; }
-  #schedule-actions, #schedule-actions * { display:none !important; }
+  #schedule-box::before { display:none !important; }
+  #schedule-actions, #shopping-list-box { display:none !important; }
   .schedule-row, .pep-result { border-color:#999 !important; background:#fff !important; box-shadow:none !important; }
   .schedule-row { display:flex !important; }
   .schedule-week, .schedule-dose, .response-label { color:#000 !important; text-shadow:none !important; }
@@ -903,6 +904,30 @@ function importPlan(file){
   reader.onload = function(e){
     var data;
     try { data = JSON.parse(e.target.result); } catch(err){ alert('That file could not be read as a plan.'); return; }
+
+    if (!data || typeof data !== 'object'){ alert('That file is not a valid peptide plan.'); return; }
+
+    if (data.schedules && !Array.isArray(data.schedules)){ alert('That file is not a valid peptide plan — schedule data is malformed.'); return; }
+
+    var validSchedules = [];
+    var skipped = 0;
+    (data.schedules || []).forEach(function(s){
+      var ok = s && typeof s.name === 'string' && s.name.trim()
+        && typeof s.vial === 'number' && s.vial > 0
+        && typeof s.water === 'number' && s.water > 0
+        && typeof s.freq === 'number' && s.freq > 0
+        && Array.isArray(s.rows) && s.rows.length > 0
+        && s.rows.every(function(r){
+          return r && typeof r.dose === 'number' && r.dose > 0
+            && typeof r.weeks === 'number' && r.weeks > 0;
+        });
+      if (ok) validSchedules.push(s);
+      else skipped++;
+    });
+    if (skipped > 0){
+      alert(skipped + ' schedule' + (skipped>1?'s':'') + ' in this file looked invalid and were skipped.');
+    }
+    data.schedules = validSchedules;
 
     SELECTED_GOALS = new Set(data.goals || []);
     document.querySelectorAll('.goal-card').forEach(function(card){
