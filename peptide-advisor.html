@@ -382,10 +382,9 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   main > *:not(#schedule-box) { display:none !important; }
   #schedule-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; margin:0 !important; }
   #schedule-box::before { display:none !important; }
-  #schedule-actions, #shopping-list-box { display:none !important; }
-  #shopping-list-box button { display:none !important; }
-  body.print-shopping #schedule-list { display:none !important; }
-  body.print-shopping #shopping-list-box { display:block !important; }
+  #schedule-actions, #shopping-list-box, #copy-schedule-btn, #schedule-pdf-tip { display:none !important; }
+  #shopping-list-box button, .pdf-tip { display:none !important; }
+  body.print-both #shopping-list-box { display:block !important; margin-top:24px; }
   .schedule-row, .pep-result { border-color:#999 !important; background:#fff !important; box-shadow:none !important; }
   .schedule-row { display:flex !important; }
   .schedule-week, .schedule-dose, .response-label { color:#000 !important; text-shadow:none !important; }
@@ -480,6 +479,13 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .add-btn:hover {
   background: rgba(170,255,0,0.18);
   box-shadow: 0 0 12px rgba(170,255,0,0.4);
+}
+.add-btn.added {
+  background: rgba(170,255,0,0.25);
+  color: #fff;
+  border-color: var(--lime);
+  box-shadow: 0 0 14px rgba(170,255,0,0.5);
+  text-shadow: 0 0 8px var(--lime);
 }
 .pep-result-desc {
   font-family: var(--bar);
@@ -691,10 +697,10 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div id="schedule-list"></div>
     <div id="schedule-actions" style="display:none; margin-top:18px; gap:10px; flex-wrap:wrap;">
       <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
-      <button class="btn-secondary" onclick="downloadPDF()">⬇ Download PDF</button>
-      <button class="btn-secondary" onclick="copyScheduleText()">📋 Copy as Text</button>
+      <button class="btn-secondary" onclick="downloadBoth()">⬇ Download Both (PDF)</button>
     </div>
-    <div class="pdf-tip">Tip: when the print screen opens, choose <strong>"Save as PDF"</strong> as the printer/destination. If your device doesn't offer that, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
+    <button class="btn-secondary" id="copy-schedule-btn" style="display:none; margin-top:10px;" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
+    <div class="pdf-tip" id="schedule-pdf-tip" style="display:none;">Tip: when the print screen opens, choose <strong>"Save as PDF"</strong> as the printer/destination. If your device doesn't offer that, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
     <div id="shopping-list-box" style="display:none; margin-top:18px;"></div>
   </div>
 
@@ -818,7 +824,11 @@ function togglePep(el){
 }
 
 function useForSchedule(key, ev){
-  if (ev) ev.stopPropagation();
+  if (ev) {
+    ev.stopPropagation();
+    var btn = ev.target.closest('.add-btn');
+    if (btn) { btn.classList.add('added'); btn.textContent = '✓ ADDED'; }
+  }
   var p = PEPTIDES[key];
   document.getElementById('b-name').value  = p.name;
   document.getElementById('b-vial').value  = p.vial;
@@ -879,6 +889,8 @@ function buildSchedule(silent){
 
   SCHEDULES.push({ name:name, vial:vial, water:water, freq:freq, rows:rows });
   document.getElementById('schedule-actions').style.display = 'flex';
+  document.getElementById('copy-schedule-btn').style.display = 'inline-block';
+  document.getElementById('schedule-pdf-tip').style.display = 'block';
   document.getElementById('shopping-list-box').style.display = 'none';
 
   if (!silent) box.scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -888,9 +900,15 @@ function clearSchedules(){
   document.getElementById('schedule-list').innerHTML = '';
   document.getElementById('schedule-box').classList.remove('visible');
   document.getElementById('schedule-actions').style.display = 'none';
+  document.getElementById('copy-schedule-btn').style.display = 'none';
+  document.getElementById('schedule-pdf-tip').style.display = 'none';
   document.getElementById('shopping-list-box').style.display = 'none';
   document.getElementById('shopping-list-box').innerHTML = '';
   SCHEDULES = [];
+  document.querySelectorAll('.add-btn.added').forEach(function(btn){
+    btn.classList.remove('added');
+    btn.textContent = '+ ADD';
+  });
 }
 
 function showShoppingList(){
@@ -910,24 +928,18 @@ function showShoppingList(){
       + '<div class="shopping-item" style="border-bottom:1px solid var(--border);"><span>Bacteriostatic water for ' + s.name + '</span><span class="qty">~' + waterNeeded + ' mL</span></div>';
   });
   html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">Totals are rough estimates based on the schedule above — buy a little extra to cover priming syringes and spills.</div>';
-  html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">'
-        + '<button class="btn-secondary" onclick="downloadShoppingPDF()">⬇ Download Shopping List PDF</button>'
-        + '<button class="btn-secondary" onclick="copyShoppingText()">📋 Copy as Text</button>'
-        + '</div>'
-        + '<div class="pdf-tip">Tip: when the print screen opens, choose <strong>"Save as PDF"</strong> as the printer/destination. If your device doesn\'t offer that, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>';
+  html += '<button class="btn-secondary" style="margin-top:14px;" onclick="copyShoppingText()">📋 Copy Shopping List as Text</button>';
   box.innerHTML = html;
   box.style.display = 'block';
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-function downloadPDF(){
+function downloadBoth(){
+  if (SCHEDULES.length === 0) return;
+  showShoppingList();
+  document.body.classList.add('print-both');
   window.print();
-}
-
-function downloadShoppingPDF(){
-  document.body.classList.add('print-shopping');
-  window.print();
-  document.body.classList.remove('print-shopping');
+  document.body.classList.remove('print-both');
 }
 
 function copyToClipboard(text){
@@ -987,116 +999,6 @@ function copyShoppingText(){
   copyToClipboard(lines.join('\n'));
 }
 
-function exportPlan(){
-  var data = {
-    goals: Array.from(SELECTED_GOALS),
-    gender: SELECTED_GENDER,
-    builder: {
-      name: document.getElementById('b-name').value,
-      vial: document.getElementById('b-vial').value,
-      water: document.getElementById('b-water').value,
-      start: document.getElementById('b-start').value,
-      step: document.getElementById('b-step').value,
-      weeks: document.getElementById('b-weeks').value,
-      freq: document.getElementById('b-freq').value
-    },
-    schedules: SCHEDULES
-  };
-  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'peptide-plan.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function importPlan(file){
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e){
-    var data;
-    try { data = JSON.parse(e.target.result); } catch(err){ alert('That file could not be read as a plan.'); return; }
-
-    if (!data || typeof data !== 'object'){ alert('That file is not a valid peptide plan.'); return; }
-
-    if (data.schedules && !Array.isArray(data.schedules)){ alert('That file is not a valid peptide plan — schedule data is malformed.'); return; }
-
-    var validSchedules = [];
-    var skipped = 0;
-    (data.schedules || []).forEach(function(s){
-      var ok = s && typeof s.name === 'string' && s.name.trim()
-        && typeof s.vial === 'number' && s.vial > 0
-        && typeof s.water === 'number' && s.water > 0
-        && typeof s.freq === 'number' && s.freq > 0
-        && Array.isArray(s.rows) && s.rows.length > 0
-        && s.rows.every(function(r){
-          return r && typeof r.dose === 'number' && r.dose > 0
-            && typeof r.weeks === 'number' && r.weeks > 0;
-        });
-      if (ok) validSchedules.push(s);
-      else skipped++;
-    });
-    if (skipped > 0){
-      alert(skipped + ' schedule' + (skipped>1?'s':'') + ' in this file looked invalid and were skipped.');
-    }
-    data.schedules = validSchedules;
-
-    SELECTED_GOALS = new Set(data.goals || []);
-    document.querySelectorAll('.goal-card').forEach(function(card){
-      var g = card.getAttribute('data-goal');
-      card.classList.toggle('selected', SELECTED_GOALS.has(g));
-    });
-
-    SELECTED_GENDER = data.gender || null;
-    document.querySelectorAll('.gender-btn').forEach(function(btn){
-      btn.classList.toggle('selected', btn.getAttribute('data-gender') === SELECTED_GENDER);
-    });
-
-    if (data.builder){
-      document.getElementById('b-name').value  = data.builder.name  || '';
-      document.getElementById('b-vial').value  = data.builder.vial  || '';
-      document.getElementById('b-water').value = data.builder.water || '';
-      document.getElementById('b-start').value = data.builder.start || '';
-      document.getElementById('b-step').value  = data.builder.step  || '';
-      document.getElementById('b-weeks').value = data.builder.weeks || '';
-      document.getElementById('b-freq').value  = data.builder.freq  || '';
-    }
-
-    clearSchedules();
-    if (SELECTED_GOALS.size > 0) renderSuggestions();
-
-    if (data.schedules && data.schedules.length){
-      var out = document.getElementById('schedule-list');
-      var box = document.getElementById('schedule-box');
-      data.schedules.forEach(function(s){
-        var concentration = s.vial / s.water;
-        var html = '<div class="pep-result" style="border-left-color:var(--lime);"><div class="pep-result-desc" style="margin-bottom:14px;color:var(--text);"><strong style="color:var(--lime)">' + s.name + '</strong> — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + s.freq + 'x per week</div>';
-        s.rows.forEach(function(r, i){
-          var weekStart = i*r.weeks + 1;
-          var weekEnd = weekStart + r.weeks - 1;
-          var drawML = r.dose / concentration;
-          var units = drawML * 100;
-          html += '<div class="schedule-row">'
-            + '<div class="schedule-week">WEEKS ' + weekStart + (r.weeks>1 ? ('–'+weekEnd) : '') + '</div>'
-            + '<div style="flex:1;">'
-            +   '<div class="schedule-dose">' + r.dose.toFixed(2) + ' mg per dose</div>'
-            +   '<div class="schedule-detail">' + drawML.toFixed(3) + ' mL = ' + units.toFixed(1) + ' units on a 100u syringe · ' + s.freq + 'x/week</div>'
-            + '</div></div>';
-        });
-        html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + s.name + '. Educational reference only.</div>';
-        html += '</div>';
-        out.insertAdjacentHTML('beforeend', html);
-        SCHEDULES.push(s);
-      });
-      box.classList.add('visible');
-      document.getElementById('schedule-actions').style.display = 'flex';
-    }
-  };
-  reader.readAsText(file);
-}
 </script>
 
 </body>
