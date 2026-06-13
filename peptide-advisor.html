@@ -30,6 +30,7 @@ body {
   font-family: var(--bar);
   background: var(--bg);
   color: var(--text);
+  font-size: 19px;
   min-height: 100vh;
   background-image:
     radial-gradient(ellipse 80% 40% at 50% -10%, rgba(191,0,255,0.18) 0%, transparent 70%),
@@ -151,7 +152,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 }
 .section-eyebrow {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   color: var(--lime);
   letter-spacing: 0.18em;
   margin-bottom: 8px;
@@ -159,7 +160,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 }
 .section-heading h2 {
   font-family: var(--orb);
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 900;
   letter-spacing: 0.04em;
   line-height: 1.1;
@@ -171,7 +172,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 }
 .section-heading p {
   font-family: var(--bar);
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   font-weight: 500;
   color: var(--muted);
   margin-top: 6px;
@@ -504,6 +505,9 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="goal-card" data-goal="skin"><span class="goal-icon">✨</span>Skin &amp; Hair</div>
     <div class="goal-card" data-goal="cognitive"><span class="goal-icon">🧠</span>Cognitive</div>
     <div class="goal-card" data-goal="libido"><span class="goal-icon">❤️</span>Libido / Hormones</div>
+    <div class="goal-card" data-goal="insulin"><span class="goal-icon">🍬</span>Insulin Resistance</div>
+    <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
+    <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
   </div>
 
   <button class="btn-primary" onclick="renderSuggestions()">RUN ANALYSIS →</button>
@@ -564,7 +568,10 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <button class="btn-primary" onclick="buildSchedule()">GENERATE SCHEDULE →</button>
 
   <div class="response-box" id="schedule-box">
-    <div class="response-label"><span class="pulse-dot"></span>GLOWRILLA AI — RESEARCH OUTPUT</div>
+    <div class="response-label" style="justify-content:space-between;">
+      <span><span class="pulse-dot"></span>GLOWRILLA AI — RESEARCH OUTPUT</span>
+      <span style="cursor:pointer;color:var(--pink);" onclick="clearSchedules()">CLEAR ALL ✕</span>
+    </div>
     <div id="schedule-list"></div>
   </div>
 
@@ -584,15 +591,18 @@ document.getElementById('gender-row').addEventListener('click', function(e){
 
 // goal -> peptide keys mapping
 var GOAL_MAP = {
-  fatloss:   ['reta','tirz','aod','mots'],
-  muscle:    ['bpc','tb500','mots','cjcipa'],
-  antiaging: ['nad','ghk','epi','mots'],
-  recovery:  ['bpc','tb500','kpv'],
-  sleep:     ['cjcipa','tesa','dsip'],
-  gut:       ['bpc','kpv','tb500'],
-  joints:    ['bpc','tb500','ghk'],
-  skin:      ['ghk','bpc','kpv'],
-  cognitive: ['nad','semax','selank','mots']
+  fatloss:    ['reta','tirz','aod','mots','tesa'],
+  muscle:     ['bpc','tb500','mots','cjcipa'],
+  antiaging:  ['nad','ghk','epi','mots'],
+  recovery:   ['bpc','tb500','kpv'],
+  sleep:      ['cjcipa','tesa','dsip'],
+  gut:        ['bpc','kpv','tb500'],
+  joints:     ['bpc','tb500','ghk'],
+  skin:       ['ghk','bpc','kpv'],
+  cognitive:  ['nad','semax','selank','mots'],
+  insulin:    ['mots','ss31','reta'],
+  inflammation: ['kpv','ghk','bpc'],
+  hair:       ['ghk']
 };
 
 // peptide info + default protocol values
@@ -611,6 +621,8 @@ var PEPTIDES = {
   dsip:   { name:'DSIP', desc:'Delta sleep-inducing peptide — researched for sleep onset and quality.', vial:5, water:2, start:0.1, step:0, weeks:4, freq:1 },
   semax:  { name:'Semax', desc:'Nootropic peptide — researched for cognitive performance, focus and neuroprotection.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:1 },
   selank: { name:'Selank', desc:'Anxiolytic nootropic peptide — researched for stress response and mental clarity.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:1 },
+  kpv:    { name:'KPV', desc:'Anti-inflammatory tripeptide (fragment of alpha-MSH) — researched for gut inflammation, skin healing and general inflammatory response.', vial:5, water:2, start:0.25, step:0, weeks:4, freq:2 },
+  ss31:   { name:'SS-31 (Elamipretide)', desc:'Mitochondria-targeted peptide, often paired with MOTS-c — researched for mitochondrial function and insulin sensitivity support.', vial:10, water:2, start:1, step:0, weeks:4, freq:3 },
   pt141:  { name:'PT-141 (Bremelanotide)', desc:'Melanocortin agonist — researched for libido and sexual response in both men and women.', vial:10, water:2, start:0.5, step:0, weeks:4, freq:2, gender:'both' },
   kisspeptin: { name:'Kisspeptin-10', desc:'Hypothalamic peptide — researched for reproductive hormone (LH/testosterone) support, primarily studied in men.', vial:5, water:2, start:0.1, step:0, weeks:4, freq:3, gender:'male' },
   hcg:    { name:'HCG (Low-Dose)', desc:'Human chorionic gonadotropin — researched for maintaining natural testosterone production and fertility in men.', vial:5000, water:5, start:250, step:0, weeks:4, freq:2, gender:'male' }
@@ -709,7 +721,7 @@ function buildSchedule(){
 
   if (!vial || !water || !start || !weeksPerStep || !freq || vial<=0 || water<=0 || start<=0 || weeksPerStep<=0 || freq<=0){
     box.classList.add('visible');
-    out.innerHTML = '<div class="pep-result-desc" style="color:var(--pink);">Please fill in all fields with valid numbers above.</div>';
+    out.insertAdjacentHTML('beforeend', '<div class="pep-result-desc" style="color:var(--pink);">Please fill in all fields with valid numbers above.</div>');
     return;
   }
 
@@ -725,7 +737,7 @@ function buildSchedule(){
     if (step === 0) break;
   }
 
-  var html = '<div class="pep-result-desc" style="margin-bottom:14px;">' + name + ' — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week</div>';
+  var html = '<div class="pep-result" style="border-left-color:var(--lime);"><div class="pep-result-desc" style="margin-bottom:14px;color:var(--text);"><strong style="color:var(--lime)">' + name + '</strong> — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week</div>';
   rows.forEach(function(r, i){
     var weekStart = i*r.weeks + 1;
     var weekEnd = weekStart + r.weeks - 1;
@@ -737,10 +749,16 @@ function buildSchedule(){
       + '</div></div>';
   });
   html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + name + '. Educational reference only.</div>';
+  html += '</div>';
 
-  out.innerHTML = html;
+  out.insertAdjacentHTML('beforeend', html);
   box.classList.add('visible');
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function clearSchedules(){
+  document.getElementById('schedule-list').innerHTML = '';
+  document.getElementById('schedule-box').classList.remove('visible');
 }
 </script>
 
