@@ -687,6 +687,17 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     </div>
   </div>
 
+  <div class="info-row">
+    <div class="info-field">
+      <label>🕐 Time Of Day To Take It</label>
+      <select id="b-time" class="pep-input">
+        <option value="am">Morning (AM)</option>
+        <option value="pm">Evening / Before Bed (PM)</option>
+        <option value="any">Either — No Strong Preference</option>
+      </select>
+    </div>
+  </div>
+
   <button class="btn-primary" onclick="buildSchedule()">GENERATE MY SCHEDULE →</button>
 
   <div class="response-box" id="schedule-box">
@@ -724,11 +735,11 @@ var GOAL_MAP = {
   fatloss:    ['reta','tirz','aod','mots','tesa'],
   muscle:     ['bpc','tb500','mots','cjcipa'],
   antiaging:  ['nad','ghk','epi','mots'],
-  recovery:   ['bpc','tb500','kpv'],
+  recovery:   ['bpc','tb500','kpv','glow','klow'],
   sleep:      ['cjcipa','tesa','dsip'],
-  gut:        ['bpc','kpv','tb500'],
+  gut:        ['bpc','kpv','tb500','klow'],
   joints:     ['bpc','tb500','ghk'],
-  skin:       ['ghk','bpc','kpv'],
+  skin:       ['ghk','bpc','kpv','glow','klow'],
   cognitive:  ['nad','semax','selank','mots'],
   insulin:    ['mots','ss31','reta'],
   inflammation: ['kpv','ghk','bpc'],
@@ -743,19 +754,21 @@ var PEPTIDES = {
   mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
   bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
   tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
-  cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7 },
+  cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
   nad:    { name:'NAD+', desc:'A natural compound your cells need for energy — studied for anti-aging, brain function, and supporting overall cell health. Commonly dosed daily to a few times a week for 4-8 weeks.', vial:500, water:2, start:50, step:0, weeks:6, freq:5 },
   ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7 },
   epi:    { name:'Epitalon', desc:'Studied for improving sleep patterns and supporting healthy aging at the cellular level. Used daily for a short 10-20 day course, then stopped.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
   tesa:   { name:'Tesamorelin', desc:'Helps your body release more growth hormone — studied especially for reducing stubborn belly fat (visceral fat). Injected daily for 8-12 weeks.', vial:2, water:2, start:1, step:0, weeks:8, freq:7 },
-  dsip:   { name:'DSIP', desc:'Short for "Delta Sleep-Inducing Peptide" — studied for helping you fall asleep and improving sleep quality. Used daily before bed for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  dsip:   { name:'DSIP', desc:'Short for "Delta Sleep-Inducing Peptide" — studied for helping you fall asleep and improving sleep quality. Used daily before bed for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, time:'pm' },
   semax:  { name:'Semax', desc:'A brain-focused peptide — studied for improving focus, memory, and protecting brain cells. Typically used daily for 2-4 weeks, often 5 days on / 2 days off.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:5 },
   selank: { name:'Selank', desc:'A calming brain-focused peptide — studied for reducing stress and anxiety while keeping your mind clear. Typically used daily for 2-4 weeks.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:7 },
   kpv:    { name:'KPV', desc:'A small anti-inflammatory peptide — studied for calming gut inflammation, helping skin heal, and reducing inflammation throughout the body. Often used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
   ss31:   { name:'SS-31 (Elamipretide)', desc:'Often paired with MOTS-c — studied for supporting your cells’ energy centers (mitochondria) and helping the body respond better to insulin. Commonly dosed daily for 4-8 weeks.', vial:10, water:2, start:1, step:0, weeks:6, freq:7 },
   pt141:  { name:'PT-141 (Bremelanotide)', desc:'Studied for boosting libido and sexual response — works for both men and women. Used as-needed, no more than a couple times a week.', vial:10, water:2, start:0.5, step:0, weeks:4, freq:2, gender:'both' },
   kisspeptin: { name:'Kisspeptin-10', desc:'Studied for naturally supporting testosterone and reproductive hormone levels — mostly researched in men. Commonly dosed daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, gender:'male' },
-  hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:5, start:250, step:0, weeks:8, freq:2, gender:'male' }
+  hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:5, start:250, step:0, weeks:8, freq:2, gender:'male', time:'am' },
+  glow:   { name:'GLOW Blend (GHK-Cu + BPC-157 + TB-500)', desc:'A popular "stack in a vial" combining GHK-Cu, BPC-157, and TB-500 — studied for skin, healing, and recovery together. If your supplier sells a pre-mixed GLOW vial, use this entry. Otherwise, add GHK-Cu, BPC-157, and TB-500 individually above for the same effect with more control over each dose. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+  klow:   { name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', desc:'A bigger "stack in a vial" — KLOW adds KPV to the GLOW combo, aiming at gut health plus skin, healing, and recovery. If your supplier sells a pre-mixed KLOW vial, use this entry. Otherwise, add KPV, BPC-157, TB-500, and GHK-Cu individually above so you can adjust each one on its own. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
 };
 
 // goals that pull in gender-specific peptides
@@ -837,6 +850,7 @@ function useForSchedule(key, ev){
   document.getElementById('b-step').value  = p.step;
   document.getElementById('b-weeks').value = p.weeks;
   document.getElementById('b-freq').value  = p.freq;
+  document.getElementById('b-time').value  = p.time || 'am';
   buildSchedule(true);
 }
 
@@ -848,6 +862,8 @@ function buildSchedule(silent){
   var step  = parseFloat(document.getElementById('b-step').value);
   var weeksPerStep = parseInt(document.getElementById('b-weeks').value);
   var freq  = parseInt(document.getElementById('b-freq').value);
+  var timeOfDay = document.getElementById('b-time').value;
+  var timeLabel = timeOfDay === 'pm' ? 'Evening / Before Bed (PM)' : (timeOfDay === 'any' ? 'Either — No Strong Preference' : 'Morning (AM)');
 
   var box = document.getElementById('schedule-box');
   var out = document.getElementById('schedule-list');
@@ -870,7 +886,7 @@ function buildSchedule(silent){
     if (step === 0) break;
   }
 
-  var html = '<div class="pep-result" style="border-left-color:var(--lime);"><div class="pep-result-desc" style="margin-bottom:14px;color:var(--text);"><strong style="color:var(--lime)">' + name + '</strong> — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week</div>';
+  var html = '<div class="pep-result" style="border-left-color:var(--lime);"><div class="pep-result-desc" style="margin-bottom:14px;color:var(--text);"><strong style="color:var(--lime)">' + name + '</strong> — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week · Take in the: <strong style="color:var(--cyan)">' + timeLabel + '</strong></div>';
   rows.forEach(function(r, i){
     var weekStart = i*r.weeks + 1;
     var weekEnd = weekStart + r.weeks - 1;
@@ -887,7 +903,7 @@ function buildSchedule(silent){
   out.insertAdjacentHTML('beforeend', html);
   box.classList.add('visible');
 
-  SCHEDULES.push({ name:name, vial:vial, water:water, freq:freq, rows:rows });
+  SCHEDULES.push({ name:name, vial:vial, water:water, freq:freq, rows:rows, timeLabel:timeLabel });
   document.getElementById('schedule-actions').style.display = 'flex';
   document.getElementById('copy-schedule-btn').style.display = 'inline-block';
   document.getElementById('schedule-pdf-tip').style.display = 'block';
@@ -970,7 +986,7 @@ function copyScheduleText(){
   var lines = ['YOUR DOSE SCHEDULE', ''];
   SCHEDULES.forEach(function(s){
     var concentration = s.vial / s.water;
-    lines.push(s.name + ' — ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + s.freq + 'x per week');
+    lines.push(s.name + ' — ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + s.freq + 'x per week · Take in the: ' + s.timeLabel);
     s.rows.forEach(function(r, i){
       var weekStart = i*r.weeks + 1;
       var weekEnd = weekStart + r.weeks - 1;
