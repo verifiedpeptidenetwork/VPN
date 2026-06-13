@@ -254,26 +254,52 @@
   .hamburger-btn {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 5px;
     cursor: pointer;
-    background: transparent;
-    border: 1px solid rgba(0,245,255,0.4);
-    padding: 0.6rem 0.75rem;
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(255,45,120,0.1));
+    border: 2px solid rgba(0,245,255,0.4);
+    border-radius: 50%;
+    padding: 0;
     flex-shrink: 0;
     position: relative;
     z-index: 9999;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   }
   .hamburger-btn:hover {
     border-color: var(--neon-cyan);
-    box-shadow: 0 0 12px rgba(0,245,255,0.3);
+    box-shadow: 0 0 16px rgba(0,245,255,0.5);
+    transform: scale(1.06);
   }
   .hamburger-btn span {
     display: block;
-    width: 24px;
+    width: 20px;
     height: 2px;
+    border-radius: 2px;
     background: var(--neon-cyan);
-    transition: all 0.3s;
+    transition: transform 0.3s, opacity 0.2s, width 0.3s, background 0.3s;
+  }
+  .hamburger-btn span:nth-child(1) { width: 20px; }
+  .hamburger-btn span:nth-child(2) { width: 14px; align-self: flex-end; margin-right: 13px; background: var(--neon-pink); }
+  .hamburger-btn span:nth-child(3) { width: 20px; }
+  .hamburger-btn.active {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 18px rgba(255,45,120,0.55);
+    transform: rotate(90deg);
+  }
+  .hamburger-btn.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    width: 20px;
+  }
+  .hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-btn.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    width: 20px;
   }
 
   /* Nav pills — always hidden (hamburger replaces them) */
@@ -7320,11 +7346,14 @@ let currentVendor = null;
 
 function toggleMobileNav() {
   var nav = document.getElementById('mobile-nav');
+  var btn = document.getElementById('hamburger-btn');
   nav.classList.toggle('open');
+  btn.classList.toggle('active');
 }
 
 function mobileNav(view) {
   document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('hamburger-btn').classList.remove('active');
   showView(view);
   var pills = document.querySelectorAll('#desktop-nav .nav-pill');
   var viewMap = ['quick-guide','cheatsheets','all-peptides','videos','studies','calculator','supplies','templates','bloodwork','vitamins','workouts','about','terms','team','bonus'];
