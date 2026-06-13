@@ -2339,11 +2339,13 @@
 <style>
   #gate-overlay {
     position: fixed; inset: 0; z-index: 99999;
-    background: var(--dark-bg);
+    background-color: #1a0f14;
     background-image:
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(rgba(0,0,0,0.55) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.4) 3px, transparent 3px),
+      linear-gradient(rgba(40,15,25,0.9) 1px, transparent 1px);
+    background-size: 60px 30px, 60px 30px, 60px 30px;
+    background-position: 0 0, 0 0, 0 15px;
     display: flex; align-items: center; justify-content: center;
     padding: 1.5rem;
   }
@@ -2351,8 +2353,10 @@
     content: '';
     position: fixed; inset: 0;
     background:
-      radial-gradient(circle at 20% 20%, rgba(255,45,120,0.12), transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(0,245,255,0.12), transparent 40%);
+      radial-gradient(circle at 15% 25%, rgba(255,45,120,0.35), transparent 35%),
+      radial-gradient(circle at 85% 75%, rgba(0,245,255,0.3), transparent 35%),
+      radial-gradient(circle at 75% 15%, rgba(180,0,255,0.25), transparent 35%),
+      radial-gradient(circle at 25% 85%, rgba(255,230,0,0.15), transparent 30%);
     pointer-events: none;
   }
   .gate-panel {
@@ -3331,13 +3335,11 @@ document.addEventListener('keydown', function(e){
       </a>
 
       <!-- Glowrilla teaser -->
-      <div style="position:relative;overflow:hidden;border:2px solid var(--neon-pink);box-shadow:0 0 24px rgba(255,45,120,0.18);clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px);cursor:zoom-in;"
-           onclick="openLightbox('inneranimal.png','We All Have Our Inner Animal · Verified Peptide Network')">
-        <img src="inneranimal.png" alt="We All Have Our Inner Animal" style="width:100%;height:100%;min-height:120px;object-fit:cover;object-position:top center;display:block;">
-        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(5,0,18,0.9),transparent 60%);"></div>
-        <div style="position:absolute;bottom:0.75rem;left:1rem;right:1rem;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#fff;text-shadow:0 0 12px rgba(255,45,120,0.7);">🦍 Glowrilla — Lead Scientist</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.82rem;font-weight:600;color:#ffe600;">"No hype. Just hard data."</div>
+      <div style="position:relative;overflow:hidden;border:2px solid var(--neon-pink);box-shadow:0 0 24px rgba(255,45,120,0.18);clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px);display:flex;align-items:center;gap:1rem;padding:1.4rem 1.6rem;background:linear-gradient(135deg,rgba(255,45,120,0.14),rgba(180,0,255,0.08));">
+        <span style="font-size:2.4rem;flex-shrink:0;">🦍</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 12px rgba(255,45,120,0.7);line-height:1.1;">Glowrilla — Lead Scientist</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-style:italic;font-size:0.9rem;font-weight:600;color:#ffe600;margin-top:0.3rem;">"No hype. Just hard data."</div>
         </div>
       </div>
     </div>
