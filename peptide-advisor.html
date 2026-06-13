@@ -779,11 +779,10 @@ function useForSchedule(key, ev){
   document.getElementById('b-step').value  = p.step;
   document.getElementById('b-weeks').value = p.weeks;
   document.getElementById('b-freq').value  = p.freq;
-  buildSchedule();
-  document.getElementById('schedule-box').scrollIntoView({behavior:'smooth', block:'center'});
+  buildSchedule(true);
 }
 
-function buildSchedule(){
+function buildSchedule(silent){
   var name  = document.getElementById('b-name').value.trim() || 'Your Peptide';
   var vial  = parseFloat(document.getElementById('b-vial').value);
   var water = parseFloat(document.getElementById('b-water').value);
@@ -834,7 +833,7 @@ function buildSchedule(){
   document.getElementById('schedule-actions').style.display = 'flex';
   document.getElementById('shopping-list-box').style.display = 'none';
 
-  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+  if (!silent) box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function clearSchedules(){
