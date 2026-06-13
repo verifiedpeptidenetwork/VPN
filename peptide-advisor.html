@@ -666,7 +666,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     </div>
     <div class="info-field">
       <label>💧 How Much Water To Add (mL)</label>
-      <input id="b-water" class="pep-input" type="number" min="0" step="0.1" placeholder="e.g. 2" oninput="onVialWaterInput('water')">
+      <input id="b-water" class="pep-input" type="number" min="0" max="3" step="0.1" placeholder="e.g. 2 (max 3)" oninput="onVialWaterInput('water')">
     </div>
   </div>
 
@@ -802,7 +802,7 @@ var PEPTIDES = {
   ss31:   { name:'SS-31 (Elamipretide)', desc:'Often paired with MOTS-c — studied for supporting your cells’ energy centers (mitochondria) and helping the body respond better to insulin. Commonly dosed daily for 4-8 weeks.', vial:10, water:2, start:1, step:0, weeks:6, freq:7 },
   pt141:  { name:'PT-141 (Bremelanotide)', desc:'Studied for boosting libido and sexual response — works for both men and women. Used as-needed, no more than a couple times a week.', vial:10, water:2, start:0.5, step:0, weeks:4, freq:2, gender:'both' },
   kisspeptin: { name:'Kisspeptin-10', desc:'Studied for naturally supporting testosterone and reproductive hormone levels — mostly researched in men. Commonly dosed daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, gender:'male' },
-  hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:5, start:250, step:0, weeks:8, freq:2, gender:'male', time:'am' },
+  hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:3, start:250, step:0, weeks:8, freq:2, gender:'male', time:'am' },
   glow:   { name:'GLOW Blend (GHK-Cu + BPC-157 + TB-500)', desc:'A popular "stack in a vial" combining GHK-Cu, BPC-157, and TB-500 — studied for skin, healing, and recovery together. If your supplier sells a pre-mixed GLOW vial, use this entry. Otherwise, add GHK-Cu, BPC-157, and TB-500 individually above for the same effect with more control over each dose. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
   klow:   { name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', desc:'A bigger "stack in a vial" — KLOW adds KPV to the GLOW combo, aiming at gut health plus skin, healing, and recovery. If your supplier sells a pre-mixed KLOW vial, use this entry. Otherwise, add KPV, BPC-157, TB-500, and GHK-Cu individually above so you can adjust each one on its own. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
 };
@@ -917,7 +917,7 @@ function onVialWaterInput(changed){
   var water = parseFloat(waterEl.value);
 
   if (changed === 'vial') {
-    if (vial > 0) waterEl.value = parseFloat((vial / bacRatio).toFixed(2));
+    if (vial > 0) waterEl.value = Math.min(3, parseFloat((vial / bacRatio).toFixed(2)));
   } else {
     if (water > 0) vialEl.value = parseFloat((water * bacRatio).toFixed(2));
   }
