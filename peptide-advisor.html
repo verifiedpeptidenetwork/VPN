@@ -576,6 +576,35 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 </style>
 </head>
 <body>
+<div id="auth-gate-overlay" style="position:fixed;inset:0;z-index:99999;background:#04020a;display:flex;align-items:center;justify-content:center;color:#00f5ff;font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;">CHECKING ACCESS...</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+  window.vpnAuth = auth;
+  window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
+
+  var overlay = document.getElementById('auth-gate-overlay');
+  onAuthStateChanged(auth, function(user){
+    if (user) {
+      overlay.style.display = 'none';
+    } else {
+      window.location.href = 'access.html';
+    }
+  });
+</script>
 
 <header>
   <div class="header-inner">
@@ -632,6 +661,9 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
       <br><br>
       <strong style="color:var(--neon-pink);">🔥 Ask Your Doctor to Add — Inflammation Panel:</strong> Chronic inflammation can affect recovery, gut health, joints, and how well your body responds to peptides. If not already included, ask for: hs-CRP (high-sensitivity C-Reactive Protein), ESR (Erythrocyte Sedimentation Rate), and Homocysteine.
       <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">📋 Copy Inflammation Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:#00ff64;">🟢 Ask Your Doctor to Add — Liver Panel:</strong> Many peptides (and underlying issues like fatty liver) are processed through the liver, so a baseline liver panel helps your doctor catch problems early and track changes over time. If not already included, ask for: ALT, AST, ALP (Alkaline Phosphatase), GGT, Total &amp; Direct Bilirubin, Albumin, and Total Protein.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">📋 Copy Liver Panel for My Doctor</button>
       <br><br>
       <strong style="color:var(--cyan);">Even if your doctor disagrees, talk to them anyway.</strong> They may catch risks, suggest safer alternatives, or adjust their perspective as new research emerges. <strong style="color:#fff;">Always be honest with your doctor — if they refuse to help or listen, find another. You deserve a doctor who supports you.</strong>
       <br><br>

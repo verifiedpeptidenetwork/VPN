@@ -131,37 +131,73 @@
     margin-bottom: 1.75rem;
   }
 
-  .pin-fields {
+  .auth-fields {
     display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
   }
 
-  .pin-fields input {
-    width: 48px;
-    height: 58px;
-    text-align: center;
-    font-size: 1.6rem;
-    font-family: 'Share Tech Mono', monospace;
+  .auth-fields input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
     color: var(--text-primary);
     background: var(--mid-bg);
     border: 2px solid var(--card-border);
     border-radius: 8px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
-    -webkit-text-security: disc;
   }
 
-  .pin-fields input:focus {
+  .auth-fields input:focus {
     border-color: var(--neon-cyan);
     box-shadow: 0 0 12px rgba(0,245,255,0.5);
   }
 
-  .pin-fields input.filled {
-    border-color: var(--neon-pink);
-    box-shadow: 0 0 12px rgba(255,45,120,0.4);
+  .toggle-row {
+    margin-top: 1.25rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
   }
+
+  .toggle-row a, .forgot-link {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .toggle-row a:hover, .forgot-link:hover {
+    text-decoration: underline;
+  }
+
+  .forgot-row {
+    text-align: right;
+    margin-top: -0.4rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  .success-msg {
+    margin-top: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: #00ff64;
+    letter-spacing: 0.05em;
+    min-height: 1.2em;
+    text-shadow: 0 0 6px #00ff64;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .success-msg.show { opacity: 1; }
 
   .enter-btn {
     width: 100%;
@@ -323,24 +359,28 @@
 <div class="panel">
   <div class="logo-ring"><img src="gorilla-icon.png" alt="VPN" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
   <h1>VPN ACCESS</h1>
-  <div class="sub">ENTER ACCESS PIN</div>
+  <div class="sub" id="mode-sub">SIGN IN TO YOUR ACCOUNT</div>
 
-  <form id="pin-form" autocomplete="off">
-    <div class="pin-fields">
-      <input type="tel" inputmode="numeric" maxlength="1" data-idx="0">
-      <input type="tel" inputmode="numeric" maxlength="1" data-idx="1">
-      <input type="tel" inputmode="numeric" maxlength="1" data-idx="2">
-      <input type="tel" inputmode="numeric" maxlength="1" data-idx="3">
+  <form id="auth-form" autocomplete="on">
+    <div class="auth-fields">
+      <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
     </div>
-    <button type="submit" class="enter-btn">ENTER</button>
+    <div class="forgot-row"><a class="forgot-link" id="forgot-link">Forgot password?</a></div>
+    <button type="submit" class="enter-btn" id="submit-btn">SIGN IN</button>
     <div class="error-msg" id="error-msg"></div>
+    <div class="success-msg" id="success-msg"></div>
   </form>
+
+  <div class="toggle-row" id="toggle-row">
+    Don't have an account? <a id="toggle-mode">Create one</a>
+  </div>
 
   <div class="footer-note">VERIFIED PEPTIDES NETWORK — RESTRICTED ACCESS</div>
 
   <div class="members-note">
     This is for <span>RUIC group members only</span>.<br>
-    Not a member yet? Join the Skool to get the code.
+    Not a member yet? Join the Skool first.
   </div>
   <a class="skool-btn" href="https://www.skool.com/retaunfiltered" target="_blank" rel="noopener">JOIN THE SKOOL</a>
 </div>
@@ -353,90 +393,135 @@
   </div>
 </div>
 
-<script>
-  var CORRECT_PIN = "1448";
-  var inputs = Array.prototype.slice.call(document.querySelectorAll('.pin-fields input'));
-  var form = document.getElementById('pin-form');
-  var errorMsg = document.getElementById('error-msg');
-  var panel = document.querySelector('.panel');
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+    createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  inputs.forEach(function(inp, i){
-    inp.addEventListener('input', function(){
-      inp.value = inp.value.replace(/[^0-9]/g, '');
-      if (inp.value) {
-        inp.classList.add('filled');
-        if (i < inputs.length - 1) inputs[i+1].focus();
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+
+  var form = document.getElementById('auth-form');
+  var emailInput = document.getElementById('email');
+  var passwordInput = document.getElementById('password');
+  var errorMsg = document.getElementById('error-msg');
+  var successMsg = document.getElementById('success-msg');
+  var panel = document.querySelector('.panel');
+  var submitBtn = document.getElementById('submit-btn');
+  var modeSub = document.getElementById('mode-sub');
+  var toggleRow = document.getElementById('toggle-row');
+  var toggleMode = document.getElementById('toggle-mode');
+  var forgotLink = document.getElementById('forgot-link');
+
+  var isSignUp = false;
+
+  // If already signed in, skip straight to home
+  onAuthStateChanged(auth, function(user){
+    if (user) {
+      window.location.href = 'home.html';
+    }
+  });
+
+  toggleRow.addEventListener('click', function(e){
+    if (e.target && e.target.id === 'toggle-mode') {
+      isSignUp = !isSignUp;
+      clearMsgs();
+      if (isSignUp) {
+        modeSub.textContent = 'CREATE YOUR ACCOUNT';
+        submitBtn.textContent = 'CREATE ACCOUNT';
+        toggleRow.innerHTML = 'Already have an account? <a id="toggle-mode">Sign in</a>';
       } else {
-        inp.classList.remove('filled');
+        modeSub.textContent = 'SIGN IN TO YOUR ACCOUNT';
+        submitBtn.textContent = 'SIGN IN';
+        toggleRow.innerHTML = "Don't have an account? <a id=\"toggle-mode\">Create one</a>";
       }
-    });
-    inp.addEventListener('keydown', function(e){
-      if (e.key === 'Backspace' && !inp.value && i > 0) {
-        inputs[i-1].focus();
-      }
+    }
+  });
+
+  forgotLink.addEventListener('click', function(){
+    var email = emailInput.value.trim();
+    if (!email) {
+      showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD');
+      return;
+    }
+    sendPasswordResetEmail(auth, email).then(function(){
+      showSuccess('PASSWORD RESET EMAIL SENT — CHECK YOUR INBOX');
+    }).catch(function(err){
+      showError(friendlyError(err));
     });
   });
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var pin = inputs.map(function(i){ return i.value; }).join('');
+    clearMsgs();
+    var email = emailInput.value.trim();
+    var password = passwordInput.value;
 
-    if (pin.length < 4) {
-      showError('ENTER ALL 4 DIGITS, CHAMP');
+    if (!email || !password) {
+      showError('ENTER YOUR EMAIL AND PASSWORD');
+      return;
+    }
+    if (password.length < 6) {
+      showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS');
       return;
     }
 
-    if (pin === CORRECT_PIN) {
-      sessionStorage.setItem('vpn_access', 'granted');
-      window.location.href = 'home.html';
+    if (isSignUp) {
+      createUserWithEmailAndPassword(auth, email, password).then(function(){
+        window.location.href = 'home.html';
+      }).catch(function(err){
+        showError(friendlyError(err));
+      });
     } else {
-      var jokes = [
-        '⚠ TRYING TO SNEAK IN ARE WE!',
-        'WRONG. THE GORILLA IS DISAPPOINTED.',
-        'NOT EVEN CLOSE, BIG GUY.',
-        'ACCESS DENIED. TRY YOUR EX\'S BIRTHDAY.',
-        'NICE TRY, FED.',
-        'THAT PIN BELONGS IN THE TRASH.',
-        'ERROR 404: GAINS NOT FOUND.',
-        'WRONG CODE. GO DO A SET OF PUSHUPS.',
-        'BRO THINKS HE\'S HACKING THE PENTAGON.',
-        'NEGATIVE. JOIN THE SKOOL, GET THE CODE.',
-        'INCORRECT. THE VIAL REMAINS LOCKED.'
-      ];
-      showPopup(jokes[Math.floor(Math.random() * jokes.length)]);
-      inputs.forEach(function(i){ i.value=''; i.classList.remove('filled'); });
-      inputs[0].focus();
+      signInWithEmailAndPassword(auth, email, password).then(function(){
+        window.location.href = 'home.html';
+      }).catch(function(err){
+        showError(friendlyError(err));
+      });
     }
   });
 
+  function friendlyError(err){
+    var code = err && err.code ? err.code : '';
+    if (code === 'auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS — SIGN IN INSTEAD';
+    if (code === 'auth/invalid-email') return 'THAT EMAIL ADDRESS LOOKS INVALID';
+    if (code === 'auth/user-not-found') return 'NO ACCOUNT FOUND — CREATE ONE BELOW';
+    if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') return 'WRONG EMAIL OR PASSWORD';
+    if (code === 'auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
+    if (code === 'auth/too-many-requests') return 'TOO MANY ATTEMPTS — TRY AGAIN LATER';
+    return 'SOMETHING WENT WRONG — TRY AGAIN';
+  }
+
   function showError(msg){
+    successMsg.classList.remove('show');
     errorMsg.textContent = msg;
     errorMsg.classList.add('show');
     panel.classList.remove('shake');
     requestAnimationFrame(function(){ panel.classList.add('shake'); });
   }
 
-  var popupOverlay = document.getElementById('popup-overlay');
-  var popupMsg = document.getElementById('popup-msg');
-  var popupClose = document.getElementById('popup-close');
-
-  function showPopup(msg){
-    popupMsg.textContent = msg;
-    popupOverlay.classList.add('show');
-    panel.classList.remove('shake');
-    requestAnimationFrame(function(){ panel.classList.add('shake'); });
+  function showSuccess(msg){
+    errorMsg.classList.remove('show');
+    successMsg.textContent = msg;
+    successMsg.classList.add('show');
   }
 
-  function hidePopup(){
-    popupOverlay.classList.remove('show');
+  function clearMsgs(){
+    errorMsg.classList.remove('show');
+    successMsg.classList.remove('show');
   }
-
-  popupClose.addEventListener('click', hidePopup);
-  popupOverlay.addEventListener('click', function(e){
-    if (e.target === popupOverlay) hidePopup();
-  });
-
-  inputs[0].focus();
 </script>
 
 </body>

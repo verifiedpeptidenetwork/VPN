@@ -2552,84 +2552,33 @@
     <div class="gate-footer-note">VERIFIED PEPTIDES NETWORK — RESTRICTED ACCESS</div>
   </div>
 </div>
-<script>
-(function(){
-  var CORRECT_PIN = "1448";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+  window.vpnAuth = auth;
+  window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
+
   var overlay = document.getElementById('gate-overlay');
-  if (sessionStorage.getItem('vpn_access') === 'granted') {
-    overlay.style.display = 'none';
-    return;
-  }
-  var inputs = Array.prototype.slice.call(document.querySelectorAll('.gate-pin-fields input'));
-  var form = document.getElementById('gate-pin-form');
-  var errorMsg = document.getElementById('gate-error-msg');
-  var panel = document.querySelector('.gate-panel');
-
-  inputs.forEach(function(inp, i){
-    inp.addEventListener('input', function(){
-      inp.value = inp.value.replace(/[^0-9]/g, '');
-      if (inp.value) {
-        inp.classList.add('filled');
-        if (i < inputs.length - 1) inputs[i+1].focus();
-      } else {
-        inp.classList.remove('filled');
-      }
-    });
-    inp.addEventListener('keydown', function(e){
-      if (e.key === 'Backspace' && !inp.value && i > 0) {
-        inputs[i-1].focus();
-      }
-    });
-  });
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var pin = inputs.map(function(i){ return i.value; }).join('');
-
-    if (pin.length < 4) {
-      showError('ENTER ALL 4 DIGITS, CHAMP');
-      return;
-    }
-
-    if (pin === CORRECT_PIN) {
-      sessionStorage.setItem('vpn_access', 'granted');
+  onAuthStateChanged(auth, function(user){
+    if (user) {
       overlay.style.display = 'none';
     } else {
-      var jokes = [
-        'WRONG. THE GORILLA IS DISAPPOINTED.',
-        'NOT EVEN CLOSE, BIG GUY.',
-        'ACCESS DENIED. TRY YOUR EX\'S BIRTHDAY.',
-        'NICE TRY, FED.',
-        'THAT PIN BELONGS IN THE TRASH.',
-        'ERROR 404: GAINS NOT FOUND.',
-        'WRONG CODE. GO DO A SET OF PUSHUPS.',
-        'BRO THINKS HE\'S HACKING THE PENTAGON.',
-        'INCORRECT. THE VIAL REMAINS LOCKED.',
-        'NOPE. THE GORILLA SAW THAT.',
-        'WRONG PIN. JOIN THE SKOOL, CHAMP.',
-        'ERROR: BRAIN.EXE NOT FOUND.',
-        'THAT\'S A SKIP DAY PIN, NOT AN ACCESS PIN.',
-        'DENIED. EVEN YOUR GAINS ARE CONFUSED.',
-        'WRONG. GO ASK THE SKOOL NICELY.',
-        'NEGATIVE, GHOST RIDER, THE PATTERN IS FULL.',
-        'BUZZ. WRONG ANSWER, TRY AGAIN.',
-        'THE VAULT LAUGHS AT YOUR ATTEMPT.'
-      ];
-      showError(jokes[Math.floor(Math.random() * jokes.length)]);
-      inputs.forEach(function(i){ i.value=''; i.classList.remove('filled'); });
-      inputs[0].focus();
+      window.location.href = 'access.html';
     }
   });
-
-  function showError(msg){
-    errorMsg.textContent = msg;
-    errorMsg.classList.add('show');
-    panel.classList.remove('gate-shake');
-    requestAnimationFrame(function(){ panel.classList.add('gate-shake'); });
-  }
-
-  inputs[0].focus();
-})();
 </script>
 <!-- ── END ACCESS GATE ── -->
 
@@ -3179,6 +3128,7 @@ document.addEventListener('keydown', function(e){
       <button class="nav-pill" onclick="showView('cheatsheets'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">🗄️ Cheat Sheet Vault</button>
       <button class="nav-pill active" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Tools &amp; Guides</button>
       <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:rgba(0,245,255,0.5);color:var(--neon-cyan);">Peptide Index</button>
+      <a href="peptide-advisor.html" class="nav-pill" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);text-decoration:none;">🦍 Peptide Advisor</a>
       <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:rgba(255,45,120,0.5);color:var(--neon-pink);">▶ Videos</button>
       <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:rgba(0,255,100,0.5);color:#00ff64;">Studies</button>
       <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:rgba(255,230,0,0.5);color:#ffe600;">Calculator</button>
@@ -3207,6 +3157,7 @@ document.addEventListener('keydown', function(e){
       <div style="grid-column:1/-1;padding:0.5rem 1.1rem 0.15rem;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:rgba(0,245,255,0.6);">DATABASE</div>
       <button class="nav-pill" onclick="mobileNav('studies')" style="border:none;border-left:3px solid var(--neon-cyan);color:var(--neon-cyan);clip-path:none;">📊 Studies</button>
       <button class="nav-pill" onclick="mobileNav('all-peptides')" style="border:none;border-left:3px solid var(--neon-cyan);color:var(--neon-cyan);clip-path:none;">🔬 Peptide Index</button>
+      <a href="peptide-advisor.html" class="nav-pill" style="border:none;border-left:3px solid var(--neon-pink);color:var(--neon-pink);clip-path:none;text-decoration:none;display:block;">🦍 Peptide Advisor</a>
 
       <div style="grid-column:1/-1;margin:0.2rem 1.1rem;border-top:1px solid rgba(255,255,255,0.06);"></div>
 
@@ -4520,6 +4471,7 @@ document.addEventListener('keydown', function(e){
         • Free T4<br>
         • Thyroid Antibodies (TPO/TgAb) — if family history of thyroid disease
       </div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add a Thyroid Panel:\n- TSH (Thyroid Stimulating Hormone)\n- Free T3\n- Free T4\n- Thyroid Antibodies (TPO/TgAb)')">📋 Copy Thyroid Panel for My Doctor</button>
     </div>
 
     <!-- INSULIN RESISTANCE PANEL ADD-ON -->
@@ -4537,6 +4489,7 @@ document.addEventListener('keydown', function(e){
         • HbA1c (3-month average blood sugar)<br>
         • HOMA-IR (calculated from fasting glucose + insulin)
       </div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c\n- HOMA-IR')">📋 Copy Insulin Resistance Panel for My Doctor</button>
     </div>
 
     <!-- INFLAMMATION PANEL ADD-ON -->
@@ -4553,6 +4506,28 @@ document.addEventListener('keydown', function(e){
         • ESR (Erythrocyte Sedimentation Rate)<br>
         • Homocysteine
       </div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">📋 Copy Inflammation Panel for My Doctor</button>
+    </div>
+
+    <!-- LIVER PANEL ADD-ON -->
+    <div style="border:1px solid rgba(0,255,100,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+        <span style="font-size:1.8rem;">🟢</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#00ff64;">Ask Your Doctor to Add: Liver Panel</div>
+      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
+        Many peptides (and underlying issues like fatty liver) are processed through the liver, so a baseline liver panel helps your doctor catch problems early and track changes over time. If not already included, ask for:
+      </div>
+      <div style="margin-top:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#00ff64;line-height:1.8;">
+        • ALT (Alanine Aminotransferase)<br>
+        • AST (Aspartate Aminotransferase)<br>
+        • ALP (Alkaline Phosphatase)<br>
+        • GGT (Gamma-Glutamyl Transferase)<br>
+        • Total &amp; Direct Bilirubin<br>
+        • Albumin<br>
+        • Total Protein
+      </div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">📋 Copy Liver Panel for My Doctor</button>
     </div>
 
     <!-- SECTION DIVIDER: WORK WITH DOCTOR -->
@@ -7590,6 +7565,9 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
 
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Copied! Paste this into an email to your doctor.'));
+}
 function showViewInternal(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   var el = document.getElementById('view-' + name);
