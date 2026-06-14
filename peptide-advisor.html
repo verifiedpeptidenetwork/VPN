@@ -584,7 +584,6 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
       <div class="header-vpn">VPN ADVISOR</div>
       <div class="header-full">Verified Peptides Network</div>
       <div class="header-tagline">AI-STYLE GOAL MATCHING + DOSE SCHEDULE BUILDER</div>
-      <a class="back-link" href="home.html">← Back to VPN Home</a>
     </div>
     <div class="header-badge">RESEARCH<br>USE<br>ONLY</div>
   </div>
@@ -623,12 +622,16 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
       <strong style="color:#fff;">Inform your doctor. Protect your health.</strong> You are the most important member of your healthcare team — be honest and detailed about everything you're taking or planning to take. Sharing the full picture helps your doctor catch issues early and build a plan that fits your needs.
       <br><br>
       <strong style="color:var(--yellow);">📋 Comprehensive Metabolic &amp; Hormone Panel:</strong> Comprehensive Metabolic Panel (CMP) · Complete Blood Count (CBC) · Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides, VLDL) · hs-CRP · ESR · TSH · Free T4 · Estradiol (Sensitive) · Total Testosterone · Free Testosterone · SHBG · LH · FSH · Prolactin · DHEA-S · Cortisol (AM) · Vitamin D (25-OH) · Vitamin B12 · Folate · Iron Panel · Ferritin · Magnesium · Zinc · Liver Enzymes (ALT, AST, GGT) · Kidney Function (BUN, Creatinine)
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please order the following baseline panel:\n- Comprehensive Metabolic Panel (CMP)\n- Complete Blood Count (CBC)\n- Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides, VLDL)\n- hs-CRP\n- ESR\n- TSH\n- Free T4\n- Estradiol (Sensitive)\n- Total Testosterone\n- Free Testosterone\n- SHBG\n- LH\n- FSH\n- Prolactin\n- DHEA-S\n- Cortisol (AM)\n- Vitamin D (25-OH)\n- Vitamin B12\n- Folate\n- Iron Panel\n- Ferritin\n- Magnesium\n- Zinc\n- Liver Enzymes (ALT, AST, GGT)\n- Kidney Function (BUN, Creatinine)')">📋 Copy This Panel for My Doctor</button>
       <br><br>
       <strong style="color:#ffe600;">🦋 Ask Your Doctor to Add — Thyroid Panel:</strong> Thyroid issues (hypo/hyperthyroidism) can mimic or worsen symptoms people often blame on peptides — fatigue, weight changes, mood, heart rate. If not already included, ask for: TSH, Free T3, Free T4, and Thyroid Antibodies (TPO/TgAb) if there's a family history of thyroid disease.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add a Thyroid Panel:\n- TSH\n- Free T3\n- Free T4\n- Thyroid Antibodies (TPO/TgAb) — if family history of thyroid disease')">📋 Copy Thyroid Panel for My Doctor</button>
       <br><br>
       <strong style="color:#ff6b00;">🍬 Ask Your Doctor to Add — Insulin Resistance Panel:</strong> Insulin resistance can drive fat gain, cravings, and energy crashes — and is often missed on a standard panel since fasting glucose alone can look "normal." If not already included, ask for: Fasting Insulin, Fasting Glucose, HbA1c (3-month average blood sugar), and HOMA-IR (calculated from fasting glucose + insulin).
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c (3-month average blood sugar)\n- HOMA-IR (calculated from fasting glucose + insulin)')">📋 Copy Insulin Resistance Panel for My Doctor</button>
       <br><br>
       <strong style="color:var(--neon-pink);">🔥 Ask Your Doctor to Add — Inflammation Panel:</strong> Chronic inflammation can affect recovery, gut health, joints, and how well your body responds to peptides. If not already included, ask for: hs-CRP (high-sensitivity C-Reactive Protein), ESR (Erythrocyte Sedimentation Rate), and Homocysteine.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">📋 Copy Inflammation Panel for My Doctor</button>
       <br><br>
       <strong style="color:var(--cyan);">Even if your doctor disagrees, talk to them anyway.</strong> They may catch risks, suggest safer alternatives, or adjust their perspective as new research emerges. <strong style="color:#fff;">Always be honest with your doctor — if they refuse to help or listen, find another. You deserve a doctor who supports you.</strong>
       <br><br>
@@ -668,6 +671,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="response-box" id="suggestions-box">
     <div class="response-label"><span class="pulse-dot"></span>HERE'S WHAT WE'D SUGGEST (TAP ANY ONE FOR DETAILS)</div>
     <div id="suggestions-list"></div>
+    <button class="btn-secondary" id="copy-suggestions-btn" style="display:none; margin-top:14px;" onclick="copySuggestionsText()">📋 Copy Suggestions as Text</button>
   </div>
 
   <hr class="divider">
@@ -816,6 +820,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 var SELECTED_GOALS = new Set();
 var SELECTED_GENDER = null;
 var SCHEDULES = [];
+var LAST_SUGGESTIONS = [];
 
 document.getElementById('gender-row').addEventListener('click', function(e){
   var btn = e.target.closest('.gender-btn');
@@ -1116,7 +1121,17 @@ function renderSuggestions(){
       + '</div>';
   }).join('');
   box.classList.add('visible');
+  document.getElementById('copy-suggestions-btn').style.display = sorted.length ? 'inline-block' : 'none';
+  LAST_SUGGESTIONS = sorted.map(function(key){
+    var p = PEPTIDES[key];
+    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
+  });
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function copySuggestionsText(){
+  if (!LAST_SUGGESTIONS || !LAST_SUGGESTIONS.length) return;
+  copyToClipboard(['SUGGESTED PEPTIDES', ''].concat(LAST_SUGGESTIONS).join('\n\n'));
 }
 
 function togglePep(el){
