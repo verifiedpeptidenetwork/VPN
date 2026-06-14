@@ -638,6 +638,8 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
     <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
     <div class="goal-card" data-goal="energy"><span class="goal-icon">⚡</span>Energy</div>
+    <div class="goal-card" data-goal="immune"><span class="goal-icon">🛡️</span>Immune Support</div>
+    <div class="goal-card" data-goal="longevity"><span class="goal-icon">⏳</span>Longevity / Bioregulators</div>
   </div>
 
   <button class="btn-primary" onclick="renderSuggestions()">RUN ANALYSIS →</button>
@@ -782,20 +784,22 @@ document.getElementById('gender-row').addEventListener('click', function(e){
 
 // goal -> peptide keys mapping
 var GOAL_MAP = {
-  fatloss:    ['reta','tirz','cagri','aod','mots','tesa'],
-  muscle:     ['bpc','tb500','mots','cjcipa'],
-  antiaging:  ['nad','ghk','epi','mots'],
-  recovery:   ['bpc','tb500','kpv','glow','klow'],
-  sleep:      ['cjcipa','tesa','dsip'],
-  gut:        ['bpc','kpv','tb500','klow'],
-  joints:     ['bpc','tb500','ghk'],
-  skin:       ['ghk','bpc','kpv','glow','klow'],
-  cognitive:  ['nad','semax','selank','mots'],
-  insulin:    ['mots','ss31','reta'],
+  fatloss:    ['reta','tirz','cagri','aod','mots','tesa','amino1mq','sema','mazd','survo','hghfrag','orfo'],
+  muscle:     ['bpc','tb500','mots','cjcipa','ipam','cjcdac','cjcnodac','cjc55','cjc611','cjc1010','ghrp2','ghrp6','hexarelin','sermorelin'],
+  antiaging:  ['nad','ghk','epi','mots','foxo4','naepi','gluta','ahkcu'],
+  recovery:   ['bpc','tb500','kpv','glow','klow','triheal','wolv','ghkkpv'],
+  sleep:      ['cjcipa','tesa','dsip','pinealon'],
+  gut:        ['bpc','kpv','tb500','klow','vip','ghkkpv','chonluten'],
+  joints:     ['bpc','tb500','ghk','cartalax','teripar','abalo'],
+  skin:       ['ghk','bpc','kpv','glow','klow','snap8','mt1','ahkcu'],
+  cognitive:  ['nad','semax','selank','mots','naselank','nasemax','illumineuro','pe2228','cerebro','adamax','cortagen'],
+  insulin:    ['mots','ss31','reta','carnitine'],
   thyroid:    ['bpc','tb500','cjcipa'],
-  inflammation: ['kpv','ghk','bpc'],
-  hair:       ['ghk'],
-  energy:     ['nad','mots','ss31']
+  inflammation: ['kpv','ghk','bpc','ll37','ghkkpv'],
+  hair:       ['ghk','ahkcu'],
+  energy:     ['nad','mots','ss31','carnitine','slu332','tesablend'],
+  immune:     ['thymalpha','thymulin','thymogen','vilon','ll37','gluta'],
+  longevity:  ['bronchogen','cardiogen','crystagen','livagen','ovagen','pancragon','pinealon','prostamax','testagen','naepi','vesugen','cortagen','pnc27']
 };
 
 // peptide info + default protocol values
@@ -821,7 +825,67 @@ var PEPTIDES = {
   kisspeptin: { name:'Kisspeptin-10', desc:'Studied for naturally supporting testosterone and reproductive hormone levels — mostly researched in men. Commonly dosed daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, gender:'male' },
   hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:3, start:250, step:0, weeks:8, freq:2, gender:'male', time:'am' },
   glow:   { name:'GLOW Blend (GHK-Cu + BPC-157 + TB-500)', desc:'A popular "stack in a vial" combining GHK-Cu, BPC-157, and TB-500 — studied for skin, healing, and recovery together. If your supplier sells a pre-mixed GLOW vial, use this entry. Otherwise, add GHK-Cu, BPC-157, and TB-500 individually above for the same effect with more control over each dose. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
-  klow:   { name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', desc:'A bigger "stack in a vial" — KLOW adds KPV to the GLOW combo, aiming at gut health plus skin, healing, and recovery. If your supplier sells a pre-mixed KLOW vial, use this entry. Otherwise, add KPV, BPC-157, TB-500, and GHK-Cu individually above so you can adjust each one on its own. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
+  klow:   { name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', desc:'A bigger "stack in a vial" — KLOW adds KPV to the GLOW combo, aiming at gut health plus skin, healing, and recovery. If your supplier sells a pre-mixed KLOW vial, use this entry. Otherwise, add KPV, BPC-157, TB-500, and GHK-Cu individually above so you can adjust each one on its own. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+
+  amino1mq:    { name:'5-Amino-1MQ', desc:'An NNMT inhibitor studied for fat loss, metabolism support, and preserving muscle while in a calorie deficit. Usually taken orally once daily for 4-8 week cycles.', vial:10, water:2, start:50, step:0, weeks:6, freq:7 },
+  abalo:       { name:'Abaloparatide', desc:'A PTH analog studied (and FDA-approved) for bone density and osteoporosis. Daily SC injection, with a maximum protocol length set by FDA labeling.', vial:2, water:2, start:0.08, step:0, weeks:12, freq:7 },
+  adamax:      { name:'Adamax', desc:'A neuroprotective blend studied for cognition, nerve repair, and overall brain health. Vendor-specific formulation — check the individual peptide components.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'pm' },
+  ahkcu:       { name:'AHK-Cu', desc:'A copper tripeptide studied for hair growth, scalp health, and skin repair — often paired with GHK-Cu. Used topically on the scalp or via SC injection for systemic effects.', vial:10, water:2, start:1, step:0, weeks:12, freq:7 },
+  bronchogen:  { name:'Bronchogen', desc:'A lung-targeted bioregulator studied for respiratory health and bronchial support. Oral daily for a short 10-day course, repeated 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cardiogen:   { name:'Cardiogen', desc:'A heart-targeted bioregulator studied for cardiac muscle health and protection, part of cardiovascular anti-aging protocols. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cartalax:    { name:'Cartalax', desc:'A cartilage-derived bioregulator studied for joint health and connective tissue repair — often stacked with BPC-157/TB-500. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cerebro:     { name:'Cerebrolysin', desc:'A neuropeptide blend studied for cognitive function, stroke recovery, and BDNF support — used in neurological rehab in many countries. Typically an IV/IM infusion course of 10-20 days.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
+  chonluten:   { name:'Chonluten', desc:'A bronchial and intestinal bioregulator studied for mucosal health in both the lungs and gut. Oral daily for a 10-day course.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cjcdac:      { name:'CJC-1295 DAC', desc:'A long-acting GHRH analog studied for sustained elevation of growth hormone over time. Dosed once weekly for 8-12 week cycles, often stacked with Ipamorelin.', vial:2, water:2, start:1, step:0, weeks:8, freq:1 },
+  cjcnodac:    { name:'CJC-1295 No DAC', desc:'A short-acting GHRH analog studied for mimicking the body\'s natural GH release pulse. Injected before sleep and/or pre-workout, 2-3x/day, for 8-12 week cycles.', vial:5, water:2, start:0.1, step:0, weeks:8, freq:7, time:'pm' },
+  cjc1010:     { name:'CJC/Ipamorelin 10/10', desc:'A high-dose GH-release blend studied for body recomposition. Pre-mixed; typically injected before sleep and AM fasted for experienced users, 8-12 weeks on, 4 off.', vial:10, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cjc55:       { name:'CJC/Ipamorelin 5/5', desc:'A balanced GH-release blend studied for fat loss and muscle support. Pre-mixed; injected before sleep and AM fasted for 8-12 week cycles.', vial:10, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cjc611:      { name:'CJC/Ipamorelin 6/11', desc:'A higher-Ipamorelin-ratio GH-release blend studied for an enhanced GH pulse and recomposition. Pre-mixed; injected before sleep and AM fasted for 8-12 week cycles.', vial:17, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cortagen:    { name:'Cortagen', desc:'A brain-cortex bioregulator studied for cognition and neurological health — often stacked with Semax/Selank. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  crystagen:   { name:'Crystagen', desc:'A urinary-system bioregulator studied for kidney and bladder health. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  foxo4:       { name:'FOXO4-DRI', desc:'A senolytic peptide studied for clearing senescent ("zombie") cells as part of anti-aging research. Often used in short pulsed protocols rather than continuous daily dosing.', vial:5, water:2, start:1, step:0, weeks:1, freq:3 },
+  ghkkpv:      { name:'GHK-Cu/KPV', desc:'Combines copper-peptide GHK-Cu with anti-inflammatory KPV — studied for healing plus gut health together. Used once daily for 4-8 weeks.', vial:10, water:2, start:0.5, step:0, weeks:8, freq:7 },
+  ghrp2:       { name:'GHRP-2', desc:'A GH-releasing peptide studied for producing a strong GH pulse along with appetite stimulation. Injected fasted, 2-3x/day, for 4-8 week cycles with breaks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  ghrp6:       { name:'GHRP-6', desc:'A GH-releasing peptide studied for muscle growth, with the strongest hunger-stimulating effect of the GHRPs — better suited to bulking than cutting phases. 2-3x/day for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  gluta:       { name:'Glutathione', desc:'The body\'s master antioxidant — studied for detox support, immune function, and skin health. Given as an IV push 2-3x/week, or as a daily oral/sublingual liposomal dose for maintenance.', vial:600, water:2, start:500, step:0, weeks:6, freq:3 },
+  hexarelin:   { name:'Hexarelin', desc:'One of the most potent GHRPs — studied for strong GH release plus cardiac and muscle-protective effects. Used 2-3x/day for 4-8 weeks, then a 4-week break (desensitizes with prolonged use).', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  hghfrag:     { name:'HGH Fragment 176-191', desc:'An isolated fragment of growth hormone studied for targeting fat loss in adipose tissue without raising IGF-1 or blood sugar. Injected AM fasted and/or pre-workout, 2x/day, for 8-12 weeks.', vial:5, water:2, start:0.25, step:0, weeks:10, freq:7 },
+  illumineuro: { name:'IllumiNeuro Blend', desc:'A nootropic blend studied for focus, neuroprotection, and mental clarity. Vendor-specific formulation, typically dosed intranasally or SC for 4-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'am' },
+  ipam:        { name:'Ipamorelin', desc:'A selective GH secretagogue studied for lean gains with minimal cortisol/prolactin side effects — often the first GH peptide people try. Injected before sleep and/or AM fasted, 2-3x/day, for 8-12 weeks on / 4 off.', vial:5, water:2, start:0.1, step:0, weeks:8, freq:7, time:'pm' },
+  carnitine:   { name:'L-Carnitine', desc:'An amino acid studied for fat metabolism, cellular energy production, and cardiovascular support. Taken orally with food daily, or via IV for an acute boost.', vial:10, water:2, start:500, step:0, weeks:8, freq:7 },
+  livagen:     { name:'Livagen', desc:'A liver and immune bioregulator studied for DNA repair and immune support via gene-expression effects. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  ll37:        { name:'LL-37', desc:'A broad-spectrum antimicrobial peptide studied for immune defense and wound healing. Used SC or applied topically for 2-4 week protocols.', vial:5, water:2, start:0.1, step:0, weeks:4, freq:7 },
+  mazd:        { name:'Mazdutide', desc:'A dual GLP-1/Glucagon agonist studied for metabolic health and fat loss, approved in China and in Phase 3 trials elsewhere. Dosed once weekly for 24-48 week protocols.', vial:10, water:2, start:3, step:0, weeks:8, freq:1 },
+  mt1:         { name:'Melanotan I', desc:'Studied for skin tanning and UV protection via increased melanin production, with fewer side effects than Melanotan II. Injected daily for 2-4 weeks to build/maintain a tan.', vial:10, water:2, start:0.5, step:0, weeks:3, freq:7 },
+  mt2:         { name:'Melanotan II', desc:'Studied for tanning, libido enhancement, and appetite suppression. Start very low (nausea is common) — daily loading for 2-3 weeks, then 2-3x/week for maintenance.', vial:10, water:2, start:0.25, step:0, weeks:3, freq:7, gender:'both' },
+  naepi:       { name:'Na Epitalon', desc:'A more bioavailable sodium form of Epitalon, studied for longevity and sleep-pattern support at the cellular level. Used daily (SC or intranasal) for a 10-day course, twice yearly.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
+  naselank:    { name:'Na Selank', desc:'An N-acetylated, longer-acting version of Selank — studied for anxiety relief and cognitive support with once-daily dosing often being enough. Used intranasally for 2-3 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:7 },
+  nasemax:     { name:'Na Semax', desc:'A more potent, N-acetylated version of Semax — studied for enhanced bioavailability as a nootropic. Start low and assess response; intranasal for 2-4 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:5 },
+  neuroxelin:  { name:'Neuroxelin Blend', desc:'A neural-support blend studied for neuroprotection and cognitive enhancement. Vendor-specific formulation — check the individual peptide components for dosing details.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'am' },
+  orfo:        { name:'Orforglipron', desc:'An oral (non-injectable) GLP-1 agonist studied for weight loss without needing injections — currently in Phase 3 trials. Taken as a daily oral tablet.', vial:10, water:2, start:12, step:0, weeks:8, freq:7 },
+  ovagen:      { name:'Ovagen', desc:'A liver-derived bioregulator studied for hepatic function and detoxification support — often stacked with NAD+. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  oxytocin:    { name:'Oxytocin', desc:'The "bonding hormone" — studied for social connection, stress relief, and recovery support. Used intranasally as needed, not intended for chronic daily use.', vial:10, water:2, start:10, step:0, weeks:4, freq:2 },
+  pancragon:   { name:'Pancragon', desc:'A pancreatic bioregulator studied for blood sugar regulation and digestive enzyme support. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  pe2228:      { name:'PE-22-28', desc:'A BDNF-mimetic peptide studied for mood, cognition, and neuroplasticity as a research-stage antidepressant. Used intranasally daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  pinealon:    { name:'Pinealon', desc:'A pineal-gland bioregulator studied for sleep quality, longevity, and neuroprotection via the melatonin pathway. Used before sleep for a 10-day course, 2-3x/year.', vial:10, water:2, start:5, step:0, weeks:2, freq:7, time:'pm' },
+  pnc27:       { name:'PNC-27', desc:'A highly experimental anticancer research peptide studied for selectively targeting cancer cells via a p53-linked mechanism. Preclinical research stage only — dosing protocols vary widely.', vial:5, water:2, start:1, step:0, weeks:4, freq:3 },
+  prostamax:   { name:'Prostamax', desc:'A prostate-derived bioregulator studied for prostate health and male urinary function. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7, gender:'male' },
+  sema:        { name:'Semaglutide', desc:'A well-known GLP-1 agonist studied for weight loss and blood sugar control. Started low and ramped up slowly, dosed once weekly for 68+ week protocols.', vial:5, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
+  sermorelin:  { name:'Sermorelin', desc:'A GHRH analog studied for natural growth-hormone stimulation and anti-aging support, mimicking the body\'s natural GH pulse. Injected at bedtime on an empty stomach for 6-12 month protocols.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
+  slu332:      { name:'SLU-PP-332', desc:'An "exercise mimetic" studied for activating muscle and metabolic pathways similar to endurance training. Research-stage — dosing is not yet standardized.', vial:10, water:2, start:1, step:0, weeks:6, freq:5 },
+  snap8:       { name:'SNAP-8', desc:'A cosmetic peptide studied for relaxing expression lines and reducing the appearance of wrinkles. Applied topically (4% cream/serum) 2x/day for continuous use.', vial:10, water:2, start:1, step:0, weeks:8, freq:7 },
+  survo:       { name:'Survodutide', desc:'A GLP-1/Glucagon agonist studied for obesity and NASH (fatty liver) in Phase 2/3 trials. Started low and titrated up, dosed once weekly.', vial:10, water:2, start:0.6, step:0.6, weeks:4, freq:1 },
+  teripar:     { name:'Teriparatide', desc:'A parathyroid hormone analog studied (and FDA-approved) for bone formation and fracture repair. Daily SC injection, rotating injection sites, with a 24-month max protocol per FDA labeling.', vial:1, water:2, start:0.02, step:0, weeks:12, freq:7 },
+  tesablend:   { name:'Tesa Blend', desc:'A Tesamorelin-based blend studied for growth-hormone release and visceral fat reduction. Daily SC injection for 12-26 weeks, with IGF-1 monitoring recommended.', vial:10, water:2, start:1, step:0, weeks:12, freq:7 },
+  testagen:    { name:'Testagen', desc:'A testosterone-supporting bioregulator studied for maintaining natural T-levels. Oral daily for a 10-day course, 1-2x/year.', vial:20, water:2, start:20, step:0, weeks:2, freq:7, gender:'male' },
+  thymogen:    { name:'Thymogen', desc:'A thymus-derived bioregulator studied for immune system restoration. Dosed daily (SC or oral) for a 10-day course, 2x/year.', vial:10, water:2, start:0.1, step:0, weeks:2, freq:7 },
+  thymalpha:   { name:'Thymosin Alpha-1', desc:'An immune modulator studied for enhancing immune function and antiviral defense — used in cancer support, Lyme, and autoimmune protocols. Injected SC twice weekly for 4-6+ weeks.', vial:5, water:2, start:1.6, step:0, weeks:5, freq:2 },
+  thymulin:    { name:'Thymulin', desc:'A thymus hormone studied for immune regulation and T-cell maturation — often cycled alongside Thymosin Alpha-1. Injected SC 2-3x/week for 4-8 weeks.', vial:5, water:2, start:0.05, step:0, weeks:6, freq:2 },
+  triheal:     { name:'Tri-Heal Blend', desc:'A triple-healing stack — typically BPC-157 + TB-500 + KPV (or similar) — studied for tissue repair, inflammation, and recovery together. Used once daily for a targeted injury protocol, 4-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+  vesugen:     { name:'Vesugen', desc:'A vascular bioregulator studied for blood vessel health and circulation as part of a cardiovascular anti-aging protocol. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  vilon:       { name:'Vilon', desc:'A broad immune bioregulator studied for longevity and immune system modulation, often part of longevity stacks. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  vip:         { name:'VIP (Vasoactive Intestinal Peptide)', desc:'Studied for inflammation, immune balance, and gut health — used in protocols for conditions like MCAS/dysautonomia. Short half-life; often split into AM/PM SC or IV doses for 4-12 weeks.', vial:5, water:2, start:0.025, step:0, weeks:6, freq:7 },
+  wolv:        { name:'Wolverine Stack', desc:'A comprehensive healing stack — often BPC-157 + TB-500 plus extras — studied for rapid recovery and tissue repair. Used once daily for 4-12 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
 };
 
 // goals that pull in gender-specific peptides
@@ -830,7 +894,7 @@ var GENDER_GOAL_MAP = {
   female: { fatloss:[], muscle:[], antiaging:['ghk'], skin:['ghk'] }
 };
 // libido/hormone goal applies to both
-GOAL_MAP.libido = ['pt141'];
+GOAL_MAP.libido = ['pt141','mt2','oxytocin'];
 
 document.getElementById('goals-grid').addEventListener('click', function(e){
   var card = e.target.closest('.goal-card');
@@ -844,7 +908,8 @@ var GOAL_LABELS = {
   fatloss:'Fat Loss', muscle:'Muscle Growth', antiaging:'Anti-Aging', recovery:'Recovery',
   sleep:'Sleep', gut:'Gut Health', joints:'Joints', skin:'Skin & Hair', cognitive:'Cognitive',
   libido:'Libido / Hormones', insulin:'Insulin Resistance', thyroid:'Thyroid Support',
-  inflammation:'Inflammation', hair:'Hair', energy:'Energy'
+  inflammation:'Inflammation', hair:'Hair', energy:'Energy', immune:'Immune Support',
+  longevity:'Longevity / Bioregulators'
 };
 
 // short goal-specific "why this helps" blurbs, keyed by goal -> peptide key
@@ -929,7 +994,33 @@ var GOAL_REASONS = {
   energy: {
     nad:  'Directly fuels cellular energy production (ATP) — the core "energy" peptide, studied for fighting fatigue and supporting mitochondrial function.',
     mots: 'A mitochondrial-derived peptide studied for boosting metabolism and exercise stamina — helps your cells produce more usable energy.',
-    ss31: 'Targets mitochondria directly — studied for improving cellular energy output and reducing fatigue, especially when paired with MOTS-c.'
+    ss31: 'Targets mitochondria directly — studied for improving cellular energy output and reducing fatigue, especially when paired with MOTS-c.',
+    carnitine: 'Helps shuttle fat into cells\' mitochondria to be burned for fuel — a foundational energy-metabolism support compound.',
+    slu332: 'An exercise mimetic studied for switching on the same metabolic pathways activated by endurance training, supporting energy output.',
+    tesablend: 'Raises natural growth hormone, which is studied for improving energy levels and body composition.'
+  },
+  immune: {
+    thymalpha: 'A core immune-modulating peptide studied for enhancing immune function and antiviral defense.',
+    thymulin:  'Supports T-cell maturation and immune regulation, often cycled with Thymosin Alpha-1.',
+    thymogen:  'A thymus-derived bioregulator studied for restoring immune system function.',
+    vilon:     'A broad immune bioregulator studied for modulating immune response as part of longevity protocols.',
+    ll37:      'An antimicrobial peptide that supports the immune system\'s defense against pathogens.',
+    gluta:     'The body\'s master antioxidant — supports immune cell function and overall detox capacity.'
+  },
+  longevity: {
+    bronchogen: 'A respiratory-system bioregulator studied for supporting lung health as part of healthy aging.',
+    cardiogen:  'A cardiac bioregulator studied for supporting heart muscle health and cardiovascular longevity.',
+    crystagen:  'A kidney/bladder bioregulator studied for supporting urinary system health with age.',
+    livagen:    'A liver bioregulator studied for DNA repair and detoxification support — key for cellular longevity.',
+    ovagen:     'A liver-derived bioregulator studied for hepatic function as part of longevity stacks.',
+    pancragon:  'A pancreatic bioregulator studied for supporting healthy blood sugar regulation with age.',
+    pinealon:   'A pineal-gland bioregulator studied for sleep and neuroprotection — both tied to healthy aging.',
+    prostamax:  'A prostate bioregulator studied for supporting male urinary health as part of longevity protocols.',
+    testagen:   'A testosterone-supporting bioregulator studied for maintaining natural hormone levels with age.',
+    naepi:      'A bioavailable form of Epitalon — directly studied for telomere support and cellular longevity.',
+    vesugen:    'A vascular bioregulator studied for supporting healthy circulation as part of cardiovascular longevity.',
+    cortagen:   'A brain-cortex bioregulator studied for supporting long-term cognitive health.',
+    pnc27:      'An experimental peptide studied for targeting senescent/cancerous cells — relevant to longevity research.'
   }
 };
 
