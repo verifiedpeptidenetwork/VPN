@@ -3317,7 +3317,7 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- Janoshik note + video -->
-  <div style="margin-top:0.85rem;max-width:600px;margin-left:auto;margin-right:auto;background:#0d0518;border:2px solid #cc44ff;box-shadow:0 0 24px rgba(180,0,255,0.35);padding:1.1rem 1.3rem;text-align:left;clip-path:polygon(0 0,100% 0,100% 100%,24px 100%,0 calc(100% - 24px));">
+  <div id="janoshik-section" style="margin-top:0.85rem;max-width:600px;margin-left:auto;margin-right:auto;background:#0d0518;border:2px solid #cc44ff;box-shadow:0 0 24px rgba(180,0,255,0.35);padding:1.1rem 1.3rem;text-align:left;clip-path:polygon(0 0,100% 0,100% 100%,24px 100%,0 calc(100% - 24px));">
     <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;">
       <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.15);border:1px solid var(--neon-pink);color:var(--neon-pink);clip-path:polygon(6px 0,100% 0,100% 100%,0 100%,0 6px);">⚠ IMPORTANT</span>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;color:#cc44ff;">▶ JANOSHIK INTERVIEW</div>
@@ -3355,10 +3355,53 @@ document.addEventListener('keydown', function(e){
   </style>
   <div class="dir-grid">
 
+    <a href="peptide-advisor.html" class="dir-card" style="--dc:rgba(255,45,120,0.14);--dc2:rgba(255,45,120,0.24);--db:rgba(255,45,120,0.55);--dg:rgba(255,45,120,0.35);--dt:var(--neon-pink);display:flex;align-items:center;gap:0.75rem;">
+      <img src="gorilla-icon.png" alt="" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;">
+      <div>
+        <div class="dir-card-title">Peptide Advisor</div>
+        <div class="dir-card-desc">Goal suggestions · Dose schedule builder</div>
+      </div>
+    </a>
+
+    <div class="dir-card" style="--dc:rgba(255,45,120,0.14);--dc2:rgba(255,45,120,0.24);--db:rgba(255,45,120,0.55);--dg:rgba(255,45,120,0.35);--dt:var(--neon-pink);" onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'))">
+      <div class="dir-card-title">🩸 Blood Work</div>
+      <div class="dir-card-desc">Know your numbers · Lab panels</div>
+    </div>
+
+    <div class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);" onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'))">
+      <div class="dir-card-title">▶ Doctor Videos</div>
+      <div class="dir-card-desc">Research physicians · Education</div>
+    </div>
+
     <div class="dir-card" style="--dc:rgba(255,230,0,0.16);--dc2:rgba(255,230,0,0.26);--db:#ffe600;--dg:rgba(255,230,0,0.35);--dt:#ffe600;" onclick="showView('calculator');setActiveNav(document.querySelector('[onclick*=calculator]'))">
       <div class="dir-card-title">🧮 Reconstitution Calculator</div>
       <div class="dir-card-desc">Figure out your dose &amp; draw amount</div>
     </div>
+
+    <div class="dir-card" style="--dc:rgba(0,255,100,0.14);--dc2:rgba(0,255,100,0.24);--db:rgba(0,255,100,0.55);--dg:rgba(0,255,100,0.35);--dt:#00ff64;" onclick="showView('vitamins');setActiveNav(document.querySelector('[onclick*=vitamins]'))">
+      <div class="dir-card-title">💊 Vitamins &amp; Supplements</div>
+      <div class="dir-card-desc">Thyroid · Insulin · PCOS · Inflammation</div>
+    </div>
+
+    <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'))">
+      <div class="dir-card-title">🧫 Supplies</div>
+      <div class="dir-card-desc">Syringes · BAC water · Niimbot</div>
+    </div>
+
+    <div class="dir-card" style="--dc:rgba(180,0,255,0.14);--dc2:rgba(180,0,255,0.24);--db:rgba(180,0,255,0.55);--dg:rgba(180,0,255,0.35);--dt:#cc44ff;" onclick="document.getElementById('janoshik-section').scrollIntoView({behavior:'smooth'})">
+      <div class="dir-card-title">🧪 Janoshik Interview</div>
+      <div class="dir-card-desc">Peter Magic · Independent peptide testing</div>
+    </div>
+
+    <a href="Pdf/VPN_Peptide_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(255,107,0,0.16);--dc2:rgba(255,107,0,0.26);--db:var(--neon-orange);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);">
+      <div class="dir-card-title">📥 Download The Full VPN Peptide Guide</div>
+      <div class="dir-card-desc">Complete Research Guide (PDF)</div>
+    </a>
+
+    <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);">
+      <div class="dir-card-title">📥 Download Your Quick Cheat Sheet</div>
+      <div class="dir-card-desc">VPN Peptide Research Guide (PDF)</div>
+    </a>
 
     <div class="dir-card" style="--dc:rgba(0,245,255,0.16);--dc2:rgba(0,245,255,0.26);--db:var(--neon-cyan);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);" onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'))">
       <div class="dir-card-title">🛠 Tools &amp; Guides</div>
@@ -3385,42 +3428,9 @@ document.addEventListener('keydown', function(e){
       <div class="dir-card-desc">Clinical · Preclinical · Safety data</div>
     </div>
 
-    <div class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);" onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'))">
-      <div class="dir-card-title">▶ Doctor Videos</div>
-      <div class="dir-card-desc">Research physicians · Education</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'))">
-      <div class="dir-card-title">🧫 Supplies</div>
-      <div class="dir-card-desc">Syringes · BAC water · Niimbot</div>
-    </div>
-
-    <a href="peptide-advisor.html" class="dir-card" style="--dc:rgba(255,45,120,0.14);--dc2:rgba(255,45,120,0.24);--db:rgba(255,45,120,0.55);--dg:rgba(255,45,120,0.35);--dt:var(--neon-pink);display:flex;align-items:center;gap:0.75rem;">
-      <img src="gorilla-icon.png" alt="" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;">
-      <div>
-        <div class="dir-card-title">Peptide Advisor</div>
-        <div class="dir-card-desc">Goal suggestions · Dose schedule builder</div>
-      </div>
-    </a>
-
-    <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);">
-      <div class="dir-card-title">📥 Download Your Quick Cheat Sheet</div>
-      <div class="dir-card-desc">VPN Peptide Research Guide (PDF)</div>
-    </a>
-
     <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('templates');setActiveNav(document.querySelector('[onclick*=templates]'))">
       <div class="dir-card-title">🏷️ Label Templates</div>
       <div class="dir-card-desc">Vial labels · Niimbot · VPN branded</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,45,120,0.14);--dc2:rgba(255,45,120,0.24);--db:rgba(255,45,120,0.55);--dg:rgba(255,45,120,0.35);--dt:var(--neon-pink);" onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'))">
-      <div class="dir-card-title">🩸 Blood Work</div>
-      <div class="dir-card-desc">Know your numbers · Lab panels</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(0,255,100,0.14);--dc2:rgba(0,255,100,0.24);--db:rgba(0,255,100,0.55);--dg:rgba(0,255,100,0.35);--dt:#00ff64;" onclick="showView('vitamins');setActiveNav(document.querySelector('[onclick*=vitamins]'))">
-      <div class="dir-card-title">💊 Vitamins &amp; Supplements</div>
-      <div class="dir-card-desc">Thyroid · Insulin · PCOS · Inflammation</div>
     </div>
 
     <div class="dir-card" style="--dc:rgba(0,245,255,0.14);--dc2:rgba(0,245,255,0.24);--db:rgba(0,245,255,0.55);--dg:rgba(0,245,255,0.35);--dt:var(--neon-cyan);" onclick="showView('team');setActiveNav(document.querySelector('[onclick*=team]'))">
