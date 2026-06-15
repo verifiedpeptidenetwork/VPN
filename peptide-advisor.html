@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPN — Peptide Advisor</title>
+<title>VPN — Peptide Suggestion</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
 
@@ -610,7 +610,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="header-inner">
     <img class="logo-emoji" src="gorilla-icon.png" alt="VPN Gorilla">
     <div class="header-text">
-      <div class="header-vpn">VPN ADVISOR</div>
+      <div class="header-vpn">VPN SUGGESTION</div>
       <div class="header-full">Verified Peptides Network</div>
       <div class="header-tagline">AI-STYLE GOAL MATCHING + DOSE SCHEDULE BUILDER</div>
     </div>
@@ -640,7 +640,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   </div>
 
   <div class="disclaimer">
-    ⚠ FOR LEARNING ONLY — THIS IS NOT MEDICAL ADVICE. This tool gives general examples based on research, not a prescription. Always talk to a licensed doctor before starting anything, and double-check your math with the Reconstitution Calculator.
+    ⚠ FOR LEARNING ONLY — THIS IS A SUGGESTION TOOL, NOT MEDICAL ADVICE. A suggestion is just a starting point for your own research — not a recommendation to follow blindly. This tool gives general examples based on research, not a prescription. Always do your own independent research, talk to a licensed doctor before starting anything, and double-check your math with the Reconstitution Calculator.
     <br><br>
     Work with your doctor — even if they disagree with you — and independently verify everything in every part of this tool (or any website) before acting on it.
   </div>
@@ -864,15 +864,6 @@ var SELECTED_GOALS = new Set();
 var SELECTED_GENDER = null;
 var SCHEDULES = [];
 var LAST_SUGGESTIONS = [];
-
-(function(){
-  var dl = document.getElementById('peptide-search-list');
-  Object.keys(PEPTIDES).sort(function(a,b){ return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); }).forEach(function(key){
-    var opt = document.createElement('option');
-    opt.value = PEPTIDES[key].name;
-    dl.appendChild(opt);
-  });
-})();
 
 function searchPeptide(){
   var input = document.getElementById('peptide-search');
@@ -1158,6 +1149,15 @@ var GOAL_REASONS = {
     pnc27:      'An experimental peptide studied for targeting senescent/cancerous cells — relevant to longevity research.'
   }
 };
+
+(function(){
+  var dl = document.getElementById('peptide-search-list');
+  Object.keys(PEPTIDES).sort(function(a,b){ return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); }).forEach(function(key){
+    var opt = document.createElement('option');
+    opt.value = PEPTIDES[key].name;
+    dl.appendChild(opt);
+  });
+})();
 
 function renderSuggestions(){
   var box = document.getElementById('suggestions-box');
