@@ -673,6 +673,17 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     </div>
   </details>
 
+  <div style="margin-bottom:24px;">
+    <div class="field-label">🔍 OR SEARCH FOR A SPECIFIC PEPTIDE BY NAME</div>
+    <div class="info-row" style="margin-bottom:0;">
+      <div class="info-field">
+        <input id="peptide-search" class="pep-input" type="text" list="peptide-search-list" placeholder="e.g. BPC-157, Retatrutide, NAD+..." onkeydown="if(event.key==='Enter'){searchPeptide();}">
+        <datalist id="peptide-search-list"></datalist>
+      </div>
+    </div>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="searchPeptide()">🔍 Search This Peptide</button>
+  </div>
+
   <div class="gender-row" id="gender-row">
     <div class="gender-btn" data-gender="male">♂ Male</div>
     <div class="gender-btn" data-gender="female">♀ Female</div>
@@ -853,6 +864,50 @@ var SELECTED_GOALS = new Set();
 var SELECTED_GENDER = null;
 var SCHEDULES = [];
 var LAST_SUGGESTIONS = [];
+
+(function(){
+  var dl = document.getElementById('peptide-search-list');
+  Object.keys(PEPTIDES).sort(function(a,b){ return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); }).forEach(function(key){
+    var opt = document.createElement('option');
+    opt.value = PEPTIDES[key].name;
+    dl.appendChild(opt);
+  });
+})();
+
+function searchPeptide(){
+  var input = document.getElementById('peptide-search');
+  var query = input.value.trim().toLowerCase();
+  if (!query) return;
+  var key = Object.keys(PEPTIDES).find(function(k){ return PEPTIDES[k].name.toLowerCase() === query; });
+  if (!key){
+    key = Object.keys(PEPTIDES).find(function(k){ return PEPTIDES[k].name.toLowerCase().indexOf(query) !== -1 || k.toLowerCase().indexOf(query) !== -1; });
+  }
+  if (!key){
+    document.getElementById('suggestions-list').innerHTML = '<div class="pep-result-desc">No peptide found matching "' + input.value + '". Try a different spelling, or browse by selecting a goal above.</div>';
+    document.getElementById('suggestions-box').classList.add('visible');
+    document.getElementById('copy-suggestions-btn').style.display = 'none';
+    document.getElementById('suggestions-box').scrollIntoView({behavior:'smooth', block:'nearest'});
+    return;
+  }
+  var p = PEPTIDES[key];
+  var list = document.getElementById('suggestions-list');
+  list.innerHTML = '<div class="pep-result" data-key="' + key + '">'
+    + '<div class="pep-result-top">'
+    +   '<div class="pep-result-name">' + p.name + '</div>'
+    +   '<div style="display:flex;align-items:center;gap:10px;">'
+    +     '<button class="add-btn" onclick="useForSchedule(\'' + key + '\', event)" title="Add to schedule builder">+ ADD</button>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="pep-result-desc">' + p.desc + '</div>'
+    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
+    + '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
+    + '</div>';
+  document.getElementById('copy-suggestions-btn').style.display = 'none';
+  LAST_SUGGESTIONS = [p.name + ' — ' + p.desc];
+  var box = document.getElementById('suggestions-box');
+  box.classList.add('visible');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
 
 document.getElementById('gender-row').addEventListener('click', function(e){
   var btn = e.target.closest('.gender-btn');
@@ -1343,7 +1398,8 @@ function showShoppingList(){
 }
 
 function downloadShoppingListPDF(){
-  if (SCHEDULES.length === 0) return;
+  if (SCHEDULES.length === 0){ alert('Add at least one peptide to your schedule first (Step 2), then try again.'); return; }
+  showShoppingList();
   document.body.classList.add('print-shopping-only');
   window.print();
   document.body.classList.remove('print-shopping-only');
