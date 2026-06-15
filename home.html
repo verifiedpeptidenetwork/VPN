@@ -3181,9 +3181,57 @@ document.addEventListener('keydown', function(e){
 
 <!-- HERO -->
 <div class="hero" id="site-hero">
-  <div class="hero-logo-wrap">
-      <img src="vpnlogo.png?v=3" alt="VPN Verified Peptides Network Logo" class="hero-logo-img" />
+
+  <!-- LOGO + QUICK ACCESS ROWS -->
+  <div style="max-width:1100px;width:100%;margin:0 auto 1.25rem;display:flex;gap:1.25rem;align-items:stretch;flex-wrap:wrap;">
+    <div class="hero-logo-wrap" style="flex:0 0 auto;margin:0;">
+      <img src="vpnlogo.png?v=3" alt="VPN Verified Peptides Network Logo" class="hero-logo-img" style="width:340px;height:340px;object-fit:contain;" />
     </div>
+    <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:0.6rem;justify-content:center;min-width:280px;">
+
+      <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener"
+         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-cyan);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(0,245,255,0.1)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
+        <span style="font-size:1.6rem;flex-shrink:0;">📥</span>
+        <span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#fff;">Download Free Cheat Sheet Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">The complete VPN peptide reference, as a PDF</div>
+        </span>
+      </a>
+
+      <a href="peptide-advisor.html"
+         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-pink);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(255,45,120,0.1)';this.style.boxShadow='0 0 18px rgba(255,45,120,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
+        <span style="font-size:1.6rem;flex-shrink:0;">🦍</span>
+        <span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#fff;">Peptide Advisor</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Goal-based suggestions &amp; a dose schedule builder</div>
+        </span>
+      </a>
+
+      <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
+         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-orange);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(255,107,0,0.1)';this.style.boxShadow='0 0 18px rgba(255,107,0,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
+        <span style="font-size:1.6rem;flex-shrink:0;">🧮</span>
+        <span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#fff;">Reconstitution Calculator</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Figure out your dose &amp; draw amount</div>
+        </span>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=shgk3-u51Ys" target="_blank" rel="noopener"
+         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #cc44ff;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(180,0,255,0.1)';this.style.boxShadow='0 0 18px rgba(180,0,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
+        <span style="font-size:1.6rem;flex-shrink:0;">▶</span>
+        <span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#fff;">Janoshik Interview — Peter Magic</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Sterility testing, shaking peptides &amp; more</div>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
     <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:-0.5rem;margin-bottom:1rem;background:rgba(0,0,0,0.82);border:1px solid rgba(255,45,120,0.7);box-shadow:0 0 18px rgba(180,0,255,0.35),inset 0 0 20px rgba(0,0,0,0.5);padding:0.45rem 1.3rem;display:inline-block;backdrop-filter:blur(6px);">
       <span style="font-family:'Permanent Marker',cursive;font-size:1.3em;color:#00f5ff;text-shadow:0 0 10px rgba(0,245,255,1);display:inline-block;transform:rotate(-8deg);">R</span><span style="color:#ffffff;">eta</span>&nbsp;
       <span style="font-family:'Permanent Marker',cursive;font-size:1.3em;color:#ff2d78;text-shadow:0 0 10px rgba(255,45,120,1);display:inline-block;transform:rotate(6deg);">U</span><span style="color:#ffffff;">nfiltered</span>&nbsp;
@@ -3205,30 +3253,9 @@ document.addEventListener('keydown', function(e){
       ⚠ FOR LEARNING ONLY — THIS IS NOT MEDICAL ADVICE. Work with your doctor — even if they disagree with you — and independently verify everything in every part of this website (or any website) before acting on it.
     </div>
 
-  <div style="margin:0 auto 0.85rem;max-width:680px;width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.85rem;">
-    <a href="peptide-advisor.html"
-       style="cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;text-align:center;box-sizing:border-box;padding:1.1rem 1rem;background:linear-gradient(135deg,rgba(255,45,120,0.14),rgba(180,0,255,0.08));border:2px solid var(--neon-pink);box-shadow:0 0 24px rgba(255,45,120,0.35);text-decoration:none;transition:box-shadow 0.2s,background 0.2s;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);"
-       onmouseover="this.style.boxShadow='0 0 32px rgba(255,45,120,0.6)'" onmouseout="this.style.boxShadow='0 0 24px rgba(255,45,120,0.35)'">
-      <img src="gorilla-icon.png" alt="" style="width:32px;height:32px;object-fit:contain;flex-shrink:0;border-radius:50%;">
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.1em;color:var(--neon-pink);text-shadow:0 0 10px rgba(255,45,120,0.6);line-height:1.2;">Peptide Advisor<br>Suggestions &amp; Dose Schedule</span>
-    </a>
-    <a href="ruic_peptide_comparison_tool.html"
-       style="cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;text-align:center;box-sizing:border-box;padding:1.1rem 1rem;background:linear-gradient(135deg,rgba(0,245,255,0.14),rgba(0,255,100,0.06));border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.3);text-decoration:none;transition:box-shadow 0.2s,background 0.2s;clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px);"
-       onmouseover="this.style.boxShadow='0 0 32px rgba(0,245,255,0.55)'" onmouseout="this.style.boxShadow='0 0 24px rgba(0,245,255,0.3)'">
-      <span style="font-size:1.4rem;">💰</span>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 8px rgba(0,245,255,0.5);">Price Comparison<br>Tool</span>
-    </a>
-    <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
-       style="cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;text-align:center;box-sizing:border-box;padding:1.1rem 1rem;background:linear-gradient(135deg,rgba(255,107,0,0.14),rgba(255,230,0,0.06));border:2px solid var(--neon-orange);box-shadow:0 0 16px rgba(255,107,0,0.3);text-decoration:none;transition:box-shadow 0.2s,background 0.2s;clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px);"
-       onmouseover="this.style.boxShadow='0 0 24px rgba(255,107,0,0.5)'" onmouseout="this.style.boxShadow='0 0 16px rgba(255,107,0,0.3)'">
-      <span style="font-size:1.4rem;">🧮</span>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.1em;color:var(--neon-orange);text-shadow:0 0 8px rgba(255,107,0,0.5);">Reconstitution<br>Calculator</span>
-    </a>
-  </div>
-
   <div class="hero-badges">
     <button onclick="showView('quick-guide'); setActiveNav(document.querySelector('[onclick*=quick-guide]'))" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;clip-path:polygon(10px 0,100% 0,100% 100%,0 100%,0 10px);" onmouseover="this.style.background='rgba(0,245,255,0.15)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">📖 Research Guides</button>
-    <a href="https://www.youtube.com/watch?v=shgk3-u51Ys" target="_blank" rel="noopener" class="hero-badge cyan" style="text-decoration:none;cursor:pointer;transition:box-shadow 0.2s,background 0.2s;border-color:#cc44ff;color:#cc44ff;background:#0d0814;clip-path:polygon(10px 0,100% 0,100% 100%,0 100%,0 10px);" onmouseover="this.style.background='rgba(180,0,255,0.15)';this.style.boxShadow='0 0 18px rgba(180,0,255,0.5)'" onmouseout="this.style.background='#0d0814';this.style.boxShadow='none'">▶ Janoshik Interview — Peter Magic</a>
+    <a href="ruic_peptide_comparison_tool.html" class="hero-badge cyan" style="text-decoration:none;cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(0,245,255,0.15)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">💰 Price Comparison Tool</a>
   </div>
 
   <!-- Janoshik note + video -->
