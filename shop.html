@@ -88,6 +88,26 @@ const VENDOR_COLORS = {
   "Lilly Peptide":"#FF4DC4","Bio Peptides":"#00FFB0","Peptide Lab":"#F5A623",
 };
 
+const VENDOR_CONTACTS = {
+  "Mia":           { display:"Kerui Peptides (MIA)",     flag:"🇨🇳", whatsapp:"85244722635",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested · Credit/Debit · Wire · Crypto" },
+  "Sophie":        { display:"Sophie (Wanshun)",          flag:"🇨🇳", whatsapp:"85267291670",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · Credit/Debit · 3rd Party Tested" },
+  "Becky":         { display:"Anya",                      flag:"🇨🇳", whatsapp:"85268860568",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · 3rd Party Tested" },
+  "InnoPeptide":   { display:"InnoPeptide (Loreler)",     flag:"🇺🇸", whatsapp:"",             phone:"+12313921328", telegram:"",              discord:"", website:"", notes:"USA Based · Credit/Debit · 3rd Party Tested" },
+  "MarvelPep":     { display:"Marvel Peptide",            flag:"🇨🇳", whatsapp:"85267059715",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested" },
+  "Lilly Peptide": { display:"LiliPeptide (Luna)",        flag:"🇨🇳", whatsapp:"85265536423",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested" },
+  "Bio Peptides":  { display:"Bio Peptides",              flag:"",    whatsapp:"",             phone:"",             telegram:"",              discord:"", website:"", notes:"" },
+  "Peptide Lab":   { display:"Peptide Laboratory (Audrey)",flag:"🇺🇸",whatsapp:"85255886802",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · Contact Audrey Carter" },
+};
+
+const ALL_VENDORS = [
+  ...Object.entries(VENDOR_CONTACTS).map(([k,v])=>({...v,key:k,inShop:true})),
+  { key:"InstantPeptides", display:"Instant Peptides",  flag:"🇺🇸", whatsapp:"",             phone:"+19542048265",  telegram:"",              discord:"",                  website:"instantpeptides.com", notes:"Single Vial Retail · Credit Card · USA Based",  inShop:false },
+  { key:"Kevkaycar",       display:"Kevkaycar",          flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"kevkaycar",     discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
+  { key:"Riptide",         display:"Riptide Discord",    flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"discord.gg/dwkjhwkf5",website:"",                 notes:"USA Vendor · Discord Community",                inShop:false },
+  { key:"RetaGroup",       display:"Reta Group (Zoey)",  flag:"🇨🇳", whatsapp:"8618053579924",phone:"",              telegram:"",              discord:"",                  website:"",                   notes:"GHK-Cu Raw Materials · Cheap Pricing",           inShop:false },
+  { key:"Unicornfartzz",   display:"Unicornfartzz",      flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"unicornfartzz", discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
+];
+
 const RAW_DATA = [
   {product:"Retatrutide",spec:"5mgx10vials",lowest:"Bio Peptides",price:45,Mia:70,Sophie:59,Becky:140,InnoPeptide:70,MarvelPep:80,"Bio Peptides":45,"Peptide Lab":45},
   {product:"Retatrutide",spec:"10mgx10vials",lowest:"Bio Peptides",price:62,Mia:100,Sophie:110,InnoPeptide:105,"Bio Peptides":62},
@@ -311,6 +331,7 @@ function VPNPeptideShop() {
   const [search, setSearch] = useState("");
   const [cart, setCart] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [copiedVendor, setCopiedVendor] = useState(null);
   const [tab, setTab] = useState("browse");
 
   useEffect(() => {
@@ -387,6 +408,19 @@ function VPNPeptideShop() {
     });
   };
 
+  const copyVendorOrder = (vendor, items) => {
+    const sub = items.reduce((s,i) => s + i.price * i.qty, 0);
+    const contact = VENDOR_CONTACTS[vendor];
+    let lines = [`🔒 VPN ORDER — ${vendor.toUpperCase()}`, "Verified Peptides Network\n"];
+    items.forEach(i => lines.push(`• ${i.product} ${i.spec}${i.qty > 1 ? ` x${i.qty}` : ""} — $${i.price * i.qty}`));
+    lines.push(`\nTotal: $${sub}`);
+    if (contact?.telegram) lines.push(`\nSend to: ${contact.telegram}`);
+    navigator.clipboard.writeText(lines.join("\n")).then(() => {
+      setCopiedVendor(vendor);
+      setTimeout(() => setCopiedVendor(null), 2800);
+    });
+  };
+
   return (
     <div className="vpn-app">
       <header className="vpn-header">
@@ -405,6 +439,7 @@ function VPNPeptideShop() {
               <button className={`vpn-tab ${tab==="cart"?"active":""}`} onClick={()=>setTab("cart")}>
                 ORDER{cart.length>0&&<span className="vpn-badge-count">{cart.length}</span>}
               </button>
+              <button className={`vpn-tab ${tab==="vendors"?"active":""}`} onClick={()=>setTab("vendors")}>VENDORS</button>
             </div>
           </div>
         </div>
@@ -448,6 +483,64 @@ function VPNPeptideShop() {
           </>
         )}
 
+        {tab==="vendors" && (
+          <div>
+            <div style={{marginBottom:"20px"}}>
+              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:"10px",fontWeight:700,color:"#FF6B1A",letterSpacing:"2px",marginBottom:"4px"}}>VENDOR DIRECTORY</div>
+              <div style={{fontSize:"12px",color:"#6B5F9E"}}>Tap WhatsApp / Telegram to open directly · Copy order first then contact vendor</div>
+            </div>
+            {ALL_VENDORS.map(v=>{
+              const vc = VENDOR_COLORS[v.key] || "#9B30FF";
+              return (
+                <div key={v.key} style={{background:"#110F22",border:`1px solid`,borderColor:v.inShop?"#1E1A38":"#2a1a3a",borderRadius:"8px",padding:"14px",marginBottom:"10px",position:"relative",overflow:"hidden"}}>
+                  <div style={{position:"absolute",left:0,top:0,bottom:0,width:"3px",background:vc}} />
+                  <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:"8px",marginBottom:"8px"}}>
+                    <div>
+                      <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:"12px",fontWeight:700,color:"#F0EEFF",letterSpacing:".5px"}}>
+                        {v.flag} {v.display}
+                      </div>
+                      {v.notes && <div style={{fontSize:"11px",color:"#6B5F9E",marginTop:"3px"}}>{v.notes}</div>}
+                    </div>
+                    {v.inShop && <span style={{fontSize:"9px",fontFamily:"'Orbitron',sans-serif",color:vc,border:`1px solid ${vc}55`,borderRadius:"3px",padding:"2px 6px",whiteSpace:"nowrap"}}>IN SHOP</span>}
+                  </div>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:"8px"}}>
+                    {v.whatsapp && (
+                      <a href={`https://wa.me/${v.whatsapp}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #25D36688",background:"#25D36615",color:"#25D366",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        💬 WhatsApp
+                      </a>
+                    )}
+                    {v.telegram && (
+                      <a href={`https://t.me/${v.telegram}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #2AABEE88",background:"#2AABEE15",color:"#2AABEE",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        ✈ Telegram
+                      </a>
+                    )}
+                    {v.phone && (
+                      <a href={`tel:${v.phone}`}
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #00F5FF88",background:"#00F5FF15",color:"#00F5FF",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        📞 {v.phone}
+                      </a>
+                    )}
+                    {v.discord && (
+                      <a href={`https://${v.discord}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #7289DA88",background:"#7289DA15",color:"#7289DA",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        🎮 Discord
+                      </a>
+                    )}
+                    {v.website && (
+                      <a href={`https://${v.website}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #FF6B1A88",background:"#FF6B1A15",color:"#FF6B1A",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        🌐 {v.website}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab==="cart" && (
           <>
             {cart.length===0 ? (
@@ -470,6 +563,36 @@ function VPNPeptideShop() {
                         </div>
                         <div className="vpn-vendor-sub">${sub}</div>
                       </div>
+                      {VENDOR_CONTACTS[vendor] && (
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"8px",gap:"8px",flexWrap:"wrap"}}>
+                          <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
+                            {VENDOR_CONTACTS[vendor].whatsapp && (
+                              <a href={`https://wa.me/${VENDOR_CONTACTS[vendor].whatsapp}`}
+                                target="_blank" rel="noopener noreferrer"
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:"1px solid #25D36688",color:"#25D366",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:"#25D36615"}}>
+                                💬 WhatsApp
+                              </a>
+                            )}
+                            {VENDOR_CONTACTS[vendor].telegram && (
+                              <a href={`https://t.me/${VENDOR_CONTACTS[vendor].telegram}`}
+                                target="_blank" rel="noopener noreferrer"
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:"1px solid #2AABEE88",color:"#2AABEE",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:"#2AABEE15"}}>
+                                ✈ Telegram
+                              </a>
+                            )}
+                            {VENDOR_CONTACTS[vendor].phone && (
+                              <a href={`tel:${VENDOR_CONTACTS[vendor].phone}`}
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:`1px solid ${vc}55`,color:vc,fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:`color-mix(in srgb,${vc} 10%,transparent)`}}>
+                                📞 Call
+                              </a>
+                            )}
+                          </div>
+                          <button onClick={()=>copyVendorOrder(vendor,items)}
+                            style={{padding:"4px 12px",borderRadius:"4px",border:`1px solid ${vc}`,background:copiedVendor===vendor?vc:"transparent",color:copiedVendor===vendor?"#000":vc,fontFamily:"'Orbitron',sans-serif",fontSize:"9px",fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all .15s"}}>
+                            {copiedVendor===vendor?"✓ COPIED":"📋 COPY ORDER"}
+                          </button>
+                        </div>
+                      )}
                       <div className="vpn-cart-panel">
                         {items.map(item=>(
                           <div key={item.key} className="vpn-cart-row">
