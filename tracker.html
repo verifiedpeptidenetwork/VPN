@@ -279,6 +279,16 @@ select.fsel option{background:var(--card);color:var(--text)}
 .zone-svg{cursor:pointer;transition:all .2s}
 .zone-svg:hover circle,.zone-svg:hover ellipse{opacity:.8}
 
+/* 3D FLIP BODY CARD */
+.body-flip-outer{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.body-flip-card{width:180px;height:387px;position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+.body-flip-card.flipped{transform:rotateY(180deg)}
+.body-face{position:absolute;top:0;left:0;width:180px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.body-back-face{transform:rotateY(180deg)}
+.flip-btn{margin-top:8px;background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.3);border-radius:20px;color:var(--cyan);font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.14em;padding:6px 18px;cursor:pointer;transition:all .2s}
+.flip-btn:hover{background:rgba(0,245,255,.14);box-shadow:0 0 12px rgba(0,245,255,.2)}
+.view-lbl{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.15em;margin-top:4px;text-align:center}
+
 /* INFO BOX */
 .info-box{background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--dim);line-height:1.7}
 .info-box strong{color:var(--cyan)}
@@ -291,6 +301,35 @@ select.fsel option{background:var(--card);color:var(--text)}
 </style>
 </head>
 <body>
+
+<!-- AUTH GATE — same Firebase project as the rest of the site -->
+<div id="auth-gate" style="position:fixed;inset:0;z-index:99999;background:#05050f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--cyan);font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;font-size:0.85rem;">
+  <div style="width:44px;height:44px;border-radius:50%;border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:11px;font-weight:900;box-shadow:0 0 16px rgba(0,245,255,0.4)">VPN</div>
+  VERIFYING ACCESS…
+</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  const app = initializeApp({
+    apiKey:"AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain:"vpnhub-data.firebaseapp.com",
+    projectId:"vpnhub-data",
+    storageBucket:"vpnhub-data.firebasestorage.app",
+    messagingSenderId:"519239456167",
+    appId:"1:519239456167:web:2ee7f62c48e17f07c75282"
+  });
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+  onAuthStateChanged(auth, function(user){
+    if(user){
+      window.VPN_UID = user.uid;
+      document.getElementById('auth-gate').style.display = 'none';
+      if(typeof window.initTracker === 'function') window.initTracker(user.uid);
+    } else {
+      window.location.href = 'access.html';
+    }
+  });
+</script>
 
 <header class="hdr">
   <div class="logo">VPN</div>
@@ -425,7 +464,8 @@ select.fsel option{background:var(--card);color:var(--text)}
     <div class="mdiv">
       <div class="mlbl">OR TYPE MANUALLY:</div>
       <div class="mrow">
-        <input type="text" id="mn" placeholder="Food name...">
+        <input type="text" id="mn" placeholder="Food name..." list="food-autocomplete" autocomplete="off">
+        <datalist id="food-autocomplete"></datalist>
         <div class="gpill"><input type="number" id="mg2" placeholder="0" min="0" max="300"><span>g</span></div>
         <button class="badd" id="ma" style="flex:none;padding:11px 16px">ADD</button>
       </div>
@@ -461,138 +501,218 @@ select.fsel option{background:var(--card);color:var(--text)}
   <div class="sh">Injection Zones</div>
   <div class="body-wrap">
 
-    <!-- HUMAN BODY SVG -->
-    <div class="body-svg-wrap">
-      <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="abdGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ff00cc" stop-opacity="0.15"/>
-            <stop offset="100%" stop-color="#ff00cc" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
+    <!-- HUMAN BODY SVG — FLIP CARD -->
+    <div class="body-flip-outer">
+      <div class="body-flip-card" id="body-flip-card">
 
-        <!-- === BODY SILHOUETTE === -->
-        <!-- Head -->
-        <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Hair -->
-        <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
-        <!-- Eyes -->
-        <ellipse cx="91" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
-        <ellipse cx="109" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
-        <circle cx="91" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
-        <circle cx="109" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
-        <!-- Nose -->
-        <path d="M 98 42 Q 100 47 102 42" fill="none" stroke="#2a2a4a" stroke-width="1"/>
-        <!-- Mouth -->
-        <path d="M 94 50 Q 100 54 106 50" fill="none" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Ears -->
-        <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
-        <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+        <!-- ===== FRONT FACE ===== -->
+        <div class="body-face body-front">
+          <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="abdGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ff00cc" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#ff00cc" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- FRONT VIEW label -->
+            <text x="100" y="10" font-family="monospace" font-size="6.5" fill="#2a2a4a" text-anchor="middle" letter-spacing="2">FRONT</text>
+            <!-- Head -->
+            <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="91" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
+            <ellipse cx="109" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
+            <circle cx="91" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
+            <circle cx="109" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
+            <path d="M 98 42 Q 100 47 102 42" fill="none" stroke="#2a2a4a" stroke-width="1"/>
+            <path d="M 94 50 Q 100 54 106 50" fill="none" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Neck -->
+            <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Shoulders -->
+            <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 87 90 Q 100 95 113 90" fill="none" stroke="#1e1e3a" stroke-width="2"/>
+            <!-- Left arm (patient right) -->
+            <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Right arm (patient left) -->
+            <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Torso -->
+            <path d="M 25 150 L 175 150 L 172 210 Q 165 235 100 240 Q 35 235 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <line x1="100" y1="155" x2="100" y2="235" stroke="#1a1a35" stroke-width="1"/>
+            <line x1="60" y1="172" x2="140" y2="172" stroke="#1a1a35" stroke-width="0.7"/>
+            <line x1="55" y1="193" x2="145" y2="193" stroke="#1a1a35" stroke-width="0.7"/>
+            <line x1="58" y1="213" x2="142" y2="213" stroke="#1a1a35" stroke-width="0.7"/>
+            <!-- Hips -->
+            <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Left leg -->
+            <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Right leg -->
+            <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Feet -->
+            <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Abdomen glow -->
+            <ellipse cx="100" cy="195" rx="55" ry="45" fill="url(#abdGlow)"/>
+            <!-- Navel -->
+            <circle cx="100" cy="197" r="4.5" fill="#0a0a20" stroke="#3a3a5a" stroke-width="1.5"/>
+            <circle cx="100" cy="197" r="2" fill="#151530"/>
+            <!-- 2-inch safety ring -->
+            <circle cx="100" cy="197" r="28" fill="none" stroke="#ff00cc" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+            <text x="130" y="175" font-family="monospace" font-size="7" fill="#ff00cc" opacity="0.6">2 in.</text>
+            <!-- Zone 1: Upper Right abdomen -->
+            <g class="zone-svg" id="svgZ1" onclick="selectZone('1')">
+              <circle cx="66" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="66" y="167" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">1</text>
+            </g>
+            <!-- Zone 2: Upper Left abdomen -->
+            <g class="zone-svg" id="svgZ2" onclick="selectZone('2')">
+              <circle cx="134" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="134" y="167" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">2</text>
+            </g>
+            <!-- Zone 3: Lower Right abdomen -->
+            <g class="zone-svg" id="svgZ3" onclick="selectZone('3')">
+              <circle cx="66" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="66" y="233" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">3</text>
+            </g>
+            <!-- Zone 4: Lower Left abdomen -->
+            <g class="zone-svg" id="svgZ4" onclick="selectZone('4')">
+              <circle cx="134" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="134" y="233" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">4</text>
+            </g>
+            <!-- Thigh Zones -->
+            <g class="zone-svg" id="svgZLT" onclick="selectZone('LT')">
+              <ellipse cx="52" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="52" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">LT</text>
+            </g>
+            <g class="zone-svg" id="svgZRT" onclick="selectZone('RT')">
+              <ellipse cx="148" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="148" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">RT</text>
+            </g>
+            <!-- R/L labels -->
+            <text x="42" y="162" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
+            <text x="158" y="162" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
+            <text x="42" y="228" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
+            <text x="158" y="228" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
+          </svg>
+        </div><!-- end front face -->
 
-        <!-- Neck -->
-        <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- ===== BACK FACE ===== -->
+        <div class="body-face body-back-face">
+          <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="gluteGlow" cx="50%" cy="60%" r="50%">
+                <stop offset="0%" stop-color="#ff6a00" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#ff6a00" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="deltGlowL" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#00f5ff" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#00f5ff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- BACK VIEW label -->
+            <text x="100" y="10" font-family="monospace" font-size="6.5" fill="#2a2a4a" text-anchor="middle" letter-spacing="2">BACK</text>
+            <!-- Head (from behind) -->
+            <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Neck from behind -->
+            <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Upper back / shoulders -->
+            <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Trapezius hints -->
+            <path d="M 100 88 Q 122 96 142 112" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
+            <path d="M 100 88 Q 78 96 58 112" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
+            <!-- Arms (patient right = SVG left) -->
+            <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Arms (patient left = SVG right) -->
+            <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Back torso -->
+            <path d="M 25 150 L 175 150 L 172 210 Q 165 237 100 242 Q 35 237 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Spine -->
+            <line x1="100" y1="90" x2="100" y2="242" stroke="#1a1a35" stroke-width="1.2"/>
+            <!-- Lat hints -->
+            <path d="M 100 155 Q 68 178 58 215" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
+            <path d="M 100 155 Q 132 178 142 215" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
+            <!-- Hips / glutes -->
+            <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Glute crease -->
+            <path d="M 100 218 Q 100 252 100 262" stroke="#1a1a35" stroke-width="1"/>
+            <!-- Right glute curve (patient right = SVG left) -->
+            <path d="M 36 230 Q 28 250 36 262 L 100 262 L 100 218 Q 68 218 52 228 Z" fill="#111128" stroke="none"/>
+            <!-- Left glute curve -->
+            <path d="M 164 230 Q 172 250 164 262 L 100 262 L 100 218 Q 132 218 148 228 Z" fill="#111128" stroke="none"/>
+            <!-- Glute glows -->
+            <ellipse cx="65" cy="240" rx="38" ry="24" fill="url(#gluteGlow)"/>
+            <ellipse cx="135" cy="240" rx="38" ry="24" fill="url(#gluteGlow)"/>
+            <!-- Legs from behind -->
+            <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+            <path d="M 38 355 Q 42 378 48 398 L 56 398 Q 62 378 66 355" fill="none" stroke="#1e1e3a" stroke-width="1"/>
+            <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+            <path d="M 162 355 Q 158 378 152 398 L 144 398 Q 138 378 134 355" fill="none" stroke="#1e1e3a" stroke-width="1"/>
+            <!-- Feet from behind -->
+            <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
 
-        <!-- Shoulders / Upper Chest -->
-        <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- === INJECTION ZONES (BACK VIEW) === -->
+            <!-- Deltoid glows -->
+            <ellipse cx="20" cy="118" rx="16" ry="14" fill="url(#deltGlowL)"/>
+            <ellipse cx="180" cy="118" rx="16" ry="14" fill="url(#deltGlowL)"/>
 
-        <!-- Collarbones hint -->
-        <path d="M 87 90 Q 100 95 113 90" fill="none" stroke="#1e1e3a" stroke-width="2"/>
+            <!-- RD: Right Deltoid (patient right = SVG left outer upper arm) -->
+            <g class="zone-svg" id="svgZRD" onclick="selectZone('RD')">
+              <circle cx="20" cy="118" r="13" fill="rgba(0,245,255,0.1)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="20" y="122" font-family="monospace" font-size="7" font-weight="bold" fill="#00f5ff" text-anchor="middle">RD</text>
+            </g>
+            <!-- LD: Left Deltoid (patient left = SVG right outer upper arm) -->
+            <g class="zone-svg" id="svgZLD" onclick="selectZone('LD')">
+              <circle cx="180" cy="118" r="13" fill="rgba(0,245,255,0.1)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="180" y="122" font-family="monospace" font-size="7" font-weight="bold" fill="#00f5ff" text-anchor="middle">LD</text>
+            </g>
+            <!-- Deltoid landmark lines (2-3 fingerbreadths below acromion) -->
+            <line x1="10" y1="103" x2="34" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
+            <line x1="166" y1="103" x2="190" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
+            <text x="8" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5" text-anchor="end">▲</text>
+            <text x="192" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5">▲</text>
 
-        <!-- Left arm (patient's right = SVG left) -->
-        <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Left forearm -->
-        <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Left hand -->
-        <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- RG: Right Upper Glute (patient right = SVG left) -->
+            <g class="zone-svg" id="svgZRG" onclick="selectZone('RG')">
+              <ellipse cx="60" cy="228" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="60" y="232" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">RG</text>
+            </g>
+            <!-- LG: Left Upper Glute (patient left = SVG right) -->
+            <g class="zone-svg" id="svgZLG" onclick="selectZone('LG')">
+              <ellipse cx="140" cy="228" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="140" y="232" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">LG</text>
+            </g>
+            <!-- Upper outer quadrant guide lines -->
+            <line x1="36" y1="235" x2="84" y2="235" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="60" y1="213" x2="60" y2="257" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="116" y1="235" x2="164" y2="235" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="140" y1="213" x2="140" y2="257" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
 
-        <!-- Right arm (patient's left = SVG right) -->
-        <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Right forearm -->
-        <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Right hand -->
-        <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- R/L labels -->
+            <text x="10" y="115" font-family="monospace" font-size="6" fill="#5a6080" text-anchor="middle">R</text>
+            <text x="190" y="115" font-family="monospace" font-size="6" fill="#5a6080" text-anchor="middle">L</text>
+          </svg>
+        </div><!-- end back face -->
 
-        <!-- Torso (mid) -->
-        <path d="M 25 150 L 175 150 L 172 210 Q 165 235 100 240 Q 35 235 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-
-        <!-- Abs lines subtle -->
-        <line x1="100" y1="155" x2="100" y2="235" stroke="#1a1a35" stroke-width="1"/>
-        <line x1="60" y1="172" x2="140" y2="172" stroke="#1a1a35" stroke-width="0.7"/>
-        <line x1="55" y1="193" x2="145" y2="193" stroke="#1a1a35" stroke-width="0.7"/>
-        <line x1="58" y1="213" x2="142" y2="213" stroke="#1a1a35" stroke-width="0.7"/>
-
-        <!-- Hips/pelvis -->
-        <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-
-        <!-- Left leg -->
-        <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Left knee cap -->
-        <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-
-        <!-- Right leg -->
-        <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <!-- Right knee cap -->
-        <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-
-        <!-- Feet -->
-        <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-        <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-
-        <!-- === ABDOMEN HIGHLIGHT === -->
-        <ellipse cx="100" cy="195" rx="55" ry="45" fill="url(#abdGlow)"/>
-
-        <!-- Navel -->
-        <circle cx="100" cy="197" r="4.5" fill="#0a0a20" stroke="#3a3a5a" stroke-width="1.5"/>
-        <circle cx="100" cy="197" r="2" fill="#151530"/>
-
-        <!-- 2-inch safety zone (dashed circle around navel) -->
-        <circle cx="100" cy="197" r="28" fill="none" stroke="#ff00cc" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-        <text x="130" y="175" font-family="monospace" font-size="7" fill="#ff00cc" opacity="0.6">2 in.</text>
-
-        <!-- === INJECTION ZONES (4 quadrants, outside 2-inch ring) === -->
-
-        <!-- Zone 1: Upper Right (patient perspective) = SVG Upper Left -->
-        <g class="zone-svg" id="svgZ1" onclick="selectZone('1')">
-          <circle cx="66" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="66" y="166" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">1</text>
-        </g>
-
-        <!-- Zone 2: Upper Left (patient) = SVG Upper Right -->
-        <g class="zone-svg" id="svgZ2" onclick="selectZone('2')">
-          <circle cx="134" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="134" y="166" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">2</text>
-        </g>
-
-        <!-- Zone 3: Lower Right (patient) = SVG Lower Left -->
-        <g class="zone-svg" id="svgZ3" onclick="selectZone('3')">
-          <circle cx="66" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="66" y="232" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">3</text>
-        </g>
-
-        <!-- Zone 4: Lower Left (patient) = SVG Lower Right -->
-        <g class="zone-svg" id="svgZ4" onclick="selectZone('4')">
-          <circle cx="134" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="134" y="232" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">4</text>
-        </g>
-
-        <!-- Thigh Zones -->
-        <g class="zone-svg" id="svgZLT" onclick="selectZone('LT')">
-          <ellipse cx="52" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="52" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">LT</text>
-        </g>
-        <g class="zone-svg" id="svgZRT" onclick="selectZone('RT')">
-          <ellipse cx="148" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-          <text x="148" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">RT</text>
-        </g>
-
-        <!-- Zone labels on the side -->
-        <text x="42" y="162" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
-        <text x="158" y="162" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
-        <text x="42" y="228" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
-        <text x="158" y="228" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
-      </svg>
-    </div>
+      </div><!-- end flip card -->
+      <div class="view-lbl" id="view-lbl">FRONT VIEW — TAP ZONE TO SELECT</div>
+      <button class="flip-btn" onclick="flipBody()">⟳ ROTATE BODY</button>
+    </div><!-- end flip outer -->
 
     <!-- ZONE INFO PANEL -->
     <div class="zone-info">
@@ -633,27 +753,59 @@ select.fsel option{background:var(--card);color:var(--text)}
   </div>
 
   <!-- ROTATION GUIDE -->
-  <div class="sh">How to Rotate Correctly</div>
+  <div class="sh">How Each Injection Site Works</div>
+
   <div class="rot-explain">
-    <div class="rot-title">⟳ THE 4-ZONE ABDOMEN ROTATION</div>
+    <div class="rot-title">🟦 ABDOMEN ZONES 1–4 (Front View)</div>
     <ul class="rot-steps">
-      <li><strong>Zone 1 — Upper Right abdomen</strong> (your right side, below ribs, above navel)</li>
-      <li><strong>Zone 2 — Upper Left abdomen</strong> (your left side, below ribs, above navel)</li>
-      <li><strong>Zone 3 — Lower Right abdomen</strong> (your right side, below navel, above groin)</li>
-      <li><strong>Zone 4 — Lower Left abdomen</strong> (your left side, below navel, above groin)</li>
-      <li><strong>All zones must be at least 2 inches (5cm) from your navel</strong> to avoid nerve clusters and the tough tissue around the belly button</li>
-      <li><strong>Rotate: 1 → 2 → 3 → 4 → repeat.</strong> Never use the same zone two days in a row</li>
-      <li><strong>Thigh option (LT/RT):</strong> Outer thigh, mid-thigh region is a valid alternative site for some peptides</li>
+      <li><strong>Zone 1 — Upper Right Abdomen:</strong> Your right side, below the ribs, above the navel. Best starting zone. Pinch 1–2 inches of belly skin, inject at 45–90°. Stay ≥2 inches from navel at all times.</li>
+      <li><strong>Zone 2 — Upper Left Abdomen:</strong> Mirror of Zone 1 on your left. Use the next day. Subcutaneous fat here absorbs peptides at a consistent, predictable rate.</li>
+      <li><strong>Zone 3 — Lower Right Abdomen:</strong> Your right side, below navel, above groin line. Avoid any scar tissue from past surgeries. Same pinch-and-inject technique.</li>
+      <li><strong>Zone 4 — Lower Left Abdomen:</strong> Completes the cycle. After Zone 4, return to Zone 1. <strong>Never reuse a zone within 48 hours.</strong></li>
+      <li><strong>2-inch navel rule:</strong> The area within 2 inches of the navel has dense nerve endings and fibrous tissue — injecting there causes pain and unpredictable absorption.</li>
     </ul>
   </div>
 
-  <div class="rot-explain" style="border-color:rgba(0,245,255,.2);background:rgba(0,245,255,.04)">
+  <div class="rot-explain" style="border-color:rgba(255,102,0,.25);background:rgba(255,102,0,.04)">
+    <div class="rot-title" style="color:var(--orange)">🟠 THIGH ZONES — LT / RT (Front View)</div>
+    <ul class="rot-steps">
+      <li><strong>Left Thigh (LT) / Right Thigh (RT):</strong> Target the outer (lateral) surface of the mid-thigh — halfway between your hip and knee, on the outside of the leg. Do NOT inject the inner thigh (femoral vein and nerve run there).</li>
+      <li><strong>Technique:</strong> Pinch the skin, inject at 45–90°. Thighs are ideal when abdomen sites are inflamed or when rotating to give abdominal tissue a longer rest.</li>
+      <li><strong>Max volume:</strong> 1mL per thigh site. Alternate LT → RT each injection day.</li>
+      <li><strong>Good for:</strong> BPC-157, TB-500, GLP-1 agonists, NAD+, most subcutaneous peptides.</li>
+    </ul>
+  </div>
+
+  <div class="rot-explain" style="border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.04)">
+    <div class="rot-title" style="color:var(--cyan)">🔵 DELTOID ZONES — RD / LD (Back View — rotate body above)</div>
+    <ul class="rot-steps">
+      <li><strong>How to find it:</strong> Feel the bony tip of your shoulder (the acromion process). Go 2–3 fingerbreadths (4–5cm) straight down from there. That's the injection site — the LATERAL head of the deltoid muscle.</li>
+      <li><strong>Technique:</strong> Flex your arm slightly, inject straight into the outer muscle at 90°. Do NOT inject into the front (anterior) or back (posterior) deltoid — only the OUTER (lateral) portion.</li>
+      <li><strong>Max volume:</strong> 1mL. Deltoid is a smaller muscle — never force more than 1mL here.</li>
+      <li><strong>Good for:</strong> IM-route peptides (HGH, some GHRPs, Tesamorelin), peptides requiring faster absorption than subcutaneous.</li>
+      <li><strong>Avoid if:</strong> Deltoid is very lean with minimal muscle mass — use thigh or glute instead to avoid hitting bone.</li>
+    </ul>
+  </div>
+
+  <div class="rot-explain" style="border-color:rgba(255,102,0,.25);background:rgba(255,102,0,.04)">
+    <div class="rot-title" style="color:var(--orange)">🟠 UPPER GLUTE ZONES — RG / LG (Back View — rotate body above)</div>
+    <ul class="rot-steps">
+      <li><strong>How to find the safe zone:</strong> Mentally draw a cross (X) through your buttock, dividing it into 4 quadrants. Inject ONLY into the upper outer quadrant — top right of the X on your right side, top left of the X on your left side.</li>
+      <li><strong>Why upper outer only:</strong> The sciatic nerve runs through the lower inner quadrant. Injecting there can cause nerve damage, foot drop, or severe pain. The upper outer quadrant has no major nerves near the injection point.</li>
+      <li><strong>Technique:</strong> Standing or lying on your side. Identify the upper outer quadrant, inject at 90° perpendicular to the skin. Aspirate not required for subcutaneous, but recommended for IM glute injections.</li>
+      <li><strong>Max volume:</strong> 3–5mL. The gluteus maximus is the largest muscle in the body — handles the highest volumes of any injection site.</li>
+      <li><strong>Good for:</strong> Large volume IM injections, oil-based peptides, when arm/thigh sites are fatigued. Rotate RG → LG each injection.</li>
+    </ul>
+  </div>
+
+  <div class="rot-explain" style="border-color:rgba(0,245,255,.2);background:rgba(0,245,255,.03)">
     <div class="rot-title" style="color:var(--cyan)">💉 MULTIPLE PEPTIDES — HOW TO ROTATE</div>
     <ul class="rot-steps">
-      <li><strong>Option A (Assign zones):</strong> Give each peptide its own zone. BPC-157 always Zone 1–2, TB-500 always Zone 3–4. They never share a zone.</li>
-      <li><strong>Option B (Shared rotation):</strong> Rotate all peptides through all 4 zones in sequence. Track each one separately — if BPC used Zone 1 today, TB-500 uses Zone 2 next.</li>
-      <li><strong>Never inject two peptides in the same spot on the same day</strong> even if they are mixed in the same syringe</li>
-      <li><strong>Wait at least 1–2 days before reusing any zone</strong> regardless of which peptide</li>
+      <li><strong>Option A (Assign zones):</strong> Give each peptide its own dedicated zones. BPC-157 always uses Zones 1–2, TB-500 always uses Zones 3–4. They never share a zone on the same day.</li>
+      <li><strong>Option B (Shared rotation):</strong> Rotate all peptides through all zones in sequence. Track each one separately — if BPC used Zone 1 today, TB-500 uses Zone 2 next.</li>
+      <li><strong>Never inject two peptides in the same exact spot on the same day,</strong> even if they are combined in one syringe.</li>
+      <li><strong>Wait at least 48 hours before reusing any zone</strong> regardless of which peptide was injected there.</li>
+      <li><strong>Arm + Glute sites:</strong> Use the ⟳ ROTATE BODY button above to access deltoid (arm) and upper glute zones on the back view.</li>
     </ul>
   </div>
 
@@ -849,35 +1001,74 @@ select.fsel option{background:var(--card);color:var(--text)}
 var today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 var todayISO = new Date().toISOString().slice(0,10);
 
-// PROTEIN
-var protGoal = parseInt(localStorage.getItem('ptg') || '150');
-var protEntries = JSON.parse(localStorage.getItem('pte_'+today) || '[]');
-var protHist = JSON.parse(localStorage.getItem('pth') || '{}');
+// Per-user localStorage key — prefix every key with the Firebase UID
+// so User A's data never bleeds into User B's data on any device.
+var VPN_UID = window.VPN_UID || null;
+function lk(k){ return (VPN_UID||'anon')+'_'+k; }
+
+// PROTEIN — start with defaults; loadAllData() fills these after auth
+var protGoal = 150;
+var protEntries = [];
+var protHist = {};
 
 // INJECTION
-var injLog = JSON.parse(localStorage.getItem('inj_log') || '[]');
-var injPeps = JSON.parse(localStorage.getItem('inj_peps') || '[]');
+var injLog = [];
+var injPeps = [];
 var selectedZone = null;
 var ZONE_NAMES = {
   '1':'Zone 1 — Upper Right Abdomen',
   '2':'Zone 2 — Upper Left Abdomen',
   '3':'Zone 3 — Lower Right Abdomen',
   '4':'Zone 4 — Lower Left Abdomen',
-  'LT':'Left Thigh',
-  'RT':'Right Thigh'
+  'LT':'Left Thigh (Outer)',
+  'RT':'Right Thigh (Outer)',
+  'RD':'Right Deltoid (Arm)',
+  'LD':'Left Deltoid (Arm)',
+  'RG':'Right Upper Glute',
+  'LG':'Left Upper Glute'
 };
 var ZONE_DESC = {
-  '1':'Your RIGHT side, above navel, below ribs. At least 2 inches from navel.',
-  '2':'Your LEFT side, above navel, below ribs. At least 2 inches from navel.',
-  '3':'Your RIGHT side, below navel, above groin. At least 2 inches from navel.',
-  '4':'Your LEFT side, below navel, above groin. At least 2 inches from navel.',
-  'LT':'Outer left thigh, middle of the thigh. Pinch skin and inject at 45° or 90°.',
-  'RT':'Outer right thigh, middle of the thigh. Pinch skin and inject at 45° or 90°.'
+  '1':'YOUR RIGHT side, above the navel, below the ribs. Stay at least 2 inches (5cm) from the navel to avoid nerve clusters. Pinch 1–2 inches of skin, insert needle at 45–90°. Best for: most peptides, GLP-1s.',
+  '2':'YOUR LEFT side, above the navel, below the ribs. Mirror of Zone 1. Rotate to this zone the next day after Zone 1. Do not use the same zone two days in a row.',
+  '3':'YOUR RIGHT side, below the navel, above the groin crease. Stay 2 inches from navel. Avoid scar tissue if prior surgeries. Good for subcutaneous peptides and GLP-1s.',
+  '4':'YOUR LEFT side, below the navel, above the groin crease. Mirror of Zone 3. Completing 1→2→3→4 completes one full rotation cycle before returning to Zone 1.',
+  'LT':'Outer LEFT thigh — target the lateral (outer) surface, mid-thigh between hip and knee. Pinch skin, inject at 45° or 90°. Max 1mL per site. Alternate L/R thighs.',
+  'RT':'Outer RIGHT thigh — target the lateral (outer) surface, mid-thigh between hip and knee. Pinch skin, inject at 45° or 90°. Max 1mL per site. Never inject inner thigh (veins/nerves).',
+  'RD':'RIGHT DELTOID — outer upper right arm, 2–3 fingerbreadths (4–5cm) below the bony tip of your shoulder (acromion). Locate the triangular muscle. Inject into the LATERAL (outer) head only. Max 1mL. Do not inject if muscle is small. Rotate L/R each time.',
+  'LD':'LEFT DELTOID — outer upper left arm, 2–3 fingerbreadths (4–5cm) below the bony tip of your shoulder (acromion). The lateral deltoid is the thickest part. Keep needle perpendicular to the arm (90°). Max 1mL. Good for IM peptides.',
+  'RG':'RIGHT UPPER GLUTE — Draw an imaginary X across your right buttock. Inject ONLY in the upper outer quadrant (top right of X). Ventrogluteal is actually safer but dorsogluteal upper outer quad works for most. Largest muscle = can handle 3–5mL. Inject at 90°.',
+  'LG':'LEFT UPPER GLUTE — Same as RG but on your left side. Upper OUTER quadrant only — never inject lower half or inner quadrant (sciatic nerve runs through lower inner area). Great for larger volume or oil-based peptides. Rotate R/L each injection.'
 };
 var ROTATION = ['1','2','3','4'];
+var bodyViewFront = true;
+function flipBody() {
+  bodyViewFront = !bodyViewFront;
+  document.getElementById('body-flip-card').classList.toggle('flipped', !bodyViewFront);
+  document.getElementById('view-lbl').textContent = bodyViewFront ? 'FRONT VIEW — TAP ZONE TO SELECT' : 'BACK VIEW — TAP ZONE TO SELECT';
+}
 
 // PEPTIDES
-var peptides = JSON.parse(localStorage.getItem('pep_tracker') || '[]');
+var peptides = [];
+
+// ===================== PER-USER DATA LOAD =====================
+function loadAllData(){
+  protGoal    = parseInt(localStorage.getItem(lk('ptg')) || '150');
+  protEntries = JSON.parse(localStorage.getItem(lk('pte_'+today)) || '[]');
+  protHist    = JSON.parse(localStorage.getItem(lk('pth')) || '{}');
+  injLog      = JSON.parse(localStorage.getItem(lk('inj_log')) || '[]');
+  injPeps     = JSON.parse(localStorage.getItem(lk('inj_peps')) || '[]');
+  peptides    = JSON.parse(localStorage.getItem(lk('pep_tracker')) || '[]');
+}
+window.initTracker = function(uid){
+  VPN_UID = uid;
+  loadAllData();
+  document.getElementById('gi').value = protGoal;
+  protRender();
+  renderInjLog();
+  renderInjPepTags();
+  updateNextZone();
+  renderPeptides();
+};
 
 // ===================== TABS =====================
 function showTab(t) {
@@ -892,7 +1083,7 @@ function showTab(t) {
 // ===================== PROTEIN =====================
 var TIPS=["<strong>PROTEIN FIRST.</strong> GLP-1s crush appetite fast. Always eat protein before carbs or fats so you hit your target even when full quickly.","<strong>SPREAD IT OUT.</strong> Your body uses 30-40g per meal for muscle. Aim for 4-5 smaller protein meals throughout the day.","<strong>LIFT HEAVY.</strong> GLP-1 medications cause muscle loss alongside fat loss. Resistance training 3x per week combined with high protein preserves muscle.","<strong>LIQUID PROTEIN.</strong> If GLP-1 nausea limits solid food, Premier Protein, Fairlife shakes, Greek yogurt, and bone broth are easy to get down.","<strong>0.7-1g PER LB BODYWEIGHT.</strong> If you weigh 180 lbs aim for 126-180g daily. Active users on GLP-1s should stay toward the top of that range.","<strong>HYDRATION IS CRITICAL.</strong> GLP-1 medications reduce your thirst signals. Force yourself to drink 8+ cups of water daily.","<strong>EGGS ARE YOUR BEST FRIEND.</strong> 6g per egg, easy to digest, cheap. Scrambled eggs are very GLP-1 friendly.","<strong>CASEIN AT NIGHT.</strong> Slow-digesting casein protein before bed feeds your muscles for 6-8 hours while you sleep."];
 document.getElementById('tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
-document.getElementById('gi').value=protGoal;
+// gi value is set inside initTracker() once the user's stored goal is loaded
 
 var SUGGESTIONS = [
   {name:'Fairlife Shake',g:42,why:'42g in one bottle, easy to drink on GLP-1 nausea'},
@@ -938,6 +1129,15 @@ document.getElementById('ma').addEventListener('click',function(){
   document.getElementById('mn').value='';
   document.getElementById('mg2').value='';
 });
+// Populate food autocomplete datalist from select options
+(function(){
+  var dl=document.getElementById('food-autocomplete');
+  document.querySelectorAll('#fsel option').forEach(function(opt){
+    if(!opt.value)return;
+    var name=opt.value.split('|')[0];
+    var o=document.createElement('option');o.value=name;dl.appendChild(o);
+  });
+})();
 document.getElementById('mn').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ma').click();});
 document.getElementById('mg2').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ma').click();});
 
@@ -948,13 +1148,13 @@ function doAdd(name,g){
   protSave();protRender();
 }
 function protSave(){
-  localStorage.setItem('pte_'+today,JSON.stringify(protEntries));
-  localStorage.setItem('ptg',String(protGoal));
+  localStorage.setItem(lk('pte_'+today),JSON.stringify(protEntries));
+  localStorage.setItem(lk('ptg'),String(protGoal));
   var tot=protEntries.reduce(function(s,e){return s+e.g;},0);
   protHist[today]={total:tot,goal:protGoal,meals:protEntries.length};
   var keys=Object.keys(protHist).sort();
   while(keys.length>30){delete protHist[keys.shift()];keys=Object.keys(protHist).sort();}
-  localStorage.setItem('pth',JSON.stringify(protHist));
+  localStorage.setItem(lk('pth'),JSON.stringify(protHist));
 }
 function protRender(){
   var tot=protEntries.reduce(function(s,e){return s+e.g;},0);
@@ -1041,20 +1241,33 @@ document.getElementById('bc').addEventListener('click',async function(){
 });
 
 // ===================== INJECTION =====================
+var BACK_ZONES = ['RD','LD','RG','LG'];
+var FRONT_ZONES = ['1','2','3','4','LT','RT'];
+var ORANGE_ZONES = ['LT','RT','RG','LG'];
+
 function selectZone(z) {
   selectedZone = z;
-  // Reset all SVG zones
-  ['1','2','3','4','LT','RT'].forEach(function(id){
+  // Auto-flip to correct view
+  var needsBack = BACK_ZONES.indexOf(z) !== -1;
+  if (needsBack && bodyViewFront) flipBody();
+  if (!needsBack && !bodyViewFront) flipBody();
+  // Reset all zone visuals
+  FRONT_ZONES.concat(BACK_ZONES).forEach(function(id){
     var el=document.getElementById('svgZ'+id);
     if(!el)return;
     var shape=el.querySelector('circle,ellipse');
-    if(shape){shape.style.fill='rgba(0,245,255,0.08)';shape.style.stroke='#00f5ff';}
-    if(id==='LT'||id==='RT'){if(shape){shape.style.fill='rgba(255,102,0,0.08)';shape.style.stroke='#ff6a00';}}
+    if(!shape)return;
+    if(ORANGE_ZONES.indexOf(id)!==-1){
+      shape.style.fill='rgba(255,102,0,0.08)';shape.style.stroke='#ff6a00';
+    } else {
+      shape.style.fill='rgba(0,245,255,0.08)';shape.style.stroke='#00f5ff';
+    }
   });
+  // Highlight selected zone
   var sel=document.getElementById('svgZ'+z);
   if(sel){
     var shape=sel.querySelector('circle,ellipse');
-    if(shape){shape.style.fill='rgba(255,0,204,0.25)';shape.style.stroke='#ff00cc';}
+    if(shape){shape.style.fill='rgba(255,0,204,0.3)';shape.style.stroke='#ff00cc';shape.style.strokeWidth='2';}
   }
   document.getElementById('zone-name').textContent=ZONE_NAMES[z]||z;
   document.getElementById('zone-detail').textContent=ZONE_DESC[z]||'';
@@ -1078,7 +1291,7 @@ function logInjection(){
   var now=new Date();
   injLog.unshift({zone:selectedZone,pep:pep,date:today,dateISO:todayISO,time:now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})});
   if(injLog.length>200)injLog=injLog.slice(0,200);
-  localStorage.setItem('inj_log',JSON.stringify(injLog));
+  localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));
   renderInjLog();
   updateNextZone();
   // Flash confirm
@@ -1107,7 +1320,7 @@ function renderInjLog(){
     d.innerHTML='<div class="inj-dot" style="background:'+c+'"></div><div class="inj-name">'+(entry.pep||'General')+'</div><div class="inj-zone">'+ZONE_NAMES[entry.zone]+'</div><div class="inj-time">'+entry.date+' '+entry.time+'</div><button class="inj-del" data-i="'+i+'" title="Delete">×</button>';
     d.querySelector('.inj-del').addEventListener('click',function(){
       injLog.splice(parseInt(this.getAttribute('data-i')),1);
-      localStorage.setItem('inj_log',JSON.stringify(injLog));
+      localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));
       renderInjLog();updateNextZone();
     });
     el.appendChild(d);
@@ -1128,18 +1341,18 @@ function updateNextZone(){
   ew.textContent='Last used: '+ZONE_NAMES[last]+' on '+injLog[0].date;
 }
 
-function clearInjHistory(){if(!confirm('Clear all injection history?'))return;injLog=[];localStorage.setItem('inj_log',JSON.stringify(injLog));renderInjLog();updateNextZone();}
+function clearInjHistory(){if(!confirm('Clear all injection history?'))return;injLog=[];localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));renderInjLog();updateNextZone();}
 
 function addInjPep(){
   var inp=document.getElementById('inj-new-pep');
   var val=inp.value.trim();
   if(!val)return;
-  if(!injPeps.includes(val)){injPeps.push(val);localStorage.setItem('inj_peps',JSON.stringify(injPeps));}
+  if(!injPeps.includes(val)){injPeps.push(val);localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));}
   inp.value='';
   renderInjPepTags();
   updateInjPepSelect();
 }
-function removeInjPep(p){injPeps=injPeps.filter(function(x){return x!==p;});localStorage.setItem('inj_peps',JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
+function removeInjPep(p){injPeps=injPeps.filter(function(x){return x!==p;});localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
 function renderInjPepTags(){
   var el=document.getElementById('inj-pep-tags');
   if(!injPeps.length){el.innerHTML='<span style="font-size:12px;color:var(--dim)">No peptides added yet</span>';return;}
@@ -1156,7 +1369,7 @@ function renderPepZoneAssigns(){
   if(!injPeps.length){el.innerHTML='';return;}
   el.innerHTML='<div style="font-size:11px;color:var(--dim);margin-bottom:8px;font-family:\'Share Tech Mono\',monospace">ZONE ASSIGNMENTS (optional — assign a peptide to specific zones)</div>';
   injPeps.forEach(function(p){
-    var stored=JSON.parse(localStorage.getItem('inj_assign_'+p)||'""');
+    var stored=JSON.parse(localStorage.getItem(lk('inj_assign_'+p))||'""');
     var row=document.createElement('div');row.className='assign-row';
     row.innerHTML='<label style="color:var(--cyan);font-weight:700">'+p+':</label><select onchange="saveAssign(\''+p.replace(/'/g,"\\'")+'\')" id="assign-'+btoa(p)+'" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:\'Rajdhani\',sans-serif;font-size:13px;padding:8px 10px;outline:none;flex:1"><option value="">Shared rotation (all zones)</option><option value="12" '+(stored==='12'?'selected':'')+'>Zones 1 & 2 (upper abdomen)</option><option value="34" '+(stored==='34'?'selected':'')+'>Zones 3 & 4 (lower abdomen)</option><option value="14" '+(stored==='14'?'selected':'')+'>Zones 1 & 4 (diagonal)</option><option value="23" '+(stored==='23'?'selected':'')+'>Zones 2 & 3 (diagonal)</option><option value="thigh" '+(stored==='thigh'?'selected':'')+'>Thighs only (LT/RT)</option></select>';
     el.appendChild(row);
@@ -1165,7 +1378,7 @@ function renderPepZoneAssigns(){
 function saveAssign(p){
   var key='assign-'+btoa(p);
   var val=document.getElementById(key)?document.getElementById(key).value:'';
-  localStorage.setItem('inj_assign_'+p,JSON.stringify(val));
+  localStorage.setItem(lk('inj_assign_'+p),JSON.stringify(val));
 }
 
 // ===================== PEPTIDES =====================
@@ -1187,10 +1400,10 @@ function addPeptide(){
   document.getElementById('pnotes').value='';
   savePeptides();renderPeptides();
   // Also add to injection pep list
-  if(!injPeps.includes(name)){injPeps.push(name);localStorage.setItem('inj_peps',JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
+  if(!injPeps.includes(name)){injPeps.push(name);localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
 }
 
-function savePeptides(){localStorage.setItem('pep_tracker',JSON.stringify(peptides));}
+function savePeptides(){localStorage.setItem(lk('pep_tracker'),JSON.stringify(peptides));}
 
 function daysBetween(d1,d2){return Math.round((new Date(d2)-new Date(d1))/(1000*60*60*24));}
 
@@ -1646,11 +1859,8 @@ function fbCopy(txt){
 }
 
 // ===================== INIT =====================
-protRender();
-renderInjLog();
-renderInjPepTags();
-updateNextZone();
-renderPeptides();
+// initTracker(uid) is called by the Firebase auth module above once
+// the user's identity is confirmed. All renders happen there.
 </script>
 </body>
 </html>
