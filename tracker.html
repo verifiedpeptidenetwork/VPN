@@ -827,7 +827,8 @@ select.fsel option{background:var(--card);color:var(--text)}
   <div class="sh green">Add Peptide to Track</div>
   <div class="pep-form">
     <div class="form-row">
-      <input type="text" id="pname" placeholder="Peptide name (e.g. BPC-157)">
+      <input type="text" id="pname" placeholder="Peptide name (e.g. BPC-157)" list="pname-datalist" autocomplete="off">
+      <datalist id="pname-datalist"></datalist>
       <input type="number" id="pdose" placeholder="Dose (mcg/mg)" step="any" min="0">
     </div>
     <div class="form-row">
@@ -1603,17 +1604,21 @@ var PEPTIDES = {
   naepi2:null,
   vesugen:{name:'Vesugen',desc:'Vascular bioregulator for blood vessel health and circulation. Oral daily for 10-day course 2x/year.',vial:10,water:2,start:10,step:0,weeks:2,freq:7},
   pnc27:{name:'PNC-27',desc:'Experimental anticancer research peptide studied for targeting cancer cells via p53 mechanism. Preclinical only.',vial:5,water:2,start:1,step:0,weeks:4,freq:3},
+  neuroxelin:{name:'Neuroxelin Blend',desc:'Neural support blend for neuroprotection and cognitive enhancement. Typically a combination of nootropic peptides. SC or intranasal for 4-8 weeks.',vial:10,water:2,start:0.2,step:0,weeks:6,freq:7,time:'am'},
   foxo42:null
 };
 // remove null entries
 Object.keys(PEPTIDES).forEach(function(k){if(!PEPTIDES[k])delete PEPTIDES[k];});
 
-// Populate datalist
+// Populate both the Suggest tab datalist and the Peptide Calendar name datalist
 (function(){
-  var dl=document.getElementById('sug-datalist');
-  if(!dl)return;
-  Object.keys(PEPTIDES).sort(function(a,b){return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name);}).forEach(function(key){
-    var o=document.createElement('option');o.value=PEPTIDES[key].name;dl.appendChild(o);
+  var sorted=Object.keys(PEPTIDES).sort(function(a,b){return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name);});
+  ['sug-datalist','pname-datalist'].forEach(function(id){
+    var dl=document.getElementById(id);
+    if(!dl)return;
+    sorted.forEach(function(key){
+      var o=document.createElement('option');o.value=PEPTIDES[key].name;dl.appendChild(o);
+    });
   });
 })();
 
