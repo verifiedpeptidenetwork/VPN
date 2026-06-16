@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN — Health Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--cyan:#00f5ff;--pink:#ff00cc;--orange:#ff6a00;--green:#00ff88;--yellow:#ffe600;--bg:#05050f;--card:#0a0a1a;--card2:#0f0f22;--border:rgba(0,245,255,0.13);--text:#e8eeff;--dim:#5a6080}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;padding-bottom:80px;background-image:radial-gradient(ellipse at 20% 0%,rgba(255,0,204,.07),transparent 60%),radial-gradient(ellipse at 80% 10%,rgba(0,245,255,.06),transparent 60%);min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+
+/* HEADER */
+.hdr{background:rgba(5,5,15,.97);border-bottom:2px solid var(--cyan);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.logo{width:42px;height:42px;border-radius:50%;border:2px solid var(--cyan);box-shadow:0 0 12px rgba(0,245,255,.4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--cyan);flex-shrink:0}
+.htxt h1{font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan);letter-spacing:.08em}
+.htxt p{font-size:10px;color:var(--pink);letter-spacing:.1em;text-transform:uppercase}
+.hback{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:.1em;color:var(--dim);border:1px solid rgba(0,245,255,.2);padding:5px 12px;border-radius:4px}
+.hback:hover{color:var(--cyan)}
+
+/* TAB NAV */
+.tabs{display:flex;background:rgba(5,5,15,.9);border-bottom:1px solid var(--border);position:sticky;top:66px;z-index:99}
+.tab{flex:1;padding:12px 6px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:.12em;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab:nth-child(2).active{color:var(--pink);border-bottom-color:var(--pink)}
+.tab:nth-child(3).active{color:var(--green);border-bottom-color:var(--green)}
+
+/* SECTIONS */
+.sec{display:none;padding:16px}.sec.active{display:block}
+.sh{font-family:'Bebas Neue',sans-serif;font-size:.9rem;font-weight:700;color:var(--pink);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sh::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--pink),transparent);opacity:.3}
+.sh.cyan{color:var(--cyan)}.sh.cyan::after{background:linear-gradient(90deg,var(--cyan),transparent)}
+.sh.green{color:var(--green)}.sh.green::after{background:linear-gradient(90deg,var(--green),transparent)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px}
+.card.cyan-top{border-top:2px solid var(--cyan)}
+.card.pink-top{border-top:2px solid var(--pink)}
+.card.green-top{border-top:2px solid var(--green)}
+
+/* PROTEIN RING */
+.hero{padding:16px 0 8px;text-align:center}
+.rw{position:relative;width:150px;height:150px;margin:0 auto 10px}
+.rw svg{transform:rotate(-90deg);filter:drop-shadow(0 0 8px rgba(0,245,255,.4))}
+.rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rn{font-family:'Orbitron',monospace;font-size:36px;font-weight:900;color:var(--cyan);text-shadow:0 0 16px rgba(0,245,255,.7);line-height:1}
+.ru{font-size:9px;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+.rl{font-size:11px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.hl{color:var(--orange)}
+.pw{padding:6px 0 12px}.pt{background:var(--card2);border-radius:3px;height:4px;overflow:hidden}
+.pf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:width .4s}
+.sb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 6px;text-align:center}
+.sv{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--cyan)}
+.sv.mg{color:var(--pink)}.sv.gd{color:var(--green)}.sv.wn{color:var(--yellow)}
+.sl{font-size:9px;color:var(--dim);text-transform:uppercase;margin-top:2px;letter-spacing:.08em}
+.grow{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.grow label{font-size:14px;font-weight:700;color:var(--text)}
+.grow input{width:75px;background:var(--card2);border:1px solid var(--cyan);border-radius:6px;color:var(--cyan);font-family:'Orbitron',monospace;font-size:15px;font-weight:700;padding:6px 8px;text-align:center;outline:none;-webkit-appearance:none}
+
+/* FOOD LOG */
+.dlog{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;position:relative;margin-bottom:14px}
+.dlog::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pink),var(--cyan),var(--orange));border-radius:8px 8px 0 0}
+select.fsel{width:100%;background:var(--card2);border:1px solid rgba(0,245,255,.25);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:11px 12px;outline:none;margin-bottom:10px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300f5ff' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select.fsel option{background:var(--card);color:var(--text)}
+.qbox{background:rgba(0,245,255,.05);border:1px solid var(--cyan);border-radius:8px;padding:14px;margin-bottom:10px}
+.qname{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:10px}
+.qrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.qbase{font-size:12px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.qc{display:flex;align-items:center;gap:10px}
+.qbtn{width:38px;height:38px;border-radius:6px;border:none;background:var(--card2);color:var(--cyan);font-size:20px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qnum{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--cyan);min-width:30px;text-align:center}
+.qtot{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--green)}
+.brow2{display:flex;gap:8px}
+.badd{flex:1;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;border:none;border-radius:6px;padding:13px;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;cursor:pointer}
+.badd:active{opacity:.8}
+.bcan{background:var(--card2);border:1px solid rgba(255,0,204,.2);border-radius:6px;color:var(--dim);font-family:'Orbitron',monospace;font-size:10px;padding:13px 14px;cursor:pointer}
+.mdiv{margin-top:12px;border-top:1px solid rgba(0,245,255,.08);padding-top:12px}
+.mlbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:8px}
+.mrow{display:flex;gap:8px;align-items:center}
+.mrow input[type=text]{flex:1;background:var(--card2);border:1px solid rgba(0,245,255,.2);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:11px 12px;outline:none}
+.mrow input[type=text]::placeholder{color:var(--dim)}
+.gpill{display:flex;align-items:center;background:var(--card2);border:1px solid var(--cyan);border-radius:6px;padding:0 10px;height:44px}
+.gpill input{width:44px;background:transparent;border:none;color:var(--cyan);font-family:'Orbitron',monospace;font-size:14px;font-weight:700;text-align:center;outline:none;-webkit-appearance:none}
+.gpill span{font-size:11px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+
+/* FOOD LOG LIST */
+.ll{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.li{display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid rgba(0,245,255,.06);gap:8px}
+.li:last-child{border-bottom:none}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--cyan);flex-shrink:0}
+.ln{flex:1;font-size:14px;font-weight:600;color:var(--text)}
+.lt{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.lp{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan);min-width:40px;text-align:right}
+.bdel{background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer;padding:0 0 0 6px}
+.bdel:active{color:var(--pink)}
+.emp{padding:24px;text-align:center;color:var(--dim);font-size:12px;font-family:'Share Tech Mono',monospace}
+
+/* SMART SUGGESTIONS */
+.sugbox{background:linear-gradient(135deg,rgba(255,0,204,.06),rgba(0,245,255,.04));border:1px solid rgba(255,0,204,.25);border-radius:8px;padding:14px;margin-bottom:14px;display:none}
+.sugbox.show{display:block}
+.sug-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.15em;color:var(--pink);margin-bottom:4px}
+.sug-sub{font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.5}
+.sug-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sug-item{background:var(--card2);border:1px solid rgba(255,102,0,.2);border-radius:6px;padding:10px;text-align:center}
+.sug-g{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--orange)}
+.sug-name{font-size:11px;font-weight:700;color:var(--text);margin-top:2px}
+.sug-why{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.4}
+.why30{background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--dim);line-height:1.6}
+.why30 strong{color:var(--cyan)}
+
+/* HISTORY */
+.hbox{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.hday{padding:10px 14px;border-bottom:1px solid rgba(0,245,255,.06);display:flex;align-items:center;gap:10px}
+.hday:last-child{border-bottom:none}
+.hdate{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);min-width:82px}
+.hbar{flex:1;height:5px;background:var(--card2);border-radius:3px;overflow:hidden}
+.hfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--pink),var(--cyan))}
+.hg{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--cyan);min-width:48px;text-align:right}
+.hpct{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace;min-width:36px;text-align:right}
+
+/* COPY BOX */
+.cpbox{background:var(--card);border:1px solid rgba(0,255,136,.12);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.cppre{padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.8;white-space:pre-wrap;max-height:140px;overflow-y:auto}
+.cpfoot{border-top:1px solid rgba(0,255,136,.08);padding:10px 14px}
+.bcopy{width:100%;background:linear-gradient(135deg,rgba(0,255,136,.12),rgba(0,245,255,.08));border:1px solid var(--green);border-radius:6px;color:var(--green);font-family:'Orbitron',monospace;font-size:10px;font-weight:700;padding:12px;cursor:pointer;letter-spacing:.08em}
+.bcopy.ok{color:var(--yellow);border-color:var(--yellow)}
+.breset{background:none;border:1px solid rgba(255,0,204,.15);border-radius:6px;color:var(--dim);font-size:10px;padding:8px 20px;cursor:pointer;font-family:'Orbitron',monospace;letter-spacing:.1em}
+
+/* INJECTION SECTION */
+.body-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:16px}
+@media(min-width:540px){.body-wrap{flex-direction:row;align-items:flex-start;justify-content:center}}
+.body-svg-wrap{position:relative;flex-shrink:0}
+.zone-info{flex:1;min-width:0}
+.zone-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.zone-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.12em;color:var(--pink);margin-bottom:4px}
+.zone-detail{font-size:12px;color:var(--dim);line-height:1.6}
+.zone-next{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan);margin-top:6px}
+
+.site-btn{width:100%;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;border:none;border-radius:6px;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.15em;cursor:pointer;margin-bottom:10px}
+.site-btn:active{opacity:.8}
+
+.rot-explain{background:rgba(255,0,204,.05);border:1px solid rgba(255,0,204,.2);border-radius:8px;padding:14px;margin-bottom:14px}
+.rot-title{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.15em;color:var(--pink);margin-bottom:8px}
+.rot-steps{list-style:none;padding:0;margin:0}
+.rot-steps li{font-size:13px;color:var(--dim);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5}
+.rot-steps li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:12px}
+.rot-steps li:last-child{border-bottom:none}
+.rot-steps strong{color:var(--text)}
+
+.inj-log{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.inj-entry{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(0,245,255,.06)}
+.inj-entry:last-child{border-bottom:none}
+.inj-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.inj-name{flex:1;font-size:13px;font-weight:700;color:var(--text)}
+.inj-zone{font-size:11px;color:var(--cyan);font-family:'Share Tech Mono',monospace}
+.inj-time{font-size:10px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.inj-del{background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 0 0 6px}
+
+.multi-card{background:var(--card2);border:1px solid rgba(0,245,255,.15);border-radius:8px;padding:14px;margin-bottom:10px}
+.multi-add{display:flex;gap:8px;margin-top:10px}
+.multi-add input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none}
+.multi-add input::placeholder{color:var(--dim)}
+.small-btn{background:var(--card);border:1px solid var(--cyan);border-radius:6px;color:var(--cyan);font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.1em;padding:10px 12px;cursor:pointer;white-space:nowrap}
+.pep-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pep-tag{background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.25);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;color:var(--cyan);display:flex;align-items:center;gap:6px}
+.pep-tag button{background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px;padding:0;line-height:1}
+.assign-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.assign-row label{font-size:12px;color:var(--dim);min-width:90px}
+.assign-row select{background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;padding:8px 10px;outline:none;flex:1}
+
+/* PEPTIDE CALENDAR */
+.pep-form{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px}
+.form-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.form-row input,.form-row select{flex:1;min-width:120px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;padding:10px 12px;outline:none}
+.form-row input::placeholder{color:var(--dim)}
+.form-row select option{background:var(--card)}
+.btn-primary{width:100%;background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,245,255,.1));border:1px solid var(--green);border-radius:6px;color:var(--green);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.15em;padding:13px;cursor:pointer}
+.btn-primary:active{opacity:.8}
+.active-peps{margin-bottom:14px}
+.pep-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.pep-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green)}
+.pep-card-name{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.12em;color:var(--green);margin-bottom:4px}
+.pep-meta{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.5}
+.pep-meta span{color:var(--text);font-weight:700}
+.streak-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.streak-box{background:var(--card2);border-radius:6px;padding:8px 12px;text-align:center;flex:1;min-width:70px}
+.streak-num{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--green)}
+.streak-lbl{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.log-today-btn{width:100%;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:6px;color:var(--green);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.12em;padding:11px;cursor:pointer;margin-bottom:8px}
+.log-today-btn.logged{background:rgba(0,255,136,.2);color:var(--yellow);border-color:var(--yellow)}
+.cal-strip{display:flex;gap:4px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px}
+.cal-day{flex-shrink:0;width:32px;text-align:center}
+.cal-day-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 3px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:9px;font-weight:700}
+.cal-day-dot.done{background:var(--green);color:#000}
+.cal-day-dot.miss{background:rgba(255,255,255,.05);color:var(--dim);border:1px solid rgba(255,255,255,.08)}
+.cal-day-dot.skip{background:rgba(255,230,0,.1);color:var(--yellow);border:1px solid rgba(255,230,0,.2)}
+.cal-day-dot.future{background:transparent;color:var(--dim);border:1px dashed rgba(255,255,255,.1)}
+.cal-day-lbl{font-size:9px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.pep-del-btn{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;float:right;margin-top:-2px}
+.pep-del-btn:hover{color:var(--pink)}
+.notes-input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;padding:10px 12px;outline:none;resize:vertical;margin-top:6px;min-height:60px}
+.notes-input::placeholder{color:var(--dim)}
+.hist-section{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.hist-entry{padding:10px 14px;border-bottom:1px solid rgba(0,255,136,.06);display:flex;align-items:center;gap:10px}
+.hist-entry:last-child{border-bottom:none}
+.hist-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.hist-name{flex:1;font-size:13px;font-weight:700;color:var(--text)}
+.hist-date{font-size:11px;color:var(--dim);font-family:'Share Tech Mono',monospace}
+
+/* ZONE LABELS ON SVG */
+.zone-svg{cursor:pointer;transition:all .2s}
+.zone-svg:hover circle,.zone-svg:hover ellipse{opacity:.8}
+
+/* INFO BOX */
+.info-box{background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--dim);line-height:1.7}
+.info-box strong{color:var(--cyan)}
+
+.tip-banner{background:linear-gradient(135deg,rgba(255,0,204,.06),rgba(255,102,0,.04));border:1px solid rgba(255,0,204,.2);border-radius:8px;padding:14px 14px 14px 18px;display:flex;gap:10px;position:relative;overflow:hidden;margin-bottom:14px}
+.tip-banner::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--pink),var(--orange))}
+.tip-txt{font-size:13px;color:var(--dim);line-height:1.6}
+.tip-txt strong{color:var(--cyan)}
+
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">VPN</div>
+  <div class="htxt"><h1>VERIFIED PEPTIDES NETWORK</h1><p>Health Tracker · Protein · Injection · Peptides</p></div>
+  <a href="home.html" class="hback">← HOME</a>
+</header>
+
+<!-- TAB NAV -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('protein')">🥩 PROTEIN</div>
+  <div class="tab" onclick="showTab('injection')">💉 INJECTION</div>
+  <div class="tab" onclick="showTab('peptides')">🧬 PEPTIDES</div>
+</div>
+
+<!-- ========================= TAB 1: PROTEIN ========================= -->
+<div class="sec active" id="sec-protein">
+
+  <div class="hero">
+    <div class="rw">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="63" fill="none" stroke="#0f0f22" stroke-width="11"/>
+        <circle id="arc" cx="75" cy="75" r="63" fill="none" stroke="url(#pg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="396" stroke-dashoffset="396"/>
+        <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff00cc"/><stop offset="50%" stop-color="#00f5ff"/><stop offset="100%" stop-color="#ff6a00"/></linearGradient></defs>
+      </svg>
+      <div class="rc"><div class="rn" id="rn">0</div><div class="ru">grams protein</div></div>
+    </div>
+    <div class="rl">GOAL <span class="hl" id="gd">150</span>g &nbsp;·&nbsp; <span class="hl" id="rd">150</span>g LEFT</div>
+  </div>
+
+  <div class="pw"><div class="pt"><div class="pf" id="pf" style="width:0%"></div></div></div>
+
+  <div class="sb">
+    <div class="sc"><div class="sv mg" id="sc0">0g</div><div class="sl">consumed</div></div>
+    <div class="sc"><div class="sv" id="sc1">—</div><div class="sl">remaining</div></div>
+    <div class="sc"><div class="sv" id="sc2">0</div><div class="sl">meals</div></div>
+  </div>
+
+  <!-- SMART SUGGESTIONS -->
+  <div class="sugbox" id="sugbox">
+    <div class="sug-title" id="sug-title">⚡ YOU NEED MORE PROTEIN</div>
+    <div class="sug-sub" id="sug-sub">Here's what to eat or drink right now:</div>
+    <div class="sug-grid" id="sug-grid"></div>
+    <div class="why30">
+      <strong>WHY 30g PER MEAL ON GLP-1?</strong><br>
+      Your body needs ~3g of leucine (found in 30g of complete protein) to trigger <strong>Muscle Protein Synthesis (MPS)</strong> — the process that preserves and builds muscle. GLP-1 medications cause rapid fullness, so each meal window is critical. Without 30g protein per meal, the weight you lose comes from <strong>muscle, not just fat</strong>. On GLP-1s, protein percentage must go <strong>UP</strong>, not down.
+    </div>
+  </div>
+
+  <div class="sh cyan">Daily Goal</div>
+  <div class="grow"><label for="gi">Protein Target</label><input type="number" id="gi" value="150" min="30" max="400" step="5"></div>
+
+  <div class="sh cyan">Log Food</div>
+  <div class="dlog">
+    <select class="fsel" id="fsel">
+      <option value="">— Pick a food or drink —</option>
+      <optgroup label="🥚 Eggs and Dairy">
+        <option value="Egg|6">Egg (6g each)</option>
+        <option value="Egg Whites x3|9">Egg Whites x3 (9g)</option>
+        <option value="Greek Yogurt|17">Greek Yogurt 1 cup (17g)</option>
+        <option value="Skyr Yogurt|20">Skyr Yogurt (20g)</option>
+        <option value="Cottage Cheese|14">Cottage Cheese half cup (14g)</option>
+        <option value="String Cheese|8">String Cheese (8g)</option>
+        <option value="Whole Milk 1 cup|8">Whole Milk 1 cup (8g)</option>
+      </optgroup>
+      <optgroup label="🍗 Meat and Poultry">
+        <option value="Chicken Breast 4oz|31">Chicken Breast 4oz (31g)</option>
+        <option value="Rotisserie Chicken|35">Rotisserie Chicken Breast (35g)</option>
+        <option value="Chicken Thigh 4oz|25">Chicken Thigh 4oz (25g)</option>
+        <option value="Ground Beef 4oz|22">Ground Beef 4oz (22g)</option>
+        <option value="Steak 6oz|42">Steak 6oz (42g)</option>
+        <option value="Pork Tenderloin 4oz|26">Pork Tenderloin 4oz (26g)</option>
+        <option value="Turkey Breast 3oz|18">Turkey Breast 3oz (18g)</option>
+        <option value="Deli Turkey 2oz|10">Deli Turkey 2oz (10g)</option>
+        <option value="Beef Jerky 1oz|9">Beef Jerky 1oz (9g)</option>
+      </optgroup>
+      <optgroup label="🐟 Seafood">
+        <option value="Salmon 4oz|25">Salmon 4oz (25g)</option>
+        <option value="Tuna Can|22">Tuna Can (22g)</option>
+        <option value="Shrimp 4oz|24">Shrimp 4oz (24g)</option>
+        <option value="Sardines 1 can|22">Sardines 1 can (22g)</option>
+      </optgroup>
+      <optgroup label="🥤 Shakes and Drinks">
+        <option value="Fairlife Protein Shake|42">Fairlife Shake (42g)</option>
+        <option value="Premier Protein Shake|30">Premier Protein Shake (30g)</option>
+        <option value="Nutri Shake 30g|30">Nutri Shake 30g</option>
+        <option value="Muscle Milk|25">Muscle Milk (25g)</option>
+        <option value="Core Power Shake|26">Core Power (26g)</option>
+        <option value="Protein Powder Scoop|25">Protein Powder 1 scoop (25g)</option>
+        <option value="Whey Isolate Scoop|27">Whey Isolate 1 scoop (27g)</option>
+        <option value="Casein Powder Scoop|24">Casein Powder 1 scoop (24g)</option>
+        <option value="Bone Broth 1 cup|10">Bone Broth 1 cup (10g)</option>
+        <option value="Kefir 1 cup|11">Kefir 1 cup (11g)</option>
+      </optgroup>
+      <optgroup label="🌿 Plant Protein">
+        <option value="Edamame 1 cup|17">Edamame 1 cup (17g)</option>
+        <option value="Tofu 4oz|10">Tofu 4oz (10g)</option>
+        <option value="Tempeh 3oz|16">Tempeh 3oz (16g)</option>
+        <option value="Lentils half cup|9">Lentils half cup (9g)</option>
+        <option value="Peanut Butter 2 tbsp|8">Peanut Butter 2 tbsp (8g)</option>
+      </optgroup>
+      <optgroup label="🍫 Bars and Snacks">
+        <option value="Quest Bar|21">Quest Bar (21g)</option>
+        <option value="Premier Protein Bar|30">Premier Protein Bar (30g)</option>
+        <option value="RX Bar|12">RX Bar (12g)</option>
+      </optgroup>
+      <optgroup label="🍽 Meals">
+        <option value="Cheeseburger|25">Cheeseburger (25g)</option>
+        <option value="Chicken Burrito|30">Chicken Burrito (30g)</option>
+        <option value="Grilled Chicken Salad|30">Grilled Chicken Salad (30g)</option>
+        <option value="Turkey Sandwich|20">Turkey Sandwich (20g)</option>
+      </optgroup>
+    </select>
+
+    <div class="qbox" id="qbox" style="display:none">
+      <div class="qname" id="qname">—</div>
+      <div class="qrow">
+        <div class="qbase" id="qbase">0g per serving</div>
+        <div class="qc">
+          <button class="qbtn" id="qm">−</button>
+          <div class="qnum" id="qnum">1</div>
+          <button class="qbtn" id="qp">+</button>
+          <div class="qtot" id="qt">= 0g</div>
+        </div>
+      </div>
+      <div class="brow2">
+        <button class="badd" id="qa">ADD TO LOG</button>
+        <button class="bcan" id="qc2">CANCEL</button>
+      </div>
+    </div>
+
+    <div class="mdiv">
+      <div class="mlbl">OR TYPE MANUALLY:</div>
+      <div class="mrow">
+        <input type="text" id="mn" placeholder="Food name...">
+        <div class="gpill"><input type="number" id="mg2" placeholder="0" min="0" max="300"><span>g</span></div>
+        <button class="badd" id="ma" style="flex:none;padding:11px 16px">ADD</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh cyan">Today's Log</div>
+  <div class="ll" id="ll"><div class="emp">No entries yet — pick a food above</div></div>
+  <div style="text-align:center;margin-bottom:14px"><button class="breset" id="br">RESET TODAY</button></div>
+
+  <div class="sh cyan">30-Day History</div>
+  <div class="hbox" id="hb"><div class="emp">No history yet</div></div>
+
+  <div class="sh cyan">Copy Log to Notes</div>
+  <div class="cpbox">
+    <div class="cppre" id="cp">Log something above then copy to your notes</div>
+    <div class="cpfoot"><button class="bcopy" id="bc">COPY TO CLIPBOARD / NOTES / MESSAGES</button></div>
+  </div>
+
+  <div class="sh cyan">GLP-1 Protein Tips</div>
+  <div class="tip-banner"><div style="font-size:18px;flex-shrink:0">💊</div><div class="tip-txt" id="tip"></div></div>
+
+</div><!-- end protein tab -->
+
+
+<!-- ========================= TAB 2: INJECTION SITES ========================= -->
+<div class="sec" id="sec-injection">
+
+  <div class="info-box">
+    <strong>WHY ROTATE?</strong> Repeatedly injecting the same spot causes <strong>lipodystrophy</strong> — hardened, lumpy fatty tissue that absorbs medication inconsistently, leading to unpredictable dosing. Rotating through 4 zones keeps absorption <strong>consistent and predictable</strong> and prevents tissue damage.
+  </div>
+
+  <div class="sh">Injection Zones</div>
+  <div class="body-wrap">
+
+    <!-- HUMAN BODY SVG -->
+    <div class="body-svg-wrap">
+      <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="abdGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff00cc" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#ff00cc" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <!-- === BODY SILHOUETTE === -->
+        <!-- Head -->
+        <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Hair -->
+        <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
+        <!-- Eyes -->
+        <ellipse cx="91" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
+        <ellipse cx="109" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
+        <circle cx="91" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
+        <circle cx="109" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
+        <!-- Nose -->
+        <path d="M 98 42 Q 100 47 102 42" fill="none" stroke="#2a2a4a" stroke-width="1"/>
+        <!-- Mouth -->
+        <path d="M 94 50 Q 100 54 106 50" fill="none" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Ears -->
+        <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+        <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+
+        <!-- Neck -->
+        <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Shoulders / Upper Chest -->
+        <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Collarbones hint -->
+        <path d="M 87 90 Q 100 95 113 90" fill="none" stroke="#1e1e3a" stroke-width="2"/>
+
+        <!-- Left arm (patient's right = SVG left) -->
+        <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Left forearm -->
+        <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Left hand -->
+        <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Right arm (patient's left = SVG right) -->
+        <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Right forearm -->
+        <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Right hand -->
+        <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Torso (mid) -->
+        <path d="M 25 150 L 175 150 L 172 210 Q 165 235 100 240 Q 35 235 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Abs lines subtle -->
+        <line x1="100" y1="155" x2="100" y2="235" stroke="#1a1a35" stroke-width="1"/>
+        <line x1="60" y1="172" x2="140" y2="172" stroke="#1a1a35" stroke-width="0.7"/>
+        <line x1="55" y1="193" x2="145" y2="193" stroke="#1a1a35" stroke-width="0.7"/>
+        <line x1="58" y1="213" x2="142" y2="213" stroke="#1a1a35" stroke-width="0.7"/>
+
+        <!-- Hips/pelvis -->
+        <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- Left leg -->
+        <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Left knee cap -->
+        <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+
+        <!-- Right leg -->
+        <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <!-- Right knee cap -->
+        <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
+
+        <!-- Feet -->
+        <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+        <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+
+        <!-- === ABDOMEN HIGHLIGHT === -->
+        <ellipse cx="100" cy="195" rx="55" ry="45" fill="url(#abdGlow)"/>
+
+        <!-- Navel -->
+        <circle cx="100" cy="197" r="4.5" fill="#0a0a20" stroke="#3a3a5a" stroke-width="1.5"/>
+        <circle cx="100" cy="197" r="2" fill="#151530"/>
+
+        <!-- 2-inch safety zone (dashed circle around navel) -->
+        <circle cx="100" cy="197" r="28" fill="none" stroke="#ff00cc" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+        <text x="130" y="175" font-family="monospace" font-size="7" fill="#ff00cc" opacity="0.6">2 in.</text>
+
+        <!-- === INJECTION ZONES (4 quadrants, outside 2-inch ring) === -->
+
+        <!-- Zone 1: Upper Right (patient perspective) = SVG Upper Left -->
+        <g class="zone-svg" id="svgZ1" onclick="selectZone('1')">
+          <circle cx="66" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="66" y="166" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">1</text>
+        </g>
+
+        <!-- Zone 2: Upper Left (patient) = SVG Upper Right -->
+        <g class="zone-svg" id="svgZ2" onclick="selectZone('2')">
+          <circle cx="134" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="134" y="166" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">2</text>
+        </g>
+
+        <!-- Zone 3: Lower Right (patient) = SVG Lower Left -->
+        <g class="zone-svg" id="svgZ3" onclick="selectZone('3')">
+          <circle cx="66" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="66" y="232" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">3</text>
+        </g>
+
+        <!-- Zone 4: Lower Left (patient) = SVG Lower Right -->
+        <g class="zone-svg" id="svgZ4" onclick="selectZone('4')">
+          <circle cx="134" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="134" y="232" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">4</text>
+        </g>
+
+        <!-- Thigh Zones -->
+        <g class="zone-svg" id="svgZLT" onclick="selectZone('LT')">
+          <ellipse cx="52" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="52" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">LT</text>
+        </g>
+        <g class="zone-svg" id="svgZRT" onclick="selectZone('RT')">
+          <ellipse cx="148" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <text x="148" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">RT</text>
+        </g>
+
+        <!-- Zone labels on the side -->
+        <text x="42" y="162" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
+        <text x="158" y="162" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
+        <text x="42" y="228" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
+        <text x="158" y="228" font-family="monospace" font-size="6.5" fill="#5a6080">L</text>
+      </svg>
+    </div>
+
+    <!-- ZONE INFO PANEL -->
+    <div class="zone-info">
+      <div class="zone-card" id="zone-card">
+        <div class="zone-name" id="zone-name">TAP A ZONE</div>
+        <div class="zone-detail" id="zone-detail">Tap any numbered zone on the body diagram to select it for injection. Zones 1–4 are abdominal. LT/RT are left and right thigh.</div>
+        <div class="zone-next" id="zone-next"></div>
+      </div>
+      <div id="pep-select-wrap" style="display:none;margin-bottom:10px">
+        <div style="font-size:11px;color:var(--dim);margin-bottom:6px;font-family:'Share Tech Mono',monospace">WHICH PEPTIDE? (optional)</div>
+        <select class="fsel" id="inj-pep-sel" style="margin-bottom:0">
+          <option value="">— General / No specific peptide —</option>
+        </select>
+      </div>
+      <button class="site-btn" id="log-inj-btn" style="display:none" onclick="logInjection()">💉 LOG INJECTION TO SELECTED ZONE</button>
+    </div>
+  </div>
+
+  <!-- NEXT RECOMMENDED ZONE -->
+  <div class="sh">Recommended Next Zone</div>
+  <div class="card cyan-top" id="next-zone-card">
+    <div style="font-size:12px;color:var(--dim);margin-bottom:6px;font-family:'Share Tech Mono',monospace">NEXT INJECTION SHOULD BE:</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.15em;color:var(--cyan)" id="next-zone-txt">Log your first injection to start tracking rotation</div>
+    <div style="font-size:12px;color:var(--dim);margin-top:4px" id="next-zone-why"></div>
+  </div>
+
+  <!-- FOR MULTIPLE PEPTIDES -->
+  <div class="sh">Multiple Peptide Rotation</div>
+  <div class="multi-card">
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Your Research Peptides</div>
+    <div style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">Add each peptide you're tracking. Each gets its own rotation cycle so you never inject the same spot twice in a row, even with multiple peptides.</div>
+    <div class="pep-tags" id="inj-pep-tags"></div>
+    <div class="multi-add">
+      <input type="text" id="inj-new-pep" placeholder="Peptide name (e.g. BPC-157)">
+      <button class="small-btn" onclick="addInjPep()">+ ADD</button>
+    </div>
+    <div id="pep-zone-assigns" style="margin-top:12px"></div>
+  </div>
+
+  <!-- ROTATION GUIDE -->
+  <div class="sh">How to Rotate Correctly</div>
+  <div class="rot-explain">
+    <div class="rot-title">⟳ THE 4-ZONE ABDOMEN ROTATION</div>
+    <ul class="rot-steps">
+      <li><strong>Zone 1 — Upper Right abdomen</strong> (your right side, below ribs, above navel)</li>
+      <li><strong>Zone 2 — Upper Left abdomen</strong> (your left side, below ribs, above navel)</li>
+      <li><strong>Zone 3 — Lower Right abdomen</strong> (your right side, below navel, above groin)</li>
+      <li><strong>Zone 4 — Lower Left abdomen</strong> (your left side, below navel, above groin)</li>
+      <li><strong>All zones must be at least 2 inches (5cm) from your navel</strong> to avoid nerve clusters and the tough tissue around the belly button</li>
+      <li><strong>Rotate: 1 → 2 → 3 → 4 → repeat.</strong> Never use the same zone two days in a row</li>
+      <li><strong>Thigh option (LT/RT):</strong> Outer thigh, mid-thigh region is a valid alternative site for some peptides</li>
+    </ul>
+  </div>
+
+  <div class="rot-explain" style="border-color:rgba(0,245,255,.2);background:rgba(0,245,255,.04)">
+    <div class="rot-title" style="color:var(--cyan)">💉 MULTIPLE PEPTIDES — HOW TO ROTATE</div>
+    <ul class="rot-steps">
+      <li><strong>Option A (Assign zones):</strong> Give each peptide its own zone. BPC-157 always Zone 1–2, TB-500 always Zone 3–4. They never share a zone.</li>
+      <li><strong>Option B (Shared rotation):</strong> Rotate all peptides through all 4 zones in sequence. Track each one separately — if BPC used Zone 1 today, TB-500 uses Zone 2 next.</li>
+      <li><strong>Never inject two peptides in the same spot on the same day</strong> even if they are mixed in the same syringe</li>
+      <li><strong>Wait at least 1–2 days before reusing any zone</strong> regardless of which peptide</li>
+    </ul>
+  </div>
+
+  <!-- INJECTION HISTORY -->
+  <div class="sh">Injection History</div>
+  <div class="inj-log" id="inj-log"><div class="emp">No injections logged yet</div></div>
+  <div style="text-align:center;margin-bottom:14px"><button class="breset" onclick="clearInjHistory()">CLEAR HISTORY</button></div>
+
+</div><!-- end injection tab -->
+
+
+<!-- ========================= TAB 3: PEPTIDES ========================= -->
+<div class="sec" id="sec-peptides">
+
+  <div class="info-box">
+    <strong>PEPTIDE CALENDAR:</strong> Track when you started each research peptide, your injection history, and streaks. All data saves locally to your device.
+  </div>
+
+  <div class="sh green">Add Peptide to Track</div>
+  <div class="pep-form">
+    <div class="form-row">
+      <input type="text" id="pname" placeholder="Peptide name (e.g. BPC-157)">
+      <input type="number" id="pdose" placeholder="Dose (mcg/mg)" step="any" min="0">
+    </div>
+    <div class="form-row">
+      <select id="pfreq">
+        <option value="daily">Daily</option>
+        <option value="eod">Every Other Day</option>
+        <option value="3x">3x per week</option>
+        <option value="2x">2x per week</option>
+        <option value="weekly">Weekly</option>
+        <option value="5on2off">5 on / 2 off</option>
+      </select>
+      <input type="date" id="pstart">
+      <select id="punit">
+        <option value="mcg">mcg</option>
+        <option value="mg">mg</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <input type="text" id="pnotes" placeholder="Notes (optional — e.g. cycle length, goals)">
+    </div>
+    <button class="btn-primary" onclick="addPeptide()">＋ ADD PEPTIDE TO TRACKER</button>
+  </div>
+
+  <div class="sh green">Active Peptides</div>
+  <div class="active-peps" id="active-peps"><div class="emp">No peptides added yet</div></div>
+
+  <div class="sh green">Full Injection History</div>
+  <div class="hist-section" id="pep-hist"><div class="emp">No history yet</div></div>
+
+</div><!-- end peptides tab -->
+
+<script>
+// ===================== STATE =====================
+var today = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+var todayISO = new Date().toISOString().slice(0,10);
+
+// PROTEIN
+var protGoal = parseInt(localStorage.getItem('ptg') || '150');
+var protEntries = JSON.parse(localStorage.getItem('pte_'+today) || '[]');
+var protHist = JSON.parse(localStorage.getItem('pth') || '{}');
+
+// INJECTION
+var injLog = JSON.parse(localStorage.getItem('inj_log') || '[]');
+var injPeps = JSON.parse(localStorage.getItem('inj_peps') || '[]');
+var selectedZone = null;
+var ZONE_NAMES = {
+  '1':'Zone 1 — Upper Right Abdomen',
+  '2':'Zone 2 — Upper Left Abdomen',
+  '3':'Zone 3 — Lower Right Abdomen',
+  '4':'Zone 4 — Lower Left Abdomen',
+  'LT':'Left Thigh',
+  'RT':'Right Thigh'
+};
+var ZONE_DESC = {
+  '1':'Your RIGHT side, above navel, below ribs. At least 2 inches from navel.',
+  '2':'Your LEFT side, above navel, below ribs. At least 2 inches from navel.',
+  '3':'Your RIGHT side, below navel, above groin. At least 2 inches from navel.',
+  '4':'Your LEFT side, below navel, above groin. At least 2 inches from navel.',
+  'LT':'Outer left thigh, middle of the thigh. Pinch skin and inject at 45° or 90°.',
+  'RT':'Outer right thigh, middle of the thigh. Pinch skin and inject at 45° or 90°.'
+};
+var ROTATION = ['1','2','3','4'];
+
+// PEPTIDES
+var peptides = JSON.parse(localStorage.getItem('pep_tracker') || '[]');
+
+// ===================== TABS =====================
+function showTab(t) {
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(tb){tb.classList.remove('active');});
+  document.getElementById('sec-'+t).classList.add('active');
+  var tabs = document.querySelectorAll('.tab');
+  var map = {protein:0,injection:1,peptides:2};
+  tabs[map[t]].classList.add('active');
+}
+
+// ===================== PROTEIN =====================
+var TIPS=["<strong>PROTEIN FIRST.</strong> GLP-1s crush appetite fast. Always eat protein before carbs or fats so you hit your target even when full quickly.","<strong>SPREAD IT OUT.</strong> Your body uses 30-40g per meal for muscle. Aim for 4-5 smaller protein meals throughout the day.","<strong>LIFT HEAVY.</strong> GLP-1 medications cause muscle loss alongside fat loss. Resistance training 3x per week combined with high protein preserves muscle.","<strong>LIQUID PROTEIN.</strong> If GLP-1 nausea limits solid food, Premier Protein, Fairlife shakes, Greek yogurt, and bone broth are easy to get down.","<strong>0.7-1g PER LB BODYWEIGHT.</strong> If you weigh 180 lbs aim for 126-180g daily. Active users on GLP-1s should stay toward the top of that range.","<strong>HYDRATION IS CRITICAL.</strong> GLP-1 medications reduce your thirst signals. Force yourself to drink 8+ cups of water daily.","<strong>EGGS ARE YOUR BEST FRIEND.</strong> 6g per egg, easy to digest, cheap. Scrambled eggs are very GLP-1 friendly.","<strong>CASEIN AT NIGHT.</strong> Slow-digesting casein protein before bed feeds your muscles for 6-8 hours while you sleep."];
+document.getElementById('tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
+document.getElementById('gi').value=protGoal;
+
+var SUGGESTIONS = [
+  {name:'Fairlife Shake',g:42,why:'42g in one bottle, easy to drink on GLP-1 nausea'},
+  {name:'Chicken Breast 4oz',g:31,why:'Highest protein-per-calorie meat, easy to prep'},
+  {name:'Greek Yogurt',g:17,why:'Easy to eat, cold, gentle on upset stomach'},
+  {name:'Tuna Can',g:22,why:'Quick 22g, no cooking, shelf stable'},
+  {name:'Cottage Cheese',g:14,why:'Soft texture, easy to digest, casein protein'},
+  {name:'Premier Protein Shake',g:30,why:'30g liquid protein, no chewing required'},
+  {name:'Skyr Yogurt',g:20,why:'20g and thick like GLP-1 friendly portion'},
+  {name:'2 Hard Boiled Eggs',g:12,why:'12g, easy prep, minimal GI issues'},
+  {name:'Whey Isolate Scoop',g:27,why:'Fast-digesting, easy to add to anything'},
+  {name:'Rotisserie Chicken',g:35,why:'Already cooked, tear and eat, 35g'}
+];
+
+var qN='',qG=0,qQ=1;
+document.getElementById('fsel').addEventListener('change',function(){
+  var v=this.value;
+  if(!v){document.getElementById('qbox').style.display='none';return;}
+  var p=v.split('|');qN=p[0];qG=parseInt(p[1]);qQ=1;
+  document.getElementById('qname').textContent=qN;
+  document.getElementById('qbase').textContent=qG+'g per serving';
+  document.getElementById('qnum').textContent='1';
+  document.getElementById('qt').textContent='= '+qG+'g';
+  document.getElementById('qbox').style.display='block';
+});
+document.getElementById('qm').addEventListener('click',function(){if(qQ>1){qQ--;updQ();}});
+document.getElementById('qp').addEventListener('click',function(){if(qQ<20){qQ++;updQ();}});
+function updQ(){document.getElementById('qnum').textContent=qQ;document.getElementById('qt').textContent='= '+(qQ*qG)+'g';}
+document.getElementById('qa').addEventListener('click',function(){
+  doAdd(qQ>1?qQ+'x '+qN:qN,qQ*qG);
+  document.getElementById('qbox').style.display='none';
+  document.getElementById('fsel').value='';
+});
+document.getElementById('qc2').addEventListener('click',function(){
+  document.getElementById('qbox').style.display='none';
+  document.getElementById('fsel').value='';
+});
+document.getElementById('ma').addEventListener('click',function(){
+  var n=document.getElementById('mn').value.trim();
+  var g=parseInt(document.getElementById('mg2').value);
+  if(!n||!g||g<=0)return;
+  doAdd(n,g);
+  document.getElementById('mn').value='';
+  document.getElementById('mg2').value='';
+});
+document.getElementById('mn').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ma').click();});
+document.getElementById('mg2').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ma').click();});
+
+function doAdd(name,g){
+  if(!name||!g||g<=0)return;
+  var now=new Date();
+  protEntries.push({name:name,g:g,time:now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})});
+  protSave();protRender();
+}
+function protSave(){
+  localStorage.setItem('pte_'+today,JSON.stringify(protEntries));
+  localStorage.setItem('ptg',String(protGoal));
+  var tot=protEntries.reduce(function(s,e){return s+e.g;},0);
+  protHist[today]={total:tot,goal:protGoal,meals:protEntries.length};
+  var keys=Object.keys(protHist).sort();
+  while(keys.length>30){delete protHist[keys.shift()];keys=Object.keys(protHist).sort();}
+  localStorage.setItem('pth',JSON.stringify(protHist));
+}
+function protRender(){
+  var tot=protEntries.reduce(function(s,e){return s+e.g;},0);
+  var pct=Math.min(tot/protGoal,1);
+  var rem=Math.max(protGoal-tot,0);
+  var circ=2*Math.PI*63;
+  document.getElementById('arc').setAttribute('stroke-dashoffset',circ-circ*pct);
+  document.getElementById('rn').textContent=tot;
+  document.getElementById('gd').textContent=protGoal;
+  document.getElementById('rd').textContent=rem;
+  document.getElementById('pf').style.width=(pct*100)+'%';
+  document.getElementById('sc0').textContent=tot+'g';
+  var re=document.getElementById('sc1');
+  re.textContent=rem+'g';
+  re.className='sv'+(rem===0?' gd':rem<30?' wn':'');
+  document.getElementById('sc2').textContent=protEntries.length;
+
+  // food log
+  var ll=document.getElementById('ll');
+  if(!protEntries.length){ll.innerHTML='<div class="emp">No entries yet — pick a food above</div>';}
+  else{
+    ll.innerHTML='';
+    [].concat(protEntries).reverse().forEach(function(e,ri){
+      var i=protEntries.length-1-ri;
+      var d=document.createElement('div');d.className='li';
+      d.innerHTML='<div class="ldot"></div><div class="ln">'+e.name+'</div><div class="lt">'+e.time+'</div><div class="lp">'+e.g+'g</div><button class="bdel" data-i="'+i+'">×</button>';
+      d.querySelector('.bdel').addEventListener('click',function(){protEntries.splice(parseInt(this.getAttribute('data-i')),1);protSave();protRender();});
+      ll.appendChild(d);
+    });
+  }
+
+  // SMART SUGGESTIONS
+  var sb=document.getElementById('sugbox');
+  var sgrid=document.getElementById('sug-grid');
+  if(pct<0.85){
+    sb.classList.add('show');
+    var lvl=pct<0.3?'CRITICAL':pct<0.6?'BEHIND':'ALMOST THERE';
+    var color=pct<0.3?'#ff00cc':pct<0.6?'#ff6a00':'#ffe600';
+    document.getElementById('sug-title').textContent='⚡ '+lvl+' — '+tot+'g of '+protGoal+'g ('+Math.round(pct*100)+'%)';
+    document.getElementById('sug-title').style.color=color;
+    var msg=pct<0.3?'You need '+rem+'g more. These are your highest-impact options:':pct<0.6?'You\'re at '+Math.round(pct*100)+'% — here are your best next moves:':'Just '+rem+'g left — easy options to close the gap:';
+    document.getElementById('sug-sub').textContent=msg;
+    sgrid.innerHTML='';
+    SUGGESTIONS.slice(0,4).forEach(function(s){
+      var el=document.createElement('div');el.className='sug-item';
+      el.innerHTML='<div class="sug-g">'+s.g+'g</div><div class="sug-name">'+s.name+'</div><div class="sug-why">'+s.why+'</div>';
+      sgrid.appendChild(el);
+    });
+  } else {
+    sb.classList.remove('show');
+  }
+
+  // history
+  var hb=document.getElementById('hb');
+  var keys=Object.keys(protHist).sort().reverse();
+  if(!keys.length){hb.innerHTML='<div class="emp">No history yet</div>';}
+  else{
+    hb.innerHTML='';
+    keys.forEach(function(date){
+      var d=protHist[date];var p=Math.min(d.total/d.goal,1);
+      var isT=date===today;
+      var div=document.createElement('div');div.className='hday';
+      div.innerHTML='<div class="hdate" style="'+(isT?'color:#00f5ff':'')+'">'+date+(isT?' NOW':'')+'</div><div class="hbar"><div class="hfill" style="width:'+(p*100)+'%"></div></div><div class="hg">'+d.total+'g</div><div class="hpct" style="color:'+(p>=1?'#00ff88':p>=.7?'#ffe600':'#ff00cc')+'">'+Math.round(p*100)+'%</div>';
+      hb.appendChild(div);
+    });
+  }
+
+  // copy text
+  var L=['=== VPN PROTEIN LOG: '+today+' ===',''];
+  protEntries.forEach(function(e){L.push(e.time+'  '+e.name+'  -  '+e.g+'g');});
+  if(protEntries.length){L.push('','Total: '+tot+'g / '+protGoal+'g goal ('+Math.round(pct*100)+'%)','VPN Tracker — GLP-1 + Training');}
+  document.getElementById('cp').textContent=protEntries.length?L.join('\n'):'Log something above then copy to your notes';
+}
+document.getElementById('gi').addEventListener('input',function(){protGoal=parseInt(this.value)||150;protSave();protRender();});
+document.getElementById('br').addEventListener('click',function(){if(!confirm('Reset today?'))return;protEntries=[];protSave();protRender();});
+document.getElementById('bc').addEventListener('click',async function(){
+  var txt=document.getElementById('cp').textContent;
+  var btn=this;
+  try{await navigator.clipboard.writeText(txt);}
+  catch(e){var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  btn.textContent='✓ COPIED! PASTE INTO NOTES / MESSAGES / ANYWHERE';
+  btn.classList.add('ok');
+  setTimeout(function(){btn.textContent='COPY TO CLIPBOARD / NOTES / MESSAGES';btn.classList.remove('ok');},3000);
+});
+
+// ===================== INJECTION =====================
+function selectZone(z) {
+  selectedZone = z;
+  // Reset all SVG zones
+  ['1','2','3','4','LT','RT'].forEach(function(id){
+    var el=document.getElementById('svgZ'+id);
+    if(!el)return;
+    var shape=el.querySelector('circle,ellipse');
+    if(shape){shape.style.fill='rgba(0,245,255,0.08)';shape.style.stroke='#00f5ff';}
+    if(id==='LT'||id==='RT'){if(shape){shape.style.fill='rgba(255,102,0,0.08)';shape.style.stroke='#ff6a00';}}
+  });
+  var sel=document.getElementById('svgZ'+z);
+  if(sel){
+    var shape=sel.querySelector('circle,ellipse');
+    if(shape){shape.style.fill='rgba(255,0,204,0.25)';shape.style.stroke='#ff00cc';}
+  }
+  document.getElementById('zone-name').textContent=ZONE_NAMES[z]||z;
+  document.getElementById('zone-detail').textContent=ZONE_DESC[z]||'';
+  document.getElementById('zone-next').textContent='';
+  document.getElementById('pep-select-wrap').style.display='block';
+  document.getElementById('log-inj-btn').style.display='block';
+  updateInjPepSelect();
+}
+
+function updateInjPepSelect(){
+  var sel=document.getElementById('inj-pep-sel');
+  sel.innerHTML='<option value="">— General / No specific peptide —</option>';
+  injPeps.forEach(function(p){
+    var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);
+  });
+}
+
+function logInjection(){
+  if(!selectedZone)return;
+  var pep=document.getElementById('inj-pep-sel').value||'General';
+  var now=new Date();
+  injLog.unshift({zone:selectedZone,pep:pep,date:today,dateISO:todayISO,time:now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})});
+  if(injLog.length>200)injLog=injLog.slice(0,200);
+  localStorage.setItem('inj_log',JSON.stringify(injLog));
+  renderInjLog();
+  updateNextZone();
+  // Flash confirm
+  var btn=document.getElementById('log-inj-btn');
+  btn.textContent='✓ LOGGED!';
+  setTimeout(function(){btn.textContent='💉 LOG INJECTION TO SELECTED ZONE';},2000);
+  // Also log to peptide tracker if peptide found
+  if(pep!=='General'){
+    var pidx=peptides.findIndex(function(p){return p.name===pep;});
+    if(pidx>=0){
+      peptides[pidx].log=peptides[pidx].log||[];
+      if(!peptides[pidx].log.includes(todayISO)){peptides[pidx].log.push(todayISO);}
+      savePeptides();renderPeptides();
+    }
+  }
+}
+
+function renderInjLog(){
+  var el=document.getElementById('inj-log');
+  if(!injLog.length){el.innerHTML='<div class="emp">No injections logged yet</div>';return;}
+  el.innerHTML='';
+  injLog.slice(0,30).forEach(function(entry,i){
+    var colors=['#00f5ff','#ff00cc','#ff6a00','#00ff88','#ffe600'];
+    var c=colors[i%colors.length];
+    var d=document.createElement('div');d.className='inj-entry';
+    d.innerHTML='<div class="inj-dot" style="background:'+c+'"></div><div class="inj-name">'+(entry.pep||'General')+'</div><div class="inj-zone">'+ZONE_NAMES[entry.zone]+'</div><div class="inj-time">'+entry.date+' '+entry.time+'</div><button class="inj-del" data-i="'+i+'" title="Delete">×</button>';
+    d.querySelector('.inj-del').addEventListener('click',function(){
+      injLog.splice(parseInt(this.getAttribute('data-i')),1);
+      localStorage.setItem('inj_log',JSON.stringify(injLog));
+      renderInjLog();updateNextZone();
+    });
+    el.appendChild(d);
+  });
+}
+
+function updateNextZone(){
+  var el=document.getElementById('next-zone-txt');
+  var ew=document.getElementById('next-zone-why');
+  if(!injLog.length){
+    el.textContent='Log your first injection to start tracking rotation';
+    ew.textContent='';return;
+  }
+  var last=injLog[0].zone;
+  var idx=ROTATION.indexOf(last);
+  var next=idx>=0?ROTATION[(idx+1)%4]:'1';
+  el.textContent=(ZONE_NAMES[next]||next)+' (Zone '+next+')';
+  ew.textContent='Last used: '+ZONE_NAMES[last]+' on '+injLog[0].date;
+}
+
+function clearInjHistory(){if(!confirm('Clear all injection history?'))return;injLog=[];localStorage.setItem('inj_log',JSON.stringify(injLog));renderInjLog();updateNextZone();}
+
+function addInjPep(){
+  var inp=document.getElementById('inj-new-pep');
+  var val=inp.value.trim();
+  if(!val)return;
+  if(!injPeps.includes(val)){injPeps.push(val);localStorage.setItem('inj_peps',JSON.stringify(injPeps));}
+  inp.value='';
+  renderInjPepTags();
+  updateInjPepSelect();
+}
+function removeInjPep(p){injPeps=injPeps.filter(function(x){return x!==p;});localStorage.setItem('inj_peps',JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
+function renderInjPepTags(){
+  var el=document.getElementById('inj-pep-tags');
+  if(!injPeps.length){el.innerHTML='<span style="font-size:12px;color:var(--dim)">No peptides added yet</span>';return;}
+  el.innerHTML='';
+  injPeps.forEach(function(p){
+    var tag=document.createElement('div');tag.className='pep-tag';
+    tag.innerHTML=p+' <button onclick="removeInjPep(\''+p.replace(/'/g,"\\'")+'\')" title="Remove">×</button>';
+    el.appendChild(tag);
+  });
+  renderPepZoneAssigns();
+}
+function renderPepZoneAssigns(){
+  var el=document.getElementById('pep-zone-assigns');
+  if(!injPeps.length){el.innerHTML='';return;}
+  el.innerHTML='<div style="font-size:11px;color:var(--dim);margin-bottom:8px;font-family:\'Share Tech Mono\',monospace">ZONE ASSIGNMENTS (optional — assign a peptide to specific zones)</div>';
+  injPeps.forEach(function(p){
+    var stored=JSON.parse(localStorage.getItem('inj_assign_'+p)||'""');
+    var row=document.createElement('div');row.className='assign-row';
+    row.innerHTML='<label style="color:var(--cyan);font-weight:700">'+p+':</label><select onchange="saveAssign(\''+p.replace(/'/g,"\\'")+'\')" id="assign-'+btoa(p)+'" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:\'Rajdhani\',sans-serif;font-size:13px;padding:8px 10px;outline:none;flex:1"><option value="">Shared rotation (all zones)</option><option value="12" '+(stored==='12'?'selected':'')+'>Zones 1 & 2 (upper abdomen)</option><option value="34" '+(stored==='34'?'selected':'')+'>Zones 3 & 4 (lower abdomen)</option><option value="14" '+(stored==='14'?'selected':'')+'>Zones 1 & 4 (diagonal)</option><option value="23" '+(stored==='23'?'selected':'')+'>Zones 2 & 3 (diagonal)</option><option value="thigh" '+(stored==='thigh'?'selected':'')+'>Thighs only (LT/RT)</option></select>';
+    el.appendChild(row);
+  });
+}
+function saveAssign(p){
+  var key='assign-'+btoa(p);
+  var val=document.getElementById(key)?document.getElementById(key).value:'';
+  localStorage.setItem('inj_assign_'+p,JSON.stringify(val));
+}
+
+// ===================== PEPTIDES =====================
+// Set today as default start date
+document.getElementById('pstart').value=todayISO;
+
+function addPeptide(){
+  var name=document.getElementById('pname').value.trim();
+  var dose=document.getElementById('pdose').value;
+  var freq=document.getElementById('pfreq').value;
+  var start=document.getElementById('pstart').value;
+  var unit=document.getElementById('punit').value;
+  var notes=document.getElementById('pnotes').value.trim();
+  if(!name){alert('Enter a peptide name');return;}
+  if(!start){alert('Select a start date');return;}
+  peptides.push({id:Date.now(),name:name,dose:dose,unit:unit,freq:freq,start:start,notes:notes,log:[],paused:false});
+  document.getElementById('pname').value='';
+  document.getElementById('pdose').value='';
+  document.getElementById('pnotes').value='';
+  savePeptides();renderPeptides();
+  // Also add to injection pep list
+  if(!injPeps.includes(name)){injPeps.push(name);localStorage.setItem('inj_peps',JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
+}
+
+function savePeptides(){localStorage.setItem('pep_tracker',JSON.stringify(peptides));}
+
+function daysBetween(d1,d2){return Math.round((new Date(d2)-new Date(d1))/(1000*60*60*24));}
+
+function calcStreak(log){
+  if(!log||!log.length)return 0;
+  var sorted=log.slice().sort().reverse();
+  var streak=0;var cur=new Date(todayISO);
+  for(var i=0;i<sorted.length;i++){
+    var d=new Date(sorted[i]);
+    var diff=Math.round((cur-d)/(1000*60*60*24));
+    if(diff<=1){streak++;cur=d;}
+    else break;
+  }
+  return streak;
+}
+
+function renderPeptides(){
+  var el=document.getElementById('active-peps');
+  if(!peptides.length){el.innerHTML='<div class="emp">No peptides added yet</div>';renderPepHist();return;}
+  el.innerHTML='';
+  peptides.forEach(function(pep,idx){
+    var daysOn=daysBetween(pep.start,todayISO)+1;
+    var streak=calcStreak(pep.log);
+    var totalDoses=pep.log?pep.log.length:0;
+    var loggedToday=pep.log&&pep.log.includes(todayISO);
+
+    var card=document.createElement('div');card.className='pep-card';
+    // Cal strip — last 21 days
+    var calHTML='<div class="cal-strip">';
+    for(var d=20;d>=0;d--){
+      var dt=new Date(todayISO);dt.setDate(dt.getDate()-d);
+      var iso=dt.toISOString().slice(0,10);
+      var label=dt.getDate();
+      var cls=d===0?(loggedToday?'done':'miss'):(pep.log&&pep.log.includes(iso)?'done':(new Date(iso)<new Date(pep.start)?'skip':'miss'));
+      calHTML+='<div class="cal-day"><div class="cal-day-dot '+cls+'">'+label+'</div><div class="cal-day-lbl">'+['Su','Mo','Tu','We','Th','Fr','Sa'][dt.getDay()]+'</div></div>';
+    }
+    calHTML+='</div>';
+
+    card.innerHTML='<button class="pep-del-btn" onclick="deletePeptide('+idx+')">✕ remove</button>'+
+      '<div class="pep-card-name">'+pep.name+'</div>'+
+      '<div class="pep-meta">'+
+        (pep.dose?'<span>'+pep.dose+' '+pep.unit+'</span> · ':'')+'<span>'+pep.freq+'</span> · Started <span>'+pep.start+'</span>'+(pep.notes?'<br>'+pep.notes:'')+'</div>'+
+      '<div class="streak-row">'+
+        '<div class="streak-box"><div class="streak-num">'+daysOn+'</div><div class="streak-lbl">Days On</div></div>'+
+        '<div class="streak-box"><div class="streak-num">'+totalDoses+'</div><div class="streak-lbl">Total Doses</div></div>'+
+        '<div class="streak-box"><div class="streak-num">'+streak+'</div><div class="streak-lbl">Streak</div></div>'+
+        '<div class="streak-box"><div class="streak-num">'+Math.round((totalDoses/Math.max(daysOn,1))*100)+'%</div><div class="streak-lbl">Compliance</div></div>'+
+      '</div>'+
+      '<button class="log-today-btn'+(loggedToday?' logged':'')+'" onclick="logDose('+idx+')">'+(loggedToday?'✓ DOSE LOGGED TODAY — TAP TO UNDO':'+ LOG DOSE TODAY')+'</button>'+
+      calHTML;
+    el.appendChild(card);
+  });
+  renderPepHist();
+}
+
+function logDose(idx){
+  var pep=peptides[idx];
+  pep.log=pep.log||[];
+  if(pep.log.includes(todayISO)){pep.log=pep.log.filter(function(d){return d!==todayISO;});}
+  else{pep.log.push(todayISO);}
+  savePeptides();renderPeptides();
+}
+
+function deletePeptide(idx){if(!confirm('Remove '+peptides[idx].name+'?'))return;peptides.splice(idx,1);savePeptides();renderPeptides();}
+
+function renderPepHist(){
+  var el=document.getElementById('pep-hist');
+  // Build flat log across all peptides
+  var entries=[];
+  peptides.forEach(function(pep){
+    (pep.log||[]).forEach(function(iso){entries.push({name:pep.name,iso:iso,dose:pep.dose,unit:pep.unit});});
+  });
+  entries.sort(function(a,b){return b.iso.localeCompare(a.iso);});
+  if(!entries.length){el.innerHTML='<div class="emp">No history yet — log your first dose above</div>';return;}
+  el.innerHTML='';
+  entries.slice(0,60).forEach(function(e){
+    var d=document.createElement('div');d.className='hist-entry';
+    d.innerHTML='<div class="hist-dot"></div><div class="hist-name">'+e.name+(e.dose?' — '+e.dose+' '+e.unit:'')+'</div><div class="hist-date">'+e.iso+'</div>';
+    el.appendChild(d);
+  });
+}
+
+// ===================== INIT =====================
+protRender();
+renderInjLog();
+renderInjPepTags();
+updateNextZone();
+renderPeptides();
+</script>
+</body>
+</html>
