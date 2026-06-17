@@ -26,6 +26,7 @@ a{color:var(--cyan);text-decoration:none}
 .tab:nth-child(2).active{color:var(--pink);border-bottom-color:var(--pink)}
 .tab:nth-child(3).active{color:var(--green);border-bottom-color:var(--green)}
 .tab:nth-child(4).active{color:var(--lime);border-bottom-color:var(--lime)}
+.tab:nth-child(5).active{color:var(--yellow);border-bottom-color:var(--yellow)}
 
 /* SUGGESTION TAB */
 .sug-disclaimer{background:rgba(255,230,0,.04);border-left:3px solid var(--yellow);padding:12px 16px;margin-bottom:14px;font-size:13px;font-weight:600;color:rgba(255,230,0,.85);line-height:1.6}
@@ -279,6 +280,51 @@ select.fsel option{background:var(--card);color:var(--text)}
 .zone-svg{cursor:pointer;transition:all .2s}
 .zone-svg:hover circle,.zone-svg:hover ellipse{opacity:.8}
 
+/* RESEARCHER CHOOSER */
+.researcher-bar{background:rgba(0,0,0,.6);border:1px solid rgba(0,245,255,.15);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.researcher-label{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.2em;margin-bottom:10px;text-align:center}
+.researcher-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.animal-btn{flex:1;min-width:80px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 8px;color:var(--dim);font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.12em;cursor:pointer;transition:all .2s;text-align:center}
+.animal-btn.active{border-color:var(--cyan);background:rgba(0,245,255,.1);color:var(--cyan);box-shadow:0 0 14px rgba(0,245,255,.2)}
+.animal-btn:hover:not(.active){border-color:rgba(0,245,255,.3);background:rgba(0,245,255,.05);color:var(--text)}
+
+/* RESEARCH DISCLAIMER */
+.research-disclaimer{background:linear-gradient(135deg,rgba(255,230,0,.07),rgba(255,102,0,.05));border:2px solid rgba(255,230,0,.4);border-radius:10px;padding:14px 16px;margin-bottom:14px;text-align:center}
+.research-disclaimer-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.22em;color:var(--yellow);margin-bottom:4px}
+.research-disclaimer-sub{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:rgba(255,230,0,.7);letter-spacing:.08em;line-height:1.5}
+
+/* PEPTIDE INDEX */
+.idx-search-bar{display:flex;gap:8px;margin-bottom:12px}
+.idx-search{flex:1;background:rgba(0,0,0,.6);border:1px solid rgba(0,245,255,.25);border-radius:6px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;padding:11px 12px;outline:none}
+.idx-search::placeholder{color:var(--dim)}
+.idx-search:focus{border-color:var(--cyan)}
+.idx-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.idx-cat{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;font-family:'Rajdhani',sans-serif;letter-spacing:.05em;color:var(--dim);cursor:pointer;transition:all .2s;white-space:nowrap}
+.idx-cat.active{background:rgba(255,0,204,.12);border-color:var(--pink);color:var(--pink)}
+.idx-card{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.idx-card:hover{border-color:rgba(0,245,255,.3)}
+.idx-card.open{border-color:var(--pink)}
+.idx-head{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.idx-cat-badge{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.1em;padding:3px 8px;border-radius:4px;background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.2);white-space:nowrap;flex-shrink:0}
+.idx-name{font-family:'Orbitron',monospace;font-size:.95rem;font-weight:700;color:#fff;flex:1}
+.idx-chevron{color:var(--dim);font-size:12px;transition:transform .2s;flex-shrink:0}
+.idx-card.open .idx-chevron{transform:rotate(180deg)}
+.idx-body{display:none;padding:0 14px 14px;border-top:1px solid rgba(255,255,255,.05)}
+.idx-card.open .idx-body{display:block}
+.idx-section{margin-top:10px}
+.idx-section-lbl{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.15em;color:var(--pink);margin-bottom:5px;margin-top:10px}
+.idx-mech{font-size:12px;color:var(--dim);line-height:1.7}
+.idx-list{list-style:none;padding:0;margin:0}
+.idx-list li{font-size:12px;color:var(--dim);padding:3px 0 3px 14px;position:relative;line-height:1.5}
+.idx-list li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:10px}
+.idx-proto{background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--dim);line-height:1.6;margin-top:6px}
+.idx-proto strong{color:var(--cyan)}
+.idx-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.idx-tag{font-size:10px;font-weight:700;font-family:'Rajdhani',sans-serif;padding:3px 8px;border-radius:4px;border:1px solid rgba(170,255,0,.25);color:var(--lime);background:rgba(170,255,0,.05)}
+.idx-tag.warn{border-color:rgba(255,102,0,.25);color:var(--orange);background:rgba(255,102,0,.05)}
+.idx-empty{padding:24px;text-align:center;color:var(--dim);font-size:12px;font-family:'Share Tech Mono',monospace}
+
+
 /* 3D FLIP BODY CARD */
 .body-flip-outer{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
 .body-flip-card{width:180px;height:387px;position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1)}
@@ -343,6 +389,7 @@ select.fsel option{background:var(--card);color:var(--text)}
   <div class="tab" onclick="showTab('injection')">💉 INJECTION</div>
   <div class="tab" onclick="showTab('peptides')">🧬 PEPTIDES</div>
   <div class="tab" onclick="showTab('suggest')">🦍 SUGGEST</div>
+  <div class="tab" onclick="showTab('index')">📚 INDEX</div>
 </div>
 
 <!-- ========================= TAB 1: PROTEIN ========================= -->
@@ -494,11 +541,28 @@ select.fsel option{background:var(--card);color:var(--text)}
 <!-- ========================= TAB 2: INJECTION SITES ========================= -->
 <div class="sec" id="sec-injection">
 
+  <div class="research-disclaimer">
+    <div class="research-disclaimer-title">⚠ FOR RESEARCH PURPOSES ONLY</div>
+    <div class="research-disclaimer-sub">This tool is educational only. Not medical advice.<br>Always work with a licensed physician before beginning any research protocol.</div>
+  </div>
+
   <div class="info-box">
     <strong>WHY ROTATE?</strong> Repeatedly injecting the same spot causes <strong>lipodystrophy</strong> — hardened, lumpy fatty tissue that absorbs medication inconsistently, leading to unpredictable dosing. Rotating through 4 zones keeps absorption <strong>consistent and predictable</strong> and prevents tissue damage.
   </div>
 
   <div class="sh">Injection Zones</div>
+
+  <!-- RESEARCHER CHOOSER -->
+  <div class="researcher-bar">
+    <div class="researcher-label">CHOOSE YOUR RESEARCHER</div>
+    <div class="researcher-btns">
+      <button class="animal-btn active" data-animal="gorilla" onclick="setAnimal('gorilla')">🦍 GORILLA</button>
+      <button class="animal-btn" data-animal="kangaroo" onclick="setAnimal('kangaroo')">🦘 KANGAROO</button>
+      <button class="animal-btn" data-animal="raccoon" onclick="setAnimal('raccoon')">🦝 RACCOON</button>
+      <button class="animal-btn" data-animal="monkey" onclick="setAnimal('monkey')">🐒 MONKEY</button>
+    </div>
+  </div>
+
   <div class="body-wrap">
 
     <!-- HUMAN BODY SVG — FLIP CARD -->
@@ -506,7 +570,7 @@ select.fsel option{background:var(--card);color:var(--text)}
       <div class="body-flip-card" id="body-flip-card">
 
         <!-- ===== FRONT FACE ===== -->
-        <div class="body-face body-front">
+        <div class="body-face body-front" id="body-front-face">
           <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="abdGlow" cx="50%" cy="50%" r="50%">
@@ -514,85 +578,82 @@ select.fsel option{background:var(--card);color:var(--text)}
                 <stop offset="100%" stop-color="#ff00cc" stop-opacity="0"/>
               </radialGradient>
             </defs>
-            <!-- FRONT VIEW label -->
-            <text x="100" y="10" font-family="monospace" font-size="6.5" fill="#2a2a4a" text-anchor="middle" letter-spacing="2">FRONT</text>
-            <!-- Head -->
-            <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
-            <ellipse cx="91" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
-            <ellipse cx="109" cy="36" rx="3" ry="3.5" fill="#1a1a35"/>
-            <circle cx="91" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
-            <circle cx="109" cy="36" r="1.5" fill="#00f5ff" opacity="0.5"/>
-            <path d="M 98 42 Q 100 47 102 42" fill="none" stroke="#2a2a4a" stroke-width="1"/>
-            <path d="M 94 50 Q 100 54 106 50" fill="none" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
-            <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
-            <!-- Neck -->
-            <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Shoulders -->
-            <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <path d="M 87 90 Q 100 95 113 90" fill="none" stroke="#1e1e3a" stroke-width="2"/>
-            <!-- Left arm (patient right) -->
-            <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Right arm (patient left) -->
-            <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Torso -->
-            <path d="M 25 150 L 175 150 L 172 210 Q 165 235 100 240 Q 35 235 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <line x1="100" y1="155" x2="100" y2="235" stroke="#1a1a35" stroke-width="1"/>
-            <line x1="60" y1="172" x2="140" y2="172" stroke="#1a1a35" stroke-width="0.7"/>
-            <line x1="55" y1="193" x2="145" y2="193" stroke="#1a1a35" stroke-width="0.7"/>
-            <line x1="58" y1="213" x2="142" y2="213" stroke="#1a1a35" stroke-width="0.7"/>
-            <!-- Hips -->
-            <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Left leg -->
-            <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-            <!-- Right leg -->
-            <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-            <!-- Feet -->
-            <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Abdomen glow -->
-            <ellipse cx="100" cy="195" rx="55" ry="45" fill="url(#abdGlow)"/>
+            <!-- GORILLA FRONT -->
+            <text x="100" y="10" font-family="monospace" font-size="6.5" fill="#2a2a4a" text-anchor="middle" letter-spacing="2">GORILLA</text>
+            <!-- Head - wide with brow ridge -->
+            <ellipse cx="100" cy="42" rx="34" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 68 24 Q 100 17 132 24" fill="none" stroke="#3a3a5a" stroke-width="5"/>
+            <ellipse cx="88" cy="38" rx="4" ry="3.5" fill="#1a1a35"/>
+            <ellipse cx="112" cy="38" rx="4" ry="3.5" fill="#1a1a35"/>
+            <circle cx="88" cy="38" r="1.5" fill="#00f5ff" opacity="0.5"/>
+            <circle cx="112" cy="38" r="1.5" fill="#00f5ff" opacity="0.5"/>
+            <ellipse cx="100" cy="52" rx="10" ry="6" fill="#0d0d28"/>
+            <path d="M 87 62 Q 100 68 113 62" fill="none" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="65" cy="42" rx="6" ry="8" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="135" cy="42" rx="6" ry="8" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Thick neck -->
+            <path d="M 86 73 L 81 92 L 119 92 L 114 73 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- MASSIVE shoulders -->
+            <path d="M 5 98 Q 30 82 78 87 L 122 87 Q 170 82 195 98 Q 212 128 202 155 L -2 155 Q -12 128 5 98 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 78 90 Q 100 98 122 90" fill="none" stroke="#1e1e3a" stroke-width="2"/>
+            <!-- Long left arm -->
+            <path d="M 5 98 Q -14 138 -10 190 Q -8 228 -2 260 Q 2 290 6 315 L 26 306 Q 22 280 18 252 Q 12 220 10 186 Q 8 144 24 110 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 6 315 Q 2 348 4 374 Q 6 388 10 396 L 28 390 Q 24 378 22 362 Q 20 342 26 306 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="18" cy="403" rx="13" ry="9" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Long right arm -->
+            <path d="M 195 98 Q 214 138 210 190 Q 208 228 202 260 Q 198 290 194 315 L 174 306 Q 178 280 182 252 Q 188 220 190 186 Q 192 144 176 110 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 194 315 Q 198 348 196 374 Q 194 388 190 396 L 172 390 Q 176 378 178 362 Q 180 342 174 306 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="182" cy="403" rx="13" ry="9" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Barrel chest -->
+            <path d="M -2 155 L 202 155 L 198 222 Q 186 248 100 254 Q 14 248 2 222 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <line x1="100" y1="160" x2="100" y2="246" stroke="#1a1a35" stroke-width="1"/>
+            <line x1="50" y1="178" x2="150" y2="178" stroke="#1a1a35" stroke-width="0.7"/>
+            <line x1="46" y1="200" x2="154" y2="200" stroke="#1a1a35" stroke-width="0.7"/>
+            <line x1="48" y1="220" x2="152" y2="220" stroke="#1a1a35" stroke-width="0.7"/>
+            <!-- Narrow gorilla hips -->
+            <path d="M 2 222 Q -4 250 18 270 L 182 270 Q 204 250 198 222 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Short stocky legs -->
+            <path d="M 18 270 Q 8 305 12 342 Q 16 368 18 392 L 65 392 Q 68 368 70 342 Q 74 305 88 270 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 182 270 Q 192 305 188 342 Q 184 368 182 392 L 135 392 Q 132 368 130 342 Q 126 305 112 270 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Wide gorilla feet -->
+            <ellipse cx="40" cy="400" rx="22" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="160" cy="400" rx="22" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Belly glow -->
+            <ellipse cx="100" cy="195" rx="65" ry="44" fill="url(#abdGlow)"/>
             <!-- Navel -->
-            <circle cx="100" cy="197" r="4.5" fill="#0a0a20" stroke="#3a3a5a" stroke-width="1.5"/>
-            <circle cx="100" cy="197" r="2" fill="#151530"/>
+            <circle cx="100" cy="200" r="4.5" fill="#0a0a20" stroke="#3a3a5a" stroke-width="1.5"/>
+            <circle cx="100" cy="200" r="2" fill="#151530"/>
             <!-- 2-inch safety ring -->
-            <circle cx="100" cy="197" r="28" fill="none" stroke="#ff00cc" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-            <text x="130" y="175" font-family="monospace" font-size="7" fill="#ff00cc" opacity="0.6">2 in.</text>
-            <!-- Zone 1: Upper Right abdomen -->
+            <circle cx="100" cy="200" r="28" fill="none" stroke="#ff00cc" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+            <text x="130" y="177" font-family="monospace" font-size="7" fill="#ff00cc" opacity="0.6">2 in.</text>
+            <!-- Zone 1: Upper Right -->
             <g class="zone-svg" id="svgZ1" onclick="selectZone('1')">
               <circle cx="66" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="66" y="167" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">1</text>
             </g>
-            <!-- Zone 2: Upper Left abdomen -->
+            <!-- Zone 2: Upper Left -->
             <g class="zone-svg" id="svgZ2" onclick="selectZone('2')">
               <circle cx="134" cy="162" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="134" y="167" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">2</text>
             </g>
-            <!-- Zone 3: Lower Right abdomen -->
+            <!-- Zone 3: Lower Right -->
             <g class="zone-svg" id="svgZ3" onclick="selectZone('3')">
               <circle cx="66" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="66" y="233" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">3</text>
             </g>
-            <!-- Zone 4: Lower Left abdomen -->
+            <!-- Zone 4: Lower Left -->
             <g class="zone-svg" id="svgZ4" onclick="selectZone('4')">
               <circle cx="134" cy="228" r="15" fill="rgba(0,245,255,0.08)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="134" y="233" font-family="monospace" font-size="9" font-weight="bold" fill="#00f5ff" text-anchor="middle">4</text>
             </g>
-            <!-- Thigh Zones -->
+            <!-- Thigh Zones on gorilla legs -->
             <g class="zone-svg" id="svgZLT" onclick="selectZone('LT')">
-              <ellipse cx="52" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-              <text x="52" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">LT</text>
+              <ellipse cx="40" cy="314" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="40" y="318" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">LT</text>
             </g>
             <g class="zone-svg" id="svgZRT" onclick="selectZone('RT')">
-              <ellipse cx="148" cy="300" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-              <text x="148" y="304" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">RT</text>
+              <ellipse cx="160" cy="314" rx="14" ry="18" fill="rgba(255,102,0,0.08)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="160" y="318" font-family="monospace" font-size="8" font-weight="bold" fill="#ff6a00" text-anchor="middle">RT</text>
             </g>
             <!-- R/L labels -->
             <text x="42" y="162" font-family="monospace" font-size="6.5" fill="#5a6080" text-anchor="end">R</text>
@@ -603,7 +664,7 @@ select.fsel option{background:var(--card);color:var(--text)}
         </div><!-- end front face -->
 
         <!-- ===== BACK FACE ===== -->
-        <div class="body-face body-back-face">
+        <div class="body-face body-back-face" id="body-back-face">
           <svg viewBox="0 0 200 430" width="180" height="387" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="gluteGlow" cx="50%" cy="60%" r="50%">
@@ -615,93 +676,86 @@ select.fsel option{background:var(--card);color:var(--text)}
                 <stop offset="100%" stop-color="#00f5ff" stop-opacity="0"/>
               </radialGradient>
             </defs>
-            <!-- BACK VIEW label -->
+            <!-- GORILLA BACK -->
             <text x="100" y="10" font-family="monospace" font-size="6.5" fill="#2a2a4a" text-anchor="middle" letter-spacing="2">BACK</text>
-            <!-- Head (from behind) -->
-            <ellipse cx="100" cy="40" rx="28" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="100" cy="16" rx="28" ry="12" fill="#0e0e24" stroke="#2a2a4a" stroke-width="1"/>
-            <ellipse cx="72" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
-            <ellipse cx="128" cy="40" rx="5" ry="7" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
-            <!-- Neck from behind -->
-            <path d="M 90 70 L 87 88 L 113 88 L 110 70 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Upper back / shoulders -->
-            <path d="M 32 92 Q 50 82 87 85 L 113 85 Q 150 82 168 92 Q 178 112 175 150 L 25 150 Q 22 112 32 92 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Gorilla head from behind - wide -->
+            <ellipse cx="100" cy="42" rx="34" ry="33" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="65" cy="42" rx="6" ry="8" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <ellipse cx="135" cy="42" rx="6" ry="8" fill="#111128" stroke="#2a2a4a" stroke-width="1"/>
+            <!-- Neck -->
+            <path d="M 86 73 L 81 92 L 119 92 L 114 73 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Massive upper back/shoulders -->
+            <path d="M 5 98 Q 30 82 78 87 L 122 87 Q 170 82 195 98 Q 212 128 202 155 L -2 155 Q -12 128 5 98 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
             <!-- Trapezius hints -->
-            <path d="M 100 88 Q 122 96 142 112" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
-            <path d="M 100 88 Q 78 96 58 112" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
-            <!-- Arms (patient right = SVG left) -->
-            <path d="M 32 92 Q 14 115 10 158 Q 8 182 12 206 Q 14 222 18 232 L 34 228 Q 30 218 28 202 Q 24 180 26 154 Q 28 128 42 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <path d="M 18 232 Q 14 252 16 270 Q 18 282 22 288 L 38 284 Q 34 278 32 268 Q 30 252 34 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="28" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Arms (patient left = SVG right) -->
-            <path d="M 168 92 Q 186 115 190 158 Q 192 182 188 206 Q 186 222 182 232 L 166 228 Q 170 218 172 202 Q 176 180 174 154 Q 172 128 158 108 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <path d="M 182 232 Q 186 252 184 270 Q 182 282 178 288 L 162 284 Q 166 278 168 268 Q 170 252 166 228 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="172" cy="295" rx="10" ry="12" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <!-- Back torso -->
-            <path d="M 25 150 L 175 150 L 172 210 Q 165 237 100 242 Q 35 237 28 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 100 92 Q 124 100 144 116" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
+            <path d="M 100 92 Q 76 100 56 116" fill="none" stroke="#1e1e3a" stroke-width="1.5"/>
+            <!-- Long arms from behind -->
+            <path d="M 5 98 Q -14 138 -10 190 Q -8 228 -2 260 Q 2 290 6 315 L 26 306 Q 22 280 18 252 Q 12 220 10 186 Q 8 144 24 110 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 6 315 Q 2 348 4 374 Q 6 388 10 396 L 28 390 Q 24 378 22 362 Q 20 342 26 306 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="18" cy="403" rx="13" ry="9" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 195 98 Q 214 138 210 190 Q 208 228 202 260 Q 198 290 194 315 L 174 306 Q 178 280 182 252 Q 188 220 190 186 Q 192 144 176 110 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 194 315 Q 198 348 196 374 Q 194 388 190 396 L 172 390 Q 176 378 178 362 Q 180 342 174 306 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="182" cy="403" rx="13" ry="9" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Barrel back torso -->
+            <path d="M -2 155 L 202 155 L 198 222 Q 186 248 100 254 Q 14 248 2 222 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
             <!-- Spine -->
-            <line x1="100" y1="90" x2="100" y2="242" stroke="#1a1a35" stroke-width="1.2"/>
+            <line x1="100" y1="92" x2="100" y2="254" stroke="#1a1a35" stroke-width="1.2"/>
             <!-- Lat hints -->
-            <path d="M 100 155 Q 68 178 58 215" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
-            <path d="M 100 155 Q 132 178 142 215" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
-            <!-- Hips / glutes -->
-            <path d="M 28 210 Q 22 242 36 262 L 164 262 Q 178 242 172 210 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 100 158 Q 68 182 58 218" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
+            <path d="M 100 158 Q 132 182 142 218" fill="none" stroke="#1a1a35" stroke-width="0.8"/>
+            <!-- Hips/glutes -->
+            <path d="M 2 222 Q -4 250 18 270 L 182 270 Q 204 250 198 222 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
             <!-- Glute crease -->
-            <path d="M 100 218 Q 100 252 100 262" stroke="#1a1a35" stroke-width="1"/>
-            <!-- Right glute curve (patient right = SVG left) -->
-            <path d="M 36 230 Q 28 250 36 262 L 100 262 L 100 218 Q 68 218 52 228 Z" fill="#111128" stroke="none"/>
-            <!-- Left glute curve -->
-            <path d="M 164 230 Q 172 250 164 262 L 100 262 L 100 218 Q 132 218 148 228 Z" fill="#111128" stroke="none"/>
+            <path d="M 100 228 Q 100 258 100 270" stroke="#1a1a35" stroke-width="1"/>
+            <!-- Glute curves -->
+            <path d="M 18 238 Q 10 255 18 270 L 100 270 L 100 228 Q 68 228 44 238 Z" fill="#111128" stroke="none"/>
+            <path d="M 182 238 Q 190 255 182 270 L 100 270 L 100 228 Q 132 228 156 238 Z" fill="#111128" stroke="none"/>
             <!-- Glute glows -->
-            <ellipse cx="65" cy="240" rx="38" ry="24" fill="url(#gluteGlow)"/>
-            <ellipse cx="135" cy="240" rx="38" ry="24" fill="url(#gluteGlow)"/>
-            <!-- Legs from behind -->
-            <path d="M 36 262 Q 26 295 30 340 Q 34 368 36 400 L 70 400 Q 72 368 74 340 Q 78 295 82 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="52" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-            <path d="M 38 355 Q 42 378 48 398 L 56 398 Q 62 378 66 355" fill="none" stroke="#1e1e3a" stroke-width="1"/>
-            <path d="M 164 262 Q 174 295 170 340 Q 166 368 164 400 L 130 400 Q 128 368 126 340 Q 122 295 118 262 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="148" cy="340" rx="10" ry="8" fill="#0f0f24" stroke="#2a2a4a" stroke-width="1"/>
-            <path d="M 162 355 Q 158 378 152 398 L 144 398 Q 138 378 134 355" fill="none" stroke="#1e1e3a" stroke-width="1"/>
-            <!-- Feet from behind -->
-            <ellipse cx="50" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
-            <ellipse cx="150" cy="410" rx="16" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="62" cy="248" rx="40" ry="24" fill="url(#gluteGlow)"/>
+            <ellipse cx="138" cy="248" rx="40" ry="24" fill="url(#gluteGlow)"/>
+            <!-- Gorilla short legs from behind -->
+            <path d="M 18 270 Q 8 305 12 342 Q 16 368 18 392 L 65 392 Q 68 368 70 342 Q 74 305 88 270 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <path d="M 182 270 Q 192 305 188 342 Q 184 368 182 392 L 135 392 Q 132 368 130 342 Q 126 305 112 270 Z" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <!-- Wide gorilla feet from behind -->
+            <ellipse cx="40" cy="400" rx="22" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
+            <ellipse cx="160" cy="400" rx="22" ry="10" fill="#111128" stroke="#2a2a4a" stroke-width="1.5"/>
 
             <!-- === INJECTION ZONES (BACK VIEW) === -->
-            <!-- Deltoid glows -->
+            <!-- Deltoid glows on gorilla arm outer shoulder -->
             <ellipse cx="20" cy="118" rx="16" ry="14" fill="url(#deltGlowL)"/>
             <ellipse cx="180" cy="118" rx="16" ry="14" fill="url(#deltGlowL)"/>
 
-            <!-- RD: Right Deltoid (patient right = SVG left outer upper arm) -->
+            <!-- RD: Right Deltoid -->
             <g class="zone-svg" id="svgZRD" onclick="selectZone('RD')">
               <circle cx="20" cy="118" r="13" fill="rgba(0,245,255,0.1)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="20" y="122" font-family="monospace" font-size="7" font-weight="bold" fill="#00f5ff" text-anchor="middle">RD</text>
             </g>
-            <!-- LD: Left Deltoid (patient left = SVG right outer upper arm) -->
+            <!-- LD: Left Deltoid -->
             <g class="zone-svg" id="svgZLD" onclick="selectZone('LD')">
               <circle cx="180" cy="118" r="13" fill="rgba(0,245,255,0.1)" stroke="#00f5ff" stroke-width="1.5" stroke-dasharray="5 3"/>
               <text x="180" y="122" font-family="monospace" font-size="7" font-weight="bold" fill="#00f5ff" text-anchor="middle">LD</text>
             </g>
-            <!-- Deltoid landmark lines (2-3 fingerbreadths below acromion) -->
-            <line x1="10" y1="103" x2="34" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
-            <line x1="166" y1="103" x2="190" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
-            <text x="8" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5" text-anchor="end">▲</text>
-            <text x="192" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5">▲</text>
+            <!-- Deltoid landmark lines -->
+            <line x1="8" y1="103" x2="34" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
+            <line x1="166" y1="103" x2="192" y2="103" stroke="#00f5ff" stroke-width="0.7" opacity="0.3" stroke-dasharray="2 2"/>
+            <text x="6" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5" text-anchor="end">▲</text>
+            <text x="194" y="102" font-family="monospace" font-size="5.5" fill="#00f5ff" opacity="0.5">▲</text>
 
-            <!-- RG: Right Upper Glute (patient right = SVG left) -->
+            <!-- RG: Right Upper Glute -->
             <g class="zone-svg" id="svgZRG" onclick="selectZone('RG')">
-              <ellipse cx="60" cy="228" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-              <text x="60" y="232" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">RG</text>
+              <ellipse cx="58" cy="244" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="58" y="248" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">RG</text>
             </g>
-            <!-- LG: Left Upper Glute (patient left = SVG right) -->
+            <!-- LG: Left Upper Glute -->
             <g class="zone-svg" id="svgZLG" onclick="selectZone('LG')">
-              <ellipse cx="140" cy="228" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
-              <text x="140" y="232" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">LG</text>
+              <ellipse cx="142" cy="244" rx="18" ry="15" fill="rgba(255,106,0,0.1)" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <text x="142" y="248" font-family="monospace" font-size="7" font-weight="bold" fill="#ff6a00" text-anchor="middle">LG</text>
             </g>
             <!-- Upper outer quadrant guide lines -->
-            <line x1="36" y1="235" x2="84" y2="235" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
-            <line x1="60" y1="213" x2="60" y2="257" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
-            <line x1="116" y1="235" x2="164" y2="235" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
-            <line x1="140" y1="213" x2="140" y2="257" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="34" y1="250" x2="82" y2="250" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="58" y1="228" x2="58" y2="272" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="118" y1="250" x2="166" y2="250" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
+            <line x1="142" y1="228" x2="142" y2="272" stroke="#ff6a00" stroke-width="0.6" opacity="0.25" stroke-dasharray="2 3"/>
 
             <!-- R/L labels -->
             <text x="10" y="115" font-family="monospace" font-size="6" fill="#5a6080" text-anchor="middle">R</text>
@@ -1077,8 +1131,9 @@ function showTab(t) {
   document.querySelectorAll('.tab').forEach(function(tb){tb.classList.remove('active');});
   document.getElementById('sec-'+t).classList.add('active');
   var tabs = document.querySelectorAll('.tab');
-  var map = {protein:0,injection:1,peptides:2,suggest:3};
+  var map = {protein:0,injection:1,peptides:2,suggest:3,index:4};
   if(map[t]!==undefined) tabs[map[t]].classList.add('active');
+  if(t==='index') renderIndex();
 }
 
 // ===================== PROTEIN =====================
@@ -1863,9 +1918,469 @@ function fbCopy(txt){
   document.body.removeChild(ta);
 }
 
+// ===================== ANIMAL SWITCHER =====================
+var ANIMAL_SVGS = {
+  gorilla: {
+    front: document.getElementById('body-front-face') ? document.getElementById('body-front-face').innerHTML : '',
+    back:  document.getElementById('body-back-face')  ? document.getElementById('body-back-face').innerHTML  : ''
+  }
+};
+
+// Build kangaroo, raccoon, monkey SVGs
+(function(){
+  // --- KANGAROO FRONT ---
+  ANIMAL_SVGS.kangaroo = {
+    front: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="kf-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#6a5a3a"/><stop offset="100%" stop-color="#3a2e18"/></radialGradient>
+  <radialGradient id="kf-belly" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8a7a5a"/><stop offset="100%" stop-color="#6a5a3a"/></radialGradient>
+</defs>
+<!-- small round head -->
+<ellipse cx="100" cy="42" rx="26" ry="30" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1.5"/>
+<!-- snout -->
+<ellipse cx="100" cy="62" rx="14" ry="10" fill="#8a7a5a"/>
+<ellipse cx="100" cy="66" rx="6" ry="4" fill="#4a3020"/>
+<!-- ears -->
+<ellipse cx="80" cy="14" rx="7" ry="13" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<ellipse cx="120" cy="14" rx="7" ry="13" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<ellipse cx="80" cy="14" rx="4" ry="9" fill="#c09a70" opacity=".6"/>
+<ellipse cx="120" cy="14" rx="4" ry="9" fill="#c09a70" opacity=".6"/>
+<!-- eyes -->
+<circle cx="90" cy="38" r="4" fill="#1a0e00"/><circle cx="110" cy="38" r="4" fill="#1a0e00"/>
+<circle cx="91" cy="37" r="1.5" fill="#fff" opacity=".7"/>
+<circle cx="111" cy="37" r="1.5" fill="#fff" opacity=".7"/>
+<!-- neck -->
+<rect x="88" y="68" width="24" height="16" rx="6" fill="url(#kf-body)"/>
+<!-- torso — upright kangaroo, small shoulders, big belly -->
+<path d="M 70 84 Q 100 78 130 84 L 135 200 Q 100 212 65 200 Z" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- belly/pouch area -->
+<ellipse cx="100" cy="160" rx="28" ry="36" fill="url(#kf-belly)" opacity=".7"/>
+<!-- arms — small, held forward -->
+<path d="M 70 90 Q 44 100 36 145 Q 34 158 42 162 Q 50 152 52 138 Q 60 110 76 100 Z" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<path d="M 130 90 Q 156 100 164 145 Q 166 158 158 162 Q 150 152 148 138 Q 140 110 124 100 Z" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- small hands -->
+<ellipse cx="40" cy="164" rx="9" ry="6" fill="url(#kf-body)"/>
+<ellipse cx="160" cy="164" rx="9" ry="6" fill="url(#kf-body)"/>
+<!-- hips / powerful legs start -->
+<path d="M 65 200 Q 40 214 30 260 Q 26 300 34 370 Q 50 400 70 410 L 78 396 Q 58 374 54 330 Q 50 290 60 260 Q 76 220 100 215 Q 124 220 140 260 Q 150 290 146 330 Q 142 374 122 396 L 130 410 Q 150 400 166 370 Q 174 300 170 260 Q 160 214 135 200 Z" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- big feet -->
+<ellipse cx="60" cy="415" rx="28" ry="10" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<ellipse cx="140" cy="415" rx="28" ry="10" fill="url(#kf-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- tail hint -->
+<path d="M 100 215 Q 80 270 60 300" fill="none" stroke="url(#kf-body)" stroke-width="14" stroke-linecap="round" opacity=".5"/>
+<!-- INJECTION ZONES -->
+<circle cx="80" cy="130" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('1')" style="cursor:pointer"/>
+<text x="80" y="135" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('1')" style="cursor:pointer">1</text>
+<circle cx="120" cy="130" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('2')" style="cursor:pointer"/>
+<text x="120" y="135" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('2')" style="cursor:pointer">2</text>
+<circle cx="75" cy="175" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('3')" style="cursor:pointer"/>
+<text x="75" y="180" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('3')" style="cursor:pointer">3</text>
+<circle cx="125" cy="175" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('4')" style="cursor:pointer"/>
+<text x="125" y="180" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('4')" style="cursor:pointer">4</text>
+<circle cx="60" cy="300" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LT')" style="cursor:pointer"/>
+<text x="60" y="305" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('LT')" style="cursor:pointer">LT</text>
+<circle cx="140" cy="300" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RT')" style="cursor:pointer"/>
+<text x="140" y="305" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('RT')" style="cursor:pointer">RT</text>
+</svg>`,
+    back: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="kb-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#5a4a2a"/><stop offset="100%" stop-color="#3a2e18"/></radialGradient></defs>
+<!-- head back -->
+<ellipse cx="100" cy="42" rx="26" ry="30" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1.5"/>
+<!-- ears -->
+<ellipse cx="80" cy="14" rx="7" ry="13" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<ellipse cx="120" cy="14" rx="7" ry="13" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- neck -->
+<rect x="88" y="68" width="24" height="16" rx="6" fill="url(#kb-body)"/>
+<!-- back torso -->
+<path d="M 70 84 Q 100 78 130 84 L 135 200 Q 100 212 65 200 Z" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- spine -->
+<line x1="100" y1="84" x2="100" y2="200" stroke="rgba(0,0,0,.3)" stroke-width="3"/>
+<!-- arms back -->
+<path d="M 70 90 Q 44 100 36 145 Q 34 158 42 162 Q 50 152 52 138 Q 60 110 76 100 Z" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<path d="M 130 90 Q 156 100 164 145 Q 166 158 158 162 Q 150 152 148 138 Q 140 110 124 100 Z" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- powerful legs back -->
+<path d="M 65 200 Q 40 214 30 260 Q 26 300 34 370 Q 50 400 70 410 L 78 396 Q 58 374 54 330 Q 50 290 60 260 Q 76 220 100 215 Q 124 220 140 260 Q 150 290 146 330 Q 142 374 122 396 L 130 410 Q 150 400 166 370 Q 174 300 170 260 Q 160 214 135 200 Z" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- glutes -->
+<ellipse cx="82" cy="215" rx="22" ry="16" fill="rgba(255,255,255,.04)"/>
+<ellipse cx="118" cy="215" rx="22" ry="16" fill="rgba(255,255,255,.04)"/>
+<!-- big feet back -->
+<ellipse cx="60" cy="415" rx="28" ry="10" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<ellipse cx="140" cy="415" rx="28" ry="10" fill="url(#kb-body)" stroke="#2a1e08" stroke-width="1"/>
+<!-- tail back -->
+<path d="M 100 215 Q 80 270 60 300" fill="none" stroke="#5a4a2a" stroke-width="14" stroke-linecap="round"/>
+<!-- INJECTION ZONES BACK -->
+<circle cx="30" cy="108" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('RD')" style="cursor:pointer"/>
+<text x="30" y="113" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RD')" style="cursor:pointer">RD</text>
+<circle cx="170" cy="108" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('LD')" style="cursor:pointer"/>
+<text x="170" y="113" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LD')" style="cursor:pointer">LD</text>
+<circle cx="75" cy="222" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RG')" style="cursor:pointer"/>
+<text x="75" y="227" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RG')" style="cursor:pointer">RG</text>
+<circle cx="125" cy="222" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LG')" style="cursor:pointer"/>
+<text x="125" y="227" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LG')" style="cursor:pointer">LG</text>
+</svg>`
+  };
+
+  // --- RACCOON FRONT ---
+  ANIMAL_SVGS.raccoon = {
+    front: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="rf-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#8a8a8a"/><stop offset="100%" stop-color="#4a4a4a"/></radialGradient>
+  <radialGradient id="rf-belly" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#d0c8b8"/><stop offset="100%" stop-color="#a0988a"/></radialGradient>
+</defs>
+<!-- round fluffy head -->
+<ellipse cx="100" cy="48" rx="38" ry="36" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1.5"/>
+<!-- raccoon mask -->
+<ellipse cx="84" cy="44" rx="14" ry="10" fill="#222" opacity=".85"/>
+<ellipse cx="116" cy="44" rx="14" ry="10" fill="#222" opacity=".85"/>
+<!-- eyes -->
+<circle cx="84" cy="43" r="5" fill="#1a1a1a"/><circle cx="116" cy="43" r="5" fill="#1a1a1a"/>
+<circle cx="85.5" cy="42" r="2" fill="#fff" opacity=".7"/>
+<circle cx="117.5" cy="42" r="2" fill="#fff" opacity=".7"/>
+<!-- white stripe between eyes -->
+<ellipse cx="100" cy="40" rx="5" ry="12" fill="#e0ddd0" opacity=".7"/>
+<!-- nose -->
+<ellipse cx="100" cy="62" rx="8" ry="6" fill="#d0c8b8"/>
+<ellipse cx="100" cy="64" rx="4" ry="3" fill="#333"/>
+<!-- round ears -->
+<circle cx="74" cy="16" r="14" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<circle cx="126" cy="16" r="14" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<circle cx="74" cy="16" r="8" fill="#c8b8a8" opacity=".6"/>
+<circle cx="126" cy="16" r="8" fill="#c8b8a8" opacity=".6"/>
+<!-- neck -->
+<rect x="88" y="80" width="24" height="14" rx="6" fill="url(#rf-body)"/>
+<!-- stocky torso -->
+<path d="M 60 94 Q 100 84 140 94 L 148 200 Q 100 214 52 200 Z" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- belly -->
+<ellipse cx="100" cy="150" rx="36" ry="46" fill="url(#rf-belly)" opacity=".6"/>
+<!-- arms -->
+<path d="M 60 100 Q 28 120 20 175 Q 18 192 28 196 Q 38 186 40 168 Q 46 132 64 112 Z" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<path d="M 140 100 Q 172 120 180 175 Q 182 192 172 196 Q 162 186 160 168 Q 154 132 136 112 Z" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- paws with stripes -->
+<ellipse cx="26" cy="198" rx="11" ry="8" fill="url(#rf-body)"/>
+<ellipse cx="174" cy="198" rx="11" ry="8" fill="url(#rf-body)"/>
+<!-- legs -->
+<path d="M 52 200 Q 36 220 30 280 Q 26 330 34 380 L 70 385 Q 66 340 62 295 Q 58 250 72 215 Q 100 208 128 215 Q 142 250 138 295 Q 134 340 130 385 L 166 380 Q 174 330 170 280 Q 164 220 148 200 Z" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- ringed tail -->
+<path d="M 100 210 Q 130 230 148 280 Q 156 310 148 340" fill="none" stroke="#2a2a2a" stroke-width="12" stroke-linecap="round" opacity=".7"/>
+<path d="M 100 210 Q 130 230 148 280 Q 156 310 148 340" fill="none" stroke="#8a8a8a" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 10" opacity=".9"/>
+<!-- feet -->
+<ellipse cx="50" cy="388" rx="22" ry="9" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<ellipse cx="150" cy="388" rx="22" ry="9" fill="url(#rf-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- INJECTION ZONES -->
+<circle cx="80" cy="120" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('1')" style="cursor:pointer"/>
+<text x="80" y="125" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('1')" style="cursor:pointer">1</text>
+<circle cx="120" cy="120" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('2')" style="cursor:pointer"/>
+<text x="120" y="125" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('2')" style="cursor:pointer">2</text>
+<circle cx="75" cy="170" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('3')" style="cursor:pointer"/>
+<text x="75" y="175" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('3')" style="cursor:pointer">3</text>
+<circle cx="125" cy="170" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('4')" style="cursor:pointer"/>
+<text x="125" y="175" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('4')" style="cursor:pointer">4</text>
+<circle cx="50" cy="310" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LT')" style="cursor:pointer"/>
+<text x="50" y="315" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('LT')" style="cursor:pointer">LT</text>
+<circle cx="150" cy="310" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RT')" style="cursor:pointer"/>
+<text x="150" y="315" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('RT')" style="cursor:pointer">RT</text>
+</svg>`,
+    back: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="rb-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#7a7a7a"/><stop offset="100%" stop-color="#4a4a4a"/></radialGradient></defs>
+<!-- head back -->
+<ellipse cx="100" cy="48" rx="38" ry="36" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1.5"/>
+<circle cx="74" cy="16" r="14" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<circle cx="126" cy="16" r="14" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- neck + torso -->
+<rect x="88" y="80" width="24" height="14" rx="6" fill="url(#rb-body)"/>
+<path d="M 60 94 Q 100 84 140 94 L 148 200 Q 100 214 52 200 Z" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- spine -->
+<line x1="100" y1="94" x2="100" y2="200" stroke="rgba(0,0,0,.25)" stroke-width="3"/>
+<!-- arms back -->
+<path d="M 60 100 Q 28 120 20 175 Q 18 192 28 196 Q 38 186 40 168 Q 46 132 64 112 Z" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<path d="M 140 100 Q 172 120 180 175 Q 182 192 172 196 Q 162 186 160 168 Q 154 132 136 112 Z" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- legs back -->
+<path d="M 52 200 Q 36 220 30 280 Q 26 330 34 380 L 70 385 Q 66 340 62 295 Q 58 250 72 215 Q 100 208 128 215 Q 142 250 138 295 Q 134 340 130 385 L 166 380 Q 174 330 170 280 Q 164 220 148 200 Z" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- glutes -->
+<ellipse cx="78" cy="210" rx="24" ry="14" fill="rgba(255,255,255,.04)"/>
+<ellipse cx="122" cy="210" rx="24" ry="14" fill="rgba(255,255,255,.04)"/>
+<!-- ringed tail back -->
+<path d="M 100 210 Q 130 230 148 280 Q 156 310 148 340" fill="none" stroke="#2a2a2a" stroke-width="12" stroke-linecap="round"/>
+<path d="M 100 210 Q 130 230 148 280 Q 156 310 148 340" fill="none" stroke="#7a7a7a" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 10"/>
+<!-- feet -->
+<ellipse cx="50" cy="388" rx="22" ry="9" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<ellipse cx="150" cy="388" rx="22" ry="9" fill="url(#rb-body)" stroke="#2a2a2a" stroke-width="1"/>
+<!-- ZONES BACK -->
+<circle cx="28" cy="108" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('RD')" style="cursor:pointer"/>
+<text x="28" y="113" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RD')" style="cursor:pointer">RD</text>
+<circle cx="172" cy="108" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('LD')" style="cursor:pointer"/>
+<text x="172" y="113" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LD')" style="cursor:pointer">LD</text>
+<circle cx="74" cy="218" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RG')" style="cursor:pointer"/>
+<text x="74" y="223" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RG')" style="cursor:pointer">RG</text>
+<circle cx="126" cy="218" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LG')" style="cursor:pointer"/>
+<text x="126" y="223" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LG')" style="cursor:pointer">LG</text>
+</svg>`
+  };
+
+  // --- MONKEY FRONT ---
+  ANIMAL_SVGS.monkey = {
+    front: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="mf-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#8a6a3a"/><stop offset="100%" stop-color="#5a3a1a"/></radialGradient>
+  <radialGradient id="mf-face" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#d4a870"/><stop offset="100%" stop-color="#b08040"/></radialGradient>
+</defs>
+<!-- round head -->
+<circle cx="100" cy="44" r="36" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1.5"/>
+<!-- face disc -->
+<ellipse cx="100" cy="52" rx="22" ry="24" fill="url(#mf-face)"/>
+<!-- eyes -->
+<circle cx="90" cy="40" r="5" fill="#1a0800"/><circle cx="110" cy="40" r="5" fill="#1a0800"/>
+<circle cx="91.5" cy="39" r="2" fill="#fff" opacity=".8"/>
+<circle cx="111.5" cy="39" r="2" fill="#fff" opacity=".8"/>
+<!-- brow ridge -->
+<path d="M 82 34 Q 90 30 98 34" fill="none" stroke="#3a1a00" stroke-width="2"/>
+<path d="M 102 34 Q 110 30 118 34" fill="none" stroke="#3a1a00" stroke-width="2"/>
+<!-- nose -->
+<ellipse cx="100" cy="54" rx="6" ry="5" fill="#c08a50"/>
+<circle cx="97" cy="54" r="2" fill="#5a2a00" opacity=".8"/>
+<circle cx="103" cy="54" r="2" fill="#5a2a00" opacity=".8"/>
+<!-- mouth smile -->
+<path d="M 93 64 Q 100 70 107 64" fill="none" stroke="#5a2a00" stroke-width="1.5"/>
+<!-- big round ears -->
+<circle cx="66" cy="42" r="16" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<circle cx="134" cy="42" r="16" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<circle cx="66" cy="42" r="9" fill="url(#mf-face)" opacity=".7"/>
+<circle cx="134" cy="42" r="9" fill="url(#mf-face)" opacity=".7"/>
+<!-- neck -->
+<rect x="90" y="76" width="20" height="14" rx="5" fill="url(#mf-body)"/>
+<!-- torso -->
+<path d="M 64 90 Q 100 80 136 90 L 140 195 Q 100 208 60 195 Z" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- belly -->
+<ellipse cx="100" cy="150" rx="30" ry="40" fill="url(#mf-face)" opacity=".5"/>
+<!-- long monkey arms -->
+<path d="M 64 96 Q 32 116 14 195 Q 10 218 22 224 Q 34 214 36 190 Q 42 148 62 112 Z" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<path d="M 136 96 Q 168 116 186 195 Q 190 218 178 224 Q 166 214 164 190 Q 158 148 138 112 Z" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- hands -->
+<ellipse cx="20" cy="226" rx="12" ry="8" fill="url(#mf-face)"/>
+<ellipse cx="180" cy="226" rx="12" ry="8" fill="url(#mf-face)"/>
+<!-- legs -->
+<path d="M 60 195 Q 40 218 36 280 Q 32 330 40 380 L 72 378 Q 70 336 68 294 Q 66 256 80 225 Q 100 218 120 225 Q 134 256 132 294 Q 130 336 128 378 L 160 380 Q 168 330 164 280 Q 160 218 140 195 Z" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- tail -->
+<path d="M 100 210 Q 130 240 150 290 Q 165 330 155 360 Q 145 385 158 398" fill="none" stroke="url(#mf-body)" stroke-width="11" stroke-linecap="round"/>
+<!-- feet -->
+<ellipse cx="54" cy="382" rx="20" ry="9" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<ellipse cx="146" cy="382" rx="20" ry="9" fill="url(#mf-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- INJECTION ZONES -->
+<circle cx="80" cy="118" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('1')" style="cursor:pointer"/>
+<text x="80" y="123" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('1')" style="cursor:pointer">1</text>
+<circle cx="120" cy="118" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('2')" style="cursor:pointer"/>
+<text x="120" y="123" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('2')" style="cursor:pointer">2</text>
+<circle cx="75" cy="168" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('3')" style="cursor:pointer"/>
+<text x="75" y="173" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('3')" style="cursor:pointer">3</text>
+<circle cx="125" cy="168" r="18" fill="rgba(0,245,255,.15)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('4')" style="cursor:pointer"/>
+<text x="125" y="173" text-anchor="middle" fill="#00f5ff" font-size="13" font-family="monospace" font-weight="bold" onclick="selectZone('4')" style="cursor:pointer">4</text>
+<circle cx="54" cy="308" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LT')" style="cursor:pointer"/>
+<text x="54" y="313" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('LT')" style="cursor:pointer">LT</text>
+<circle cx="146" cy="308" r="16" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RT')" style="cursor:pointer"/>
+<text x="146" y="313" text-anchor="middle" fill="#ff00cc" font-size="11" font-family="monospace" font-weight="bold" onclick="selectZone('RT')" style="cursor:pointer">RT</text>
+</svg>`,
+    back: `
+<svg viewBox="0 0 200 430" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="mb-body" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#7a5a2a"/><stop offset="100%" stop-color="#4a2a0a"/></radialGradient></defs>
+<circle cx="100" cy="44" r="36" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1.5"/>
+<circle cx="66" cy="42" r="16" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<circle cx="134" cy="42" r="16" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<rect x="90" y="76" width="20" height="14" rx="5" fill="url(#mb-body)"/>
+<path d="M 64 90 Q 100 80 136 90 L 140 195 Q 100 208 60 195 Z" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<line x1="100" y1="90" x2="100" y2="195" stroke="rgba(0,0,0,.25)" stroke-width="2.5"/>
+<!-- arms back -->
+<path d="M 64 96 Q 32 116 14 195 Q 10 218 22 224 Q 34 214 36 190 Q 42 148 62 112 Z" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<path d="M 136 96 Q 168 116 186 195 Q 190 218 178 224 Q 166 214 164 190 Q 158 148 138 112 Z" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- legs back -->
+<path d="M 60 195 Q 40 218 36 280 Q 32 330 40 380 L 72 378 Q 70 336 68 294 Q 66 256 80 225 Q 100 218 120 225 Q 134 256 132 294 Q 130 336 128 378 L 160 380 Q 168 330 164 280 Q 160 218 140 195 Z" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- glutes -->
+<ellipse cx="78" cy="208" rx="22" ry="13" fill="rgba(255,255,255,.04)"/>
+<ellipse cx="122" cy="208" rx="22" ry="13" fill="rgba(255,255,255,.04)"/>
+<!-- long tail back -->
+<path d="M 100 210 Q 130 240 150 290 Q 165 330 155 360 Q 145 385 158 398" fill="none" stroke="#7a5a2a" stroke-width="11" stroke-linecap="round"/>
+<!-- feet -->
+<ellipse cx="54" cy="382" rx="20" ry="9" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<ellipse cx="146" cy="382" rx="20" ry="9" fill="url(#mb-body)" stroke="#3a1a00" stroke-width="1"/>
+<!-- ZONES BACK -->
+<circle cx="24" cy="106" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('RD')" style="cursor:pointer"/>
+<text x="24" y="111" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RD')" style="cursor:pointer">RD</text>
+<circle cx="176" cy="106" r="16" fill="rgba(0,245,255,.12)" stroke="rgba(0,245,255,.7)" stroke-width="1.5" onclick="selectZone('LD')" style="cursor:pointer"/>
+<text x="176" y="111" text-anchor="middle" fill="#00f5ff" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LD')" style="cursor:pointer">LD</text>
+<circle cx="74" cy="216" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('RG')" style="cursor:pointer"/>
+<text x="74" y="221" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('RG')" style="cursor:pointer">RG</text>
+<circle cx="126" cy="216" r="18" fill="rgba(255,0,204,.12)" stroke="rgba(255,0,204,.7)" stroke-width="1.5" onclick="selectZone('LG')" style="cursor:pointer"/>
+<text x="126" y="221" text-anchor="middle" fill="#ff00cc" font-size="10" font-family="monospace" font-weight="bold" onclick="selectZone('LG')" style="cursor:pointer">LG</text>
+</svg>`
+  };
+})();
+
+function setAnimal(a) {
+  var svgs = ANIMAL_SVGS[a];
+  if (!svgs) return;
+  document.getElementById('body-front-face').innerHTML = svgs.front;
+  document.getElementById('body-back-face').innerHTML  = svgs.back;
+  document.querySelectorAll('.animal-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.animal === a); });
+}
+
+// ===================== PEPTIDE INDEX DATA =====================
+var PROFILES = {
+  bpc:      {name:'BPC-157',cat:'Healing',mech:'Activates FAK-paxillin pathway, promotes angiogenesis and collagen synthesis.',benefits:['Accelerated tendon & ligament healing','Gut lining repair (leaky gut, IBD)','Reduced inflammation','Neuroprotection'],protocol:'200–500 mcg/day, split into 1–2 injections. Cycle 4–12 weeks.',route:'SubQ or IM near injury site; also oral for gut',sides:['Mild nausea (rare)','Dizziness if injected too fast'],stack:['TB-500','GHK-Cu','KPV'],avoid:'None established'},
+  tb500:    {name:'TB-500',cat:'Healing',mech:'Synthetic fragment of Thymosin Beta-4. Upregulates actin, promotes cell migration, angiogenesis, and inflammation control.',benefits:['Systemic injury repair','Reduced muscle & tendon inflammation','Improved flexibility','Heart protection'],protocol:'2–2.5 mg 2x/week for 4–6 weeks loading, then 2 mg/month maintenance.',route:'SubQ or IM',sides:['Mild fatigue (loading phase)','Rare headache'],stack:['BPC-157','GHK-Cu'],avoid:'Active cancer (theoretical growth concern)'},
+  reta:     {name:'Retatrutide',cat:'GLP-1/Metabolic',mech:'Triple agonist: GLP-1 + GIP + glucagon receptors. Amplifies satiety, energy expenditure, and fat mobilization.',benefits:['Superior weight loss vs semaglutide/tirzepatide','Reduced visceral fat','Improved lipid panel','Blood glucose control'],protocol:'Start 2 mg/week, titrate by 2 mg every 4 weeks to max 12 mg/week.',route:'SubQ weekly',sides:['Nausea','Vomiting','Constipation','Gallbladder issues at high doses'],stack:['GLP-1 stack: electrolytes, protein, magnesium'],avoid:'Personal/family history of MTC or MEN2'},
+  tirz:     {name:'Tirzepatide',cat:'GLP-1/Metabolic',mech:'Dual GLP-1 + GIP agonist. Reduces appetite, slows gastric emptying, improves insulin sensitivity.',benefits:['15–22% body weight reduction (clinical)','A1c reduction','Cardiovascular benefit'],protocol:'Start 2.5 mg/week, increase by 2.5 mg every 4 weeks. Max 15 mg/week.',route:'SubQ weekly',sides:['Nausea','Diarrhea','Vomiting','GERD','Pancreatitis (rare)'],stack:['Magnesium','Protein focus','BPC-157 for GI'],avoid:'MTC / MEN2 history'},
+  cagri:    {name:'CagriSema',cat:'GLP-1/Metabolic',mech:'Combination of semaglutide (GLP-1) + cagrilintide (amylin analog). Dual satiety mechanism.',benefits:['Up to 25% weight loss in trials','Improved glycemic control','Cardiovascular outcomes'],protocol:'Research phase: 2.4 mg sema + 2.4 mg cagri weekly.',route:'SubQ weekly',sides:['Similar to semaglutide plus injection site reactions'],stack:['Protein, electrolytes'],avoid:'MTC / MEN2 history; not approved'},
+  aod:      {name:'AOD 9604',cat:'Fat Loss',mech:'C-terminus fragment of HGH (176–191). Stimulates fat breakdown (lipolysis) without IGF-1 effects or glucose disruption.',benefits:['Targeted fat loss','No HGH side effects (no growth, no glucose issues)','Cartilage repair properties'],protocol:'300–500 mcg/day, 5 days on / 2 off. Cycle 3 months.',route:'SubQ',sides:['Minimal — headache reported rarely'],stack:['GLP-1 peptides','CJC-1295'],avoid:'None established'},
+  mots:     {name:'MOTS-c',cat:'Metabolic',mech:'Mitochondrial-derived peptide. Activates AMPK, improves insulin sensitivity, enhances mitochondrial biogenesis.',benefits:['Enhanced insulin sensitivity','Improved exercise performance & endurance','Anti-aging metabolic effects','Weight regulation'],protocol:'5–10 mg/week, 2–3x/week injections.',route:'SubQ or IV',sides:['Transient fatigue','Mild injection site reaction'],stack:['NAD+','SS-31','Semax'],avoid:'None established'},
+  ghk:      {name:'GHK-Cu',cat:'Skin/Repair',mech:'Copper peptide that activates >4000 genes. Promotes collagen/elastin synthesis, anti-inflammatory, antioxidant, wound healing.',benefits:['Skin rejuvenation & thickening','Hair growth stimulation','Wound healing','Anti-inflammatory','Liver protection'],protocol:'1–2 mg 2–3x/week SubQ systemic; topical 1–3% twice daily.',route:'SubQ / Topical',sides:['Blue-green tint at injection site if too much copper (rare)'],stack:['BPC-157','AHK-Cu'],avoid:'Wilson disease (copper overload)'},
+  epi:      {name:'Epithalon',cat:'Longevity',mech:'Tetrapeptide that induces telomerase activity, elongating telomeres. Regulates pineal gland and melatonin.',benefits:['Telomere lengthening','Improved sleep quality','Immune modulation','Anti-aging effects','Antioxidant'],protocol:'10 mg/day for 10–20 days, 1–2x/year.',route:'SubQ or IV',sides:['Rare: mild fatigue early in cycle'],stack:['NAD+','Thymalin','Pinealon'],avoid:'None established'},
+  tesa:     {name:'Tesamorelin',cat:'GH Secretagogue',mech:'GHRH analog. Stimulates pituitary release of endogenous GH, increasing IGF-1.',benefits:['Reduces visceral fat (FDA-approved for HIV lipodystrophy)','Increases GH/IGF-1','Improved body composition','Cognitive benefits'],protocol:'1–2 mg/day SubQ.',route:'SubQ',sides:['Fluid retention','Joint aches','IGF-1 elevation','Potential for glucose elevation'],stack:['Ipamorelin','CJC-1295 No-DAC'],avoid:'Active malignancy; diabetics monitor glucose'},
+  dsip:     {name:'DSIP',cat:'Sleep/Neuro',mech:'Delta Sleep Inducing Peptide. Modulates ACTH/cortisol, promotes delta-wave (deep) sleep.',benefits:['Improved deep sleep','Reduced cortisol','Stress resilience','Mild analgesic effect'],protocol:'100–200 mcg 30–60 min before bed, 5–7 days.',route:'SubQ',sides:['Vivid dreams','Morning grogginess at higher doses'],stack:['Selank','Semax','Epithalon'],avoid:'None established'},
+  semax:    {name:'Semax',cat:'Nootropic',mech:'ACTH 4–10 analog. Increases BDNF, NGF, dopamine, serotonin. Nootropic and neuroprotective.',benefits:['Enhanced focus & cognition','BDNF/NGF boost (neuroplasticity)','Reduced anxiety','Stroke recovery support','Mood improvement'],protocol:'100–900 mcg/day nasal or SubQ, 2–4 weeks on/off.',route:'Intranasal or SubQ',sides:['Mild anxiety at high doses','Appetite suppression'],stack:['Selank','NAD+','DSIP'],avoid:'Bipolar disorder (use caution)'},
+  selank:   {name:'Selank',cat:'Nootropic',mech:'Tuftsin analog. Modulates GABA, serotonin, and enkephalin systems. Anxiolytic and nootropic without sedation.',benefits:['Anxiety reduction without sedation','Memory enhancement','Immune modulation','Antidepressant effects'],protocol:'250–500 mcg/day intranasal, up to 14 days.',route:'Intranasal or SubQ',sides:['Mild fatigue initially'],stack:['Semax','Cerebrolysin','DSIP'],avoid:'None established'},
+  kpv:      {name:'KPV',cat:'Gut/Inflammation',mech:'C-terminal tripeptide of alpha-MSH. Potent anti-inflammatory via NF-κB inhibition. Targets gut mucosa.',benefits:['IBD and Crohn\'s disease relief','Leaky gut repair','Skin inflammation reduction','Wound healing'],protocol:'100–500 mcg/day oral or SubQ. Cycle 4–8 weeks.',route:'Oral or SubQ',sides:['Minimal'],stack:['BPC-157','LL-37','VIP'],avoid:'None established'},
+  ss31:     {name:'SS-31 (Elamipretide)',cat:'Mitochondrial',mech:'Targets cardiolipin on inner mitochondrial membrane. Improves electron transport efficiency, reduces ROS, improves ATP production.',benefits:['Improved cellular energy','Heart failure research benefits','Anti-aging mitochondrial support','Exercise performance'],protocol:'3–5 mg SubQ 2–3x/week.',route:'SubQ',sides:['Mild injection site discomfort'],stack:['MOTS-c','NAD+','CoQ10'],avoid:'None established'},
+  pt141:    {name:'PT-141 (Bremelanotide)',cat:'Sexual Health',mech:'Melanocortin receptor (MC3R/MC4R) agonist. Centrally activates sexual arousal pathways — works in both men and women.',benefits:['Increased libido','Erectile function improvement','Female sexual arousal disorder','Works regardless of vascular issues'],protocol:'1–2 mg SubQ 1–2 hrs before activity. Max 1–2x/week.',route:'SubQ',sides:['Nausea (30%)','Flushing','Transient BP increase','Hyperpigmentation with chronic use'],stack:['Oxytocin','Kisspeptin'],avoid:'Cardiovascular disease (BP spike); hypertension'},
+  kisspeptin:{name:'Kisspeptin-10',cat:'Sexual Health/Hormonal',mech:'Activates GnRH neurons → triggers LH and FSH surge → stimulates testosterone and estrogen.',benefits:['LH surge and testosterone increase','Libido enhancement','Fertility support','Resets hypothalamic sensitivity'],protocol:'1–3 mcg/kg SubQ pulse dosing or 100 mcg 2x/week.',route:'SubQ',sides:['Minimal — mild flushing'],stack:['PT-141','HCG'],avoid:'Hormone-sensitive cancers'},
+  hcg:      {name:'HCG',cat:'Hormonal',mech:'Mimics LH at the Leydig cells, stimulating testosterone production and maintaining testicular size during TRT.',benefits:['Maintains testicular size/function on TRT','Fertility preservation','Intratesticular testosterone increase'],protocol:'250–500 IU 2–3x/week concurrent with TRT.',route:'SubQ or IM',sides:['Estrogen elevation','Gynecomastia risk','Desensitization with high doses'],stack:['Enclomiphene','TRT'],avoid:'Active prostate cancer; estrogen-sensitive tumors'},
+  glow:     {name:'GLOW (GHK-KPV-LL37)',cat:'Skin/Repair',mech:'Triple anti-aging/repair blend: GHK-Cu collagen activation + KPV anti-inflammatory + LL-37 antimicrobial peptide.',benefits:['Skin rejuvenation','Anti-inflammatory','Wound healing','Antimicrobial protection'],protocol:'1–2 mg 3x/week SubQ or topical formula.',route:'SubQ / Topical',sides:['Minimal'],stack:['BPC-157','TB-500'],avoid:'None established'},
+  klow:     {name:'KLOW',cat:'Fat Loss/Metabolic',mech:'Custom metabolic blend supporting lipolysis and energy efficiency.',benefits:['Fat mobilization','Metabolic rate support','Energy enhancement'],protocol:'Per VPN protocol guidance.',route:'SubQ',sides:['Minimal'],stack:['AOD 9604','GLP-1 peptides'],avoid:'None established'},
+  wolv:     {name:'WOLVERINE',cat:'Healing',mech:'Recovery-focused blend combining multiple healing peptides for aggressive tissue repair.',benefits:['Rapid injury recovery','Reduced inflammation','Connective tissue repair','Muscle recovery'],protocol:'Per VPN protocol.',route:'SubQ or IM',sides:['Minimal'],stack:['BPC-157','TB-500','GHK-Cu'],avoid:'None established'},
+  triheal:  {name:'TriHeal',cat:'Healing',mech:'Triple healing peptide blend.',benefits:['Synergistic tissue repair','Joint and tendon support','Anti-inflammatory'],protocol:'Per VPN protocol.',route:'SubQ',sides:['Minimal'],stack:['BPC-157','TB-500'],avoid:'None established'},
+  ghkkpv:   {name:'GHK-KPV',cat:'Skin/Gut',mech:'Dual-action: GHK-Cu collagen + KPV NF-κB anti-inflammatory.',benefits:['Skin repair and anti-aging','Gut inflammation reduction','Wound healing'],protocol:'500 mcg–1 mg 2–3x/week.',route:'SubQ / Topical',sides:['Minimal'],stack:['BPC-157','LL-37'],avoid:'None established'},
+  amino1mq: {name:'1-Amino MQ (1-MNA)',cat:'Metabolic',mech:'NNMT inhibitor. Increases NAD+, activates AMPK, promotes fat cell metabolism and muscle energy.',benefits:['Fat loss especially visceral','Increased energy','Insulin sensitization','Muscle sparing'],protocol:'80–100 mg oral daily or 5–20 mg SubQ 2–3x/week.',route:'Oral or SubQ',sides:['Minimal'],stack:['MOTS-c','NAD+','AOD 9604'],avoid:'None established'},
+  sema:     {name:'Semaglutide',cat:'GLP-1/Metabolic',mech:'GLP-1 receptor agonist. Slows gastric emptying, suppresses appetite, improves beta-cell function.',benefits:['15–17% weight loss (clinical)','A1c reduction (T2D)','Cardiovascular mortality reduction','Fatty liver improvement'],protocol:'Start 0.25 mg/week, titrate every 4 weeks to max 2.4 mg/week.',route:'SubQ weekly',sides:['Nausea','Vomiting','Constipation','Pancreatitis (rare)','Gallbladder disease'],stack:['Electrolytes','Magnesium','Protein focus','BPC-157'],avoid:'MTC/MEN2; pancreatitis history'},
+  mazd:     {name:'Mazdutide',cat:'GLP-1/Metabolic',mech:'GLP-1/glucagon dual agonist developed for obesity and NASH treatment.',benefits:['Weight loss','Liver fat reduction','Metabolic improvement'],protocol:'Research phase — per clinical guidance.',route:'SubQ weekly',sides:['Similar to GLP-1 class'],stack:['Electrolytes','Protein'],avoid:'MTC/MEN2'},
+  survo:    {name:'Survodutide',cat:'GLP-1/Metabolic',mech:'GLP-1 + glucagon dual agonist with strong lipolytic effect.',benefits:['Aggressive fat loss','NASH treatment potential','Metabolic improvement'],protocol:'Research phase.',route:'SubQ weekly',sides:['GI symptoms','Appetite suppression'],stack:['GLP-1 support stack'],avoid:'MTC/MEN2'},
+  hghfrag:  {name:'HGH Fragment 176-191',cat:'Fat Loss',mech:'See AOD 9604 — same compound. C-terminal HGH fragment with pure lipolytic action.',benefits:['Targeted fat loss','No IGF-1 or glucose effects'],protocol:'500 mcg/day SubQ, fasted.',route:'SubQ',sides:['Minimal'],stack:['CJC-1295','Ipamorelin'],avoid:'None established'},
+  orfo:     {name:'Orforglipron',cat:'GLP-1/Metabolic',mech:'Oral small molecule GLP-1 receptor agonist. Non-peptide, once-daily pill.',benefits:['Oral GLP-1 benefits — weight loss','A1c reduction','No injection required'],protocol:'Research/clinical: 12–45 mg oral daily.',route:'Oral',sides:['GI side effects (nausea, diarrhea)'],stack:['Same support as injectable GLP-1'],avoid:'MTC/MEN2'},
+  ipam:     {name:'Ipamorelin',cat:'GH Secretagogue',mech:'Selective GHRP. Stimulates GH release from pituitary without cortisol/prolactin spike. Cleanest GHRP available.',benefits:['Pulsatile GH release','Improved recovery','Better sleep','Fat loss support','Minimal side effects'],protocol:'100–300 mcg at bedtime or pre-workout, 3x/week to daily.',route:'SubQ',sides:['Mild water retention','Hunger (short-lived)'],stack:['CJC-1295 No-DAC','Tesamorelin'],avoid:'Active cancer'},
+  cjcdac:   {name:'CJC-1295 DAC',cat:'GH Secretagogue',mech:'GHRH analog with Drug Affinity Complex — extends half-life to ~8 days. Provides sustained GH elevation.',benefits:['Sustained GH/IGF-1 increase','Muscle gain','Fat loss','Recovery'],protocol:'1–2 mg once weekly.',route:'SubQ',sides:['Water retention','Fatigue','IGF-1 elevation','Insulin resistance risk'],stack:['Ipamorelin'],avoid:'Active cancer; insulin-resistant patients'},
+  cjcnodac: {name:'CJC-1295 No-DAC (MOD-GRF)',cat:'GH Secretagogue',mech:'Short-acting GHRH analog. Mimics natural pulsatile GH release when combined with a GHRP.',benefits:['Pulsatile GH release (more natural)','Better sleep GH pulse','Synergistic with GHRPs'],protocol:'100–200 mcg with Ipamorelin 2–3x/day.',route:'SubQ',sides:['Mild flushing','Transient water retention'],stack:['Ipamorelin','GHRP-2','GHRP-6'],avoid:'Active cancer'},
+  cjc1010:  {name:'CJC-1010',cat:'GH Secretagogue',mech:'Mid-acting GHRH variant.',benefits:['GH pulse stimulation','Recovery support'],protocol:'Per VPN protocol.',route:'SubQ',sides:['Minimal'],stack:['Ipamorelin'],avoid:'Active cancer'},
+  cjc55:    {name:'CJC-55',cat:'GH Secretagogue',mech:'GHRH variant with modified half-life.',benefits:['GH secretion support','Body composition'],protocol:'Per VPN protocol.',route:'SubQ',sides:['Minimal'],stack:['GHRP peptides'],avoid:'Active cancer'},
+  cjc611:   {name:'CJC-611',cat:'GH Secretagogue',mech:'GHRH derivative — extended action profile.',benefits:['GH axis support','Muscle recovery'],protocol:'Per VPN protocol.',route:'SubQ',sides:['Minimal'],stack:['Ipamorelin'],avoid:'Active cancer'},
+  ghrp2:    {name:'GHRP-2',cat:'GH Secretagogue',mech:'Ghrelin mimetic GHRP. Potent GH release, also increases cortisol and prolactin.',benefits:['Strong GH pulse','Appetite stimulation','Recovery'],protocol:'100–300 mcg 2–3x/day.',route:'SubQ',sides:['Cortisol spike','Prolactin increase','Strong hunger'],stack:['CJC-1295 No-DAC'],avoid:'Cortisol-sensitive conditions'},
+  ghrp6:    {name:'GHRP-6',cat:'GH Secretagogue',mech:'First-generation ghrelin GHRP. Strong appetite stimulation, moderate GH pulse.',benefits:['GH release','Appetite stimulation (bulking)','Gastric motility improvement'],protocol:'100–300 mcg 2–3x/day fasted.',route:'SubQ',sides:['Extreme hunger','Cortisol/prolactin increase','Gastric pain at high doses'],stack:['CJC-1295 No-DAC','BPC-157'],avoid:'Trying to lose weight (hunger side effect)'},
+  hexarelin:{name:'Hexarelin',cat:'GH Secretagogue',mech:'Most potent GHRP. Also has direct cardiac-protective effects independent of GH.',benefits:['Highest GH pulse of all GHRPs','Cardiac protection','Recovery acceleration'],protocol:'100–200 mcg 1–2x/day. Desensitizes quickly — cycle 4–8 weeks.',route:'SubQ',sides:['Cortisol/prolactin spike','Desensitization','Water retention'],stack:['CJC-1295'],avoid:'Rapid desensitization — take breaks'},
+  sermorelin:{name:'Sermorelin',cat:'GH Secretagogue',mech:'First-generation GHRH analog. Natural GH pulse stimulation with good safety profile.',benefits:['Improved sleep quality','Body composition support','Anti-aging GH effects','Low side effect profile'],protocol:'200–500 mcg at bedtime.',route:'SubQ',sides:['Mild flushing','Headache'],stack:['Ipamorelin'],avoid:'Active cancer'},
+  foxo4:    {name:'FOXO4-DRI',cat:'Longevity',mech:'D-retro-inverso peptide that disrupts FOXO4-p53 interaction, triggering senescent cell apoptosis (senolytic).',benefits:['Removes senescent ("zombie") cells','Improved physical function in aging models','Anti-frailty','Tissue rejuvenation'],protocol:'1–5 mg 3x/week for 2 weeks. Repeat 2–4x/year.',route:'SubQ or IV',sides:['Transient fatigue','Flu-like reaction (cellular cleanup)'],stack:['Epithalon','NAD+'],avoid:'Active cancer (senescent cells may suppress tumors)'},
+  naepi:    {name:'NA-Epithalon',cat:'Longevity',mech:'N-acetyl modified Epithalon with improved stability and bioavailability.',benefits:['Telomere support','Anti-aging','Sleep improvement'],protocol:'5–10 mg/day for 10 days, 2x/year.',route:'SubQ',sides:['Minimal'],stack:['NAD+','Thymalin'],avoid:'None established'},
+  gluta:    {name:'Glutathione',cat:'Antioxidant',mech:'Master antioxidant. Neutralizes ROS, supports liver detox (Phase II), regenerates vitamins C and E.',benefits:['Liver protection','Skin brightening','Immune support','Heavy metal detox','Reduces oxidative damage'],protocol:'400–1200 mg oral daily; 200–400 mg IV/SubQ 2–3x/week.',route:'Oral / SubQ / IV',sides:['Minimal oral; injectable may lower zinc'],stack:['NAD+','ALA','Vitamin C'],avoid:'None at standard doses'},
+  ahkcu:    {name:'AHK-Cu',cat:'Hair/Skin',mech:'Copper tripeptide that stimulates follicle stem cells, prolongs anagen phase, increases follicle size.',benefits:['Hair growth and thickness','Follicle revitalization','Scalp health','Synergistic with GHK-Cu'],protocol:'Topical 0.5–2% twice daily; SubQ scalp 200–500 mcg 2x/week.',route:'Topical / SubQ scalp',sides:['Minimal — copper discoloration if overused'],stack:['GHK-Cu','Minoxidil'],avoid:'Wilson disease'},
+  snap8:    {name:'SNAP-8',cat:'Skin/Anti-Aging',mech:'Octapeptide that blocks SNARE protein complex, reducing acetylcholine release at neuromuscular junction — Botox-like wrinkle reduction.',benefits:['Reduces expression wrinkles','Non-invasive Botox alternative','Smooths forehead and eye area'],protocol:'Topical 4–10% twice daily.',route:'Topical only',sides:['Minimal'],stack:['GHK-Cu','Argireline'],avoid:'None established'},
+  mt1:      {name:'Melanotan I',cat:'Skin/Sexual',mech:'Non-selective melanocortin agonist. Stimulates melanogenesis (tanning) across all MC receptors.',benefits:['Skin tanning without UV','Mild libido effect'],protocol:'0.5–1 mg/day SubQ until desired tan, then maintenance.',route:'SubQ',sides:['Nausea','Flushing','Spontaneous erections (mild)','Hyperpigmentation of moles'],stack:['PT-141'],avoid:'Melanoma history; mole changes require dermatology check'},
+  mt2:      {name:'Melanotan II',cat:'Skin/Sexual',mech:'Selective MC1R/MC3R/MC4R agonist. Strong tanning + potent sexual arousal (MC4R) + appetite suppression.',benefits:['Deep tanning','Potent libido/erectile effect','Appetite suppression for weight management'],protocol:'0.25–1 mg SubQ, start low. Tanning: daily until desired, then 2x/week. Sexual: 0.5–1 mg PRN.',route:'SubQ',sides:['Nausea (30–50%)','Flushing','Yawning','Spontaneous erections','BP changes','Hyperpigmentation'],stack:['PT-141','BPC-157 for nausea'],avoid:'Melanoma/skin cancer history; cardiovascular issues'},
+  oxytocin: {name:'Oxytocin',cat:'Hormonal/Neuro',mech:'Neuropeptide bonding hormone. Modulates HPA axis, GABA receptors, and social/reward circuits.',benefits:['Reduced anxiety and stress','Improved social bonding','Trust and empathy enhancement','Anti-inflammatory effects','Sleep improvement'],protocol:'10–40 IU intranasal PRN or 1–2 IU SubQ.',route:'Intranasal / SubQ',sides:['Mild headache','Emotional sensitivity','Potential uterine contraction concern in pregnancy'],stack:['PT-141','Kisspeptin','Selank'],avoid:'Pregnancy (can induce labor)'},
+  naselank: {name:'NA-Selank',cat:'Nootropic',mech:'N-acetyl Selank — improved nasal absorption and stability vs standard Selank.',benefits:['Anxiolytic','Memory enhancement','Immune support','Improved bioavailability'],protocol:'250–750 mcg intranasal 1–2x/day.',route:'Intranasal',sides:['Mild fatigue'],stack:['NA-Semax','Semax'],avoid:'None established'},
+  nasemax:  {name:'NA-Semax',cat:'Nootropic',mech:'N-acetyl Semax — enhanced CNS penetration, longer-acting than standard Semax.',benefits:['Focus and cognitive enhancement','BDNF/NGF stimulation','Neuroprotection','Longer action than standard Semax'],protocol:'300–900 mcg intranasal 1–2x/day.',route:'Intranasal',sides:['Mild anxiety at high doses'],stack:['NA-Selank','Cerebrolysin'],avoid:'Bipolar (use caution)'},
+  illumineuro:{name:'Illumineuro',cat:'Nootropic',mech:'Cognitive blend — per VPN formulation.',benefits:['Focus','Neuroprotection','Mental clarity'],protocol:'Per VPN protocol.',route:'Intranasal or SubQ',sides:['Minimal'],stack:['Semax','Selank'],avoid:'None established'},
+  pe2228:   {name:'PE-22-28',cat:'Nootropic/Mental Health',mech:'TREK-1 potassium channel inhibitor — antidepressant mechanism distinct from SSRIs.',benefits:['Rapid antidepressant effect','Anxiety reduction','No SSRI side effects'],protocol:'50–200 mcg SubQ daily, 2–4 weeks.',route:'SubQ',sides:['Minimal'],stack:['Semax','Selank'],avoid:'None established'},
+  cerebro:  {name:'Cerebrolysin',cat:'Nootropic',mech:'Neuropeptide mixture derived from porcine brain. Multi-target: BDNF-like, CNTF-like, improves neuronal survival and plasticity.',benefits:['Alzheimer\'s and stroke recovery','Improved memory consolidation','Neuroprotection','Mood stabilization'],protocol:'2.5–10 mL IV or IM, 5–10 day courses 2–4x/year.',route:'IV or IM',sides:['Dizziness','Nausea','Insomnia at high doses'],stack:['Semax','Selank','Epithalon'],avoid:'Epilepsy; renal failure'},
+  adamax:   {name:'Adamax',cat:'Nootropic',mech:'Adamantyl-modified peptide — enhanced BBB penetration. Neuroprotective with cognitive enhancing properties.',benefits:['Cognitive enhancement','Neuroprotection','Improved memory'],protocol:'Per VPN protocol.',route:'Intranasal or SubQ',sides:['Minimal'],stack:['Semax','Cerebrolysin'],avoid:'None established'},
+  cortagen: {name:'Cortagen',cat:'Organ/Peptide Bioregulator',mech:'Dipeptide bioregulator targeting lung tissue. Part of Khavinson peptide bioregulator class.',benefits:['Lung tissue support','Respiratory function improvement','Anti-aging lung effects'],protocol:'1–2 mg/day SubQ, 10-day course 2x/year.',route:'SubQ or oral',sides:['Minimal'],stack:['Bronchogen','Crystagen'],avoid:'None established'},
+  carnitine:{name:'Carnitine (ALCAR)',cat:'Metabolic',mech:'Transports long-chain fatty acids into mitochondria for beta-oxidation. Also neuroprotective as acetyl-L-carnitine.',benefits:['Fat burning','Energy production','Cognitive protection (ALCAR form)','Exercise performance','Heart support'],protocol:'500–2000 mg oral daily; 500 mg–1 g SubQ 2–3x/week.',route:'Oral / SubQ',sides:['Fishy body odor (high oral dose)','GI upset'],stack:['MOTS-c','NAD+','AOD 9604'],avoid:'None established'},
+  slu332:   {name:'SLU-PP-332',cat:'Metabolic',mech:'ERR-α/γ agonist — activates exercise-mimicking gene programs (PGC-1α, OXPHOS). Called "exercise in a molecule".',benefits:['Metabolic rate increase','Endurance improvement','Fat loss','Mitochondrial biogenesis'],protocol:'Research compound — per protocol.',route:'Oral',sides:['Research phase — unknown long-term'],stack:['MOTS-c','GLP-1 peptides'],avoid:'None established'},
+  tesablend:{name:'Tesa Blend',cat:'GH Secretagogue',mech:'Tesamorelin-based combination blend for synergistic GH axis support.',benefits:['GH release','Visceral fat reduction','Body composition'],protocol:'Per VPN protocol.',route:'SubQ',sides:['As per tesamorelin'],stack:['Ipamorelin'],avoid:'Active malignancy'},
+  thymalpha:{name:'Thymalin (Thymus Alpha)',cat:'Immune/Longevity',mech:'Thymic peptide bioregulator. Restores thymic function, enhances T-cell maturation and immune surveillance.',benefits:['Immune system restoration','Anti-aging thymic effect','Infection resistance','Cancer immune surveillance'],protocol:'1–10 mg/day SubQ for 10 days, 1–2x/year.',route:'SubQ or IM',sides:['Minimal'],stack:['Epithalon','Vilon','Thymulin'],avoid:'Autoimmune disease (use caution)'},
+  thymulin: {name:'Thymulin',cat:'Immune',mech:'Zinc-dependent thymic hormone. Promotes T-cell differentiation and anti-inflammatory cytokine balance.',benefits:['T-cell function','Autoimmune balance','Anti-inflammatory','Pain modulation'],protocol:'40–200 mcg/day for 10 days.',route:'SubQ',sides:['Minimal'],stack:['Thymalin','Selank'],avoid:'None established'},
+  thymogen: {name:'Thymogen',cat:'Immune',mech:'Dipeptide (Glu-Trp) thymic bioregulator. Enhances immune function, particularly T-helper cell activity.',benefits:['Immune stimulation','Accelerated recovery from illness','Anti-infective support'],protocol:'1 mcg/day IM for 10 days.',route:'IM',sides:['Minimal'],stack:['Thymalin','LL-37'],avoid:'None established'},
+  vilon:    {name:'Vilon',cat:'Immune/Longevity',mech:'Dipeptide (Lys-Glu) bioregulator. Immune system and generalized longevity support.',benefits:['Immune modulation','Anti-aging','Longevity promotion'],protocol:'1 mg/day SubQ for 10 days, 2x/year.',route:'SubQ',sides:['Minimal'],stack:['Epithalon','Thymalin'],avoid:'None established'},
+  ll37:     {name:'LL-37',cat:'Immune/Antimicrobial',mech:'Human cathelicidin antimicrobial peptide. Broad-spectrum antibacterial/antiviral, also pro-healing and immune modulating.',benefits:['Antimicrobial defense','Wound healing','Gut barrier support','Biofilm disruption'],protocol:'1–5 mg 2–3x/week.',route:'SubQ / Topical',sides:['Injection site reactions','Pro-inflammatory at high doses'],stack:['BPC-157','KPV','GHK-Cu'],avoid:'Autoimmune conditions (pro-inflammatory at high doses)'},
+  vip:      {name:'VIP (Vasoactive Intestinal Peptide)',cat:'Immune/Neuro',mech:'28-amino acid neuropeptide. Potent anti-inflammatory, bronchodilator, vasodilator, gut motility modulator, immune balance.',benefits:['CIRS/mold illness treatment','Gut motility improvement','Immune modulation','Lung function','Neuroprotection'],protocol:'50 mcg intranasal 4x/day × 12 weeks (Shoemaker protocol).',route:'Intranasal',sides:['Low BP if injected systemically','Flushing'],stack:['BPC-157','KPV'],avoid:'Pulmonary hypertension (injected form)'},
+  chonluten:{name:'Chonluten',cat:'Organ/Peptide Bioregulator',mech:'Tripeptide bronchial/lung bioregulator (Khavinson class). Stimulates lung tissue gene expression.',benefits:['Lung tissue support','COPD/respiratory function','Anti-aging lung'],protocol:'1–2 mg SubQ for 10 days, 1–2x/year.',route:'SubQ or oral',sides:['Minimal'],stack:['Bronchogen','VIP'],avoid:'None established'},
+  cartalax: {name:'Cartalax',cat:'Organ/Peptide Bioregulator',mech:'Cartilage peptide bioregulator. Promotes chondrocyte activity and cartilage matrix production.',benefits:['Cartilage repair','Joint health','Osteoarthritis support'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['BPC-157','TB-500'],avoid:'None established'},
+  teripar:  {name:'Teriparatide',cat:'Hormonal/Bone',mech:'Recombinant PTH 1–34. Anabolic bone building via osteoblast stimulation. FDA-approved for osteoporosis.',benefits:['Bone density increase','Fracture healing','Osteoporosis treatment'],protocol:'20 mcg/day SubQ. Max 2-year cumulative use.',route:'SubQ daily',sides:['Dizziness','Leg cramps','Hypercalcemia','Osteosarcoma risk (animal data — 2yr limit)'],stack:['Vitamin D3/K2','BPC-157'],avoid:'Paget\'s disease; prior radiation therapy to bone; hypercalcemia'},
+  abalo:    {name:'Abaloparatide',cat:'Hormonal/Bone',mech:'PTHrP analog. Preferentially activates RG conformation of PTH1R for bone anabolic effect with less hypercalcemia than teriparatide.',benefits:['Bone density increase','Lower hypercalcemia risk vs teriparatide','Fracture prevention'],protocol:'80 mcg/day SubQ.',route:'SubQ daily',sides:['Orthostatic hypotension','Dizziness','Palpitations'],stack:['Vitamin D3/K2'],avoid:'Hypercalcemia; prior skeletal radiation'},
+  bronchogen:{name:'Bronchogen',cat:'Organ/Peptide Bioregulator',mech:'Tetrapeptide lung bioregulator. Normalizes bronchial epithelium gene expression.',benefits:['Respiratory support','COPD research','Lung anti-aging'],protocol:'1–2 mg SubQ for 10 days, 2x/year.',route:'SubQ or oral enteric-coated',sides:['Minimal'],stack:['Chonluten','VIP'],avoid:'None established'},
+  cardiogen:{name:'Cardiogen',cat:'Organ/Peptide Bioregulator',mech:'Tetrapeptide cardiac bioregulator. Supports myocardial tissue gene expression and function.',benefits:['Heart tissue support','Cardiac anti-aging','Post-MI recovery support'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['SS-31','BPC-157'],avoid:'None established'},
+  crystagen:{name:'Crystagen',cat:'Organ/Peptide Bioregulator',mech:'Colonic bioregulator peptide. Normalizes intestinal epithelial function.',benefits:['Gut health','IBD support','Intestinal anti-aging'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ or oral',sides:['Minimal'],stack:['BPC-157','KPV'],avoid:'None established'},
+  livagen:  {name:'Livagen',cat:'Organ/Peptide Bioregulator',mech:'Tetrapeptide liver bioregulator. Supports hepatocyte function and chromatin activity.',benefits:['Liver support','Hepatic anti-aging','Detox support'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['Glutathione','NAD+'],avoid:'None established'},
+  ovagen:   {name:'Ovagen',cat:'Organ/Peptide Bioregulator',mech:'Liver/intestine bioregulator with anti-fibrotic properties.',benefits:['Liver anti-fibrosis','GI health','Anti-aging'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['Livagen','BPC-157'],avoid:'None established'},
+  pancragon:{name:'Pancragon',cat:'Organ/Peptide Bioregulator',mech:'Pancreatic bioregulator. Supports exocrine and endocrine pancreatic function.',benefits:['Pancreatic support','Digestion improvement','Blood sugar regulation support'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['BPC-157'],avoid:'None established'},
+  pinealon: {name:'Pinealon',cat:'Longevity/Neuro',mech:'Pineal gland tripeptide bioregulator. Normalizes melatonin synthesis, CNS anti-aging.',benefits:['Improved sleep','Anti-aging neuro effects','Neuroprotection','Memory support'],protocol:'1–2 mg SubQ for 10 days, 2x/year. Or 5–10 mg before bed short-cycle.',route:'SubQ',sides:['Vivid dreams','Mild drowsiness'],stack:['Epithalon','DSIP'],avoid:'None established'},
+  prostamax:{name:'Prostamax',cat:'Organ/Peptide Bioregulator',mech:'Prostate bioregulator peptide. Normalizes prostate tissue function.',benefits:['Prostate health','BPH symptom support','Prostate anti-aging'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['Testagen','Thymalin'],avoid:'Active prostate cancer'},
+  testagen: {name:'Testagen',cat:'Organ/Peptide Bioregulator',mech:'Testes peptide bioregulator. Supports Leydig cell function and testosterone production.',benefits:['Testosterone support','Male reproductive anti-aging','Testicular function'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['HCG','Kisspeptin'],avoid:'None established'},
+  vesugen:  {name:'Vesugen',cat:'Organ/Peptide Bioregulator',mech:'Vascular bioregulator. Supports endothelial function and vascular wall integrity.',benefits:['Vascular anti-aging','Blood vessel health','Cardiovascular support'],protocol:'1–2 mg SubQ for 10 days.',route:'SubQ',sides:['Minimal'],stack:['Cardiogen','SS-31'],avoid:'None established'},
+  pnc27:    {name:'PNC-27',cat:'Anti-Cancer Research',mech:'Contains MDM2-binding domain of p53. Selectively disrupts cancer cell membranes (membranolytic) while sparing normal cells.',benefits:['Selective cancer cell lysis (research)','No systemic toxicity in models','Pro-apoptotic in tumor lines'],protocol:'Research only — no human protocols established.',route:'IV or local (research)',sides:['Research phase'],stack:['FOXO4-DRI'],avoid:'Not for general use — research only'},
+  neuroxelin:{name:'Neuroxelin',cat:'Nootropic',mech:'Neuropeptide blend for CNS support — per VPN formulation.',benefits:['Cognitive enhancement','Neuroprotection','Focus'],protocol:'Per VPN protocol.',route:'Intranasal or SubQ',sides:['Minimal'],stack:['Semax','Cerebrolysin'],avoid:'None established'},
+  nad:      {name:'NAD+',cat:'Longevity/Energy',mech:'Nicotinamide adenine dinucleotide — coenzyme in every cell. Declines with age. Activates sirtuins (SIRT1–7), PARP DNA repair, supports mitochondrial function.',benefits:['Energy production','DNA repair','Anti-aging via sirtuins','Neuroprotection','Metabolic health'],protocol:'250–500 mg/day oral (NMN or NR precursors) or 250–500 mg IV/SubQ 2–3x/week.',route:'Oral / SubQ / IV',sides:['IV: flushing, nausea, chest tightness (infuse slowly)','Oral: minimal'],stack:['MOTS-c','SS-31','Epithalon','Glutathione'],avoid:'Active cancer (NAD+ feeds rapidly dividing cells — monitor)'}
+};
+
+function renderIndex(){
+  var cats = ['All'];
+  Object.values(PROFILES).forEach(function(p){ if(cats.indexOf(p.cat)===-1) cats.push(p.cat); });
+  var catEl = document.getElementById('idx-cats');
+  catEl.innerHTML = '';
+  cats.forEach(function(c,i){
+    var b = document.createElement('button');
+    b.className = 'idx-cat' + (i===0?' active':'');
+    b.textContent = c;
+    b.onclick = function(){
+      document.querySelectorAll('.idx-cat').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active');
+      filterIndex();
+    };
+    catEl.appendChild(b);
+  });
+  filterIndex();
+}
+
+function filterIndex(){
+  var q = (document.getElementById('idx-search').value||'').toLowerCase();
+  var catBtns = document.querySelectorAll('.idx-cat');
+  var activeCat = 'All';
+  catBtns.forEach(function(b){ if(b.classList.contains('active')) activeCat = b.textContent; });
+  var keys = Object.keys(PROFILES);
+  var results = keys.filter(function(k){
+    var p = PROFILES[k];
+    if(activeCat !== 'All' && p.cat !== activeCat) return false;
+    if(!q) return true;
+    return p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.mech.toLowerCase().includes(q) || p.benefits.join(' ').toLowerCase().includes(q);
+  });
+  var el = document.getElementById('idx-list');
+  if(!results.length){ el.innerHTML='<div class="idx-empty">No peptides match your search.</div>'; return; }
+  el.innerHTML = results.map(function(k){
+    var p = PROFILES[k];
+    return '<div class="idx-card" id="idxc-'+k+'" onclick="toggleIdxCard(\''+k+\')">' +
+      '<div class="idx-head"><span class="idx-cat-badge">'+p.cat+'</span><span class="idx-name">'+p.name+'</span><span class="idx-chevron">▼</span></div>' +
+      '<div class="idx-body">' +
+        '<div class="idx-section"><div class="idx-section-lbl">MECHANISM</div><div class="idx-mech">'+p.mech+'</div></div>' +
+        '<div class="idx-section"><div class="idx-section-lbl">BENEFITS</div><ul class="idx-list">'+p.benefits.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul></div>' +
+        '<div class="idx-section"><div class="idx-section-lbl">PROTOCOL</div><div class="idx-proto">'+p.protocol+'<br><strong>Route:</strong> '+p.route+'</div></div>' +
+        (p.sides&&p.sides.length?'<div class="idx-section"><div class="idx-section-lbl">SIDE EFFECTS</div><ul class="idx-list">'+p.sides.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul></div>':'') +
+        '<div class="idx-section"><div class="idx-section-lbl">STACKS WELL WITH</div><div class="idx-tags">'+p.stack.map(function(s){return '<span class="idx-tag">'+s+'</span>';}).join('')+'</div></div>' +
+        '<div class="idx-section"><div class="idx-section-lbl">AVOID IF</div><div class="idx-mech">'+p.avoid+'</div></div>' +
+      '</div></div>';
+  }).join('');
+}
+
+function toggleIdxCard(k){
+  var card = document.getElementById('idxc-'+k);
+  if(card) card.classList.toggle('open');
+}
+
 // ===================== INIT =====================
 // initTracker(uid) is called by the Firebase auth module above once
 // the user's identity is confirmed. All renders happen there.
 </script>
+
+<!-- ========================= TAB 5: PEPTIDE INDEX ========================= -->
+<div class="sec" id="sec-index">
+  <div class="research-disclaimer">
+    <div class="research-disclaimer-title">⚠ FOR RESEARCH PURPOSES ONLY</div>
+    <div class="research-disclaimer-sub">All profiles are educational only. Not medical advice.<br>Always work with a licensed physician before beginning any research protocol.</div>
+  </div>
+  <div class="idx-search-bar">
+    <input class="idx-search" id="idx-search" type="text" placeholder="Search peptides, categories, mechanisms…" oninput="filterIndex()">
+  </div>
+  <div class="idx-cats" id="idx-cats"></div>
+  <div id="idx-list"><div class="idx-empty">Loading index…</div></div>
+</div>
+
 </body>
 </html>
