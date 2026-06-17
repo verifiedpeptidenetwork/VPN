@@ -7,6 +7,13 @@
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+  // Force classic JSX runtime so compiled output uses React.createElement
+  // instead of import { jsx } from 'react/jsx-runtime' (which breaks UMD React)
+  Babel.registerPreset('vpn-react', {
+    presets: [[Babel.availablePresets['react'], { runtime: 'classic' }]]
+  });
+</script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#07060F;font-family:sans-serif}
@@ -64,7 +71,11 @@ function checkGate(){
   const v=document.getElementById('gate-input').value.trim();
   if(v==='ajshe'){
     document.getElementById('gate').classList.add('hidden');
-    renderShop();
+    // Babel compiles text/babel scripts async — retry until renderShop is ready
+    (function tryRender(n){
+      if(typeof window.renderShop==='function'){ window.renderShop(); }
+      else if(n>0){ setTimeout(function(){ tryRender(n-1); },80); }
+    })(30);
   } else {
     document.getElementById('gate-err').textContent='Invalid code.';
     document.getElementById('gate-input').value='';
@@ -73,7 +84,7 @@ function checkGate(){
 document.getElementById('gate-input').focus();
 </script>
 
-<script type="text/babel">
+<script type="text/babel" data-presets="vpn-react">
 const { useState, useMemo, useEffect } = React;
 
 const C = {
@@ -633,6 +644,7 @@ function VPNPeptideShop() {
 function renderShop() {
   ReactDOM.createRoot(document.getElementById('root')).render(<VPNPeptideShop />);
 }
+window.renderShop = renderShop;
 </script>
 </body>
 </html>
