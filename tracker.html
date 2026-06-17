@@ -395,6 +395,16 @@ select.fsel option{background:var(--card);color:var(--text)}
 <!-- ========================= TAB 1: PROTEIN ========================= -->
 <div class="sec active" id="sec-protein">
 
+  <div style="background:rgba(0,245,255,0.06);border:2px solid rgba(0,245,255,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.2em;color:var(--cyan);margin-bottom:10px;">📋 HOW TO USE — PROTEIN TRACKER</div>
+    <div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.9;">
+      <div>① <strong style="color:var(--cyan);">Set your daily goal</strong> — scroll down to "Daily Goal" and enter your protein target (default 150g)</div>
+      <div>② <strong style="color:var(--cyan);">Log every meal</strong> — pick a food from the dropdown list OR type a custom food and its grams below</div>
+      <div>③ <strong style="color:var(--cyan);">Watch the circle fill up</strong> — the ring at the top shows your progress toward your goal</div>
+      <div>④ Your entries <strong style="color:var(--green);">save automatically</strong> and reset each new day</div>
+    </div>
+  </div>
+
   <div class="hero">
     <div class="rw">
       <svg width="150" height="150" viewBox="0 0 150 150">
@@ -540,6 +550,17 @@ select.fsel option{background:var(--card);color:var(--text)}
 
 <!-- ========================= TAB 2: INJECTION SITES ========================= -->
 <div class="sec" id="sec-injection">
+
+  <div style="background:rgba(255,0,204,0.06);border:2px solid rgba(255,0,204,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.2em;color:var(--pink);margin-bottom:10px;">📋 HOW TO USE — INJECTION SITE TRACKER</div>
+    <div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.9;">
+      <div>① <strong style="color:var(--pink);">Pick your researcher</strong> — choose Gorilla, Kangaroo, Raccoon, or Monkey above the diagram (just for fun — all zones are the same)</div>
+      <div>② <strong style="color:var(--pink);">Tap a zone on the body</strong> — tap any numbered circle (1, 2, 3, 4) or letter zone (LT, RT, RG, LG, RD, LD) to select it</div>
+      <div>③ <strong style="color:var(--pink);">Tap "ROTATE BODY"</strong> to flip the diagram and see the back — arms and glutes are on the back view</div>
+      <div>④ <strong style="color:var(--pink);">Press LOG INJECTION</strong> — the button appears after you tap a zone. Tap it to record your injection</div>
+      <div>⑤ The app <strong style="color:var(--green);">automatically tells you which zone to use next</strong> so you never repeat the same spot too soon</div>
+    </div>
+  </div>
 
   <div class="research-disclaimer">
     <div class="research-disclaimer-title">⚠ FOR RESEARCH PURPOSES ONLY</div>
@@ -873,6 +894,18 @@ select.fsel option{background:var(--card);color:var(--text)}
 
 <!-- ========================= TAB 3: PEPTIDES ========================= -->
 <div class="sec" id="sec-peptides">
+
+  <div style="background:rgba(0,255,136,0.06);border:2px solid rgba(0,255,136,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.2em;color:var(--green);margin-bottom:10px;">📋 HOW TO USE — PEPTIDE CALENDAR</div>
+    <div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.9;">
+      <div>① <strong style="color:var(--green);">Type the peptide name</strong> in the "Peptide name" box (e.g. BPC-157, Semaglutide)</div>
+      <div>② <strong style="color:var(--green);">Enter your dose</strong> — the number your doctor or protocol tells you (in mcg or mg)</div>
+      <div>③ <strong style="color:var(--green);">Choose how often</strong> — Daily, Every Other Day, Weekly, etc.</div>
+      <div>④ <strong style="color:var(--green);">Pick a start date</strong> — tap the date box and pick today or when you started</div>
+      <div>⑤ <strong style="color:var(--green);">Tap ADD PEPTIDE</strong> — it appears in your active list below with a streak calendar</div>
+      <div>⑥ Each day you inject, <strong style="color:var(--cyan);">tap the dot on the calendar</strong> for that day to mark it done</div>
+    </div>
+  </div>
 
   <div class="info-box">
     <strong>PEPTIDE CALENDAR:</strong> Track when you started each research peptide, your injection history, and streaks. All data saves locally to your device.
@@ -2346,7 +2379,7 @@ function filterIndex(){
   if(!results.length){ el.innerHTML='<div class="idx-empty">No peptides match your search.</div>'; return; }
   el.innerHTML = results.map(function(k){
     var p = PROFILES[k];
-    return '<div class="idx-card" id="idxc-'+k+'" onclick="toggleIdxCard(\''+k+\')">' +
+    return '<div class="idx-card" id="idxc-'+k+'" onclick="toggleIdxCard(this,\''+k+'\')">' +
       '<div class="idx-head"><span class="idx-cat-badge">'+p.cat+'</span><span class="idx-name">'+p.name+'</span><span class="idx-chevron">▼</span></div>' +
       '<div class="idx-body">' +
         '<div class="idx-section"><div class="idx-section-lbl">MECHANISM</div><div class="idx-mech">'+p.mech+'</div></div>' +
@@ -2359,8 +2392,8 @@ function filterIndex(){
   }).join('');
 }
 
-function toggleIdxCard(k){
-  var card = document.getElementById('idxc-'+k);
+function toggleIdxCard(el,k){
+  var card = el.closest('.idx-card') || document.getElementById('idxc-'+k);
   if(card) card.classList.toggle('open');
 }
 
@@ -2371,6 +2404,17 @@ function toggleIdxCard(k){
 
 <!-- ========================= TAB 5: PEPTIDE INDEX ========================= -->
 <div class="sec" id="sec-index">
+
+  <div style="background:rgba(255,230,0,0.06);border:2px solid rgba(255,230,0,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.2em;color:var(--yellow);margin-bottom:10px;">📋 HOW TO USE — PEPTIDE INDEX</div>
+    <div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.9;">
+      <div>① <strong style="color:var(--yellow);">Search by name</strong> — type any peptide name (e.g. "BPC" or "sema") in the search box</div>
+      <div>② <strong style="color:var(--yellow);">Filter by category</strong> — tap a category pill (Healing, GLP-1, Nootropic, etc.) to browse that group</div>
+      <div>③ <strong style="color:var(--yellow);">Tap any peptide card</strong> to expand it and see the full profile: mechanism, benefits, dosing, side effects, and what it stacks well with</div>
+      <div>④ Tap the card again to <strong style="color:var(--green);">collapse it</strong></div>
+    </div>
+  </div>
+
   <div class="research-disclaimer">
     <div class="research-disclaimer-title">⚠ FOR RESEARCH PURPOSES ONLY</div>
     <div class="research-disclaimer-sub">All profiles are educational only. Not medical advice.<br>Always work with a licensed physician before beginning any research protocol.</div>
