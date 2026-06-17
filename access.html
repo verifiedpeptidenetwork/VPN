@@ -529,7 +529,10 @@
 
     sendPasswordResetEmail(auth, email, actionCodeSettings)
       .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
-      .catch(err => showError(friendlyError(err)));
+      .catch(err => {
+        console.error('Password reset error:', err.code, err.message);
+        showError(friendlyError(err) + ' [' + (err.code || 'unknown') + ']');
+      });
   });
 
   document.getElementById('popup-close').addEventListener('click', () => {
@@ -544,6 +547,10 @@
     if (c === 'auth/wrong-password') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
     if (c === 'auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
     if (c === 'auth/too-many-requests') return 'TOO MANY ATTEMPTS — PLEASE WAIT A FEW MINUTES';
+    if (c === 'auth/unauthorized-continue-uri') return 'RESET LINK DOMAIN NOT AUTHORIZED IN FIREBASE — CONTACT ADMIN';
+    if (c === 'auth/invalid-continue-uri') return 'RESET LINK CONFIGURATION ERROR — CONTACT ADMIN';
+    if (c === 'auth/missing-continue-uri') return 'RESET LINK MISSING CONFIG — CONTACT ADMIN';
+    if (c === 'auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION AND TRY AGAIN';
     return 'SOMETHING WENT WRONG — PLEASE TRY AGAIN';
   }
 
