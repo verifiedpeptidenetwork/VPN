@@ -522,12 +522,7 @@
     var email = document.getElementById('email').value.trim();
     if (!email) { showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD'); return; }
 
-    var actionCodeSettings = {
-      url: window.location.origin + window.location.pathname.replace('access.html', 'reset-password.html'),
-      handleCodeInApp: false
-    };
-
-    sendPasswordResetEmail(auth, email, actionCodeSettings)
+    sendPasswordResetEmail(auth, email)
       .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
       .catch(err => {
         console.error('Password reset error:', err.code, err.message);
