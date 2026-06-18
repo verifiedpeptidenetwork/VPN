@@ -2181,6 +2181,150 @@ function searchSug(){
   box.classList.add('vis');box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
+var GOAL_REASONS = {
+  fatloss: {
+    reta:'Triple-pathway peptide (GLP-1/GIP/Glucagon) — studied for major reductions in appetite and body fat. One of the strongest fat-loss compounds in research (24.2% weight loss at 48 weeks in Phase 2 trial).',
+    tirz:'Dual GLP-1/GIP agonist — reduces appetite and improves blood sugar. 22.5% average body weight loss at 72 weeks in SURMOUNT-1 trial (NEJM 2022).',
+    cagri:'Amylin-analog studied for reducing food intake and appetite — often stacked with GLP-1s (CagriSema) for enhanced fat loss.',
+    aod:'GH fragment studied for pure fat-burning without the muscle-building or glucose effects of full growth hormone. No IGF-1 activation.',
+    mots:'Mitochondria-derived peptide that activates AMPK — improves fat oxidation and metabolic efficiency at the cellular level.',
+    tesa:'GHRH analog studied for reducing visceral (belly) fat by raising natural GH. FDA-approved for lipodystrophy; reduces VAT by 15-20%.',
+    amino1mq:'NNMT inhibitor that reduces fat mass while preserving lean mass by upregulating NAD+ metabolism in adipose tissue.',
+    sema:'GLP-1 agonist; 14.9% average body weight loss in STEP-1 trial (NEJM 2021). Gold standard for medically-supervised fat loss.',
+    hghfrag:'Same compound as AOD-9604 — the C-terminal fragment of HGH (176-191). Stimulates lipolysis with NO effect on blood sugar or IGF-1.'
+  },
+  muscle: {
+    bpc:'Supports recovery from training-related tendon and muscle strain — upregulates GH receptors, allowing faster repair between sessions.',
+    tb500:'Studied for muscle tissue repair and flexibility via actin cell motility and angiogenesis. Reduces downtime between training.',
+    mots:'Studied for improving exercise performance and energy output via AMPK activation — supporting harder training for muscle growth.',
+    cjcipa:'Boosts natural pulsatile GH release, especially during sleep — studied for supporting lean muscle growth and body recomposition.',
+    ipam:'Selective GHRP that stimulates GH release without cortisol or prolactin spike — the cleanest GH secretagogue available.',
+    sermorelin:'GHRH analog; stimulates pituitary GH release naturally. Used for body recomposition and anti-aging in clinical practice.'
+  },
+  antiaging: {
+    nad:'Replenishes NAD+ which declines 50% from age 20-50 — restores sirtuin activity, DNA repair, and mitochondrial function at the cellular level.',
+    ghk:'Copper peptide that resets gene expression toward a younger state — downregulates 30+ inflammation genes and upregulates repair and collagen genes.',
+    epi:'Tetrapeptide that induces telomerase activity, elongating telomeres — studied in 35+ years of Russian longevity research.',
+    mots:'Restores mitochondrial homeostasis, which is central to healthy aging; shown to extend lifespan in mouse models.',
+    naepi:'N-acetyl modified Epithalon with improved bioavailability — same telomere-lengthening mechanism as Epithalon.',
+    gluta:'Master antioxidant that neutralizes ROS, supports liver detox, and regenerates vitamins C and E — declines significantly with age.'
+  },
+  recovery: {
+    bpc:'The premier healing peptide — studied for repairing tendons, ligaments, gut lining, and soft tissue. Upregulates GH receptors and promotes angiogenesis at injury sites.',
+    tb500:'Thymosin Beta-4 promotes actin cell motility and tissue remodeling — studied for speeding recovery from muscle tears, tendon injuries, and post-surgery.',
+    kpv:'Tripeptide α-MSH fragment that inhibits NF-κB — directly reduces inflammatory cytokines (IL-6, TNF-α) that slow recovery.',
+    glow:'GHK-Cu + BPC-157 + TB-500 combined — synergistic healing stack studied for tissue repair, skin recovery, and anti-inflammatory effects together.',
+    klow:'Adds KPV anti-inflammatory to the GLOW stack — targeted for recovery plus gut healing simultaneously.',
+    wolv:'Comprehensive healing stack (BPC-157 + TB-500 + support peptides) for maximum recovery speed post-injury or post-surgery.',
+    triheal:'BPC-157 + TB-500 + KPV — three complementary repair mechanisms in one: tissue healing + remodeling + inflammation control.'
+  },
+  sleep: {
+    cjcipa:'Often dosed at bedtime — amplifies the natural nocturnal GH pulse that occurs during deep sleep, improving both sleep quality and recovery.',
+    tesa:'Raises natural growth hormone; GH is primarily secreted during slow-wave sleep and plays a critical role in sleep architecture.',
+    dsip:'Delta Sleep-Inducing Peptide — neuropeptide that promotes delta-wave (deep) sleep; also normalizes cortisol patterns that disrupt sleep.',
+    pinealon:'Pineal gland bioregulator that restores melatonin production declining with age — normalizes the circadian rhythm at its source.'
+  },
+  gut: {
+    bpc:'Originally discovered for its gut-healing effects — repairs ulcers, IBD, IBS, fistulas; upregulates GH receptors in GI mucosa.',
+    kpv:'Directly inhibits NF-κB in intestinal epithelial cells — clinically relevant for colitis, IBD, and leaky gut inflammation.',
+    tb500:'Supports tissue repair throughout the body including the gut lining; promotes angiogenesis for mucosal healing.',
+    klow:'Combines KPV anti-inflammatory with BPC-157 and TB-500 healing — specifically designed for gut health plus full-body repair.',
+    vip:'Vasoactive Intestinal Peptide — regulates gut motility, reduces intestinal inflammation, and promotes mucosal healing.',
+    ghkkpv:'GHK-Cu collagen support + KPV anti-inflammatory together — dual-action for gut repair and skin/tissue healing.'
+  },
+  joints: {
+    bpc:'Most-studied peptide for ligament and tendon repair — promotes collagen cross-linking and tendon-to-bone healing at injury sites.',
+    tb500:'Studied for improving joint flexibility and healing connective tissue through actin polymerization and cell migration.',
+    ghk:'Stimulates collagen and proteoglycan synthesis — essential building blocks for healthy cartilage and synovial joint tissue.',
+    cartalax:'Cartilage peptide bioregulator; promotes chondrocyte activity and cartilage matrix production. Specifically designed for joint repair.',
+    teripar:'PTH analog that stimulates bone formation; used clinically for osteoporosis and fracture healing.',
+    abalo:'PTHrP analog with preferential anabolic bone effect and lower hypercalcemia risk than teriparatide.'
+  },
+  skin: {
+    ghk:'Copper peptide that boosts collagen I/III production, elastin synthesis, and skin cell turnover — directly improves texture, firmness, and reduces wrinkles.',
+    bpc:'Supports skin tissue repair and wound healing; promotes angiogenesis and fibroblast proliferation.',
+    kpv:'Anti-inflammatory tripeptide that calms skin conditions (eczema, psoriasis, acne) by reducing epidermal NF-κB activation.',
+    glow:'GHK-Cu + BPC-157 + TB-500 — built for skin rejuvenation, wound healing, and collagen restoration.',
+    snap8:'Octapeptide that blocks SNARE protein complex — reduces acetylcholine release at neuromuscular junction, mimicking Botox for expression wrinkles.',
+    ahkcu:'Copper tripeptide (AHK-Cu) that stimulates follicle stem cells and prolongs the anagen phase — synergistic with GHK-Cu for hair and skin.'
+  },
+  cognitive: {
+    nad:'Restores cerebral NAD+ which is depleted in neurodegeneration — repairs neuronal DNA, restores mitochondrial energy in brain cells.',
+    semax:'ACTH analog that upregulates BDNF — improves focus, memory encoding, and neuroprotection within days of use.',
+    selank:'Anxiolytic nootropic that modulates GABA-A and serotonin without sedation — reduces stress while maintaining mental clarity.',
+    mots:'Improves mitochondrial energy production in neurons — supports sustained mental energy and protects against cognitive fatigue.',
+    cerebro:'Cerebrolysin — neurotrophic factor mixture with BDNF/NGF-like activity; studied for cognitive recovery post-stroke and in neurodegeneration.',
+    adamax:'AdamaxPeptide — cognitive-enhancing peptide studied for memory consolidation and neuroplasticity.',
+    pinealon:'Pineal gland bioregulator; restores sleep-wake cycles critical for memory consolidation, and directly supports cortical function.'
+  },
+  insulin: {
+    mots:'Directly activates AMPK in skeletal muscle and liver — the same pathway targeted by Metformin. Demonstrated reversal of high-fat-diet-induced insulin resistance in multiple studies.',
+    ss31:'Improves mitochondrial cristae structure and electron chain efficiency — insulin resistance is fundamentally a mitochondrial dysfunction disease.',
+    reta:'Triple agonist (GLP-1/GIP/Glucagon) — dramatically improves insulin sensitivity, reduces glucagon secretion, lowers fasting glucose.',
+    carnitine:'Facilitates fatty acid transport into mitochondria — reduces lipotoxicity that drives peripheral insulin resistance.'
+  },
+  thyroid: {
+    bpc:'Supports tissue repair in thyroid-affected areas; reduces inflammation that can disrupt thyroid hormone signaling.',
+    tb500:'Studied for reducing systemic inflammation that can impair thyroid receptor function and hormone conversion (T4→T3).',
+    cjcipa:'Supports GH/IGF-1 axis which regulates thyroid hormone sensitivity; also improves sleep which is critical for thyroid recovery.'
+  },
+  inflammation: {
+    kpv:'Most potent anti-inflammatory tripeptide — directly inhibits NF-κB in epithelial cells, macrophages, and immune cells. Reduces IL-6, IL-8, TNF-α.',
+    ghk:'Modulates expression of 30+ inflammation-related genes — both pro- and anti-inflammatory effects depending on tissue context.',
+    bpc:'Reduces inflammation while simultaneously promoting healing — unique among anti-inflammatory peptides for its dual repair action.',
+    ll37:'Antimicrobial cathelicidin peptide with immunomodulatory effects — reduces chronic bacterial-driven inflammation and supports epithelial barriers.',
+    ghkkpv:'Combines GHK-Cu gene-level anti-inflammatory action with KPV NF-κB inhibition — synergistic dual-mechanism inflammation control.'
+  },
+  hair: {
+    ghk:'Copper tripeptide that stimulates follicle stem cells, increases follicle size, and prolongs the anagen (growth) phase. Used topically 0.5-2% or SubQ scalp injections.',
+    ahkcu:'Copper tripeptide (AHK-Cu) — synergistic with GHK-Cu; stimulates different follicle pathways for comprehensive hair growth support.'
+  },
+  libido: {
+    pt141:'Bremelanotide — activates MC3R/MC4R melanocortin receptors in the brain hypothalamus; directly increases sexual desire and arousal in both men and women.',
+    mt2:'Melanotan II — MC1R/MC4R agonist with strong libido-enhancing effects alongside tanning; more potent than PT-141 but broader receptor activity.',
+    oxytocin:'The "bonding hormone" — enhances sexual arousal, emotional intimacy, and physical pleasure when dosed intranasally before intimacy.'
+  },
+  energy: {
+    nad:'Directly replenishes NAD+ — the coenzyme that powers every cell\'s energy metabolism (TCA cycle, OXPHOS); the most foundational energy peptide.',
+    mots:'Mitochondria-derived peptide that activates AMPK and PGC-1α — studied for boosting metabolic efficiency, endurance, and cellular energy output.',
+    ss31:'Targets mitochondrial cardiolipin — stabilizes electron transport chain complex activity, improving ATP production and reducing fatigue.',
+    carnitine:'Shuttles long-chain fatty acids into mitochondria for beta-oxidation — foundational for fat-based energy metabolism.',
+    slu332:'SLU-PP-332, an ERR agonist — switches on transcriptional programs activated by endurance exercise, boosting mitochondrial biogenesis.'
+  },
+  immune: {
+    thymalpha:'Thymosin Alpha-1 — modulates T-cell differentiation, enhances dendritic cell function, and boosts antiviral/antitumor immunity. FDA-approved in some countries.',
+    thymulin:'Thymic hormone that promotes T-cell maturation and immune regulation; works synergistically with Thymosin Alpha-1.',
+    thymogen:'Thymus-derived dipeptide bioregulator (Glu-Trp) — restores age-related decline in thymic immune function.',
+    vilon:'Broad thymus bioregulator studied for immune modulation and extending healthy lifespan in longevity protocols.',
+    ll37:'Cathelicidin antimicrobial peptide — frontline innate immune defense; disrupts bacterial membranes and activates TLR-mediated immune response.',
+    gluta:'Glutathione — master antioxidant that protects immune cells from oxidative damage; critical for T-cell proliferation and NK cell activity.'
+  },
+  longevity: {
+    bronchogen:'Lung-specific tetrapeptide bioregulator (Khavinson class) — normalizes bronchial epithelium gene expression; studied for respiratory health with age.',
+    cardiogen:'Cardiac tetrapeptide bioregulator — supports myocardial tissue gene expression, heart muscle health, and cardiovascular longevity.',
+    crystagen:'Kidney and bladder bioregulator — stimulates renal tubule cell gene expression; supports urinary system health and kidney function as part of organ-level longevity protocols.',
+    livagen:'Liver bioregulator — activates hepatocyte gene expression for DNA repair and detoxification; critical for cellular longevity.',
+    ovagen:'Liver-derived bioregulator (COX-1 inhibitor) — studied for hepatic function support and as part of longevity stacks.',
+    pancragon:'Pancreatic bioregulator — supports healthy beta-cell gene expression and blood sugar regulation with age.',
+    pinealon:'Pineal gland tripeptide bioregulator — restores age-related melatonin decline, protects neurons, and supports sleep-wake cycle integrity.',
+    prostamax:'Prostate bioregulator — normalizes prostate epithelial gene expression; studied for male urinary health in longevity protocols.',
+    testagen:'Testicular bioregulator — studied for maintaining natural testosterone production and reproductive health with age.',
+    naepi:'N-acetyl Epithalon — induces telomerase activity via telomere-binding, elongates telomeres; 35+ years of Russian longevity research.',
+    vesugen:'Vascular bioregulator — supports endothelial gene expression and healthy circulation; key for cardiovascular longevity.',
+    cortagen:'Brain cortex bioregulator — studied for supporting long-term cognitive function and neuronal health as part of anti-aging stacks.',
+    pnc27:'Experimental p53-activating peptide — studied for targeting senescent and potentially cancerous cells; relevant to hallmarks-of-aging research.'
+  },
+  pcos: {
+    mots:'Activates AMPK in skeletal muscle and liver — directly targeting the insulin resistance central to PCOS symptoms. Same pathway as Metformin but via mitochondrial signaling.',
+    kisspeptin:'Regulates GnRH neurons → LH/FSH pulsatility, which is dysregulated in PCOS. Clinical trials demonstrate restoration of normal hormone cycling. (PMID 25368098)',
+    ghk:'Reduces systemic inflammation and supports tissue repair; PCOS involves chronic low-grade inflammation that worsens androgen excess and metabolic dysfunction.',
+    kpv:'Inhibits NF-κB-driven inflammation in reproductive and metabolic tissue — directly relevant to PCOS-related inflammatory androgen amplification.',
+    bpc:'Supports the gut-hormone axis and reduces systemic inflammation; PCOS is associated with gut dysbiosis and increased intestinal permeability.',
+    selank:'Reduces cortisol and HPA axis dysregulation — elevated cortisol amplifies adrenal androgen production and worsens PCOS symptoms.',
+    ss31:'Improves mitochondrial efficiency and insulin-mediated glucose uptake — targeting a root cause of PCOS metabolic dysfunction.'
+  }
+};
+
 var GOAL_EXPLAIN = {
   fatloss:      'stimulates fat oxidation, reduces appetite, or improves metabolic rate',
   muscle:       'supports GH secretion, tissue repair, or anabolic signaling for muscle growth',
@@ -2219,7 +2363,9 @@ function buildPepCard(key,p,matches,matchedGoals){
   // Always show explanation — for search results, derive goals from the map
   var displayGoals = (matchedGoals && matchedGoals.length) ? matchedGoals : getPepGoals(key);
   var whyLines = displayGoals.map(function(g){
-    return '<div style="margin-top:3px">• <strong style="color:var(--cyan)">'+(GOAL_LABELS[g]||g)+'</strong> — '+(GOAL_EXPLAIN[g]||'supports this goal')+'.</div>';
+    var specific = GOAL_REASONS[g] && GOAL_REASONS[g][key] ? GOAL_REASONS[g][key] : '';
+    var text = specific || GOAL_EXPLAIN[g] || 'supports this goal';
+    return '<div style="margin-top:3px">• <strong style="color:var(--cyan)">'+(GOAL_LABELS[g]||g)+'</strong> — '+text+'.</div>';
   }).join('');
   return '<div class="pep-result" data-key="'+key+'">'
     +'<div class="pep-top">'
