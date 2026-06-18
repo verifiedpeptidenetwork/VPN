@@ -797,9 +797,15 @@ select.fsel option{background:var(--card);color:var(--text)}
       </div>
       <div id="pep-select-wrap" style="display:none;margin-bottom:10px">
         <div style="font-size:11px;color:var(--dim);margin-bottom:6px;font-family:'Share Tech Mono',monospace">WHICH PEPTIDE? (optional)</div>
-        <select class="fsel" id="inj-pep-sel" style="margin-bottom:0">
-          <option value="">— General / No specific peptide —</option>
-        </select>
+        <div style="position:relative;" id="pep-search-wrap">
+          <input type="text" id="pep-search-inp" placeholder="🔍 Search peptide name..." autocomplete="off"
+            style="width:100%;background:#0a0a20;border:1px solid rgba(0,245,255,0.3);border-radius:8px;padding:9px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;outline:none;"
+            oninput="filterPepDropdown(this.value)" onfocus="showPepDropdown()" />
+          <div id="pep-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#0d0d28;border:1px solid rgba(0,245,255,0.25);border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+            <div class="pep-opt" data-val="" onclick="selectPepOption('','— General / No specific peptide —')" style="padding:9px 12px;font-size:13px;color:var(--dim);cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);">— General / No specific peptide —</div>
+          </div>
+          <input type="hidden" id="inj-pep-sel" value="">
+        </div>
       </div>
       <button class="site-btn" id="log-inj-btn" style="display:none" onclick="logInjection()">💉 LOG INJECTION TO SELECTED ZONE</button>
     </div>
@@ -1380,11 +1386,8 @@ function selectZone(z) {
 }
 
 function updateInjPepSelect(){
-  var sel=document.getElementById('inj-pep-sel');
-  sel.innerHTML='<option value="">— General / No specific peptide —</option>';
-  injPeps.forEach(function(p){
-    var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);
-  });
+  // Now using searchable dropdown — no-op for legacy select population
+  // The hidden #inj-pep-sel input is set by selectPepOption()
 }
 
 function logInjection(){
@@ -2356,6 +2359,59 @@ var PROFILES = {
   neuroxelin:{name:'Neuroxelin',cat:'Nootropic',mech:'Neuropeptide blend for CNS support — per VPN formulation.',benefits:['Cognitive enhancement','Neuroprotection','Focus'],protocol:'Per VPN protocol.',route:'Intranasal or SubQ',sides:['Minimal'],stack:['Semax','Cerebrolysin'],avoid:'None established'},
   nad:      {name:'NAD+',cat:'Longevity/Energy',mech:'Nicotinamide adenine dinucleotide — coenzyme in every cell. Declines with age. Activates sirtuins (SIRT1–7), PARP DNA repair, supports mitochondrial function.',benefits:['Energy production','DNA repair','Anti-aging via sirtuins','Neuroprotection','Metabolic health'],protocol:'250–500 mg/day oral (NMN or NR precursors) or 250–500 mg IV/SubQ 2–3x/week.',route:'Oral / SubQ / IV',sides:['IV: flushing, nausea, chest tightness (infuse slowly)','Oral: minimal'],stack:['MOTS-c','SS-31','Epithalon','Glutathione'],avoid:'Active cancer (NAD+ feeds rapidly dividing cells — monitor)'}
 };
+
+// ---- SEARCHABLE PEPTIDE DROPDOWN ----
+var _pepOpts = null;
+function buildPepOpts(){
+  if(_pepOpts) return _pepOpts;
+  _pepOpts = Object.entries(PROFILES).map(function(e){return {key:e[0],name:e[1].name,cat:e[1].cat};});
+  _pepOpts.sort(function(a,b){return a.name.localeCompare(b.name);});
+  return _pepOpts;
+}
+function showPepDropdown(){
+  var dd = document.getElementById('pep-dropdown');
+  if(!dd) return;
+  filterPepDropdown(document.getElementById('pep-search-inp').value);
+  dd.style.display = 'block';
+  document.addEventListener('click', closePepDropdown, {once:true, capture:true});
+}
+function closePepDropdown(e){
+  var wrap = document.getElementById('pep-search-wrap');
+  if(wrap && wrap.contains(e.target)) return;
+  var dd = document.getElementById('pep-dropdown');
+  if(dd) dd.style.display='none';
+}
+function filterPepDropdown(q){
+  var dd = document.getElementById('pep-dropdown');
+  if(!dd) return;
+  dd.style.display = 'block';
+  var opts = buildPepOpts();
+  var lower = (q||'').toLowerCase().trim();
+  var filtered = lower ? opts.filter(function(o){return o.name.toLowerCase().includes(lower) || o.cat.toLowerCase().includes(lower);}) : opts;
+  var html = '<div class="pep-opt" data-val="" onclick="selectPepOption(\'\',\'— General / No specific peptide —\')" style="padding:9px 12px;font-size:13px;color:var(--dim);cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);">— General / No specific peptide —</div>';
+  filtered.slice(0,40).forEach(function(o){
+    html += '<div class="pep-opt" onclick="selectPepOption(\''+o.key+'\',\''+o.name.replace(/'/g,"\\'")+'\')" style="padding:9px 12px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;">'
+      +'<span>'+o.name+'</span>'
+      +'<span style="font-size:11px;color:var(--dim);font-weight:500;">'+o.cat+'</span>'
+      +'</div>';
+  });
+  if(!filtered.length) html += '<div style="padding:10px 12px;font-size:12px;color:var(--dim);">No results</div>';
+  dd.innerHTML = html;
+  // hover style
+  dd.querySelectorAll('.pep-opt').forEach(function(el){
+    el.onmouseover=function(){this.style.background='rgba(0,245,255,0.08)';};
+    el.onmouseout=function(){this.style.background='';};
+  });
+}
+function selectPepOption(val, label){
+  document.getElementById('inj-pep-sel').value = val;
+  document.getElementById('pep-search-inp').value = val ? label : '';
+  var dd = document.getElementById('pep-dropdown');
+  if(dd) dd.style.display='none';
+}
+// override logInjection to read hidden input instead of select
+var _origLogInjection = typeof logInjection !== 'undefined' ? logInjection : null;
+// patch after full init runs
 
 function renderIndex(){
   var cats = ['All'];
