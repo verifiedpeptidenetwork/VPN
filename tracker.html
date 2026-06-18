@@ -578,7 +578,10 @@ select.fsel option{background:var(--card);color:var(--text)}
   <div class="sh cyan">Copy Log to Notes</div>
   <div class="cpbox">
     <div class="cppre" id="cp">Log something above then copy to your notes</div>
-    <div class="cpfoot"><button class="bcopy" id="bc">COPY TO CLIPBOARD / NOTES / MESSAGES</button></div>
+    <div class="cpfoot" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="bcopy" id="bc" style="flex:1;">📋 COPY TO CLIPBOARD</button>
+      <button class="bcopy" onclick="printProteinLog()" style="flex:1;background:linear-gradient(135deg,rgba(255,230,0,0.18),rgba(255,107,0,0.12));border-color:rgba(255,230,0,0.5);color:#ffe600;">🖨 SAVE / PRINT PDF</button>
+    </div>
   </div>
 
   <div class="sh cyan">GLP-1 Protein Tips</div>
@@ -1042,6 +1045,11 @@ select.fsel option{background:var(--card);color:var(--text)}
   <div class="sh green">Full Injection History</div>
   <div class="hist-section" id="pep-hist"><div class="emp">No history yet</div></div>
 
+  <div style="display:flex;gap:8px;margin-top:10px;margin-bottom:14px;flex-wrap:wrap;">
+    <button class="small-btn" style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.4);color:var(--green);flex:1;min-width:120px;" onclick="copyPeptideLog()">📋 COPY LOG</button>
+    <button class="small-btn" style="background:rgba(255,230,0,0.1);border:1px solid rgba(255,230,0,0.4);color:#ffe600;flex:1;min-width:120px;" onclick="printPeptideLog()">🖨 SAVE / PRINT PDF</button>
+  </div>
+
 </div><!-- end peptides tab -->
 
 <!-- ========================= TAB 4: SUGGEST ========================= -->
@@ -1267,7 +1275,28 @@ function showTab(t) {
 }
 
 // ===================== PROTEIN =====================
-var TIPS=["<strong>PROTEIN FIRST.</strong> GLP-1s crush appetite fast. Always eat protein before carbs or fats so you hit your target even when full quickly.","<strong>SPREAD IT OUT.</strong> Your body uses 30-40g per meal for muscle. Aim for 4-5 smaller protein meals throughout the day.","<strong>LIFT HEAVY.</strong> GLP-1 medications cause muscle loss alongside fat loss. Resistance training 3x per week combined with high protein preserves muscle.","<strong>LIQUID PROTEIN.</strong> If GLP-1 nausea limits solid food, Premier Protein, Fairlife shakes, Greek yogurt, and bone broth are easy to get down.","<strong>0.7-1g PER LB BODYWEIGHT.</strong> If you weigh 180 lbs aim for 126-180g daily. Active users on GLP-1s should stay toward the top of that range.","<strong>HYDRATION IS CRITICAL.</strong> GLP-1 medications reduce your thirst signals. Force yourself to drink 8+ cups of water daily.","<strong>EGGS ARE YOUR BEST FRIEND.</strong> 6g per egg, easy to digest, cheap. Scrambled eggs are very GLP-1 friendly.","<strong>CASEIN AT NIGHT.</strong> Slow-digesting casein protein before bed feeds your muscles for 6-8 hours while you sleep."];
+var TIPS=[
+  "<strong>PROTEIN FIRST.</strong> GLP-1s crush appetite fast. Always eat protein before carbs or fats so you hit your target even when full quickly.",
+  "<strong>SPREAD IT OUT.</strong> Your body uses 30–40g per meal for muscle. Aim for 4–5 smaller protein meals throughout the day.",
+  "<strong>LIFT HEAVY.</strong> GLP-1 medications cause muscle loss alongside fat loss. Resistance training 3x per week combined with high protein preserves muscle.",
+  "<strong>LIQUID PROTEIN.</strong> If GLP-1 nausea limits solid food, Premier Protein, Fairlife shakes, Greek yogurt, and bone broth are easy to get down.",
+  "<strong>0.7–1g PER LB BODYWEIGHT.</strong> If you weigh 180 lbs aim for 126–180g daily. Active users on GLP-1s should stay toward the top of that range.",
+  "<strong>HYDRATION IS CRITICAL.</strong> GLP-1 medications reduce your thirst signals. Force yourself to drink 8+ cups of water daily — dehydration mimics hunger.",
+  "<strong>EGGS ARE YOUR BEST FRIEND.</strong> 6g per egg, easy to digest, affordable. Scrambled eggs are very GLP-1 friendly and rarely cause nausea.",
+  "<strong>CASEIN AT NIGHT.</strong> Slow-digesting casein protein (cottage cheese, Greek yogurt) before bed feeds your muscles for 6–8 hours while you sleep.",
+  "<strong>DON'T SKIP MEALS.</strong> GLP-1 nausea tempts you to skip eating. Skipping protein meals causes muscle loss — eat small portions but hit your protein every day.",
+  "<strong>SALT YOUR FOOD.</strong> GLP-1s reduce thirst AND electrolyte intake. Add salt, eat electrolyte packets, and supplement magnesium to avoid cramps and fatigue.",
+  "<strong>MUSCLE PROTEIN SYNTHESIS.</strong> Your body needs leucine (found in meat, eggs, dairy) to trigger muscle building. Each meal needs at least 2–3g of leucine. One scoop of whey has 2.5g.",
+  "<strong>CREATINE IS NOT OPTIONAL.</strong> 5g of creatine daily while on GLP-1s protects muscle mass, improves gym performance, and has zero side effects. Take it with water.",
+  "<strong>TRACK EVERY GRAM.</strong> Most people underestimate protein by 30–40g/day. Use this tracker daily — what gets measured gets managed.",
+  "<strong>BPC-157 + HIGH PROTEIN.</strong> If you're on BPC-157 or TB-500 for healing, your protein intake directly determines how fast your injury repairs. These peptides need amino acids as building blocks.",
+  "<strong>PROTEIN BEFORE BED ON GLPS.</strong> GLP-1 medications extend overnight fasting. A protein snack (cottage cheese, casein shake) before sleep prevents muscle breakdown during the longer fast.",
+  "<strong>COLORFUL PLATE RULE.</strong> Pair protein with non-starchy vegetables. They fill volume without carbs, help digestion, and reduce the GI side effects of peptide injections.",
+  "<strong>FIBER + PROTEIN COMBO.</strong> Fiber slows protein absorption for sustained amino acid release. Chicken + broccoli is a better muscle meal than chicken alone.",
+  "<strong>WHEY VS CASEIN.</strong> Use whey (fast) post-workout for immediate muscle repair. Use casein (slow) at night. Both count toward your daily goal.",
+  "<strong>BONE BROTH HACK.</strong> 10g of collagen protein per cup, easy on the stomach, and the glycine in bone broth supports gut lining repair — ideal if you're on BPC-157 or KPV.",
+  "<strong>PEPTIDES DON'T REPLACE PROTEIN.</strong> BPC-157, GHK-Cu, TB-500 all require adequate dietary protein to work. They are signal molecules — the actual repair material comes from what you eat."
+];
 document.getElementById('tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
 // gi value is set inside initTracker() once the user's stored goal is loaded
 
@@ -1491,6 +1520,71 @@ function logInjection(){
       savePeptides();renderPeptides();
     }
   }
+}
+
+// ---- SHARED PRINT/COPY HELPERS ----
+function _printPage(title, html){
+  var win=window.open('','_blank');
+  win.document.write('<html><head><title>'+title+'</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#111;max-width:800px;margin:0 auto;}h2{color:#6600cc;border-bottom:2px solid #6600cc;padding-bottom:8px;}table{width:100%;border-collapse:collapse;margin-top:16px;}th{background:#0d0028;color:#fff;padding:8px 10px;text-align:left;font-size:13px;}td{padding:7px 10px;font-size:13px;border-bottom:1px solid #eee;}tr:nth-child(even) td{background:#f8f5ff;}.footer{margin-top:30px;font-size:11px;color:#999;border-top:1px solid #eee;padding-top:10px;}</style></head><body>'+html+'<div class="footer">VPN Verified Peptides Network — For Research Purposes Only — '+new Date().toLocaleString()+'</div></body></html>');
+  win.document.close();win.focus();
+  setTimeout(function(){win.print();},400);
+}
+function _copyText(txt, btn){
+  navigator.clipboard.writeText(txt).catch(function(){
+    var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+  var orig=btn.textContent;btn.textContent='✓ COPIED!';
+  setTimeout(function(){btn.textContent=orig;},2500);
+}
+
+// ---- PROTEIN TAB ----
+function printProteinLog(){
+  var txt=document.getElementById('cp').textContent;
+  if(!txt||txt.startsWith('Log something')){alert('Log some food first.');return;}
+  var rows=txt.split('\n').filter(Boolean).map(function(l){return '<tr><td>'+l.replace(/\t/g,'</td><td>')+'</td></tr>';}).join('');
+  _printPage('VPN Protein Log','<h2>🥩 VPN Protein Log</h2><table><tbody>'+rows+'</tbody></table>');
+}
+
+// ---- PEPTIDE CALENDAR TAB ----
+function copyPeptideLog(){
+  if(!peptides||!peptides.length){alert('No peptides tracked yet.');return;}
+  var lines=['VPN PEPTIDE TRACKER — '+new Date().toLocaleDateString(),'='.repeat(40),''];
+  peptides.forEach(function(p,i){
+    lines.push((i+1)+'. '+p.name+' | '+p.dose+'  | '+p.freq+' | Started: '+p.start);
+    if(p.log&&p.log.length) lines.push('   Logged: '+p.log.slice(-10).join(', '));
+  });
+  lines.push('','Generated by VPN Health Tracker');
+  _copyText(lines.join('\n'), event.target);
+}
+function printPeptideLog(){
+  if(!peptides||!peptides.length){alert('No peptides tracked yet.');return;}
+  var rows=peptides.map(function(p){
+    return '<tr><td>'+p.name+'</td><td>'+p.dose+'</td><td>'+p.freq+'</td><td>'+p.start+'</td><td>'+(p.log?p.log.length:0)+' days</td></tr>';
+  }).join('');
+  _printPage('VPN Peptide Log','<h2>📅 VPN Peptide Calendar</h2><table><thead><tr><th>Peptide</th><th>Dose</th><th>Frequency</th><th>Started</th><th>Days Logged</th></tr></thead><tbody>'+rows+'</tbody></table>');
+}
+
+// ---- INDEX TAB ----
+function copyIndexList(){
+  var keys=Object.keys(PROFILES);
+  var lines=['VPN PEPTIDE INDEX — '+keys.length+' Peptides','='.repeat(40),''];
+  keys.forEach(function(k,i){
+    var p=PROFILES[k];
+    lines.push((i+1)+'. '+p.name+' ['+p.cat+']');
+    lines.push('   '+p.mech.slice(0,100)+(p.mech.length>100?'…':''));
+    lines.push('   Protocol: '+p.protocol);
+    lines.push('   Route: '+p.route);
+    lines.push('');
+  });
+  lines.push('Generated by VPN Health Tracker');
+  _copyText(lines.join('\n'), event.target);
+}
+function printIndexList(){
+  var rows=Object.values(PROFILES).map(function(p){
+    return '<tr><td><strong>'+p.name+'</strong></td><td>'+p.cat+'</td><td>'+p.protocol+'</td><td>'+p.route+'</td><td>'+p.sides.join(', ')+'</td></tr>';
+  }).join('');
+  _printPage('VPN Peptide Index','<h2>📚 VPN Peptide Index — '+Object.keys(PROFILES).length+' Peptides</h2><table><thead><tr><th>Name</th><th>Category</th><th>Protocol</th><th>Route</th><th>Side Effects</th></tr></thead><tbody>'+rows+'</tbody></table>');
 }
 
 function copyInjLog(){
@@ -2604,6 +2698,12 @@ function toggleIdxCard(el,k){
   </div>
   <div class="idx-cats" id="idx-cats"></div>
   <div id="idx-list"><div class="idx-empty">Loading index…</div></div>
+
+  <div style="display:flex;gap:8px;margin-top:16px;margin-bottom:14px;flex-wrap:wrap;">
+    <button class="small-btn" style="background:rgba(255,230,0,0.1);border:1px solid rgba(255,230,0,0.4);color:#ffe600;flex:1;min-width:120px;" onclick="copyIndexList()">📋 COPY PEPTIDE LIST</button>
+    <button class="small-btn" style="background:rgba(255,230,0,0.1);border:1px solid rgba(255,230,0,0.4);color:#ffe600;flex:1;min-width:120px;" onclick="printIndexList()">🖨 SAVE / PRINT PDF</button>
+  </div>
+
 </div>
 
 </body>
