@@ -2181,7 +2181,46 @@ function searchSug(){
   box.classList.add('vis');box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
+var GOAL_EXPLAIN = {
+  fatloss:      'stimulates fat oxidation, reduces appetite, or improves metabolic rate',
+  muscle:       'supports GH secretion, tissue repair, or anabolic signaling for muscle growth',
+  antiaging:    'promotes cellular repair, telomere support, or mitochondrial anti-aging pathways',
+  recovery:     'accelerates tissue healing, reduces inflammation, and speeds injury repair',
+  sleep:        'enhances GH pulsatility at night, reduces cortisol, or promotes deep sleep cycles',
+  gut:          'repairs the intestinal lining, reduces gut inflammation, or strengthens the gut barrier',
+  joints:       'promotes tendon-to-bone healing, cartilage repair, or collagen synthesis',
+  skin:         'stimulates collagen, elastin, and skin cell regeneration',
+  cognitive:    'upregulates BDNF/NGF, improves neurotransmission, or provides neuroprotection',
+  libido:       'activates melanocortin receptors or supports sex hormone pathways',
+  insulin:      'activates AMPK, improves insulin receptor sensitivity, or reduces glucose dysregulation',
+  thyroid:      'supports thyroid tissue repair or modulates the hypothalamic-pituitary axis',
+  inflammation: 'inhibits NF-κB, reduces inflammatory cytokines (IL-6, TNF-α), or modulates immune response',
+  hair:         'stimulates follicle stem cells, prolongs the anagen growth phase, or improves scalp circulation',
+  energy:       'restores mitochondrial NAD+, enhances AMPK signaling, or improves cellular ATP production',
+  immune:       'modulates thymic function, enhances T-cell production, or upregulates innate immunity',
+  longevity:    'activates organ-specific bioregulator genes, reduces cellular senescence, or restores tissue function',
+  pcos:         'regulates GnRH/LH pulsatility, improves insulin sensitivity, or reduces androgen excess'
+};
+
+function getPepGoals(key){
+  var goals=[];
+  Object.keys(GOAL_MAP).forEach(function(g){
+    if((GOAL_MAP[g]||[]).indexOf(key)!==-1) goals.push(g);
+  });
+  Object.keys(GENDER_GOAL_MAP).forEach(function(gender){
+    Object.keys(GENDER_GOAL_MAP[gender]).forEach(function(g){
+      if((GENDER_GOAL_MAP[gender][g]||[]).indexOf(key)!==-1 && goals.indexOf(g)===-1) goals.push(g);
+    });
+  });
+  return goals;
+}
+
 function buildPepCard(key,p,matches,matchedGoals){
+  // Always show explanation — for search results, derive goals from the map
+  var displayGoals = (matchedGoals && matchedGoals.length) ? matchedGoals : getPepGoals(key);
+  var whyLines = displayGoals.map(function(g){
+    return '<div style="margin-top:3px">• <strong style="color:var(--cyan)">'+(GOAL_LABELS[g]||g)+'</strong> — '+(GOAL_EXPLAIN[g]||'supports this goal')+'.</div>';
+  }).join('');
   return '<div class="pep-result" data-key="'+key+'">'
     +'<div class="pep-top">'
     +'<div class="pep-name" onclick="toggleSugPep(this)">'+p.name+'</div>'
@@ -2190,7 +2229,7 @@ function buildPepCard(key,p,matches,matchedGoals){
     +'<button class="add-btn" onclick="useForSched(\''+key+'\',event)">+ ADD</button>'
     +'</div></div>'
     +'<div class="pep-desc">'+p.desc+'</div>'
-    +(matchedGoals&&matchedGoals.length?'<div class="pep-desc" style="color:var(--cyan);margin-top:4px"><strong>Why this matches:</strong> '+matchedGoals.map(function(g){return GOAL_LABELS[g]||g;}).join(', ')+'.</div>':'')
+    +(whyLines?'<div class="pep-desc" style="margin-top:6px;padding:8px 10px;background:rgba(0,245,255,0.05);border-left:3px solid var(--cyan)"><strong style="color:var(--cyan);font-size:11px;letter-spacing:.08em;text-transform:uppercase">Why this is used:</strong>'+whyLines+'</div>':'')
     +'<div class="pep-detail">'
     +'<div class="pep-desc"><strong style="color:var(--cyan)">Typical starting protocol:</strong> '+p.vial+'mg vial · '+p.water+'mL BAC water · '+p.start+'mg start · '+(p.step>0?('+'+p.step+'mg every '+p.weeks+' wks'):('flat dose, '+p.weeks+' wk blocks'))+' · '+p.freq+'x/week.</div>'
     +'<button class="run-btn" style="margin-top:10px;padding:12px" onclick="useForSched(\''+key+'\',event)">USE FOR SCHEDULE BUILDER →</button>'
