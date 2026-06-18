@@ -356,6 +356,8 @@ select.fsel option{background:var(--card);color:var(--text)}
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
   const app = initializeApp({
     apiKey:"AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
     authDomain:"vpnhub-data.firebaseapp.com",
@@ -365,12 +367,49 @@ select.fsel option{background:var(--card);color:var(--text)}
     appId:"1:519239456167:web:2ee7f62c48e17f07c75282"
   });
   const auth = getAuth(app);
+  const db = getFirestore(app);
+  window.VPN_DB = db;
+
+  // Cloud save — debounced so rapid saves don't hammer Firestore
+  var _cloudSaveTimer = null;
+  window.cloudSave = function(uid){
+    clearTimeout(_cloudSaveTimer);
+    _cloudSaveTimer = setTimeout(async function(){
+      try {
+        var payload = {
+          inj_log:     JSON.parse(localStorage.getItem(uid+'_inj_log')     || '[]'),
+          inj_peps:    JSON.parse(localStorage.getItem(uid+'_inj_peps')    || '[]'),
+          pep_tracker: JSON.parse(localStorage.getItem(uid+'_pep_tracker') || '[]'),
+          ptg:         localStorage.getItem(uid+'_ptg') || '150',
+          updated:     Date.now()
+        };
+        await setDoc(doc(db,'trackers',uid), payload, {merge:true});
+      } catch(e){ console.warn('Cloud save failed:',e); }
+    }, 1500);
+  };
+
+  // Cloud load — pull Firestore data into localStorage then init tracker
+  async function cloudLoad(uid){
+    try {
+      var snap = await getDoc(doc(db,'trackers',uid));
+      if(snap.exists()){
+        var d = snap.data();
+        if(d.inj_log)     localStorage.setItem(uid+'_inj_log',     JSON.stringify(d.inj_log));
+        if(d.inj_peps)    localStorage.setItem(uid+'_inj_peps',    JSON.stringify(d.inj_peps));
+        if(d.pep_tracker) localStorage.setItem(uid+'_pep_tracker', JSON.stringify(d.pep_tracker));
+        if(d.ptg)         localStorage.setItem(uid+'_ptg',         d.ptg);
+      }
+    } catch(e){ console.warn('Cloud load failed — using local data:',e); }
+    // Always init tracker after load attempt
+    if(typeof window.initTracker === 'function') window.initTracker(uid);
+  }
+
   setPersistence(auth, browserLocalPersistence);
   onAuthStateChanged(auth, function(user){
     if(user){
       window.VPN_UID = user.uid;
       document.getElementById('auth-gate').style.display = 'none';
-      if(typeof window.initTracker === 'function') window.initTracker(user.uid);
+      cloudLoad(user.uid);
     } else {
       window.location.href = 'access.html';
     }
@@ -903,8 +942,47 @@ select.fsel option{background:var(--card);color:var(--text)}
     </div>
   </div>
 
+  <!-- WHY ROTATE + MULTI-PEPTIDE DROPDOWNS -->
+  <div class="inj-accordion" style="border-color:rgba(255,230,0,0.3);" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head" style="color:#ffe600;">❓ Why Must You Rotate Injection Sites?<span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <ul>
+        <li><strong style="color:#ffe600;">Lipodystrophy</strong> — injecting the same spot repeatedly causes hard, lumpy fat tissue that absorbs peptides <em>unpredictably</em>. Your dose becomes unreliable.</li>
+        <li><strong style="color:#ffe600;">Scar tissue buildup</strong> — tissue can harden permanently if a single site is overused. This is irreversible without medical intervention.</li>
+        <li><strong style="color:#ffe600;">Absorption rate</strong> — healthy, untouched tissue absorbs peptides faster and more consistently than inflamed or scarred tissue.</li>
+        <li><strong style="color:#ffe600;">Pain reduction</strong> — rotating gives each site time to heal between injections. Most injection pain is from using the same sore spot.</li>
+        <li><strong style="color:#ffe600;">The rule:</strong> Wait at least <strong>48 hours</strong> before reusing any zone. The app enforces this automatically by telling you the next recommended zone.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="inj-accordion" style="border-color:rgba(0,255,136,0.3);margin-bottom:16px;" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head" style="color:var(--green);">💉 Using Multiple Peptides Per Day — How to Rotate<span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px;">You have 10 injection zones total. Here's how to split them:</div>
+      <ul>
+        <li><strong style="color:var(--green);">Option A — Assign zones per peptide</strong><br>Example: BPC-157 always uses Zones 1 &amp; 3. TB-500 always uses Zones 2 &amp; 4. They never share a zone on the same day. Clean and simple.</li>
+        <li><strong style="color:var(--green);">Option B — Separate sites per injection</strong><br>If doing 2 injections in the same session: use Zone 1 for peptide A, use Zone 2 for peptide B — different spot, same day.</li>
+        <li><strong style="color:var(--green);">Option C — Combine in one syringe</strong><br>Many peptides (BPC + TB-500, CJC + Ipamorelin) can be mixed in one syringe = one injection, one zone used.</li>
+        <li><strong style="color:#ffe600;">⚠ Never inject two different peptides into the exact same spot on the same day</strong> — even 1cm apart is fine, but not identical needle entry.</li>
+        <li><strong style="color:#ffe600;">⚠ 48-hour rule</strong> — no zone twice in less than 48 hours, regardless of which peptide was used there.</li>
+        <li><strong style="color:var(--cyan);">Log each peptide separately</strong> — select the peptide from the dropdown when logging so the app tracks each one's rotation independently.</li>
+      </ul>
+      <div style="background:rgba(0,245,255,0.07);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--dim);">
+        <strong style="color:var(--cyan);">Example 3-peptide daily schedule:</strong><br>
+        Morning — BPC-157 → Zone 1 | CJC-1295 → Zone 2<br>
+        Night — Ipamorelin → Zone 3<br>
+        Next day → Zones 4, LT, RT and repeat cycle
+      </div>
+    </div>
+  </div>
+
   <!-- INJECTION HISTORY -->
   <div class="sh">Injection History</div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+    <button class="small-btn" style="background:rgba(0,245,255,0.12);border:1px solid rgba(0,245,255,0.4);color:var(--cyan);flex:1;min-width:120px;" onclick="copyInjLog()">📋 COPY LOG</button>
+    <button class="small-btn" style="background:rgba(255,230,0,0.1);border:1px solid rgba(255,230,0,0.4);color:#ffe600;flex:1;min-width:120px;" onclick="printInjLog()">🖨 SAVE / PRINT PDF</button>
+  </div>
   <div class="inj-log" id="inj-log"><div class="emp">No injections logged yet</div></div>
   <div style="text-align:center;margin-bottom:14px"><button class="breset" onclick="clearInjHistory()">CLEAR HISTORY</button></div>
 
@@ -1397,6 +1475,7 @@ function logInjection(){
   injLog.unshift({zone:selectedZone,pep:pep,date:today,dateISO:todayISO,time:now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})});
   if(injLog.length>200)injLog=injLog.slice(0,200);
   localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));
+  if(window.VPN_UID&&window.cloudSave)window.cloudSave(window.VPN_UID);
   renderInjLog();
   updateNextZone();
   // Flash confirm
@@ -1412,6 +1491,38 @@ function logInjection(){
       savePeptides();renderPeptides();
     }
   }
+}
+
+function copyInjLog(){
+  if(!injLog.length){alert('No injection history to copy yet.');return;}
+  var lines=['VPN INJECTION LOG — '+new Date().toLocaleDateString(),'='.repeat(40),''];
+  injLog.forEach(function(e,i){
+    lines.push((i+1)+'. '+e.date+' '+e.time+' | Zone: '+(ZONE_NAMES[e.zone]||e.zone)+' | Peptide: '+(e.pep||'General'));
+  });
+  lines.push('','Generated by VPN Health Tracker');
+  var txt=lines.join('\n');
+  navigator.clipboard.writeText(txt).catch(function(){
+    var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+  var btn=event.target;btn.textContent='✓ COPIED!';
+  setTimeout(function(){btn.textContent='📋 COPY LOG';},2500);
+}
+
+function printInjLog(){
+  if(!injLog.length){alert('No injection history to print yet.');return;}
+  var rows=injLog.map(function(e,i){
+    return '<tr style="border-bottom:1px solid #eee;"><td style="padding:6px 10px;color:#888;">'+(i+1)+'</td><td style="padding:6px 10px;">'+e.date+' '+e.time+'</td><td style="padding:6px 10px;font-weight:700;">'+(e.pep||'General')+'</td><td style="padding:6px 10px;">'+(ZONE_NAMES[e.zone]||e.zone)+'</td></tr>';
+  }).join('');
+  var win=window.open('','_blank');
+  win.document.write('<html><head><title>VPN Injection Log</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#111;}h2{color:#6600cc;}table{width:100%;border-collapse:collapse;margin-top:20px;}th{background:#0d0028;color:#fff;padding:8px 10px;text-align:left;}tr:nth-child(even){background:#f5f0ff;}.footer{margin-top:30px;font-size:11px;color:#999;}</style></head><body>'
+    +'<h2>💉 VPN Injection Log</h2><p style="color:#666;">Generated: '+new Date().toLocaleString()+'</p>'
+    +'<table><thead><tr><th>#</th><th>Date &amp; Time</th><th>Peptide</th><th>Zone</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div class="footer">VPN Verified Peptides Network — For Research Purposes Only</div>'
+    +'</body></html>');
+  win.document.close();
+  win.focus();
+  setTimeout(function(){win.print();},400);
 }
 
 function renderInjLog(){
@@ -1446,18 +1557,18 @@ function updateNextZone(){
   ew.textContent='Last used: '+ZONE_NAMES[last]+' on '+injLog[0].date;
 }
 
-function clearInjHistory(){if(!confirm('Clear all injection history?'))return;injLog=[];localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));renderInjLog();updateNextZone();}
+function clearInjHistory(){if(!confirm('Clear all injection history?'))return;injLog=[];localStorage.setItem(lk('inj_log'),JSON.stringify(injLog));if(window.VPN_UID&&window.cloudSave)window.cloudSave(window.VPN_UID);renderInjLog();updateNextZone();}
 
 function addInjPep(){
   var inp=document.getElementById('inj-new-pep');
   var val=inp.value.trim();
   if(!val)return;
-  if(!injPeps.includes(val)){injPeps.push(val);localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));}
+  if(!injPeps.includes(val)){injPeps.push(val);localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));if(window.VPN_UID&&window.cloudSave)window.cloudSave(window.VPN_UID);}
   inp.value='';
   renderInjPepTags();
   updateInjPepSelect();
 }
-function removeInjPep(p){injPeps=injPeps.filter(function(x){return x!==p;});localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
+function removeInjPep(p){injPeps=injPeps.filter(function(x){return x!==p;});localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));if(window.VPN_UID&&window.cloudSave)window.cloudSave(window.VPN_UID);renderInjPepTags();updateInjPepSelect();}
 function renderInjPepTags(){
   var el=document.getElementById('inj-pep-tags');
   if(!injPeps.length){el.innerHTML='<span style="font-size:12px;color:var(--dim)">No peptides added yet</span>';return;}
@@ -1508,7 +1619,7 @@ function addPeptide(){
   if(!injPeps.includes(name)){injPeps.push(name);localStorage.setItem(lk('inj_peps'),JSON.stringify(injPeps));renderInjPepTags();updateInjPepSelect();}
 }
 
-function savePeptides(){localStorage.setItem(lk('pep_tracker'),JSON.stringify(peptides));}
+function savePeptides(){localStorage.setItem(lk('pep_tracker'),JSON.stringify(peptides));if(window.VPN_UID&&window.cloudSave)window.cloudSave(window.VPN_UID);}
 
 function daysBetween(d1,d2){return Math.round((new Date(d2)-new Date(d1))/(1000*60*60*24));}
 
