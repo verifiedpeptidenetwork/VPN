@@ -551,37 +551,36 @@ select.fsel option{background:var(--card);color:var(--text)}
 <!-- ========================= TAB 2: INJECTION SITES ========================= -->
 <div class="sec" id="sec-injection">
 
-  <div style="background:rgba(255,0,204,0.06);border:2px solid rgba(255,0,204,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.2em;color:var(--pink);margin-bottom:10px;">📋 HOW TO USE — INJECTION SITE TRACKER</div>
-    <div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.9;">
-      <div>① <strong style="color:var(--pink);">Pick your researcher</strong> — choose Gorilla, Kangaroo, Raccoon, or Monkey above the diagram (just for fun — all zones are the same)</div>
-      <div>② <strong style="color:var(--pink);">Tap a zone on the body</strong> — tap any numbered circle (1, 2, 3, 4) or letter zone (LT, RT, RG, LG, RD, LD) to select it</div>
-      <div>③ <strong style="color:var(--pink);">Tap "ROTATE BODY"</strong> to flip the diagram and see the back — arms and glutes are on the back view</div>
-      <div>④ <strong style="color:var(--pink);">Press LOG INJECTION</strong> — the button appears after you tap a zone. Tap it to record your injection</div>
-      <div>⑤ The app <strong style="color:var(--green);">automatically tells you which zone to use next</strong> so you never repeat the same spot too soon</div>
-    </div>
-  </div>
-
   <div class="research-disclaimer">
     <div class="research-disclaimer-title">⚠ FOR RESEARCH PURPOSES ONLY</div>
-    <div class="research-disclaimer-sub">This tool is educational only. Not medical advice.<br>Always work with a licensed physician before beginning any research protocol.</div>
+    <div class="research-disclaimer-sub">Educational only. Not medical advice. Always work with a licensed physician.</div>
   </div>
 
-  <div class="info-box">
-    <strong>WHY ROTATE?</strong> Repeatedly injecting the same spot causes <strong>lipodystrophy</strong> — hardened, lumpy fatty tissue that absorbs medication inconsistently, leading to unpredictable dosing. Rotating through 4 zones keeps absorption <strong>consistent and predictable</strong> and prevents tissue damage.
-  </div>
-
-  <div class="sh">Injection Zones</div>
-
-  <!-- RESEARCHER CHOOSER -->
-  <div class="researcher-bar">
-    <div class="researcher-label">CHOOSE YOUR RESEARCHER</div>
-    <div class="researcher-btns">
-      <button class="animal-btn active" data-animal="gorilla" onclick="setAnimal('gorilla')">🦍 GORILLA</button>
-      <button class="animal-btn" data-animal="kangaroo" onclick="setAnimal('kangaroo')">🦘 KANGAROO</button>
-      <button class="animal-btn" data-animal="raccoon" onclick="setAnimal('raccoon')">🦝 RACCOON</button>
-      <button class="animal-btn" data-animal="monkey" onclick="setAnimal('monkey')">🐒 MONKEY</button>
+  <!-- 3-STEP FLOW -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:80px;background:rgba(0,245,255,0.07);border:1px solid rgba(0,245,255,0.3);border-radius:10px;padding:12px 10px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--cyan);">1</div>
+      <div style="font-size:12px;font-weight:700;color:#fff;line-height:1.4;">Look at the<br><span style="color:var(--cyan);">NEXT ZONE</span><br>box below</div>
     </div>
+    <div style="flex:1;min-width:80px;background:rgba(255,0,204,0.07);border:1px solid rgba(255,0,204,0.3);border-radius:10px;padding:12px 10px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--pink);">2</div>
+      <div style="font-size:12px;font-weight:700;color:#fff;line-height:1.4;">Tap that<br><span style="color:var(--pink);">numbered circle</span><br>on the diagram</div>
+    </div>
+    <div style="flex:1;min-width:80px;background:rgba(0,255,136,0.07);border:1px solid rgba(0,255,136,0.3);border-radius:10px;padding:12px 10px;text-align:center;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--green);">3</div>
+      <div style="font-size:12px;font-weight:700;color:#fff;line-height:1.4;">Press the big<br><span style="color:var(--green);">LOG INJECTION</span><br>button</div>
+    </div>
+  </div>
+
+  <!-- RESEARCHER CHOOSER — simple dropdown -->
+  <div style="margin-bottom:14px;">
+    <label style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.15em;display:block;margin-bottom:6px;">CHOOSE YOUR RESEARCHER (optional — just for fun)</label>
+    <select class="fsel" style="margin-bottom:0;" onchange="setAnimal(this.value)">
+      <option value="gorilla">🦍 Gorilla</option>
+      <option value="kangaroo">🦘 Kangaroo</option>
+      <option value="raccoon">🦝 Raccoon</option>
+      <option value="monkey">🐒 Monkey</option>
+    </select>
   </div>
 
   <div class="body-wrap">
@@ -815,73 +814,87 @@ select.fsel option{background:var(--card);color:var(--text)}
   </div>
 
   <!-- FOR MULTIPLE PEPTIDES -->
-  <div class="sh">Multiple Peptide Rotation</div>
+  <div class="sh">Tracking Multiple Peptides?</div>
   <div class="multi-card">
-    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Your Research Peptides</div>
-    <div style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">Add each peptide you're tracking. Each gets its own rotation cycle so you never inject the same spot twice in a row, even with multiple peptides.</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Add each peptide you inject</div>
+    <div style="font-size:12px;color:var(--dim);line-height:1.5;margin-bottom:10px">Each peptide gets its own rotation so you never reuse the same spot too soon.</div>
     <div class="pep-tags" id="inj-pep-tags"></div>
     <div class="multi-add">
-      <input type="text" id="inj-new-pep" placeholder="Peptide name (e.g. BPC-157)">
+      <input type="text" id="inj-new-pep" placeholder="e.g. BPC-157">
       <button class="small-btn" onclick="addInjPep()">+ ADD</button>
     </div>
     <div id="pep-zone-assigns" style="margin-top:12px"></div>
   </div>
 
-  <!-- ROTATION GUIDE -->
-  <div class="sh">How Each Injection Site Works</div>
+  <!-- INJECTION SITE REFERENCE — ALL DROPDOWNS -->
+  <div class="sh">Injection Site Reference</div>
+  <div style="font-size:12px;color:var(--dim);margin-bottom:10px;">Tap any section below to expand it.</div>
 
-  <div class="rot-explain">
-    <div class="rot-title">🟦 ABDOMEN ZONES 1–4 (Front View)</div>
-    <ul class="rot-steps">
-      <li><strong>Zone 1 — Upper Right Abdomen:</strong> Your right side, below the ribs, above the navel. Best starting zone. Pinch 1–2 inches of belly skin, inject at 45–90°. Stay ≥2 inches from navel at all times.</li>
-      <li><strong>Zone 2 — Upper Left Abdomen:</strong> Mirror of Zone 1 on your left. Use the next day. Subcutaneous fat here absorbs peptides at a consistent, predictable rate.</li>
-      <li><strong>Zone 3 — Lower Right Abdomen:</strong> Your right side, below navel, above groin line. Avoid any scar tissue from past surgeries. Same pinch-and-inject technique.</li>
-      <li><strong>Zone 4 — Lower Left Abdomen:</strong> Completes the cycle. After Zone 4, return to Zone 1. <strong>Never reuse a zone within 48 hours.</strong></li>
-      <li><strong>2-inch navel rule:</strong> The area within 2 inches of the navel has dense nerve endings and fibrous tissue — injecting there causes pain and unpredictable absorption.</li>
-    </ul>
+  <style>
+    .inj-accordion { border:1px solid rgba(0,245,255,0.2); border-radius:10px; margin-bottom:8px; overflow:hidden; }
+    .inj-accordion.orange { border-color:rgba(255,102,0,0.25); }
+    .inj-acc-head { display:flex; align-items:center; justify-content:space-between; padding:13px 16px; cursor:pointer; background:rgba(0,0,0,0.35); user-select:none; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.1em; color:var(--cyan); }
+    .inj-accordion.orange .inj-acc-head { color:var(--orange); }
+    .inj-acc-arrow { font-size:1.1rem; transition:transform .25s; }
+    .inj-accordion.open .inj-acc-arrow { transform:rotate(180deg); }
+    .inj-acc-body { display:none; padding:14px 16px; background:rgba(0,0,0,0.18); }
+    .inj-accordion.open .inj-acc-body { display:block; }
+    .inj-acc-body ul { padding-left:16px; }
+    .inj-acc-body li { font-size:13px; color:var(--text); line-height:1.7; margin-bottom:6px; }
+    .inj-acc-body li strong { color:var(--cyan); }
+    .inj-accordion.orange .inj-acc-body li strong { color:var(--orange); }
+    .inj-tip { background:rgba(255,230,0,0.08); border:1px solid rgba(255,230,0,0.3); border-radius:8px; padding:10px 13px; font-size:12px; font-weight:700; color:#ffe600; margin-bottom:12px; }
+  </style>
+
+  <div class="inj-tip">💡 Tip: The app automatically picks your next zone. You don't need to memorize anything — just follow the recommendation above.</div>
+
+  <div class="inj-accordion" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head">🟦 Abdomen Zones 1–4 &nbsp;<small style="font-size:.75rem;opacity:.6;">(Front of body)</small><span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <ul>
+        <li><strong>Zone 1</strong> — Upper right belly, below ribs, above navel. Best starting zone. Pinch skin, inject at 45–90°.</li>
+        <li><strong>Zone 2</strong> — Upper left belly. Mirror of Zone 1. Use the next day.</li>
+        <li><strong>Zone 3</strong> — Lower right belly, below navel. Avoid scar tissue.</li>
+        <li><strong>Zone 4</strong> — Lower left belly. After Zone 4, go back to Zone 1.</li>
+        <li><strong>⚠ 2-inch rule:</strong> Always stay at least 2 inches away from your belly button.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="rot-explain" style="border-color:rgba(255,102,0,.25);background:rgba(255,102,0,.04)">
-    <div class="rot-title" style="color:var(--orange)">🟠 THIGH ZONES — LT / RT (Front View)</div>
-    <ul class="rot-steps">
-      <li><strong>Left Thigh (LT) / Right Thigh (RT):</strong> Target the outer (lateral) surface of the mid-thigh — halfway between your hip and knee, on the outside of the leg. Do NOT inject the inner thigh (femoral vein and nerve run there).</li>
-      <li><strong>Technique:</strong> Pinch the skin, inject at 45–90°. Thighs are ideal when abdomen sites are inflamed or when rotating to give abdominal tissue a longer rest.</li>
-      <li><strong>Max volume:</strong> 1mL per thigh site. Alternate LT → RT each injection day.</li>
-      <li><strong>Good for:</strong> BPC-157, TB-500, GLP-1 agonists, NAD+, most subcutaneous peptides.</li>
-    </ul>
+  <div class="inj-accordion orange" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head">🟠 Thigh Zones — LT / RT &nbsp;<small style="font-size:.75rem;opacity:.6;">(Front of body)</small><span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <ul>
+        <li><strong>Where:</strong> Outer surface of the mid-thigh — halfway between hip and knee, on the outside of your leg.</li>
+        <li><strong>How:</strong> Pinch skin, inject at 45–90°. Max 1mL per site.</li>
+        <li><strong>⚠ Never</strong> inject the inner thigh — veins and nerves run there.</li>
+        <li><strong>Good for:</strong> BPC-157, TB-500, GLP-1, NAD+, most subcutaneous peptides.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="rot-explain" style="border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.04)">
-    <div class="rot-title" style="color:var(--cyan)">🔵 DELTOID ZONES — RD / LD (Back View — rotate body above)</div>
-    <ul class="rot-steps">
-      <li><strong>How to find it:</strong> Feel the bony tip of your shoulder (the acromion process). Go 2–3 fingerbreadths (4–5cm) straight down from there. That's the injection site — the LATERAL head of the deltoid muscle.</li>
-      <li><strong>Technique:</strong> Flex your arm slightly, inject straight into the outer muscle at 90°. Do NOT inject into the front (anterior) or back (posterior) deltoid — only the OUTER (lateral) portion.</li>
-      <li><strong>Max volume:</strong> 1mL. Deltoid is a smaller muscle — never force more than 1mL here.</li>
-      <li><strong>Good for:</strong> IM-route peptides (HGH, some GHRPs, Tesamorelin), peptides requiring faster absorption than subcutaneous.</li>
-      <li><strong>Avoid if:</strong> Deltoid is very lean with minimal muscle mass — use thigh or glute instead to avoid hitting bone.</li>
-    </ul>
+  <div class="inj-accordion" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head">🔵 Deltoid (Arm) Zones — RD / LD &nbsp;<small style="font-size:.75rem;opacity:.6;">(Flip to back view)</small><span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <ul>
+        <li><strong>Where:</strong> Feel the bony tip of your shoulder, then go 2–3 finger-widths straight down. Inject into the outer arm muscle only.</li>
+        <li><strong>How:</strong> Flex arm slightly, inject straight in at 90°. Max 1mL.</li>
+        <li><strong>⚠ Outer only</strong> — not front or back of arm.</li>
+        <li><strong>Good for:</strong> HGH, GHRPs, Tesamorelin — IM peptides needing faster absorption.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="rot-explain" style="border-color:rgba(255,102,0,.25);background:rgba(255,102,0,.04)">
-    <div class="rot-title" style="color:var(--orange)">🟠 UPPER GLUTE ZONES — RG / LG (Back View — rotate body above)</div>
-    <ul class="rot-steps">
-      <li><strong>How to find the safe zone:</strong> Mentally draw a cross (X) through your buttock, dividing it into 4 quadrants. Inject ONLY into the upper outer quadrant — top right of the X on your right side, top left of the X on your left side.</li>
-      <li><strong>Why upper outer only:</strong> The sciatic nerve runs through the lower inner quadrant. Injecting there can cause nerve damage, foot drop, or severe pain. The upper outer quadrant has no major nerves near the injection point.</li>
-      <li><strong>Technique:</strong> Standing or lying on your side. Identify the upper outer quadrant, inject at 90° perpendicular to the skin. Aspirate not required for subcutaneous, but recommended for IM glute injections.</li>
-      <li><strong>Max volume:</strong> 3–5mL. The gluteus maximus is the largest muscle in the body — handles the highest volumes of any injection site.</li>
-      <li><strong>Good for:</strong> Large volume IM injections, oil-based peptides, when arm/thigh sites are fatigued. Rotate RG → LG each injection.</li>
-    </ul>
-  </div>
-
-  <div class="rot-explain" style="border-color:rgba(0,245,255,.2);background:rgba(0,245,255,.03)">
-    <div class="rot-title" style="color:var(--cyan)">💉 MULTIPLE PEPTIDES — HOW TO ROTATE</div>
-    <ul class="rot-steps">
-      <li><strong>Option A (Assign zones):</strong> Give each peptide its own dedicated zones. BPC-157 always uses Zones 1–2, TB-500 always uses Zones 3–4. They never share a zone on the same day.</li>
-      <li><strong>Option B (Shared rotation):</strong> Rotate all peptides through all zones in sequence. Track each one separately — if BPC used Zone 1 today, TB-500 uses Zone 2 next.</li>
-      <li><strong>Never inject two peptides in the same exact spot on the same day,</strong> even if they are combined in one syringe.</li>
-      <li><strong>Wait at least 48 hours before reusing any zone</strong> regardless of which peptide was injected there.</li>
-      <li><strong>Arm + Glute sites:</strong> Use the ⟳ ROTATE BODY button above to access deltoid (arm) and upper glute zones on the back view.</li>
-    </ul>
+  <div class="inj-accordion orange" onclick="this.classList.toggle('open')">
+    <div class="inj-acc-head">🟠 Upper Glute Zones — RG / LG &nbsp;<small style="font-size:.75rem;opacity:.6;">(Flip to back view)</small><span class="inj-acc-arrow">▼</span></div>
+    <div class="inj-acc-body">
+      <ul>
+        <li><strong>Where:</strong> Mentally draw an X across your buttock. Inject ONLY the upper outer quarter — top right on right side, top left on left side.</li>
+        <li><strong>⚠ Never</strong> inject the lower half — the sciatic nerve runs there.</li>
+        <li><strong>How:</strong> Inject at 90°. Max 3–5mL — largest injection site on the body.</li>
+        <li><strong>Good for:</strong> Large volumes, oil-based peptides, when other sites are sore.</li>
+      </ul>
+    </div>
   </div>
 
   <!-- INJECTION HISTORY -->
