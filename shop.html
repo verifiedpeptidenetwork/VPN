@@ -69,7 +69,7 @@
 <script>
 function checkGate(){
   const v=document.getElementById('gate-input').value.trim();
-  if(v==='ajshe'||v==='gabby'){
+  if(v==='gabby'){
     document.getElementById('gate').classList.add('hidden');
     // Babel compiles text/babel scripts async — retry until renderShop is ready
     (function tryRender(n){
@@ -625,13 +625,13 @@ function VPNPeptideShop() {
                     {v.whatsapp && (
                       <a href={`https://wa.me/${v.whatsapp}`} target="_blank" rel="noopener noreferrer"
                         style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #25D36688",background:"#25D36615",color:"#25D366",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
-                        💬 WhatsApp
+                        💬 +{v.whatsapp}
                       </a>
                     )}
                     {v.telegram && (
                       <a href={`https://t.me/${v.telegram}`} target="_blank" rel="noopener noreferrer"
                         style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #2AABEE88",background:"#2AABEE15",color:"#2AABEE",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
-                        ✈ Telegram
+                        ✈ @{v.telegram}
                       </a>
                     )}
                     {v.phone && (
