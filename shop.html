@@ -97,7 +97,7 @@ const VENDOR_COLORS = {
   "Mia":"#FF2D78","Sophie":"#FF6B1A","Becky":"#FFD700",
   "InnoPeptide":"#00F5FF","MarvelPep":"#9B30FF",
   "Lilly Peptide":"#FF4DC4","Bio Peptides":"#00FFB0","Peptide Lab":"#F5A623",
-  "MKM":"#00FFCC",
+  "MKM":"#00FFCC","swite2610":"#E1306C",
 };
 
 const VENDOR_CONTACTS = {
@@ -110,6 +110,7 @@ const VENDOR_CONTACTS = {
   "Bio Peptides":  { display:"Bio Peptides",              flag:"🇭🇰", whatsapp:"85270259794",  phone:"",             telegram:"",              discord:"", website:"", notes:"" },
   "Peptide Lab":   { display:"Peptide Laboratory (Audrey)",flag:"🇺🇸",whatsapp:"85255886802",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · Contact Audrey Carter" },
   "MKM":           { display:"MKM Peptides (Cassie)",      flag:"🇨🇳", whatsapp:"8617659906901", phone:"",             telegram:"17659906901",   discord:"cassie2476434775", website:"", notes:"Crypto · Alibaba · Google/Apple Pay · Credit/Debit · Wire · Free ship over $700 · 3–5 day lead time" },
+  "swite2610":     { display:"@swite2610",                flag:"🇺🇸", whatsapp:"",             phone:"",             telegram:"swite2610",     discord:"",                website:"", notes:"DM on Telegram · Ships 24–48hrs · COAs Available · Free Shipping 4+ items · Venmo · Apple Pay · Cash App · Zelle · Crypto" },
 };
 
 const ALL_VENDORS = [
@@ -119,15 +120,14 @@ const ALL_VENDORS = [
   { key:"Riptide",         display:"Riptide Discord",    flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"discord.gg/dwkjhwkf5",website:"",                 notes:"USA Vendor · Discord Community",                inShop:false },
   { key:"RetaGroup",       display:"Reta Group (Zoey)",  flag:"🇨🇳", whatsapp:"8618053579924",phone:"",              telegram:"",              discord:"",                  website:"",                   notes:"GHK-Cu Raw Materials · Cheap Pricing",           inShop:false },
   { key:"Unicornfartzz",   display:"Unicornfartzz",      flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"unicornfartzz", discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
-  { key:"swite2610",       display:"@swite2610",         flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"",                  website:"instagram.com/swite2610", notes:"DM on Instagram · Ships 24–48hrs · COAs Available · Free Shipping 4+ items · Venmo · Apple Pay · Cash App · Zelle · Crypto", instagram:"swite2610", inShop:false },
 ];
 
 const RAW_DATA = [
   // ── RETATRUTIDE ──
   {product:"Retatrutide",spec:"5mgx10vials",lowest:"Bio Peptides",price:45,Mia:70,Sophie:59,Becky:140,InnoPeptide:70,MarvelPep:80,"Bio Peptides":45,"Peptide Lab":45,MKM:68},
-  {product:"Retatrutide",spec:"10mgx10vials",lowest:"Bio Peptides",price:62,Mia:100,Sophie:85,InnoPeptide:105,"Bio Peptides":62,MKM:104},
+  {product:"Retatrutide",spec:"10mgx10vials",lowest:"Bio Peptides",price:62,Mia:100,Sophie:85,InnoPeptide:105,"Bio Peptides":62,MKM:104,swite2610:125},
   {product:"Retatrutide",spec:"15mgx10vials",lowest:"Bio Peptides",price:79,Mia:130,Sophie:109,InnoPeptide:125,"Bio Peptides":79,MKM:118},
-  {product:"Retatrutide",spec:"20mgx10vials",lowest:"Bio Peptides",price:123,Mia:150,Sophie:135,Becky:256,InnoPeptide:180,MarvelPep:180,"Bio Peptides":123,"Peptide Lab":145,MKM:130},
+  {product:"Retatrutide",spec:"20mgx10vials",lowest:"Bio Peptides",price:123,Mia:150,Sophie:135,Becky:256,InnoPeptide:180,MarvelPep:180,"Bio Peptides":123,"Peptide Lab":145,MKM:130,swite2610:185},
   {product:"Retatrutide",spec:"30mgx10vials",lowest:"Bio Peptides",price:159,Mia:190,Sophie:188,Becky:384,InnoPeptide:225,MarvelPep:250,"Bio Peptides":159,"Peptide Lab":165,MKM:190},
   {product:"Retatrutide",spec:"40mgx10vials",lowest:"Bio Peptides",price:202,Sophie:253,Becky:464,InnoPeptide:211,MarvelPep:285,"Bio Peptides":202,"Peptide Lab":320,MKM:245},
   {product:"Retatrutide",spec:"50mgx10vials",lowest:"Peptide Lab",price:250,Sophie:282,Becky:564,InnoPeptide:282,MarvelPep:305,"Bio Peptides":395,"Peptide Lab":250,MKM:295},
@@ -138,10 +138,10 @@ const RAW_DATA = [
   {product:"Tirzepatide",spec:"10mgx10vials",lowest:"Sophie",price:50,Mia:55,Sophie:50,Becky:112,InnoPeptide:70,MarvelPep:70,"Lilly Peptide":52,"Bio Peptides":55,MKM:60},
   {product:"Tirzepatide",spec:"15mgx10vials",lowest:"Lilly Peptide",price:59,Mia:68,Sophie:65,Becky:144,InnoPeptide:85,MarvelPep:85,"Lilly Peptide":59,"Bio Peptides":75,MKM:80},
   {product:"Tirzepatide",spec:"20mgx10vials",lowest:"Bio Peptides",price:69,Mia:95,Sophie:74,InnoPeptide:95,"Bio Peptides":69,MKM:90},
-  {product:"Tirzepatide",spec:"30mgx10vials",lowest:"Lilly Peptide",price:88,Mia:132,Sophie:97,Becky:204,InnoPeptide:110,MarvelPep:135,"Lilly Peptide":88,"Bio Peptides":115,MKM:110},
+  {product:"Tirzepatide",spec:"30mgx10vials",lowest:"Lilly Peptide",price:88,Mia:132,Sophie:97,Becky:204,InnoPeptide:110,MarvelPep:135,"Lilly Peptide":88,"Bio Peptides":115,MKM:110,swite2610:155},
   {product:"Tirzepatide",spec:"40mgx10vials",lowest:"Bio Peptides",price:106,Sophie:135,Becky:170,"Bio Peptides":106,MKM:135},
   {product:"Tirzepatide",spec:"50mgx10vials",lowest:"Bio Peptides",price:128,Mia:180,Sophie:165,MarvelPep:205,"Bio Peptides":128,"Peptide Lab":155,MKM:165},
-  {product:"Tirzepatide",spec:"60mgx10vials",lowest:"Bio Peptides",price:149,Sophie:185,MarvelPep:220,"Bio Peptides":149,"Peptide Lab":180,MKM:182},
+  {product:"Tirzepatide",spec:"60mgx10vials",lowest:"Bio Peptides",price:149,Sophie:185,MarvelPep:220,"Bio Peptides":149,"Peptide Lab":180,MKM:182,swite2610:240},
   {product:"Tirzepatide",spec:"70mgx10vials",lowest:"MKM",price:200,MKM:200},
   {product:"Tirzepatide",spec:"80mgx10vials",lowest:"MKM",price:225,MKM:225},
   {product:"Tirzepatide",spec:"90mgx10vials",lowest:"MKM",price:250,MKM:250},
@@ -149,12 +149,12 @@ const RAW_DATA = [
   {product:"Tirzepatide",spec:"120mgx10vials",lowest:"Bio Peptides",price:276,Sophie:590,Becky:380,"Bio Peptides":276,MKM:315},
   // ── SEMAGLUTIDE ──
   {product:"Semaglutide",spec:"5mgx10vials",lowest:"Sophie",price:38,Mia:50,Sophie:38,MarvelPep:92,MKM:40},
-  {product:"Semaglutide",spec:"10mgx10vials",lowest:"Sophie",price:47,Mia:50,Sophie:47,Becky:112,InnoPeptide:115,MarvelPep:120,MKM:60},
+  {product:"Semaglutide",spec:"10mgx10vials",lowest:"Sophie",price:47,Mia:50,Sophie:47,Becky:112,InnoPeptide:115,MarvelPep:120,MKM:60,swite2610:120},
   {product:"Semaglutide",spec:"15mgx10vials",lowest:"Peptide Lab",price:45,Mia:85,Sophie:59,"Peptide Lab":45,MKM:70},
   {product:"Semaglutide",spec:"20mgx10vials",lowest:"Peptide Lab",price:55,Mia:88,Sophie:74,Becky:164,InnoPeptide:95,MarvelPep:70,"Peptide Lab":55,MKM:85},
   {product:"Semaglutide",spec:"30mgx10vials",lowest:"Peptide Lab",price:75,Mia:110,Sophie:103,"Peptide Lab":75,MKM:104},
   // ── CAGRILINTIDE ──
-  {product:"Cagrilintide",spec:"5mgx10vials",lowest:"Mia",price:90,Mia:90,Sophie:121,InnoPeptide:102,MKM:110},
+  {product:"Cagrilintide",spec:"5mgx10vials",lowest:"Mia",price:90,Mia:90,Sophie:121,InnoPeptide:102,MKM:110,swite2610:120},
   {product:"Cagrilintide",spec:"10mgx10vials",lowest:"InnoPeptide",price:170,Mia:237,Sophie:191,Becky:450,InnoPeptide:170,MarvelPep:200,"Bio Peptides":191,MKM:205},
   // ── CAGRISEMA ──
   {product:"CagriSema",spec:"5mgx10vials",lowest:"MKM",price:80,Sophie:118,InnoPeptide:100,MarvelPep:115,MKM:80},
@@ -167,17 +167,17 @@ const RAW_DATA = [
   // ── SS-31 / MOTS-C ──
   {product:"SS-31",spec:"10mgx10vials",lowest:"MarvelPep",price:85,Sophie:88,Becky:85,InnoPeptide:102,MKM:95},
   {product:"SS-31",spec:"50mgx10vials",lowest:"Bio Peptides",price:297,Mia:350,Sophie:324,"Bio Peptides":297,MKM:370},
-  {product:"MOTS-C",spec:"10mgx10vials",lowest:"Mia",price:55,Mia:55,Sophie:71,InnoPeptide:70,MarvelPep:66,MKM:70},
+  {product:"MOTS-C",spec:"10mgx10vials",lowest:"Mia",price:55,Mia:55,Sophie:71,InnoPeptide:70,MarvelPep:66,MKM:70,swite2610:110},
   {product:"MOTS-C",spec:"20mgx10vials",lowest:"MKM",price:115,Mia:125,MKM:115},
-  {product:"MOTS-C",spec:"40mgx10vials",lowest:"Peptide Lab",price:165,Mia:220,Sophie:200,Becky:490,InnoPeptide:190,MarvelPep:200,"Lilly Peptide":212,"Peptide Lab":165,MKM:220},
+  {product:"MOTS-C",spec:"40mgx10vials",lowest:"Peptide Lab",price:165,Mia:220,Sophie:200,Becky:490,InnoPeptide:190,MarvelPep:200,"Lilly Peptide":212,"Peptide Lab":165,MKM:220,swite2610:225},
   // ── GHK-Cu / AHK-CU ──
   {product:"GHK-Cu",spec:"50mgx10vials",lowest:"Mia",price:30,Mia:30,Sophie:32,Becky:56,InnoPeptide:32,MarvelPep:45,"Lilly Peptide":34,MKM:35},
-  {product:"GHK-Cu",spec:"100mgx10vials",lowest:"Bio Peptides",price:39,Sophie:41,Becky:65,"Bio Peptides":39,MKM:65},
+  {product:"GHK-Cu",spec:"100mgx10vials",lowest:"Bio Peptides",price:39,Sophie:41,Becky:65,"Bio Peptides":39,MKM:65,swite2610:100},
   {product:"AHK-CU",spec:"50mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:56,MKM:55},
   {product:"AHK-CU",spec:"100mgx10vials",lowest:"MKM",price:85,MKM:85},
   // ── BPC-157 ──
   {product:"BPC-157",spec:"5mgx10vials",lowest:"InnoPeptide",price:30,Mia:36,Sophie:44,Becky:76,InnoPeptide:30,MarvelPep:50,"Lilly Peptide":45,"Bio Peptides":48,MKM:40},
-  {product:"BPC-157",spec:"10mgx10vials",lowest:"Bio Peptides",price:54,Sophie:65,Becky:75,"Bio Peptides":54,MKM:60},
+  {product:"BPC-157",spec:"10mgx10vials",lowest:"Bio Peptides",price:54,Sophie:65,Becky:75,"Bio Peptides":54,MKM:60,swite2610:95},
   {product:"BPC-157",spec:"20mgx10vials",lowest:"Peptide Lab",price:90,Mia:100,Becky:145,"Peptide Lab":90},
   // ── TB-500 ──
   {product:"TB-500",spec:"5mgx10vials",lowest:"InnoPeptide",price:65,Mia:80,Sophie:91,Becky:170,InnoPeptide:65,MarvelPep:85,"Lilly Peptide":74,"Bio Peptides":125,MKM:80},
@@ -194,9 +194,9 @@ const RAW_DATA = [
   {product:"KPV",spec:"10mgx10vials",lowest:"Mia",price:54,Mia:54,Sophie:65,Becky:132,InnoPeptide:55,MarvelPep:70,"Lilly Peptide":70,MKM:70},
   // ── SEMAX / SELANK ──
   {product:"Semax",spec:"5mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:44,Becky:100,InnoPeptide:40,MarvelPep:55,"Lilly Peptide":46,MKM:45},
-  {product:"Semax",spec:"10mgx10vials",lowest:"Sophie",price:59,Mia:70,Sophie:59,InnoPeptide:77,MKM:70},
+  {product:"Semax",spec:"10mgx10vials",lowest:"Sophie",price:59,Mia:70,Sophie:59,InnoPeptide:77,MKM:70,swite2610:110},
   {product:"Selank",spec:"5mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:44,InnoPeptide:46,MKM:45},
-  {product:"Selank",spec:"10mgx10vials",lowest:"Sophie",price:65,Sophie:65,Becky:75,"Bio Peptides":74,MKM:70},
+  {product:"Selank",spec:"10mgx10vials",lowest:"Sophie",price:65,Sophie:65,Becky:75,"Bio Peptides":74,MKM:70,swite2610:110},
   {product:"Selank + Semax",spec:"20mgx10vials",lowest:"MKM",price:105,MKM:105},
   // ── OXYTOCIN ──
   {product:"Oxytocin Acetate",spec:"2mgx10vials",lowest:"Becky",price:6,Mia:44,Sophie:44,Becky:6,InnoPeptide:30,MarvelPep:32,"Lilly Peptide":41},
@@ -249,7 +249,7 @@ const RAW_DATA = [
   {product:"Gonadorelin",spec:"5mgx10vials",lowest:"MKM",price:60,MKM:60},
   // ── PT-141 / MELANOTAN ──
   {product:"PT-141",spec:"10mgx10vials",lowest:"Mia",price:55,Mia:55,Sophie:65,InnoPeptide:65,MKM:60},
-  {product:"MT-2",spec:"10mgx10vials",lowest:"InnoPeptide",price:45,Mia:45,Sophie:53,InnoPeptide:45,MKM:50},
+  {product:"MT-2",spec:"10mgx10vials",lowest:"InnoPeptide",price:45,Mia:45,Sophie:53,InnoPeptide:45,MKM:50,swite2610:100},
   {product:"Melanotan I",spec:"10mgx10vials",lowest:"InnoPeptide",price:50,Mia:50,Sophie:53,InnoPeptide:50,MKM:60},
   {product:"Melanotan II",spec:"10mgx10vials",lowest:"MKM",price:50,Mia:62,Sophie:53,Becky:100,MKM:50},
   // ── KISSPEPTIN ──
@@ -262,11 +262,11 @@ const RAW_DATA = [
   // ── EPITHALON ──
   {product:"Epithalon",spec:"10mgx10vials",lowest:"MKM",price:40,Sophie:71,Becky:55,InnoPeptide:54,MKM:40},
   {product:"Epithalon",spec:"50mgx10vials",lowest:"Bio Peptides",price:129,Mia:152,Sophie:206,Becky:330,InnoPeptide:140,MarvelPep:150,"Lilly Peptide":129,"Bio Peptides":129,MKM:150},
-  {product:"N-Acetyl Epitalon",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85},
+  {product:"N-Acetyl Epitalon",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85,swite2610:105},
   // ── THYMIC PEPTIDES ──
   {product:"Thymalin",spec:"10mgx10vials",lowest:"Becky",price:58,Sophie:71,Becky:58,InnoPeptide:84,MKM:70},
   {product:"Thymalin",spec:"20mgx10vials",lowest:"MKM",price:135,MKM:135},
-  {product:"Thymosin Alpha-1",spec:"5mgx10vials",lowest:"Becky",price:3,Mia:100,Sophie:103,Becky:3,InnoPeptide:105,MarvelPep:92,MKM:95},
+  {product:"Thymosin Alpha-1",spec:"5mgx10vials",lowest:"Becky",price:3,Mia:100,Sophie:103,Becky:3,InnoPeptide:105,MarvelPep:92,MKM:95,swite2610:135},
   {product:"Thymosin Alpha-1",spec:"10mgx10vials",lowest:"Bio Peptides",price:128,Sophie:191,Becky:128,"Bio Peptides":128,MKM:155},
   // ── NAD+ ──
   {product:"NAD+",spec:"100mgx10vials",lowest:"Becky",price:37,Sophie:41,Becky:37,"Bio Peptides":46,MKM:55},
@@ -289,7 +289,7 @@ const RAW_DATA = [
   {product:"ARA-290",spec:"10mgx10vials",lowest:"MKM",price:65,Sophie:74,Becky:94,"Bio Peptides":76,MKM:65},
   // ── PE-22-28 / PNC-27 ──
   {product:"PE-22-28",spec:"5mgx10vials",lowest:"MKM",price:35,MKM:35},
-  {product:"PE-22-28",spec:"10mgx10vials",lowest:"InnoPeptide",price:60,Mia:60,Sophie:100,InnoPeptide:60,MKM:60},
+  {product:"PE-22-28",spec:"10mgx10vials",lowest:"InnoPeptide",price:60,Mia:60,Sophie:100,InnoPeptide:60,MKM:60,swite2610:135},
   {product:"PNC-27",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85},
   {product:"PNC-27",spec:"10mgx10vials",lowest:"MKM",price:145,MKM:145},
   // ── PEPTIDE BIOREGULATORS (MKM) ──
@@ -654,14 +654,8 @@ function VPNPeptideShop() {
                         🌐 {v.website}
                       </a>
                     )}
-                    {v.instagram && (
-                      <a href={`https://instagram.com/${v.instagram}`} target="_blank" rel="noopener noreferrer"
-                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #E1306C88",background:"#E1306C15",color:"#E1306C",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
-                        📸 @{v.instagram}
-                      </a>
-                    )}
                   </div>
-                  {v.instagram==="swite2610" && (
+                  {v.key==="swite2610" && (
                     <div style={{marginTop:"10px"}}>
                       <img src="cheatsheet/swite2610_pricelist.png" alt="swite2610 price list" style={{width:"100%",borderRadius:"6px",border:"1px solid #E1306C44"}} />
                     </div>
