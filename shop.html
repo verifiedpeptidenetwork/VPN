@@ -119,6 +119,7 @@ const ALL_VENDORS = [
   { key:"Riptide",         display:"Riptide Discord",    flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"discord.gg/dwkjhwkf5",website:"",                 notes:"USA Vendor · Discord Community",                inShop:false },
   { key:"RetaGroup",       display:"Reta Group (Zoey)",  flag:"🇨🇳", whatsapp:"8618053579924",phone:"",              telegram:"",              discord:"",                  website:"",                   notes:"GHK-Cu Raw Materials · Cheap Pricing",           inShop:false },
   { key:"Unicornfartzz",   display:"Unicornfartzz",      flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"unicornfartzz", discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
+  { key:"swite2610",       display:"@swite2610",         flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"",                  website:"instagram.com/swite2610", notes:"DM on Instagram · Ships 24–48hrs · COAs Available · Free Shipping 4+ items · Venmo · Apple Pay · Cash App · Zelle · Crypto", instagram:"swite2610", inShop:false },
 ];
 
 const RAW_DATA = [
@@ -653,7 +654,18 @@ function VPNPeptideShop() {
                         🌐 {v.website}
                       </a>
                     )}
+                    {v.instagram && (
+                      <a href={`https://instagram.com/${v.instagram}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #E1306C88",background:"#E1306C15",color:"#E1306C",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        📸 @{v.instagram}
+                      </a>
+                    )}
                   </div>
+                  {v.instagram==="swite2610" && (
+                    <div style={{marginTop:"10px"}}>
+                      <img src="cheatsheet/swite2610_pricelist.png" alt="swite2610 price list" style={{width:"100%",borderRadius:"6px",border:"1px solid #E1306C44"}} />
+                    </div>
+                  )}
                 </div>
               );
             })}
