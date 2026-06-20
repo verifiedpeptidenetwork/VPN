@@ -21,13 +21,13 @@
   --dim:#a090c0;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;font-size:17px;}
 body{
   font-family:'Rajdhani',Arial,sans-serif;
   background:var(--bg);
   color:var(--ink);
-  font-size:18px;
-  line-height:1.5;
+  font-size:19px;
+  line-height:1.55;
 }
 body::before{
   content:'';
@@ -66,6 +66,10 @@ body::after{
   max-width:980px;
   width:100%;
   margin:0 auto;
+}
+.stat,.card-note,.card-purpose,.bw-panel,.app-card,.disclaimer-block,.toc-row,.toc-info,.idx-table tr{
+  break-inside:avoid;
+  page-break-inside:avoid;
 }
 .eyebrow{
   font-family:'Share Tech Mono',monospace;
@@ -169,16 +173,16 @@ body::after{
   display:flex;gap:0.6rem;align-items:center;margin-bottom:0.75rem;color:var(--dim);
 }
 .card-eyebrow .dot{opacity:0.5;}
-.card-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4rem);letter-spacing:0.02em;line-height:1.05;margin-bottom:1.75rem;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4rem);letter-spacing:0.02em;line-height:1.05;margin-bottom:1.3rem;}
 .opt-tag{font-family:'Rajdhani',sans-serif;font-size:0.42em;font-weight:700;letter-spacing:0.08em;vertical-align:middle;padding:0.15em 0.5em;border:2px solid currentColor;margin-left:0.4rem;}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.9rem;margin-bottom:1.6rem;}
-.stat{padding:1rem 1.2rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-top:3px solid currentColor;}
-.stat-label{font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:0.14em;opacity:0.75;margin-bottom:0.35rem;}
-.stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.45rem;color:#fff;line-height:1.25;}
-.card-note,.card-purpose{padding:1.1rem 1.4rem;margin-bottom:1rem;border-left:4px solid currentColor;background:rgba(255,255,255,0.03);}
-.note-label{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;font-size:0.95rem;margin-bottom:0.35rem;}
-.note-body{font-size:1.18rem;font-weight:600;color:var(--ink);line-height:1.6;}
-.card-footer{margin-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.04em;color:var(--dim);border-top:1px solid rgba(255,255,255,0.12);padding-top:0.75rem;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0.8rem;margin-bottom:1.2rem;}
+.stat{padding:0.85rem 1.1rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-top:3px solid currentColor;}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:0.14em;opacity:0.75;margin-bottom:0.3rem;}
+.stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.4rem;color:#fff;line-height:1.2;}
+.card-note,.card-purpose{padding:0.9rem 1.3rem;margin-bottom:0.8rem;border-left:4px solid currentColor;background:rgba(255,255,255,0.03);}
+.note-label{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;font-size:0.95rem;margin-bottom:0.3rem;}
+.note-body{font-size:1.16rem;font-weight:600;color:var(--ink);line-height:1.5;}
+.card-footer{margin-top:1.1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.04em;color:var(--dim);border-top:1px solid rgba(255,255,255,0.12);padding-top:0.6rem;}
 
 .cat-fat{color:var(--pink);}
 .cat-heal{color:var(--green);}
@@ -195,9 +199,11 @@ body::after{
 .bw-panel{border:2px solid currentColor;border-top:5px solid currentColor;padding:1.6rem 1.9rem;margin-bottom:1.75rem;background:rgba(255,255,255,0.025);}
 .bw-panel-head{display:flex;align-items:center;gap:0.85rem;margin-bottom:0.85rem;}
 .bw-panel-head .ic{font-size:2.1rem;}
-.bw-panel-head h3{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:0.06em;}
+.bw-panel-head h2{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:0.06em;}
 .bw-panel-desc{font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.65;margin-bottom:0.9rem;}
-.bw-list{font-family:'Share Tech Mono',monospace;font-size:1.08rem;line-height:1.9;margin-bottom:1.1rem;}
+.bw-list{font-family:'Share Tech Mono',monospace;font-size:1.08rem;margin-bottom:1.1rem;}
+.bw-list-item{line-height:1.9;}
+.bw-list-item:not(:last-child){margin-bottom:0.3rem;}
 .bw-copy-btn{
   font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;font-size:1rem;
   background:transparent;border:2px solid currentColor;color:inherit;padding:0.7rem 1.4rem;
@@ -208,9 +214,20 @@ body::after{
 .panel-inflam{color:var(--pink);}
 .panel-liver{color:var(--green);}
 .panel-metabolic{color:var(--cyan);}
-.bw-email-box{border:2px solid var(--yellow);border-top:5px solid var(--yellow);padding:1.8rem 2rem;margin-top:1.5rem;background:rgba(255,230,0,0.04);}
-.bw-email-box h3{font-family:'Bebas Neue',sans-serif;color:var(--yellow);font-size:1.5rem;letter-spacing:0.06em;margin-bottom:0.9rem;}
-.bw-email-pre{font-family:'Share Tech Mono',monospace;font-size:1rem;line-height:1.75;white-space:pre-wrap;color:#fff;background:rgba(0,0,0,0.35);padding:1.2rem 1.4rem;margin-bottom:1.1rem;border:1px solid rgba(255,230,0,0.3);}
+
+/* single panel per page — enlarged for full-page real estate */
+.bw-panel-page .bw-panel{margin-bottom:0;padding:2.3rem 2.5rem 2.7rem;}
+.bw-panel-page .bw-panel-head{margin-bottom:1.4rem;gap:1.1rem;}
+.bw-panel-page .bw-panel-head .ic{font-size:3.4rem;}
+.bw-panel-page .bw-panel-head h2{font-size:2.5rem;}
+.bw-panel-page .bw-panel-desc{font-size:1.35rem;line-height:1.7;margin-bottom:1.6rem;}
+.bw-panel-page .bw-list{font-size:1.3rem;margin-bottom:1.5rem;}
+.bw-panel-page .bw-list-item{line-height:1.6;}
+.bw-panel-page .bw-list-item:not(:last-child){margin-bottom:0.35rem;}
+.bw-panel-page .bw-copy-btn{font-size:1.15rem;padding:1rem 1.9rem;}
+.bw-email-box{border:2px solid var(--yellow);border-top:5px solid var(--yellow);padding:1.4rem 1.8rem;margin-top:1.1rem;background:rgba(255,230,0,0.04);}
+.bw-email-box h3{font-family:'Bebas Neue',sans-serif;color:var(--yellow);font-size:1.4rem;letter-spacing:0.06em;margin-bottom:0.7rem;}
+.bw-email-pre{font-family:'Share Tech Mono',monospace;font-size:0.98rem;line-height:1.5;white-space:pre-wrap;color:#fff;background:rgba(0,0,0,0.35);padding:1rem 1.3rem;margin-bottom:0.9rem;border:1px solid rgba(255,230,0,0.3);}
 
 /* ===== APPENDIX ===== */
 .app-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5.5vw,3.2rem);letter-spacing:0.06em;color:#fff;margin-bottom:0.5rem;}
@@ -221,10 +238,13 @@ body::after{
 .app-card p,.app-card li{font-size:1.02rem;font-weight:600;color:var(--ink);line-height:1.6;}
 .app-card ul{padding-left:1.1rem;}
 
-.idx-table{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:0.95rem;}
-.idx-table th{text-align:left;padding:0.6rem 0.8rem;color:var(--cyan);border-bottom:2px solid var(--cyan);letter-spacing:0.08em;}
-.idx-table td{padding:0.5rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.idx-table{width:100%;border-collapse:collapse;table-layout:fixed;font-family:'Share Tech Mono',monospace;font-size:0.95rem;}
+.idx-table th{text-align:left;padding:0.55rem 0.7rem;color:var(--cyan);border-bottom:2px solid var(--cyan);letter-spacing:0.08em;}
+.idx-table td{padding:0.42rem 0.7rem;border-bottom:1px solid rgba(255,255,255,0.08);overflow-wrap:break-word;}
 .idx-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.idx-table th:nth-child(1),.idx-table td:nth-child(1){width:9%;}
+.idx-table th:nth-child(2),.idx-table td:nth-child(2){width:44%;}
+.idx-table th:nth-child(3),.idx-table td:nth-child(3){width:47%;}
 
 /* ===== CLOSING ===== */
 .closing-page{align-items:center;text-align:center;}
@@ -233,8 +253,9 @@ body::after{
 .closing-mark{margin-top:2.5rem;font-family:'Share Tech Mono',monospace;letter-spacing:0.25em;font-size:0.95rem;color:var(--dim);}
 
 @media print{
-  body{font-size:14px;}
-  .page{min-height:auto;page-break-after:always;break-after:page;padding:1.2in 0.9in;border-bottom:none;}
+  body{font-size:16px;}
+  .page{min-height:11in;justify-content:center;page-break-after:always;break-after:page;padding:1in 0.85in;border-bottom:none;}
+  .disclaimer-page{justify-content:center;padding-top:1in;}
   body::before,body::after{display:none;}
 }
 @media (max-width:640px){
@@ -278,6 +299,14 @@ body::after{
       <a class="toc-row" href="#cat-cog"><span class="n">NOOTROPIC / COGNITIVE</span><span class="c">07 CARDS</span></a>
       <a class="toc-row" href="#cat-sex"><span class="n">SEXUAL HEALTH / HORMONAL</span><span class="c">08 CARDS</span></a>
       <a class="toc-row" href="#cat-spec"><span class="n">SPECIALTY / GENERAL RESEARCH</span><span class="c">20 CARDS</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="page toc-page">
+  <div class="page-frame">
+    <div class="toc-sub" style="margin-bottom:1.5rem;">REFERENCE &amp; APPENDICES</div>
+    <div class="toc-list">
       <a class="toc-row" href="#bloodwork"><span class="n">BLOOD WORK &amp; LAB GUIDE</span><span class="c">4 PANELS</span></a>
       <a class="toc-row" href="#appendix-recon"><span class="n">RECONSTITUTION &amp; STORAGE REFERENCE</span><span class="c">APPENDIX A</span></a>
       <a class="toc-row" href="#appendix-index"><span class="n">SOURCE ROW INDEX</span><span class="c">APPENDIX B</span></a>
@@ -304,6 +333,12 @@ body::after{
       <h3>RESEARCH PURPOSES ONLY</h3>
       <p>Every dosage, frequency, and protocol documented in this manual is provided strictly for research and informational purposes. This is not a recommendation to use, administer, or consume any compound. These materials are <strong>not intended for human consumption</strong> under any circumstance.</p>
     </div>
+  </div>
+</section>
+
+<section class="page disclaimer-page">
+  <div class="page-frame">
+    <span class="disclaimer-badge">READ BEFORE PROCEEDING</span>
 
     <div class="disclaimer-block alt">
       <h3>TALK TO YOUR DOCTOR &mdash; BEFORE YOU RESEARCH ANYTHING</h3>
@@ -316,6 +351,7 @@ body::after{
     </div>
   </div>
 </section>
+
 <section class="page divider-page cat-fat" id="cat-fat">
   <div class="page-frame divider-frame">
     <div class="divider-eyebrow">SECTION 01 / 07</div>
@@ -3553,6 +3589,7 @@ body::after{
     </div>
   </div>
 </section>
+
 <section class="page bw-intro-page" id="bloodwork">
   <div class="page-frame">
     <h1 class="bw-title">BLOOD WORK &amp; LAB GUIDE</h1>
@@ -3560,55 +3597,74 @@ body::after{
   </div>
 </section>
 
-<section class="page bw-panels-page">
+
+<section class="page bw-panel-page">
   <div class="page-frame">
-    
+    <div class="card-eyebrow"><span>BLOOD WORK &amp; LAB GUIDE</span><span class="dot">&middot;</span><span>PANEL 1 OF 4</span></div>
     <div class="bw-panel panel-insulin">
-      <div class="bw-panel-head"><span class="ic">&#129534;</span><h3>INSULIN RESISTANCE PANEL</h3></div>
+      <div class="bw-panel-head"><span class="ic">&#129534;</span><h2>INSULIN RESISTANCE PANEL</h2></div>
       <p class="bw-panel-desc">Tracks how your body is handling glucose and insulin &mdash; important when researching compounds that affect appetite, fat storage, or metabolic rate.</p>
       <div class="bw-list">
-        &gt; Fasting Insulin
-        &gt; Fasting Glucose
-        &gt; HbA1c
-        &gt; HOMA-IR
+        <div class="bw-list-item">&gt; Fasting Insulin</div>
+        <div class="bw-list-item">&gt; Fasting Glucose</div>
+        <div class="bw-list-item">&gt; HbA1c</div>
+        <div class="bw-list-item">&gt; HOMA-IR</div>
       </div>
       <button class="bw-copy-btn" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c\n- HOMA-IR')">&#128203; COPY INSULIN RESISTANCE PANEL FOR MY DOCTOR</button>
     </div>
+  </div>
+</section>
+
+<section class="page bw-panel-page">
+  <div class="page-frame">
+    <div class="card-eyebrow"><span>BLOOD WORK &amp; LAB GUIDE</span><span class="dot">&middot;</span><span>PANEL 2 OF 4</span></div>
     <div class="bw-panel panel-inflam">
-      <div class="bw-panel-head"><span class="ic">&#128293;</span><h3>INFLAMMATION PANEL</h3></div>
+      <div class="bw-panel-head"><span class="ic">&#128293;</span><h2>INFLAMMATION PANEL</h2></div>
       <p class="bw-panel-desc">Establishes a baseline inflammatory marker level before starting any research protocol, and flags adverse reactions early if levels move.</p>
       <div class="bw-list">
-        &gt; hs-CRP (high-sensitivity C-Reactive Protein)
-        &gt; ESR (Erythrocyte Sedimentation Rate)
-        &gt; Homocysteine
+        <div class="bw-list-item">&gt; hs-CRP (high-sensitivity C-Reactive Protein)</div>
+        <div class="bw-list-item">&gt; ESR (Erythrocyte Sedimentation Rate)</div>
+        <div class="bw-list-item">&gt; Homocysteine</div>
       </div>
       <button class="bw-copy-btn" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">&#128203; COPY INFLAMMATION PANEL FOR MY DOCTOR</button>
     </div>
+  </div>
+</section>
+
+<section class="page bw-panel-page">
+  <div class="page-frame">
+    <div class="card-eyebrow"><span>BLOOD WORK &amp; LAB GUIDE</span><span class="dot">&middot;</span><span>PANEL 3 OF 4</span></div>
     <div class="bw-panel panel-liver">
-      <div class="bw-panel-head"><span class="ic">&#129516;</span><h3>LIVER PANEL</h3></div>
+      <div class="bw-panel-head"><span class="ic">&#129516;</span><h2>LIVER PANEL</h2></div>
       <p class="bw-panel-desc">Most research compounds are processed through the liver. Routine liver panels catch problems early, long before symptoms appear.</p>
       <div class="bw-list">
-        &gt; ALT (Alanine Aminotransferase)
-        &gt; AST (Aspartate Aminotransferase)
-        &gt; ALP (Alkaline Phosphatase)
-        &gt; GGT (Gamma-Glutamyl Transferase)
-        &gt; Total &amp; Direct Bilirubin
-        &gt; Albumin
-        &gt; Total Protein
+        <div class="bw-list-item">&gt; ALT (Alanine Aminotransferase)</div>
+        <div class="bw-list-item">&gt; AST (Aspartate Aminotransferase)</div>
+        <div class="bw-list-item">&gt; ALP (Alkaline Phosphatase)</div>
+        <div class="bw-list-item">&gt; GGT (Gamma-Glutamyl Transferase)</div>
+        <div class="bw-list-item">&gt; Total &amp; Direct Bilirubin</div>
+        <div class="bw-list-item">&gt; Albumin</div>
+        <div class="bw-list-item">&gt; Total Protein</div>
       </div>
       <button class="bw-copy-btn" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">&#128203; COPY LIVER PANEL FOR MY DOCTOR</button>
     </div>
+  </div>
+</section>
+
+<section class="page bw-panel-page">
+  <div class="page-frame">
+    <div class="card-eyebrow"><span>BLOOD WORK &amp; LAB GUIDE</span><span class="dot">&middot;</span><span>PANEL 4 OF 4</span></div>
     <div class="bw-panel panel-metabolic">
-      <div class="bw-panel-head"><span class="ic">&#9889;</span><h3>METABOLIC PANEL</h3></div>
+      <div class="bw-panel-head"><span class="ic">&#9889;</span><h2>METABOLIC PANEL</h2></div>
       <p class="bw-panel-desc">A broad systemic check of kidney function, electrolytes, and lipids &mdash; the background context every other panel in this guide should be read against.</p>
       <div class="bw-list">
-        &gt; Glucose
-        &gt; BUN (Blood Urea Nitrogen)
-        &gt; Creatinine &amp; eGFR
-        &gt; Sodium, Potassium, Chloride, CO2
-        &gt; Calcium
-        &gt; Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides)
-        &gt; Uric Acid
+        <div class="bw-list-item">&gt; Glucose</div>
+        <div class="bw-list-item">&gt; BUN (Blood Urea Nitrogen)</div>
+        <div class="bw-list-item">&gt; Creatinine &amp; eGFR</div>
+        <div class="bw-list-item">&gt; Sodium, Potassium, Chloride, CO2</div>
+        <div class="bw-list-item">&gt; Calcium</div>
+        <div class="bw-list-item">&gt; Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides)</div>
+        <div class="bw-list-item">&gt; Uric Acid</div>
       </div>
       <button class="bw-copy-btn" onclick="copyToClipboard('Please also add a Metabolic Panel:\n- Glucose\n- BUN (Blood Urea Nitrogen)\n- Creatinine &amp; eGFR\n- Sodium, Potassium, Chloride, CO2\n- Calcium\n- Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides)\n- Uric Acid')">&#128203; COPY METABOLIC PANEL FOR MY DOCTOR</button>
     </div>
@@ -3617,7 +3673,7 @@ body::after{
 
 <section class="page bw-email-page">
   <div class="page-frame">
-    <h1 class="bw-title" style="font-size:clamp(2rem,5vw,3rem);">ALL-IN-ONE EMAIL TEMPLATE</h1>
+    <h2 class="bw-title" style="font-size:clamp(2rem,5vw,3rem);">ALL-IN-ONE EMAIL TEMPLATE</h2>
     <p class="bw-sub">Prefer to send everything in one message? Copy the full template below &mdash; just fill in your doctor's name and yours.</p>
     <div class="bw-email-box">
       <h3>READY-TO-SEND EMAIL</h3>
@@ -3642,8 +3698,7 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
 
 <section class="page app-page" id="appendix-recon">
   <div class="page-frame">
-    <h1 class="app-title">APPENDIX A</h1>
-    <div class="app-sub">Reconstitution &amp; Storage Reference</div>
+    <h1 class="app-title">APPENDIX A &mdash; RECONSTITUTION &amp; STORAGE REFERENCE</h1>
     <div class="app-grid">
       <div class="app-card">
         <h4>DILUENT VEHICLES</h4>
@@ -3676,8 +3731,8 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
 
 <section class="page app-page" id="appendix-index">
   <div class="page-frame">
-    <h1 class="app-title">APPENDIX B</h1>
-    <div class="app-sub">Source Row Index &mdash; sheet 1 of 3</div>
+    <h1 class="app-title">APPENDIX B &mdash; SOURCE ROW INDEX</h1>
+    <div class="app-sub">Sheet 1 of 11</div>
     <table class="idx-table">
       <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
       <tr><td>31</td><td>FOXO4-DRI (OPTION 1 · 5MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
@@ -3689,7 +3744,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>108</td><td>AOD-9604</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
         <tr><td>110</td><td>SLUP-332</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
         <tr><td>116</td><td>VILON</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
-        <tr><td>126</td><td>OVAGEN</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 2 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>126</td><td>OVAGEN</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
         <tr><td>152</td><td>CAGRILINTIDE (WEIGHT MGMT PROTOCOL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
         <tr><td>162</td><td>RETATRUTIDE (10MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
         <tr><td>163</td><td>RETATRUTIDE (12MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
@@ -3698,7 +3763,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>39</td><td>BPC-157 / TB-500 BLEND</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>41</td><td>BPC-157 (5MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>42</td><td>BPC-157 (10MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>44</td><td>TB-500 (5MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 3 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>44</td><td>TB-500 (5MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>45</td><td>TB-500 (10MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>47</td><td>GHK-CU / AHK-CU</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>49</td><td>GLOW (BPC / TB / GHK-CU)</td><td>RECOVERY / REPAIR</td></tr>
@@ -3707,26 +3782,36 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>55</td><td>GLUTATHIONE (600MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>56</td><td>GLUTATHIONE (1200MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>57</td><td>GLUTATHIONE (1500MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>78</td><td>HUMANIN</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>130</td><td>CHRONLUTEN</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>132</td><td>VESUGEN</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>138</td><td>PANCRAGEN</td><td>RECOVERY / REPAIR</td></tr>
-        <tr><td>144</td><td>TERIPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
     </table>
   </div>
 </section>
 
 <section class="page app-page">
   <div class="page-frame">
-    <h1 class="app-title">APPENDIX B</h1>
-    <div class="app-sub">Source Row Index (continued) &mdash; sheet 2 of 3</div>
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 4 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
     <table class="idx-table">
       <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
-      <tr><td>146</td><td>ABALOPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
+      <tr><td>78</td><td>HUMANIN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>130</td><td>CHRONLUTEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>132</td><td>VESUGEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>138</td><td>PANCRAGEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>144</td><td>TERIPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>146</td><td>ABALOPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>157</td><td>CRYSTAGEN</td><td>RECOVERY / REPAIR</td></tr>
         <tr><td>2</td><td>CJC-1295 (DAC) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>3</td><td>CJC-1295 (DAC) (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
-        <tr><td>5</td><td>CJC-1295 (NO DAC) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 5 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>5</td><td>CJC-1295 (NO DAC) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>6</td><td>CJC-1295 (NO DAC) (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>7</td><td>CJC-1295 (NO DAC) (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>9</td><td>IPAMORELIN (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
@@ -3735,7 +3820,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>13</td><td>TESAMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>14</td><td>TESAMORELIN (20MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>16</td><td>SERMORELIN (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
-        <tr><td>17</td><td>SERMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 6 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>17</td><td>SERMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>19</td><td>IGF-1 LR3</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>21</td><td>PEG-MGF</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>23</td><td>MGF (NO PEG) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
@@ -3744,7 +3839,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>95</td><td>GHRP-2</td><td>GH AXIS / BODY COMPOSITION</td></tr>
         <tr><td>29</td><td>MOTS-C</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
         <tr><td>36</td><td>EPITALON (10MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
-        <tr><td>37</td><td>EPITALON (50MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 7 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>37</td><td>EPITALON (50MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
         <tr><td>59</td><td>NAD+ (500MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
         <tr><td>60</td><td>NAD+ (1000MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
         <tr><td>85</td><td>SS-31 (10MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
@@ -3753,18 +3858,18 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>124</td><td>TESTAGEN</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
         <tr><td>64</td><td>SEMAX</td><td>NOOTROPIC / COGNITIVE</td></tr>
         <tr><td>66</td><td>ADAMAX</td><td>NOOTROPIC / COGNITIVE</td></tr>
-        <tr><td>80</td><td>PINEALON</td><td>NOOTROPIC / COGNITIVE</td></tr>
     </table>
   </div>
 </section>
 
 <section class="page app-page">
   <div class="page-frame">
-    <h1 class="app-title">APPENDIX B</h1>
-    <div class="app-sub">Source Row Index (continued) &mdash; sheet 3 of 3</div>
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 8 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
     <table class="idx-table">
       <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
-      <tr><td>106</td><td>SELANK</td><td>NOOTROPIC / COGNITIVE</td></tr>
+      <tr><td>80</td><td>PINEALON</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>106</td><td>SELANK</td><td>NOOTROPIC / COGNITIVE</td></tr>
         <tr><td>114</td><td>VIP</td><td>NOOTROPIC / COGNITIVE</td></tr>
         <tr><td>136</td><td>CORTAGEN</td><td>NOOTROPIC / COGNITIVE</td></tr>
         <tr><td>148</td><td>PE-22-28</td><td>NOOTROPIC / COGNITIVE</td></tr>
@@ -3772,7 +3877,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>69</td><td>KISSPEPTIN (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
         <tr><td>71</td><td>PT-141 (5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
         <tr><td>72</td><td>PT-141 (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
-        <tr><td>74</td><td>OXYTOCIN (1.5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 9 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>74</td><td>OXYTOCIN (1.5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
         <tr><td>75</td><td>OXYTOCIN (5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
         <tr><td>76</td><td>OXYTOCIN (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
         <tr><td>159</td><td>HMG</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
@@ -3781,7 +3896,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>83</td><td>THYMOSIN ALPHA-1 (10MG VIAL)</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>89</td><td>PNC-27</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>91</td><td>MELANOTAN 1</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
-        <tr><td>93</td><td>B7-33</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 10 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>93</td><td>B7-33</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>97</td><td>HCG</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>102</td><td>LL-37</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>104</td><td>DSIP</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
@@ -3790,7 +3915,17 @@ I'm happy to discuss what I'm researching and why I'd like this baseline establi
         <tr><td>120</td><td>BRONCHOGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>122</td><td>PROSTAMAX</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>128</td><td>CARTALAX</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
-        <tr><td>134</td><td>LIVAGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h2 class="app-title">SOURCE ROW INDEX &mdash; SHEET 11 OF 11</h2>
+    <div class="app-sub">Continued from previous sheet</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>134</td><td>LIVAGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>140</td><td>THYMOGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>142</td><td>DEMORPHINE</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
         <tr><td>150</td><td>CEREBROLYSIN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
