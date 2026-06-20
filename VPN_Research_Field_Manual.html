@@ -1,0 +1,3816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verified Peptides Network — Research Field Manual</title>
+<link rel="icon" href="vpnlogo.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05001a;
+  --bg2:#0a0420;
+  --cyan:#00f5ff;
+  --pink:#ff2d78;
+  --purple:#cc44ff;
+  --yellow:#ffe600;
+  --green:#00ff64;
+  --orange:#ff6b00;
+  --teal:#00ffea;
+  --ink:#e8e0f0;
+  --dim:#a090c0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Rajdhani',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:18px;
+  line-height:1.5;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.045) 1px, transparent 1px);
+  background-size:42px 42px;
+}
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:radial-gradient(ellipse at 50% -10%, rgba(204,68,255,0.18), transparent 55%),
+             radial-gradient(ellipse at 100% 110%, rgba(0,245,255,0.12), transparent 55%);
+}
+.page{
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:5vh 6vw;
+  border-bottom:1px solid rgba(0,245,255,0.12);
+  page-break-after:always;
+  break-after:page;
+}
+.page-frame{
+  max-width:980px;
+  width:100%;
+  margin:0 auto;
+}
+.eyebrow{
+  font-family:'Share Tech Mono',monospace;
+  letter-spacing:0.25em;
+  font-size:0.85rem;
+  color:var(--cyan);
+  text-transform:uppercase;
+}
+.glow-cyan{text-shadow:0 0 18px rgba(0,245,255,0.65);}
+.glow-pink{text-shadow:0 0 18px rgba(255,45,120,0.65);}
+.glow-yellow{text-shadow:0 0 18px rgba(255,230,0,0.6);}
+
+/* ===== COVER ===== */
+.cover-page{align-items:center;text-align:center;}
+.cover-logo{width:140px;height:140px;object-fit:contain;margin-bottom:1.5rem;filter:drop-shadow(0 0 22px rgba(0,245,255,0.55));}
+.cover-kicker{font-family:'Share Tech Mono',monospace;letter-spacing:0.4em;font-size:0.95rem;color:var(--purple);margin-bottom:1rem;}
+.cover-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,7vw,5.2rem);letter-spacing:0.04em;color:var(--cyan);line-height:1.05;text-shadow:0 0 28px rgba(0,245,255,0.6);}
+.cover-sub{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,2.6vw,1.8rem);letter-spacing:0.18em;color:#fff;margin-top:0.6rem;}
+.cover-tagline{margin-top:1.75rem;font-family:'Share Tech Mono',monospace;letter-spacing:0.3em;font-size:1rem;color:var(--green);}
+.cover-meta{margin-top:2.5rem;display:flex;flex-direction:column;gap:0.4rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:var(--dim);}
+.cover-meta strong{color:#fff;}
+.cover-badges{margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;}
+.cover-badge{
+  font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;font-size:0.85rem;
+  padding:0.45rem 1.1rem;border:1px solid currentColor;color:var(--cyan);
+}
+
+/* ===== TOC ===== */
+.toc-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,3.2rem);letter-spacing:0.08em;color:#fff;text-shadow:0 0 14px rgba(255,255,255,0.35);margin-bottom:0.5rem;}
+.toc-sub{font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--dim);font-size:1.15rem;margin-bottom:2.5rem;}
+.toc-list{display:flex;flex-direction:column;gap:1rem;}
+.toc-row{
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding:1rem 1.4rem;background:rgba(255,255,255,0.03);
+  border-left:5px solid var(--cyan);text-decoration:none;color:inherit;
+  transition:background 0.15s;
+}
+.toc-row:hover{background:rgba(255,255,255,0.07);}
+.toc-row .n{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#fff;}
+.toc-row .c{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--dim);white-space:nowrap;}
+.toc-foot{margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.toc-info{border:1px solid rgba(0,245,255,0.3);padding:1.1rem 1.4rem;background:rgba(0,245,255,0.04);}
+.toc-info .h{font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:var(--cyan);margin-bottom:0.4rem;font-size:1.05rem;}
+.toc-info .b{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.6;}
+
+/* ===== DISCLAIMER ===== */
+.disclaimer-page{justify-content:flex-start;padding-top:8vh;}
+.disclaimer-badge{display:inline-block;font-family:'Bebas Neue',sans-serif;letter-spacing:0.2em;font-size:1rem;color:#000;background:var(--yellow);padding:0.4rem 1.2rem;margin-bottom:1.25rem;}
+.disclaimer-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,3.6rem);letter-spacing:0.05em;color:var(--yellow);text-shadow:0 0 22px rgba(255,230,0,0.55);line-height:1.08;margin-bottom:1.75rem;}
+.disclaimer-block{margin-bottom:1.5rem;padding:1.4rem 1.7rem;border-left:5px solid var(--pink);background:rgba(255,45,120,0.06);}
+.disclaimer-block h3{font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:var(--pink);font-size:1.3rem;margin-bottom:0.5rem;}
+.disclaimer-block p{font-size:1.18rem;font-weight:600;line-height:1.65;color:var(--ink);}
+.disclaimer-block.alt{border-left-color:var(--cyan);background:rgba(0,245,255,0.05);}
+.disclaimer-block.alt h3{color:var(--cyan);}
+.disclaimer-block.fire{border-left-color:var(--green);background:rgba(0,255,100,0.06);}
+.disclaimer-block.fire h3{color:var(--green);}
+.disclaimer-block.fire p strong{color:var(--green);font-size:1.22rem;}
+
+/* ===== DIVIDER ===== */
+.divider-page{align-items:flex-start;justify-content:center;}
+.divider-frame{text-align:left;}
+.divider-eyebrow{font-family:'Share Tech Mono',monospace;letter-spacing:0.3em;font-size:1rem;margin-bottom:1rem;}
+.divider-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,6.4rem);letter-spacing:0.02em;line-height:1.02;margin-bottom:1.5rem;}
+.divider-rule{height:4px;width:140px;margin-bottom:1.5rem;}
+.divider-meta{font-family:'Share Tech Mono',monospace;letter-spacing:0.12em;font-size:1.1rem;margin-bottom:1rem;}
+.divider-desc{font-size:1.25rem;font-weight:600;max-width:680px;line-height:1.7;color:var(--ink);}
+
+/* category color theming */
+.cat-fat .divider-eyebrow,.cat-fat .divider-meta{color:var(--pink);}
+.cat-fat .divider-title{color:var(--pink);text-shadow:0 0 30px rgba(255,45,120,0.55);}
+.cat-fat .divider-rule{background:var(--pink);box-shadow:0 0 14px rgba(255,45,120,0.7);}
+
+.cat-heal .divider-eyebrow,.cat-heal .divider-meta{color:var(--green);}
+.cat-heal .divider-title{color:var(--green);text-shadow:0 0 30px rgba(0,255,100,0.55);}
+.cat-heal .divider-rule{background:var(--green);box-shadow:0 0 14px rgba(0,255,100,0.7);}
+
+.cat-gh .divider-eyebrow,.cat-gh .divider-meta{color:var(--cyan);}
+.cat-gh .divider-title{color:var(--cyan);text-shadow:0 0 30px rgba(0,245,255,0.55);}
+.cat-gh .divider-rule{background:var(--cyan);box-shadow:0 0 14px rgba(0,245,255,0.7);}
+
+.cat-long .divider-eyebrow,.cat-long .divider-meta{color:var(--orange);}
+.cat-long .divider-title{color:var(--orange);text-shadow:0 0 30px rgba(255,107,0,0.55);}
+.cat-long .divider-rule{background:var(--orange);box-shadow:0 0 14px rgba(255,107,0,0.7);}
+
+.cat-cog .divider-eyebrow,.cat-cog .divider-meta{color:var(--purple);}
+.cat-cog .divider-title{color:var(--purple);text-shadow:0 0 30px rgba(204,68,255,0.55);}
+.cat-cog .divider-rule{background:var(--purple);box-shadow:0 0 14px rgba(204,68,255,0.7);}
+
+.cat-sex .divider-eyebrow,.cat-sex .divider-meta{color:var(--yellow);}
+.cat-sex .divider-title{color:var(--yellow);text-shadow:0 0 30px rgba(255,230,0,0.55);}
+.cat-sex .divider-rule{background:var(--yellow);box-shadow:0 0 14px rgba(255,230,0,0.7);}
+
+.cat-spec .divider-eyebrow,.cat-spec .divider-meta{color:var(--teal);}
+.cat-spec .divider-title{color:var(--teal);text-shadow:0 0 30px rgba(0,255,234,0.55);}
+.cat-spec .divider-rule{background:var(--teal);box-shadow:0 0 14px rgba(0,255,234,0.7);}
+
+/* ===== CARD PAGE ===== */
+.card-page{justify-content:center;}
+.card-eyebrow{
+  font-family:'Share Tech Mono',monospace;letter-spacing:0.18em;font-size:0.95rem;
+  display:flex;gap:0.6rem;align-items:center;margin-bottom:0.75rem;color:var(--dim);
+}
+.card-eyebrow .dot{opacity:0.5;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4rem);letter-spacing:0.02em;line-height:1.05;margin-bottom:1.75rem;}
+.opt-tag{font-family:'Rajdhani',sans-serif;font-size:0.42em;font-weight:700;letter-spacing:0.08em;vertical-align:middle;padding:0.15em 0.5em;border:2px solid currentColor;margin-left:0.4rem;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.9rem;margin-bottom:1.6rem;}
+.stat{padding:1rem 1.2rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-top:3px solid currentColor;}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:0.14em;opacity:0.75;margin-bottom:0.35rem;}
+.stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.45rem;color:#fff;line-height:1.25;}
+.card-note,.card-purpose{padding:1.1rem 1.4rem;margin-bottom:1rem;border-left:4px solid currentColor;background:rgba(255,255,255,0.03);}
+.note-label{font-family:'Bebas Neue',sans-serif;letter-spacing:0.14em;font-size:0.95rem;margin-bottom:0.35rem;}
+.note-body{font-size:1.18rem;font-weight:600;color:var(--ink);line-height:1.6;}
+.card-footer{margin-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.04em;color:var(--dim);border-top:1px solid rgba(255,255,255,0.12);padding-top:0.75rem;}
+
+.cat-fat{color:var(--pink);}
+.cat-heal{color:var(--green);}
+.cat-gh{color:var(--cyan);}
+.cat-long{color:var(--orange);}
+.cat-cog{color:var(--purple);}
+.cat-sex{color:var(--yellow);}
+.cat-spec{color:var(--teal);}
+.card-page .card-title{color:#fff;}
+
+/* ===== BLOOD WORK ===== */
+.bw-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,3.8rem);letter-spacing:0.04em;color:var(--cyan);text-shadow:0 0 22px rgba(0,245,255,0.5);margin-bottom:0.75rem;}
+.bw-sub{font-size:1.2rem;font-weight:600;color:var(--dim);margin-bottom:2rem;max-width:720px;}
+.bw-panel{border:2px solid currentColor;border-top:5px solid currentColor;padding:1.6rem 1.9rem;margin-bottom:1.75rem;background:rgba(255,255,255,0.025);}
+.bw-panel-head{display:flex;align-items:center;gap:0.85rem;margin-bottom:0.85rem;}
+.bw-panel-head .ic{font-size:2.1rem;}
+.bw-panel-head h3{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:0.06em;}
+.bw-panel-desc{font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.65;margin-bottom:0.9rem;}
+.bw-list{font-family:'Share Tech Mono',monospace;font-size:1.08rem;line-height:1.9;margin-bottom:1.1rem;}
+.bw-copy-btn{
+  font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;font-size:1rem;
+  background:transparent;border:2px solid currentColor;color:inherit;padding:0.7rem 1.4rem;
+  cursor:pointer;transition:background 0.15s,color 0.15s;
+}
+.bw-copy-btn:hover{background:currentColor;color:#05001a;}
+.panel-insulin{color:var(--purple);}
+.panel-inflam{color:var(--pink);}
+.panel-liver{color:var(--green);}
+.panel-metabolic{color:var(--cyan);}
+.bw-email-box{border:2px solid var(--yellow);border-top:5px solid var(--yellow);padding:1.8rem 2rem;margin-top:1.5rem;background:rgba(255,230,0,0.04);}
+.bw-email-box h3{font-family:'Bebas Neue',sans-serif;color:var(--yellow);font-size:1.5rem;letter-spacing:0.06em;margin-bottom:0.9rem;}
+.bw-email-pre{font-family:'Share Tech Mono',monospace;font-size:1rem;line-height:1.75;white-space:pre-wrap;color:#fff;background:rgba(0,0,0,0.35);padding:1.2rem 1.4rem;margin-bottom:1.1rem;border:1px solid rgba(255,230,0,0.3);}
+
+/* ===== APPENDIX ===== */
+.app-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5.5vw,3.2rem);letter-spacing:0.06em;color:#fff;margin-bottom:0.5rem;}
+.app-sub{font-size:1.1rem;font-weight:600;color:var(--dim);margin-bottom:2rem;}
+.app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;}
+.app-card{border:1px solid rgba(255,255,255,0.15);border-top:4px solid var(--cyan);padding:1.3rem 1.5rem;background:rgba(255,255,255,0.03);}
+.app-card h4{font-family:'Bebas Neue',sans-serif;color:var(--cyan);letter-spacing:0.08em;font-size:1.15rem;margin-bottom:0.6rem;}
+.app-card p,.app-card li{font-size:1.02rem;font-weight:600;color:var(--ink);line-height:1.6;}
+.app-card ul{padding-left:1.1rem;}
+
+.idx-table{width:100%;border-collapse:collapse;font-family:'Share Tech Mono',monospace;font-size:0.95rem;}
+.idx-table th{text-align:left;padding:0.6rem 0.8rem;color:var(--cyan);border-bottom:2px solid var(--cyan);letter-spacing:0.08em;}
+.idx-table td{padding:0.5rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.idx-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+
+/* ===== CLOSING ===== */
+.closing-page{align-items:center;text-align:center;}
+.closing-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,6vw,4rem);letter-spacing:0.06em;color:var(--cyan);text-shadow:0 0 26px rgba(0,245,255,0.55);margin-bottom:1rem;}
+.closing-sub{font-size:1.2rem;font-weight:600;color:var(--ink);max-width:640px;line-height:1.7;}
+.closing-mark{margin-top:2.5rem;font-family:'Share Tech Mono',monospace;letter-spacing:0.25em;font-size:0.95rem;color:var(--dim);}
+
+@media print{
+  body{font-size:14px;}
+  .page{min-height:auto;page-break-after:always;break-after:page;padding:1.2in 0.9in;border-bottom:none;}
+  body::before,body::after{display:none;}
+}
+@media (max-width:640px){
+  body{font-size:16px;}
+  .page{padding:6vh 5vw;}
+  .toc-foot{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<section class="page cover-page">
+  <div class="page-frame">
+    <img src="vpnlogo.png" alt="Verified Peptides Network" class="cover-logo">
+    <div class="cover-kicker">VERIFIED PEPTIDES NETWORK</div>
+    <h1 class="cover-title">RESEARCH FIELD MANUAL</h1>
+    <div class="cover-sub">PROTOCOL CARD ARCHIVE · BLOOD WORK GUIDE · APPENDICES</div>
+    <div class="cover-tagline">DOCUMENTED &middot; VERIFIED &middot; TRACEABLE</div>
+    <div class="cover-meta">
+      <span><strong>96</strong> protocol cards across <strong>7</strong> research categories</span>
+      <span>Every dosing field preserved verbatim from the master research sheet</span>
+      <span>For laboratory and research use only &mdash; not a medical document</span>
+    </div>
+    <div class="cover-badges">
+      <span class="cover-badge">RESEARCH USE ONLY</span>
+      <span class="cover-badge">NOT FOR HUMAN CONSUMPTION</span>
+      <span class="cover-badge">NOT MEDICAL ADVICE</span>
+    </div>
+  </div>
+</section>
+
+<section class="page toc-page">
+  <div class="page-frame">
+    <h1 class="toc-title">TABLE OF CONTENTS</h1>
+    <div class="toc-sub">7 research categories &middot; 96 protocol cards &middot; blood work guide &middot; reference appendices</div>
+    <div class="toc-list">
+      <a class="toc-row" href="#cat-fat"><span class="n">WEIGHT MANAGEMENT / METABOLIC</span><span class="c">15 CARDS</span></a>
+      <a class="toc-row" href="#cat-heal"><span class="n">RECOVERY / REPAIR</span><span class="c">19 CARDS</span></a>
+      <a class="toc-row" href="#cat-gh"><span class="n">GH AXIS / BODY COMPOSITION</span><span class="c">18 CARDS</span></a>
+      <a class="toc-row" href="#cat-long"><span class="n">LONGEVITY / MITOCHONDRIAL</span><span class="c">09 CARDS</span></a>
+      <a class="toc-row" href="#cat-cog"><span class="n">NOOTROPIC / COGNITIVE</span><span class="c">07 CARDS</span></a>
+      <a class="toc-row" href="#cat-sex"><span class="n">SEXUAL HEALTH / HORMONAL</span><span class="c">08 CARDS</span></a>
+      <a class="toc-row" href="#cat-spec"><span class="n">SPECIALTY / GENERAL RESEARCH</span><span class="c">20 CARDS</span></a>
+      <a class="toc-row" href="#bloodwork"><span class="n">BLOOD WORK &amp; LAB GUIDE</span><span class="c">4 PANELS</span></a>
+      <a class="toc-row" href="#appendix-recon"><span class="n">RECONSTITUTION &amp; STORAGE REFERENCE</span><span class="c">APPENDIX A</span></a>
+      <a class="toc-row" href="#appendix-index"><span class="n">SOURCE ROW INDEX</span><span class="c">APPENDIX B</span></a>
+    </div>
+    <div class="toc-foot">
+      <div class="toc-info">
+        <div class="h">DATA FIDELITY</div>
+        <div class="b">Every vial amount, BAC water volume, dosage, frequency, and cycle length in this manual is transcribed directly from the master research sheet. Nothing has been altered, rounded, or "improved."</div>
+      </div>
+      <div class="toc-info">
+        <div class="h">ACCURACY NOTE</div>
+        <div class="b">Where the source sheet left a field blank, this manual shows an em-dash (&mdash;) rather than guessing. Cross-reference Appendix B for the original row number of any card.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page disclaimer-page">
+  <div class="page-frame">
+    <span class="disclaimer-badge">READ BEFORE PROCEEDING</span>
+    <h1 class="disclaimer-title">THIS IS NOT MEDICAL ADVICE</h1>
+
+    <div class="disclaimer-block">
+      <h3>RESEARCH PURPOSES ONLY</h3>
+      <p>Every dosage, frequency, and protocol documented in this manual is provided strictly for research and informational purposes. This is not a recommendation to use, administer, or consume any compound. These materials are <strong>not intended for human consumption</strong> under any circumstance.</p>
+    </div>
+
+    <div class="disclaimer-block alt">
+      <h3>TALK TO YOUR DOCTOR &mdash; BEFORE YOU RESEARCH ANYTHING</h3>
+      <p>Before researching any peptide referenced in this manual, speak with your physician. Tell them exactly what you are researching and considering. Full disclosure means your doctor knows what is in your system, what to look for, and how to respond quickly and correctly if something goes wrong. Going in quiet helps no one &mdash; least of all you.</p>
+    </div>
+
+    <div class="disclaimer-block fire">
+      <h3>IF YOUR DOCTOR WON'T ENGAGE</h3>
+      <p>If your doctor refuses to have this conversation with you, will not work with you, or dismisses your questions outright &mdash; <strong>fire them and find one who will.</strong> Your safety depends on having a physician who is informed and prepared, not one who looks away.</p>
+    </div>
+  </div>
+</section>
+<section class="page divider-page cat-fat" id="cat-fat">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 01 / 07</div>
+    <h1 class="divider-title">WEIGHT MANAGEMENT / METABOLIC</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">15 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Compounds researched for appetite regulation, fat oxidation, and metabolic rate — the most heavily requested category in the field.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 31</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">FOXO4-DRI <span class="opt-tag">OPTION 1 · 5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">60 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Every other day</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">3mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">EOD M/W/F/S</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Removes weak/senescent cells, anti-aging, reduces cancer risk, improves liver and metabolic health</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 1 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 32</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">FOXO4-DRI <span class="opt-tag">OPTION 1 · 10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Every other day</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">EOD M/W/F/S</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Best Protocol</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Removes weak/senescent cells, anti-aging, reduces cancer risk, improves liver and metabolic health</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 2 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 34</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">FOXO4-DRI <span class="opt-tag">OPTION 2 · 10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">5 on / 5 off</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 2 weeks (2x/year)</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">1 month from beginning to end</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Removes dead/senescent cells, anti-aging, reduces cancer risk, improves liver and metabolic health</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 3 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 62</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">5-AMINO-1MQ</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">5-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x daily, AM/afternoon, M-F</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30-60 days, 30 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Use with NAD+ and MOTS-c</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat burning, fat storage regulation, insulin sensitivity, muscle preservation, increased NAD+</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 4 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 99</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">L-CARNITINE <span class="opt-tag">500MG/ML</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">500mg/ml</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">N/A</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250-500mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular / fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Overall body composition, energy, fat loss</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 5 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 100</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">L-CARNITINE <span class="opt-tag">600MG/ML</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">600mg/ml</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">N/A</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">300-600mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular / fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Overall body composition, energy, fat loss</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 6 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 108</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">AOD-9604</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1.5ml BAC + 0.5ml acetic acid</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">12-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily (AM)</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">300-500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">1.6ml BAC, 0.4ml acetic acid</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 7 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 110</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SLUP-332</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-60 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Up to 3x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-3mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">4-6 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">May need DMSO/saline to reconstitute</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, energy, recovery, heart health</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 8 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 116</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">VILON</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">25 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2.5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-15 days on, repeat 4x per month</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Use with Epitalon</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-aging, anti-cancer, gene remodeling, metabolic support</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 9 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 126</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">OVAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-30 days, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Liver-focused</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Liver inflammation, improves metabolic function, used for chronic liver disease research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 10 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 152</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CAGRILINTIDE <span class="opt-tag">WEIGHT MGMT PROTOCOL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-80 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Weekly or 2x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">0.25-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 16 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Works well with GLP-1 compounds</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Appetite suppression / accelerates fat loss</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 11 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 162</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">RETATRUTIDE <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Until results are met</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can add 2mg every 4 weeks, up to 10mg</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, liver fat reduction, insulin sensitivity, appetite reduction, cholesterol levels</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 12 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 163</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">RETATRUTIDE <span class="opt-tag">12MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">12mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">16 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Until results are met</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can add 2mg every 4 weeks, up to 10mg</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, liver fat reduction, insulin sensitivity, appetite reduction, cholesterol levels</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 13 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 164</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">RETATRUTIDE <span class="opt-tag">20MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Until results are met</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can add 2mg every 4 weeks, up to 10mg</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, liver fat reduction, insulin sensitivity, appetite reduction, cholesterol levels</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 14 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-fat">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>WEIGHT MANAGEMENT / METABOLIC</span>
+      <span class="dot">·</span>
+      <span>ROW 165</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">RETATRUTIDE <span class="opt-tag">30MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">30mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Until results are met</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can add 2mg every 4 weeks, up to 10mg</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, liver fat reduction, insulin sensitivity, appetite reduction, cholesterol levels</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 15 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-heal" id="cat-heal">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 02 / 07</div>
+    <h1 class="divider-title">RECOVERY / REPAIR</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">19 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Tissue repair, gut healing, and systemic recovery compounds — the backbone of most injury and inflammation-focused research stacks.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 39</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">BPC-157 / TB-500 BLEND</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg/5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Up to 1000mcg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Tissue repair, tendons, healing, blood vessels, collagen, gut, flexibility</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 16 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 41</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">BPC-157 <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Up to 1000mcg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Tissue repair, tendons, healing, blood vessels, collagen</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 17 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 42</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">BPC-157 <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">270mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Up to 1000mcg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Gut health, inflammation</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 18 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 44</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TB-500 <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">500-1000mcg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Tissue repair, healing, cellular regeneration</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 19 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 45</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TB-500 <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">500-1000mcg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-inflammatory, flexibility, endurance</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 20 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 47</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GHK-CU / AHK-CU</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">100mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2.5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can dose up to 5mg daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Healing, skin, hair, anti-inflammatory, collagen</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 21 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 49</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GLOW (BPC / TB / GHK-CU)</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg/10mg/50mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg/500mcg/3500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Don&#x27;t dose higher</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Healing, recovery, anti-aging, inflammation</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 22 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 51</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">KLOW (BPC / TB / GHK-CU / KPV)</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg/10mg/50mg/10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg/500mcg/2.5mg/500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Don&#x27;t dose higher</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 23 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 53</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">KPV</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Monday-Friday</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Avoid NSAIDs; use acetic acid if gelling</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-inflammatory, gut health, antimicrobial</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 24 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 55</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GLUTATHIONE <span class="opt-tag">600MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">600mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">6ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Every other day or daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular / best with NAD+</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Antioxidant, detox, immune support, liver, skin, cell repair</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 25 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 56</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GLUTATHIONE <span class="opt-tag">1200MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1200mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">12ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Every other day or daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular / best with NAD+</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Antioxidant, detox, immune support, liver, skin, cell repair</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 26 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 57</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GLUTATHIONE <span class="opt-tag">1500MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1500mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">15ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Every other day or daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular / best with NAD+</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Antioxidant, detox, immune support, liver, skin, cell repair</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 27 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 78</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">HUMANIN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2-8 weeks, 1x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Need 2-3 bottles</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Protects neurons, cardiovascular health, oxidative heart stress, slows aging</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 28 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 130</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CHRONLUTEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 1-3x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can use with Bronchogen</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Lung health</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 29 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 132</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">VESUGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 1-3x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Pair with Pinealon</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cognitive support, nerve health, anabolic, anti-aging</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 30 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 138</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PANCRAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Repairs cells in the pancreas</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 31 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 144</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TERIPARATIDE</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">750mcg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">20mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days - 2 years</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Bone density / osteoporosis research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 32 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 146</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">ABALOPARATIDE</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">3mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">80-100mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Bone density</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 33 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-heal">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>RECOVERY / REPAIR</span>
+      <span class="dot">·</span>
+      <span>ROW 157</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CRYSTAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity, health and wellness, protein synthesis, recovery</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 34 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-gh" id="cat-gh">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 03 / 07</div>
+    <h1 class="divider-title">GH AXIS / BODY COMPOSITION</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">18 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Growth-hormone secretagogues and IGF pathway peptides researched for lean mass, fat partitioning, and recovery.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 2</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CJC-1295 (DAC) <span class="opt-tag">2MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">25 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Mon/Wed/Fri</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Less &quot;natural&quot; pulse pattern than No-DAC</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 35 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 3</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CJC-1295 (DAC) <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Mon/Wed/Fri</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Less &quot;natural&quot; pulse pattern than No-DAC</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 36 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 5</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CJC-1295 (NO DAC) <span class="opt-tag">2MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">15-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">During fasted time, short half-life</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 37 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 6</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CJC-1295 (NO DAC) <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">7-15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">During fasted time, short half-life</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 38 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 7</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CJC-1295 (NO DAC) <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">4-8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">During fasted time, short half-life</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 39 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 9</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">IPAMORELIN <span class="opt-tag">2MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">15-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">During fasted time</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 40 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 10</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">IPAMORELIN <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">7-15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Dose CJC/IPA 5mg blend the same as this</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 41 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 11</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">IPAMORELIN <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">4-8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x daily, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks, 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">During fasted time</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Fat loss, increased growth hormone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 42 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 13</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TESAMORELIN <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-40 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-16 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">PM, fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Belly fat, lowers LDL/triglycerides, cognitive support</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 43 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 14</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TESAMORELIN <span class="opt-tag">20MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-16 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">PM, fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Belly fat, lowers LDL/triglycerides, cognitive support</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 44 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 16</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SERMORELIN <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily PM, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250-500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months max</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can use with GHRP-2/Ipamorelin</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone, sleep</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 45 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 17</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SERMORELIN <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">5-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily PM, fasted</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250-500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 6 months max</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can use with GHRP-2/Ipamorelin</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, fat loss, anti-aging, increased growth hormone, sleep</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 46 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 19</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">IGF-1 LR3</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1.5ml BAC + 0.5ml acetic acid</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">AM, after workout</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">50-100mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10 days - 6 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Eat carbs right after</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle, recovery, anti-aging, inflammation</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 47 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 21</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PEG-MGF</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units bilaterally</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3-4x/week, post-workout</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100mcg each side</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">4-8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Each arm/leg/shoulder, intramuscular</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle growth/recovery, bone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 48 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 23</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">MGF (NO PEG) <span class="opt-tag">2MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units bilaterally</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, post-workout</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">200mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">4-8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Each arm/leg/shoulder, intramuscular</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 49 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 24</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">MGF (NO PEG) <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, post-workout</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">200mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">—</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Each arm/leg/shoulder, intramuscular</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 50 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 25</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">MGF (NO PEG) <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">6 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, post-workout</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">200mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">4-8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Each arm/leg/shoulder, intramuscular</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 51 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-gh">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>GH AXIS / BODY COMPOSITION</span>
+      <span class="dot">·</span>
+      <span>ROW 95</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">GHRP-2</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-13 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x daily, M-F</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">200-250mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Take fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Increased growth hormone, fat loss, muscle, sleep, skin</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 52 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-long" id="cat-long">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 04 / 07</div>
+    <h1 class="divider-title">LONGEVITY / MITOCHONDRIAL</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">9 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Mitochondrial support and cellular-aging research compounds — energy production, oxidative stress, and telomere biology.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 29</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">MOTS-C</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-3x per week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">5-10mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-10 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Best if used after SS-31</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Physical performance, insulin sensitivity, fat loss, mitochondrial support</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 53 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 36</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">EPITALON <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily (PM)</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">5-10mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2-3 weeks, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Use with Vilon/Livagen</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-aging, lengthens telomeres, sleep, skin, immune support, anti-cancer</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 54 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 37</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">EPITALON <span class="opt-tag">50MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">50mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">30-60 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily (PM)</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">5-10mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2-3 weeks, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Use with Vilon/Livagen</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-aging, lengthens telomeres, sleep, skin, immune support, anti-cancer</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 55 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 59</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">NAD+ <span class="opt-tag">500MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">500mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">25 units - 1cc</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">25-100mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 12 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular or subcutaneous, best with Glutathione &amp; 5-Amino-1MQ — shake before use</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Energy, anti-aging, cognitive support, addiction recovery</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 56 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 60</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">NAD+ <span class="opt-tag">1000MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1000mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">10ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">25 units - 1cc</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3x/week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">25-100mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 12 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular or subcutaneous, best with Glutathione &amp; 5-Amino-1MQ — shake before use</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Metabolic health, pain, mood, recovery, sleep</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 57 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 85</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SS-31 <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">40-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can take up to 10mg/day</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Mitochondrial function, macular degeneration, energy, mitochondrial protection, oxidative stress protection</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 58 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 86</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SS-31 <span class="opt-tag">30MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">30mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">—</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can take up to 10mg/day</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 59 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 87</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SS-31 <span class="opt-tag">50MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">50mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">12-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can take up to 10mg/day</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Mitochondrial function, macular degeneration, energy, mitochondrial protection, oxidative stress protection</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 60 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-long">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>LONGEVITY / MITOCHONDRIAL</span>
+      <span class="dot">·</span>
+      <span>ROW 124</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">TESTAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-30 days, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">PCT</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Increases testosterone, energy, cognitive function (stimulates pituitary gland)</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 61 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-cog" id="cat-cog">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 05 / 07</div>
+    <h1 class="divider-title">NOOTROPIC / COGNITIVE</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">7 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Focus, memory, mood, and neuroprotective compounds researched for cognitive performance and brain health.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 64</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SEMAX</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">7-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3-7x/week, AM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">3-7x/week up to daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cognitive function, neuroprotection, brain-to-blood signaling, mood</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 62 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 66</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">ADAMAX</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">15-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, AM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks, 4 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">3-7x/week up to daily</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cognitive function, focus, learning, increased energy, exercise recovery</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 63 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 80</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PINEALON</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-30 days, 2-3x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Need 3 bottles</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cognitive function, protects brain cells, sleep</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 64 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 106</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SELANK</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">6-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily (AM)</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">200-330mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anxiety, cognitive function, memory, mood</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 65 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 114</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">VIP</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">6-18 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100-300mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">May cause flushing</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Memory, autoimmune support, arthritis, blood flow</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 66 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 136</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CORTAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">15-30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Pair with other cognitive peptides</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Neuroprotective, mood, focus</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 67 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-cog">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>NOOTROPIC / COGNITIVE</span>
+      <span class="dot">·</span>
+      <span>ROW 148</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PE-22-28</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">8-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8-12 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cognitive function, antidepressant research, focus</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 68 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-sex" id="cat-sex">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 06 / 07</div>
+    <h1 class="divider-title">SEXUAL HEALTH / HORMONAL</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">8 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Libido, bonding, and hormonal-axis peptides researched for sexual desire, fertility signaling, and arousal pathways.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 68</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">KISSPEPTIN <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">7-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, evening</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-200mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 on / 30 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can be used for PCT — use 0.5cc acetic acid</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Enhances sexual desire, induces puberty signaling, releases dopamine</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 69 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 69</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">KISSPEPTIN <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">5-6 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily, evening</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150-200mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 on / 30 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can be used for PCT — use 0.5cc acetic acid</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Enhances sexual desire, induces puberty signaling, releases dopamine</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 70 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 71</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PT-141 <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Evening, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2x per week</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Pairs with Kisspeptin</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Sexual desire/satisfaction, erectile dysfunction research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 71 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 72</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PT-141 <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Evening, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2x per week</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Pairs with Kisspeptin</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Sexual desire/satisfaction, erectile dysfunction research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 72 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 74</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">OXYTOCIN <span class="opt-tag">1.5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1.5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml BAC + 0.5ml acetic acid</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">AM, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100-150mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">As needed</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Before social bonding</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Bonding, social anxiety, sexual arousal, stress, cortisol reduction, relaxation, muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 73 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 75</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">OXYTOCIN <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml BAC + 0.5ml acetic acid</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">6-9-15 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">AM, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100-150mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">As needed</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Before social bonding</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Bonding, social anxiety, sexual arousal, stress, cortisol reduction, relaxation, muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 74 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 76</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">OXYTOCIN <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml BAC + 0.5ml acetic acid</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">3-4 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">AM, as needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100-150mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">As needed</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Before social bonding</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Bonding, social anxiety, sexual arousal, stress, cortisol reduction, relaxation, muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 75 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-sex">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SEXUAL HEALTH / HORMONAL</span>
+      <span class="dot">·</span>
+      <span>ROW 159</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">HMG</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">75iu</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml saline solution</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3x per week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">75-150iu</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Use immediately after reconstituting, use with HCG</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Testosterone booster</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 76 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page divider-page cat-spec" id="cat-spec">
+  <div class="page-frame divider-frame">
+    <div class="divider-eyebrow">SECTION 07 / 07</div>
+    <h1 class="divider-title">SPECIALTY / GENERAL RESEARCH</h1>
+    <div class="divider-rule"></div>
+    <div class="divider-meta">20 PROTOCOL CARDS IN THIS SECTION</div>
+    <div class="divider-desc">Immune modulation, organ-specific bioregulators, and general research compounds that don&#x27;t fit neatly into the other six categories.</div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 27</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">FOLLISTATIN 344 (AND 315)</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">1mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">100mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Subcutaneous or intramuscular, bilateral (acetic acid)</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Muscle growth</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 77 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 82</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">THYMOSIN ALPHA-1 <span class="opt-tag">5MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">30-40 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x weekly</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1.5-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">7-10 days, up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Need 15-20mg total</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity, anti-cancer research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 78 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 83</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">THYMOSIN ALPHA-1 <span class="opt-tag">10MG VIAL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">30-40 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x weekly</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1.5-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">7-10 days, up to 6 months</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Need 15-20mg total</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity, anti-cancer research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 79 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 89</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PNC-27</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">30mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">5-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Preventative approach</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Removes cancer cells</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 80 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 91</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">MELANOTAN 1</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2-3x weekly</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">As needed</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Tanning, sun protection, erectile dysfunction research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 81 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 93</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">B7-33</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">6mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-30 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">600-900mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">—</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">1 bottle = 10 days, AM fasted</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Blood pressure, blood flow</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 82 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 97</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">HCG</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5000 IU</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2.5ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">50-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">3x per week</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1000-2000 IU</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">4-6 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Subcutaneous or intramuscular, up to 4000 IU</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Increases natural testosterone</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 83 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 102</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">LL-37</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">9 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">150mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">50 days on</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Subcutaneous, morning/evening</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity, anti-inflammatory, COVID-19 research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 84 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 104</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">DSIP</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily (PM)</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">250-500mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">8 weeks on / 8 off</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">1-3 hours before bed</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Sleep</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 85 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 112</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">SNAP-8</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-1mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">Up to 8 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Anti-wrinkle</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 86 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 118</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CARDIOGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-40 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-4mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Heart cell growth, reduces scarring, inhibits apoptosis, anti-tumor research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 87 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 120</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">BRONCHOGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can use with Chronluten</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Improves lung function, reduces inflammation, stabilizes DNA, asthma research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 88 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 122</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">PROSTAMAX</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 2x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">PCT</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Supports prostate function, reduces inflammation, anti-aging</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 89 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 128</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CARTALAX</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">10-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">30 days, 1-3x/year</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Site location specific</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Joint and cartilage regeneration, inflammation</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 90 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 134</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">LIVAGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1-2x daily, AM/PM</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">1-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">15-30 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Pair with Vilon/Epitalon</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Cellular regeneration, immune system support</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 91 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 140</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">THYMOGEN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">20mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">5-20 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">1x daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">500mcg-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10-20 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Intramuscular only</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity — viral and bacterial, lung, skin, burns, chemo support research</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 92 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 142</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">DEMORPHINE</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">5mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">4-10 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">As needed</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">50-250mcg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">As needed</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Can be addictive</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Pain</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 93 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 150</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CEREBROLYSIN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">30mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">2ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">20-50 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">2-5mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">2-4 weeks</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Neuroregeneration function</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 94 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 153</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">CAGRILINTIDE <span class="opt-tag">GENERAL RESEARCH PROTOCOL</span></h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">3ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">7-60 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">—</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">0.25-2mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">—</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">Titrate up, start low</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">—</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 95 / 96</span>
+    </div>
+  </div>
+</section>
+
+<section class="page card-page cat-spec">
+  <div class="page-frame">
+    <div class="card-eyebrow">
+      <span>SPECIALTY / GENERAL RESEARCH</span>
+      <span class="dot">·</span>
+      <span>ROW 155</span>
+      <span class="dot">·</span>
+      <span>SOURCE CARD</span>
+    </div>
+    <h2 class="card-title">THYMALIN</h2>
+    <div class="card-grid">
+      <div class="stat"><div class="stat-label">VIAL AMOUNT</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">BAC WATER</div><div class="stat-value">1ml</div></div>
+      <div class="stat"><div class="stat-label">DOSAGE</div><div class="stat-value">100 units</div></div>
+      <div class="stat"><div class="stat-label">FREQUENCY</div><div class="stat-value">Daily</div></div>
+      <div class="stat"><div class="stat-label">AMOUNT PER DOSE</div><div class="stat-value">10mg</div></div>
+      <div class="stat"><div class="stat-label">CYCLE DURATION</div><div class="stat-value">10 days</div></div>
+    </div>
+    <div class="card-note">
+      <div class="note-label">SIDE NOTE</div>
+      <div class="note-body">1-4x per year</div>
+    </div>
+    <div class="card-purpose">
+      <div class="note-label">PURPOSE</div>
+      <div class="note-body">Immunity</div>
+    </div>
+    <div class="card-footer">
+      <span>DOCUMENTED FROM MASTER RESEARCH SHEET · Research reference only — not medical instruction.</span>
+      <span>CARD 96 / 96</span>
+    </div>
+  </div>
+</section>
+<section class="page bw-intro-page" id="bloodwork">
+  <div class="page-frame">
+    <h1 class="bw-title">BLOOD WORK &amp; LAB GUIDE</h1>
+    <p class="bw-sub">Baseline labs belong before any research protocol &mdash; not after something feels off. The four panels below cover the systems most commonly affected. Each panel includes a one-tap copy button formatted to drop straight into an email to your doctor.</p>
+  </div>
+</section>
+
+<section class="page bw-panels-page">
+  <div class="page-frame">
+    
+    <div class="bw-panel panel-insulin">
+      <div class="bw-panel-head"><span class="ic">&#129534;</span><h3>INSULIN RESISTANCE PANEL</h3></div>
+      <p class="bw-panel-desc">Tracks how your body is handling glucose and insulin &mdash; important when researching compounds that affect appetite, fat storage, or metabolic rate.</p>
+      <div class="bw-list">
+        &gt; Fasting Insulin
+        &gt; Fasting Glucose
+        &gt; HbA1c
+        &gt; HOMA-IR
+      </div>
+      <button class="bw-copy-btn" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c\n- HOMA-IR')">&#128203; COPY INSULIN RESISTANCE PANEL FOR MY DOCTOR</button>
+    </div>
+    <div class="bw-panel panel-inflam">
+      <div class="bw-panel-head"><span class="ic">&#128293;</span><h3>INFLAMMATION PANEL</h3></div>
+      <p class="bw-panel-desc">Establishes a baseline inflammatory marker level before starting any research protocol, and flags adverse reactions early if levels move.</p>
+      <div class="bw-list">
+        &gt; hs-CRP (high-sensitivity C-Reactive Protein)
+        &gt; ESR (Erythrocyte Sedimentation Rate)
+        &gt; Homocysteine
+      </div>
+      <button class="bw-copy-btn" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">&#128203; COPY INFLAMMATION PANEL FOR MY DOCTOR</button>
+    </div>
+    <div class="bw-panel panel-liver">
+      <div class="bw-panel-head"><span class="ic">&#129516;</span><h3>LIVER PANEL</h3></div>
+      <p class="bw-panel-desc">Most research compounds are processed through the liver. Routine liver panels catch problems early, long before symptoms appear.</p>
+      <div class="bw-list">
+        &gt; ALT (Alanine Aminotransferase)
+        &gt; AST (Aspartate Aminotransferase)
+        &gt; ALP (Alkaline Phosphatase)
+        &gt; GGT (Gamma-Glutamyl Transferase)
+        &gt; Total &amp; Direct Bilirubin
+        &gt; Albumin
+        &gt; Total Protein
+      </div>
+      <button class="bw-copy-btn" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">&#128203; COPY LIVER PANEL FOR MY DOCTOR</button>
+    </div>
+    <div class="bw-panel panel-metabolic">
+      <div class="bw-panel-head"><span class="ic">&#9889;</span><h3>METABOLIC PANEL</h3></div>
+      <p class="bw-panel-desc">A broad systemic check of kidney function, electrolytes, and lipids &mdash; the background context every other panel in this guide should be read against.</p>
+      <div class="bw-list">
+        &gt; Glucose
+        &gt; BUN (Blood Urea Nitrogen)
+        &gt; Creatinine &amp; eGFR
+        &gt; Sodium, Potassium, Chloride, CO2
+        &gt; Calcium
+        &gt; Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides)
+        &gt; Uric Acid
+      </div>
+      <button class="bw-copy-btn" onclick="copyToClipboard('Please also add a Metabolic Panel:\n- Glucose\n- BUN (Blood Urea Nitrogen)\n- Creatinine &amp; eGFR\n- Sodium, Potassium, Chloride, CO2\n- Calcium\n- Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides)\n- Uric Acid')">&#128203; COPY METABOLIC PANEL FOR MY DOCTOR</button>
+    </div>
+  </div>
+</section>
+
+<section class="page bw-email-page">
+  <div class="page-frame">
+    <h1 class="bw-title" style="font-size:clamp(2rem,5vw,3rem);">ALL-IN-ONE EMAIL TEMPLATE</h1>
+    <p class="bw-sub">Prefer to send everything in one message? Copy the full template below &mdash; just fill in your doctor's name and yours.</p>
+    <div class="bw-email-box">
+      <h3>READY-TO-SEND EMAIL</h3>
+      <pre class="bw-email-pre">Subject: Lab Work Request - Baseline Panels
+
+Hi Dr. [Name],
+
+I'm doing some self-directed research and would like to establish baseline lab values before I begin, and monitor them periodically afterward. Could you please order the following panels for me?
+
+INSULIN RESISTANCE: Fasting Insulin, Fasting Glucose, HbA1c, HOMA-IR
+INFLAMMATION: hs-CRP, ESR, Homocysteine
+LIVER PANEL: ALT, AST, ALP, GGT, Total &amp; Direct Bilirubin, Albumin, Total Protein
+METABOLIC PANEL: Glucose, BUN, Creatinine &amp; eGFR, Sodium/Potassium/Chloride/CO2, Calcium, Lipid Panel, Uric Acid
+
+I'm happy to discuss what I'm researching and why I'd like this baseline established - I'd rather you have the full picture than guess if anything comes up. Thank you for your time.
+
+[Your Name]</pre>
+      <button class="bw-copy-btn" style="color:var(--yellow);" onclick="copyToClipboard('Subject: Lab Work Request - Baseline Panels\n\nHi Dr. [Name],\n\nI\'m doing some self-directed research and would like to establish baseline lab values before I begin, and monitor them periodically afterward. Could you please order the following panels for me?\n\nINSULIN RESISTANCE: Fasting Insulin, Fasting Glucose, HbA1c, HOMA-IR\nINFLAMMATION: hs-CRP, ESR, Homocysteine\nLIVER PANEL: ALT, AST, ALP, GGT, Total &amp; Direct Bilirubin, Albumin, Total Protein\nMETABOLIC PANEL: Glucose, BUN, Creatinine &amp; eGFR, Sodium/Potassium/Chloride/CO2, Calcium, Lipid Panel, Uric Acid\n\nI\'m happy to discuss what I\'m researching and why I\'d like this baseline established - I\'d rather you have the full picture than guess if anything comes up. Thank you for your time.\n\n[Your Name]')">&#128203; COPY FULL EMAIL TEMPLATE</button>
+    </div>
+  </div>
+</section>
+
+<section class="page app-page" id="appendix-recon">
+  <div class="page-frame">
+    <h1 class="app-title">APPENDIX A</h1>
+    <div class="app-sub">Reconstitution &amp; Storage Reference</div>
+    <div class="app-grid">
+      <div class="app-card">
+        <h4>DILUENT VEHICLES</h4>
+        <p>Bacteriostatic water (BAC water) is the standard diluent referenced throughout this manual. It contains 0.9% benzyl alcohol as a preservative, which extends usable life after reconstitution compared to sterile water alone.</p>
+      </div>
+      <div class="app-card">
+        <h4>STABILITY FACTORS</h4>
+        <ul>
+          <li>Store reconstituted vials refrigerated (2&ndash;8&deg;C / 36&ndash;46&deg;F)</li>
+          <li>Avoid agitation &mdash; swirl gently, never shake</li>
+          <li>Protect from direct light</li>
+          <li>Discard per the source sheet's stated cycle window once opened</li>
+        </ul>
+      </div>
+      <div class="app-card">
+        <h4>STERILITY FACTORS</h4>
+        <ul>
+          <li>Use a new sterile syringe/needle for every draw</li>
+          <li>Wipe vial tops with alcohol before each puncture</li>
+          <li>Never reintroduce used needles into a shared vial</li>
+        </ul>
+      </div>
+      <div class="app-card">
+        <h4>DATA STATUS</h4>
+        <p>Reconstitution guidance above is general handling information, not a substitute for the specific instructions on file with a sourced product. When in doubt, default to the most conservative storage and handling practice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page app-page" id="appendix-index">
+  <div class="page-frame">
+    <h1 class="app-title">APPENDIX B</h1>
+    <div class="app-sub">Source Row Index &mdash; sheet 1 of 3</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>31</td><td>FOXO4-DRI (OPTION 1 · 5MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>32</td><td>FOXO4-DRI (OPTION 1 · 10MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>34</td><td>FOXO4-DRI (OPTION 2 · 10MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>62</td><td>5-AMINO-1MQ</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>99</td><td>L-CARNITINE (500MG/ML)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>100</td><td>L-CARNITINE (600MG/ML)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>108</td><td>AOD-9604</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>110</td><td>SLUP-332</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>116</td><td>VILON</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>126</td><td>OVAGEN</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>152</td><td>CAGRILINTIDE (WEIGHT MGMT PROTOCOL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>162</td><td>RETATRUTIDE (10MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>163</td><td>RETATRUTIDE (12MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>164</td><td>RETATRUTIDE (20MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>165</td><td>RETATRUTIDE (30MG VIAL)</td><td>WEIGHT MANAGEMENT / METABOLIC</td></tr>
+        <tr><td>39</td><td>BPC-157 / TB-500 BLEND</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>41</td><td>BPC-157 (5MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>42</td><td>BPC-157 (10MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>44</td><td>TB-500 (5MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>45</td><td>TB-500 (10MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>47</td><td>GHK-CU / AHK-CU</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>49</td><td>GLOW (BPC / TB / GHK-CU)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>51</td><td>KLOW (BPC / TB / GHK-CU / KPV)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>53</td><td>KPV</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>55</td><td>GLUTATHIONE (600MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>56</td><td>GLUTATHIONE (1200MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>57</td><td>GLUTATHIONE (1500MG VIAL)</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>78</td><td>HUMANIN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>130</td><td>CHRONLUTEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>132</td><td>VESUGEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>138</td><td>PANCRAGEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>144</td><td>TERIPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h1 class="app-title">APPENDIX B</h1>
+    <div class="app-sub">Source Row Index (continued) &mdash; sheet 2 of 3</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>146</td><td>ABALOPARATIDE</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>157</td><td>CRYSTAGEN</td><td>RECOVERY / REPAIR</td></tr>
+        <tr><td>2</td><td>CJC-1295 (DAC) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>3</td><td>CJC-1295 (DAC) (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>5</td><td>CJC-1295 (NO DAC) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>6</td><td>CJC-1295 (NO DAC) (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>7</td><td>CJC-1295 (NO DAC) (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>9</td><td>IPAMORELIN (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>10</td><td>IPAMORELIN (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>11</td><td>IPAMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>13</td><td>TESAMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>14</td><td>TESAMORELIN (20MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>16</td><td>SERMORELIN (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>17</td><td>SERMORELIN (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>19</td><td>IGF-1 LR3</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>21</td><td>PEG-MGF</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>23</td><td>MGF (NO PEG) (2MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>24</td><td>MGF (NO PEG) (5MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>25</td><td>MGF (NO PEG) (10MG VIAL)</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>95</td><td>GHRP-2</td><td>GH AXIS / BODY COMPOSITION</td></tr>
+        <tr><td>29</td><td>MOTS-C</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>36</td><td>EPITALON (10MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>37</td><td>EPITALON (50MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>59</td><td>NAD+ (500MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>60</td><td>NAD+ (1000MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>85</td><td>SS-31 (10MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>86</td><td>SS-31 (30MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>87</td><td>SS-31 (50MG VIAL)</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>124</td><td>TESTAGEN</td><td>LONGEVITY / MITOCHONDRIAL</td></tr>
+        <tr><td>64</td><td>SEMAX</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>66</td><td>ADAMAX</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>80</td><td>PINEALON</td><td>NOOTROPIC / COGNITIVE</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page app-page">
+  <div class="page-frame">
+    <h1 class="app-title">APPENDIX B</h1>
+    <div class="app-sub">Source Row Index (continued) &mdash; sheet 3 of 3</div>
+    <table class="idx-table">
+      <tr><th>ROW</th><th>PEPTIDE / PROTOCOL</th><th>CATEGORY</th></tr>
+      <tr><td>106</td><td>SELANK</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>114</td><td>VIP</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>136</td><td>CORTAGEN</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>148</td><td>PE-22-28</td><td>NOOTROPIC / COGNITIVE</td></tr>
+        <tr><td>68</td><td>KISSPEPTIN (5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>69</td><td>KISSPEPTIN (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>71</td><td>PT-141 (5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>72</td><td>PT-141 (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>74</td><td>OXYTOCIN (1.5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>75</td><td>OXYTOCIN (5MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>76</td><td>OXYTOCIN (10MG VIAL)</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>159</td><td>HMG</td><td>SEXUAL HEALTH / HORMONAL</td></tr>
+        <tr><td>27</td><td>FOLLISTATIN 344 (AND 315)</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>82</td><td>THYMOSIN ALPHA-1 (5MG VIAL)</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>83</td><td>THYMOSIN ALPHA-1 (10MG VIAL)</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>89</td><td>PNC-27</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>91</td><td>MELANOTAN 1</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>93</td><td>B7-33</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>97</td><td>HCG</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>102</td><td>LL-37</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>104</td><td>DSIP</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>112</td><td>SNAP-8</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>118</td><td>CARDIOGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>120</td><td>BRONCHOGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>122</td><td>PROSTAMAX</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>128</td><td>CARTALAX</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>134</td><td>LIVAGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>140</td><td>THYMOGEN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>142</td><td>DEMORPHINE</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>150</td><td>CEREBROLYSIN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>153</td><td>CAGRILINTIDE (GENERAL RESEARCH PROTOCOL)</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+        <tr><td>155</td><td>THYMALIN</td><td>SPECIALTY / GENERAL RESEARCH</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="page closing-page">
+  <div class="page-frame">
+    <h1 class="closing-title">END OF MANUAL</h1>
+    <p class="closing-sub">This document is a research reference, not a prescription. Stay informed, stay disclosed, stay safe &mdash; and keep your doctor in the loop.</p>
+    <div class="closing-mark">VERIFIED PEPTIDES NETWORK &middot; RESEARCH FIELD MANUAL</div>
+  </div>
+</section>
+<script>
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Copied! Paste this into an email to your doctor.'));
+}
+</script>
+</body>
+</html>
