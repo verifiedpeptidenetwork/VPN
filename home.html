@@ -3186,19 +3186,12 @@ document.addEventListener('keydown', function(e){
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
-      <!-- RN Logo image with spinning retro glow ring -->
-      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:104px;height:104px;">
-        <!-- Spinning conic gradient ring -->
-        <div style="position:absolute;inset:-4px;border-radius:50%;
-          background:conic-gradient(from 0deg, #ffd700, #ff6600, #ff1500, #ff8800, #ffd700);
-          animation:headerLogoSpin 2.5s linear infinite;
-          filter:blur(2px);
-          z-index:0;pointer-events:none;">
-        </div>
-        <!-- Dark backing to keep ring tight -->
-        <div style="position:absolute;inset:2px;border-radius:50%;background:var(--dark-bg);z-index:1;pointer-events:none;"></div>
+      <!-- RN Logo image — hexagonal HUD frame, matches hero badge -->
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:64px;height:64px;">
+        <div style="position:absolute;inset:-5px;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);background:linear-gradient(135deg,var(--rn-teal),var(--rn-violet),var(--rn-chrome));z-index:0;pointer-events:none;"></div>
+        <div style="position:absolute;inset:-2px;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);background:var(--dark-bg);z-index:1;pointer-events:none;"></div>
         <img src="rnlogo.png?v=3" alt="RN Logo"
-          style="height:98px;width:98px;object-fit:cover;border-radius:50%;display:block;position:relative;z-index:2;">
+          style="height:60px;width:60px;object-fit:cover;display:block;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);">
       </div>
       <div class="logo-text">
         <div class="logo-title">Research Network</div>
@@ -3297,9 +3290,10 @@ document.addEventListener('keydown', function(e){
 <!-- HERO -->
 <div class="hero" id="site-hero">
 
-    <!-- GLOWRILLA'S SELF PROTOCOL -->
-    <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;">
+    <!-- GLOWRILLA'S SELF PROTOCOL + VENDOR VAULT ACCESS -->
+    <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;display:flex;gap:0.6rem;flex-wrap:wrap;">
       <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Operator Dossier: Glowrilla')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 OPERATOR DOSSIER: GLOWRILLA</button>
+      <a href="vendor-vault.html" class="hero-badge" style="border-color:var(--rn-teal);color:var(--rn-teal);background:#0a0a1e;text-decoration:none;display:inline-flex;align-items:center;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(45,212,191,0.15)';this.style.boxShadow='0 0 18px rgba(45,212,191,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🔐 VENDOR VAULT ACCESS</a>
     </div>
 
     <!-- LATEST NEWS -->
@@ -4817,7 +4811,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.5rem;flex-shrink:0;line-height:1;">⚠</span>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#00ff64;margin-bottom:0.3rem;">Not Medical Advice — Tools I Use for My Own Health</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.0'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
           Everything on this page is for <strong style="color:#00ff64;">informational and educational purposes only.</strong> These are tools and resources I personally use to better understand my own health. Nothing here constitutes medical advice, diagnosis, or treatment. Always consult a qualified medical professional before making any health decisions.
         </div>
       </div>
@@ -12251,23 +12245,4 @@ function resetEmailWidget() {
   btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
   btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
 })();
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</scrip
