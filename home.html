@@ -1484,32 +1484,43 @@
   .hero-logo-wrap {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     position: relative;
-    width: 360px;
-    height: 360px;
+    width: 170px;
+    height: 170px;
     flex-shrink: 0;
     align-items: center;
   }
-  /* outer rotating gradient ring — clean circle, moves around the (static) logo */
+  /* hexagonal frame instead of a rotating dual-ring circle */
   .hero-logo-wrap::before {
     content: '';
     position: absolute;
-    inset: -16px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #c9c9e8, #9b30ff, #c9c9e8);
-    animation: logoRingSpin 6s linear infinite;
+    inset: -10px;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
+    background: linear-gradient(135deg, var(--rn-teal), var(--rn-violet), var(--rn-chrome));
     z-index: 0;
   }
-  /* mask the conic gradient down to a thin ring */
+  /* mask down to a thin hexagon outline */
   .hero-logo-wrap::after {
     content: '';
     position: absolute;
-    inset: -9px;
-    border-radius: 50%;
+    inset: -5px;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
     background: rgba(5,0,18,0.96);
     z-index: 1;
   }
+  /* scanning beam sweeping vertically across the badge */
+  .hero-logo-wrap .scan-line {
+    position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
+  }
+  .hero-logo-wrap .scan-line::before {
+    content: ''; position: absolute; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--rn-teal), transparent);
+    animation: heroScanSweep 3s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--rn-teal);
+  }
+  @keyframes heroScanSweep { 0%,100% { top: -5%; } 50% { top: 100%; } }
   /* second ring, further out, counter-spinning the other way */
   .hero-logo-inner-ring {
     position: absolute;
@@ -3288,7 +3299,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- GLOWRILLA'S SELF PROTOCOL -->
     <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;">
-      <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Glowrilla\'s Self Protocol')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 GLOWRILLA'S SELF PROTOCOL</button>
+      <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Operator Dossier: Glowrilla')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 OPERATOR DOSSIER: GLOWRILLA</button>
     </div>
 
     <!-- LATEST NEWS -->
@@ -3305,10 +3316,10 @@ document.addEventListener('keydown', function(e){
       details.vpn-news-card[open] .vpn-news-arrow { transform:rotate(180deg); }
       .vpn-news-body { padding:0 1.25rem 1.15rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.9rem; }
     </style>
-    <details style="margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;text-align:left;border:2px solid var(--neon-pink);background:linear-gradient(135deg,#1a0006,#0d0008);box-shadow:0 0 22px rgba(155,48,255,0.25);border-radius:8px;overflow:hidden;">
-      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);display:flex;align-items:center;gap:0.6rem;text-shadow:0 0 10px rgba(155,48,255,0.5);">
-        <span style="font-size:1.3rem;">📰</span> Latest News
-        <span style="margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;color:rgba(155,48,255,0.6);text-transform:uppercase;">5 Updates</span>
+    <details style="margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;text-align:left;border:1px solid rgba(216,218,232,0.18);background:linear-gradient(135deg,rgba(10,8,16,.95),rgba(4,2,10,.98));box-shadow:0 0 22px rgba(139,61,255,0.22);clip-path:polygon(0 14px,14px 0,100% 0,100% 100%,0 100%);overflow:hidden;">
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:var(--rn-font,'Orbitron','Bebas Neue',sans-serif);font-weight:700;font-size:0.98rem;letter-spacing:0.12em;color:var(--rn-teal);display:flex;align-items:center;gap:0.6rem;text-shadow:0 0 10px rgba(45,212,191,0.5);">
+        <span style="font-size:1.3rem;">📡</span> INTEL FEED
+        <span style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:var(--rn-violet);text-transform:uppercase;">5 TRANSMISSIONS</span>
       </summary>
       <div style="padding:0.25rem 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
 
@@ -3467,117 +3478,85 @@ document.addEventListener('keydown', function(e){
   <!-- LOGO + QUICK ACCESS ROWS -->
   <div style="max-width:1100px;width:100%;margin:0 auto 1.25rem;display:flex;gap:1.25rem;align-items:stretch;flex-wrap:wrap;">
     <div class="hero-logo-wrap" style="flex:0 0 auto;margin:0;">
-      <div class="hero-logo-inner-ring"></div>
-      <div class="hero-logo-orbit">
-        <div class="orbit-track" style="--dur:16s;">
-          <span class="orbit-icon" style="--dur:16s;--r:192px;color:#d8dae8;">💊</span>
-        </div>
-        <div class="orbit-track rev" style="--dur:20s;">
-          <span class="orbit-icon" style="--dur:20s;--r:182px;color:#8b3dff;">🧬</span>
-        </div>
-        <div class="orbit-track" style="--dur:24s;">
-          <span class="orbit-icon" style="--dur:24s;--r:200px;color:#b9bcd6;">⚗️</span>
-        </div>
-        <div class="orbit-track rev" style="--dur:18s;">
-          <span class="orbit-icon" style="--dur:18s;--r:175px;color:#8b3dff;">💉</span>
-        </div>
-      </div>
-      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:340px;height:340px;object-fit:contain;position:relative;z-index:2;" />
+      <div class="scan-line"></div>
+      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:150px;height:150px;object-fit:contain;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);" />
     </div>
-    <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:0.6rem;justify-content:center;min-width:280px;">
+    <div style="flex:1 1 320px;display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;min-width:280px;">
 
-      <a href="pokeme-dex.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-orange);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,107,0,0.1)';this.style.boxShadow='0 0 18px rgba(255,107,0,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <img src="pokemedexlogo.png" alt="PokeMe-Dex" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--neon-orange);">
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-orange);">PokeMe-Dex</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Peptide Pokédex · Goal suggestions · Dose calendar</div>
-        </span>
+      <a href="pokeme-dex.html" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <img src="pokemedexlogo.png" alt="PokeMe-Dex" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--rn-teal);">
+        <div class="rn-mod-title">PokeMe-Dex</div>
+        <div class="rn-mod-sub">Goals · Dose calendar</div>
       </a>
 
-      <a href="tracker.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #00ff88;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(0,255,136,0.1)';this.style.boxShadow='0 0 18px rgba(0,255,136,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">📊</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#00ff88;">Health Tracker</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Protein · Injection sites · Peptide calendar</div>
-        </span>
+      <a href="tracker.html" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">📊</span>
+        <div class="rn-mod-title">Health Tracker</div>
+        <div class="rn-mod-sub">Protein · Injections</div>
       </a>
 
-      <a href="peptide-suggestion.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-pink);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(155,48,255,0.1)';this.style.boxShadow='0 0 18px rgba(155,48,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🦍</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-pink);">Peptide Suggestion</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Goal-based suggestions &amp; a dose schedule builder</div>
-        </span>
+      <a href="peptide-suggestion.html" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🦍</span>
+        <div class="rn-mod-title">Peptide Suggestion</div>
+        <div class="rn-mod-sub">Dose schedule builder</div>
       </a>
 
-      <a onclick="showView('videos'); setActiveNav(document.querySelector('[onclick*=videos]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-cyan);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(201,201,232,0.1)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">▶</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-cyan);">Doctor Videos</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Research physicians &amp; education</div>
-        </span>
+      <a onclick="showView('videos'); setActiveNav(document.querySelector('[onclick*=videos]'))" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <span class="rn-mod-icon">▶</span>
+        <div class="rn-mod-title">Doctor Videos</div>
+        <div class="rn-mod-sub">Physicians &amp; education</div>
       </a>
 
-      <a onclick="showView('bloodwork'); setActiveNav(document.querySelector('[onclick*=bloodwork]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #cc44ff;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(204,68,255,0.1)';this.style.boxShadow='0 0 18px rgba(204,68,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🩸</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#cc44ff;">Blood Work</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Know your numbers · Lab panels</div>
-        </span>
+      <a onclick="showView('bloodwork'); setActiveNav(document.querySelector('[onclick*=bloodwork]'))" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">🩸</span>
+        <div class="rn-mod-title">Blood Work</div>
+        <div class="rn-mod-sub">Know your numbers</div>
       </a>
 
-      <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #ffe600;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,230,0,0.1)';this.style.boxShadow='0 0 18px rgba(255,230,0,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🧮</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#ffe600;">Reconstitution Calculator</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Figure out your dose &amp; draw amount</div>
-        </span>
+      <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🧮</span>
+        <div class="rn-mod-title">Recon Calculator</div>
+        <div class="rn-mod-sub">Dose &amp; draw amount</div>
       </a>
 
-      <a onclick="showView('supplies'); setActiveNav(document.querySelector('[onclick*=supplies]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #00ffcc;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(0,255,204,0.1)';this.style.boxShadow='0 0 18px rgba(0,255,204,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🧫</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#00ffcc;">Supplies</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Syringes · BAC water · Niimbot</div>
-        </span>
+      <a onclick="showView('supplies'); setActiveNav(document.querySelector('[onclick*=supplies]'))" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <span class="rn-mod-icon">🧫</span>
+        <div class="rn-mod-title">Supplies</div>
+        <div class="rn-mod-sub">Syringes · BAC water</div>
       </a>
 
-      <a onclick="showView('vitamins'); setActiveNav(document.querySelector('[onclick*=vitamins]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #ff4dc4;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,77,196,0.1)';this.style.boxShadow='0 0 18px rgba(255,77,196,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">💊</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#ff4dc4;">Vitamins &amp; Supplements</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Evidence-based supplement guide</div>
-        </span>
+      <a onclick="showView('vitamins'); setActiveNav(document.querySelector('[onclick*=vitamins]'))" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">💊</span>
+        <div class="rn-mod-title">Vitamins</div>
+        <div class="rn-mod-sub">Supplement guide</div>
       </a>
 
-      <a onclick="showView('cheatsheets'); setActiveNav(document.querySelector('[onclick*=cheatsheets]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #3b82f6;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(59,130,246,0.1)';this.style.boxShadow='0 0 18px rgba(59,130,246,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🗄️</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#3b82f6;">Cheat Sheet</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Quick-reference guides &amp; playbooks</div>
-        </span>
+      <a onclick="showView('cheatsheets'); setActiveNav(document.querySelector('[onclick*=cheatsheets]'))" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🗄️</span>
+        <div class="rn-mod-title">Cheat Sheet</div>
+        <div class="rn-mod-sub">Quick reference</div>
       </a>
 
     </div>
   </div>
+
+  <style>
+    .rn-mod-tile {
+      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      text-decoration: none; background: linear-gradient(160deg,rgba(255,255,255,0.03),transparent);
+      border: 1px solid color-mix(in srgb, var(--tc) 35%, transparent);
+      border-top: 2px solid var(--tc);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      padding: 0.9rem 0.5rem 0.7rem;
+      text-align: center;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .rn-mod-tile:hover { background: color-mix(in srgb, var(--tc) 10%, transparent); transform: translateY(-2px); }
+    .rn-mod-icon { font-size: 1.5rem; }
+    .rn-mod-title { font-family: var(--rn-font,'Orbitron','Bebas Neue',sans-serif); font-weight:700; font-size: 0.68rem; letter-spacing: 0.04em; color: var(--tc); text-transform: uppercase; line-height: 1.2; }
+    .rn-mod-sub { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: rgba(216,218,232,0.5); line-height: 1.3; }
+    @media (max-width: 480px) { .rn-mod-tile { padding: 0.7rem 0.3rem 0.5rem; } .rn-mod-sub { display: none; } }
+  </style>
 
     <div style="background:linear-gradient(135deg,rgba(201,201,232,0.1),rgba(155,48,255,0.06));border:2px solid var(--neon-cyan);box-shadow:0 0 32px rgba(201,201,232,0.18);backdrop-filter:blur(8px);padding:1.2rem 2rem 1.3rem;margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);">
       <div class="hero-eyebrow" style="margin-bottom:0.6rem;">⚡ INNER CIRCLE RESEARCH HUB</div>
