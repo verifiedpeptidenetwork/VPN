@@ -4,20 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RN Research Network | Research Guides</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Rajdhani:wght@500;600;700&amp;family=Share+Tech+Mono&amp;family=Permanent+Marker&amp;family=Bangers&amp;family=Monoton&amp;family=Pacifico&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&amp;family=Bebas+Neue&amp;family=Rajdhani:wght@500;600;700&amp;family=Share+Tech+Mono&amp;family=Permanent+Marker&amp;family=Bangers&amp;family=Monoton&amp;family=Pacifico&amp;display=swap" rel="stylesheet">
 <style>
   :root {
-    --neon-pink: #9b30ff;
-    --neon-cyan: #c9c9e8;
+    /* RN chrome + violet design system */
+    --neon-pink: #8b3dff;
+    --neon-cyan: #cfd2e8;
     --neon-purple: #ffe600;
     --neon-orange: #ff6b00;
-    --dark-bg: #050012;
-    --card-bg: #0e0625;
-    --card-border: #1a0a35;
-    --mid-bg: #0c0320;
-    --text-primary: #ffffff;
-    --text-secondary: #e8e0f0;
-    --grid-color: rgba(201,201,232,0.04);
+    --rn-violet: #8b3dff;
+    --rn-violet-deep: #5b1fb8;
+    --rn-chrome: #d8dae8;
+    --rn-chrome-dim: #8a8da3;
+    --dark-bg: #030206;
+    --card-bg: #0a0810;
+    --card-border: #221c33;
+    --mid-bg: #07050d;
+    --text-primary: #f1f0f8;
+    --text-secondary: #c7c3d8;
+    --grid-color: rgba(139,61,255,0.05);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,7 +47,7 @@
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 17px;
-    background: url('GLOWRILLAWALLPAPER.png');
+    background: url('RESEARCHNETWORKWALLPAPER.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -420,32 +425,32 @@
   }
 
   .nav-pill {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.95rem;
+    font-family: var(--rn-font);
+    font-size: 0.85rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(201,201,232,0.3);
-    border-radius: 4px;
-    background: #0e0e0a;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(216,218,232,0.25);
+    border-radius: 2px;
+    background: linear-gradient(135deg,#0c0a14,#070611);
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
-  /* Top-level nav buttons (Tools / Library / More) — one consistent look */
+  /* Top-level nav buttons (Tools / Library / More) — chrome/violet metallic look */
   .nav-pill-main {
-    border-color: rgba(201,201,232,0.35) !important;
-    color: var(--text-secondary) !important;
-    background: #0c0c1a !important;
+    border-color: rgba(216,218,232,0.3) !important;
+    color: var(--rn-chrome-dim) !important;
+    background: linear-gradient(135deg,#0c0a14,#070611) !important;
   }
   .nav-pill-main:hover, .nav-dropdown.open .nav-pill-main {
-    border-color: var(--neon-cyan) !important;
-    color: var(--neon-cyan) !important;
-    background: rgba(201,201,232,0.08) !important;
-    box-shadow: 0 0 14px rgba(201,201,232,0.3) !important;
+    border-color: var(--rn-violet) !important;
+    color: var(--rn-chrome) !important;
+    background: linear-gradient(135deg,#160c2c,#070611) !important;
+    box-shadow: 0 0 16px rgba(139,61,255,0.4) !important;
   }
 
   .nav-pill-testing {
@@ -488,12 +493,12 @@
   }
 
   .hero-eyebrow {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: var(--rn-font);
     font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.3em;
-    color: var(--neon-cyan);
-    text-shadow: 0 0 10px var(--neon-cyan);
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--rn-chrome);
+    text-shadow: 0 0 10px rgba(216,218,232,0.6);
     margin-bottom: 0.75rem;
     text-transform: uppercase;
   }
@@ -506,21 +511,21 @@
   }
 
   .hero-title span.pink {
-    color: var(--neon-pink);
+    color: var(--rn-violet);
     text-shadow:
-      0 0 6px rgba(155,48,255,1),
-      0 0 18px rgba(155,48,255,0.7),
-      0 0 40px rgba(155,48,255,0.35),
-      0 0 80px rgba(155,48,255,0.15);
+      0 0 6px rgba(139,61,255,1),
+      0 0 18px rgba(139,61,255,0.7),
+      0 0 40px rgba(139,61,255,0.35),
+      0 0 80px rgba(139,61,255,0.15);
   }
 
   .hero-title span.cyan {
-    color: var(--neon-cyan);
+    color: var(--rn-chrome);
     text-shadow:
-      0 0 6px rgba(201,201,232,1),
-      0 0 18px rgba(201,201,232,0.7),
-      0 0 40px rgba(201,201,232,0.35),
-      0 0 80px rgba(201,201,232,0.15);
+      0 0 6px rgba(216,218,232,1),
+      0 0 18px rgba(216,218,232,0.7),
+      0 0 40px rgba(216,218,232,0.35),
+      0 0 80px rgba(216,218,232,0.15);
   }
 
   .hero-title {
@@ -528,7 +533,7 @@
     text-shadow:
       0 0 6px rgba(255,255,255,0.9),
       0 0 18px rgba(200,180,255,0.5),
-      0 0 40px rgba(150,100,255,0.2);
+      0 0 40px rgba(120,60,255,0.25);
   }
 
   .hero-desc {
@@ -548,17 +553,21 @@
   }
 
   .hero-badge {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: var(--rn-font);
     font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: 0.15em;
-    padding: 0.35rem 1rem;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    padding: 0.45rem 1.1rem;
     border: 1px solid;
     text-transform: uppercase;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    position: relative;
+    transition: filter 0.2s, transform 0.15s;
   }
+  .hero-badge:hover { transform: translateY(-1px); filter: brightness(1.25); }
 
-  .hero-badge.cyan { border-color: var(--neon-cyan); color: var(--neon-cyan); background:#0a0a1e; }
-  .hero-badge.pink { border-color: var(--neon-pink); color: var(--neon-pink); background:#0d0a18; }
+  .hero-badge.cyan { border-color: var(--rn-chrome); color: var(--rn-chrome); background: linear-gradient(135deg,#0d0c14,#070611); box-shadow: 0 0 14px rgba(216,218,232,0.12); }
+  .hero-badge.pink { border-color: var(--rn-violet); color: var(--rn-chrome); background: linear-gradient(135deg,#140a26,#070611); box-shadow: 0 0 16px rgba(139,61,255,0.3); }
   .hero-badge.purple { border-color: #ffe600; color: #ffe600; background:#0e0e0a; }
 
   /* === DIVIDER === */
@@ -2450,88 +2459,78 @@
 <style>
   #gate-overlay {
     position: fixed; inset: 0; z-index: 99999;
-    background: linear-gradient(180deg, #1a0a2e 0%, #3a1050 35%, #6e1a5e 55%, #a8285a 70%, #ff6b3d 100%);
+    background: radial-gradient(ellipse 110% 70% at 50% -10%, #120a22 0%, #04020a 60%, #000 100%);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 1.5rem;
     overflow: hidden;
   }
-  /* Setting sun */
+  /* faint code-rain columns instead of a setting sun */
   #gate-overlay::before {
     content: '';
-    position: absolute;
-    left: 50%; top: 58%;
-    width: min(70vw, 520px); height: min(70vw, 520px);
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffe600 0%, #ff8a00 40%, #9b30ff 70%, transparent 75%);
-    box-shadow: 0 0 120px rgba(255,107,0,0.6), 0 0 240px rgba(155,48,255,0.4);
-    opacity: 0.85;
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(90deg, rgba(139,61,255,0.05) 0px, rgba(139,61,255,0.05) 1px, transparent 1px, transparent 26px);
+    animation: gate-rain-shift 3s linear infinite;
+    opacity: 0.8;
   }
-  /* Synthwave grid floor */
+  @keyframes gate-rain-shift { from { background-position-y: 0; } to { background-position-y: 80px; } }
+  /* radar sweep ping instead of synthwave grid floor */
   #gate-overlay::after {
     content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0; height: 55%;
-    background-image:
-      linear-gradient(rgba(201,201,232,0.5) 1.5px, transparent 1.5px),
-      linear-gradient(90deg, rgba(201,201,232,0.5) 1.5px, transparent 1.5px);
-    background-size: 60px 40px;
-    transform: perspective(300px) rotateX(60deg);
-    transform-origin: bottom;
-    mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    position: absolute; left: 50%; top: 50%;
+    width: 80vmax; height: 80vmax; margin: -40vmax 0 0 -40vmax;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(139,61,255,0.16), transparent 30deg);
+    animation: gate-radar-spin 4s linear infinite;
     pointer-events: none;
   }
+  @keyframes gate-radar-spin { to { transform: rotate(360deg); } }
   .gate-brand {
     position: relative; z-index: 1;
     text-align: center;
     margin-bottom: 1.25rem;
   }
   .gate-brand-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--rn-font, 'Orbitron', 'Bebas Neue', sans-serif);
+    font-weight: 800;
     font-size: 1.4rem; letter-spacing: 0.3em;
-    background: linear-gradient(135deg, var(--neon-cyan), #fff, var(--neon-pink));
+    background: linear-gradient(135deg, var(--rn-chrome, #d8dae8), #fff, var(--rn-violet, #8b3dff));
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(255,255,255,0.4);
+    text-shadow: 0 0 20px rgba(139,61,255,0.3);
   }
   .gate-brand-sub {
-    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem;
-    letter-spacing: 0.35em; color: rgba(255,255,255,0.55);
+    font-family: 'Share Tech Mono', monospace; font-weight: 700; font-size: 0.7rem;
+    letter-spacing: 0.35em; color: rgba(216,218,232,0.5);
     margin-top: 0.2rem;
   }
   .gate-panel {
     position: relative; z-index: 1;
     width: 100%; max-width: 460px;
-    background: rgba(8,4,20,0.78);
-    border: 2px solid var(--neon-cyan);
-    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(10,8,16,.92), rgba(4,2,10,.96));
+    border: 1px solid rgba(216,218,232,0.16);
+    clip-path: polygon(0 16px, 16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
     padding: 2.5rem 2rem;
     text-align: center;
     backdrop-filter: blur(14px);
-    box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(155,48,255,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6);
-    animation: gate-pulse 3s ease-in-out infinite;
+    box-shadow: 0 0 50px rgba(139,61,255,0.25), 0 20px 60px rgba(0,0,0,0.7);
     overflow: hidden;
   }
-  .gate-panel::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
-    pointer-events: none;
-    border-radius: 18px;
+  .gate-panel::before, .gate-panel::after {
+    content: ''; position: absolute; width: 22px; height: 22px; pointer-events: none; z-index: 2;
   }
-  @keyframes gate-pulse {
-    0%, 100% { box-shadow: 0 0 4px rgba(255,200,0,0.7), 0 0 60px rgba(255,107,0,0.55), 0 0 140px rgba(155,48,255,0.45), 0 0 240px rgba(180,0,255,0.3), 0 20px 60px rgba(0,0,0,0.6); }
-    50% { box-shadow: 0 0 8px rgba(255,200,0,1), 0 0 100px rgba(255,107,0,0.85), 0 0 220px rgba(155,48,255,0.65), 0 0 360px rgba(180,0,255,0.45), 0 20px 60px rgba(0,0,0,0.6); }
-  }
+  .gate-panel::before { top: -1px; left: -1px; border-top: 2px solid var(--rn-chrome, #d8dae8); border-left: 2px solid var(--rn-chrome, #d8dae8); }
+  .gate-panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--rn-violet, #8b3dff); border-right: 2px solid var(--rn-violet, #8b3dff); }
   .gate-logo-ring {
     width: 150px; height: 150px; margin: 0 auto 1.25rem;
     position: relative; z-index: 1;
-    border-radius: 50%; border: 3px solid var(--neon-cyan);
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #2a2440, #8b3dff, #d8dae8, #5b1fb8, #2a2440);
     display: flex; align-items: center; justify-content: center;
     font-size: 2.5rem;
-    box-shadow: 0 0 15px rgba(201,201,232,0.5), inset 0 0 15px rgba(201,201,232,0.2);
+    box-shadow: 0 0 22px rgba(139,61,255,0.5);
     animation: gate-spin 12s linear infinite;
+    padding: 4px;
   }
+  .gate-logo-ring img { border-radius: 50%; background: #050008; }
   @media (min-width: 1024px) {
     .gate-panel { max-width: 560px; padding: 3.5rem 3rem; }
     .gate-logo-ring { width: 220px; height: 220px; }
@@ -2634,8 +2633,11 @@
   window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
 
   var overlay = document.getElementById('gate-overlay');
+  var vaultUnlocked = false;
+  try { vaultUnlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
+  if (vaultUnlocked) { overlay.style.display = 'none'; }
   onAuthStateChanged(auth, function(user){
-    if (user) {
+    if (user || vaultUnlocked) {
       overlay.style.display = 'none';
     } else {
       window.location.href = 'access.html';
@@ -3280,7 +3282,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- GLOWRILLA'S SELF PROTOCOL -->
     <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;">
-      <button onclick="openLightbox('cheatsheet/glowrillasresearchstack.png','Glowrilla\'s Self Protocol')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 GLOWRILLA'S SELF PROTOCOL</button>
+      <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Glowrilla\'s Self Protocol')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 GLOWRILLA'S SELF PROTOCOL</button>
     </div>
 
     <!-- LATEST NEWS -->
@@ -3462,16 +3464,16 @@ document.addEventListener('keydown', function(e){
       <div class="hero-logo-inner-ring"></div>
       <div class="hero-logo-orbit">
         <div class="orbit-track" style="--dur:16s;">
-          <span class="orbit-icon" style="--dur:16s;--r:192px;color:#c9c9e8;">💊</span>
+          <span class="orbit-icon" style="--dur:16s;--r:192px;color:#d8dae8;">💊</span>
         </div>
         <div class="orbit-track rev" style="--dur:20s;">
-          <span class="orbit-icon" style="--dur:20s;--r:182px;color:#9b30ff;">🧬</span>
+          <span class="orbit-icon" style="--dur:20s;--r:182px;color:#8b3dff;">🧬</span>
         </div>
         <div class="orbit-track" style="--dur:24s;">
-          <span class="orbit-icon" style="--dur:24s;--r:200px;color:#ffe600;">⚗️</span>
+          <span class="orbit-icon" style="--dur:24s;--r:200px;color:#b9bcd6;">⚗️</span>
         </div>
         <div class="orbit-track rev" style="--dur:18s;">
-          <span class="orbit-icon" style="--dur:18s;--r:175px;color:#9b30ff;">💉</span>
+          <span class="orbit-icon" style="--dur:18s;--r:175px;color:#8b3dff;">💉</span>
         </div>
       </div>
       <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:340px;height:340px;object-fit:contain;position:relative;z-index:2;" />
@@ -8412,10 +8414,10 @@ document.addEventListener('keydown', function(e){
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
           <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Glowrilla's Peptide Stack — Purpose &amp; Benefits</div>
-            <a href="cheatsheet/peptidestackglowrilla.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+            <a href="cheatsheet/PEPTIDE_STACK_PROTOCOL.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
           </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/peptidestackglowrilla.png','Glowrilla\'s Peptide Stack — Purpose & Benefits')">
-            <img src="cheatsheet/peptidestackglowrilla.png" alt="Glowrilla's Peptide Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/PEPTIDE_STACK_PROTOCOL.png','Glowrilla\'s Peptide Stack — Purpose & Benefits')">
+            <img src="cheatsheet/PEPTIDE_STACK_PROTOCOL.png" alt="Glowrilla's Peptide Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
           </div>
         </div>
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
