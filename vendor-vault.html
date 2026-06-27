@@ -54,9 +54,64 @@
   .vendor-links a { font-family:'Share Tech Mono',monospace; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; padding:0.4rem 0.7rem; border:1px solid var(--vc,var(--rn-teal)); color:var(--vc,var(--rn-teal)); text-decoration:none; transition:background .2s; }
   .vendor-links a:hover { background:rgba(45,212,191,.12); }
   .vendor-note { font-size:0.8rem; color:rgba(216,218,232,.7); margin-top:0.5rem; line-height:1.5; }
+
+  /* Second password lock for this page specifically */
+  #vv-lock {
+    position:fixed; inset:0; z-index:99999; background:#030206;
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  }
+  #vv-lock.hidden { display:none; }
+  .vv-lock-box {
+    position:relative; max-width:380px; width:100%; text-align:center;
+    background:linear-gradient(135deg,rgba(10,8,16,.95),rgba(4,2,10,.98));
+    border:1px solid rgba(216,218,232,.18);
+    clip-path:polygon(0 16px,16px 0,100% 0,100% 100%,0 100%);
+    padding:2rem 1.75rem; box-shadow:0 0 40px rgba(139,61,255,.25);
+  }
+  .vv-lock-icon { font-size:2.2rem; margin-bottom:0.75rem; }
+  .vv-lock-title { font-family:var(--rn-font); font-weight:800; font-size:1.1rem; letter-spacing:0.12em; color:var(--rn-chrome); margin-bottom:0.4rem; }
+  .vv-lock-sub { font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:rgba(216,218,232,.5); margin-bottom:1.4rem; letter-spacing:0.05em; }
+  .vv-lock-box input {
+    width:100%; padding:0.85rem 1rem; margin-bottom:0.85rem;
+    background:#050008; border:2px solid var(--rn-violet); color:#fff;
+    font-family:'Share Tech Mono',monospace; font-size:1.1rem; text-align:center;
+    letter-spacing:0.1em; outline:none;
+  }
+  .vv-lock-box button {
+    width:100%; padding:0.85rem; font-family:var(--rn-font); font-weight:700;
+    font-size:0.9rem; letter-spacing:0.1em; background:rgba(139,61,255,.14);
+    border:1px solid var(--rn-violet); color:var(--rn-violet); cursor:pointer;
+    transition:background .2s;
+  }
+  .vv-lock-box button:hover { background:rgba(139,61,255,.25); }
+  .vv-lock-err { font-family:'Share Tech Mono',monospace; font-size:0.75rem; color:#ff5555; min-height:1.2em; margin-top:0.75rem; }
 </style>
 </head>
 <body>
+
+<div id="vv-lock">
+  <div class="vv-lock-box">
+    <div class="vv-lock-icon">🔒</div>
+    <div class="vv-lock-title">SECOND LOCK ENGAGED</div>
+    <div class="vv-lock-sub">VENDOR VAULT · ADDITIONAL PASSWORD REQUIRED</div>
+    <input id="vv-lock-input" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkVVLock()">
+    <button onclick="checkVVLock()">UNLOCK</button>
+    <div class="vv-lock-err" id="vv-lock-err"></div>
+  </div>
+</div>
+
+<script>
+  function checkVVLock(){
+    var v = document.getElementById('vv-lock-input').value.trim().toLowerCase();
+    if (v === 'vendetta') {
+      document.getElementById('vv-lock').classList.add('hidden');
+    } else {
+      document.getElementById('vv-lock-err').textContent = 'Incorrect password.';
+      document.getElementById('vv-lock-input').value = '';
+    }
+  }
+</script>
+
 <canvas id="rain-canvas"></canvas>
 
 <div class="top-bar">
