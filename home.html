@@ -3199,21 +3199,21 @@ document.addEventListener('keydown', function(e){
     </div>
     <nav class="nav-pills" id="desktop-nav">
       <div class="nav-dropdown">
-        <button class="nav-pill nav-pill-main" onclick="this.closest('.nav-dropdown').classList.toggle('open')">Tools ▾</button>
+        <button class="nav-pill nav-pill-main rn-nav-wide" onclick="this.closest('.nav-dropdown').classList.toggle('open')">📡 Intel ▾</button>
         <div class="nav-dropdown-panel">
-          <a href="peptide-suggestion.html" class="nav-pill" style="border-color:rgba(155,48,255,0.5);color:var(--neon-pink);text-decoration:none;">🦍 Peptide Suggestion</a>
-          <a href="pokeme-dex.html" class="nav-pill" style="border-color:rgba(255,107,0,0.5);color:var(--neon-orange);text-decoration:none;">🔴 PokeMe-Dex</a>
-          <a href="tracker.html" class="nav-pill" style="border-color:rgba(0,255,136,0.5);color:#00ff88;text-decoration:none;">📊 Health Tracker</a>
-          <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:#ffe600;color:#ffe600;">🧮 Calculator</button>
-          <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:rgba(155,48,255,0.5);color:var(--neon-pink);">🩸 Blood Work</button>
-          <button class="nav-pill" onclick="showView('vitamins'); setActiveNav(this)" style="border-color:#00ff64;color:#00ff64;">💊 Vitamins</button>
-          <button class="nav-pill" onclick="showView('workouts'); setActiveNav(this)" style="border-color:#cc44ff;color:#cc44ff;">💪 Workouts</button>
-          <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:var(--neon-cyan);color:var(--neon-cyan);">🧫 Supplies</button>
+          <a href="peptide-suggestion.html" class="nav-pill" style="border-color:var(--rn-violet);color:var(--rn-violet);text-decoration:none;">🦍 Peptide Suggestion</a>
+          <a href="pokeme-dex.html" class="nav-pill" style="border-color:var(--rn-teal);color:var(--rn-teal);text-decoration:none;">🔴 PokeMe-Dex</a>
+          <a href="tracker.html" class="nav-pill" style="border-color:var(--rn-chrome);color:var(--rn-chrome);text-decoration:none;">📊 Health Tracker</a>
+          <button class="nav-pill" onclick="showView('calculator'); setActiveNav(this)" style="border-color:var(--rn-violet);color:var(--rn-violet);">🧮 Calculator</button>
+          <button class="nav-pill" onclick="showView('bloodwork'); setActiveNav(this)" style="border-color:var(--rn-teal);color:var(--rn-teal);">🩸 Blood Work</button>
+          <button class="nav-pill" onclick="showView('vitamins'); setActiveNav(this)" style="border-color:var(--rn-chrome);color:var(--rn-chrome);">💊 Vitamins</button>
+          <button class="nav-pill" onclick="showView('workouts'); setActiveNav(this)" style="border-color:var(--rn-violet);color:var(--rn-violet);">💪 Workouts</button>
+          <button class="nav-pill" onclick="showView('supplies'); setActiveNav(this)" style="border-color:var(--rn-teal);color:var(--rn-teal);">🧫 Supplies</button>
         </div>
       </div>
 
       <div class="nav-dropdown">
-        <button class="nav-pill nav-pill-main" onclick="this.closest('.nav-dropdown').classList.toggle('open')">Archives ▾</button>
+        <button class="nav-pill nav-pill-main rn-nav-wide" onclick="this.closest('.nav-dropdown').classList.toggle('open')">📁 Archives ▾</button>
         <div class="nav-dropdown-panel">
           <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:var(--rn-chrome);color:var(--rn-chrome);">🔬 Compound Index</button>
           <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:var(--rn-teal);color:var(--rn-teal);">📊 Intel Reports</button>
@@ -3221,16 +3221,18 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <div class="nav-dropdown">
-        <button class="nav-pill nav-pill-main" onclick="this.closest('.nav-dropdown').classList.toggle('open')">More ▾</button>
+        <button class="nav-pill nav-pill-main rn-nav-wide" onclick="this.closest('.nav-dropdown').classList.toggle('open')">⋯ More ▾</button>
         <div class="nav-dropdown-panel">
-          <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:var(--neon-cyan);color:var(--neon-cyan);">▶ Videos</button>
-          <button class="nav-pill" onclick="showView('team'); setActiveNav(this)" style="border-color:#00ff64;color:#00ff64;">🧬 Meet The Team</button>
-          <button class="nav-pill" onclick="showView('about'); setActiveNav(this)" style="border-color:var(--neon-orange);color:var(--neon-orange);">About</button>
-          <button class="nav-pill" onclick="showView('terms'); setActiveNav(this)" style="border-color:#ffe600;color:#ffe600;">📋 Terms</button>
-          <button class="nav-pill" onclick="showView('bonus'); setActiveNav(this)" style="border-color:rgba(155,48,255,0.5);color:var(--neon-pink);">⭐ Bonus</button>
+          <button class="nav-pill" onclick="showView('videos'); setActiveNav(this)" style="border-color:var(--rn-teal);color:var(--rn-teal);">▶ Videos</button>
         </div>
       </div>
     </nav>
+    <style>
+      .rn-nav-wide { min-width: 130px; padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; }
+      @media (max-width: 700px) {
+        .rn-nav-wide { min-width: 0; flex: 1 1 auto; padding: 0.75rem 1rem !important; font-size: 0.85rem !important; }
+      }
+    </style>
 
     <!-- Hamburger button (mobile only) -->
     <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
@@ -3289,8 +3291,35 @@ document.addEventListener('keydown', function(e){
     <!-- GLOWRILLA'S SELF PROTOCOL + VENDOR VAULT ACCESS -->
     <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;display:flex;gap:0.6rem;flex-wrap:wrap;">
       <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Operator Dossier: Glowrilla')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 OPERATOR DOSSIER: GLOWRILLA</button>
-      <a href="vendor-vault.html" class="hero-badge" style="border-color:var(--rn-teal);color:var(--rn-teal);background:#0a0a1e;text-decoration:none;display:inline-flex;align-items:center;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(45,212,191,0.15)';this.style.boxShadow='0 0 18px rgba(45,212,191,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🔐 VENDOR VAULT ACCESS</a>
+      <a href="vendor-vault.html" class="rn-vault-btn">
+        <span class="rn-vault-btn-scan"></span>
+        <span class="rn-vault-btn-icon">🔓</span>
+        <span class="rn-vault-btn-text"><span class="rn-vault-btn-label">VENDOR VAULT</span><span class="rn-vault-btn-sub">TAP TO DECRYPT ACCESS</span></span>
+      </a>
     </div>
+    <style>
+      .rn-vault-btn {
+        position: relative; display: inline-flex; align-items: center; gap: 0.65rem;
+        padding: 0.5rem 1.2rem 0.5rem 0.5rem;
+        font-family: var(--rn-font,'Orbitron','Bebas Neue',sans-serif);
+        text-decoration: none; overflow: hidden;
+        background: linear-gradient(135deg,#0a1410,#070611);
+        border: 1px solid var(--rn-teal);
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        transition: box-shadow 0.2s, transform 0.15s;
+      }
+      .rn-vault-btn:hover { box-shadow: 0 0 22px rgba(45,212,191,0.55); transform: translateY(-1px); }
+      .rn-vault-btn-scan {
+        position: absolute; top: 0; bottom: 0; width: 40%;
+        background: linear-gradient(90deg, transparent, rgba(45,212,191,0.25), transparent);
+        animation: rnVaultScan 2.8s linear infinite;
+      }
+      @keyframes rnVaultScan { 0% { left: -40%; } 100% { left: 120%; } }
+      .rn-vault-btn-icon { font-size: 1.3rem; position: relative; z-index: 1; filter: drop-shadow(0 0 6px var(--rn-teal)); }
+      .rn-vault-btn-text { position: relative; z-index: 1; display: flex; flex-direction: column; line-height: 1.15; }
+      .rn-vault-btn-label { font-weight: 800; font-size: 0.92rem; letter-spacing: 0.14em; color: var(--rn-teal); }
+      .rn-vault-btn-sub { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(216,218,232,0.5); }
+    </style>
 
     <!-- LATEST NEWS -->
     <style>
@@ -3549,28 +3578,38 @@ document.addEventListener('keydown', function(e){
     @media (max-width: 480px) { .rn-mod-tile { padding: 0.7rem 0.3rem 0.5rem; } .rn-mod-sub { display: none; } }
   </style>
 
-    <div style="background:linear-gradient(135deg,rgba(201,201,232,0.1),rgba(155,48,255,0.06));border:2px solid var(--neon-cyan);box-shadow:0 0 32px rgba(201,201,232,0.18);backdrop-filter:blur(8px);padding:1.2rem 2rem 1.3rem;margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);">
-      <div class="hero-eyebrow" style="margin-bottom:0.6rem;">⚡ INNER CIRCLE RESEARCH HUB</div>
-      <h1 class="hero-title" style="margin-bottom:0.75rem;font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.2;">Research Supplies, Guides &amp; Tools</h1>
-      <p class="hero-desc" style="margin-bottom:0;">
-        Peptide research guides, study references, calculators, protocols, and educational resources — curated by the RN inner circle.
+    <div class="rn-hub-box">
+      <div class="rn-hub-corner-tl"></div>
+      <div class="rn-hub-corner-br"></div>
+      <div class="rn-hub-eyebrow">📡 ENCRYPTED RESEARCH UPLINK</div>
+      <h1 class="rn-hub-title">Field Tools, Intel &amp; Sourcing</h1>
+      <p class="rn-hub-desc">
+        Research guides, study references, calculators, and protocols — compiled and maintained by the RN inner circle.
       </p>
     </div>
-
+    <style>
+      .rn-hub-box {
+        position: relative;
+        background: linear-gradient(135deg,rgba(45,212,191,0.07),rgba(139,61,255,0.06));
+        border: 1px solid rgba(216,218,232,0.18);
+        box-shadow: 0 0 32px rgba(139,61,255,0.18);
+        backdrop-filter: blur(8px);
+        padding: 1.2rem 2rem 1.3rem;
+        margin: 0 auto 0.85rem;
+        max-width: 680px; width: 100%; box-sizing: border-box;
+        clip-path: polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+      }
+      .rn-hub-corner-tl, .rn-hub-corner-br { position: absolute; width: 22px; height: 22px; pointer-events: none; }
+      .rn-hub-corner-tl { top: -1px; left: -1px; border-top: 2px solid var(--rn-teal); border-left: 2px solid var(--rn-teal); }
+      .rn-hub-corner-br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--rn-violet); border-right: 2px solid var(--rn-violet); }
+      .rn-hub-eyebrow { font-family: var(--rn-font,'Orbitron','Bebas Neue',sans-serif); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.35em; color: var(--rn-teal); text-shadow: 0 0 10px rgba(45,212,191,0.5); margin-bottom: 0.6rem; }
+      .rn-hub-title { font-family: 'Bebas Neue',sans-serif; font-size: clamp(1.6rem,3.2vw,2.6rem); line-height: 1.2; margin-bottom: 0.75rem; color: #fff; text-shadow: 0 0 18px rgba(139,61,255,0.4); }
+      .rn-hub-desc { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 0; line-height: 1.6; }
+    </style>
 
     <div style="background:#140a04;border:2px solid var(--neon-orange);box-shadow:0 0 18px rgba(255,107,0,0.2);padding:0.7rem 1.2rem;margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:var(--neon-orange);line-height:1.5;text-align:left;clip-path:polygon(0 0,100% 0,100% 100%,18px 100%,0 calc(100% - 18px));">
       ⚠ FOR LEARNING ONLY — THIS IS NOT MEDICAL ADVICE. Work with your doctor — even if they disagree with you — and independently verify everything in every part of this website (or any website) before acting on it.
     </div>
-
-  <!-- WHY WE'RE HERE — Insurance -->
-  <details open style="margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;text-align:left;border:2px solid var(--neon-pink);background:#1a0006;box-shadow:0 0 24px rgba(155,48,255,0.25);">
-    <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-pink);">🏛️ Why We're Here</summary>
-    <div style="padding:0 1.25rem 1.1rem;">
-      <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.png','Our Health Is In The Hands Of The Insurance Companies')">
-        <img src="cheatsheet/insuranceiswhywerehere.png" alt="Our Health Is In The Hands Of The Insurance Companies" style="width:100%;display:block;border-radius:4px;" title="Click to zoom">
-      </div>
-    </div>
-  </details>
 
   <!-- Janoshik note + video -->
   <details id="janoshik-section" style="margin-top:0.85rem;max-width:600px;margin-left:auto;margin-right:auto;background:#0d0518;border:2px solid #cc44ff;box-shadow:0 0 24px rgba(180,0,255,0.35);text-align:left;clip-path:polygon(0 0,100% 0,100% 100%,24px 100%,0 calc(100% - 24px));">
@@ -3635,260 +3674,6 @@ document.addEventListener('keydown', function(e){
     }
   </style>
 
-  <!-- SITE DIRECTORY -->
-  <div style="margin-top:1.75rem;width:100%;max-width:1100px;margin-left:auto;margin-right:auto;">
-    <div style="font-family:var(--rn-font,'Orbitron','Bebas Neue',sans-serif);font-weight:700;font-size:0.85rem;letter-spacing:0.3em;color:var(--rn-teal);margin-bottom:0.85rem;text-align:left;padding-left:2px;">▣ ACCESS DIRECTORY ▣</div>
-  <style>
-    .dir-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; text-align:left; }
-    .dir-subhead { grid-column:1/-1; display:flex; align-items:center; gap:0.75rem; margin:1.4rem 0 -0.15rem; }
-    .dir-subhead:first-child { margin-top:0; }
-    .dir-subhead-label { font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:0.22em; white-space:nowrap; }
-    .dir-subhead-line { flex:1; height:1px; background:linear-gradient(90deg,var(--shc,rgba(201,201,232,0.4)),transparent); }
-    .dir-card {
-      cursor:pointer; position:relative; padding:1.35rem 1.5rem; text-decoration:none; display:block; min-height:104px;
-      background:linear-gradient(135deg, var(--dc,rgba(201,201,232,0.14)) 0%, rgba(5,2,15,0.9) 60%);
-      border:1px solid var(--db,rgba(201,201,232,0.4));
-      transition:transform 0.15s, box-shadow 0.2s, background 0.2s;
-      clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
-    }
-    .dir-card:nth-child(3n+2) { clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px); }
-    .dir-card:nth-child(3n) { clip-path:polygon(0 0,100% 0,100% 100%,14px 100%,0 calc(100% - 14px)); }
-    .dir-card:hover { transform:translateY(-3px); box-shadow:0 6px 22px var(--dg,rgba(201,201,232,0.25)); background:linear-gradient(135deg, var(--dc2,rgba(201,201,232,0.22)) 0%, rgba(5,2,15,0.95) 60%); }
-    .dir-card-title { font-family:'Bebas Neue',sans-serif; font-size:1.25rem; letter-spacing:0.12em; color:var(--dt,var(--neon-cyan)); text-shadow:0 0 8px var(--dg,rgba(201,201,232,0.4)); }
-    .dir-card-desc { font-family:'Rajdhani',sans-serif; font-size:0.98rem; font-weight:600; color:#fff; margin-top:0.35rem; line-height:1.4; }
-  </style>
-  <div class="dir-grid">
-
-    <!-- 🧰 TOOLS -->
-    <div class="dir-subhead" style="--shc:rgba(201,201,232,0.45);">
-      <span class="dir-subhead-label" style="color:var(--rn-teal);">🧰 FIELD TOOLS</span>
-      <span class="dir-subhead-line"></span>
-    </div>
-
-    <a href="peptide-suggestion.html" class="dir-card" style="--dc:rgba(155,48,255,0.14);--dc2:rgba(155,48,255,0.24);--db:rgba(155,48,255,0.55);--dg:rgba(155,48,255,0.35);--dt:var(--neon-pink);display:flex;align-items:center;gap:0.75rem;">
-      <img src="rnlogo.png" alt="" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;">
-      <div>
-        <div class="dir-card-title">Peptide Suggestion</div>
-        <div class="dir-card-desc">Pick your goals, get matching peptides, and build a manual dose schedule.</div>
-      </div>
-    </a>
-
-    <a href="pokeme-dex.html" class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);display:flex;align-items:center;gap:0.75rem;">
-      <img src="pokemedexlogo.png" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--neon-orange);">
-      <div>
-        <div class="dir-card-title">PokeMe-Dex</div>
-        <div class="dir-card-desc">Our most complete tool — goal-based suggestions, a searchable index, dose tracker, and injection-site log, all saved to your account.</div>
-      </div>
-    </a>
-
-    <a href="tracker.html" class="dir-card" style="--dc:rgba(0,255,136,0.14);--dc2:rgba(0,255,136,0.24);--db:rgba(0,255,136,0.55);--dg:rgba(0,255,136,0.35);--dt:#00ff88;display:flex;align-items:center;gap:0.75rem;">
-      <div style="font-size:2rem;flex-shrink:0;">📊</div>
-      <div>
-        <div class="dir-card-title">Health Tracker</div>
-        <div class="dir-card-desc">Broader day-to-day tracking — protein intake, injection site rotation, and a peptide dosing calendar.</div>
-      </div>
-    </a>
-
-    <div class="dir-card" style="--dc:rgba(255,230,0,0.16);--dc2:rgba(255,230,0,0.26);--db:#ffe600;--dg:rgba(255,230,0,0.35);--dt:#ffe600;" onclick="showView('calculator');setActiveNav(document.querySelector('[onclick*=calculator]'))">
-      <div class="dir-card-title">🧮 Reconstitution Calculator</div>
-      <div class="dir-card-desc">Enter your vial size and BAC water amount to get exactly how many units to draw for your desired dose.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(155,48,255,0.14);--dc2:rgba(155,48,255,0.24);--db:rgba(155,48,255,0.55);--dg:rgba(155,48,255,0.35);--dt:var(--neon-pink);" onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'))">
-      <div class="dir-card-title">🩸 Blood Work</div>
-      <div class="dir-card-desc">Know which lab panels to ask your doctor for, and what your numbers actually mean.</div>
-    </div>
-
-    <!-- 📚 GUIDES & REFERENCE -->
-    <div class="dir-subhead" style="--shc:rgba(255,230,0,0.4);">
-      <span class="dir-subhead-label" style="color:var(--rn-chrome);">📚 INTEL ARCHIVES</span>
-      <span class="dir-subhead-line"></span>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(201,201,232,0.16);--dc2:rgba(201,201,232,0.26);--db:var(--neon-cyan);--dg:rgba(201,201,232,0.35);--dt:var(--neon-cyan);" onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'))">
-      <div class="dir-card-title">🛠 Guides</div>
-      <div class="dir-card-desc">Peptide dosage charts, protocols, and how-to references in one place.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,230,0,0.12);--dc2:rgba(255,230,0,0.2);--db:rgba(255,230,0,0.5);--dg:rgba(255,230,0,0.3);--dt:#ffe600;" onclick="showView('cheatsheets');setActiveNav(document.querySelector('[onclick*=cheatsheets]'))">
-      <div class="dir-card-title">🗄️ Cheat Sheet Vault</div>
-      <div class="dir-card-desc">Quick-reference dosing sheets, reconstitution guides, and protocol playbooks.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(155,48,255,0.14);--dc2:rgba(155,48,255,0.24);--db:rgba(155,48,255,0.55);--dg:rgba(155,48,255,0.35);--dt:var(--neon-pink);" onclick="showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'))">
-      <div class="dir-card-title">🔬 Peptide Index</div>
-      <div class="dir-card-desc">What each of 70+ peptides actually does, in plain language.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(180,0,255,0.14);--dc2:rgba(180,0,255,0.24);--db:rgba(180,0,255,0.55);--dg:rgba(180,0,255,0.35);--dt:#cc44ff;" onclick="showView('studies');setActiveNav(document.querySelector('[onclick*=studies]'))">
-      <div class="dir-card-title">🔭 Research Studies</div>
-      <div class="dir-card-desc">Clinical and preclinical study summaries, including safety data.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(0,255,100,0.14);--dc2:rgba(0,255,100,0.24);--db:rgba(0,255,100,0.55);--dg:rgba(0,255,100,0.35);--dt:#00ff64;" onclick="showView('vitamins');setActiveNav(document.querySelector('[onclick*=vitamins]'))">
-      <div class="dir-card-title">💊 Vitamins &amp; Supplements</div>
-      <div class="dir-card-desc">Evidence-based supplement guide for thyroid, insulin resistance, PCOS, and inflammation.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'))">
-      <div class="dir-card-title">🧫 Supplies</div>
-      <div class="dir-card-desc">Where to get syringes, BAC water, and label makers like the Niimbot.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(0,255,100,0.14);--dc2:rgba(0,255,100,0.24);--db:rgba(0,255,100,0.55);--dg:rgba(0,255,100,0.35);--dt:#00ff64;" onclick="showView('workouts');setActiveNav(document.querySelector('[onclick*=workouts]'))">
-      <div class="dir-card-title">💪 Workout Guides</div>
-      <div class="dir-card-desc">Training plans for all ages, including 60+, plus splits and Zone 2 cardio.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,107,0,0.14);--dc2:rgba(255,107,0,0.24);--db:rgba(255,107,0,0.55);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);" onclick="showView('templates');setActiveNav(document.querySelector('[onclick*=templates]'))">
-      <div class="dir-card-title">🏷️ Label Templates</div>
-      <div class="dir-card-desc">Printable vial labels for the Niimbot, including RN-branded designs.</div>
-    </div>
-
-    <!-- 📥 DOWNLOADS -->
-    <div class="dir-subhead" style="--shc:rgba(0,255,136,0.4);">
-      <span class="dir-subhead-label" style="color:var(--rn-teal);">📥 DATA DROPS</span>
-      <span class="dir-subhead-line"></span>
-    </div>
-
-    <a href="Pdf/VPN_Beginners_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(0,255,136,0.12);--dc2:rgba(0,255,136,0.22);--db:rgba(0,255,136,0.55);--dg:rgba(0,255,136,0.3);--dt:#00ff88;">
-      <div class="dir-card-title">🌱 RN Beginner's Guide</div>
-      <div class="dir-card-desc">Start here — safety, dosing, and research basics. 129-page PDF.</div>
-    </a>
-
-    <a href="Pdf/VPN_Peptide_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(255,107,0,0.16);--dc2:rgba(255,107,0,0.26);--db:var(--neon-orange);--dg:rgba(255,107,0,0.35);--dt:var(--neon-orange);">
-      <div class="dir-card-title">📥 Full RN Peptide Guide</div>
-      <div class="dir-card-desc">The complete community research guide as a downloadable PDF.</div>
-    </a>
-
-    <a href="Pdf/VPN_Peptide_Research_Guide.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(201,201,232,0.14);--dc2:rgba(201,201,232,0.24);--db:rgba(201,201,232,0.55);--dg:rgba(201,201,232,0.35);--dt:var(--neon-cyan);">
-      <div class="dir-card-title">📥 Quick Cheat Sheet (PDF)</div>
-      <div class="dir-card-desc">A condensed version of the RN Peptide Research Guide.</div>
-    </a>
-
-    <a href="Pdf/VPN_Research_Field_Manual.pdf" download target="_blank" rel="noopener" class="dir-card" style="--dc:rgba(201,201,232,0.16);--dc2:rgba(201,201,232,0.26);--db:var(--neon-cyan);--dg:rgba(201,201,232,0.35);--dt:var(--neon-cyan);">
-      <div class="dir-card-title">📘 RN Research Field Manual</div>
-      <div class="dir-card-desc">Protocols, dosing references, and day-to-day research guidance.</div>
-    </a>
-
-    <div style="grid-column:1/-1;text-align:center;padding:0.6rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.45);font-style:italic;">
-      🙏 Thanks to the creators of these guides for putting in the time to help the community. God bless.
-    </div>
-
-    <!-- 👥 COMMUNITY -->
-    <div class="dir-subhead" style="--shc:rgba(180,0,255,0.4);">
-      <span class="dir-subhead-label" style="color:var(--rn-violet);">👥 NETWORK OPS</span>
-      <span class="dir-subhead-line"></span>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(201,201,232,0.14);--dc2:rgba(201,201,232,0.24);--db:rgba(201,201,232,0.55);--dg:rgba(201,201,232,0.35);--dt:var(--neon-cyan);" onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'))">
-      <div class="dir-card-title">▶ Doctor Videos</div>
-      <div class="dir-card-desc">Research physicians discussing peptides, GLP-1s, and metabolic health.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(180,0,255,0.14);--dc2:rgba(180,0,255,0.24);--db:rgba(180,0,255,0.55);--dg:rgba(180,0,255,0.35);--dt:#cc44ff;" onclick="document.getElementById('janoshik-section').open=true;document.getElementById('janoshik-section').scrollIntoView({behavior:'smooth'})">
-      <div class="dir-card-title">🧪 Janoshik Interview</div>
-      <div class="dir-card-desc">Peter Magic on independent peptide lab testing and how to spot a fake COA.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(201,201,232,0.14);--dc2:rgba(201,201,232,0.24);--db:rgba(201,201,232,0.55);--dg:rgba(201,201,232,0.35);--dt:var(--neon-cyan);" onclick="showView('team');setActiveNav(document.querySelector('[onclick*=team]'))">
-      <div class="dir-card-title">🧬 Meet The Team</div>
-      <div class="dir-card-desc">The RN inner circle — scientists and researchers behind the guides.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(255,230,0,0.14);--dc2:rgba(255,230,0,0.24);--db:rgba(255,230,0,0.55);--dg:rgba(255,230,0,0.35);--dt:#ffe600;" onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'))">
-      <div class="dir-card-title">⭐ Bonus Health &amp; Cancer</div>
-      <div class="dir-card-desc">Extra resources — immune support, viral protocols, and cancer research.</div>
-    </div>
-
-    <div class="dir-card" style="--dc:rgba(180,0,255,0.14);--dc2:rgba(180,0,255,0.24);--db:rgba(180,0,255,0.55);--dg:rgba(180,0,255,0.35);--dt:#cc44ff;" onclick="showView('about');setActiveNav(document.querySelector('[onclick*=about]'))">
-      <div class="dir-card-title">ℹ About RN</div>
-      <div class="dir-card-desc">Our mission and commitment to research integrity.</div>
-    </div>
-
-  </div>
-  </div>
-
-  <!-- Disclaimer strip -->
-  <div style="margin-top:1.25rem;max-width:780px;margin-left:auto;margin-right:auto;width:100%;display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(201,201,232,0.6);letter-spacing:0.06em;">🔬 FOR RESEARCH &amp; EDUCATION PURPOSES ONLY</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(255,107,0,0.6);letter-spacing:0.06em;">⚠ GLP GUIDES FOR PRESCRIBED PATIENTS ONLY</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(155,48,255,0.6);letter-spacing:0.06em;">✦ NOT MEDICAL ADVICE</div>
-  </div>
-
-</div>
-
-
-<div class="neon-divider" id="neon-divider"></div>
-
-<!-- MAIN -->
-<main class="main">
-
-  <!-- HOME VIEW -->
-  <div class="view active" id="view-home">
-
-    <style>
-      .vpn-bible-card, .vpn-researchers-banner { max-width:100%; overflow:hidden; box-sizing:border-box; }
-      @media (max-width: 640px) {
-        .vpn-bible-card { flex-wrap:wrap; clip-path:none !important; padding:1.1rem 1.25rem !important; }
-        .vpn-researchers-banner { flex-direction:column; align-items:flex-start !important; clip-path:none !important; padding:1.1rem 1.25rem !important; gap:0.85rem !important; }
-        .vpn-researchers-banner .vpn-rb-emoji { display:none; }
-        .vpn-researchers-banner button { width:100%; }
-      }
-    </style>
-
-    <!-- PEPTIDES BIBLE BOOK -->
-      <a href="https://www.amazon.com/PEPTIDES-BIBLE-Scientific-Combinations-Personalize/dp/B0F7XXX28G" target="_blank" rel="noopener" class="vpn-bible-card" style="display:flex;align-items:center;gap:1rem;padding:1.4rem 1.6rem;background:linear-gradient(135deg,rgba(155,48,255,0.12),rgba(155,48,255,0.05));border:2px solid var(--neon-pink);box-shadow:0 0 24px rgba(155,48,255,0.18);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%);">
-        <span style="font-size:2.4rem;flex-shrink:0;">📚</span>
-        <div style="min-width:0;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.12em;color:var(--neon-pink);text-shadow:0 0 12px rgba(155,48,255,0.6);line-height:1.1;">📖 The Peptides Bible — Get it on Amazon</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.25rem;">Scientific Combinations · Dosing · Stacking Protocols ↗</div>
-        </div>
-      </a>
-
-    <!-- MEET THE RESEARCHERS — angled banner -->
-    <div class="vpn-researchers-banner" style="position:relative;display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.6rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#0d0a1e,#160a24);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(201,201,232,0.15);clip-path:polygon(0 0,calc(100% - 28px) 0,100% 100%,28px 100%);">
-      <img src="guides-pictures/RESEARCHERPLUSHIES.png" alt="RN Researcher Plushies" style="width:64px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;border:2px solid var(--neon-cyan);">
-      <div class="vpn-rb-emoji" style="font-size:2.5rem;flex-shrink:0;">🧬</div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.1em;color:var(--neon-cyan);text-shadow:0 0 12px rgba(201,201,232,0.6);line-height:1.1;">Meet The Researchers</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;color:var(--text-secondary);line-height:1.5;margin-top:0.2rem;">The RN inner circle — scientists, researchers, and data-driven experts behind the guides.</div>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem;">
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦍 Glowrilla</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🦁 Leonidas</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🐘 Ellie</span>
-          <span style="color:rgba(255,255,255,0.2);">·</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,255,255,0.4);">🐯 Tiger &amp; more</span>
-        </div>
-      </div>
-      <button onclick="showView('team'); setActiveNav(document.querySelector('[onclick*=team]'))"
-        style="flex-shrink:0;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.75rem 1.4rem;border:2px solid var(--neon-pink);color:var(--neon-pink);background:rgba(155,48,255,0.08);cursor:pointer;transition:all 0.2s;text-transform:uppercase;white-space:nowrap;"
-        onmouseover="this.style.background='rgba(155,48,255,0.22)';this.style.boxShadow='0 0 20px rgba(155,48,255,0.5)'"
-        onmouseout="this.style.background='rgba(155,48,255,0.08)';this.style.boxShadow='none'">
-        VIEW TEAM →
-      </button>
-    </div>
-
-    <!-- CONTACT EMAIL -->
-    <div style="text-align:center;margin-bottom:1.25rem;">
-      <a href="mailto:vpnpepdata@yahoo.com"
-        style="display:inline-flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;padding:0.6rem 1.4rem;border:1px solid rgba(255,230,0,0.4);color:#ffe600;text-decoration:none;background:rgba(255,230,0,0.05);transition:all 0.2s;"
-        onmouseover="this.style.borderColor='#ffe600';this.style.background='rgba(255,230,0,0.12)'"
-        onmouseout="this.style.borderColor='rgba(255,230,0,0.4)';this.style.background='rgba(255,230,0,0.05)'">
-        ✉ vpnpepdata@yahoo.com — Submit a Suggestion
-      </a>
-    </div>
-
-    <!-- COPYRIGHT -->
-    <div style="text-align:center;padding:0.75rem 1rem;margin-bottom:2rem;background:#000;border:1px solid rgba(255,255,255,0.07);">
-      <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.08em;">
-        © Born in Noor Labs · May 20, 2026 · Research Network (RN) · Created by Said Kolenovic · All content for educational &amp; research purposes only · Unauthorized reproduction prohibited
-      </span>
-    </div>
-
-  </div>
 
   <style>
     @media (max-width: 768px) {
