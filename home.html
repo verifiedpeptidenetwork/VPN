@@ -8844,12 +8844,6 @@ function setActiveNav(el) {
 
 // ── TERMS GATE ───────────────────────────────────────────────────────────────
 function acceptTerms() {
-  if (!document.getElementById('terms-check').checked) {
-    document.getElementById('terms-accept-btn').style.borderColor = 'var(--neon-pink)';
-    document.getElementById('terms-accept-btn').style.color = 'var(--neon-pink)';
-    document.getElementById('terms-accept-btn').textContent = '⚠ Please check the box above to agree';
-    return;
-  }
   try { localStorage.setItem('vpn-terms-accepted', '1'); } catch(e) {}
   try { sessionStorage.setItem('vpn-terms-accepted', '1'); } catch(e) {}
   document.getElementById('terms-gate').style.display = 'none';
