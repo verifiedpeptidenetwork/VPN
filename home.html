@@ -1486,10 +1486,13 @@
     justify-content: center;
     margin-bottom: 0;
     position: relative;
-    width: 170px;
-    height: 170px;
+    width: 320px;
+    height: 320px;
     flex-shrink: 0;
     align-items: center;
+  }
+  @media (max-width: 700px) {
+    .hero-logo-wrap { width: 220px; height: 220px; }
   }
   /* hexagonal frame instead of a rotating dual-ring circle */
   .hero-logo-wrap::before {
@@ -2464,10 +2467,6 @@
 </head>
 <body>
 
-<div id="no-coa-banner" style="position:relative;z-index:100000;background:#1a0006;border-bottom:2px solid var(--neon-pink);padding:0.75rem 2.75rem 0.75rem 1rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:#fff;text-align:center;letter-spacing:0.02em;">
-  ⚠ NO COAs OR VENDOR INFORMATION ARE ON THIS WEBSITE.
-  <button onclick="document.getElementById('no-coa-banner').style.display='none'" aria-label="Close" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;width:1.8rem;height:1.8rem;cursor:pointer;line-height:1;">✕</button>
-</div>
 
 <style>
   #gate-overlay {
@@ -3473,7 +3472,7 @@ document.addEventListener('keydown', function(e){
   <div style="max-width:1100px;width:100%;margin:0 auto 1.25rem;display:flex;gap:1.25rem;align-items:stretch;flex-wrap:wrap;">
     <div class="hero-logo-wrap" style="flex:0 0 auto;margin:0;">
       <div class="scan-line"></div>
-      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:150px;height:150px;object-fit:contain;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);" />
+      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:280px;height:280px;object-fit:contain;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);" />
     </div>
     <div style="flex:1 1 320px;display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;min-width:280px;">
 
@@ -3537,15 +3536,16 @@ document.addEventListener('keydown', function(e){
   <style>
     .rn-mod-tile {
       display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
-      text-decoration: none; background: linear-gradient(160deg,rgba(255,255,255,0.03),transparent);
-      border: 1px solid color-mix(in srgb, var(--tc) 35%, transparent);
+      text-decoration: none; background: linear-gradient(160deg,rgba(8,6,14,0.97),rgba(2,1,6,0.99));
+      border: 1px solid color-mix(in srgb, var(--tc) 45%, transparent);
       border-top: 2px solid var(--tc);
       clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
       padding: 0.9rem 0.5rem 0.7rem;
       text-align: center;
-      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--tc) 35%, transparent), 0 4px 14px rgba(0,0,0,0.6);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .rn-mod-tile:hover { background: color-mix(in srgb, var(--tc) 10%, transparent); transform: translateY(-2px); }
+    .rn-mod-tile:hover { background: linear-gradient(160deg,color-mix(in srgb, var(--tc) 14%, #08060e),rgba(2,1,6,0.99)); transform: translateY(-2px); box-shadow: 0 0 30px color-mix(in srgb, var(--tc) 55%, transparent), 0 6px 18px rgba(0,0,0,0.7); }
     .rn-mod-icon { font-size: 1.5rem; }
     .rn-mod-title { font-family: var(--rn-font,'Orbitron','Bebas Neue',sans-serif); font-weight:700; font-size: 0.68rem; letter-spacing: 0.04em; color: var(--tc); text-transform: uppercase; line-height: 1.2; }
     .rn-mod-sub { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: rgba(216,218,232,0.5); line-height: 1.3; }
@@ -3640,7 +3640,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- SITE DIRECTORY -->
   <div style="margin-top:1.75rem;width:100%;max-width:1100px;margin-left:auto;margin-right:auto;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;color:rgba(201,201,232,0.55);margin-bottom:0.85rem;text-align:left;padding-left:2px;">— SITE DIRECTORY —</div>
+    <div style="font-family:var(--rn-font,'Orbitron','Bebas Neue',sans-serif);font-weight:700;font-size:0.85rem;letter-spacing:0.3em;color:var(--rn-teal);margin-bottom:0.85rem;text-align:left;padding-left:2px;">▣ ACCESS DIRECTORY ▣</div>
   <style>
     .dir-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; text-align:left; }
     .dir-subhead { grid-column:1/-1; display:flex; align-items:center; gap:0.75rem; margin:1.4rem 0 -0.15rem; }
@@ -3664,7 +3664,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 🧰 TOOLS -->
     <div class="dir-subhead" style="--shc:rgba(201,201,232,0.45);">
-      <span class="dir-subhead-label" style="color:var(--neon-cyan);">🧰 TOOLS</span>
+      <span class="dir-subhead-label" style="color:var(--rn-teal);">🧰 FIELD TOOLS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3704,7 +3704,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 📚 GUIDES & REFERENCE -->
     <div class="dir-subhead" style="--shc:rgba(255,230,0,0.4);">
-      <span class="dir-subhead-label" style="color:#ffe600;">📚 GUIDES &amp; REFERENCE</span>
+      <span class="dir-subhead-label" style="color:var(--rn-chrome);">📚 INTEL ARCHIVES</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3750,7 +3750,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 📥 DOWNLOADS -->
     <div class="dir-subhead" style="--shc:rgba(0,255,136,0.4);">
-      <span class="dir-subhead-label" style="color:#00ff88;">📥 DOWNLOADS</span>
+      <span class="dir-subhead-label" style="color:var(--rn-teal);">📥 DATA DROPS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3780,7 +3780,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 👥 COMMUNITY -->
     <div class="dir-subhead" style="--shc:rgba(180,0,255,0.4);">
-      <span class="dir-subhead-label" style="color:#cc44ff;">👥 COMMUNITY</span>
+      <span class="dir-subhead-label" style="color:var(--rn-violet);">👥 NETWORK OPS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -4811,7 +4811,7 @@ document.addEventListener('keydown', function(e){
       <span style="font-size:1.5rem;flex-shrink:0;line-height:1;">⚠</span>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#00ff64;margin-bottom:0.3rem;">Not Medical Advice — Tools I Use for My Own Health</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.0'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#ffffff;line-height:1.7;">
           Everything on this page is for <strong style="color:#00ff64;">informational and educational purposes only.</strong> These are tools and resources I personally use to better understand my own health. Nothing here constitutes medical advice, diagnosis, or treatment. Always consult a qualified medical professional before making any health decisions.
         </div>
       </div>
@@ -12245,4 +12245,23 @@ function resetEmailWidget() {
   btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
   btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
 })();
-</scrip
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
