@@ -31,9 +31,7 @@
   }
 
   body {
-    background: linear-gradient(180deg,
-      #0d0028 0%, #1a0a3a 18%, #3a1255 34%, #6b1d63 48%,
-      #b8324f 62%, #ff6b35 76%, #ffb347 90%, #ffd97a 100%);
+    background: radial-gradient(ellipse 100% 70% at 50% 0%, #120a22 0%, #04020a 60%, #000 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,97 +39,73 @@
     min-height: 100vh;
   }
 
-  body::before {
-    content: '';
-    position: fixed; left: 50%; bottom: 6%;
-    width: 500px; height: 500px;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: linear-gradient(180deg, #fff6c8 0%, #ffd34d 20%, #ff9a3c 50%, #ff5a7a 80%, #9b30ff 100%);
-    box-shadow: 0 0 140px rgba(255,150,80,.75), 0 0 280px rgba(255,80,120,.4);
-    pointer-events: none; z-index: 0;
-  }
+  /* digital rain — falling glyph columns, not a sunset */
+  #rain-canvas { position: fixed; inset: 0; z-index: 0; opacity: .4; pointer-events: none; }
 
-  body::after {
-    content: '';
-    position: fixed; left: 50%; bottom: 6%;
-    width: 500px; height: 500px;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 13px, rgba(180,30,60,.6) 13px, rgba(180,30,60,.6) 20px);
-    -webkit-mask: radial-gradient(circle, #fff 58%, transparent 58%);
-    mask: radial-gradient(circle, #fff 58%, transparent 58%);
-    opacity: .6; pointer-events: none; z-index: 0;
+  /* radar sweep instead of a retro sun */
+  .radar {
+    position: fixed; left: 50%; top: 50%;
+    width: 900px; height: 900px; margin: -450px 0 0 -450px;
+    border-radius: 50%; pointer-events: none; z-index: 0;
+    border: 1px solid rgba(139,61,255,.08);
   }
+  .radar::before, .radar::after {
+    content: ''; position: absolute; border-radius: 50%; border: 1px solid rgba(139,61,255,.08);
+  }
+  .radar::before { inset: 160px; }
+  .radar::after { inset: 320px; }
+  .radar-sweep {
+    position: fixed; left: 50%; top: 50%; width: 450px; height: 450px;
+    transform-origin: 0 0; pointer-events: none; z-index: 0;
+    background: conic-gradient(from 0deg, rgba(139,61,255,.22), transparent 35deg);
+    animation: radarSpin 6s linear infinite;
+  }
+  @keyframes radarSpin { to { transform: rotate(360deg); } }
 
-  .grid-floor {
-    position: fixed; left: 0; right: 0; bottom: 0; height: 42%;
-    background: linear-gradient(0deg, rgba(10,0,30,.95), transparent);
-    z-index: 1; pointer-events: none; overflow: hidden;
-  }
-  .grid-floor::before {
-    content: ''; position: absolute; inset: 0;
-    background-image:
-      repeating-linear-gradient(90deg, rgba(201,201,232,.45) 0 2px, transparent 2px 60px),
-      repeating-linear-gradient(0deg, rgba(201,201,232,.3) 0 2px, transparent 2px 32px);
-    background-size: 60px 100%, 100% 32px;
-    transform: perspective(220px) rotateX(72deg);
-    transform-origin: bottom; opacity: .55;
-  }
-
-  .stars {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image:
-      radial-gradient(2px 2px at 8% 12%, #fff, transparent),
-      radial-gradient(1.5px 1.5px at 22% 6%, #fff, transparent),
-      radial-gradient(2px 2px at 38% 18%, #fff, transparent),
-      radial-gradient(1.5px 1.5px at 55% 4%, #fff, transparent),
-      radial-gradient(2px 2px at 72% 14%, #fff, transparent),
-      radial-gradient(1.5px 1.5px at 88% 8%, #fff, transparent),
-      radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,.6), transparent),
-      radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.5), transparent),
-      radial-gradient(1px 1px at 82% 20%, rgba(255,255,255,.6), transparent);
-    opacity: .8;
-  }
-
-  .palm {
-    position: fixed; bottom: 0; width: 210px; height: 310px;
-    z-index: 2; pointer-events: none; opacity: .88;
-    filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
-  }
-  .palm.left { left: -20px; }
-  .palm.right { right: -20px; transform: scaleX(-1); }
-  @media (max-width: 700px) { .palm { width: 120px; height: 190px; opacity: .45; } }
-
-  /* MAIN PANEL — redesigned, wider, logo dominant */
+  /* MAIN PANEL — angular HUD console, split layout, no rounded rainbow card */
   .panel {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 480px;
-    background: rgba(8, 2, 28, 0.86);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 24px;
-    padding: 2.8rem 2.2rem 2.2rem;
-    text-align: center;
-    box-shadow:
-      0 0 0 1px rgba(201,201,232,.07),
-      0 0 90px rgba(155,48,255,.22),
-      0 30px 90px rgba(0,0,0,.75);
+    max-width: 760px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0;
+    background: linear-gradient(135deg, rgba(10,8,16,.92), rgba(4,2,10,.96));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(216,218,232,.14);
+    clip-path: polygon(0 18px, 18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+    box-shadow: 0 0 60px rgba(139,61,255,.18), 0 30px 80px rgba(0,0,0,.8);
+    text-align: left;
+    overflow: hidden;
   }
 
-  .panel::before {
-    content: '';
-    position: absolute; inset: -1px; border-radius: 24px;
-    background: linear-gradient(135deg, var(--cyan), var(--pink), var(--yellow), var(--purple), var(--cyan));
-    background-size: 300% 300%;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    opacity: .55; animation: borderflow 6s linear infinite; z-index: -1;
+  /* corner HUD brackets instead of an animated gradient border */
+  .panel::before, .panel::after,
+  .hud-br1, .hud-br2 {
+    content: ''; position: absolute; width: 26px; height: 26px; pointer-events: none; z-index: 5;
   }
-  @keyframes borderflow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+  .panel::before { top: -1px; left: -1px; border-top: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+  .panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+  .hud-br1 { top: -1px; right: -1px; border-top: 2px solid var(--pink); border-right: 2px solid var(--pink); }
+  .hud-br2 { bottom: -1px; left: -1px; border-bottom: 2px solid var(--pink); border-left: 2px solid var(--pink); }
+
+  .panel-left {
+    flex: 0 0 240px;
+    background: linear-gradient(135deg, rgba(139,61,255,.07), transparent);
+    border-right: 1px solid rgba(216,218,232,.1);
+    padding: 2.2rem 1.6rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .panel-right { flex: 1 1 360px; padding: 2.2rem 2rem; min-width: 280px; }
+  @media (max-width: 620px) {
+    .panel { max-width: 420px; }
+    .panel-left { flex: 1 1 100%; border-right: none; border-bottom: 1px solid rgba(216,218,232,.1); padding: 1.8rem 1.5rem 1.2rem; }
+    .panel-right { flex: 1 1 100%; padding: 1.6rem 1.6rem 2rem; }
+  }
 
   /* BIG LOGO — hero centerpiece */
   .logo-wrap {
@@ -171,41 +145,43 @@
     display: flex;
     align-items: center;
     gap: .8rem;
-    background: linear-gradient(135deg, rgba(255,26,26,.18), rgba(255,107,0,.1));
-    border: 2px solid #ff3333;
-    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255,26,26,.14), rgba(8,2,16,.4));
+    border-left: 3px solid #ff3333;
+    border-top: 1px solid rgba(255,51,51,.3);
+    border-bottom: 1px solid rgba(255,51,51,.3);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
     padding: .9rem 1.1rem;
     margin-bottom: 1.4rem;
     text-align: left;
-    box-shadow: 0 0 24px rgba(255,51,51,.25);
   }
   .age-banner-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem;
+    font-family: var(--rn-font, 'Orbitron', monospace);
+    font-weight: 900;
+    font-size: 2rem;
     line-height: 1;
     color: #ff3333;
-    text-shadow: 0 0 14px #ff3333;
+    text-shadow: 0 0 12px rgba(255,51,51,.6);
     flex-shrink: 0;
   }
   .age-banner-text {
     font-size: .82rem;
     font-weight: 700;
     line-height: 1.5;
-    color: #ffe0e0;
+    color: #d8d4e0;
   }
-  .age-banner-text strong { display: block; color: #ff5555; font-size: .9rem; letter-spacing: .03em; margin-bottom: .15rem; }
+  .age-banner-text strong { display: block; color: #ff5555; font-size: .82rem; letter-spacing: .12em; margin-bottom: .15rem; font-family: 'Share Tech Mono', monospace; }
 
   .disclaimer {
-    background: rgba(255,255,255,.03);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 8px;
+    background: rgba(139,61,255,.04);
+    border-left: 2px solid rgba(139,61,255,.4);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     padding: .65rem .9rem;
     margin-bottom: 1.4rem;
     text-align: left;
     font-size: .68rem;
     font-weight: 600;
     line-height: 1.6;
-    color: rgba(255,255,255,.45);
+    color: rgba(216,218,232,.55);
   }
 
   /* MODE TABS */
@@ -349,188 +325,193 @@
 </head>
 <body>
 
-<div class="stars"></div>
-<div class="grid-floor"></div>
+<canvas id="rain-canvas"></canvas>
+<div class="radar"></div>
+<div class="radar-sweep"></div>
 
-<svg class="palm left" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMax meet">
-  <rect x="92" y="120" width="14" height="180" fill="#1a0a35"/>
-  <path d="M99 130 Q40 90 10 60" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 130 Q170 95 195 70" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 125 Q60 60 30 30" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 125 Q150 55 185 35" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 122 Q105 50 100 10" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-</svg>
-<svg class="palm right" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMax meet">
-  <rect x="92" y="120" width="14" height="180" fill="#1a0a35"/>
-  <path d="M99 130 Q40 90 10 60" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 130 Q170 95 195 70" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 125 Q60 60 30 30" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 125 Q150 55 185 35" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-  <path d="M99 122 Q105 50 100 10" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
-</svg>
+<style>
+  /* === VAULT DOOR — thick steel safe door with rivets, dial ring, lever handle === */
+  .vault-wrap { position: relative; width: 220px; height: 220px; margin: 0 auto 1.2rem; }
 
-<div class="panel" id="panel">
-
-  <div class="logo-wrap">
-    <img src="vpnlogo.png" alt="VPN" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Orbitron,monospace;font-size:2rem;font-weight:900;color:#c9c9e8;\'>VPN</span>'">
-  </div>
-
-  <div class="brand">RESEARCH NETWORK</div>
-  <div class="brand-sub">RESTRICTED ACCESS · MEMBERS ONLY</div>
-
-  <div class="age-banner">
-    <div class="age-banner-num">21+</div>
-    <div class="age-banner-text">
-      <strong>ADULTS ONLY · RESEARCH USE ONLY</strong>
-      You must be 21 years or older to enter. This site is for research and educational purposes only.
-    </div>
-  </div>
-
-  <div class="disclaimer">
-    Not medical advice. Always verify everything against real studies. Knowledge of safety should be free and easy for everyone.
-  </div>
-
-  <!-- MODE TABS -->
-  <div class="mode-tabs">
-    <button class="mode-tab active" id="tab-signin" onclick="switchTab('signin')">SIGN IN</button>
-    <button class="mode-tab" id="tab-signup" onclick="switchTab('signup')">CREATE ACCOUNT</button>
-  </div>
-
-  <!-- FORM -->
-  <div class="auth-form" id="auth-form-inner">
-    <div class="field-wrap">
-      <span class="field-icon">📧</span>
-      <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
-    </div>
-    <div class="field-wrap">
-      <span class="field-icon">🔒</span>
-      <input type="password" id="password" placeholder="Password (min 6 characters)" autocomplete="current-password" required>
-    </div>
-    <div class="forgot-row" id="forgot-row"><a id="forgot-link">Forgot password?</a></div>
-    <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">SIGN IN →</button>
-  </div>
-
-  <div class="msg error" id="error-msg"></div>
-  <div class="msg success" id="success-msg"></div>
-
-  <!-- NEW USER CTA — BIG, can't miss it -->
-  <div class="new-user-cta" id="new-user-cta">
-    <div class="new-user-label">✨ FIRST TIME HERE?<br>CREATE YOUR FREE ACCOUNT NOW</div>
-    <button class="create-btn" onclick="switchTab('signup')">＋ CREATE MY FREE ACCOUNT</button>
-  </div>
-
-  <div class="footer-note">RESEARCH NETWORK · RUIC GROUP MEMBERS ONLY</div>
-</div>
-
-<div class="popup-overlay" id="popup-overlay">
-  <div class="popup-box">
-    <button class="popup-close" id="popup-close">✕</button>
-    <div style="font-size:2.2rem;margin-bottom:.6rem">⚠️</div>
-    <div class="popup-msg" id="popup-msg"></div>
-  </div>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-    createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
-    authDomain: "vpnhub-data.firebaseapp.com",
-    projectId: "vpnhub-data",
-    storageBucket: "vpnhub-data.firebasestorage.app",
-    messagingSenderId: "519239456167",
-    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  setPersistence(auth, browserLocalPersistence);
-
-  onAuthStateChanged(auth, function(user){
-    if (user) window.location.href = 'home.html';
-  });
-
-  var isSignUp = false;
-
-  window.switchTab = function(mode) {
-    isSignUp = mode === 'signup';
-    clearMsgs();
-
-    document.getElementById('tab-signin').classList.toggle('active', !isSignUp);
-    document.getElementById('tab-signup').classList.toggle('active', isSignUp);
-    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
-    document.getElementById('forgot-row').style.display = isSignUp ? 'none' : '';
-    document.getElementById('new-user-cta').style.display = isSignUp ? 'none' : '';
-    document.getElementById('password').placeholder = isSignUp ? 'Choose a password (min 6 characters)' : 'Password (min 6 characters)';
-    document.getElementById('password').autocomplete = isSignUp ? 'new-password' : 'current-password';
-  };
-
-  window.handleSubmit = function() {
-    clearMsgs();
-    var email = document.getElementById('email').value.trim();
-    var password = document.getElementById('password').value;
-    if (!email || !password) { showError('PLEASE ENTER YOUR EMAIL AND PASSWORD'); return; }
-    if (password.length < 6) { showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS'); return; }
-
-    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING ACCOUNT…' : 'SIGNING IN…';
-    document.getElementById('submit-btn').style.opacity = '.6';
-
-    if (isSignUp) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'home.html')
-        .catch(err => { resetBtn(); showError(friendlyError(err)); });
-    } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'home.html')
-        .catch(err => { resetBtn(); showError(friendlyError(err)); });
-    }
-  };
-
-  function resetBtn() {
-    var btn = document.getElementById('submit-btn');
-    btn.textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
-    btn.style.opacity = '1';
+  /* outer steel door body */
+  .vault-door-body {
+    position: absolute; inset: 0; border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 28%, #3a3850 0%, #15131f 55%, #050008 100%);
+    box-shadow:
+      0 0 0 2px rgba(216,218,232,.18),
+      0 0 30px rgba(139,61,255,.35),
+      inset 0 0 26px rgba(0,0,0,.7);
+  }
+  /* riveted bolts evenly spaced around the rim */
+  .vault-bolt {
+    position: absolute; width: 7px; height: 7px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #eceeF7, #6b6d80 75%);
+    box-shadow: 0 0 4px rgba(0,0,0,.7), 0 0 5px rgba(216,218,232,.3);
   }
 
-  document.getElementById('email').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('password').focus(); });
-  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') window.handleSubmit(); });
+  /* rotating combination dial ring, inset from the rim */
+  .vault-ring {
+    position: absolute; inset: 22px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #2a2440, #8b3dff, #d8dae8, #5b1fb8, #2a2440);
+    animation: vaultSpin 14s linear infinite;
+    box-shadow: 0 0 14px rgba(139,61,255,.5);
+  }
+  .vault-ring::after {
+    content: ''; position: absolute; inset: 7px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1a1626, #050008 70%);
+  }
+  @keyframes vaultSpin { to { transform: rotate(360deg); } }
 
-  // FIX: point the reset link directly at our own reset-password.html page
-  // instead of relying on Firebase's default hosted action handler, which
-  // 404s if authDomain isn't fully configured. This guarantees the link works.
-  document.getElementById('forgot-link').addEventListener('click', function(){
-    var email = document.getElementById('email').value.trim();
-    if (!email) { showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD'); return; }
+  /* center emblem — the RN logo, set into the door like an embossed seal */
+  .vault-door-img {
+    position: absolute; inset: 38px; width: calc(100% - 76px); height: calc(100% - 76px);
+    border-radius: 50%; object-fit: cover; z-index: 2;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.7), 0 0 22px rgba(139,61,255,.55);
+  }
 
-    sendPasswordResetEmail(auth, email)
-      .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
-      .catch(err => {
-        console.error('Password reset error:', err.code, err.message);
-        showError(friendlyError(err) + ' [' + (err.code || 'unknown') + ']');
-      });
+  /* vault handle / lever sticking out to the side */
+  .vault-handle {
+    position: absolute; right: -22px; top: 50%; transform: translateY(-50%);
+    width: 30px; height: 64px; border-radius: 6px; z-index: 1;
+    background: linear-gradient(135deg, #3a3850, #15131f);
+    box-shadow: 0 0 0 1px rgba(216,218,232,.2), 2px 0 10px rgba(0,0,0,.6);
+  }
+  .vault-handle::before {
+    content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 12px; height: 44px; border-radius: 4px;
+    background: linear-gradient(135deg, #8b3dff, #5b1fb8);
+    box-shadow: 0 0 10px rgba(139,61,255,.6);
+  }
+
+  .vault-status {
+    position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+    background: #050008; border: 1px solid var(--pink); border-radius: 20px;
+    padding: .25rem .8rem; font-family: 'Share Tech Mono', monospace; font-size: .65rem;
+    letter-spacing: .12em; color: var(--pink); white-space: nowrap; z-index: 3;
+  }
+
+  /* === PIN KEYPAD === */
+  .pin-row { display: flex; gap: .65rem; justify-content: center; margin: 0.4rem 0 1.3rem; }
+  .pin-box {
+    width: 52px; height: 60px; text-align: center;
+    font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; font-weight: 700;
+    color: var(--cyan); background: rgba(255,255,255,.03);
+    border: 1px solid rgba(216,218,232,.25); border-radius: 8px;
+    outline: none; transition: border-color .15s, box-shadow .15s, transform .1s;
+    caret-color: var(--pink);
+  }
+  .pin-box:focus { border-color: var(--pink); box-shadow: 0 0 16px rgba(139,61,255,.4); transform: translateY(-2px); }
+  .vault-lock-icon { font-size: 1.5rem; text-align: center; margin-bottom: .3rem; opacity: .85; }
+</style>
+
+<div class="panel" id="panel">
+  <div class="hud-br1"></div>
+  <div class="hud-br2"></div>
+
+  <div class="panel-left">
+    <div class="vault-wrap">
+      <div class="vault-door-body"></div>
+      <div class="vault-bolt" style="left:206.5px; top:106.5px;"></div>
+      <div class="vault-bolt" style="left:193.1px; top:156.5px;"></div>
+      <div class="vault-bolt" style="left:156.5px; top:193.1px;"></div>
+      <div class="vault-bolt" style="left:106.5px; top:206.5px;"></div>
+      <div class="vault-bolt" style="left:56.5px; top:193.1px;"></div>
+      <div class="vault-bolt" style="left:19.9px; top:156.5px;"></div>
+      <div class="vault-bolt" style="left:6.5px; top:106.5px;"></div>
+      <div class="vault-bolt" style="left:19.9px; top:56.5px;"></div>
+      <div class="vault-bolt" style="left:56.5px; top:19.9px;"></div>
+      <div class="vault-bolt" style="left:106.5px; top:6.5px;"></div>
+      <div class="vault-bolt" style="left:156.5px; top:19.9px;"></div>
+      <div class="vault-bolt" style="left:193.1px; top:56.5px;"></div>
+      <div class="vault-handle"></div>
+      <div class="vault-ring"></div>
+      <img class="vault-door-img" src="rnlogo.png" alt="Research Network" onerror="this.style.display='none'">
+      <div class="vault-status" id="vault-status">🔒 LOCKED</div>
+    </div>
+
+    <div class="brand">RESEARCH NETWORK</div>
+    <div class="brand-sub">THE VAULT · MEMBERS ONLY</div>
+  </div>
+
+  <div class="panel-right">
+    <div class="age-banner">
+      <div class="age-banner-num">21+</div>
+      <div class="age-banner-text">
+        <strong>ADULTS ONLY · RESEARCH USE ONLY</strong>
+        You must be 21 years or older to enter. This site is for research and educational purposes only.
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      Not medical advice. Always verify everything against real studies. Knowledge of safety should be free and easy for everyone.
+    </div>
+
+    <div class="vault-lock-icon">🔐 ENTER VAULT CODE</div>
+
+    <div class="pin-row">
+      <input class="pin-box" id="pin0" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input class="pin-box" id="pin1" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input class="pin-box" id="pin2" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input class="pin-box" id="pin3" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">UNLOCK VAULT →</button>
+
+    <div class="msg error" id="error-msg"></div>
+    <div class="msg success" id="success-msg"></div>
+
+    <div class="footer-note">RESEARCH NETWORK · MEMBERS ONLY</div>
+  </div>
+</div>
+
+<script>
+  const VAULT_PIN = '1970';
+  var boxes = ['pin0','pin1','pin2','pin3'].map(id => document.getElementById(id));
+
+  boxes.forEach(function(box, i){
+    box.addEventListener('input', function(){
+      box.value = box.value.replace(/[^0-9]/g, '').slice(0,1);
+      if (box.value && i < boxes.length - 1) boxes[i+1].focus();
+      if (i === boxes.length - 1 && box.value) handleSubmit();
+    });
+    box.addEventListener('keydown', function(e){
+      if (e.key === 'Backspace' && !box.value && i > 0) boxes[i-1].focus();
+      if (e.key === 'Enter') handleSubmit();
+    });
   });
+  boxes[0].focus();
 
-  document.getElementById('popup-close').addEventListener('click', () => {
-    document.getElementById('popup-overlay').classList.remove('show');
-  });
+  function getEnteredPin() { return boxes.map(b => b.value).join(''); }
 
-  function friendlyError(err) {
-    var c = err && err.code ? err.code : '';
-    if (c === 'auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS — SIGN IN INSTEAD';
-    if (c === 'auth/invalid-email') return 'THAT EMAIL ADDRESS LOOKS INVALID';
-    if (c === 'auth/user-not-found' || c === 'auth/invalid-credential') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
-    if (c === 'auth/wrong-password') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
-    if (c === 'auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
-    if (c === 'auth/too-many-requests') return 'TOO MANY ATTEMPTS — PLEASE WAIT A FEW MINUTES';
-    if (c === 'auth/unauthorized-continue-uri') return 'RESET LINK DOMAIN NOT AUTHORIZED IN FIREBASE — CONTACT ADMIN';
-    if (c === 'auth/invalid-continue-uri') return 'RESET LINK CONFIGURATION ERROR — CONTACT ADMIN';
-    if (c === 'auth/missing-continue-uri') return 'RESET LINK MISSING CONFIG — CONTACT ADMIN';
-    if (c === 'auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION AND TRY AGAIN';
-    return 'SOMETHING WENT WRONG — PLEASE TRY AGAIN';
+  function handleSubmit() {
+    clearMsgs();
+    var pin = getEnteredPin();
+    if (pin.length < 4) { showError('ENTER ALL 4 DIGITS OF THE VAULT CODE'); return; }
+
+    var btn = document.getElementById('submit-btn');
+    btn.textContent = 'VERIFYING…';
+    btn.style.opacity = '.6';
+
+    setTimeout(function(){
+      if (pin === VAULT_PIN) {
+        document.getElementById('vault-status').textContent = '🔓 UNLOCKED';
+        document.getElementById('vault-status').style.borderColor = '#00ff88';
+        document.getElementById('vault-status').style.color = '#00ff88';
+        showSuccess('✓ ACCESS GRANTED — ENTERING THE VAULT…');
+        try { sessionStorage.setItem('pinUnlocked', '1'); } catch(e) {}
+        setTimeout(function(){ window.location.href = 'home.html'; }, 600);
+      } else {
+        btn.textContent = 'UNLOCK VAULT →';
+        btn.style.opacity = '1';
+        showError('INCORRECT VAULT CODE — TRY AGAIN');
+        boxes.forEach(b => b.value = '');
+        boxes[0].focus();
+        var p = document.getElementById('panel');
+        p.classList.remove('shake');
+        requestAnimationFrame(() => p.classList.add('shake'));
+      }
+    }, 500);
   }
 
   function showError(msg) {
@@ -538,9 +519,6 @@
     var el = document.getElementById('error-msg');
     el.textContent = msg;
     el.classList.add('show');
-    var p = document.getElementById('panel');
-    p.classList.remove('shake');
-    requestAnimationFrame(() => p.classList.add('shake'));
   }
 
   function showSuccess(msg) {
@@ -554,6 +532,38 @@
     document.getElementById('error-msg').classList.remove('show');
     document.getElementById('success-msg').classList.remove('show');
   }
+</script>
+
+<script>
+(function(){
+  var canvas = document.getElementById('rain-canvas');
+  var ctx = canvas.getContext('2d');
+  var glyphs = '01RN◇#△>>::ID01RN'.split('');
+  var fontSize = 16, columns, drops;
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = new Array(columns).fill(0).map(function(){ return Math.random() * -50; });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function draw(){
+    ctx.fillStyle = 'rgba(4,2,10,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + 'px monospace';
+    for (var i = 0; i < columns; i++){
+      var text = glyphs[Math.floor(Math.random() * glyphs.length)];
+      ctx.fillStyle = Math.random() < 0.04 ? '#d8dae8' : 'rgba(139,61,255,0.6)';
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 60);
+})();
 </script>
 
 </body>
