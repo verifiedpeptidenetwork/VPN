@@ -3306,8 +3306,15 @@ document.addEventListener('keydown', function(e){
             <p>Verified vendor contacts, COA guidance, and sourcing intel — gated for members only.</p>
             <a class="rn-dual-hero__btn" href="vendor-vault.html">Enter Vault <span class="rn-dual-hero__btnIcon">→</span></a>
           </div>
-          <div class="rn-dual-hero__media">
-            <img src="rnlogo.png" alt="Vendor Vault" loading="lazy">
+          <div class="rn-dual-hero__media rn-dual-hero__media--vault">
+            <div class="rn-mini-vault">
+              <div class="rn-mini-vault__bolt" style="top:4px;left:50%;transform:translateX(-50%);"></div>
+              <div class="rn-mini-vault__bolt" style="bottom:4px;left:50%;transform:translateX(-50%);"></div>
+              <div class="rn-mini-vault__bolt" style="left:4px;top:50%;transform:translateY(-50%);"></div>
+              <div class="rn-mini-vault__bolt" style="right:4px;top:50%;transform:translateY(-50%);"></div>
+              <div class="rn-mini-vault__ring"></div>
+              <img src="rnlogo.png" alt="Vendor Vault" loading="lazy">
+            </div>
           </div>
         </div>
         <div class="rn-dual-hero__card">
@@ -3316,13 +3323,11 @@ document.addEventListener('keydown', function(e){
             <p>Dose calculators, trackers, and reference guides — built for day-to-day research work.</p>
             <a class="rn-dual-hero__btn" href="javascript:void(0)" onclick="showView('calculator');setActiveNav(null);">Browse Tools <span class="rn-dual-hero__btnIcon">→</span></a>
           </div>
-          <div class="rn-dual-hero__media rn-dual-hero__media--term">
-            <div class="rn-term">
-              <div class="rn-term-bar"><span></span><span></span><span></span></div>
-              <div class="rn-term-line"><span class="rn-term-prompt">&gt;</span> calc --dose 0.5mg</div>
-              <div class="rn-term-line rn-term-out">draw: <strong>10 units</strong></div>
-              <div class="rn-term-line"><span class="rn-term-prompt">&gt;</span> _</div>
-            </div>
+          <div class="rn-dual-hero__media rn-dual-hero__media--links">
+            <a class="rn-mini-link" onclick="showView('all-peptides');setActiveNav(null);">🔬 Peptide Index</a>
+            <a class="rn-mini-link" href="tracker.html">📊 Health Tracker</a>
+            <a class="rn-mini-link" href="pokeme-dex.html">🔴 PokeMe-Dex</a>
+            <a class="rn-mini-link" onclick="showView('calculator');setActiveNav(null);">🧮 Calculator</a>
           </div>
         </div>
       </div>
@@ -3358,10 +3363,39 @@ document.addEventListener('keydown', function(e){
     .rn-term-prompt { color:var(--rn-violet); }
     .rn-term-out strong { color:#fff; }
 
+    /* mini vault door graphic for the "Enter The Vault" card */
+    .rn-mini-vault { position:relative; width:140px; height:140px; }
+    .rn-mini-vault::before {
+      content:''; position:absolute; inset:0; border-radius:50%;
+      background:radial-gradient(circle at 32% 28%, #3a3850 0%, #15131f 55%, #050008 100%);
+      box-shadow:0 0 0 2px rgba(216,218,232,.18), 0 0 22px rgba(139,61,255,.4);
+    }
+    .rn-mini-vault__bolt { position:absolute; width:6px; height:6px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #eceef7, #6b6d80 75%); z-index:1; }
+    .rn-mini-vault__ring {
+      position:absolute; inset:14px; border-radius:50%; z-index:1;
+      background:conic-gradient(from 0deg, #2a2440, #8b3dff, #d8dae8, #5b1fb8, #2a2440);
+      animation:rnMiniVaultSpin 10s linear infinite;
+    }
+    .rn-mini-vault__ring::after { content:''; position:absolute; inset:5px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #1a1626, #050008 70%); }
+    @keyframes rnMiniVaultSpin { to { transform:rotate(360deg); } }
+    .rn-mini-vault img { position:absolute; inset:32px; width:calc(100% - 64px); height:calc(100% - 64px); object-fit:cover; border-radius:50%; z-index:2; box-shadow:0 0 14px rgba(139,61,255,.5); }
+
+    /* field tools mini link list */
+    .rn-dual-hero__media--links { flex-direction:column; gap:0.45rem; align-items:stretch; padding:0.85rem; }
+    .rn-mini-link {
+      display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0.7rem;
+      background:rgba(255,255,255,.03); border:1px solid rgba(216,218,232,.18);
+      font-family:'Share Tech Mono',monospace; font-size:0.72rem; font-weight:700;
+      color:rgba(216,218,232,.85); text-decoration:none; cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .rn-mini-link:hover { background:rgba(45,212,191,.1); border-color:var(--rn-teal); color:#fff; }
+
     @media (max-width:700px) {
       .rn-dual-hero__grid { grid-template-columns:1fr; }
       .rn-dual-hero__card { grid-template-columns:1fr; }
       .rn-dual-hero__media { display:none; }
+      .rn-dual-hero__media--links { display:flex; padding:0 1rem 1rem; }
     }
   </style>
 
