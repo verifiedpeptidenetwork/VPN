@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RN — Price Finder</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+  // Force classic JSX runtime so compiled output uses React.createElement
+  // instead of import { jsx } from 'react/jsx-runtime' (which breaks UMD React)
+  Babel.registerPreset('vpn-react', {
+    presets: [[Babel.availablePresets['react'], { runtime: 'classic' }]]
+  });
+</script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#07060F;font-family:sans-serif}
+  /* GATE */
+  #gate{
+    position:fixed;inset:0;background:#07060F;
+    display:flex;align-items:center;justify-content:center;
+    z-index:9999;flex-direction:column;gap:1.2rem;
+  }
+  #gate.hidden{display:none}
+  #gate h1{
+    font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:.15em;
+    background:linear-gradient(90deg,#c9c9e8,#9b30ff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  #gate input{
+    padding:.75rem 1.2rem;border-radius:5px;border:1px solid #9B30FF;
+    background:#0D0B1E;color:#F0EEFF;font-size:1.1rem;
+    letter-spacing:.2em;text-align:center;outline:none;width:220px;
+  }
+  #gate button{
+    padding:.7rem 2rem;border-radius:5px;border:none;cursor:pointer;
+    background:linear-gradient(90deg,#9b30ff,#9B30FF);
+    color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;
+    font-weight:700;letter-spacing:.12em;
+  }
+  #gate .gate-err{color:#9b30ff;font-size:.85rem;min-height:1rem}
+  #gate .gate-logo{
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg,#9B30FF,#9b30ff);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#fff;
+    box-shadow:0 0 24px #9b30ff88;margin-bottom:.5rem;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ADMIN GATE -->
+<div id="gate">
+  <div class="gate-logo">RN</div>
+  <h1>ADMIN ACCESS</h1>
+  <input id="gate-input" type="password" placeholder="Enter code" maxlength="20"
+    onkeydown="if(event.key==='Enter')checkGate()">
+  <button onclick="checkGate()">ENTER</button>
+  <div class="gate-err" id="gate-err"></div>
+</div>
+
+<div id="pin-gate" class="hidden">
+  <div class="gate-logo">RN</div>
+  <h1>SHOP PIN</h1>
+  <input id="pin-gate-input" type="password" placeholder="Enter PIN" maxlength="20"
+    onkeydown="if(event.key==='Enter')checkPinGate()">
+  <button onclick="checkPinGate()">ENTER</button>
+  <div class="gate-err" id="pin-gate-err"></div>
+</div>
+
+<div id="root"></div>
+
+<script>
+const SHOP_PIN = '1439';
+function checkGate(){
+  const v=document.getElementById('gate-input').value.trim();
+  if(v==='gabby'){
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('pin-gate').classList.remove('hidden');
+    document.getElementById('pin-gate-input').focus();
+  } else {
+    document.getElementById('gate-err').textContent='Invalid code.';
+    document.getElementById('gate-input').value='';
+  }
+}
+function checkPinGate(){
+  const v=document.getElementById('pin-gate-input').value.trim();
+  if(v===SHOP_PIN){
+    document.getElementById('pin-gate').classList.add('hidden');
+    // Babel compiles text/babel scripts async — retry until renderShop is ready
+    (function tryRender(n){
+      if(typeof window.renderShop==='function'){ window.renderShop(); }
+      else if(n>0){ setTimeout(function(){ tryRender(n-1); },80); }
+    })(30);
+  } else {
+    document.getElementById('pin-gate-err').textContent='Invalid PIN.';
+    document.getElementById('pin-gate-input').value='';
+  }
+}
+document.getElementById('gate-input').focus();
+</script>
+
+<script type="text/babel" data-presets="vpn-react">
+const { useState, useMemo, useEffect } = React;
+
+const C = {
+  hotPink:"#9b30ff", cyan:"#c9c9e8", purple:"#9B30FF", orange:"#FF6B1A",
+  darkBg:"#07060F", panelBg:"#0D0B1E", cardBg:"#110F22",
+  border:"#1E1A38", textMain:"#F0EEFF", textMuted:"#6B5F9E",
+};
+
+const VENDOR_COLORS = {
+  "Mia":"#9b30ff","Sophie":"#FF6B1A","Becky":"#FFD700",
+  "InnoPeptide":"#c9c9e8","MarvelPep":"#9B30FF",
+  "Lilly Peptide":"#FF4DC4","Bio Peptides":"#00FFB0","Peptide Lab":"#F5A623",
+  "MKM":"#00FFCC","swite2610":"#E1306C","KR":"#4ADE80","USWarehouse":"#3B82F6",
+};
+
+const VENDOR_CONTACTS = {
+  "Mia":           { display:"Kerui Peptides (MIA)",     flag:"🇨🇳", whatsapp:"85244722635",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested · Credit/Debit · Wire · Crypto" },
+  "Sophie":        { display:"Wanshun Peptide (Sophie)",   flag:"🇨🇳", whatsapp:"85267291670",  phone:"",             telegram:"",              discord:"", website:"wanshunpeptide.com", notes:"Inner Circle Tested · Credit/Debit · 3rd Party Tested · Other Wanshun reps: Mia +852 6550 5338 · Luna +852 4635 9085 · Irene +852 4600 7964 · USD/CAD pricing available" },
+  "Becky":         { display:"Anya",                      flag:"🇨🇳", whatsapp:"85268860568",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · 3rd Party Tested" },
+  "InnoPeptide":   { display:"InnoPeptide (Loreler)",     flag:"🇺🇸", whatsapp:"",             phone:"+12313921328", telegram:"",              discord:"", website:"whatsapp.com/channel/0029VbCnmsq77qVXwMkUyP3X", notes:"USA Based · Credit/Debit · 3rd Party Tested · 📢 WhatsApp Channel" },
+  "MarvelPep":     { display:"Marvel Peptide",            flag:"🇨🇳", whatsapp:"85267059715",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested" },
+  "Lilly Peptide": { display:"LiliPeptide (Luna)",        flag:"🇨🇳", whatsapp:"85265536423",  phone:"",             telegram:"",              discord:"", website:"", notes:"3rd Party Tested" },
+  "Bio Peptides":  { display:"Bio Peptides",              flag:"🇭🇰", whatsapp:"85270259794",  phone:"",             telegram:"",              discord:"", website:"", notes:"" },
+  "Peptide Lab":   { display:"Peptide Laboratory (Audrey)",flag:"🇺🇸",whatsapp:"85255886802",  phone:"",             telegram:"",              discord:"", website:"", notes:"Inner Circle Tested · Contact Audrey Carter" },
+  "MKM":           { display:"MKM Peptides (Cassie)",      flag:"🇨🇳", whatsapp:"8617659906901", phone:"",             telegram:"17659906901",   discord:"cassie2476434775", website:"", notes:"Crypto · Alibaba · Google/Apple Pay · Credit/Debit · Wire · Free ship over $700 · 3–5 day lead time" },
+  "swite2610":     { display:"@swite2610",                flag:"🇺🇸", whatsapp:"",             phone:"",             telegram:"swite2610",     discord:"",                website:"", notes:"DM on Telegram · Ships 24–48hrs · COAs Available · Free Shipping 4+ items · Venmo · Apple Pay · Cash App · Zelle · Crypto" },
+  "KR":            { display:"KR Peptides",               flag:"🇰🇷", whatsapp:"",             phone:"",             telegram:"",              discord:"",                website:"", notes:"Korea-Based Vendor · Price list contact info not provided — verify before ordering" },
+  "USWarehouse":   { display:"US Warehouse (A/B)",         flag:"🇺🇸", whatsapp:"",             phone:"",             telegram:"",              discord:"",                website:"", notes:"USA Warehouse · 3–5 Day Delivery · $40 Shipping · Two Warehouse Locations (A/B) — splitting an order across both adds a 2nd shipping fee" },
+};
+
+const ALL_VENDORS = [
+  ...Object.entries(VENDOR_CONTACTS).map(([k,v])=>({...v,key:k,inShop:true})),
+  { key:"InstantPeptides", display:"Instant Peptides",  flag:"🇺🇸", whatsapp:"",             phone:"+19542048265",  telegram:"",              discord:"",                  website:"instantpeptides.com", notes:"Single Vial Retail · Credit Card · USA Based",  inShop:false },
+  { key:"Kevkaycar",       display:"Kevkaycar",          flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"kevkaycar",     discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
+  { key:"Riptide",         display:"Riptide Discord",    flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"discord.gg/dwkjhwkf5",website:"",                 notes:"USA Vendor · Discord Community",                inShop:false },
+  { key:"RetaGroup",       display:"Reta Group (Zoey)",  flag:"🇨🇳", whatsapp:"8618053579924",phone:"",              telegram:"",              discord:"",                  website:"",                   notes:"GHK-Cu Raw Materials · Cheap Pricing",           inShop:false },
+  { key:"Unicornfartzz",   display:"Unicornfartzz",      flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"unicornfartzz", discord:"",                  website:"",                   notes:"USA Vendor Referral",                            inShop:false },
+  { key:"DavidParkPink",   display:"David Park — Pink Drop (Medifere)", flag:"🇰🇷", whatsapp:"", phone:"+821096723840", telegram:"",             discord:"",                  website:"",                   notes:"Beauty Vendor Korea · Medical Aesthetic Products · Beauty, Cosmetic & Personal Care · 1604–1606ho, 25 Yeonmujang 5ga-gil, Seongdong-gu, Seoul, South Korea · smpark@hjcorporations.kr · Closed Saturdays", inShop:false },
+  { key:"TheBeautyDeli",   display:"The Beauty Deli",     flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"",              discord:"",                  website:"thebeautydeli.com",  notes:"USA Vendor · Beauty & Aesthetic Products · Instagram @thebeautydeli.co", inShop:false },
+  { key:"MedglobeExims",   display:"Medglobe Exims",      flag:"🇺🇸", whatsapp:"",             phone:"",              telegram:"globem15",      discord:"",                  website:"",                   notes:"USA Vendor · Ivermectin · Telegram Group (100 members)", inShop:false },
+];
+
+const RAW_DATA = [
+  {product:"Retatrutide",spec:"5mgx10vials",lowest:"Bio Peptides",price:45,Mia:70,Sophie:59,Becky:140,InnoPeptide:70,MarvelPep:80,"Bio Peptides":45,"Peptide Lab":45,MKM:68,KR:70},
+  {product:"Retatrutide",spec:"10mgx10vials",lowest:"Bio Peptides",price:62,Mia:100,Sophie:85,InnoPeptide:100,"Bio Peptides":62,MKM:104,swite2610:125,"Peptide Lab":105,KR:105,USWarehouse:100},
+  {product:"Retatrutide",spec:"15mgx10vials",lowest:"Bio Peptides",price:79,Mia:130,Sophie:109,InnoPeptide:130,"Bio Peptides":79,MKM:118,"Peptide Lab":125,KR:130},
+  {product:"Retatrutide",spec:"20mgx10vials",lowest:"Bio Peptides",price:123,Mia:150,Sophie:135,Becky:256,InnoPeptide:180,MarvelPep:180,"Bio Peptides":123,"Peptide Lab":145,MKM:130,swite2610:185,KR:150,USWarehouse:200},
+  {product:"Retatrutide",spec:"30mgx10vials",lowest:"Bio Peptides",price:159,Mia:190,Sophie:188,Becky:384,InnoPeptide:225,MarvelPep:250,"Bio Peptides":159,"Peptide Lab":165,MKM:190,KR:190,USWarehouse:225},
+  {product:"Retatrutide",spec:"40mgx10vials",lowest:"Peptide Lab",price:195,Sophie:253,Becky:464,InnoPeptide:285,MarvelPep:285,"Bio Peptides":202,"Peptide Lab":195,MKM:245,KR:210,USWarehouse:330},
+  {product:"Retatrutide",spec:"50mgx10vials",lowest:"Peptide Lab",price:250,Sophie:282,Becky:564,InnoPeptide:305,MarvelPep:305,"Bio Peptides":395,"Peptide Lab":250,MKM:295,USWarehouse:380},
+  {product:"Retatrutide",spec:"60mgx10vials",lowest:"Peptide Lab",price:275,Sophie:285,Becky:285,InnoPeptide:360,MarvelPep:360,"Bio Peptides":297,"Peptide Lab":275,MKM:350,KR:340,USWarehouse:430},
+  {product:"Retatrutide",spec:"100mgx10vials",lowest:"Bio Peptides",price:335,"Bio Peptides":335},
+  {product:"Tirzepatide",spec:"5mgx10vials",lowest:"Bio Peptides",price:37,Mia:38,Sophie:38,Becky:76,InnoPeptide:38,MarvelPep:55,"Bio Peptides":37,MKM:40},
+  {product:"Tirzepatide",spec:"10mgx10vials",lowest:"Sophie",price:50,Mia:55,Sophie:50,Becky:112,InnoPeptide:70,MarvelPep:70,"Lilly Peptide":52,"Bio Peptides":55,MKM:60,"Peptide Lab":55,KR:55,USWarehouse:105},
+  {product:"Tirzepatide",spec:"15mgx10vials",lowest:"Lilly Peptide",price:59,Mia:68,Sophie:65,Becky:144,InnoPeptide:85,MarvelPep:85,"Lilly Peptide":59,"Bio Peptides":75,MKM:80,"Peptide Lab":75,KR:68},
+  {product:"Tirzepatide",spec:"20mgx10vials",lowest:"Bio Peptides",price:69,Mia:95,Sophie:74,InnoPeptide:95,"Bio Peptides":69,MKM:90,"Peptide Lab":95,KR:88,USWarehouse:117},
+  {product:"Tirzepatide",spec:"30mgx10vials",lowest:"Lilly Peptide",price:88,Mia:132,Sophie:97,Becky:204,InnoPeptide:110,MarvelPep:135,"Lilly Peptide":88,"Bio Peptides":115,MKM:110,swite2610:155,"Peptide Lab":115,KR:132,USWarehouse:190},
+  {product:"Tirzepatide",spec:"40mgx10vials",lowest:"Bio Peptides",price:106,Sophie:135,Becky:170,"Bio Peptides":106,MKM:135,InnoPeptide:145,"Peptide Lab":130,KR:166,USWarehouse:200},
+  {product:"Tirzepatide",spec:"50mgx10vials",lowest:"Bio Peptides",price:128,Mia:180,Sophie:165,MarvelPep:205,"Bio Peptides":128,"Peptide Lab":155,MKM:165,InnoPeptide:180},
+  {product:"Tirzepatide",spec:"60mgx10vials",lowest:"Bio Peptides",price:149,Sophie:185,MarvelPep:220,"Bio Peptides":149,"Peptide Lab":180,MKM:182,swite2610:240,InnoPeptide:200,KR:228,USWarehouse:300},
+  {product:"Tirzepatide",spec:"70mgx10vials",lowest:"MKM",price:200,MKM:200},
+  {product:"Tirzepatide",spec:"80mgx10vials",lowest:"MKM",price:225,MKM:225},
+  {product:"Tirzepatide",spec:"90mgx10vials",lowest:"MKM",price:250,MKM:250},
+  {product:"Tirzepatide",spec:"100mgx10vials",lowest:"Bio Peptides",price:255,Sophie:540,Becky:350,"Bio Peptides":255,MKM:270,InnoPeptide:350},
+  {product:"Tirzepatide",spec:"120mgx10vials",lowest:"Bio Peptides",price:276,Sophie:590,Becky:380,"Bio Peptides":276,MKM:315,InnoPeptide:380},
+  {product:"Semaglutide",spec:"5mgx10vials",lowest:"Sophie",price:38,Mia:50,Sophie:38,MarvelPep:92,MKM:40},
+  {product:"Semaglutide",spec:"10mgx10vials",lowest:"Sophie",price:47,Mia:50,Sophie:47,Becky:112,InnoPeptide:70,MarvelPep:120,MKM:60,swite2610:120},
+  {product:"Semaglutide",spec:"15mgx10vials",lowest:"Peptide Lab",price:45,Mia:85,Sophie:59,"Peptide Lab":45,MKM:70},
+  {product:"Semaglutide",spec:"20mgx10vials",lowest:"Peptide Lab",price:55,Mia:88,Sophie:74,Becky:164,InnoPeptide:110,MarvelPep:70,"Peptide Lab":55,MKM:85},
+  {product:"Semaglutide",spec:"30mgx10vials",lowest:"Peptide Lab",price:75,Mia:110,Sophie:103,"Peptide Lab":75,MKM:104,InnoPeptide:140},
+  {product:"Cagrilintide",spec:"5mgx10vials",lowest:"Mia",price:90,Mia:90,Sophie:121,InnoPeptide:90,MKM:110,swite2610:120,"Peptide Lab":95,KR:136,USWarehouse:120},
+  {product:"Cagrilintide",spec:"10mgx10vials",lowest:"Peptide Lab",price:165,Mia:237,Sophie:191,Becky:450,InnoPeptide:170,MarvelPep:200,"Bio Peptides":191,MKM:205,"Peptide Lab":165,KR:237,USWarehouse:220},
+  {product:"CagriSema",spec:"5mgx10vials",lowest:"MKM",price:80,Sophie:118,InnoPeptide:100,MarvelPep:115,MKM:80},
+  {product:"CagriSema",spec:"10mgx10vials",lowest:"MKM",price:145,Sophie:162,Becky:185,"Bio Peptides":148,MKM:145,InnoPeptide:170},
+  {product:"CagriSema",spec:"20mgx10vials",lowest:"MKM",price:235,MKM:235},
+  {product:"Mazdutide",spec:"5mgx10vials",lowest:"Mia",price:120,Mia:120,InnoPeptide:120},
+  {product:"Mazdutide",spec:"10mgx10vials",lowest:"Mia",price:190,Mia:190,Sophie:215,MKM:190,InnoPeptide:190},
+  {product:"Survodutide",spec:"10mgx10vials",lowest:"Mia",price:235,Mia:235,Sophie:324,InnoPeptide:235,MarvelPep:320,MKM:280},
+  {product:"SS-31",spec:"10mgx10vials",lowest:"Peptide Lab",price:75,Sophie:88,Becky:85,InnoPeptide:90,MKM:95,"Peptide Lab":75,KR:100,USWarehouse:136},
+  {product:"SS-31",spec:"50mgx10vials",lowest:"Peptide Lab",price:200,Mia:350,Sophie:324,"Bio Peptides":297,MKM:370,InnoPeptide:350,"Peptide Lab":200,KR:310,USWarehouse:480},
+  {product:"MOTS-C",spec:"10mgx10vials",lowest:"Mia",price:55,Mia:55,Sophie:71,InnoPeptide:55,MarvelPep:66,MKM:70,swite2610:110,"Peptide Lab":66,KR:65,USWarehouse:66},
+  {product:"MOTS-C",spec:"20mgx10vials",lowest:"Peptide Lab",price:106,Mia:125,MKM:115,"Peptide Lab":106,KR:125},
+  {product:"MOTS-C",spec:"40mgx10vials",lowest:"Peptide Lab",price:165,Mia:220,Sophie:200,Becky:490,InnoPeptide:190,MarvelPep:200,"Lilly Peptide":212,"Peptide Lab":165,MKM:220,swite2610:225,KR:220,USWarehouse:228},
+  {product:"GHK-Cu",spec:"50mgx10vials",lowest:"Mia",price:30,Mia:30,Sophie:32,Becky:56,InnoPeptide:32,MarvelPep:45,"Lilly Peptide":34,MKM:35,"Peptide Lab":49,KR:30},
+  {product:"GHK-Cu",spec:"100mgx10vials",lowest:"Bio Peptides",price:39,Sophie:41,Becky:65,"Bio Peptides":39,MKM:65,swite2610:100,InnoPeptide:48,"Peptide Lab":63,KR:45},
+  {product:"AHK-CU",spec:"50mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:56,MKM:55,KR:40},
+  {product:"AHK-CU",spec:"100mgx10vials",lowest:"MKM",price:85,MKM:85},
+  {product:"BPC-157",spec:"5mgx10vials",lowest:"InnoPeptide",price:30,Mia:36,Sophie:44,Becky:76,InnoPeptide:30,MarvelPep:50,"Lilly Peptide":45,"Bio Peptides":48,MKM:40,"Peptide Lab":48,KR:36},
+  {product:"BPC-157",spec:"10mgx10vials",lowest:"Bio Peptides",price:54,Sophie:65,Becky:75,"Bio Peptides":54,MKM:60,swite2610:95,InnoPeptide:60,"Peptide Lab":65,KR:66,USWarehouse:72},
+  {product:"BPC-157",spec:"20mgx10vials",lowest:"Peptide Lab",price:90,Mia:100,Becky:145,"Peptide Lab":90,InnoPeptide:100},
+  {product:"TB-500",spec:"5mgx10vials",lowest:"InnoPeptide",price:65,Mia:80,Sophie:91,Becky:170,InnoPeptide:65,MarvelPep:85,"Lilly Peptide":74,"Bio Peptides":125,MKM:80,"Peptide Lab":125,KR:80},
+  {product:"TB-500",spec:"10mgx10vials",lowest:"InnoPeptide",price:120,Mia:150,Sophie:162,Becky:330,InnoPeptide:120,MarvelPep:155,"Lilly Peptide":144,"Bio Peptides":185,MKM:150,"Peptide Lab":185,KR:150},
+  {product:"BPC + TB Blend",spec:"10mgx10vials",lowest:"Lilly Peptide",price:89,Mia:100,Sophie:109,Becky:220,InnoPeptide:90,MarvelPep:100,"Lilly Peptide":89,"Bio Peptides":130,MKM:100,"Peptide Lab":130,KR:100,USWarehouse:110},
+  {product:"BPC + TB Blend",spec:"20mgx10vials",lowest:"Bio Peptides",price:151,Mia:170,Sophie:212,"Bio Peptides":151,"Peptide Lab":218,MKM:200,InnoPeptide:170,KR:200,USWarehouse:170},
+  {product:"BPC + TB Blend",spec:"30mgx10vials",lowest:"MKM",price:285,MKM:285},
+  {product:"BPC+GHK-Cu+TB Combo",spec:"70mgx10vials",lowest:"MKM",price:195,Sophie:212,MKM:195},
+  {product:"BPC+GHK-Cu+TB+KPV Combo",spec:"80mgx10vials",lowest:"MKM",price:230,MKM:230},
+  {product:"KPV",spec:"5mgx10vials",lowest:"Becky",price:10,Mia:40,Sophie:50,Becky:10,InnoPeptide:35,MarvelPep:55,"Bio Peptides":48,MKM:40,"Peptide Lab":48,KR:40,USWarehouse:42},
+  {product:"KPV",spec:"10mgx10vials",lowest:"Mia",price:54,Mia:54,Sophie:65,Becky:132,InnoPeptide:55,MarvelPep:70,"Lilly Peptide":70,MKM:70,"Peptide Lab":68,KR:54},
+  {product:"Semax",spec:"5mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:44,Becky:100,InnoPeptide:40,MarvelPep:55,"Lilly Peptide":46,MKM:45,KR:40},
+  {product:"Semax",spec:"10mgx10vials",lowest:"Peptide Lab",price:46,Mia:70,Sophie:59,InnoPeptide:70,MKM:70,swite2610:110,"Peptide Lab":46,KR:65,USWarehouse:70},
+  {product:"Selank",spec:"5mgx10vials",lowest:"Mia",price:40,Mia:40,Sophie:44,InnoPeptide:40,MKM:45,KR:40},
+  {product:"Selank",spec:"10mgx10vials",lowest:"Peptide Lab",price:46,Sophie:65,Becky:75,"Bio Peptides":74,MKM:70,swite2610:110,InnoPeptide:80,"Peptide Lab":46,KR:65,USWarehouse:70},
+  {product:"Selank + Semax",spec:"20mgx10vials",lowest:"MKM",price:105,MKM:105},
+  {product:"Oxytocin Acetate",spec:"2mgx10vials",lowest:"Becky",price:6,Mia:44,Sophie:38,Becky:6,InnoPeptide:30,MarvelPep:32,"Lilly Peptide":41},
+  {product:"Oxytocin Acetate",spec:"5mgx10vials",lowest:"Mia",price:37,Mia:37,Becky:92,InnoPeptide:55,"Lilly Peptide":56,MKM:65,KR:37},
+  {product:"Oxytocin Acetate",spec:"10mgx10vials",lowest:"Mia",price:60,Mia:60,Becky:180,InnoPeptide:120,MarvelPep:80,"Lilly Peptide":89,MKM:80,KR:60},
+  {product:"Tesamorelin",spec:"2mgx10vials",lowest:"MKM",price:60,MKM:60},
+  {product:"Tesamorelin",spec:"5mgx10vials",lowest:"InnoPeptide",price:80,Mia:100,Sophie:115,Becky:210,InnoPeptide:80,MarvelPep:95,"Lilly Peptide":92,"Bio Peptides":90,MKM:110,"Peptide Lab":90,KR:100},
+  {product:"Tesamorelin",spec:"10mgx10vials",lowest:"Peptide Lab",price:145,Mia:170,Sophie:197,Becky:400,InnoPeptide:160,MarvelPep:170,"Lilly Peptide":161,"Peptide Lab":145,MKM:195,KR:170,USWarehouse:192},
+  {product:"Tesamorelin",spec:"20mgx10vials",lowest:"Mia",price:300,Mia:300,Becky:770,InnoPeptide:470,MarvelPep:319,MKM:345,KR:300},
+  {product:"Tesamorelin + Ipamorelin",spec:"15mgx10vials",lowest:"MKM",price:240,MKM:240},
+  {product:"Ipamorelin",spec:"5mgx10vials",lowest:"Mia",price:37,Mia:37,Sophie:44,Becky:76,InnoPeptide:40,MarvelPep:50,"Lilly Peptide":46,MKM:40,KR:37},
+  {product:"Ipamorelin",spec:"10mgx10vials",lowest:"Bio Peptides",price:56,Mia:64,Sophie:82,Becky:130,InnoPeptide:70,MarvelPep:70,"Lilly Peptide":56,"Bio Peptides":56,MKM:75,"Peptide Lab":68,KR:64},
+  {product:"Sermorelin",spec:"5mgx10vials",lowest:"KR",price:74,Sophie:76,MKM:75,KR:74},
+  {product:"Sermorelin",spec:"10mgx10vials",lowest:"Sophie",price:118,Sophie:118,MKM:135,KR:128},
+  {product:"Hexarelin",spec:"5mgx10vials",lowest:"MKM",price:90,MKM:90},
+  {product:"Hexarelin",spec:"10mgx10vials",lowest:"MKM",price:130,MKM:130},
+  {product:"CJC-1295 Without DAC",spec:"2mgx10vials",lowest:"KR",price:35,MKM:45,KR:35},
+  {product:"CJC-1295 Without DAC",spec:"5mgx10vials",lowest:"InnoPeptide",price:75,Mia:85,Sophie:94,Becky:164,InnoPeptide:75,MarvelPep:75,"Lilly Peptide":85,"Bio Peptides":75,MKM:90,"Peptide Lab":75,KR:85},
+  {product:"CJC-1295 Without DAC",spec:"10mgx10vials",lowest:"Mia",price:120,Mia:120,Sophie:171,InnoPeptide:120,MarvelPep:136,MKM:160,"Peptide Lab":136,KR:142},
+  {product:"CJC-1295 With DAC",spec:"2mgx10vials",lowest:"MKM",price:80,MKM:80},
+  {product:"CJC-1295 With DAC",spec:"5mgx10vials",lowest:"Lilly Peptide",price:130,Mia:176,Sophie:176,Becky:330,InnoPeptide:140,MarvelPep:140,"Lilly Peptide":130,"Bio Peptides":144,MKM:160,USWarehouse:250},
+  {product:"CJC-1295 Without DAC + IPA",spec:"10mgx10vials",lowest:"Lilly Peptide",price:89,Mia:105,Sophie:115,Becky:220,InnoPeptide:100,MarvelPep:100,"Lilly Peptide":89,"Bio Peptides":135,MKM:100,"Peptide Lab":135,KR:105,USWarehouse:120},
+  {product:"CJC-1295 Without DAC + IPA",spec:"20mgx10vials",lowest:"MKM",price:180,MKM:180},
+  {product:"GHRP-2",spec:"5mgx10vials",lowest:"InnoPeptide",price:27,Mia:27,Sophie:47,InnoPeptide:27,MKM:30},
+  {product:"GHRP-2",spec:"10mgx10vials",lowest:"MKM",price:55,Sophie:58,Becky:67,InnoPeptide:58,MKM:55},
+  {product:"GHRP-2",spec:"15mgx10vials",lowest:"MKM",price:80,MKM:80},
+  {product:"GHRP-6",spec:"5mgx10vials",lowest:"Mia",price:27,Mia:27,Sophie:47,InnoPeptide:27,MKM:30},
+  {product:"GHRP-6",spec:"10mgx10vials",lowest:"KR",price:45,Sophie:76,Becky:60,InnoPeptide:58,MKM:55,KR:45},
+  {product:"HGH",spec:"10iux10vials",lowest:"Becky",price:40,Mia:60,Sophie:100,Becky:40,InnoPeptide:50,MarvelPep:70,"Lilly Peptide":70,"Bio Peptides":56,MKM:53},
+  {product:"HGH",spec:"12iux10vials",lowest:"MKM",price:62,MKM:62},
+  {product:"HGH",spec:"15iux10vials",lowest:"Mia",price:70,Mia:70,Sophie:80,InnoPeptide:90,"Bio Peptides":79,MKM:75},
+  {product:"HGH",spec:"24iux10vials",lowest:"Sophie",price:95,Sophie:95,Becky:160,InnoPeptide:150,MarvelPep:120,MKM:115},
+  {product:"HGH",spec:"36iux10vials",lowest:"Sophie",price:130,Sophie:130,Becky:180,InnoPeptide:159,MKM:168},
+  {product:"IGF-1 LR3",spec:"0.1mgx10vials",lowest:"InnoPeptide",price:35,Mia:50,Sophie:47,InnoPeptide:35,MKM:50},
+  {product:"IGF-1 LR3",spec:"1mgx10vials",lowest:"Bio Peptides",price:166,Mia:220,Sophie:206,Becky:400,InnoPeptide:200,MarvelPep:166,"Bio Peptides":166,MKM:195,KR:220},
+  {product:"MGF",spec:"2mgx10vials",lowest:"InnoPeptide",price:50,Sophie:72,InnoPeptide:50,MKM:55},
+  {product:"PEG-MGF",spec:"2mgx10vials",lowest:"InnoPeptide",price:80,Mia:164,InnoPeptide:80,MarvelPep:88,MKM:100},
+  {product:"HCG",spec:"5000iux10vials",lowest:"Becky",price:8,Mia:80,Sophie:88,Becky:8,InnoPeptide:75,MKM:85,KR:80,USWarehouse:133},
+  {product:"HCG",spec:"10000iux10vials",lowest:"Becky",price:36,Mia:140,Sophie:176,Becky:36,InnoPeptide:125,MKM:140,KR:140},
+  {product:"Gonadorelin",spec:"2mgx10vials",lowest:"MKM",price:45,MKM:45},
+  {product:"Gonadorelin",spec:"5mgx10vials",lowest:"MKM",price:60,MKM:60},
+  {product:"PT-141",spec:"10mgx10vials",lowest:"Mia",price:55,Mia:55,Sophie:65,InnoPeptide:55,MKM:60,KR:58,USWarehouse:112},
+  {product:"MT-2",spec:"10mgx10vials",lowest:"InnoPeptide",price:45,Mia:45,Sophie:53,InnoPeptide:45,MKM:50,swite2610:100,KR:62},
+  {product:"Melanotan I",spec:"10mgx10vials",lowest:"InnoPeptide",price:50,Mia:50,Sophie:53,InnoPeptide:50,MKM:60,KR:62},
+  {product:"Melanotan II",spec:"10mgx10vials",lowest:"MKM",price:50,Mia:62,Sophie:53,Becky:100,MKM:50},
+  {product:"Kisspeptin-10",spec:"5mgx10vials",lowest:"Mia",price:45,Mia:45,Sophie:68,Becky:130,MKM:70,KR:45},
+  {product:"Kisspeptin-10",spec:"10mgx10vials",lowest:"Mia",price:98,Mia:98,Sophie:118,Becky:204,MKM:105,KR:98},
+  {product:"DSIP",spec:"5mgx10vials",lowest:"KR",price:43,Mia:50,Sophie:44,InnoPeptide:50,MKM:45,KR:43},
+  {product:"DSIP",spec:"10mgx10vials",lowest:"Sophie",price:80,Sophie:80,InnoPeptide:80,MKM:80,KR:85},
+  {product:"DSIP",spec:"15mgx10vials",lowest:"Sophie",price:103,Sophie:103,MarvelPep:105,MKM:115,InnoPeptide:120},
+  {product:"Epithalon",spec:"10mgx10vials",lowest:"KR",price:36,Sophie:71,Becky:55,InnoPeptide:50,MKM:40,"Peptide Lab":65,KR:36},
+  {product:"Epithalon",spec:"50mgx10vials",lowest:"Bio Peptides",price:129,Mia:152,Sophie:200,Becky:330,InnoPeptide:140,MarvelPep:150,"Lilly Peptide":129,"Bio Peptides":129,MKM:150,"Peptide Lab":155,KR:152,USWarehouse:195},
+  {product:"N-Acetyl Epitalon",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85,swite2610:105},
+  {product:"Thymalin",spec:"10mgx10vials",lowest:"InnoPeptide",price:55,Sophie:71,Becky:58,InnoPeptide:55,MKM:70,KR:62,USWarehouse:90},
+  {product:"Thymalin",spec:"20mgx10vials",lowest:"MKM",price:135,MKM:135},
+  {product:"Thymosin Alpha-1",spec:"5mgx10vials",lowest:"Becky",price:3,Mia:100,Sophie:103,Becky:3,InnoPeptide:65,MarvelPep:92,MKM:95,swite2610:135,KR:100},
+  {product:"Thymosin Alpha-1",spec:"10mgx10vials",lowest:"Bio Peptides",price:128,Sophie:191,Becky:128,"Bio Peptides":128,MKM:155,InnoPeptide:130,KR:160,USWarehouse:230},
+  {product:"NAD+",spec:"100mgx10vials",lowest:"Becky",price:37,Sophie:41,Becky:37,"Bio Peptides":46,MKM:55,"Peptide Lab":46},
+  {product:"NAD+",spec:"500mgx10vials",lowest:"Lilly Peptide",price:46,Mia:50,Sophie:88,Becky:156,InnoPeptide:75,MarvelPep:85,"Lilly Peptide":46,"Bio Peptides":78,MKM:90,"Peptide Lab":78,KR:50,USWarehouse:120},
+  {product:"NAD+",spec:"1000mgx10vials",lowest:"KR",price:75,Mia:130,Sophie:153,"Bio Peptides":96,"Peptide Lab":100,MKM:160,InnoPeptide:130,KR:75,USWarehouse:160},
+  {product:"VIP",spec:"5mgx10vials",lowest:"Becky",price:80,Sophie:88,Becky:80,InnoPeptide:80,MarvelPep:92,MKM:80},
+  {product:"VIP",spec:"10mgx10vials",lowest:"Bio Peptides",price:149,Sophie:162,Becky:190,"Bio Peptides":149,MKM:150,InnoPeptide:150},
+  {product:"LL37",spec:"5mgx10vials",lowest:"Bio Peptides",price:87,Sophie:95,Becky:87,"Bio Peptides":87,MKM:95,InnoPeptide:95},
+  {product:"LL37",spec:"10mgx10vials",lowest:"Mia",price:103,Mia:103,Sophie:103,InnoPeptide:170,MKM:180},
+  {product:"FOXO4",spec:"10mgx10vials",lowest:"Bio Peptides",price:230,Sophie:353,"Bio Peptides":230,MKM:315},
+  {product:"AICAR",spec:"50mgx10vials",lowest:"MKM",price:67,Sophie:70,"Bio Peptides":69,MKM:67},
+  {product:"AICAR",spec:"100mgx10vials",lowest:"MKM",price:130,MKM:130},
+  {product:"AOD9604",spec:"2mgx10vials",lowest:"MKM",price:60,MKM:60},
+  {product:"AOD9604",spec:"5mgx10vials",lowest:"Mia",price:95,Mia:95,Sophie:112,Becky:196,InnoPeptide:130,MarvelPep:100,MKM:100,"Peptide Lab":100,KR:95},
+  {product:"AOD9604",spec:"10mgx10vials",lowest:"Becky",price:35,Mia:165,Sophie:200,Becky:35,MKM:160,KR:165},
+  {product:"ARA-290",spec:"10mgx10vials",lowest:"MKM",price:65,Sophie:74,Becky:94,"Bio Peptides":76,MKM:65},
+  {product:"PE-22-28",spec:"5mgx10vials",lowest:"MKM",price:35,MKM:35,KR:35},
+  {product:"PE-22-28",spec:"10mgx10vials",lowest:"InnoPeptide",price:60,Mia:60,Sophie:100,InnoPeptide:60,MKM:60,swite2610:135,KR:75},
+  {product:"PNC-27",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85,InnoPeptide:90},
+  {product:"PNC-27",spec:"10mgx10vials",lowest:"MKM",price:145,MKM:145,InnoPeptide:160},
+  {product:"Cardiogen",spec:"20mgx10vials",lowest:"MKM",price:100,MKM:100},
+  {product:"Cartalax",spec:"20mgx10vials",lowest:"MKM",price:100,MKM:100},
+  {product:"Cortagen",spec:"20mgx10vials",lowest:"MKM",price:100,MKM:100},
+  {product:"Crystagen",spec:"20mgx10vials",lowest:"MKM",price:100,MKM:100},
+  {product:"Bronchogen",spec:"20mgx10vials",lowest:"MKM",price:100,MKM:100},
+  {product:"Vesugen",spec:"10mgx10vials",lowest:"MKM",price:75,MKM:75},
+  {product:"Vesugen",spec:"20mgx10vials",lowest:"MKM",price:150,MKM:150},
+  {product:"Testagen",spec:"20mgx10vials",lowest:"MKM",price:115,MKM:115},
+  {product:"Pinealon",spec:"5mgx10vials",lowest:"MKM",price:45,Sophie:47,MarvelPep:50,MKM:45,InnoPeptide:60},
+  {product:"Pinealon",spec:"10mgx10vials",lowest:"KR",price:55,Mia:90,Sophie:74,Becky:75,MarvelPep:75,MKM:65,InnoPeptide:90,KR:55},
+  {product:"Pinealon",spec:"20mgx10vials",lowest:"Bio Peptides",price:101,Mia:140,Sophie:103,"Bio Peptides":101,MKM:105,InnoPeptide:140},
+  {product:"TB Fragment",spec:"5mgx10vials",lowest:"MKM",price:55,MKM:55},
+  {product:"TB Fragment",spec:"10mgx10vials",lowest:"MKM",price:80,MKM:80},
+  {product:"Cerebrolysin",spec:"60mgx6vials",lowest:"Sophie",price:29,Mia:65,Sophie:29,InnoPeptide:45,MKM:50},
+  {product:"ADAMAX-984",spec:"5mgx10vials",lowest:"MKM",price:85,MKM:85,Sophie:91},
+  {product:"ADAMAX-984",spec:"10mgx10vials",lowest:"Sophie",price:118,MKM:150,Sophie:118},
+  {product:"B7-33",spec:"2mgx10vials",lowest:"MKM",price:55,MKM:55},
+  {product:"B7-33",spec:"10mgx10vials",lowest:"MKM",price:200,MKM:200},
+  {product:"Humanin",spec:"10mgx10vials",lowest:"MKM",price:275,MKM:275},
+  {product:"Matrixyl",spec:"10mgx10vials",lowest:"MKM",price:45,MKM:45},
+  {product:"P21/P021",spec:"5mgx10vials",lowest:"MKM",price:290,MKM:290},
+  {product:"Snap-8",spec:"10mgx10vials",lowest:"Sophie",price:44,Mia:45,Sophie:44,InnoPeptide:45,MKM:50},
+  {product:"Snap-8",spec:"100mgx10vials",lowest:"MKM",price:300,MKM:300},
+  {product:"Teriparatide",spec:"10mgx10vials",lowest:"MKM",price:155,MKM:155},
+  {product:"Alprostadil",spec:"20mgx10vials",lowest:"MKM",price:130,MKM:130},
+  {product:"ACE-031",spec:"1mgx10vials",lowest:"MKM",price:60,MKM:60},
+  {product:"EPO",spec:"3000iux10vials",lowest:"MKM",price:95,MKM:95},
+  {product:"HMG",spec:"75iux10vials",lowest:"MKM",price:68,MKM:68},
+  {product:"SLU-PP-322",spec:"5mgx10vials",lowest:"Sophie",price:118,Sophie:118},
+  {product:"5-Amino-1MQ",spec:"5mgx10vials",lowest:"InnoPeptide",price:45,Mia:59,Sophie:59,InnoPeptide:65,MarvelPep:60,MKM:50},
+  {product:"5-Amino-1MQ",spec:"10mgx10vials",lowest:"KR",price:45,MarvelPep:85,MKM:65,KR:45,USWarehouse:110},
+  {product:"5-Amino-1MQ",spec:"50mgx10vials",lowest:"Mia",price:85,Mia:85,Sophie:132,MarvelPep:170,MKM:100,InnoPeptide:90,KR:85,USWarehouse:200},
+  {product:"Adipotide/FTTP",spec:"5mgx10vials",lowest:"MKM",price:145,Sophie:191,MKM:145},
+  {product:"Adipotide/FTTP",spec:"10mgx10vials",lowest:"MKM",price:200,MKM:200},
+  {product:"Glutathione",spec:"600mgx10vials",lowest:"Becky",price:5,Mia:65,Sophie:70,Becky:5,InnoPeptide:55,MarvelPep:60,MKM:40,"Peptide Lab":60,KR:65},
+  {product:"Glutathione",spec:"1500mgx10vials",lowest:"Becky",price:11,Mia:85,Sophie:74,Becky:11,InnoPeptide:80,MarvelPep:80,"Lilly Peptide":76,MKM:90,KR:85},
+  {product:"Melatonin",spec:"10mgx10vials",lowest:"Mia",price:62,Mia:62,Becky:130,MarvelPep:68,MKM:65},
+  {product:"KLOW Blend",spec:"80mgx10vials",lowest:"Mia",price:180,Mia:180,Sophie:250,Becky:490,InnoPeptide:180,MarvelPep:270,"Lilly Peptide":180,"Bio Peptides":290,"Peptide Lab":290,USWarehouse:216},
+  {product:"Glow Blend",spec:"70mgx10vials",lowest:"Lilly Peptide",price:146,Mia:170,Sophie:212,Becky:410,InnoPeptide:160,MarvelPep:210,"Lilly Peptide":146,"Bio Peptides":250,"Peptide Lab":250,KR:170,USWarehouse:200},
+  {product:"Lipo-C (LC120)",spec:"10mlx10vials",lowest:"Mia",price:55,Mia:55,Sophie:68,InnoPeptide:70,MKM:90,"Peptide Lab":80},
+  {product:"Lipo-B (LC216)",spec:"10mlx10vials",lowest:"Sophie",price:68,Sophie:68,MKM:100,InnoPeptide:70,"Peptide Lab":80},
+  {product:"Lipo-C Fat Blaster",spec:"10mlx10vials",lowest:"MKM",price:135,MKM:135},
+  {product:"Lipo Lab PPC Solution",spec:"10mlx10vials",lowest:"MKM",price:50,MKM:50},
+  {product:"Super Human Blend",spec:"10mlx10vials",lowest:"Peptide Lab",price:80,Sophie:150,"Peptide Lab":80,MKM:135},
+  {product:"L-Carnitine",spec:"600mgx10vials",lowest:"MKM",price:50,Sophie:79,MKM:50,USWarehouse:260},
+  {product:"L-Carnitine",spec:"1200mgx10vials",lowest:"MKM",price:95,MKM:95},
+  {product:"Lemon Bottle",spec:"10mlx10vials",lowest:"Sophie",price:68,Sophie:68,"Peptide Lab":80,MKM:80,InnoPeptide:70},
+  {product:"Vitamin B12",spec:"10mlx10vials",lowest:"MKM",price:50,MKM:50},
+  {product:"Bacteriostatic Water",spec:"3mlx10vials",lowest:"Becky",price:4,Mia:10,Sophie:6,Becky:4,InnoPeptide:10,MarvelPep:10,"Lilly Peptide":8,MKM:10,"Peptide Lab":8,KR:10,USWarehouse:11},
+  {product:"Bacteriostatic Water",spec:"10mlx10vials",lowest:"Sophie",price:7,Mia:11,Sophie:7,Becky:9,InnoPeptide:16,MarvelPep:12,"Peptide Lab":10,MKM:10,KR:11,USWarehouse:18},
+  {product:"Acetic Acid 0.6%",spec:"3mlx10vials",lowest:"Sophie",price:6,Sophie:6,MKM:10,"Peptide Lab":8},
+  {product:"Acetic Acid 0.6%",spec:"10mlx10vials",lowest:"Sophie",price:7,Sophie:7,MKM:10,"Peptide Lab":10},
+  {product:"Hyaluronic Acid",spec:"5mgx10vials",lowest:"Mia",price:24,Mia:24,Sophie:24,Becky:360,MKM:160},
+  {product:"Follistatin",spec:"1mgx10vials",lowest:"Sophie",price:200,Sophie:200,InnoPeptide:310},
+  {product:"Triptorelin",spec:"2mgx10vials",lowest:"Lilly Peptide",price:35,"Lilly Peptide":35},
+];
+
+const CATS = {
+  "GLP-1 / Weight Loss":["Retatrutide","Tirzepatide","Semaglutide","Cagrilintide","CagriSema","Survodutide","Mazdutide"],
+  "Healing & Recovery":["BPC-157","TB-500","BPC + TB Blend","KPV","Selank","Semax","PE-22-28","DSIP","Thymalin","Thymosin Alpha-1","Epithalon","Pinealon","LL37","VIP","MOTS-C","SS-31"],
+  "Growth Hormone":["HGH","GHRP-2","GHRP-6","CJC-1295 Without DAC","CJC-1295 With DAC","CJC-1295 Without DAC + IPA","Ipamorelin","IGF-1 LR3","MGF","PEG-MGF","AICAR","Tesamorelin"],
+  "Anti-Aging":["NAD+","GHK-Cu","AHK-CU","Glutathione","Melatonin","FOXO4","ARA-290"],
+  "Hormonal":["Oxytocin Acetate","PT-141","MT-2","Melanotan I","Melanotan II","Kisspeptin-10","Triptorelin","HCG","Follistatin"],
+  "Fat Loss / Body Comp":["5-Amino-1MQ","SLU-PP-322","AOD9604","Lipo-C","L-Carnitine","Lemon Bottle","KLOW Blend","Glow Blend"],
+  "Supplies":["Bacteriostatic Water","Hyaluronic Acid","Super Human Blend","Cerebrolysin"],
+};
+
+function getCat(p){
+  for(const [cat,list] of Object.entries(CATS)){
+    if(list.includes(p)) return cat;
+  }
+  return "Other";
+}
+
+const css = `
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07060F}
+.vpn-app{font-family:'Rajdhani',sans-serif;background:#07060F;min-height:100vh;color:#F0EEFF;position:relative;overflow-x:hidden}
+.vpn-app::before{content:'';position:fixed;bottom:0;left:0;right:0;height:45vh;background:linear-gradient(transparent 0%,rgba(201,201,232,0.04) 100%),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(201,201,232,0.07) 40px,rgba(201,201,232,0.07) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,201,232,0.07) 40px,rgba(201,201,232,0.07) 41px);transform:perspective(300px) rotateX(40deg);transform-origin:bottom center;pointer-events:none;z-index:0}
+.vpn-header{background:linear-gradient(180deg,#0D0B1E 0%,rgba(13,11,30,0.95) 100%);border-bottom:1px solid #9b30ff44;padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 0 30px #9b30ff22}
+.vpn-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;flex-wrap:wrap}
+.vpn-logo{display:flex;align-items:center;gap:10px}
+.vpn-badge{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9B30FF,#9b30ff);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;color:#fff;box-shadow:0 0 16px #9b30ff88,0 0 32px #9B30FF44;flex-shrink:0}
+.vpn-title{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;line-height:1.2}
+.vpn-title-top{background:linear-gradient(90deg,#c9c9e8,#9b30ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.vpn-title-sub{font-size:10px;font-weight:700;color:#FF6B1A;letter-spacing:2px;-webkit-text-fill-color:#FF6B1A}
+.vpn-back{padding:6px 14px;border-radius:4px;border:1px solid #1E1A38;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;background:transparent;color:#6B5F9E;text-decoration:none;display:flex;align-items:center;gap:6px}
+.vpn-back:hover{border-color:#c9c9e844;color:#c9c9e8}
+.vpn-tabs{display:flex;gap:6px}
+.vpn-tab{padding:7px 14px;border-radius:4px;border:1px solid #1E1A38;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;transition:all .15s;background:transparent;color:#6B5F9E;position:relative;overflow:hidden}
+.vpn-tab.active{border-color:#9b30ff;color:#9b30ff;background:#9b30ff11;box-shadow:0 0 12px #9b30ff44}
+.vpn-badge-count{display:inline-block;margin-left:5px;background:#9b30ff;color:#fff;border-radius:99px;padding:0 5px;font-size:9px;line-height:1.6;vertical-align:middle}
+.vpn-main{max-width:900px;margin:0 auto;padding:18px 14px 60px;position:relative;z-index:1}
+.vpn-search-wrap{position:relative;margin-bottom:20px}
+.vpn-search{width:100%;padding:13px 16px 13px 42px;border-radius:6px;border:1px solid #c9c9e855;background:#0D0B1E;color:#F0EEFF;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s}
+.vpn-search:focus{border-color:#c9c9e8;box-shadow:0 0 0 2px #c9c9e822,0 0 20px #c9c9e822}
+.vpn-search::placeholder{color:#6B5F9E}
+.vpn-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#c9c9e8;font-size:16px;pointer-events:none}
+.vpn-cat-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:24px}
+.vpn-cat-label span{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:#FF6B1A;text-transform:uppercase}
+.vpn-cat-line{flex:1;height:1px;background:linear-gradient(90deg,#FF6B1A44,transparent)}
+.vpn-card{background:#110F22;border:1px solid #1E1A38;border-radius:6px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;gap:10px;transition:border-color .15s,box-shadow .15s;position:relative;overflow:hidden}
+.vpn-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--vc,#9b30ff);opacity:0;transition:opacity .15s}
+.vpn-card.in-cart{border-color:#c9c9e866;box-shadow:0 0 14px #c9c9e818}
+.vpn-card.in-cart::before{opacity:1}
+.vpn-card-info{flex:1;min-width:0}
+.vpn-card-name{font-size:14px;font-weight:700;color:#F0EEFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.3px}
+.vpn-card-spec{font-size:12px;color:#6B5F9E;margin-top:1px}
+.vpn-vendor-pill{display:inline-block;margin-top:5px;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;font-family:'Orbitron',sans-serif;letter-spacing:.5px;border:1px solid var(--vc);color:var(--vc);background:color-mix(in srgb,var(--vc) 12%,transparent)}
+.vpn-price{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:#c9c9e8;text-shadow:0 0 12px #c9c9e888;flex-shrink:0}
+.vpn-add-btn{padding:7px 13px;border-radius:4px;border:1px solid #9b30ff;background:transparent;color:#9b30ff;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.vpn-add-btn:hover{background:#9b30ff22;box-shadow:0 0 10px #9b30ff44}
+.vpn-add-btn.added{border-color:#c9c9e8;color:#c9c9e8;background:#c9c9e811}
+.vpn-vendor-block{margin-bottom:18px}
+.vpn-vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.vpn-vendor-name{display:flex;align-items:center;gap:8px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#F0EEFF;letter-spacing:1px}
+.vpn-vendor-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px var(--vc);background:var(--vc);flex-shrink:0}
+.vpn-vendor-sub{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#c9c9e8;text-shadow:0 0 8px #c9c9e888}
+.vpn-cart-panel{background:#110F22;border:1px solid #1E1A38;border-radius:6px;overflow:hidden}
+.vpn-cart-row{padding:10px 13px;display:flex;align-items:center;gap:10px}
+.vpn-cart-row+.vpn-cart-row{border-top:1px solid #07060F}
+.vpn-cart-row-info{flex:1;min-width:0}
+.vpn-cart-row-name{font-size:13px;font-weight:700;color:#F0EEFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vpn-cart-row-spec{font-size:11px;color:#6B5F9E}
+.vpn-qty{width:46px;padding:5px 4px;border-radius:4px;border:1px solid #1E1A38;background:#07060F;color:#F0EEFF;font-family:'Orbitron',sans-serif;font-size:12px;text-align:center;outline:none}
+.vpn-row-price{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#c9c9e8;min-width:48px;text-align:right;text-shadow:0 0 8px #c9c9e866}
+.vpn-remove{background:none;border:none;cursor:pointer;color:#6B5F9E;font-size:18px;line-height:1;padding:2px 4px;transition:color .15s}
+.vpn-remove:hover{color:#9b30ff}
+.neon-divider{height:1px;background:linear-gradient(90deg,transparent,#9b30ff66,#c9c9e866,transparent);margin:6px 0 18px}
+.vpn-total-panel{background:#0D0B1E;border:1px solid #9b30ff44;border-radius:6px;padding:16px;margin-top:10px;box-shadow:0 0 24px #9b30ff18}
+.vpn-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.vpn-total-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#6B5F9E;letter-spacing:2px}
+.vpn-total-amount{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;background:linear-gradient(90deg,#c9c9e8,#9b30ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.vpn-copy-btn{width:100%;padding:14px;border-radius:5px;border:none;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;transition:all .2s}
+.vpn-copy-btn.idle{background:linear-gradient(90deg,#9b30ff,#9B30FF);color:#fff;box-shadow:0 0 20px #9b30ff66,0 0 40px #9B30FF33}
+.vpn-copy-btn.idle:hover{box-shadow:0 0 30px #9b30ff88,0 0 60px #9B30FF44;transform:translateY(-1px)}
+.vpn-copy-btn.done{background:linear-gradient(90deg,#00c97a,#c9c9e8);color:#000;box-shadow:0 0 20px #c9c9e866}
+.vpn-hint{font-size:11px;color:#6B5F9E;text-align:center;margin-top:8px;font-family:'Rajdhani',sans-serif}
+.vpn-empty{text-align:center;padding:60px 20px}
+.vpn-empty-icon{font-size:42px;margin-bottom:12px}
+.vpn-empty-title{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:#6B5F9E;letter-spacing:1px}
+.vpn-empty-sub{font-size:13px;color:#6B5F9E44;margin-top:6px}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+`;
+
+function VPNPeptideShop() {
+  const [search, setSearch] = useState("");
+  const [cart, setCart] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const [copiedVendor, setCopiedVendor] = useState(null);
+  const [tab, setTab] = useState("browse");
+
+  useEffect(() => {
+    const el = document.createElement("style");
+    el.textContent = css;
+    document.head.appendChild(el);
+    return () => document.head.removeChild(el);
+  }, []);
+
+  const categories = useMemo(() => {
+    const seen = new Set();
+    const unique = RAW_DATA.filter(item => {
+      const k = `${item.product}|${item.spec}`;
+      if (seen.has(k)) return false;
+      seen.add(k); return true;
+    });
+    const map = {};
+    unique.forEach(item => {
+      const cat = getCat(item.product);
+      if (!map[cat]) map[cat] = [];
+      map[cat].push(item);
+    });
+    return map;
+  }, []);
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return categories;
+    const q = search.toLowerCase();
+    const result = {};
+    Object.entries(categories).forEach(([cat, items]) => {
+      const matched = items.filter(i =>
+        i.product.toLowerCase().includes(q) || i.spec.toLowerCase().includes(q)
+      );
+      if (matched.length) result[cat] = matched;
+    });
+    return result;
+  }, [search, categories]);
+
+  const inCart = item => cart.some(c => c.key === `${item.product}|${item.spec}`);
+  const addToCart = item => {
+    const key = `${item.product}|${item.spec}`;
+    if (!cart.some(c => c.key === key))
+      setCart(prev => [...prev, { ...item, key, qty: 1 }]);
+  };
+  const removeFromCart = key => setCart(prev => prev.filter(c => c.key !== key));
+  const updateQty = (key, val) => {
+    const n = Math.max(1, parseInt(val) || 1);
+    setCart(prev => prev.map(c => c.key === key ? { ...c, qty: n } : c));
+  };
+
+  const cartByVendor = useMemo(() => {
+    const map = {};
+    cart.forEach(item => {
+      if (!map[item.lowest]) map[item.lowest] = [];
+      map[item.lowest].push(item);
+    });
+    return map;
+  }, [cart]);
+
+  const cartTotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  const copyOrder = () => {
+    if (!cart.length) return;
+    let lines = ["🔒 RN PEPTIDE ORDER\nResearch Network\n"];
+    Object.entries(cartByVendor).forEach(([vendor, items]) => {
+      lines.push(`📦 ${vendor.toUpperCase()}`);
+      items.forEach(i => lines.push(`  • ${i.product} ${i.spec}${i.qty > 1 ? ` x${i.qty}` : ""} — $${i.price * i.qty}`));
+      lines.push(`  Subtotal: $${items.reduce((s,i) => s + i.price * i.qty, 0)}\n`);
+    });
+    lines.push(`💰 TOTAL: $${cartTotal}`);
+    navigator.clipboard.writeText(lines.join("\n")).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2800);
+    });
+  };
+
+  const copyVendorOrder = (vendor, items) => {
+    const sub = items.reduce((s,i) => s + i.price * i.qty, 0);
+    const contact = VENDOR_CONTACTS[vendor];
+    let lines = [`🔒 RN ORDER — ${vendor.toUpperCase()}`, "Research Network\n"];
+    items.forEach(i => lines.push(`• ${i.product} ${i.spec}${i.qty > 1 ? ` x${i.qty}` : ""} — $${i.price * i.qty}`));
+    lines.push(`\nTotal: $${sub}`);
+    if (contact?.telegram) lines.push(`\nSend to: ${contact.telegram}`);
+    navigator.clipboard.writeText(lines.join("\n")).then(() => {
+      setCopiedVendor(vendor);
+      setTimeout(() => setCopiedVendor(null), 2800);
+    });
+  };
+
+  return (
+    <div className="vpn-app">
+      <header className="vpn-header">
+        <div className="vpn-header-inner">
+          <div className="vpn-logo">
+            <div className="vpn-badge">RN</div>
+            <div className="vpn-title">
+              <div className="vpn-title-top">VERIFIED PEPTIDES</div>
+              <div className="vpn-title-sub">PRICE FINDER</div>
+            </div>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+            <a href="home.html" className="vpn-back">← BACK</a>
+            <div className="vpn-tabs">
+              <button className={`vpn-tab ${tab==="browse"?"active":""}`} onClick={()=>setTab("browse")}>BROWSE</button>
+              <button className={`vpn-tab ${tab==="cart"?"active":""}`} onClick={()=>setTab("cart")}>
+                ORDER{cart.length>0&&<span className="vpn-badge-count">{cart.length}</span>}
+              </button>
+              <button className={`vpn-tab ${tab==="vendors"?"active":""}`} onClick={()=>setTab("vendors")}>VENDORS</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="vpn-main">
+        {tab==="browse" && (
+          <>
+            <div className="vpn-search-wrap">
+              <span className="vpn-search-icon">⌕</span>
+              <input className="vpn-search" value={search}
+                onChange={e=>setSearch(e.target.value)}
+                placeholder="Search peptides, specs..." />
+            </div>
+            {Object.entries(filtered).map(([cat, items]) => (
+              <div key={cat}>
+                <div className="vpn-cat-label">
+                  <span>{cat}</span>
+                  <div className="vpn-cat-line" />
+                </div>
+                {items.map((item, i) => {
+                  const vc = VENDOR_COLORS[item.lowest] || "#9b30ff";
+                  const added = inCart(item);
+                  return (
+                    <div key={i} className={`vpn-card ${added?"in-cart":""}`} style={{"--vc":vc}}>
+                      <div className="vpn-card-info">
+                        <div className="vpn-card-name">{item.product}</div>
+                        <div className="vpn-card-spec">{item.spec}</div>
+                        <span className="vpn-vendor-pill" style={{"--vc":vc}}>{item.lowest}</span>
+                      </div>
+                      <div className="vpn-price">${item.price}</div>
+                      <button className={`vpn-add-btn ${added?"added":""}`}
+                        onClick={()=>added?removeFromCart(`${item.product}|${item.spec}`):addToCart(item)}>
+                        {added?"✓ IN":"+ ADD"}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </>
+        )}
+
+        {tab==="vendors" && (
+          <div>
+            <div style={{marginBottom:"20px"}}>
+              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:"10px",fontWeight:700,color:"#FF6B1A",letterSpacing:"2px",marginBottom:"4px"}}>VENDOR DIRECTORY</div>
+              <div style={{fontSize:"12px",color:"#6B5F9E"}}>Tap WhatsApp / Telegram to open directly · Copy order first then contact vendor</div>
+            </div>
+            {ALL_VENDORS.map(v=>{
+              const vc = VENDOR_COLORS[v.key] || "#9B30FF";
+              return (
+                <div key={v.key} style={{background:"#110F22",border:`1px solid`,borderColor:v.inShop?"#1E1A38":"#2a1a3a",borderRadius:"8px",padding:"14px",marginBottom:"10px",position:"relative",overflow:"hidden"}}>
+                  <div style={{position:"absolute",left:0,top:0,bottom:0,width:"3px",background:vc}} />
+                  <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:"8px",marginBottom:"8px"}}>
+                    <div>
+                      <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:"12px",fontWeight:700,color:"#F0EEFF",letterSpacing:".5px"}}>
+                        {v.flag} {v.display}
+                      </div>
+                      {v.notes && <div style={{fontSize:"11px",color:"#6B5F9E",marginTop:"3px"}}>{v.notes}</div>}
+                    </div>
+                    {v.inShop && <span style={{fontSize:"9px",fontFamily:"'Orbitron',sans-serif",color:vc,border:`1px solid ${vc}55`,borderRadius:"3px",padding:"2px 6px",whiteSpace:"nowrap"}}>IN SHOP</span>}
+                  </div>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:"8px"}}>
+                    {v.whatsapp && (
+                      <a href={`https://wa.me/${v.whatsapp}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #25D36688",background:"#25D36615",color:"#25D366",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        💬 +{v.whatsapp}
+                      </a>
+                    )}
+                    {v.telegram && (
+                      <a href={`https://t.me/${v.telegram}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #2AABEE88",background:"#2AABEE15",color:"#2AABEE",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        ✈ @{v.telegram}
+                      </a>
+                    )}
+                    {v.phone && (
+                      <a href={`tel:${v.phone}`}
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #c9c9e888",background:"#c9c9e815",color:"#c9c9e8",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        📞 {v.phone}
+                      </a>
+                    )}
+                    {v.discord && (
+                      <a href={`https://${v.discord}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #7289DA88",background:"#7289DA15",color:"#7289DA",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        🎮 Discord
+                      </a>
+                    )}
+                    {v.website && (
+                      <a href={`https://${v.website}`} target="_blank" rel="noopener noreferrer"
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #FF6B1A88",background:"#FF6B1A15",color:"#FF6B1A",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        🌐 {v.website}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {tab==="cart" && (
+          <>
+            {cart.length===0 ? (
+              <div className="vpn-empty">
+                <div className="vpn-empty-icon">🧬</div>
+                <div className="vpn-empty-title">ORDER LIST EMPTY</div>
+                <div className="vpn-empty-sub">Add peptides from Browse to build your order</div>
+              </div>
+            ) : (
+              <>
+                {Object.entries(cartByVendor).map(([vendor, items]) => {
+                  const vc = VENDOR_COLORS[vendor] || "#9b30ff";
+                  const sub = items.reduce((s,i)=>s+i.price*i.qty,0);
+                  return (
+                    <div key={vendor} className="vpn-vendor-block">
+                      <div className="vpn-vendor-header">
+                        <div className="vpn-vendor-name">
+                          <div className="vpn-vendor-dot" style={{"--vc":vc}} />
+                          {vendor}
+                        </div>
+                        <div className="vpn-vendor-sub">${sub}</div>
+                      </div>
+                      {VENDOR_CONTACTS[vendor] && (
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"8px",gap:"8px",flexWrap:"wrap"}}>
+                          <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
+                            {VENDOR_CONTACTS[vendor].whatsapp && (
+                              <a href={`https://wa.me/${VENDOR_CONTACTS[vendor].whatsapp}`}
+                                target="_blank" rel="noopener noreferrer"
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:"1px solid #25D36688",color:"#25D366",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:"#25D36615"}}>
+                                💬 WhatsApp
+                              </a>
+                            )}
+                            {VENDOR_CONTACTS[vendor].telegram && (
+                              <a href={`https://t.me/${VENDOR_CONTACTS[vendor].telegram}`}
+                                target="_blank" rel="noopener noreferrer"
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:"1px solid #2AABEE88",color:"#2AABEE",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:"#2AABEE15"}}>
+                                ✈ Telegram
+                              </a>
+                            )}
+                            {VENDOR_CONTACTS[vendor].phone && (
+                              <a href={`tel:${VENDOR_CONTACTS[vendor].phone}`}
+                                style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"4px 10px",borderRadius:"4px",border:`1px solid ${vc}55`,color:vc,fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none",background:`color-mix(in srgb,${vc} 10%,transparent)`}}>
+                                📞 Call
+                              </a>
+                            )}
+                          </div>
+                          <button onClick={()=>copyVendorOrder(vendor,items)}
+                            style={{padding:"4px 12px",borderRadius:"4px",border:`1px solid ${vc}`,background:copiedVendor===vendor?vc:"transparent",color:copiedVendor===vendor?"#000":vc,fontFamily:"'Orbitron',sans-serif",fontSize:"9px",fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all .15s"}}>
+                            {copiedVendor===vendor?"✓ COPIED":"📋 COPY ORDER"}
+                          </button>
+                        </div>
+                      )}
+                      <div className="vpn-cart-panel">
+                        {items.map(item=>(
+                          <div key={item.key} className="vpn-cart-row">
+                            <div className="vpn-cart-row-info">
+                              <div className="vpn-cart-row-name">{item.product}</div>
+                              <div className="vpn-cart-row-spec">{item.spec} · ${item.price} ea</div>
+                            </div>
+                            <input type="number" className="vpn-qty" min="1" value={item.qty}
+                              onChange={e=>updateQty(item.key,e.target.value)} />
+                            <div className="vpn-row-price">${item.price*item.qty}</div>
+                            <button className="vpn-remove" onClick={()=>removeFromCart(item.key)}>×</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="neon-divider" />
+                <div className="vpn-total-panel">
+                  <div className="vpn-total-row">
+                    <div className="vpn-total-label">GRAND TOTAL</div>
+                    <div className="vpn-total-amount">${cartTotal}</div>
+                  </div>
+                  <button className={`vpn-copy-btn ${copied?"done":"idle"}`} onClick={copyOrder}>
+                    {copied?"✓ COPIED — READY TO SEND":"📋 COPY ORDER TO SEND"}
+                  </button>
+                  <div className="vpn-hint">Pastes a vendor-grouped list · ready to text or message</div>
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </main>
+    </div>
+  );
+}
+
+function renderShop() {
+  ReactDOM.createRoot(document.getElementById('root')).render(<VPNPeptideShop />);
+}
+window.renderShop = renderShop;
+</script>
+<button id="vpn-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:24px;right:20px;width:50px;height:50px;border-radius:50%;background:rgba(201,201,232,0.12);border:2px solid #c9c9e8;color:#c9c9e8;font-size:1.5rem;line-height:1;cursor:pointer;z-index:99999;display:none;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(201,201,232,0.45);backdrop-filter:blur(4px);transition:opacity 0.2s,transform 0.2s;">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('vpn-back-to-top');
+  if(!btn) return;
+  function toggle(){ btn.style.display = (window.scrollY > 400) ? 'flex' : 'none'; }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
+  btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
+})();
+</script>
+
+</body>
+</html>

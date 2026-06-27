@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Crypto 1-2-3 — VPN Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap');
+  * { box-sizing:border-box; }
+  body {
+    margin:0; padding:40px;
+    background:#05020f;
+    font-family:'Rajdhani',sans-serif;
+    color:#fff;
+  }
+  .download-bar { max-width:900px; margin:0 auto 1rem; text-align:right; }
+  .download-bar button {
+    font-family:'Bebas Neue',sans-serif; letter-spacing:0.1em; font-size:1rem;
+    background:#00f5ff; color:#05020f; border:none; padding:0.7rem 1.6rem; cursor:pointer;
+  }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  .page {
+    max-width:900px; margin:0 auto 2rem;
+    background:#05020f;
+    border:2px solid #00f5ff;
+    box-shadow:0 0 40px rgba(0,245,255,0.12);
+    padding:2.8rem 3rem;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  h1 {
+    font-family:'Bebas Neue',sans-serif; letter-spacing:0.12em; font-size:3.2rem;
+    color:#00f5ff; text-shadow:0 0 18px rgba(0,245,255,0.6); margin:0 0 0.3rem; line-height:1.05;
+  }
+  .sub { color:rgba(255,255,255,0.78); font-weight:700; margin-bottom:1.6rem; font-size:1.2rem; line-height:1.5; }
+  .sub strong { color:#ff2d78; }
+  h2 {
+    font-family:'Bebas Neue',sans-serif; letter-spacing:0.1em; font-size:1.7rem;
+    color:#ff2d78; text-shadow:0 0 10px rgba(255,45,120,0.4);
+    margin:1.9rem 0 0.7rem; border-bottom:2px solid rgba(255,45,120,0.35); padding-bottom:0.4rem;
+  }
+  p, li { font-size:1.25rem; font-weight:600; line-height:1.65; color:#fff; }
+  ul, ol { margin:0.4rem 0 0 1.3rem; padding:0; }
+  li { margin-bottom:0.5rem; }
+  .callout {
+    margin:1rem 0; padding:1rem 1.3rem;
+    background:rgba(0,245,255,0.07); border-left:5px solid #00f5ff;
+    font-size:1.2rem; font-weight:700; color:#fff;
+  }
+  .warn {
+    margin:1rem 0; padding:1rem 1.3rem;
+    background:rgba(255,45,120,0.08); border-left:5px solid #ff2d78;
+    font-size:1.2rem; font-weight:700; color:#fff;
+  }
+  .warn strong { color:#ff2d78; }
+  .flow {
+    display:flex; align-items:center; gap:0.8rem; flex-wrap:wrap;
+    margin:1.4rem 0;
+  }
+  .flow-box {
+    flex:1; min-width:180px;
+    background:#0e0e1a; border:2px solid #00f5ff;
+    padding:1rem 1.1rem; text-align:center;
+    font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em; font-size:1.15rem; color:#00f5ff;
+  }
+  .flow-box span { display:block; font-family:'Rajdhani',sans-serif; font-weight:600; font-size:0.95rem; color:rgba(255,255,255,0.65); margin-top:0.3rem; letter-spacing:0; }
+  .flow-arrow { font-size:1.8rem; color:#ff2d78; flex-shrink:0; }
+  .pill-table {
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6rem; margin:1rem 0;
+  }
+  .pill {
+    background:#0e0e1a; border:2px solid rgba(0,245,255,0.4);
+    padding:0.8rem 1rem; text-align:center;
+    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:#fff; letter-spacing:0.04em;
+  }
+  .footer {
+    margin-top:2.2rem; padding-top:1.2rem; border-top:2px solid rgba(255,255,255,0.15);
+    font-size:1rem; color:rgba(255,255,255,0.5); text-align:center; font-weight:600;
+  }
+  .vpn-logo { font-family:'Bebas Neue',sans-serif; letter-spacing:0.15em; font-size:1.3rem; color:#00f5ff; }
+  @media print {
+    @page { size: letter; margin: 0; }
+    .download-bar { display:none; }
+    html, body { background:#05020f; padding:0; margin:0; }
+    .page {
+      box-shadow:none;
+      margin:0; max-width:none;
+      width:8.5in; height:10.8in;
+      padding:0.55in 0.7in;
+      page-break-after: always;
+      page-break-inside: avoid;
+      overflow:hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    h1 { font-size:1.9rem; margin-bottom:0.2rem; }
+    .sub { font-size:0.72rem; margin-bottom:0.65rem; line-height:1.4; }
+    h2 { font-size:1.0rem; margin:0.7rem 0 0.35rem; padding-bottom:0.25rem; }
+    p, li { font-size:0.72rem; line-height:1.4; margin-bottom:0.18rem; }
+    .callout, .warn { font-size:0.72rem; padding:0.55rem 0.8rem; margin:0.55rem 0; }
+    .flow { margin:0.8rem 0; gap:0.5rem; }
+    .flow-box { font-size:0.7rem; padding:0.55rem 0.65rem; }
+    .flow-box span { font-size:0.58rem; margin-top:0.2rem; }
+    .flow-arrow { font-size:1.1rem; }
+    .footer { font-size:0.62rem; margin-top:0.6rem; padding-top:0.45rem; }
+    ul, ol { margin-top:0.3rem; margin-left:1.3rem; }
+    li { margin-bottom:0.08rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="download-bar"><button onclick="window.print()">⬇ Download / Print as PDF</button></div>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <h1>🪙 CRYPTO 1-2-3</h1>
+    <div class="sub">Want to learn how to pay with crypto? Read this guide, don't skip any of it! Need help? Ask in the Crypto channel on the Telegram. Provided by <strong>@brownguy89</strong></div>
+
+    <h2>🏁 Start Here</h2>
+    <div class="callout">✅ WHAT YOU NEED TO DO — THE 3 STEPS ✅</div>
+
+    <div class="flow">
+      <div class="flow-box">1. Buy Crypto<span>(e.g., Coinbase)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">2. Send to Wallet<span>(Trust Wallet)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">3. Send to Vendor<span>From Trust Wallet</span></div>
+    </div>
+
+    <div class="callout">💡 It costs money to buy crypto sometimes, and it costs money to send crypto.</div>
+
+    <h2>🔗 The Links</h2>
+    <ul>
+      <li><strong>Payment options, holds, and how to buy crypto cheap</strong> → See "Payment Options and Holds" section</li>
+      <li><strong>Which crypto do I use, what costs the least to send, and what is a gas fee</strong> → See "Gas Fees and Which Crypto to Use" section</li>
+    </ul>
+
+    <h2>⚠️ Scams — Read This 100%</h2>
+    <div class="warn">
+      <strong>DO:</strong> Reach out to vendors through contact info from promos.<br>
+      <strong>DON'T:</strong> Trust DMs with info — 99% of the time it's a scam.
+    </div>
+    <p style="font-style:italic;color:#ff2d78;">PEOPLE HAVE BEEN UNKNOWINGLY FORWARDING LINKS TO SCAM GROUPS AND SCAMMERS.</p>
+
+    <h2>🎉 Help The Community</h2>
+    <p>Once you're done, please post that you were able to use crypto successfully to encourage others! Crypto has a learning curve, but it's not bad once you get the hang of it.</p>
+
+    <div class="footer"><span class="vpn-logo">VPN</span> · Verified Peptide Network · Page 1 of 3</div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <div class="warn" style="font-size:1.3rem;">🚫 NEVER PAY VENDORS DIRECTLY — ALWAYS PAY FROM/THROUGH TRUST WALLET 🚫</div>
+    <p>If you buy from Cashapp, Venmo, Zelle, Coinbase, etc. and send to your vendor directly, you risk getting your account banned. Always send from your personal wallet like Trust Wallet.</p>
+
+    <h2>💳 Payment Options &amp; Holds</h2>
+    <p>📱 Install Trust Wallet on your phone if you haven't already.</p>
+
+    <h2>🤔 Which Crypto To Use? How To Buy Crypto?</h2>
+    <p><strong>🪙 Two Kinds Of Crypto:</strong></p>
+    <ul>
+      <li><strong>Non-Stablecoin:</strong> ETH, SOL, TRON, BTC ($1 = fluctuates)</li>
+      <li><strong>Stablecoin:</strong> USDC or USDT ($1 = $1, needs gas to send)</li>
+    </ul>
+    <div class="callout">💡 <strong>ANSWER:</strong> Whichever your vendor takes with the lowest fees — ask them!</div>
+
+    <h2>💸 Buy &amp; Send Crypto</h2>
+    <p>🧪 Always start with a test transaction ($20–30)</p>
+    <p><strong>🛣️ Stablecoin Route — Buy 2 Things, Predictable:</strong></p>
+    <ol>
+      <li>Buy USDT/USDC + gas (SOL, ETH, or TRON) from an exchange.</li>
+      <li>Send both to Trust Wallet.</li>
+      <li>Send the stablecoin to your vendor from Trust Wallet.</li>
+    </ol>
+
+    <h2>🕐 Holds &amp; Fees For Buying Crypto</h2>
+    <p><strong>🏦 Coinbase / Kraken:</strong></p>
+    <ul>
+      <li><strong>Hold Time:</strong> Can be instant or up to a week for new users.</li>
+      <li><strong>Fee:</strong> 0% for USDC with a bank account on Coinbase.</li>
+    </ul>
+    <p>Most of us use Coinbase to buy USDC, send to Trust Wallet, and just swap it for whatever other kind of stablecoin we need to send to the vendor at the time.</p>
+    <p><strong>📱 MoonPay, XO Pay, Ramp:</strong></p>
+    <ul>
+      <li><strong>Hold Time:</strong> Often just a few hours.</li>
+      <li><strong>Fee:</strong> ~4% higher, but accepts Apple Pay.</li>
+    </ul>
+
+    <div class="footer"><span class="vpn-logo">VPN</span> · Verified Peptide Network · Page 2 of 3</div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <p style="font-style:italic;color:#00f5ff;font-size:1.3rem;">YOU WILL ALWAYS HAVE TO VERIFY YOUR IDENTITY TO BUY CRYPTO.</p>
+
+    <h2>⛽ Gas Fees &amp; Which Crypto To Use</h2>
+    <p><strong>🛒 What Do I Need To Buy?</strong></p>
+
+    <div class="flow" style="flex-direction:column;align-items:stretch;">
+      <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:#ff2d78;margin-bottom:0.3rem;">Ethereum Network (ERC-20)</div>
+      <div class="flow" style="margin:0 0 0.8rem;">
+        <div class="flow-box" style="flex:0 0 140px;">ETH<span>(Gas)</span></div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box" style="flex:0 0 160px;">USDC / USDT</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="flex:1;">Send to Vendor<span>From Trust Wallet</span></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:#ff2d78;margin-bottom:0.3rem;">Solana Network</div>
+      <div class="flow" style="margin:0 0 0.8rem;">
+        <div class="flow-box" style="flex:0 0 140px;">SOL<span>(Gas)</span></div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box" style="flex:0 0 160px;">USDC / USDT</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="flex:1;">Send to Vendor<span>From Trust Wallet</span></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:#ff2d78;margin-bottom:0.3rem;">Tron Network (TRC-20)</div>
+      <div class="flow">
+        <div class="flow-box" style="flex:0 0 140px;">TRON<span>(Gas)</span></div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box" style="flex:0 0 160px;">USDC / USDT</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="flex:1;">Send to Vendor<span>From Trust Wallet</span></div>
+      </div>
+    </div>
+
+    <h2>💰 How Much Gas?</h2>
+    <ul>
+      <li><strong>Solana / Ethereum:</strong> Usually max $0.20 per transfer. $10–20 is enough for a year.</li>
+    </ul>
+    <div class="warn">TRON SUCKS AND COSTS THE MOST OF ANY CRYPTO TO SEND.</div>
+
+    <h2>⚙️ How It Works</h2>
+    <ol>
+      <li>Have the stablecoin (USDT/USDC) in your Trust Wallet — this is your payment amount.</li>
+      <li>Have the native currency (SOL/ETH/etc.) in your wallet — this is your gas money.</li>
+      <li>When you send, Trust Wallet automatically deducts the gas from your wallet.</li>
+    </ol>
+
+    <h2>🧪 Final Tip</h2>
+    <p>Don't be scared! Before sending crypto, always do a small $5 test transaction and have your vendor confirm they received it.</p>
+
+    <div class="footer"><span class="vpn-logo">VPN</span> · Verified Peptide Network · Page 3 of 3</div>
+  </div>
+
+</body>
+</html>

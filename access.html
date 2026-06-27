@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RN Research Network | Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #9b30ff;
+    --cyan: #c9c9e8;
+    --yellow: #ffe600;
+    --orange: #ff6b00;
+    --purple: #9b30ff;
+    --dark: #050012;
+    --card: #0c0225;
+    --border: #1e0a3a;
+    --text: #ffffff;
+    --dim: rgba(232,224,240,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: linear-gradient(180deg,
+      #0d0028 0%, #1a0a3a 18%, #3a1255 34%, #6b1d63 48%,
+      #b8324f 62%, #ff6b35 76%, #ffb347 90%, #ffd97a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; left: 50%; bottom: 6%;
+    width: 500px; height: 500px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: linear-gradient(180deg, #fff6c8 0%, #ffd34d 20%, #ff9a3c 50%, #ff5a7a 80%, #9b30ff 100%);
+    box-shadow: 0 0 140px rgba(255,150,80,.75), 0 0 280px rgba(255,80,120,.4);
+    pointer-events: none; z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; left: 50%; bottom: 6%;
+    width: 500px; height: 500px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 13px, rgba(180,30,60,.6) 13px, rgba(180,30,60,.6) 20px);
+    -webkit-mask: radial-gradient(circle, #fff 58%, transparent 58%);
+    mask: radial-gradient(circle, #fff 58%, transparent 58%);
+    opacity: .6; pointer-events: none; z-index: 0;
+  }
+
+  .grid-floor {
+    position: fixed; left: 0; right: 0; bottom: 0; height: 42%;
+    background: linear-gradient(0deg, rgba(10,0,30,.95), transparent);
+    z-index: 1; pointer-events: none; overflow: hidden;
+  }
+  .grid-floor::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(201,201,232,.45) 0 2px, transparent 2px 60px),
+      repeating-linear-gradient(0deg, rgba(201,201,232,.3) 0 2px, transparent 2px 32px);
+    background-size: 60px 100%, 100% 32px;
+    transform: perspective(220px) rotateX(72deg);
+    transform-origin: bottom; opacity: .55;
+  }
+
+  .stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(2px 2px at 8% 12%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 22% 6%, #fff, transparent),
+      radial-gradient(2px 2px at 38% 18%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 55% 4%, #fff, transparent),
+      radial-gradient(2px 2px at 72% 14%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 88% 8%, #fff, transparent),
+      radial-gradient(1px 1px at 15% 28%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 82% 20%, rgba(255,255,255,.6), transparent);
+    opacity: .8;
+  }
+
+  .palm {
+    position: fixed; bottom: 0; width: 210px; height: 310px;
+    z-index: 2; pointer-events: none; opacity: .88;
+    filter: drop-shadow(0 0 20px rgba(0,0,0,.5));
+  }
+  .palm.left { left: -20px; }
+  .palm.right { right: -20px; transform: scaleX(-1); }
+  @media (max-width: 700px) { .palm { width: 120px; height: 190px; opacity: .45; } }
+
+  /* MAIN PANEL — redesigned, wider, logo dominant */
+  .panel {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    background: rgba(8, 2, 28, 0.86);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 24px;
+    padding: 2.8rem 2.2rem 2.2rem;
+    text-align: center;
+    box-shadow:
+      0 0 0 1px rgba(201,201,232,.07),
+      0 0 90px rgba(155,48,255,.22),
+      0 30px 90px rgba(0,0,0,.75);
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute; inset: -1px; border-radius: 24px;
+    background: linear-gradient(135deg, var(--cyan), var(--pink), var(--yellow), var(--purple), var(--cyan));
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: .55; animation: borderflow 6s linear infinite; z-index: -1;
+  }
+  @keyframes borderflow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+  /* BIG LOGO — hero centerpiece */
+  .logo-wrap {
+    margin: 0 auto 1rem;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 4px solid var(--cyan);
+    box-shadow: 0 0 32px rgba(201,201,232,.6), 0 0 70px rgba(255,107,0,.35), inset 0 0 24px rgba(201,201,232,.18);
+    overflow: hidden;
+    animation: spin 18s linear infinite;
+  }
+  .logo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; animation: unspin 18s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes unspin { to { transform: rotate(-360deg); } }
+
+  .brand {
+    font-family: 'Orbitron', monospace;
+    font-size: .95rem;
+    font-weight: 900;
+    letter-spacing: .3em;
+    color: var(--cyan);
+    text-shadow: 0 0 14px var(--cyan);
+    margin-bottom: .35rem;
+  }
+
+  .brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .2em;
+    color: var(--pink);
+    text-shadow: 0 0 8px var(--pink);
+    margin-bottom: 1.3rem;
+  }
+
+  /* 21+ BANNER — big, unmissable */
+  .age-banner {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    background: linear-gradient(135deg, rgba(255,26,26,.18), rgba(255,107,0,.1));
+    border: 2px solid #ff3333;
+    border-radius: 14px;
+    padding: .9rem 1.1rem;
+    margin-bottom: 1.4rem;
+    text-align: left;
+    box-shadow: 0 0 24px rgba(255,51,51,.25);
+  }
+  .age-banner-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: #ff3333;
+    text-shadow: 0 0 14px #ff3333;
+    flex-shrink: 0;
+  }
+  .age-banner-text {
+    font-size: .82rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffe0e0;
+  }
+  .age-banner-text strong { display: block; color: #ff5555; font-size: .9rem; letter-spacing: .03em; margin-bottom: .15rem; }
+
+  .disclaimer {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: .65rem .9rem;
+    margin-bottom: 1.4rem;
+    text-align: left;
+    font-size: .68rem;
+    font-weight: 600;
+    line-height: 1.6;
+    color: rgba(255,255,255,.45);
+  }
+
+  /* MODE TABS */
+  .mode-tabs {
+    display: flex; gap: 0; margin-bottom: 1.4rem;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px; overflow: hidden;
+  }
+  .mode-tab {
+    flex: 1; padding: .8rem .5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: .2em;
+    cursor: pointer; transition: all .2s;
+    background: transparent; border: none;
+    color: var(--dim); position: relative;
+  }
+  .mode-tab.active { background: rgba(201,201,232,.1); color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
+  .mode-tab:first-child { border-right: 1px solid rgba(255,255,255,.1); }
+
+  /* FORM */
+  .auth-form { display: flex; flex-direction: column; gap: .8rem; }
+  .field-wrap { position: relative; }
+  .field-wrap input {
+    width: 100%; padding: .85rem 1rem .85rem 2.6rem;
+    font-size: 1rem; font-family: 'Rajdhani', sans-serif; font-weight: 600;
+    color: var(--text); background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.12); border-radius: 8px;
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .field-wrap input:focus { border-color: var(--cyan); box-shadow: 0 0 14px rgba(201,201,232,.22); background: rgba(201,201,232,.04); }
+  .field-wrap input::placeholder { color: rgba(255,255,255,.3); }
+  .field-icon { position: absolute; left: .85rem; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; opacity: .5; }
+
+  .forgot-row { text-align: right; margin-top: -.2rem; font-size: .8rem; font-weight: 600; }
+  .forgot-row a { color: var(--cyan); cursor: pointer; text-decoration: none; }
+  .forgot-row a:hover { text-decoration: underline; }
+
+  .submit-btn {
+    width: 100%; padding: 1rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: .25em;
+    color: #05000f; background: var(--cyan); border: none; border-radius: 10px;
+    cursor: pointer; transition: transform .1s, box-shadow .2s;
+    box-shadow: 0 0 24px rgba(201,201,232,.5); margin-top: .2rem;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(201,201,232,.8); }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* NEW USER CTA — much bigger now, impossible to miss */
+  .new-user-cta {
+    margin-top: 1.6rem;
+    background: linear-gradient(135deg, rgba(155,48,255,.16), rgba(155,48,255,.12));
+    border: 2.5px solid var(--pink);
+    border-radius: 16px;
+    padding: 1.4rem 1.3rem;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(155,48,255,.3);
+    animation: pulseglow 2.4s ease-in-out infinite;
+  }
+  @keyframes pulseglow {
+    0%, 100% { box-shadow: 0 0 30px rgba(155,48,255,.3); }
+    50% { box-shadow: 0 0 48px rgba(155,48,255,.55); }
+  }
+  .new-user-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: .08em;
+    color: var(--yellow);
+    text-shadow: 0 0 10px var(--yellow);
+    margin-bottom: .8rem;
+    line-height: 1.3;
+  }
+  .create-btn {
+    width: 100%; padding: 1.15rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: .15em;
+    color: #fff; background: linear-gradient(135deg, var(--pink), var(--purple));
+    border: none; border-radius: 12px; cursor: pointer;
+    box-shadow: 0 0 30px rgba(155,48,255,.55);
+    transition: transform .1s, box-shadow .2s;
+  }
+  .create-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 48px rgba(155,48,255,.8); }
+  .create-btn:active { transform: translateY(0) scale(1); }
+
+  .msg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .78rem; letter-spacing: .06em;
+    min-height: 1.2em; opacity: 0; transition: opacity .2s;
+    margin-top: .5rem; line-height: 1.5;
+  }
+  .msg.show { opacity: 1; }
+  .msg.error { color: var(--orange); text-shadow: 0 0 6px var(--orange); }
+  .msg.success { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
+
+  .divider {
+    display: flex; align-items: center; gap: .75rem;
+    margin: 1.5rem 0 1rem;
+    color: rgba(255,255,255,.2);
+    font-size: .72rem; font-family: 'Share Tech Mono', monospace; letter-spacing: .1em;
+  }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1); }
+
+  .footer-note {
+    margin-top: 1.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .6rem; letter-spacing: .15em;
+    color: rgba(232,224,240,.25);
+  }
+
+  .shake { animation: shake .4s; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%,60% { transform: translateX(-8px); }
+    40%,80% { transform: translateX(8px); }
+  }
+
+  .popup-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .popup-overlay.show { opacity: 1; pointer-events: auto; }
+  .popup-box {
+    position: relative; max-width: 340px; width: 90%;
+    background: var(--card); border: 2px solid var(--orange);
+    border-radius: 12px; padding: 2rem 1.5rem 1.5rem; text-align: center;
+    box-shadow: 0 0 30px rgba(255,107,0,.4);
+    transform: scale(.85); transition: transform .2s;
+  }
+  .popup-overlay.show .popup-box { transform: scale(1); }
+  .popup-close {
+    position: absolute; top: 8px; right: 10px;
+    background: none; border: none; color: var(--dim);
+    font-size: 1.4rem; cursor: pointer; padding: .2rem .4rem;
+  }
+  .popup-close:hover { color: var(--orange); }
+  .popup-msg {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem; letter-spacing: .1em;
+    color: var(--orange); text-shadow: 0 0 8px var(--orange); line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="grid-floor"></div>
+
+<svg class="palm left" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMax meet">
+  <rect x="92" y="120" width="14" height="180" fill="#1a0a35"/>
+  <path d="M99 130 Q40 90 10 60" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 130 Q170 95 195 70" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 125 Q60 60 30 30" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 125 Q150 55 185 35" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 122 Q105 50 100 10" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>
+<svg class="palm right" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMax meet">
+  <rect x="92" y="120" width="14" height="180" fill="#1a0a35"/>
+  <path d="M99 130 Q40 90 10 60" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 130 Q170 95 195 70" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 125 Q60 60 30 30" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 125 Q150 55 185 35" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M99 122 Q105 50 100 10" stroke="#1a0a35" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>
+
+<div class="panel" id="panel">
+
+  <div class="logo-wrap">
+    <img src="vpnlogo.png" alt="VPN" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Orbitron,monospace;font-size:2rem;font-weight:900;color:#c9c9e8;\'>VPN</span>'">
+  </div>
+
+  <div class="brand">RESEARCH NETWORK</div>
+  <div class="brand-sub">RESTRICTED ACCESS · MEMBERS ONLY</div>
+
+  <div class="age-banner">
+    <div class="age-banner-num">21+</div>
+    <div class="age-banner-text">
+      <strong>ADULTS ONLY · RESEARCH USE ONLY</strong>
+      You must be 21 years or older to enter. This site is for research and educational purposes only.
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    Not medical advice. Always verify everything against real studies. Knowledge of safety should be free and easy for everyone.
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-signin" onclick="switchTab('signin')">SIGN IN</button>
+    <button class="mode-tab" id="tab-signup" onclick="switchTab('signup')">CREATE ACCOUNT</button>
+  </div>
+
+  <!-- FORM -->
+  <div class="auth-form" id="auth-form-inner">
+    <div class="field-wrap">
+      <span class="field-icon">📧</span>
+      <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
+    </div>
+    <div class="field-wrap">
+      <span class="field-icon">🔒</span>
+      <input type="password" id="password" placeholder="Password (min 6 characters)" autocomplete="current-password" required>
+    </div>
+    <div class="forgot-row" id="forgot-row"><a id="forgot-link">Forgot password?</a></div>
+    <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">SIGN IN →</button>
+  </div>
+
+  <div class="msg error" id="error-msg"></div>
+  <div class="msg success" id="success-msg"></div>
+
+  <!-- NEW USER CTA — BIG, can't miss it -->
+  <div class="new-user-cta" id="new-user-cta">
+    <div class="new-user-label">✨ FIRST TIME HERE?<br>CREATE YOUR FREE ACCOUNT NOW</div>
+    <button class="create-btn" onclick="switchTab('signup')">＋ CREATE MY FREE ACCOUNT</button>
+  </div>
+
+  <div class="footer-note">RESEARCH NETWORK · RUIC GROUP MEMBERS ONLY</div>
+</div>
+
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close">✕</button>
+    <div style="font-size:2.2rem;margin-bottom:.6rem">⚠️</div>
+    <div class="popup-msg" id="popup-msg"></div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+    createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+
+  onAuthStateChanged(auth, function(user){
+    if (user) window.location.href = 'home.html';
+  });
+
+  var isSignUp = false;
+
+  window.switchTab = function(mode) {
+    isSignUp = mode === 'signup';
+    clearMsgs();
+
+    document.getElementById('tab-signin').classList.toggle('active', !isSignUp);
+    document.getElementById('tab-signup').classList.toggle('active', isSignUp);
+    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
+    document.getElementById('forgot-row').style.display = isSignUp ? 'none' : '';
+    document.getElementById('new-user-cta').style.display = isSignUp ? 'none' : '';
+    document.getElementById('password').placeholder = isSignUp ? 'Choose a password (min 6 characters)' : 'Password (min 6 characters)';
+    document.getElementById('password').autocomplete = isSignUp ? 'new-password' : 'current-password';
+  };
+
+  window.handleSubmit = function() {
+    clearMsgs();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    if (!email || !password) { showError('PLEASE ENTER YOUR EMAIL AND PASSWORD'); return; }
+    if (password.length < 6) { showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS'); return; }
+
+    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING ACCOUNT…' : 'SIGNING IN…';
+    document.getElementById('submit-btn').style.opacity = '.6';
+
+    if (isSignUp) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'home.html')
+        .catch(err => { resetBtn(); showError(friendlyError(err)); });
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'home.html')
+        .catch(err => { resetBtn(); showError(friendlyError(err)); });
+    }
+  };
+
+  function resetBtn() {
+    var btn = document.getElementById('submit-btn');
+    btn.textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
+    btn.style.opacity = '1';
+  }
+
+  document.getElementById('email').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('password').focus(); });
+  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') window.handleSubmit(); });
+
+  // FIX: point the reset link directly at our own reset-password.html page
+  // instead of relying on Firebase's default hosted action handler, which
+  // 404s if authDomain isn't fully configured. This guarantees the link works.
+  document.getElementById('forgot-link').addEventListener('click', function(){
+    var email = document.getElementById('email').value.trim();
+    if (!email) { showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD'); return; }
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
+      .catch(err => {
+        console.error('Password reset error:', err.code, err.message);
+        showError(friendlyError(err) + ' [' + (err.code || 'unknown') + ']');
+      });
+  });
+
+  document.getElementById('popup-close').addEventListener('click', () => {
+    document.getElementById('popup-overlay').classList.remove('show');
+  });
+
+  function friendlyError(err) {
+    var c = err && err.code ? err.code : '';
+    if (c === 'auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS — SIGN IN INSTEAD';
+    if (c === 'auth/invalid-email') return 'THAT EMAIL ADDRESS LOOKS INVALID';
+    if (c === 'auth/user-not-found' || c === 'auth/invalid-credential') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
+    if (c === 'auth/wrong-password') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
+    if (c === 'auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
+    if (c === 'auth/too-many-requests') return 'TOO MANY ATTEMPTS — PLEASE WAIT A FEW MINUTES';
+    if (c === 'auth/unauthorized-continue-uri') return 'RESET LINK DOMAIN NOT AUTHORIZED IN FIREBASE — CONTACT ADMIN';
+    if (c === 'auth/invalid-continue-uri') return 'RESET LINK CONFIGURATION ERROR — CONTACT ADMIN';
+    if (c === 'auth/missing-continue-uri') return 'RESET LINK MISSING CONFIG — CONTACT ADMIN';
+    if (c === 'auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION AND TRY AGAIN';
+    return 'SOMETHING WENT WRONG — PLEASE TRY AGAIN';
+  }
+
+  function showError(msg) {
+    document.getElementById('success-msg').classList.remove('show');
+    var el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+    var p = document.getElementById('panel');
+    p.classList.remove('shake');
+    requestAnimationFrame(() => p.classList.add('shake'));
+  }
+
+  function showSuccess(msg) {
+    document.getElementById('error-msg').classList.remove('show');
+    var el = document.getElementById('success-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function clearMsgs() {
+    document.getElementById('error-msg').classList.remove('show');
+    document.getElementById('success-msg').classList.remove('show');
+  }
+</script>
+
+</body>
+</html>

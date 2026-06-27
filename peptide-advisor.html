@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RN — Peptide Suggestion</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg: #04020a;
+  --surface: #07050f;
+  --surface2: #0d0a1a;
+  --border: #1c1235;
+  --pink: #ff2d8a;
+  --cyan: #00f0ff;
+  --lime: #aaff00;
+  --purple: #bf00ff;
+  --yellow: #ffe600;
+  --text: #f0f4ff;
+  --muted: #4a5070;
+  --orb: 'Orbitron', sans-serif;
+  --bar: 'Barlow Condensed', sans-serif;
+  --mono: 'Share Tech Mono', monospace;
+}
+
+body {
+  font-family: var(--bar);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 19px;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(191,0,255,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 30% at 100% 50%, rgba(0,240,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 0% 50%, rgba(255,45,138,0.08) 0%, transparent 60%);
+}
+
+/* SCANLINES */
+body::after {
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1000;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.07) 3px,rgba(0,0,0,0.07) 4px);
+}
+
+/* ═══════════════ HEADER ═══════════════ */
+header {
+  background: linear-gradient(180deg, rgba(191,0,255,0.12) 0%, rgba(0,0,0,0.6) 100%);
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--pink), var(--cyan), var(--lime), var(--purple)) 1;
+  box-shadow: 0 4px 40px rgba(191,0,255,0.15);
+  padding: 20px 24px 16px;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.logo-emoji {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 20px rgba(0,240,255,0.8)) drop-shadow(0 0 40px rgba(255,45,138,0.5));
+  animation: logopulse 3s ease-in-out infinite;
+}
+@keyframes logopulse {
+  0%,100%{ filter: drop-shadow(0 0 20px rgba(0,240,255,0.8)) drop-shadow(0 0 40px rgba(255,45,138,0.5)); }
+  50%{ filter: drop-shadow(0 0 30px rgba(0,240,255,1)) drop-shadow(0 0 60px rgba(255,45,138,0.8)) drop-shadow(0 0 80px rgba(191,0,255,0.4)); }
+}
+
+.header-text { flex: 1; text-align: center; }
+
+.header-vpn {
+  font-family: var(--orb);
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--lime) 45%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(0,240,255,0.5));
+}
+
+.header-full {
+  font-family: var(--bar);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-top: 2px;
+  text-shadow: 0 0 12px rgba(0,240,255,0.6);
+}
+
+.header-tagline {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--pink);
+  letter-spacing: 0.15em;
+  margin-top: 5px;
+  opacity: 0.85;
+  text-shadow: 0 0 8px rgba(255,45,138,0.5);
+}
+
+.header-badge {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--yellow);
+  border: 1px solid rgba(255,230,0,0.5);
+  padding: 8px 12px;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 16px rgba(255,230,0,0.15), inset 0 0 16px rgba(255,230,0,0.03);
+  flex-shrink: 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+.back-link:hover { opacity: 1; text-shadow: 0 0 8px var(--cyan); }
+
+.rainbow-strip {
+  height: 3px;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan), var(--lime), var(--yellow), var(--pink));
+  background-size: 200% 100%;
+  animation: rainbow 3s linear infinite;
+}
+@keyframes rainbow { 0%{background-position:0%} 100%{background-position:200%} }
+
+/* ═══════════════ MAIN ═══════════════ */
+main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
+
+/* SECTION HEADING */
+.section-heading {
+  margin-bottom: 28px;
+}
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--lime);
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+.section-heading h2 {
+  font-family: var(--orb);
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(0,240,255,0.3));
+}
+.section-heading p {
+  font-family: var(--bar);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* DISCLAIMER */
+.disclaimer {
+  background: rgba(255,230,0,0.04);
+  border-left: 3px solid var(--yellow);
+  padding: 14px 18px;
+  margin-bottom: 30px;
+  font-family: var(--bar);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: rgba(255,230,0,0.85);
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  box-shadow: 0 0 20px rgba(255,230,0,0.05);
+}
+
+/* FIELD LABEL */
+.field-label {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--cyan);
+  letter-spacing: 0.14em;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+/* STEP MARKERS */
+.step-label {
+  font-family: var(--orb);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  text-shadow: 0 0 10px rgba(0,240,255,0.5);
+}
+
+/* GENDER ROW */
+.gender-row { display:flex; gap:10px; margin-bottom:28px; }
+.gender-btn {
+  flex:1;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  padding: 16px;
+  color: var(--muted);
+  font-family: var(--orb);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.gender-btn:hover { border-color: var(--purple); color: var(--purple); }
+.gender-btn.selected {
+  border-color: var(--purple);
+  background: rgba(191,0,255,0.12);
+  color: var(--purple);
+  box-shadow: 0 0 20px rgba(191,0,255,0.25), inset 0 0 20px rgba(191,0,255,0.05);
+  text-shadow: 0 0 10px var(--purple);
+}
+
+/* GOALS GRID */
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.goal-card {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--bar);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  user-select: none;
+}
+.goal-card:hover {
+  border-color: var(--pink);
+  background: rgba(255,45,138,0.07);
+  box-shadow: 0 0 16px rgba(255,45,138,0.2);
+}
+.goal-card.selected {
+  border-color: var(--pink);
+  background: rgba(255,45,138,0.12);
+  color: var(--pink);
+  box-shadow: 0 0 20px rgba(255,45,138,0.3), inset 0 0 20px rgba(255,45,138,0.05);
+  text-shadow: 0 0 10px rgba(255,45,138,0.6);
+}
+.goal-icon { font-size: 1.6rem; flex-shrink:0; }
+
+/* BUTTON */
+.btn-primary {
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  padding: 20px 28px;
+  font-family: var(--orb);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  width: 100%;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0,240,255,0.15), inset 0 0 24px rgba(0,240,255,0.03);
+}
+.btn-primary::before {
+  content:'';position:absolute;inset:0;
+  background: linear-gradient(90deg, transparent, rgba(0,240,255,0.08), transparent);
+  transform:translateX(-100%);transition:transform 0.5s;
+}
+.btn-primary:hover::before{transform:translateX(100%);}
+.btn-primary:hover {
+  background: rgba(0,240,255,0.08);
+  box-shadow: 0 0 40px rgba(0,240,255,0.35), inset 0 0 24px rgba(0,240,255,0.08);
+  text-shadow: 0 0 14px var(--cyan);
+}
+.btn-primary:disabled { opacity:0.28; cursor:not-allowed; }
+
+/* HOW-TO BOX */
+.howto {
+  background: rgba(0,240,255,0.04);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+.howto-title {
+  font-family: var(--orb);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0,240,255,0.5);
+}
+.howto ol {
+  font-family: var(--bar);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+  padding-left: 1.4em;
+}
+.howto li { margin-bottom: 4px; }
+.howto strong { color: var(--lime); }
+
+/* TOOLBAR */
+.toolbar-row { display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
+.btn-secondary {
+  background: transparent;
+  color: var(--lime);
+  border: 1px solid var(--lime);
+  padding: 12px 18px;
+  font-family: var(--orb);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  box-shadow: 0 0 16px rgba(170,255,0,0.1), inset 0 0 16px rgba(170,255,0,0.02);
+}
+.btn-secondary:hover {
+  background: rgba(170,255,0,0.08);
+  box-shadow: 0 0 24px rgba(170,255,0,0.3), inset 0 0 16px rgba(170,255,0,0.05);
+  text-shadow: 0 0 10px var(--lime);
+}
+.shopping-item {
+  display:flex; justify-content:space-between; gap:1rem;
+  padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+  font-family: var(--bar); font-weight:600; font-size:1.05rem; color: var(--text);
+}
+.shopping-item:last-child { border-bottom:none; }
+.shopping-item span.qty { color: var(--lime); font-family: var(--orb); white-space:nowrap; }
+
+.pdf-tip {
+  font-family: var(--bar);
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.pdf-tip strong { color: var(--cyan); }
+
+@media print {
+  body::after { display:none !important; }
+  body { background:#fff !important; color:#000 !important; }
+  body > *:not(main) { display:none !important; }
+  .howto { display:none !important; }
+  main > *:not(#schedule-box) { display:none !important; }
+  #schedule-box { display:block !important; border-color:#000 !important; background:#fff !important; box-shadow:none !important; margin:0 !important; }
+  #schedule-box::before { display:none !important; }
+  #schedule-actions, #shopping-list-box, #copy-schedule-btn, #schedule-pdf-tip { display:none !important; }
+  #shopping-list-box button, .pdf-tip { display:none !important; }
+  body.print-shopping-only #schedule-list,
+  body.print-shopping-only #schedule-header { display:none !important; }
+  body.print-shopping-only #shopping-list-box { display:block !important; margin-top:0; }
+  body.print-schedule-only #shopping-list-box { display:none !important; }
+  .schedule-row, .pep-result { border-color:#999 !important; background:#fff !important; box-shadow:none !important; }
+  .schedule-row { display:flex !important; }
+  .schedule-week, .schedule-dose, .response-label { color:#000 !important; text-shadow:none !important; }
+  .response-label span[onclick] { display:none !important; }
+  .response-label .pulse-dot { display:none !important; }
+  .schedule-detail, .pep-result-desc, .shopping-item { color:#333 !important; }
+  .disclaimer { color:#000 !important; background:#fff !important; }
+}
+
+/* RESPONSE BOX */
+.response-box {
+  display: none;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(0,240,255,0.25);
+  padding: 28px;
+  margin-top: 28px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,240,255,0.06), inset 0 0 40px rgba(0,0,0,0.4);
+}
+.response-box::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
+}
+.response-box.visible { display:block; }
+
+.response-label {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--lime);
+  letter-spacing: 0.14em;
+  margin-bottom: 20px;
+  display:flex;align-items:center;gap:10px;
+  text-shadow: 0 0 10px var(--lime);
+}
+.pulse-dot {
+  width:8px;height:8px;border-radius:50%;
+  background:var(--lime);box-shadow:0 0 10px var(--lime);
+  animation:pulse 1.4s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+
+/* PEPTIDE RESULT CARDS */
+.pep-result {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pep-result:hover {
+  border-color: var(--cyan);
+  background: rgba(0,240,255,0.06);
+  box-shadow: 0 0 16px rgba(0,240,255,0.15);
+}
+.pep-result.open {
+  border-color: var(--pink);
+  border-left-color: var(--pink);
+  background: rgba(255,45,138,0.06);
+}
+.pep-result-top {
+  display:flex; align-items:center; justify-content:space-between; gap: 12px;
+}
+.pep-result-name {
+  font-family: var(--orb);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+.pep-result-match {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.add-btn {
+  font-family: var(--orb);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+  background: rgba(170,255,0,0.06);
+  border: 1px solid var(--lime);
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.add-btn:hover {
+  background: rgba(170,255,0,0.18);
+  box-shadow: 0 0 12px rgba(170,255,0,0.4);
+}
+.add-btn.added {
+  background: rgba(170,255,0,0.25);
+  color: #fff;
+  border-color: var(--lime);
+  box-shadow: 0 0 14px rgba(170,255,0,0.5);
+  text-shadow: 0 0 8px var(--lime);
+}
+.pep-result-desc {
+  font-family: var(--bar);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.pep-result-detail {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.pep-result.open .pep-result-detail { display: block; }
+
+/* PROTOCOL BUILDER */
+.info-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.info-field{flex:1; min-width: 140px;}
+.info-field label{
+  display:block;font-family:var(--mono);font-size:0.95rem;
+  color:var(--pink);letter-spacing:0.12em;margin-bottom:8px;opacity:0.85;
+  text-transform:uppercase;
+}
+.pep-input {
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid var(--border);
+  padding: 13px 15px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  transition: all 0.2s;
+}
+.pep-input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 16px rgba(0,240,255,0.2);}
+.pep-input::placeholder{color:var(--muted)}
+
+.divider {
+  border:none;border-top:1px solid var(--border);
+  margin:28px 0;position:relative;
+}
+.divider::after{
+  content:'';position:absolute;top:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,45,138,0.4),var(--cyan),rgba(255,45,138,0.4),transparent);
+}
+
+.schedule-row {
+  display:flex;align-items:center;gap:1rem;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,240,255,0.25);
+  border-left: 4px solid var(--cyan);
+  padding: 0.9rem 1.25rem;
+  margin-bottom: 0.6rem;
+}
+.schedule-week {
+  font-family: var(--orb);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.schedule-dose {
+  font-family: var(--orb);
+  font-size: 1.4rem;
+  color: #fff;
+}
+.schedule-detail {
+  font-family: var(--bar);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+@media(max-width:560px){
+  .goals-grid{grid-template-columns:repeat(2,1fr)}
+  .info-row{flex-direction:column}
+  .header-vpn{font-size:2rem}
+  .logo-emoji{font-size:2.2rem}
+  .section-heading h2{font-size:1.5rem}
+  .header-full{font-size:0.8rem;letter-spacing:0.12em}
+}
+</style>
+</head>
+<body>
+<div id="auth-gate-overlay" style="position:fixed;inset:0;z-index:99999;background:#04020a;display:flex;align-items:center;justify-content:center;color:#c9c9e8;font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;">CHECKING ACCESS...</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+  window.vpnAuth = auth;
+  window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
+
+  var overlay = document.getElementById('auth-gate-overlay');
+  onAuthStateChanged(auth, function(user){
+    if (user) {
+      overlay.style.display = 'none';
+    } else {
+      window.location.href = 'access.html';
+    }
+  });
+</script>
+
+<header>
+  <div class="header-inner">
+    <img class="logo-emoji" src="rnlogo.png" alt="RN Gorilla">
+    <div class="header-text">
+      <div class="header-vpn">RN SUGGESTION</div>
+      <div class="header-full">Research Network</div>
+      <div class="header-tagline">AI-STYLE GOAL MATCHING + DOSE SCHEDULE BUILDER</div>
+    </div>
+    <div class="header-badge">RESEARCH<br>USE<br>ONLY</div>
+  </div>
+</header>
+<div class="rainbow-strip"></div>
+
+<main>
+
+  <div class="howto">
+    <div class="howto-title">HOW THIS PAGE WORKS</div>
+    <ol>
+      <li>Pick your goals (and gender, if relevant) below, then hit <strong>Run Analysis</strong>.</li>
+      <li>Glowrilla AI lists matching peptides — tap a name to read more, or hit <strong>+ ADD</strong> to send it to the schedule builder.</li>
+      <li>Check the auto-filled numbers in Step 2 (or type your own), then hit <strong>Generate My Schedule</strong>.</li>
+      <li>Add as many peptides as you want — they stack into one schedule list.</li>
+      <li>Use <strong>Shopping List</strong> to see how many vials/water to buy.</li>
+      <li>Each section has its own <strong>Copy as Text</strong> or <strong>Download as PDF</strong> button — use whichever works best on your device.</li>
+    </ol>
+  </div>
+
+  <div class="section-heading">
+    <div class="section-eyebrow">STEP 1 — TELL US YOUR GOALS</div>
+    <h2>What Do You Want To Work On?</h2>
+    <p>Pick one or more goals below — Glowrilla AI will suggest peptides that match what you're looking for.</p>
+  </div>
+
+  <div class="disclaimer">
+    ⚠ FOR LEARNING ONLY — THIS IS A SUGGESTION TOOL, NOT MEDICAL ADVICE. A suggestion is just a starting point for your own research — not a recommendation to follow blindly. This tool gives general examples based on research, not a prescription. Always do your own independent research, talk to a licensed doctor before starting anything, and double-check your math with the Reconstitution Calculator.
+    <br><br>
+    Work with your doctor — even if they disagree with you — and independently verify everything in every part of this tool (or any website) before acting on it.
+  </div>
+  <details style="margin-bottom:0.75rem;border:1px solid rgba(201,201,232,0.25);padding:0.5rem 0.75rem;background:rgba(201,201,232,0.04);">
+
+    <summary style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:var(--cyan);">🩸 Suggested Blood Work BEFORE Starting Any Protocol</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.65;padding:0.75rem 0 0;">
+      <strong style="color:#fff;">Inform your doctor. Protect your health.</strong> You are the most important member of your healthcare team — be honest and detailed about everything you're taking or planning to take. Sharing the full picture helps your doctor catch issues early and build a plan that fits your needs.
+      <br><br>
+      <strong style="color:var(--yellow);">📋 Comprehensive Metabolic &amp; Hormone Panel:</strong> Comprehensive Metabolic Panel (CMP) · Complete Blood Count (CBC) · Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides, VLDL) · hs-CRP · ESR · TSH · Free T4 · Estradiol (Sensitive) · Total Testosterone · Free Testosterone · SHBG · LH · FSH · Prolactin · DHEA-S · Cortisol (AM) · Vitamin D (25-OH) · Vitamin B12 · Folate · Iron Panel · Ferritin · Magnesium · Zinc · Liver Enzymes (ALT, AST, GGT) · Kidney Function (BUN, Creatinine)
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please order the following baseline panel:\n- Comprehensive Metabolic Panel (CMP)\n- Complete Blood Count (CBC)\n- Lipid Panel (Total Cholesterol, LDL, HDL, Triglycerides, VLDL)\n- hs-CRP\n- ESR\n- TSH\n- Free T4\n- Estradiol (Sensitive)\n- Total Testosterone\n- Free Testosterone\n- SHBG\n- LH\n- FSH\n- Prolactin\n- DHEA-S\n- Cortisol (AM)\n- Vitamin D (25-OH)\n- Vitamin B12\n- Folate\n- Iron Panel\n- Ferritin\n- Magnesium\n- Zinc\n- Liver Enzymes (ALT, AST, GGT)\n- Kidney Function (BUN, Creatinine)')">📋 Copy This Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:#ffe600;">🦋 Ask Your Doctor to Add — Thyroid Panel:</strong> Thyroid issues (hypo/hyperthyroidism) can mimic or worsen symptoms people often blame on peptides — fatigue, weight changes, mood, heart rate. If not already included, ask for: TSH, Free T3, Free T4, and Thyroid Antibodies (TPO/TgAb) if there's a family history of thyroid disease.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add a Thyroid Panel:\n- TSH\n- Free T3\n- Free T4\n- Thyroid Antibodies (TPO/TgAb) — if family history of thyroid disease')">📋 Copy Thyroid Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:#ff6b00;">🍬 Ask Your Doctor to Add — Insulin Resistance Panel:</strong> Insulin resistance can drive fat gain, cravings, and energy crashes — and is often missed on a standard panel since fasting glucose alone can look "normal." If not already included, ask for: Fasting Insulin, Fasting Glucose, HbA1c (3-month average blood sugar), and HOMA-IR (calculated from fasting glucose + insulin).
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c (3-month average blood sugar)\n- HOMA-IR (calculated from fasting glucose + insulin)')">📋 Copy Insulin Resistance Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:var(--neon-pink);">🔥 Ask Your Doctor to Add — Inflammation Panel:</strong> Chronic inflammation can affect recovery, gut health, joints, and how well your body responds to peptides. If not already included, ask for: hs-CRP (high-sensitivity C-Reactive Protein), ESR (Erythrocyte Sedimentation Rate), and Homocysteine.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">📋 Copy Inflammation Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:#00ff64;">🟢 Ask Your Doctor to Add — Liver Panel:</strong> Many peptides (and underlying issues like fatty liver) are processed through the liver, so a baseline liver panel helps your doctor catch problems early and track changes over time. If not already included, ask for: ALT, AST, ALP (Alkaline Phosphatase), GGT, Total &amp; Direct Bilirubin, Albumin, and Total Protein.
+      <br><button class="btn-secondary" style="margin-top:8px;" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">📋 Copy Liver Panel for My Doctor</button>
+      <br><br>
+      <strong style="color:var(--cyan);">Even if your doctor disagrees, talk to them anyway.</strong> They may catch risks, suggest safer alternatives, or adjust their perspective as new research emerges. <strong style="color:#fff;">Always be honest with your doctor — if they refuse to help or listen, find another. You deserve a doctor who supports you.</strong>
+      <br><br>
+      <strong style="color:#fff;">Your health. Your responsibility. You decide.</strong>
+      <br><br>
+      <span style="color:var(--yellow);">🇺🇸 Thank you to all service men &amp; women — God bless you all.</span>
+    </div>
+  </details>
+
+  <div style="margin-bottom:24px;">
+    <div class="field-label">🔍 OR SEARCH FOR A SPECIFIC PEPTIDE BY NAME</div>
+    <div class="info-row" style="margin-bottom:0;">
+      <div class="info-field">
+        <input id="peptide-search" class="pep-input" type="text" list="peptide-search-list" placeholder="e.g. BPC-157, Retatrutide, NAD+..." onkeydown="if(event.key==='Enter'){searchPeptide();}">
+        <datalist id="peptide-search-list"></datalist>
+      </div>
+    </div>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="searchPeptide()">🔍 Search This Peptide</button>
+  </div>
+
+  <div class="gender-row" id="gender-row">
+    <div class="gender-btn" data-gender="male">♂ Male</div>
+    <div class="gender-btn" data-gender="female">♀ Female</div>
+  </div>
+
+  <div class="goals-grid" id="goals-grid">
+    <div class="goal-card" data-goal="fatloss"><span class="goal-icon">🔥</span>Fat Loss</div>
+    <div class="goal-card" data-goal="muscle"><span class="goal-icon">💪</span>Muscle Growth</div>
+    <div class="goal-card" data-goal="antiaging"><span class="goal-icon">🧬</span>Anti-Aging</div>
+    <div class="goal-card" data-goal="recovery"><span class="goal-icon">🩹</span>Recovery</div>
+    <div class="goal-card" data-goal="sleep"><span class="goal-icon">😴</span>Sleep</div>
+    <div class="goal-card" data-goal="gut"><span class="goal-icon">🌀</span>Gut Health</div>
+    <div class="goal-card" data-goal="joints"><span class="goal-icon">🦴</span>Joints</div>
+    <div class="goal-card" data-goal="skin"><span class="goal-icon">✨</span>Skin &amp; Hair</div>
+    <div class="goal-card" data-goal="cognitive"><span class="goal-icon">🧠</span>Cognitive</div>
+    <div class="goal-card" data-goal="libido"><span class="goal-icon">❤️</span>Libido / Hormones</div>
+    <div class="goal-card" data-goal="insulin"><span class="goal-icon">🍬</span>Insulin Resistance</div>
+    <div class="goal-card" data-goal="thyroid"><span class="goal-icon">🦋</span>Thyroid Support</div>
+    <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
+    <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
+    <div class="goal-card" data-goal="energy"><span class="goal-icon">⚡</span>Energy</div>
+    <div class="goal-card" data-goal="immune"><span class="goal-icon">🛡️</span>Immune Support</div>
+    <div class="goal-card" data-goal="longevity"><span class="goal-icon">⏳</span>Longevity / Bioregulators</div>
+  </div>
+
+  <button class="btn-primary" onclick="renderSuggestions()">RUN ANALYSIS →</button>
+
+  <div class="response-box" id="suggestions-box">
+    <div class="response-label"><span class="pulse-dot"></span>HERE'S WHAT WE'D SUGGEST (TAP ANY ONE FOR DETAILS)</div>
+    <div id="suggestions-list"></div>
+    <button class="btn-secondary" id="copy-suggestions-btn" style="display:none; margin-top:14px;" onclick="copySuggestionsText()">📋 Copy Suggestions as Text</button>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-heading">
+    <div class="section-eyebrow">STEP 2 — BUILD YOUR DOSE SCHEDULE</div>
+    <h2>How Much, How Often, How Long</h2>
+    <p>Tap a peptide above to fill this in automatically, or type your own info below.</p>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field">
+      <label>Peptide Name</label>
+      <input id="b-name" class="pep-input" type="text" placeholder="e.g. Retatrutide">
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field">
+      <label>💊 How Much Is In The Vial (mg)</label>
+      <input id="b-vial" class="pep-input" type="number" min="0" step="0.5" placeholder="e.g. 10" oninput="onVialWaterInput('vial')">
+    </div>
+    <div class="info-field">
+      <label>💧 How Much Water To Add (mL)</label>
+      <input id="b-water" class="pep-input" type="number" min="0" max="3" step="0.1" placeholder="e.g. 2 (max 3)" oninput="onVialWaterInput('water')">
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field" style="flex-direction:row;align-items:center;gap:0.6rem;display:flex;flex-wrap:wrap;">
+      <button type="button" id="bac-lock-btn" class="pep-input" style="cursor:pointer;width:auto;text-align:left;" onclick="toggleBacLock()">🔒 Lock Ratio: ON</button>
+      <span id="bac-ratio-label" style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--cyan);"></span>
+      <input id="bac-custom-ratio" type="number" min="0" step="0.1" placeholder="custom mg/mL" class="pep-input" style="display:none;width:120px;" oninput="onCustomRatioInput()">
+    </div>
+  </div>
+
+  <details style="margin-bottom:0.75rem;">
+    <summary style="cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--muted);">🧪 Reconstitution Info &amp; Example (mg, mcg, units)</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.6;padding:0.6rem 0 0;">
+      <strong style="color:var(--cyan);">Easy rule:</strong> 1 mg = 1000 mcg. This calculator assumes a 100-unit (1mL) insulin syringe, where each unit = 0.01 mL.
+      <br><br>
+      <strong style="color:var(--pink);">MG to MCG quick chart:</strong> 0.025mg = 25mcg · 0.05mg = 50mcg · 0.1mg = 100mcg · 0.25mg = 250mcg · 0.3mg = 300mcg · 0.33mg = 330mcg · 0.5mg = 500mcg · 1mg = 1000mcg.
+      <br><br>
+      <strong style="color:var(--yellow);">Example:</strong> You add <strong>3 mL</strong> of BAC water to a <strong>20mg</strong> vial, and your desired dose is <strong>0.5mg</strong> (500mcg).
+      <br>
+      Draw amount = (desired dose ÷ total vial mg) × (mL added × 100 units/mL) = (0.5 ÷ 20) × 300 = <strong style="color:var(--cyan);">7.5 units</strong> (0.075 mL on a 100u syringe).
+    </div>
+  </details>
+
+  <details style="margin-bottom:0.75rem;border:1px solid rgba(255,230,0,0.25);padding:0.5rem 0.75rem;background:rgba(255,230,0,0.04);">
+    <summary style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:var(--yellow);">📘 How To Use This Calculator (Step-by-Step)</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.65;padding:0.75rem 0 0;display:flex;flex-direction:column;gap:0.85rem;">
+      <div><strong style="color:var(--cyan);">① ENTER BAC WATER ADDED</strong><br>Enter how much bacteriostatic water you added to the vial. Example: <strong>3 mL</strong>.</div>
+      <div><strong style="color:var(--pink);">② ENTER YOUR DESIRED DOSE (IN MG)</strong><br>Use the MG ↔ MCG chart above to convert mcg to mg if needed. Example: <strong>0.5 mg</strong> (= 500 mcg).</div>
+      <div><strong style="color:var(--yellow);">③ ENTER TOTAL MG IN THE VIAL</strong><br>This is the total amount of peptide in the vial, printed on the label. Example: <strong>20 mg</strong>.</div>
+      <div><strong style="color:var(--cyan);">④ DRAW THE AMOUNT SHOWN</strong><br>The calculator instantly shows how many units to draw on a 100-unit (1mL) insulin syringe. Example result: <strong style="color:var(--pink);">7.5 units</strong> (0.075 mL).</div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:0.6rem;">
+        <strong style="color:#fff;">Example Summary:</strong> 3 mL BAC water + 20 mg total in vial + 0.5 mg desired dose (500 mcg) = <strong style="color:var(--cyan);">DRAW 7.5 UNITS</strong> (0.075 mL on a 100u syringe).
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--muted);">🧪 For research purposes only. Not for human or veterinary use. Follow all local laws and regulations.</div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:0.75rem;">
+        <a href="Reconstitution_Research_Calculator.png" download="RN-Reconstitution-Calculator.png"
+           style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.6rem 1rem;background:linear-gradient(135deg,rgba(201,201,232,0.1),rgba(155,48,255,0.08));border:1px solid var(--cyan);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:var(--cyan);text-transform:uppercase;text-decoration:none;">
+          📥 Download Visual Reference (PNG)
+        </a>
+        <img src="Reconstitution_Research_Calculator.png" alt="Reconstitution Research Calculator — Simplified Guide" style="width:100%;display:block;margin-top:0.6rem;border:1px solid rgba(201,201,232,0.25);">
+      </div>
+    </div>
+  </details>
+
+  <details style="margin-bottom:0.75rem;">
+    <summary style="cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--muted);">ℹ️ What does "Lock Ratio" mean? (example)</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.6;padding:0.6rem 0 0;">
+      When <strong style="color:var(--cyan);">Lock Ratio</strong> is ON, the vial (mg) and water (mL) fields stay tied together at a fixed mg-per-mL ratio.
+      Example: if the ratio is <strong style="color:var(--cyan);">5 mg per mL</strong> (10mg vial / 2mL water), typing <strong>20</strong> in the vial field auto-fills <strong>4</strong> in the water field, and typing <strong>1</strong> in the water field auto-fills <strong>5</strong> in the vial field.
+      <br><br>
+      Turn it <strong style="color:var(--pink);">OFF</strong> to set a custom ratio — type your own mg-per-mL value in the box that appears, then turn the lock back <strong style="color:var(--cyan);">ON</strong> to use that custom ratio going forward.
+    </div>
+  </details>
+
+  <details style="margin-bottom:0.75rem;">
+    <summary style="cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--muted);">✨ GHK-Cu — What It's For &amp; How to Use It</summary>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.6;padding:0.6rem 0 0;">
+      <strong style="color:var(--cyan);">GHK-Cu (Copper Peptide)</strong> is a copper-binding peptide studied for skin repair (collagen/elastin production), wound healing, hair growth, anti-inflammatory effects, and tissue remodeling. It's commonly suggested for <strong style="color:var(--pink);">Skin &amp; Hair, Joints, Recovery, Anti-Aging, and Inflammation</strong> goals above.
+      <br><br>
+      <strong style="color:var(--yellow);">Typical use:</strong> Dosed once daily, commonly around <strong>1-2mg/day</strong>, for 8-12 week cycles. Some research users apply it topically as well as via injection.
+      <br><br>
+      <strong style="color:var(--cyan);">Note:</strong> Copper peptides can oxidize/discolor in solution over time — store reconstituted vials in the fridge and watch for color changes (a slight blue/green tint is normal, but a strong shift may mean it's degrading).
+    </div>
+  </details>
+
+  <div class="info-row">
+    <div class="info-field">
+      <label>🎯 Dose You Start With (mg)</label>
+      <input id="b-start" class="pep-input" type="number" min="0" step="0.05" placeholder="e.g. 0.25">
+    </div>
+    <div class="info-field">
+      <label>📈 How Much To Add Each Step (mg)</label>
+      <input id="b-step" class="pep-input" type="number" min="0" step="0.05" placeholder="e.g. 0.25">
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field">
+      <label>📅 How Many Weeks Before Increasing</label>
+      <input id="b-weeks" class="pep-input" type="number" min="1" step="1" placeholder="e.g. 4">
+    </div>
+    <div class="info-field">
+      <label>🔁 How Many Times A Week</label>
+      <input id="b-freq" class="pep-input" type="number" min="1" step="1" placeholder="e.g. 1">
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-field">
+      <label>🕐 Time Of Day To Take It</label>
+      <select id="b-time" class="pep-input">
+        <option value="am">Morning (AM)</option>
+        <option value="pm">Evening / Before Bed (PM)</option>
+        <option value="any">Either — No Strong Preference</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="buildSchedule()">GENERATE MY SCHEDULE →</button>
+
+  <div class="response-box" id="schedule-box">
+    <div class="response-label" id="schedule-header" style="justify-content:space-between;">
+      <span><span class="pulse-dot"></span>YOUR DOSE SCHEDULE</span>
+      <span style="cursor:pointer;color:var(--pink);" onclick="clearSchedules()">CLEAR ALL ✕</span>
+    </div>
+    <div id="schedule-list"></div>
+    <div id="schedule-actions" style="display:none; margin-top:18px; gap:10px; flex-wrap:wrap;">
+      <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
+      <button class="btn-secondary" onclick="downloadSchedulePDF()">⬇ Download as PDF</button>
+    </div>
+    <button class="btn-secondary" id="copy-schedule-btn" style="display:none; margin-top:10px;" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
+    <div class="pdf-tip" id="schedule-pdf-tip" style="display:none;">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
+    <div id="shopping-list-box" style="display:none; margin-top:18px;"></div>
+  </div>
+
+</main>
+
+<script>
+var SELECTED_GOALS = new Set();
+var SELECTED_GENDER = null;
+var SCHEDULES = [];
+var LAST_SUGGESTIONS = [];
+
+function searchPeptide(){
+  var input = document.getElementById('peptide-search');
+  var query = input.value.trim().toLowerCase();
+  if (!query) return;
+  var key = Object.keys(PEPTIDES).find(function(k){ return PEPTIDES[k].name.toLowerCase() === query; });
+  if (!key){
+    key = Object.keys(PEPTIDES).find(function(k){ return PEPTIDES[k].name.toLowerCase().indexOf(query) !== -1 || k.toLowerCase().indexOf(query) !== -1; });
+  }
+  if (!key){
+    document.getElementById('suggestions-list').innerHTML = '<div class="pep-result-desc">No peptide found matching "' + input.value + '". Try a different spelling, or browse by selecting a goal above.</div>';
+    document.getElementById('suggestions-box').classList.add('visible');
+    document.getElementById('copy-suggestions-btn').style.display = 'none';
+    document.getElementById('suggestions-box').scrollIntoView({behavior:'smooth', block:'nearest'});
+    return;
+  }
+  var p = PEPTIDES[key];
+  var list = document.getElementById('suggestions-list');
+  list.innerHTML = '<div class="pep-result" data-key="' + key + '">'
+    + '<div class="pep-result-top">'
+    +   '<div class="pep-result-name">' + p.name + '</div>'
+    +   '<div style="display:flex;align-items:center;gap:10px;">'
+    +     '<button class="add-btn" onclick="useForSchedule(\'' + key + '\', event)" title="Add to schedule builder">+ ADD</button>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="pep-result-desc">' + p.desc + '</div>'
+    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
+    + '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
+    + '</div>';
+  document.getElementById('copy-suggestions-btn').style.display = 'none';
+  LAST_SUGGESTIONS = [p.name + ' — ' + p.desc];
+  var box = document.getElementById('suggestions-box');
+  box.classList.add('visible');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+document.getElementById('gender-row').addEventListener('click', function(e){
+  var btn = e.target.closest('.gender-btn');
+  if (!btn) return;
+  document.querySelectorAll('.gender-btn').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  SELECTED_GENDER = btn.getAttribute('data-gender');
+});
+
+// goal -> peptide keys mapping
+var GOAL_MAP = {
+  fatloss:    ['reta','tirz','cagri','aod','mots','tesa','amino1mq','sema','mazd','survo','hghfrag','orfo'],
+  muscle:     ['bpc','tb500','mots','cjcipa','ipam','cjcdac','cjcnodac','cjc55','cjc611','cjc1010','ghrp2','ghrp6','hexarelin','sermorelin'],
+  antiaging:  ['nad','ghk','epi','mots','foxo4','naepi','gluta','ahkcu'],
+  recovery:   ['bpc','tb500','kpv','glow','klow','triheal','wolv','ghkkpv'],
+  sleep:      ['cjcipa','tesa','dsip','pinealon'],
+  gut:        ['bpc','kpv','tb500','klow','vip','ghkkpv','chonluten'],
+  joints:     ['bpc','tb500','ghk','cartalax','teripar','abalo'],
+  skin:       ['ghk','bpc','kpv','glow','klow','snap8','mt1','ahkcu'],
+  cognitive:  ['nad','semax','selank','mots','naselank','nasemax','illumineuro','pe2228','cerebro','adamax','cortagen'],
+  insulin:    ['mots','ss31','reta','carnitine'],
+  thyroid:    ['bpc','tb500','cjcipa'],
+  inflammation: ['kpv','ghk','bpc','ll37','ghkkpv'],
+  hair:       ['ghk','ahkcu'],
+  energy:     ['nad','mots','ss31','carnitine','slu332','tesablend'],
+  immune:     ['thymalpha','thymulin','thymogen','vilon','ll37','gluta'],
+  longevity:  ['bronchogen','cardiogen','crystagen','livagen','ovagen','pancragon','pinealon','prostamax','testagen','naepi','vesugen','cortagen','pnc27']
+};
+
+// peptide info + default protocol values
+var PEPTIDES = {
+  reta:   { name:'Retatrutide', desc:'A strong fat-loss peptide that affects three different hunger/metabolism pathways at once. Still being studied in late-stage trials — one of the most powerful fat-loss compounds in research. Dosed once a week.', vial:10, water:2, start:1, step:1, weeks:4, freq:1 },
+  tirz:   { name:'Tirzepatide', desc:'Reduces appetite and helps the body manage blood sugar and fat. Usually started low and slowly increased over time, once a week.', vial:10, water:2, start:2.5, step:2.5, weeks:4, freq:1 },
+  cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
+  aod:    { name:'AOD-9604', desc:'A small piece of growth hormone that has been studied for helping the body burn fat — without the muscle-building effects of full growth hormone. Usually injected daily, 5 days a week, for 8-12 weeks.', vial:5, water:2, start:0.3, step:0.1, weeks:8, freq:5 },
+  mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
+  bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
+  tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
+  cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
+  nad:    { name:'NAD+', desc:'A natural compound your cells need for energy — studied for anti-aging, brain function, and supporting overall cell health. Commonly dosed daily to a few times a week for 4-8 weeks.', vial:500, water:2, start:50, step:0, weeks:6, freq:5 },
+  ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7 },
+  epi:    { name:'Epitalon', desc:'Studied for improving sleep patterns and supporting healthy aging at the cellular level. Used daily for a short 10-20 day course, then stopped.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
+  tesa:   { name:'Tesamorelin', desc:'Helps your body release more growth hormone — studied especially for reducing stubborn belly fat (visceral fat). Injected daily for 8-12 weeks.', vial:2, water:2, start:1, step:0, weeks:8, freq:7 },
+  dsip:   { name:'DSIP', desc:'Short for "Delta Sleep-Inducing Peptide" — studied for helping you fall asleep and improving sleep quality. Used daily before bed for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, time:'pm' },
+  semax:  { name:'Semax', desc:'A brain-focused peptide — studied for improving focus, memory, and protecting brain cells. Typically used daily for 2-4 weeks, often 5 days on / 2 days off.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:5 },
+  selank: { name:'Selank', desc:'A calming brain-focused peptide — studied for reducing stress and anxiety while keeping your mind clear. Typically used daily for 2-4 weeks.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:7 },
+  kpv:    { name:'KPV', desc:'A small anti-inflammatory peptide — studied for calming gut inflammation, helping skin heal, and reducing inflammation throughout the body. Often used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
+  ss31:   { name:'SS-31 (Elamipretide)', desc:'Often paired with MOTS-c — studied for supporting your cells’ energy centers (mitochondria) and helping the body respond better to insulin. Commonly dosed daily for 4-8 weeks.', vial:10, water:2, start:1, step:0, weeks:6, freq:7 },
+  pt141:  { name:'PT-141 (Bremelanotide)', desc:'Studied for boosting libido and sexual response — works for both men and women. Used as-needed, no more than a couple times a week.', vial:10, water:2, start:0.5, step:0, weeks:4, freq:2, gender:'both' },
+  kisspeptin: { name:'Kisspeptin-10', desc:'Studied for naturally supporting testosterone and reproductive hormone levels — mostly researched in men. Commonly dosed daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, gender:'male' },
+  hcg:    { name:'HCG (Low-Dose)', desc:'Studied for helping men maintain natural testosterone production and fertility. Typically dosed 2-3 times a week for 4-12 weeks.', vial:5000, water:3, start:250, step:0, weeks:8, freq:2, gender:'male', time:'am' },
+  glow:   { name:'GLOW Blend (GHK-Cu + BPC-157 + TB-500)', desc:'A popular "stack in a vial" combining GHK-Cu, BPC-157, and TB-500 — studied for skin, healing, and recovery together. If your supplier sells a pre-mixed GLOW vial, use this entry. Otherwise, add GHK-Cu, BPC-157, and TB-500 individually above for the same effect with more control over each dose. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+  klow:   { name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', desc:'A bigger "stack in a vial" — KLOW adds KPV to the GLOW combo, aiming at gut health plus skin, healing, and recovery. If your supplier sells a pre-mixed KLOW vial, use this entry. Otherwise, add KPV, BPC-157, TB-500, and GHK-Cu individually above so you can adjust each one on its own. Typically used once daily for 6-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+
+  amino1mq:    { name:'5-Amino-1MQ', desc:'An NNMT inhibitor studied for fat loss, metabolism support, and preserving muscle while in a calorie deficit. Usually taken orally once daily for 4-8 week cycles.', vial:10, water:2, start:50, step:0, weeks:6, freq:7 },
+  abalo:       { name:'Abaloparatide', desc:'A PTH analog studied (and FDA-approved) for bone density and osteoporosis. Daily SC injection, with a maximum protocol length set by FDA labeling.', vial:2, water:2, start:0.08, step:0, weeks:12, freq:7 },
+  adamax:      { name:'Adamax', desc:'A neuroprotective blend studied for cognition, nerve repair, and overall brain health. Vendor-specific formulation — check the individual peptide components.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'pm' },
+  ahkcu:       { name:'AHK-Cu', desc:'A copper tripeptide studied for hair growth, scalp health, and skin repair — often paired with GHK-Cu. Used topically on the scalp or via SC injection for systemic effects.', vial:10, water:2, start:1, step:0, weeks:12, freq:7 },
+  bronchogen:  { name:'Bronchogen', desc:'A lung-targeted bioregulator studied for respiratory health and bronchial support. Oral daily for a short 10-day course, repeated 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cardiogen:   { name:'Cardiogen', desc:'A heart-targeted bioregulator studied for cardiac muscle health and protection, part of cardiovascular anti-aging protocols. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cartalax:    { name:'Cartalax', desc:'A cartilage-derived bioregulator studied for joint health and connective tissue repair — often stacked with BPC-157/TB-500. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cerebro:     { name:'Cerebrolysin', desc:'A neuropeptide blend studied for cognitive function, stroke recovery, and BDNF support — used in neurological rehab in many countries. Typically an IV/IM infusion course of 10-20 days.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
+  chonluten:   { name:'Chonluten', desc:'A bronchial and intestinal bioregulator studied for mucosal health in both the lungs and gut. Oral daily for a 10-day course.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  cjcdac:      { name:'CJC-1295 DAC', desc:'A long-acting GHRH analog studied for sustained elevation of growth hormone over time. Dosed once weekly for 8-12 week cycles, often stacked with Ipamorelin.', vial:2, water:2, start:1, step:0, weeks:8, freq:1 },
+  cjcnodac:    { name:'CJC-1295 No DAC', desc:'A short-acting GHRH analog studied for mimicking the body\'s natural GH release pulse. Injected before sleep and/or pre-workout, 2-3x/day, for 8-12 week cycles.', vial:5, water:2, start:0.1, step:0, weeks:8, freq:7, time:'pm' },
+  cjc1010:     { name:'CJC/Ipamorelin 10/10', desc:'A high-dose GH-release blend studied for body recomposition. Pre-mixed; typically injected before sleep and AM fasted for experienced users, 8-12 weeks on, 4 off.', vial:10, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cjc55:       { name:'CJC/Ipamorelin 5/5', desc:'A balanced GH-release blend studied for fat loss and muscle support. Pre-mixed; injected before sleep and AM fasted for 8-12 week cycles.', vial:10, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cjc611:      { name:'CJC/Ipamorelin 6/11', desc:'A higher-Ipamorelin-ratio GH-release blend studied for an enhanced GH pulse and recomposition. Pre-mixed; injected before sleep and AM fasted for 8-12 week cycles.', vial:17, water:2, start:0.3, step:0, weeks:8, freq:7, time:'pm' },
+  cortagen:    { name:'Cortagen', desc:'A brain-cortex bioregulator studied for cognition and neurological health — often stacked with Semax/Selank. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  crystagen:   { name:'Crystagen', desc:'A urinary-system bioregulator studied for kidney and bladder health. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  foxo4:       { name:'FOXO4-DRI', desc:'A senolytic peptide studied for clearing senescent ("zombie") cells as part of anti-aging research. Often used in short pulsed protocols rather than continuous daily dosing.', vial:5, water:2, start:1, step:0, weeks:1, freq:3 },
+  ghkkpv:      { name:'GHK-Cu/KPV', desc:'Combines copper-peptide GHK-Cu with anti-inflammatory KPV — studied for healing plus gut health together. Used once daily for 4-8 weeks.', vial:10, water:2, start:0.5, step:0, weeks:8, freq:7 },
+  ghrp2:       { name:'GHRP-2', desc:'A GH-releasing peptide studied for producing a strong GH pulse along with appetite stimulation. Injected fasted, 2-3x/day, for 4-8 week cycles with breaks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  ghrp6:       { name:'GHRP-6', desc:'A GH-releasing peptide studied for muscle growth, with the strongest hunger-stimulating effect of the GHRPs — better suited to bulking than cutting phases. 2-3x/day for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  gluta:       { name:'Glutathione', desc:'The body\'s master antioxidant — studied for detox support, immune function, and skin health. Given as an IV push 2-3x/week, or as a daily oral/sublingual liposomal dose for maintenance.', vial:600, water:2, start:500, step:0, weeks:6, freq:3 },
+  hexarelin:   { name:'Hexarelin', desc:'One of the most potent GHRPs — studied for strong GH release plus cardiac and muscle-protective effects. Used 2-3x/day for 4-8 weeks, then a 4-week break (desensitizes with prolonged use).', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  hghfrag:     { name:'HGH Fragment 176-191', desc:'An isolated fragment of growth hormone studied for targeting fat loss in adipose tissue without raising IGF-1 or blood sugar. Injected AM fasted and/or pre-workout, 2x/day, for 8-12 weeks.', vial:5, water:2, start:0.25, step:0, weeks:10, freq:7 },
+  illumineuro: { name:'IllumiNeuro Blend', desc:'A nootropic blend studied for focus, neuroprotection, and mental clarity. Vendor-specific formulation, typically dosed intranasally or SC for 4-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'am' },
+  ipam:        { name:'Ipamorelin', desc:'A selective GH secretagogue studied for lean gains with minimal cortisol/prolactin side effects — often the first GH peptide people try. Injected before sleep and/or AM fasted, 2-3x/day, for 8-12 weeks on / 4 off.', vial:5, water:2, start:0.1, step:0, weeks:8, freq:7, time:'pm' },
+  carnitine:   { name:'L-Carnitine', desc:'An amino acid studied for fat metabolism, cellular energy production, and cardiovascular support. Taken orally with food daily, or via IV for an acute boost.', vial:10, water:2, start:500, step:0, weeks:8, freq:7 },
+  livagen:     { name:'Livagen', desc:'A liver and immune bioregulator studied for DNA repair and immune support via gene-expression effects. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  ll37:        { name:'LL-37', desc:'A broad-spectrum antimicrobial peptide studied for immune defense and wound healing. Used SC or applied topically for 2-4 week protocols.', vial:5, water:2, start:0.1, step:0, weeks:4, freq:7 },
+  mazd:        { name:'Mazdutide', desc:'A dual GLP-1/Glucagon agonist studied for metabolic health and fat loss, approved in China and in Phase 3 trials elsewhere. Dosed once weekly for 24-48 week protocols.', vial:10, water:2, start:3, step:0, weeks:8, freq:1 },
+  mt1:         { name:'Melanotan I', desc:'Studied for skin tanning and UV protection via increased melanin production, with fewer side effects than Melanotan II. Injected daily for 2-4 weeks to build/maintain a tan.', vial:10, water:2, start:0.5, step:0, weeks:3, freq:7 },
+  mt2:         { name:'Melanotan II', desc:'Studied for tanning, libido enhancement, and appetite suppression. Start very low (nausea is common) — daily loading for 2-3 weeks, then 2-3x/week for maintenance.', vial:10, water:2, start:0.25, step:0, weeks:3, freq:7, gender:'both' },
+  naepi:       { name:'Na Epitalon', desc:'A more bioavailable sodium form of Epitalon, studied for longevity and sleep-pattern support at the cellular level. Used daily (SC or intranasal) for a 10-day course, twice yearly.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
+  naselank:    { name:'Na Selank', desc:'An N-acetylated, longer-acting version of Selank — studied for anxiety relief and cognitive support with once-daily dosing often being enough. Used intranasally for 2-3 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:7 },
+  nasemax:     { name:'Na Semax', desc:'A more potent, N-acetylated version of Semax — studied for enhanced bioavailability as a nootropic. Start low and assess response; intranasal for 2-4 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:5 },
+  neuroxelin:  { name:'Neuroxelin Blend', desc:'A neural-support blend studied for neuroprotection and cognitive enhancement. Vendor-specific formulation — check the individual peptide components for dosing details.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'am' },
+  orfo:        { name:'Orforglipron', desc:'An oral (non-injectable) GLP-1 agonist studied for weight loss without needing injections — currently in Phase 3 trials. Taken as a daily oral tablet.', vial:10, water:2, start:12, step:0, weeks:8, freq:7 },
+  ovagen:      { name:'Ovagen', desc:'A liver-derived bioregulator studied for hepatic function and detoxification support — often stacked with NAD+. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  oxytocin:    { name:'Oxytocin', desc:'The "bonding hormone" — studied for social connection, stress relief, and recovery support. Used intranasally as needed, not intended for chronic daily use.', vial:10, water:2, start:10, step:0, weeks:4, freq:2 },
+  pancragon:   { name:'Pancragon', desc:'A pancreatic bioregulator studied for blood sugar regulation and digestive enzyme support. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  pe2228:      { name:'PE-22-28', desc:'A BDNF-mimetic peptide studied for mood, cognition, and neuroplasticity as a research-stage antidepressant. Used intranasally daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7 },
+  pinealon:    { name:'Pinealon', desc:'A pineal-gland bioregulator studied for sleep quality, longevity, and neuroprotection via the melatonin pathway. Used before sleep for a 10-day course, 2-3x/year.', vial:10, water:2, start:5, step:0, weeks:2, freq:7, time:'pm' },
+  pnc27:       { name:'PNC-27', desc:'A highly experimental anticancer research peptide studied for selectively targeting cancer cells via a p53-linked mechanism. Preclinical research stage only — dosing protocols vary widely.', vial:5, water:2, start:1, step:0, weeks:4, freq:3 },
+  prostamax:   { name:'Prostamax', desc:'A prostate-derived bioregulator studied for prostate health and male urinary function. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7, gender:'male' },
+  sema:        { name:'Semaglutide', desc:'A well-known GLP-1 agonist studied for weight loss and blood sugar control. Started low and ramped up slowly, dosed once weekly for 68+ week protocols.', vial:5, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
+  sermorelin:  { name:'Sermorelin', desc:'A GHRH analog studied for natural growth-hormone stimulation and anti-aging support, mimicking the body\'s natural GH pulse. Injected at bedtime on an empty stomach for 6-12 month protocols.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
+  slu332:      { name:'SLU-PP-332', desc:'An "exercise mimetic" studied for activating muscle and metabolic pathways similar to endurance training. Research-stage — dosing is not yet standardized.', vial:10, water:2, start:1, step:0, weeks:6, freq:5 },
+  snap8:       { name:'SNAP-8', desc:'A cosmetic peptide studied for relaxing expression lines and reducing the appearance of wrinkles. Applied topically (4% cream/serum) 2x/day for continuous use.', vial:10, water:2, start:1, step:0, weeks:8, freq:7 },
+  survo:       { name:'Survodutide', desc:'A GLP-1/Glucagon agonist studied for obesity and NASH (fatty liver) in Phase 2/3 trials. Started low and titrated up, dosed once weekly.', vial:10, water:2, start:0.6, step:0.6, weeks:4, freq:1 },
+  teripar:     { name:'Teriparatide', desc:'A parathyroid hormone analog studied (and FDA-approved) for bone formation and fracture repair. Daily SC injection, rotating injection sites, with a 24-month max protocol per FDA labeling.', vial:1, water:2, start:0.02, step:0, weeks:12, freq:7 },
+  tesablend:   { name:'Tesa Blend', desc:'A Tesamorelin-based blend studied for growth-hormone release and visceral fat reduction. Daily SC injection for 12-26 weeks, with IGF-1 monitoring recommended.', vial:10, water:2, start:1, step:0, weeks:12, freq:7 },
+  testagen:    { name:'Testagen', desc:'A testosterone-supporting bioregulator studied for maintaining natural T-levels. Oral daily for a 10-day course, 1-2x/year.', vial:20, water:2, start:20, step:0, weeks:2, freq:7, gender:'male' },
+  thymogen:    { name:'Thymogen', desc:'A thymus-derived bioregulator studied for immune system restoration. Dosed daily (SC or oral) for a 10-day course, 2x/year.', vial:10, water:2, start:0.1, step:0, weeks:2, freq:7 },
+  thymalpha:   { name:'Thymosin Alpha-1', desc:'An immune modulator studied for enhancing immune function and antiviral defense — used in cancer support, Lyme, and autoimmune protocols. Injected SC twice weekly for 4-6+ weeks.', vial:5, water:2, start:1.6, step:0, weeks:5, freq:2 },
+  thymulin:    { name:'Thymulin', desc:'A thymus hormone studied for immune regulation and T-cell maturation — often cycled alongside Thymosin Alpha-1. Injected SC 2-3x/week for 4-8 weeks.', vial:5, water:2, start:0.05, step:0, weeks:6, freq:2 },
+  triheal:     { name:'Tri-Heal Blend', desc:'A triple-healing stack — typically BPC-157 + TB-500 + KPV (or similar) — studied for tissue repair, inflammation, and recovery together. Used once daily for a targeted injury protocol, 4-8 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' },
+  vesugen:     { name:'Vesugen', desc:'A vascular bioregulator studied for blood vessel health and circulation as part of a cardiovascular anti-aging protocol. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  vilon:       { name:'Vilon', desc:'A broad immune bioregulator studied for longevity and immune system modulation, often part of longevity stacks. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
+  vip:         { name:'VIP (Vasoactive Intestinal Peptide)', desc:'Studied for inflammation, immune balance, and gut health — used in protocols for conditions like MCAS/dysautonomia. Short half-life; often split into AM/PM SC or IV doses for 4-12 weeks.', vial:5, water:2, start:0.025, step:0, weeks:6, freq:7 },
+  wolv:        { name:'Wolverine Stack', desc:'A comprehensive healing stack — often BPC-157 + TB-500 plus extras — studied for rapid recovery and tissue repair. Used once daily for 4-12 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
+};
+
+// goals that pull in gender-specific peptides
+var GENDER_GOAL_MAP = {
+  male:   { fatloss:['kisspeptin'], muscle:['kisspeptin','hcg'], antiaging:['hcg'], recovery:[] },
+  female: { fatloss:[], muscle:[], antiaging:['ghk'], skin:['ghk'] }
+};
+// libido/hormone goal applies to both
+GOAL_MAP.libido = ['pt141','mt2','oxytocin'];
+
+document.getElementById('goals-grid').addEventListener('click', function(e){
+  var card = e.target.closest('.goal-card');
+  if (!card) return;
+  var g = card.getAttribute('data-goal');
+  if (SELECTED_GOALS.has(g)) { SELECTED_GOALS.delete(g); card.classList.remove('selected'); }
+  else { SELECTED_GOALS.add(g); card.classList.add('selected'); }
+});
+
+var GOAL_LABELS = {
+  fatloss:'Fat Loss', muscle:'Muscle Growth', antiaging:'Anti-Aging', recovery:'Recovery',
+  sleep:'Sleep', gut:'Gut Health', joints:'Joints', skin:'Skin & Hair', cognitive:'Cognitive',
+  libido:'Libido / Hormones', insulin:'Insulin Resistance', thyroid:'Thyroid Support',
+  inflammation:'Inflammation', hair:'Hair', energy:'Energy', immune:'Immune Support',
+  longevity:'Longevity / Bioregulators'
+};
+
+// short goal-specific "why this helps" blurbs, keyed by goal -> peptide key
+var GOAL_REASONS = {
+  fatloss: {
+    reta:  'A triple-pathway peptide studied for major reductions in appetite and body fat — one of the strongest fat-loss compounds in research.',
+    tirz:  'Reduces appetite and improves blood sugar control, helping create the calorie deficit needed for fat loss.',
+    cagri: 'An amylin-analog studied for reducing food intake and appetite, often stacked with GLP-1s for enhanced fat loss.',
+    aod:   'A GH fragment studied specifically for fat-burning without the muscle-building side effects of full growth hormone.',
+    mots:  'Boosts metabolism and mitochondrial efficiency, helping the body burn through fat stores more effectively.',
+    tesa:  'Increases natural growth hormone release, which is studied for reducing visceral (belly) fat specifically.'
+  },
+  muscle: {
+    bpc:    'Supports recovery from training-related tendon and muscle strain so you can train harder and more consistently.',
+    tb500:  'Studied for muscle tissue repair and flexibility, helping reduce downtime between training sessions.',
+    mots:   'Studied for improving exercise performance and energy output, supporting harder training for muscle growth.',
+    cjcipa: 'Boosts natural growth hormone release, studied for supporting lean muscle growth and body composition.'
+  },
+  antiaging: {
+    nad: 'Replenishes a key cellular energy molecule that declines with age — studied for cellular repair and longevity.',
+    ghk: 'A copper peptide studied for boosting collagen production and reversing signs of skin aging.',
+    epi: 'Studied for supporting telomere health and cellular longevity at a deep, foundational level.',
+    mots: 'Supports mitochondrial function, which is central to healthy aging and cellular energy production.'
+  },
+  recovery: {
+    bpc:   'Known as the go-to "healing" peptide — studied for repairing tendons, ligaments, and soft tissue injuries.',
+    tb500: 'Studied for speeding up tissue repair and reducing inflammation after injury.',
+    kpv:   'An anti-inflammatory peptide that helps calm inflammation that can slow down recovery.',
+    glow:  'A combined stack of GHK-Cu, BPC-157, and TB-500 — studied together for skin healing and tissue recovery.',
+    klow:  'A bigger stack adding KPV to GLOW — targets recovery alongside gut and skin healing.'
+  },
+  sleep: {
+    cjcipa: 'Often dosed at night — studied for improving deep sleep quality alongside growth hormone release.',
+    tesa:   'Raises natural growth hormone, which plays a role in deep sleep cycles.',
+    dsip:   'Short for "Delta Sleep-Inducing Peptide" — studied specifically for helping you fall asleep and stay asleep.'
+  },
+  gut: {
+    bpc:   'Originally studied for healing the gut lining — a top choice for digestive and gut-health support.',
+    kpv:   'Studied for calming gut inflammation, useful for conditions like leaky gut or IBS-type symptoms.',
+    tb500: 'Supports tissue repair throughout the body, including the gut lining.',
+    klow:  'Combines KPV with healing peptides BPC-157 and TB-500, aimed specifically at gut health plus repair.'
+  },
+  joints: {
+    bpc:   'Studied for repairing ligaments and tendons — commonly used for joint pain and injury recovery.',
+    tb500: 'Studied for improving flexibility and healing connective tissue around joints.',
+    ghk:   'Supports collagen production, which is a key building block for healthy joint tissue.'
+  },
+  skin: {
+    ghk:  'A copper peptide studied for boosting collagen and elastin — directly supports skin firmness and texture.',
+    bpc:  'Supports tissue repair, which can help with skin healing and overall skin health.',
+    kpv:  'Anti-inflammatory effects studied for calming skin conditions and irritation.',
+    glow: 'A stack combining GHK-Cu, BPC-157, and TB-500 — built specifically for skin and healing support.',
+    klow: 'Adds KPV to the GLOW stack for skin support alongside gut and tissue healing.'
+  },
+  cognitive: {
+    nad:    'Supports brain cell energy production — studied for mental clarity and protecting against cognitive decline.',
+    semax:  'A brain-focused peptide studied for improving focus, memory, and mental performance.',
+    selank: 'Studied for reducing stress and anxiety while keeping the mind clear and focused.',
+    mots:   'Supports mitochondrial energy production, which is important for sustained mental energy and focus.'
+  },
+  insulin: {
+    mots: 'Studied for improving how the body responds to insulin by supporting mitochondrial function.',
+    ss31: 'Targets mitochondria and is studied for helping the body respond better to insulin.',
+    reta: 'Affects multiple metabolic pathways studied for improving blood sugar regulation and insulin sensitivity.'
+  },
+  thyroid: {
+    bpc:    'Supports overall tissue repair, which can be helpful when thyroid issues cause inflammation-related damage.',
+    tb500:  'Studied for tissue repair and reducing inflammation that can affect thyroid function.',
+    cjcipa: 'Supports overall hormone balance through increased natural growth hormone release.'
+  },
+  inflammation: {
+    kpv: 'A potent anti-inflammatory peptide studied for reducing inflammation throughout the body.',
+    ghk: 'Studied for anti-inflammatory effects alongside its skin and tissue repair benefits.',
+    bpc: 'Studied for reducing inflammation while supporting healing of damaged tissue.'
+  },
+  hair: {
+    ghk: 'A copper peptide studied for stimulating hair follicles and supporting healthier hair growth.'
+  },
+  libido: {
+    pt141: 'Works directly on the brain pathways involved in sexual arousal — studied for boosting libido in both men and women.'
+  },
+  energy: {
+    nad:  'Directly fuels cellular energy production (ATP) — the core "energy" peptide, studied for fighting fatigue and supporting mitochondrial function.',
+    mots: 'A mitochondrial-derived peptide studied for boosting metabolism and exercise stamina — helps your cells produce more usable energy.',
+    ss31: 'Targets mitochondria directly — studied for improving cellular energy output and reducing fatigue, especially when paired with MOTS-c.',
+    carnitine: 'Helps shuttle fat into cells\' mitochondria to be burned for fuel — a foundational energy-metabolism support compound.',
+    slu332: 'An exercise mimetic studied for switching on the same metabolic pathways activated by endurance training, supporting energy output.',
+    tesablend: 'Raises natural growth hormone, which is studied for improving energy levels and body composition.'
+  },
+  immune: {
+    thymalpha: 'A core immune-modulating peptide studied for enhancing immune function and antiviral defense.',
+    thymulin:  'Supports T-cell maturation and immune regulation, often cycled with Thymosin Alpha-1.',
+    thymogen:  'A thymus-derived bioregulator studied for restoring immune system function.',
+    vilon:     'A broad immune bioregulator studied for modulating immune response as part of longevity protocols.',
+    ll37:      'An antimicrobial peptide that supports the immune system\'s defense against pathogens.',
+    gluta:     'The body\'s master antioxidant — supports immune cell function and overall detox capacity.'
+  },
+  longevity: {
+    bronchogen: 'A respiratory-system bioregulator studied for supporting lung health as part of healthy aging.',
+    cardiogen:  'A cardiac bioregulator studied for supporting heart muscle health and cardiovascular longevity.',
+    crystagen:  'A kidney/bladder bioregulator studied for supporting urinary system health with age.',
+    livagen:    'A liver bioregulator studied for DNA repair and detoxification support — key for cellular longevity.',
+    ovagen:     'A liver-derived bioregulator studied for hepatic function as part of longevity stacks.',
+    pancragon:  'A pancreatic bioregulator studied for supporting healthy blood sugar regulation with age.',
+    pinealon:   'A pineal-gland bioregulator studied for sleep and neuroprotection — both tied to healthy aging.',
+    prostamax:  'A prostate bioregulator studied for supporting male urinary health as part of longevity protocols.',
+    testagen:   'A testosterone-supporting bioregulator studied for maintaining natural hormone levels with age.',
+    naepi:      'A bioavailable form of Epitalon — directly studied for telomere support and cellular longevity.',
+    vesugen:    'A vascular bioregulator studied for supporting healthy circulation as part of cardiovascular longevity.',
+    cortagen:   'A brain-cortex bioregulator studied for supporting long-term cognitive health.',
+    pnc27:      'An experimental peptide studied for targeting senescent/cancerous cells — relevant to longevity research.'
+  }
+};
+
+(function(){
+  var dl = document.getElementById('peptide-search-list');
+  Object.keys(PEPTIDES).sort(function(a,b){ return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); }).forEach(function(key){
+    var opt = document.createElement('option');
+    opt.value = PEPTIDES[key].name;
+    dl.appendChild(opt);
+  });
+})();
+
+function renderSuggestions(){
+  var box = document.getElementById('suggestions-box');
+  var list = document.getElementById('suggestions-list');
+  if (SELECTED_GOALS.size === 0){
+    box.classList.add('visible');
+    list.innerHTML = '<div class="pep-result-desc">Select at least one goal above, then run analysis again.</div>';
+    return;
+  }
+  var counts = {};
+  var matchedGoals = {};
+  SELECTED_GOALS.forEach(function(g){
+    (GOAL_MAP[g]||[]).forEach(function(k){
+      counts[k] = (counts[k]||0) + 1;
+      (matchedGoals[k] = matchedGoals[k] || []).push(g);
+    });
+    if (SELECTED_GENDER && GENDER_GOAL_MAP[SELECTED_GENDER] && GENDER_GOAL_MAP[SELECTED_GENDER][g]){
+      GENDER_GOAL_MAP[SELECTED_GENDER][g].forEach(function(k){
+        counts[k] = (counts[k]||0) + 1;
+        (matchedGoals[k] = matchedGoals[k] || []).push(g);
+      });
+    }
+  });
+  // filter out peptides not applicable to selected gender
+  Object.keys(counts).forEach(function(k){
+    var g = PEPTIDES[k].gender;
+    if (g && g !== 'both' && g !== SELECTED_GENDER) delete counts[k];
+  });
+  var sorted = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; });
+
+  list.innerHTML = sorted.map(function(key){
+    var p = PEPTIDES[key];
+    var matches = counts[key];
+    return '<div class="pep-result" data-key="' + key + '">'
+      + '<div class="pep-result-top">'
+      +   '<div class="pep-result-name" style="cursor:pointer;" onclick="togglePep(this)">' + p.name + '</div>'
+      +   '<div style="display:flex;align-items:center;gap:10px;">'
+      +     '<div class="pep-result-match" style="cursor:pointer;" onclick="togglePep(this)">MATCHES ' + matches + ' GOAL' + (matches>1?'S':'') + ' ▾</div>'
+      +     '<button class="add-btn" onclick="useForSchedule(\'' + key + '\', event)" title="Add to schedule builder">+ ADD</button>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="pep-result-desc">' + p.desc + '</div>'
+      + '<div class="pep-result-desc" style="color:var(--cyan);"><strong>Why we suggest this:</strong> Matches your selected goal' + (matchedGoals[key].length>1?'s':'') + ' — ' + matchedGoals[key].map(function(g){ return GOAL_LABELS[g] || g; }).join(', ') + '. ' + matchedGoals[key].map(function(g){ return (GOAL_REASONS[g] && GOAL_REASONS[g][key]) || ''; }).filter(Boolean).join(' ') + ' As always, do your own independent research and verify with a licensed doctor before using.</div>'
+      + '<div class="pep-result-detail">'
+      +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
+      +   '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+  box.classList.add('visible');
+  document.getElementById('copy-suggestions-btn').style.display = sorted.length ? 'inline-block' : 'none';
+  LAST_SUGGESTIONS = sorted.map(function(key){
+    var p = PEPTIDES[key];
+    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
+  });
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function copySuggestionsText(){
+  if (!LAST_SUGGESTIONS || !LAST_SUGGESTIONS.length) return;
+  copyToClipboard(['SUGGESTED PEPTIDES', ''].concat(LAST_SUGGESTIONS).join('\n\n'));
+}
+
+function togglePep(el){
+  var card = el.closest('.pep-result');
+  card.classList.toggle('open');
+}
+
+var bacLocked = true;
+var bacRatio = 5; // mg per mL (10mg / 2mL default)
+
+function updateBacRatioLabel(){
+  var lbl = document.getElementById('bac-ratio-label');
+  if (!bacLocked) { lbl.textContent = ''; return; }
+  lbl.textContent = bacRatio.toFixed(2) + ' mg per mL';
+}
+
+function recalcRatioFromFields(){
+  var vial  = parseFloat(document.getElementById('b-vial').value);
+  var water = parseFloat(document.getElementById('b-water').value);
+  if (vial > 0 && water > 0) bacRatio = vial / water;
+}
+
+function toggleBacLock(){
+  bacLocked = !bacLocked;
+  var btn = document.getElementById('bac-lock-btn');
+  var customEl = document.getElementById('bac-custom-ratio');
+  if (bacLocked) {
+    btn.textContent = '🔒 Lock Ratio: ON';
+    var custom = parseFloat(customEl.value);
+    if (custom > 0) bacRatio = custom; else recalcRatioFromFields();
+    customEl.style.display = 'none';
+  } else {
+    btn.textContent = '🔓 Lock Ratio: OFF (custom)';
+    customEl.value = bacRatio.toFixed(2);
+    customEl.style.display = 'inline-block';
+  }
+  updateBacRatioLabel();
+}
+
+function onCustomRatioInput(){
+  var custom = parseFloat(document.getElementById('bac-custom-ratio').value);
+  if (custom > 0) bacRatio = custom;
+}
+
+function onVialWaterInput(changed){
+  if (!bacLocked) return;
+  var vialEl  = document.getElementById('b-vial');
+  var waterEl = document.getElementById('b-water');
+  var vial  = parseFloat(vialEl.value);
+  var water = parseFloat(waterEl.value);
+
+  if (changed === 'vial') {
+    if (vial > 0) waterEl.value = Math.min(3, parseFloat((vial / bacRatio).toFixed(2)));
+  } else {
+    if (water > 0) vialEl.value = parseFloat((water * bacRatio).toFixed(2));
+  }
+  updateBacRatioLabel();
+}
+
+updateBacRatioLabel();
+
+function useForSchedule(key, ev){
+  if (ev) {
+    ev.stopPropagation();
+    var btn = ev.target.closest('.add-btn');
+    if (btn) { btn.classList.add('added'); btn.textContent = '✓ ADDED'; }
+  }
+  var p = PEPTIDES[key];
+  document.getElementById('b-name').value  = p.name;
+  document.getElementById('b-vial').value  = p.vial;
+  document.getElementById('b-water').value = p.water;
+  document.getElementById('b-start').value = p.start;
+  document.getElementById('b-step').value  = p.step;
+  document.getElementById('b-weeks').value = p.weeks;
+  document.getElementById('b-freq').value  = p.freq;
+  document.getElementById('b-time').value  = p.time || 'am';
+  if (p.vial > 0 && p.water > 0) bacRatio = p.vial / p.water;
+  updateBacRatioLabel();
+  buildSchedule(true);
+}
+
+function buildSchedule(silent){
+  var name  = document.getElementById('b-name').value.trim() || 'Your Peptide';
+  var vial  = parseFloat(document.getElementById('b-vial').value);
+  var water = parseFloat(document.getElementById('b-water').value);
+  var start = parseFloat(document.getElementById('b-start').value);
+  var step  = parseFloat(document.getElementById('b-step').value);
+  var weeksPerStep = parseInt(document.getElementById('b-weeks').value);
+  var freq  = parseInt(document.getElementById('b-freq').value);
+  var timeOfDay = document.getElementById('b-time').value;
+  var timeLabel = timeOfDay === 'pm' ? 'Evening / Before Bed (PM)' : (timeOfDay === 'any' ? 'Either — No Strong Preference' : 'Morning (AM)');
+
+  var box = document.getElementById('schedule-box');
+  var out = document.getElementById('schedule-list');
+
+  if (!vial || !water || !start || !weeksPerStep || !freq || vial<=0 || water<=0 || start<=0 || weeksPerStep<=0 || freq<=0){
+    box.classList.add('visible');
+    out.insertAdjacentHTML('beforeend', '<div class="pep-result-desc" style="color:var(--pink);">Please fill in all fields with valid numbers above.</div>');
+    return;
+  }
+
+  step = isNaN(step) ? 0 : step;
+  var concentration = vial / water; // mg/mL
+  var rows = [];
+  var dose = start;
+  for (var w = 0; w < 4; w++){
+    var drawML = dose / concentration;
+    var units = drawML * 100;
+    rows.push({ dose: dose, weeks: weeksPerStep, units: units, ml: drawML });
+    dose = dose + step;
+    if (step === 0) break;
+  }
+
+  var html = '<div class="pep-result" style="border-left-color:var(--lime);"><div class="pep-result-desc" style="margin-bottom:14px;color:var(--text);"><strong style="color:var(--lime)">' + name + '</strong> — Concentration: ' + concentration.toFixed(2) + ' mg/mL (' + vial + 'mg in ' + water + 'mL) · ' + freq + 'x per week · Take in the: <strong style="color:var(--cyan)">' + timeLabel + '</strong></div>';
+  rows.forEach(function(r, i){
+    var weekStart = i*r.weeks + 1;
+    var weekEnd = weekStart + r.weeks - 1;
+    html += '<div class="schedule-row">'
+      + '<div class="schedule-week">WEEKS ' + weekStart + (r.weeks>1 ? ('–'+weekEnd) : '') + '</div>'
+      + '<div style="flex:1;">'
+      +   '<div class="schedule-dose">' + r.dose.toFixed(2) + ' mg per dose</div>'
+      +   '<div class="schedule-detail">' + r.ml.toFixed(3) + ' mL = <strong style="font-size:1.35em;color:var(--cyan);">' + r.units.toFixed(1) + ' UNITS</strong> on a 100u syringe · ' + freq + 'x/week</div>'
+      + '</div></div>';
+  });
+  html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + name + '. Educational reference only.</div>';
+  html += '</div>';
+
+  out.insertAdjacentHTML('beforeend', html);
+  box.classList.add('visible');
+
+  SCHEDULES.push({ name:name, vial:vial, water:water, freq:freq, rows:rows, timeLabel:timeLabel });
+  document.getElementById('schedule-actions').style.display = 'flex';
+  document.getElementById('copy-schedule-btn').style.display = 'inline-block';
+  document.getElementById('schedule-pdf-tip').style.display = 'block';
+  document.getElementById('shopping-list-box').style.display = 'none';
+
+  if (!silent) box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function clearSchedules(){
+  document.getElementById('schedule-list').innerHTML = '';
+  document.getElementById('schedule-box').classList.remove('visible');
+  document.getElementById('schedule-actions').style.display = 'none';
+  document.getElementById('copy-schedule-btn').style.display = 'none';
+  document.getElementById('schedule-pdf-tip').style.display = 'none';
+  document.getElementById('shopping-list-box').style.display = 'none';
+  document.getElementById('shopping-list-box').innerHTML = '';
+  SCHEDULES = [];
+  document.querySelectorAll('.add-btn.added').forEach(function(btn){
+    btn.classList.remove('added');
+    btn.textContent = '+ ADD';
+  });
+}
+
+function showShoppingList(){
+  var box = document.getElementById('shopping-list-box');
+  if (SCHEDULES.length === 0){ box.style.display='none'; return; }
+
+  var html = '<div class="response-label">🛒 SHOPPING LIST — HOW MUCH TO BUY</div>';
+  SCHEDULES.forEach(function(s){
+    var totalMg = 0;
+    s.rows.forEach(function(r){ totalMg += r.dose * r.weeks * s.freq; });
+    var vialsNeeded = Math.ceil(totalMg / s.vial);
+    var waterNeeded = vialsNeeded * s.water;
+    html += '<div class="shopping-item">'
+      + '<span>' + s.name + ' — ' + s.vial + 'mg vials (need ~' + totalMg.toFixed(1) + 'mg total)</span>'
+      + '<span class="qty">' + vialsNeeded + ' vial' + (vialsNeeded>1?'s':'') + '</span>'
+      + '</div>'
+      + '<div class="shopping-item" style="border-bottom:1px solid var(--border);"><span>Bacteriostatic water for ' + s.name + '</span><span class="qty">~' + waterNeeded + ' mL</span></div>';
+  });
+  html += '<div class="disclaimer" style="margin-top:14px;margin-bottom:0;">Totals are rough estimates based on the schedule above — buy a little extra to cover priming syringes and spills.</div>';
+  html += '<button class="btn-secondary" style="margin-top:14px;" onclick="copyShoppingText()">📋 Copy Shopping List as Text</button>';
+  html += '<button class="btn-secondary" style="margin-top:10px;" onclick="downloadShoppingListPDF()">⬇ Download as PDF</button>';
+  box.innerHTML = html;
+  box.style.display = 'block';
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function downloadShoppingListPDF(){
+  if (SCHEDULES.length === 0){ alert('Add at least one peptide to your schedule first (Step 2), then try again.'); return; }
+  showShoppingList();
+  document.body.classList.add('print-shopping-only');
+  window.print();
+  document.body.classList.remove('print-shopping-only');
+}
+
+function downloadSchedulePDF(){
+  if (SCHEDULES.length === 0) return;
+  document.body.classList.add('print-schedule-only');
+  window.print();
+  document.body.classList.remove('print-schedule-only');
+}
+
+function copyToClipboard(text){
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      alert('Copied! Now paste it into Notes (phone) or Notepad (desktop) and save.');
+    }).catch(function(){ fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); alert('Copied! Now paste it into Notes (phone) or Notepad (desktop) and save.'); }
+  catch(err){ alert('Could not copy automatically — please select and copy the text manually.'); }
+  document.body.removeChild(ta);
+}
+
+function copyScheduleText(){
+  if (SCHEDULES.length === 0) return;
+  var lines = ['YOUR DOSE SCHEDULE', ''];
+  SCHEDULES.forEach(function(s){
+    var concentration = s.vial / s.water;
+    lines.push(s.name + ' — ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + s.freq + 'x per week · Take in the: ' + s.timeLabel);
+    s.rows.forEach(function(r, i){
+      var weekStart = i*r.weeks + 1;
+      var weekEnd = weekStart + r.weeks - 1;
+      var drawML = r.dose / concentration;
+      var units = drawML * 100;
+      lines.push('  Weeks ' + weekStart + (r.weeks>1 ? ('-'+weekEnd) : '') + ': ' + r.dose.toFixed(2) + ' mg per dose (' + drawML.toFixed(3) + ' mL = ' + units.toFixed(1) + ' units on a 100u syringe), ' + s.freq + 'x/week');
+    });
+    lines.push('  This is a general titration template, not a prescription. Adjust based on tolerance and research literature for ' + s.name + '. Educational reference only.');
+    lines.push('');
+  });
+  copyToClipboard(lines.join('\n'));
+}
+
+function copyShoppingText(){
+  if (SCHEDULES.length === 0) return;
+  var lines = ['SHOPPING LIST', ''];
+  SCHEDULES.forEach(function(s){
+    var totalMg = 0;
+    s.rows.forEach(function(r){ totalMg += r.dose * r.weeks * s.freq; });
+    var vialsNeeded = Math.ceil(totalMg / s.vial);
+    var waterNeeded = vialsNeeded * s.water;
+    lines.push(s.name + ' — ' + s.vial + 'mg vials (need ~' + totalMg.toFixed(1) + 'mg total): ' + vialsNeeded + ' vial' + (vialsNeeded>1?'s':''));
+    lines.push('  Bacteriostatic water for ' + s.name + ': ~' + waterNeeded + ' mL');
+  });
+  lines.push('');
+  lines.push('Totals are rough estimates — buy a little extra to cover priming syringes and spills.');
+  copyToClipboard(lines.join('\n'));
+}
+
+</script>
+
+<button id="vpn-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:24px;right:20px;width:50px;height:50px;border-radius:50%;background:rgba(201,201,232,0.12);border:2px solid #c9c9e8;color:#c9c9e8;font-size:1.5rem;line-height:1;cursor:pointer;z-index:99999;display:none;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(201,201,232,0.45);backdrop-filter:blur(4px);transition:opacity 0.2s,transform 0.2s;">↑</button>
+<script>
+(function(){
+  var btn = document.getElementById('vpn-back-to-top');
+  if(!btn) return;
+  function toggle(){ btn.style.display = (window.scrollY > 400) ? 'flex' : 'none'; }
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+  btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
+  btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
+})();
+</script>
+
+</body>
+</html>

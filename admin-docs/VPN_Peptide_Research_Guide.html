@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VPN Peptide Research Field Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Bebas+Neue&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Rajdhani', Arial, sans-serif;
+    font-size: 9pt;
+    color: #e8e0f0;
+    background: #05001a;
+  }
+  .page-wrap {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 18px 22px;
+    background: #05001a;
+  }
+
+  /* HEADER */
+  .doc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 3px solid #00f5ff;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+  }
+  .doc-title {
+    font-family: 'Bebas Neue', Arial Narrow, sans-serif;
+    font-size: 26pt;
+    letter-spacing: 0.08em;
+    color: #00f5ff;
+    text-shadow: 0 0 18px rgba(0,245,255,0.6);
+    line-height: 1;
+  }
+  .doc-subtitle {
+    font-size: 8pt;
+    color: #a090c0;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .doc-badge {
+    background: linear-gradient(135deg, #ff2d78, #cc44ff);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.18em;
+    font-size: 8pt;
+    padding: 4px 12px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: rgba(255,230,0,0.07);
+    border-left: 4px solid #ffe600;
+    padding: 5px 10px;
+    font-size: 7.5pt;
+    color: #c8b800;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .disclaimer strong { color: #ff2d78; }
+
+  /* CATEGORY HEADER */
+  .cat-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10pt;
+    letter-spacing: 0.25em;
+    color: #fff;
+    padding: 5px 10px;
+    margin-top: 14px;
+    margin-bottom: 0;
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+    margin-bottom: 2px;
+  }
+  thead th {
+    background: #0e0625;
+    color: #00f5ff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 7.5pt;
+    letter-spacing: 0.14em;
+    padding: 4px 6px;
+    text-align: left;
+    border: 1px solid #1a0a35;
+  }
+  tbody tr:nth-child(even) { background: #0c0320; }
+  tbody tr:nth-child(odd)  { background: #080118; }
+  tbody td {
+    padding: 4px 6px;
+    border: 1px solid #1a0a35;
+    vertical-align: top;
+    line-height: 1.45;
+    font-weight: 600;
+    color: #ddd0f0;
+  }
+  td.peptide-name {
+    font-weight: 700;
+    font-size: 8.5pt;
+    color: #00f5ff;
+    white-space: nowrap;
+  }
+  td.dosing   { color: #ffe600; white-space: nowrap; }
+  td.freq     { color: #cc44ff; white-space: nowrap; }
+  td.benefits { color: #00ff64; }
+  td.sideeff  { color: #ff6b6b; }
+  td.pair     { color: #00d4ff; }
+  td.avoid    { color: #ff2d78; }
+
+  /* CATEGORY COLORS — neon-on-dark */
+  .cat-fat    { background: linear-gradient(90deg,#7a0000,#3a0010); border-left:4px solid #ff2d78; }
+  .cat-gh     { background: linear-gradient(90deg,#001a5c,#000d30); border-left:4px solid #00f5ff; }
+  .cat-heal   { background: linear-gradient(90deg,#003d1a,#001a0a); border-left:4px solid #00ff64; }
+  .cat-cog    { background: linear-gradient(90deg,#2d005c,#160030); border-left:4px solid #cc44ff; }
+  .cat-immune { background: linear-gradient(90deg,#003d38,#001a18); border-left:4px solid #00ffea; }
+  .cat-sex    { background: linear-gradient(90deg,#5c0030,#2a0015); border-left:4px solid #ff2d78; }
+  .cat-long   { background: linear-gradient(90deg,#5c2200,#2a0f00); border-left:4px solid #ff6b00; }
+  .cat-sleep  { background: linear-gradient(90deg,#00105c,#000830); border-left:4px solid #4488ff; }
+
+  /* FOOTER */
+  .doc-footer {
+    margin-top: 14px;
+    border-top: 2px solid #00f5ff;
+    padding-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7pt;
+    color: #6060a0;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* PRINT */
+  @media print {
+    body { font-size: 7.5pt; background: #05001a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-wrap { padding: 10px 14px; background: #05001a !important; }
+    .doc-title { font-size: 20pt; }
+    table { font-size: 7pt; }
+    thead th { font-size: 7pt; }
+    td.peptide-name { font-size: 7.5pt; }
+    .cat-header { font-size: 8.5pt; }
+    tr { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div>
+      <div class="doc-title">VPN Peptide Research Field Guide</div>
+      <div class="doc-subtitle">Compiled by Verified Peptides Network · Organized by research category · Dosing figures are general reference only — always confirm with a qualified physician.</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="doc-badge">VPN INNER CIRCLE</div>
+      <div style="font-size:7pt;color:#888;margin-top:4px;">For Research Purposes Only</div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>⚠ Research Reference Only.</strong> The compounds listed below are research chemicals. Many are not FDA-approved for the applications noted. Dosing ranges represent general community research data and are not personal medical recommendations. Do not begin, modify, or discontinue any compound without guidance from a licensed healthcare provider. This document is produced independently by Verified Peptides Network for informational purposes only.
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- FAT LOSS / METABOLIC -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-fat">⚡ METABOLIC &amp; FAT LOSS</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">Semaglutide</td>
+        <td class="dosing">0.25–2.4 mg (titrated)</td>
+        <td class="freq">Weekly SC</td>
+        <td class="benefits">GLP-1 receptor agonist; researchers study it for appetite regulation, adipose reduction, and glycemic improvement</td>
+        <td class="sideeff">GI upset, constipation, gallbladder strain, potential lean mass reduction, gastroparesis risk</td>
+        <td class="pair">Tirzepatide (swap), BPC-157 (gut support), CJC/Ipa (muscle retention)</td>
+        <td class="avoid">Other GLP-1 agonists; severe GI motility conditions</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Tirzepatide</td>
+        <td class="dosing">2.5–15 mg (titrated)</td>
+        <td class="freq">Weekly SC</td>
+        <td class="benefits">Dual GLP-1 / GIP agonist; outperforms semaglutide in weight reduction trials; improves insulin receptor sensitivity</td>
+        <td class="sideeff">Nausea, fatigue, digestive distress, lean mass loss, rare pancreatitis reports</td>
+        <td class="pair">BPC-157, CJC/Ipamorelin, 5-Amino-1MQ</td>
+        <td class="avoid">Concurrent GLP-1 agents; insulin without careful titration</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Retatrutide</td>
+        <td class="dosing">1–12 mg (titrated)</td>
+        <td class="freq">Weekly SC</td>
+        <td class="benefits">Triple receptor agonist targeting GLP-1, GIP, and glucagon pathways; among the most aggressive fat reduction profiles in current trials</td>
+        <td class="sideeff">Nausea, fatigue, elevated resting HR, lipid shifts, lean mass loss</td>
+        <td class="pair">BPC-157, CJC/Ipamorelin, MOTS-c</td>
+        <td class="avoid">Other GLP-1 compounds; cardiovascular disease (use caution)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">AOD-9604</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">Daily SC (fasted AM)</td>
+        <td class="benefits">Isolated GH fragment (aa 177–191); targets fat cell breakdown without triggering systemic GH effects or blood sugar disruption</td>
+        <td class="sideeff">Localized injection site reactions; generally well-tolerated</td>
+        <td class="pair">CJC/Ipamorelin, GLP-1 compounds</td>
+        <td class="avoid">High-dose exogenous GH (overlapping mechanism)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">5-Amino-1MQ</td>
+        <td class="dosing">50–150 mg</td>
+        <td class="freq">Daily oral (AM)</td>
+        <td class="benefits">NNMT enzyme inhibitor; research suggests fat reduction while preserving muscle tissue; supports NAD+ availability</td>
+        <td class="sideeff">Limited human safety data; possible mild GI upset</td>
+        <td class="pair">Tirzepatide/Semaglutide, MOTS-c, NAD+</td>
+        <td class="avoid">Stimulants (caution); drug interactions poorly characterized</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- GROWTH HORMONE / MUSCLE -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-gh">💪 GROWTH HORMONE &amp; MUSCLE SUPPORT</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">CJC-1295 No DAC (Mod GRF 1-29)</td>
+        <td class="dosing">100 mcg</td>
+        <td class="freq">1–3x daily SC</td>
+        <td class="benefits">Short-acting GHRH analog; mimics the body's natural GH pulsatile release; supports lean tissue, overnight recovery, and sleep quality</td>
+        <td class="sideeff">Facial flushing, head rush, mild fluid retention, headache</td>
+        <td class="pair">Ipamorelin (optimal pairing), GHK-Cu</td>
+        <td class="avoid">CJC with DAC simultaneously; high-dose MK-677</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">CJC-1295 with DAC</td>
+        <td class="dosing">1–2 mg</td>
+        <td class="freq">Weekly SC</td>
+        <td class="benefits">Extended half-life GHRH via DAC technology; provides sustained elevation of GH and IGF-1 throughout the week</td>
+        <td class="sideeff">Tingling, numbness, water retention, bloating, prolonged IGF-1 activity</td>
+        <td class="pair">Ipamorelin, Hexarelin (short cycles)</td>
+        <td class="avoid">CJC No DAC, Tesamorelin, Sermorelin (overlapping GHRH)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Ipamorelin</td>
+        <td class="dosing">200–300 mcg</td>
+        <td class="freq">1–3x daily SC</td>
+        <td class="benefits">Highly selective GHRP; stimulates GH release without raising cortisol or prolactin; supports lean muscle and recovery</td>
+        <td class="sideeff">Mild head rush, brief hunger spike, injection site discomfort</td>
+        <td class="pair">CJC-1295 (either form) — considered the gold-standard pairing</td>
+        <td class="avoid">GHRP-6, Hexarelin (redundant ghrelin stimulation)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Sermorelin</td>
+        <td class="dosing">200–500 mcg</td>
+        <td class="freq">Daily SC (pre-bed)</td>
+        <td class="benefits">GHRH analog with established safety profile; supports endogenous GH secretion, sleep depth, and general anti-aging markers</td>
+        <td class="sideeff">Flushing, injection site irritation, mild headache</td>
+        <td class="pair">Ipamorelin, GHK-Cu</td>
+        <td class="avoid">CJC-1295, Tesamorelin (redundant GHRH pathways)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Tesamorelin</td>
+        <td class="dosing">1–2 mg</td>
+        <td class="freq">Daily SC</td>
+        <td class="benefits">GHRH analog with FDA approval for visceral fat in HIV-associated lipodystrophy; raises IGF-1 and reduces trunk adiposity</td>
+        <td class="sideeff">Joint aching, peripheral edema, IGF-1 spikes, insulin resistance risk</td>
+        <td class="pair">Ipamorelin (in cycles)</td>
+        <td class="avoid">Sermorelin, CJC-1295 (overlapping mechanism)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">MK-677 (Ibutamoren)</td>
+        <td class="dosing">10–25 mg</td>
+        <td class="freq">Daily oral (PM)</td>
+        <td class="benefits">Oral ghrelin mimetic; promotes GH/IGF-1 elevation, appetite stimulation, and measurable improvement in deep sleep architecture</td>
+        <td class="sideeff">Fluid retention, hunger, insulin resistance, lethargy, potential edema</td>
+        <td class="pair">BPC-157, GHK-Cu</td>
+        <td class="avoid">GLP-1 compounds (opposing appetite signals); other GHRPs</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Hexarelin</td>
+        <td class="dosing">100–200 mcg</td>
+        <td class="freq">1–2x daily SC</td>
+        <td class="benefits">Among the most potent GHRPs; studied for cardioprotective properties and rapid GH pulse stimulation</td>
+        <td class="sideeff">Cortisol and prolactin elevation; receptor downregulation with extended use</td>
+        <td class="pair">CJC No DAC (short-cycle use only)</td>
+        <td class="avoid">Prolonged continuous use; stacking with other GHRPs</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">GHRP-6</td>
+        <td class="dosing">100–300 mcg</td>
+        <td class="freq">2–3x daily SC</td>
+        <td class="benefits">Ghrelin-pathway agonist; strong GH release stimulus and notable appetite increase; mild healing properties noted in research</td>
+        <td class="sideeff">Pronounced hunger, fluid retention, prolactin and cortisol increase</td>
+        <td class="pair">CJC No DAC (short cycles)</td>
+        <td class="avoid">Ipamorelin (redundant), MK-677, GLP-1 compounds</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HEALING & RECOVERY -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-heal">🔬 TISSUE REPAIR &amp; RECOVERY</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">BPC-157</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">1–2x daily SC or oral</td>
+        <td class="benefits">Body-protective compound; extensively researched for gut lining repair, tendon and ligament healing, neuroprotection, and systemic anti-inflammatory action</td>
+        <td class="sideeff">Exceptionally well-tolerated; rare mild fatigue reported</td>
+        <td class="pair">TB-500 (synergistic pairing), KPV (gut), Thymosin Alpha-1</td>
+        <td class="avoid">Active malignancy (theoretical angiogenesis stimulation)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">TB-500 (Thymosin Beta-4)</td>
+        <td class="dosing">2–2.5 mg</td>
+        <td class="freq">2x/week load ×4 wks, then weekly</td>
+        <td class="benefits">Systemic tissue repair agent; promotes whole-body healing response, vascular regeneration, hair restoration, and anti-inflammatory signaling</td>
+        <td class="sideeff">Fatigue and lethargy during initial loading phase</td>
+        <td class="pair">BPC-157 (synergistic), GHK-Cu</td>
+        <td class="avoid">Active malignancy (theoretical angiogenesis stimulation)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">GHK-Cu</td>
+        <td class="dosing">1–3 mg SC or topical</td>
+        <td class="freq">Daily SC or topical</td>
+        <td class="benefits">Copper-binding tripeptide; promotes collagen synthesis, dermal regeneration, wound healing, hair follicle stimulation, and anti-aging signaling</td>
+        <td class="sideeff">Copper buildup with excess dosing; localized injection irritation</td>
+        <td class="pair">TB-500, BPC-157, Sermorelin</td>
+        <td class="avoid">High-dose copper supplementation; Wilson's disease contraindicated</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">IGF-1 LR3</td>
+        <td class="dosing">20–50 mcg</td>
+        <td class="freq">Daily post-workout SC</td>
+        <td class="benefits">Long-acting IGF-1 analog; direct anabolic properties including muscle hyperplasia, accelerated recovery, and glucose uptake enhancement</td>
+        <td class="sideeff">Hypoglycemia risk, organ hypertrophy with prolonged use, joint pain, IGF-1 over-elevation</td>
+        <td class="pair">CJC/Ipamorelin post-workout, BPC-157</td>
+        <td class="avoid">MK-677 (compounded IGF-1 load); active malignancy</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Pentosan Polysulfate (PPS)</td>
+        <td class="dosing">3 mg/kg</td>
+        <td class="freq">1–2x weekly IM</td>
+        <td class="benefits">Researched for joint cartilage repair, osteoarthritis management, and interstitial cystitis relief</td>
+        <td class="sideeff">Bleeding risk, rare long-term retinal toxicity</td>
+        <td class="pair">BPC-157, TB-500</td>
+        <td class="avoid">Anticoagulants, NSAIDs (compounded bleeding risk)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- COGNITIVE / NOOTROPIC -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-cog">🧠 COGNITIVE &amp; NEUROPROTECTIVE</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">Semax</td>
+        <td class="dosing">200–600 mcg</td>
+        <td class="freq">1–3x daily intranasal</td>
+        <td class="benefits">ACTH-derived nootropic; upregulates BDNF expression; research indicates improved focus, memory consolidation, neuroprotection, and post-stroke neurological support</td>
+        <td class="sideeff">Mild headache, irritability, insomnia when dosed late in day</td>
+        <td class="pair">Selank (complementary stack), Cerebrolysin</td>
+        <td class="avoid">Stimulant compounds (additive); MAOIs</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Selank</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">1–3x daily intranasal</td>
+        <td class="benefits">Tuftsin-derived anxiolytic; reduces anxiety without sedation; studied for calm focus, stress resilience, and immune modulation</td>
+        <td class="sideeff">Minimal reported effects; generally very well-tolerated</td>
+        <td class="pair">Semax (complementary pairing)</td>
+        <td class="avoid">Strong sedatives, benzodiazepines (additive CNS depression)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Cerebrolysin</td>
+        <td class="dosing">5–30 mL</td>
+        <td class="freq">Daily IM in 10–30 day cycles</td>
+        <td class="benefits">Multi-neurotrophic factor concentrate; researched extensively for stroke rehabilitation, dementia management, and general cognitive enhancement</td>
+        <td class="sideeff">Injection site reactions, dizziness, sweating during infusion</td>
+        <td class="pair">Semax, NAD+, Dihexa</td>
+        <td class="avoid">MAOIs; antidepressants (use caution with serotonergic compounds)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Dihexa</td>
+        <td class="dosing">8–45 mg</td>
+        <td class="freq">Daily oral or transdermal</td>
+        <td class="benefits">HGF-related peptide; shown to be among the most potent neurogenic agents in preclinical research; promotes synaptogenesis and memory formation</td>
+        <td class="sideeff">Limited long-term human safety data; theoretical risks under investigation</td>
+        <td class="pair">Semax, Cerebrolysin</td>
+        <td class="avoid">Active malignancy (HGF pathway concern); pregnancy</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- IMMUNE / ANTI-INFLAMMATORY -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-immune">🛡 IMMUNE REGULATION &amp; ANTI-INFLAMMATORY</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">Thymosin Alpha-1</td>
+        <td class="dosing">1.6 mg</td>
+        <td class="freq">2x weekly SC</td>
+        <td class="benefits">Thymic peptide; modulates T-cell differentiation and immune response; studied for antiviral defense, chronic infection management, and immune system restoration</td>
+        <td class="sideeff">Injection site reactions; mild transient flu-like response</td>
+        <td class="pair">LL-37, BPC-157, KPV</td>
+        <td class="avoid">Potent immunosuppressants; transplant recipients</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">KPV</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">Daily SC or oral</td>
+        <td class="benefits">Alpha-MSH-derived tripeptide; potent anti-inflammatory action; studied for gut lining repair and mast cell regulation</td>
+        <td class="sideeff">Exceptionally well-tolerated in current research</td>
+        <td class="pair">BPC-157 (gut synergy), LL-37</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">LL-37</td>
+        <td class="dosing">100–500 mcg</td>
+        <td class="freq">Daily SC</td>
+        <td class="benefits">Host-defense peptide; antimicrobial activity, biofilm disruption, and innate immune modulation studied in both infection and wound-healing contexts</td>
+        <td class="sideeff">Injection site reactions; theoretical autoimmune flare risk in susceptible individuals</td>
+        <td class="pair">Thymosin Alpha-1, KPV</td>
+        <td class="avoid">Active autoimmune flares; caution in psoriasis</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">VIP (Vasoactive Intestinal Peptide)</td>
+        <td class="dosing">50 mcg</td>
+        <td class="freq">1–4x daily intranasal</td>
+        <td class="benefits">Endogenous neuropeptide; studied in CIRS protocols, lung and sinus inflammation, and mold-illness recovery programs</td>
+        <td class="sideeff">Flushing, blood pressure fluctuation, headache</td>
+        <td class="pair">Thymosin Alpha-1, BPC-157</td>
+        <td class="avoid">Hypotensive medications; active ongoing mold exposure</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SEXUAL HEALTH -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-sex">❤ SEXUAL HEALTH &amp; HORMONAL SUPPORT</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">PT-141 (Bremelanotide)</td>
+        <td class="dosing">0.5–2 mg</td>
+        <td class="freq">As needed, 1–2 hr pre-activity SC</td>
+        <td class="benefits">Melanocortin receptor agonist; acts centrally on libido pathways; FDA-approved for hypoactive sexual desire disorder in women; effective across both sexes</td>
+        <td class="sideeff">Nausea, facial flushing, transient BP elevation, temporary hyperpigmentation</td>
+        <td class="pair">Best used as a standalone compound for clearest response</td>
+        <td class="avoid">Cardiovascular medications; Melanotan II (additive MC4R agonism)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Melanotan II</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">Daily load, then 1–2x weekly</td>
+        <td class="benefits">Non-selective melanocortin agonist; studied for UV-independent tanning, libido enhancement, and mild appetite suppression</td>
+        <td class="sideeff">Nausea, mole darkening, BP fluctuation, freckle formation, melanoma concern with existing moles</td>
+        <td class="pair">Best used standalone</td>
+        <td class="avoid">PT-141 (additive receptor stimulation); atypical moles; melanoma history</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Kisspeptin-10</td>
+        <td class="dosing">50–100 mcg</td>
+        <td class="freq">Daily SC</td>
+        <td class="benefits">Hypothalamic signaling peptide; stimulates LH and FSH release; researched for fertility support, libido, and HPG axis restoration</td>
+        <td class="sideeff">Generally well-tolerated; mild flushing possible</td>
+        <td class="pair">Standalone or alongside HCG fertility protocols</td>
+        <td class="avoid">Hormone-sensitive cancers (prostate, breast)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- LONGEVITY / ANTI-AGING -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-long">⏳ LONGEVITY &amp; ANTI-AGING</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">Epitalon (Epithalon)</td>
+        <td class="dosing">0.5–1 mg</td>
+        <td class="freq">Daily SC ×10–20 days, 1–2x/year</td>
+        <td class="benefits">Pineal tetrapeptide; activates telomerase; studied for telomere lengthening, melatonin restoration, sleep improvement, and broad anti-aging biomarker effects</td>
+        <td class="sideeff">Exceptionally well-tolerated; no significant adverse events widely reported</td>
+        <td class="pair">NAD+, MOTS-c, GHK-Cu</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">SS-31 (Elamipretide)</td>
+        <td class="dosing">1–3 mg</td>
+        <td class="freq">Daily SC</td>
+        <td class="benefits">Mitochondria-targeting peptide; stabilizes cardiolipin in the inner mitochondrial membrane; studied for cellular energy production and cardiac protection</td>
+        <td class="sideeff">Injection site reactions; generally well-tolerated</td>
+        <td class="pair">MOTS-c, NAD+, Humanin</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">MOTS-c</td>
+        <td class="dosing">5–10 mg</td>
+        <td class="freq">2–3x weekly SC</td>
+        <td class="benefits">Mitochondrial-derived peptide; improves metabolic flexibility, insulin sensitivity, and exercise capacity — termed an "exercise mimetic" in preclinical studies</td>
+        <td class="sideeff">Generally very well-tolerated</td>
+        <td class="pair">SS-31, NAD+, 5-Amino-1MQ</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Humanin</td>
+        <td class="dosing">250 mcg</td>
+        <td class="freq">Daily SC</td>
+        <td class="benefits">Mitochondria-encoded peptide; researched for neuroprotection, metabolic regulation, and longevity-associated pathways</td>
+        <td class="sideeff">Limited human safety data available</td>
+        <td class="pair">MOTS-c, SS-31</td>
+        <td class="avoid">Interaction data limited — exercise caution with concurrent compounds</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">NAD+</td>
+        <td class="dosing">100–500 mg</td>
+        <td class="freq">Daily SC or weekly IV</td>
+        <td class="benefits">Essential coenzyme; supports mitochondrial energy production, DNA damage repair, and sirtuin longevity pathway activation</td>
+        <td class="sideeff">Flushing, nausea, chest pressure (rate-dependent with IV administration)</td>
+        <td class="pair">MOTS-c, SS-31, Epitalon</td>
+        <td class="avoid">Active malignancy (theoretical concern with accelerated cell metabolism)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">FOXO4-DRI</td>
+        <td class="dosing">5 mg/kg</td>
+        <td class="freq">3-day cycles monthly</td>
+        <td class="benefits">Senolytic peptide; disrupts the FOXO4-p53 interaction in senescent cells, triggering their clearance; one of the most experimental anti-aging approaches in current research</td>
+        <td class="sideeff">Limited human data; theoretical immune modulation effects</td>
+        <td class="pair">Epitalon (cycled separately)</td>
+        <td class="avoid">Active autoimmune conditions; immunosuppression therapy</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SLEEP -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="cat-header cat-sleep">🌙 SLEEP OPTIMIZATION</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">COMPOUND</th>
+        <th style="width:10%">TYPICAL DOSE</th>
+        <th style="width:9%">SCHEDULE</th>
+        <th style="width:24%">RESEARCH HIGHLIGHTS</th>
+        <th style="width:18%">REPORTED SIDE EFFECTS</th>
+        <th style="width:14%">WORKS WELL WITH</th>
+        <th style="width:13%">AVOID COMBINING</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="peptide-name">DSIP (Delta Sleep-Inducing Peptide)</td>
+        <td class="dosing">100–750 mcg</td>
+        <td class="freq">Daily SC, 30–60 min pre-bed</td>
+        <td class="benefits">Endogenous neuropeptide; increases delta-wave slow sleep duration, shortens sleep onset latency, normalizes overall sleep architecture, and demonstrates mild anti-stress properties</td>
+        <td class="sideeff">Generally minimal; rare mild headache or vivid dreams reported</td>
+        <td class="pair">Epitalon, Selank, Sermorelin</td>
+        <td class="avoid">Strong sedatives, benzodiazepines (additive CNS depression)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Pinealon</td>
+        <td class="dosing">1–5 mg</td>
+        <td class="freq">Daily SC ×10–20 day cycles</td>
+        <td class="benefits">Pineal gland-derived tripeptide; supports melatonin biosynthesis, regulates circadian rhythm entrainment, and demonstrates neuroprotective effects in aging models</td>
+        <td class="sideeff">Generally very well-tolerated</td>
+        <td class="pair">Epitalon (synergistic pair), DSIP</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Epitalon (sleep application)</td>
+        <td class="dosing">0.5–1 mg</td>
+        <td class="freq">Daily SC ×10–20 days, 1–2x/year</td>
+        <td class="benefits">Sleep-specific application: restores pineal melatonin production capacity, stabilizes circadian rhythm, assists jet lag recovery, and deepens overnight sleep quality</td>
+        <td class="sideeff">Exceptionally well-tolerated</td>
+        <td class="pair">Pinealon, DSIP, MOTS-c</td>
+        <td class="avoid">No significant contraindications identified</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">CJC-1295 No DAC (sleep stack)</td>
+        <td class="dosing">100 mcg</td>
+        <td class="freq">1x daily SC pre-bed</td>
+        <td class="benefits">Pre-bedtime GH pulse application; deepens slow-wave (Stage 3) sleep; enhances overnight tissue repair and recovery through nocturnal GH secretion</td>
+        <td class="sideeff">Flushing, mild fluid retention, brief head rush</td>
+        <td class="pair">Ipamorelin (gold-standard sleep stack combination)</td>
+        <td class="avoid">CJC with DAC simultaneously; high-dose MK-677</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Ipamorelin (sleep stack)</td>
+        <td class="dosing">200–300 mcg</td>
+        <td class="freq">1x daily SC pre-bed</td>
+        <td class="benefits">Bedtime application paired with CJC No DAC; enhances deep sleep quality without cortisol or prolactin disruption — cleanest GHRP option for overnight use</td>
+        <td class="sideeff">Mild head rush, brief transient hunger</td>
+        <td class="pair">CJC-1295 No DAC (gold-standard sleep pairing)</td>
+        <td class="avoid">GHRP-6, Hexarelin, MK-677 (redundant receptor stimulation)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Sermorelin (sleep stack)</td>
+        <td class="dosing">200–500 mcg</td>
+        <td class="freq">Daily SC pre-bed</td>
+        <td class="benefits">Bedtime dosing amplifies the natural overnight GH surge; improves sleep depth and architecture; noted for anti-aging effects occurring during the nocturnal repair window</td>
+        <td class="sideeff">Facial flushing, injection site irritation, mild headache</td>
+        <td class="pair">Ipamorelin, GHK-Cu</td>
+        <td class="avoid">CJC-1295, Tesamorelin (redundant GHRH pathways)</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">MK-677 (sleep application)</td>
+        <td class="dosing">10–25 mg</td>
+        <td class="freq">Daily oral pre-bed</td>
+        <td class="benefits">Among the most well-documented sleep-modifying compounds; markedly increases REM and slow-wave sleep duration through sustained ghrelin receptor agonism</td>
+        <td class="sideeff">Fluid retention, strong hunger on waking, insulin resistance, morning lethargy</td>
+        <td class="pair">BPC-157, GHK-Cu</td>
+        <td class="avoid">GLP-1 compounds; other GHRPs simultaneously</td>
+      </tr>
+      <tr>
+        <td class="peptide-name">Selank (sleep application)</td>
+        <td class="dosing">250–500 mcg</td>
+        <td class="freq">Evening intranasal</td>
+        <td class="benefits">Evening dosing addresses stress-driven sleep onset disruption; provides anxiolytic relaxation without sedation — calm focus by day transitions to calm relaxation at night</td>
+        <td class="sideeff">Minimal — exceptionally well-tolerated</td>
+        <td class="pair">Semax (daytime), DSIP (sleep stack)</td>
+        <td class="avoid">Strong sedatives, benzodiazepines (additive CNS depression)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <span>© Verified Peptides Network · VPN Inner Circle Research Field Guide · For Educational Use Only</span>
+    <span>44 compounds · 8 research categories · Always consult a physician before use</span>
+  </div>
+
+</div>
+</body>
+</html>
