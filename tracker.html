@@ -405,11 +405,16 @@ select.fsel option{background:var(--card);color:var(--text)}
   }
 
   setPersistence(auth, browserLocalPersistence);
+  var vaultUnlocked = false;
+  try { vaultUnlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
   onAuthStateChanged(auth, function(user){
     if(user){
       window.VPN_UID = user.uid;
       document.getElementById('auth-gate').style.display = 'none';
       cloudLoad(user.uid);
+    } else if (vaultUnlocked) {
+      document.getElementById('auth-gate').style.display = 'none';
+      if (typeof window.initTracker === 'function') window.initTracker(null);
     } else {
       window.location.href = 'access.html';
     }

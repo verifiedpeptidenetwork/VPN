@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RN Research Network | Vendor Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rn-violet: #8b3dff;
+    --rn-teal: #2dd4bf;
+    --rn-chrome: #d8dae8;
+    --rn-chrome-dim: #8a8da3;
+    --dark-bg: #030206;
+    --rn-font: 'Orbitron', 'Bebas Neue', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; min-height:100vh; background:var(--dark-bg); color:#f1f0f8; font-family:'Rajdhani',sans-serif; overflow-x:hidden; }
+  body { background: radial-gradient(ellipse 110% 70% at 50% -10%, #120a22 0%, #04020a 60%, #000 100%); padding: 2rem 1.25rem 4rem; min-height:100vh; }
+
+  #rain-canvas { position:fixed; inset:0; z-index:0; opacity:.3; pointer-events:none; }
+
+  .top-bar { position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto 1.5rem; flex-wrap:wrap; gap:1rem; }
+  .top-brand { display:flex; align-items:center; gap:0.75rem; }
+  .top-brand img { width:44px; height:44px; border-radius:50%; }
+  .top-brand-text { font-family:var(--rn-font); font-weight:800; font-size:1.1rem; letter-spacing:0.15em; color:var(--rn-chrome); }
+  .back-link { font-family:'Share Tech Mono',monospace; font-size:0.8rem; letter-spacing:0.1em; color:var(--rn-teal); text-decoration:none; border:1px solid rgba(45,212,191,0.4); padding:0.5rem 1rem; transition:background 0.2s; }
+  .back-link:hover { background:rgba(45,212,191,0.1); }
+
+  .vault-header { position:relative; z-index:2; max-width:1100px; margin:0 auto 1.75rem; text-align:center; }
+  .vault-header h1 { font-family:var(--rn-font); font-weight:900; font-size:clamp(1.6rem,4vw,2.4rem); letter-spacing:0.12em; color:var(--rn-chrome); text-shadow:0 0 24px rgba(139,61,255,0.4); }
+  .vault-header p { font-family:'Share Tech Mono',monospace; font-size:0.78rem; letter-spacing:0.1em; color:rgba(216,218,232,0.5); margin-top:0.5rem; }
+
+  .warn-banner { position:relative; z-index:2; max-width:1100px; margin:0 auto 1.25rem; background:rgba(255,51,51,.08); border-left:3px solid #ff3333; clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); padding:0.85rem 1.1rem; font-size:0.82rem; font-weight:600; color:#ffd0d0; line-height:1.6; }
+
+  .coa-guide { position:relative; z-index:2; max-width:1100px; margin:0 auto 1.5rem; background:linear-gradient(135deg,rgba(10,8,16,.92),rgba(4,2,10,.96)); border:1px solid rgba(216,218,232,.16); clip-path:polygon(0 14px,14px 0,100% 0,100% 100%,0 100%); }
+  .coa-guide summary { cursor:pointer; padding:0.9rem 1.1rem; font-family:var(--rn-font); font-weight:700; font-size:0.85rem; letter-spacing:0.1em; color:var(--rn-teal); }
+  .coa-guide-body { padding:0 1.1rem 1.1rem; display:flex; flex-direction:column; gap:0.75rem; }
+  .coa-point { font-size:0.85rem; line-height:1.6; color:rgba(216,218,232,.85); border-left:2px solid var(--rn-violet); padding-left:0.75rem; }
+  .coa-point strong { color:var(--rn-chrome); }
+
+  .search-bar { position:relative; z-index:2; max-width:1100px; margin:0 auto 1.5rem; }
+  .search-bar input { width:100%; padding:0.85rem 1.1rem; background:rgba(255,255,255,.03); border:1px solid rgba(216,218,232,.2); color:#fff; font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:600; outline:none; }
+  .search-bar input:focus { border-color:var(--rn-teal); box-shadow:0 0 14px rgba(45,212,191,.3); }
+
+  .vendor-grid { position:relative; z-index:2; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+
+  .vendor-card { background:linear-gradient(135deg,rgba(10,8,16,.92),rgba(4,2,10,.96)); border:1px solid rgba(216,218,232,.14); border-top:2px solid var(--vc,var(--rn-teal)); clip-path:polygon(0 12px,12px 0,100% 0,100% 100%,0 100%); padding:1.1rem 1.2rem; transition:transform .15s, box-shadow .2s; }
+  .vendor-card:hover { transform:translateY(-3px); box-shadow:0 8px 26px rgba(139,61,255,.22); }
+  .vendor-name { font-family:var(--rn-font); font-weight:800; font-size:0.98rem; letter-spacing:0.05em; color:var(--vc,var(--rn-teal)); margin-bottom:0.3rem; }
+  .vendor-tags { font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:rgba(216,218,232,.55); line-height:1.6; margin-bottom:0.7rem; }
+  .in-shop-badge { display:inline-block; font-family:var(--rn-font); font-weight:700; font-size:0.6rem; letter-spacing:0.1em; padding:2px 8px; background:var(--rn-violet); color:#fff; margin-bottom:0.5rem; }
+  .vendor-links { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .vendor-links a { font-family:'Share Tech Mono',monospace; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; padding:0.4rem 0.7rem; border:1px solid var(--vc,var(--rn-teal)); color:var(--vc,var(--rn-teal)); text-decoration:none; transition:background .2s; }
+  .vendor-links a:hover { background:rgba(45,212,191,.12); }
+  .vendor-note { font-size:0.8rem; color:rgba(216,218,232,.7); margin-top:0.5rem; line-height:1.5; }
+</style>
+</head>
+<body>
+<canvas id="rain-canvas"></canvas>
+
+<div class="top-bar">
+  <div class="top-brand">
+    <img src="rnlogo.png" alt="RN">
+    <div class="top-brand-text">VENDOR VAULT</div>
+  </div>
+  <a href="home.html" class="back-link">&larr; BACK TO HUB</a>
+</div>
+
+<div class="vault-header">
+  <h1>🔐 VENDOR ACCESS DIRECTORY</h1>
+  <p>VERIFIED CONTACTS · TAP TO OPEN WHATSAPP / TELEGRAM · COPY ORDER BEFORE CONTACTING</p>
+</div>
+
+<div class="warn-banner">
+  ⚠ VERIFY EVERYTHING YOURSELF. Always ask each vendor directly for a current Certificate of Analysis (COA) before ordering — never rely on a tag like "3rd Party Tested" alone. No COA or vendor information here is officially guaranteed by RN. Independently verify lab testing, payment methods, and shipping terms with the vendor directly. RN does not endorse or warrant any vendor listed below.
+</div>
+
+<details class="coa-guide">
+  <summary>🔍 HOW TO SPOT A FAKE COA — TAP TO EXPAND</summary>
+  <div class="coa-guide-body">
+    <div class="coa-point"><strong>1. Match the batch/lot number.</strong> The COA must show a batch or lot number that matches the one printed on your actual vial label. If the vendor can't produce a COA tied to your specific batch, that's a red flag.</div>
+    <div class="coa-point"><strong>2. Verify the testing lab is real.</strong> Look up the lab's name independently (not just a link the vendor gives you). Legitimate 3rd-party labs (e.g. Janoshik, MZ Biolabs) have their own websites and a track record — check if the report format matches what the lab actually publishes.</div>
+    <div class="coa-point"><strong>3. Check for inconsistent purity/mass results.</strong> Be suspicious of COAs claiming suspiciously round numbers (always exactly 99.9%) or no mass spec / HPLC chromatogram images included — real lab reports usually include the raw chromatogram, not just a summary number.</div>
+    <div class="coa-point"><strong>4. Cross-check the date.</strong> An old COA reused across many different batches is a major warning sign — testing should be batch-specific and reasonably recent.</div>
+    <div class="coa-point"><strong>5. Contact the lab directly if unsure.</strong> Many testing labs will confirm (without revealing private client info) whether a report ID is genuine. If a vendor discourages you from doing this, that's itself a red flag.</div>
+    <div class="coa-point"><strong>6. Watch for edited PDFs.</strong> Check document metadata/properties where possible — reports edited in image software or generic PDF editors (rather than exported directly from lab software) are a warning sign.</div>
+  </div>
+</details>
+
+<div class="search-bar">
+  <input type="text" id="vendor-search" placeholder="Search vendor name, country, or payment method…" oninput="filterVendors()">
+</div>
+
+<div class="vendor-grid" id="vendor-grid">
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="kerui peptides mia china 3rd party tested credit debit wire crypto">
+    <div class="vendor-name">Kerui Peptides (MIA)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 3rd Party Tested · Credit/Debit · Wire · Crypto</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85244722635" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="wanshun peptide sophie china inner circle tested credit debit usd cad mia luna irene">
+    <div class="vendor-name">Wanshun Peptide (Sophie)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 Inner Circle Tested · Credit/Debit · 3rd Party Tested · USD/CAD pricing</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85267291670" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="https://wanshunpeptide.com" target="_blank" rel="noopener">🌐 Website</a>
+    </div>
+    <div class="vendor-note">Other reps: Mia +852 6550 5338 · Luna +852 4635 9085 · Irene +852 4600 7964</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="anya china inner circle tested 3rd party tested">
+    <div class="vendor-name">Anya</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 Inner Circle Tested · 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85268860568" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="innopeptide loreler usa based credit debit 3rd party tested whatsapp channel">
+    <div class="vendor-name">InnoPeptide (Loreler)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇺🇸 USA Based · Credit/Debit · 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="tel:+12313921328">📞 Call</a>
+      <a href="https://whatsapp.com/channel/0029VbCnmsq77qVXwMkUyP3X" target="_blank" rel="noopener">📢 WhatsApp Channel</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="marvel peptide china 3rd party tested">
+    <div class="vendor-name">Marvel Peptide</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85267059715" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="lilipeptide luna china 3rd party tested">
+    <div class="vendor-name">LiliPeptide (Luna)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85265536423" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="bio peptides hong kong">
+    <div class="vendor-name">Bio Peptides</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇭🇰 Hong Kong</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85270259794" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="peptide laboratory audrey usa inner circle tested">
+    <div class="vendor-name">Peptide Laboratory (Audrey)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇺🇸 Inner Circle Tested · Contact Audrey Carter</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85255886802" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="mkm peptides cassie china crypto alibaba google apple pay credit debit wire free shipping">
+    <div class="vendor-name">MKM Peptides (Cassie)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 Crypto · Alibaba · Google/Apple Pay · Credit/Debit · Wire · Free ship over $700 · 3–5 day lead</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/8617659906901" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="https://t.me/17659906901" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+    <div class="vendor-note">Discord: cassie2476434775</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="swite2610 usa telegram coa free shipping venmo apple pay cash app zelle crypto">
+    <div class="vendor-name">@swite2610</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇺🇸 Ships 24–48hrs · COAs Available · Free Ship 4+ items · Venmo/Apple Pay/Cash App/Zelle/Crypto</div>
+    <div class="vendor-links">
+      <a href="https://t.me/swite2610" target="_blank" rel="noopener">✈ Telegram DM</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="kr peptides korea verify before ordering">
+    <div class="vendor-name">KR Peptides</div>
+    <div class="vendor-tags">🇰🇷 Korea-Based Vendor</div>
+    <div class="vendor-note">⚠ Price list / contact info not provided by vendor — verify carefully before ordering.</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="us warehouse a b usa shipping">
+    <div class="vendor-name">US Warehouse (A/B)</div>
+    <div class="vendor-tags">🇺🇸 USA Warehouse · 3–5 day delivery · $40 shipping</div>
+    <div class="vendor-note">Two separate warehouse locations — confirm which one ships your order.</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="instant peptides usa single vial retail credit card">
+    <div class="vendor-name">Instant Peptides</div>
+    <div class="vendor-tags">🇺🇸 Single Vial Retail · Credit Card</div>
+    <div class="vendor-links">
+      <a href="tel:+19542048265">📞 Call</a>
+      <a href="https://instantpeptides.com" target="_blank" rel="noopener">🌐 Website</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="kevkaycar usa vendor referral telegram">
+    <div class="vendor-name">Kevkaycar</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor Referral</div>
+    <div class="vendor-links">
+      <a href="https://t.me/kevkaycar" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="riptide discord usa community">
+    <div class="vendor-name">Riptide Discord</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor · Discord Community</div>
+    <div class="vendor-links">
+      <a href="https://discord.gg/dwkjhwkf5" target="_blank" rel="noopener">🎮 Discord</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="reta group zoey ghk-cu raw materials china">
+    <div class="vendor-name">Reta Group (Zoey)</div>
+    <div class="vendor-tags">🇨🇳 GHK-Cu Raw Materials · Cheap Pricing</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/8618053579924" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="unicornfartzz usa vendor referral telegram">
+    <div class="vendor-name">Unicornfartzz</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor Referral</div>
+    <div class="vendor-links">
+      <a href="https://t.me/unicornfartzz" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="david park pink drop medifere beauty vendor korea medical aesthetic seoul">
+    <div class="vendor-name">David Park · Pink Drop (Medifere)</div>
+    <div class="vendor-tags">🇰🇷 Beauty Vendor · Medical Aesthetic Products · Closed Saturdays</div>
+    <div class="vendor-links">
+      <a href="mailto:smpark@hjcorporations.kr">✉ Email</a>
+      <a href="tel:+821096723840">📞 Call</a>
+    </div>
+    <div class="vendor-note">1604–1606ho, 25 Yeonmujang 5ga-gil, Seongdong-gu, Seoul, South Korea</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="the beauty deli usa beauty aesthetic products instagram">
+    <div class="vendor-name">The Beauty Deli</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor · Beauty &amp; Aesthetic Products</div>
+    <div class="vendor-links">
+      <a href="https://instagram.com/thebeautydeli.co" target="_blank" rel="noopener">📷 Instagram</a>
+      <a href="https://thebeautydeli.com" target="_blank" rel="noopener">🌐 Website</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="medglobe exims usa ivermectin telegram">
+    <div class="vendor-name">Medglobe Exims</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor · Ivermectin · Telegram Group</div>
+    <div class="vendor-links">
+      <a href="https://t.me/globem15" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function filterVendors(){
+  var q = document.getElementById('vendor-search').value.toLowerCase();
+  document.querySelectorAll('.vendor-card').forEach(function(card){
+    var hay = (card.dataset.search || '') + ' ' + card.querySelector('.vendor-name').textContent.toLowerCase();
+    card.style.display = hay.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+
+<script>
+(function(){
+  var canvas = document.getElementById('rain-canvas');
+  var ctx = canvas.getContext('2d');
+  var glyphs = '01RN◇#△>>::ID'.split('');
+  var fontSize = 16, columns, drops;
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = new Array(columns).fill(0).map(function(){ return Math.random() * -50; });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  function draw(){
+    ctx.fillStyle = 'rgba(4,2,10,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + 'px monospace';
+    for (var i = 0; i < columns; i++){
+      var text = glyphs[Math.floor(Math.random() * glyphs.length)];
+      ctx.fillStyle = Math.random() < 0.04 ? '#d8dae8' : 'rgba(139,61,255,0.5)';
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 70);
+})();
+</script>
+
+</body>
+</html>

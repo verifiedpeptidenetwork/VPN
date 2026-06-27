@@ -1484,32 +1484,46 @@
   .hero-logo-wrap {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     position: relative;
-    width: 360px;
-    height: 360px;
+    width: 320px;
+    height: 320px;
     flex-shrink: 0;
     align-items: center;
   }
-  /* outer rotating gradient ring — clean circle, moves around the (static) logo */
+  @media (max-width: 700px) {
+    .hero-logo-wrap { width: 220px; height: 220px; }
+  }
+  /* hexagonal frame instead of a rotating dual-ring circle */
   .hero-logo-wrap::before {
     content: '';
     position: absolute;
-    inset: -16px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #c9c9e8, #9b30ff, #c9c9e8);
-    animation: logoRingSpin 6s linear infinite;
+    inset: -10px;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
+    background: linear-gradient(135deg, var(--rn-teal), var(--rn-violet), var(--rn-chrome));
     z-index: 0;
   }
-  /* mask the conic gradient down to a thin ring */
+  /* mask down to a thin hexagon outline */
   .hero-logo-wrap::after {
     content: '';
     position: absolute;
-    inset: -9px;
-    border-radius: 50%;
+    inset: -5px;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
     background: rgba(5,0,18,0.96);
     z-index: 1;
   }
+  /* scanning beam sweeping vertically across the badge */
+  .hero-logo-wrap .scan-line {
+    position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none;
+    clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);
+  }
+  .hero-logo-wrap .scan-line::before {
+    content: ''; position: absolute; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--rn-teal), transparent);
+    animation: heroScanSweep 3s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--rn-teal);
+  }
+  @keyframes heroScanSweep { 0%,100% { top: -5%; } 50% { top: 100%; } }
   /* second ring, further out, counter-spinning the other way */
   .hero-logo-inner-ring {
     position: absolute;
@@ -2453,10 +2467,6 @@
 </head>
 <body>
 
-<div id="no-coa-banner" style="position:relative;z-index:100000;background:#1a0006;border-bottom:2px solid var(--neon-pink);padding:0.75rem 2.75rem 0.75rem 1rem;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.95rem;color:#fff;text-align:center;letter-spacing:0.02em;">
-  ⚠ NO COAs OR VENDOR INFORMATION ARE ON THIS WEBSITE.
-  <button onclick="document.getElementById('no-coa-banner').style.display='none'" aria-label="Close" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;width:1.8rem;height:1.8rem;cursor:pointer;line-height:1;">✕</button>
-</div>
 
 <style>
   #gate-overlay {
@@ -3175,19 +3185,12 @@ document.addEventListener('keydown', function(e){
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
-      <!-- RN Logo image with spinning retro glow ring -->
-      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:104px;height:104px;">
-        <!-- Spinning conic gradient ring -->
-        <div style="position:absolute;inset:-4px;border-radius:50%;
-          background:conic-gradient(from 0deg, #ffd700, #ff6600, #ff1500, #ff8800, #ffd700);
-          animation:headerLogoSpin 2.5s linear infinite;
-          filter:blur(2px);
-          z-index:0;pointer-events:none;">
-        </div>
-        <!-- Dark backing to keep ring tight -->
-        <div style="position:absolute;inset:2px;border-radius:50%;background:var(--dark-bg);z-index:1;pointer-events:none;"></div>
+      <!-- RN Logo image — hexagonal HUD frame, matches hero badge -->
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:64px;height:64px;">
+        <div style="position:absolute;inset:-5px;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);background:linear-gradient(135deg,var(--rn-teal),var(--rn-violet),var(--rn-chrome));z-index:0;pointer-events:none;"></div>
+        <div style="position:absolute;inset:-2px;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);background:var(--dark-bg);z-index:1;pointer-events:none;"></div>
         <img src="rnlogo.png?v=3" alt="RN Logo"
-          style="height:98px;width:98px;object-fit:cover;border-radius:50%;display:block;position:relative;z-index:2;">
+          style="height:60px;width:60px;object-fit:cover;display:block;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);">
       </div>
       <div class="logo-text">
         <div class="logo-title">Research Network</div>
@@ -3210,13 +3213,10 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <div class="nav-dropdown">
-        <button class="nav-pill nav-pill-main" onclick="this.closest('.nav-dropdown').classList.toggle('open')">Library ▾</button>
+        <button class="nav-pill nav-pill-main" onclick="this.closest('.nav-dropdown').classList.toggle('open')">Archives ▾</button>
         <div class="nav-dropdown-panel">
-          <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:var(--neon-cyan);color:var(--neon-cyan);">🔬 Peptide Index</button>
-          <button class="nav-pill" onclick="showView('cheatsheets'); setActiveNav(this)" style="border-color:#ffe600;color:#ffe600;">🗄️ Cheat Sheet Vault</button>
-          <button class="nav-pill" onclick="showView('quick-guide'); setActiveNav(this)" style="border-color:var(--neon-orange);color:var(--neon-orange);">🛠 Guides</button>
-          <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:#00ff64;color:#00ff64;">📊 Studies</button>
-          <button class="nav-pill" onclick="showView('templates'); setActiveNav(this)" style="border-color:#cc44ff;color:#cc44ff;">🏷️ Templates</button>
+          <button class="nav-pill" onclick="showView('all-peptides'); setActiveNav(this)" style="border-color:var(--rn-chrome);color:var(--rn-chrome);">🔬 Compound Index</button>
+          <button class="nav-pill" onclick="showView('studies'); setActiveNav(this)" style="border-color:var(--rn-teal);color:var(--rn-teal);">📊 Intel Reports</button>
         </div>
       </div>
 
@@ -3286,9 +3286,10 @@ document.addEventListener('keydown', function(e){
 <!-- HERO -->
 <div class="hero" id="site-hero">
 
-    <!-- GLOWRILLA'S SELF PROTOCOL -->
-    <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;">
-      <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Glowrilla\'s Self Protocol')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 GLOWRILLA'S SELF PROTOCOL</button>
+    <!-- GLOWRILLA'S SELF PROTOCOL + VENDOR VAULT ACCESS -->
+    <div style="max-width:680px;margin:0 auto 0.85rem;text-align:left;display:flex;gap:0.6rem;flex-wrap:wrap;">
+      <button onclick="openLightbox('cheatsheet/RESEARCH_SELF_PROTOCOL.png','Operator Dossier: Glowrilla')" class="hero-badge cyan" style="cursor:pointer;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(201,201,232,0.15)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🦍 OPERATOR DOSSIER: GLOWRILLA</button>
+      <a href="vendor-vault.html" class="hero-badge" style="border-color:var(--rn-teal);color:var(--rn-teal);background:#0a0a1e;text-decoration:none;display:inline-flex;align-items:center;transition:box-shadow 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(45,212,191,0.15)';this.style.boxShadow='0 0 18px rgba(45,212,191,0.5)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">🔐 VENDOR VAULT ACCESS</a>
     </div>
 
     <!-- LATEST NEWS -->
@@ -3305,10 +3306,10 @@ document.addEventListener('keydown', function(e){
       details.vpn-news-card[open] .vpn-news-arrow { transform:rotate(180deg); }
       .vpn-news-body { padding:0 1.25rem 1.15rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.9rem; }
     </style>
-    <details style="margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;text-align:left;border:2px solid var(--neon-pink);background:linear-gradient(135deg,#1a0006,#0d0008);box-shadow:0 0 22px rgba(155,48,255,0.25);border-radius:8px;overflow:hidden;">
-      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);display:flex;align-items:center;gap:0.6rem;text-shadow:0 0 10px rgba(155,48,255,0.5);">
-        <span style="font-size:1.3rem;">📰</span> Latest News
-        <span style="margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;color:rgba(155,48,255,0.6);text-transform:uppercase;">5 Updates</span>
+    <details style="margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;text-align:left;border:1px solid rgba(216,218,232,0.18);background:linear-gradient(135deg,rgba(10,8,16,.95),rgba(4,2,10,.98));box-shadow:0 0 22px rgba(139,61,255,0.22);clip-path:polygon(0 14px,14px 0,100% 0,100% 100%,0 100%);overflow:hidden;">
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:var(--rn-font,'Orbitron','Bebas Neue',sans-serif);font-weight:700;font-size:0.98rem;letter-spacing:0.12em;color:var(--rn-teal);display:flex;align-items:center;gap:0.6rem;text-shadow:0 0 10px rgba(45,212,191,0.5);">
+        <span style="font-size:1.3rem;">📡</span> INTEL FEED
+        <span style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:var(--rn-violet);text-transform:uppercase;">5 TRANSMISSIONS</span>
       </summary>
       <div style="padding:0.25rem 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
 
@@ -3467,117 +3468,86 @@ document.addEventListener('keydown', function(e){
   <!-- LOGO + QUICK ACCESS ROWS -->
   <div style="max-width:1100px;width:100%;margin:0 auto 1.25rem;display:flex;gap:1.25rem;align-items:stretch;flex-wrap:wrap;">
     <div class="hero-logo-wrap" style="flex:0 0 auto;margin:0;">
-      <div class="hero-logo-inner-ring"></div>
-      <div class="hero-logo-orbit">
-        <div class="orbit-track" style="--dur:16s;">
-          <span class="orbit-icon" style="--dur:16s;--r:192px;color:#d8dae8;">💊</span>
-        </div>
-        <div class="orbit-track rev" style="--dur:20s;">
-          <span class="orbit-icon" style="--dur:20s;--r:182px;color:#8b3dff;">🧬</span>
-        </div>
-        <div class="orbit-track" style="--dur:24s;">
-          <span class="orbit-icon" style="--dur:24s;--r:200px;color:#b9bcd6;">⚗️</span>
-        </div>
-        <div class="orbit-track rev" style="--dur:18s;">
-          <span class="orbit-icon" style="--dur:18s;--r:175px;color:#8b3dff;">💉</span>
-        </div>
-      </div>
-      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:340px;height:340px;object-fit:contain;position:relative;z-index:2;" />
+      <div class="scan-line"></div>
+      <img src="rnlogo.png?v=3" alt="RN Research Network Logo" class="hero-logo-img" style="width:280px;height:280px;object-fit:contain;position:relative;z-index:2;clip-path:polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0% 50%);" />
     </div>
-    <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:0.6rem;justify-content:center;min-width:280px;">
+    <div style="flex:1 1 320px;display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;min-width:280px;">
 
-      <a href="pokeme-dex.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-orange);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,107,0,0.1)';this.style.boxShadow='0 0 18px rgba(255,107,0,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <img src="pokemedexlogo.png" alt="PokeMe-Dex" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--neon-orange);">
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-orange);">PokeMe-Dex</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Peptide Pokédex · Goal suggestions · Dose calendar</div>
-        </span>
+      <a href="pokeme-dex.html" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <img src="pokemedexlogo.png" alt="PokeMe-Dex" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--rn-teal);">
+        <div class="rn-mod-title">PokeMe-Dex</div>
+        <div class="rn-mod-sub">Goals · Dose calendar</div>
       </a>
 
-      <a href="tracker.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #00ff88;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(0,255,136,0.1)';this.style.boxShadow='0 0 18px rgba(0,255,136,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">📊</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#00ff88;">Health Tracker</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Protein · Injection sites · Peptide calendar</div>
-        </span>
+      <a href="tracker.html" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">📊</span>
+        <div class="rn-mod-title">Health Tracker</div>
+        <div class="rn-mod-sub">Protein · Injections</div>
       </a>
 
-      <a href="peptide-suggestion.html"
-         style="display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-pink);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(155,48,255,0.1)';this.style.boxShadow='0 0 18px rgba(155,48,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🦍</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-pink);">Peptide Suggestion</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Goal-based suggestions &amp; a dose schedule builder</div>
-        </span>
+      <a href="peptide-suggestion.html" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🦍</span>
+        <div class="rn-mod-title">Peptide Suggestion</div>
+        <div class="rn-mod-sub">Dose schedule builder</div>
       </a>
 
-      <a onclick="showView('videos'); setActiveNav(document.querySelector('[onclick*=videos]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid var(--neon-cyan);padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(201,201,232,0.1)';this.style.boxShadow='0 0 18px rgba(201,201,232,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">▶</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:var(--neon-cyan);">Doctor Videos</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Research physicians &amp; education</div>
-        </span>
+      <a onclick="showView('videos'); setActiveNav(document.querySelector('[onclick*=videos]'))" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <span class="rn-mod-icon">▶</span>
+        <div class="rn-mod-title">Doctor Videos</div>
+        <div class="rn-mod-sub">Physicians &amp; education</div>
       </a>
 
-      <a onclick="showView('bloodwork'); setActiveNav(document.querySelector('[onclick*=bloodwork]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #cc44ff;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(204,68,255,0.1)';this.style.boxShadow='0 0 18px rgba(204,68,255,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🩸</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#cc44ff;">Blood Work</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Know your numbers · Lab panels</div>
-        </span>
+      <a onclick="showView('bloodwork'); setActiveNav(document.querySelector('[onclick*=bloodwork]'))" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">🩸</span>
+        <div class="rn-mod-title">Blood Work</div>
+        <div class="rn-mod-sub">Know your numbers</div>
       </a>
 
-      <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #ffe600;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,230,0,0.1)';this.style.boxShadow='0 0 18px rgba(255,230,0,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🧮</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#ffe600;">Reconstitution Calculator</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Figure out your dose &amp; draw amount</div>
-        </span>
+      <a onclick="showView('calculator'); setActiveNav(document.querySelector('[onclick*=calculator]'))" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🧮</span>
+        <div class="rn-mod-title">Recon Calculator</div>
+        <div class="rn-mod-sub">Dose &amp; draw amount</div>
       </a>
 
-      <a onclick="showView('supplies'); setActiveNav(document.querySelector('[onclick*=supplies]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #00ffcc;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(0,255,204,0.1)';this.style.boxShadow='0 0 18px rgba(0,255,204,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🧫</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#00ffcc;">Supplies</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Syringes · BAC water · Niimbot</div>
-        </span>
+      <a onclick="showView('supplies'); setActiveNav(document.querySelector('[onclick*=supplies]'))" class="rn-mod-tile" style="--tc:var(--rn-teal);">
+        <span class="rn-mod-icon">🧫</span>
+        <div class="rn-mod-title">Supplies</div>
+        <div class="rn-mod-sub">Syringes · BAC water</div>
       </a>
 
-      <a onclick="showView('vitamins'); setActiveNav(document.querySelector('[onclick*=vitamins]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #ff4dc4;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,77,196,0.1)';this.style.boxShadow='0 0 18px rgba(255,77,196,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">💊</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#ff4dc4;">Vitamins &amp; Supplements</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Evidence-based supplement guide</div>
-        </span>
+      <a onclick="showView('vitamins'); setActiveNav(document.querySelector('[onclick*=vitamins]'))" class="rn-mod-tile" style="--tc:var(--rn-violet);">
+        <span class="rn-mod-icon">💊</span>
+        <div class="rn-mod-title">Vitamins</div>
+        <div class="rn-mod-sub">Supplement guide</div>
       </a>
 
-      <a onclick="showView('cheatsheets'); setActiveNav(document.querySelector('[onclick*=cheatsheets]'))"
-         style="cursor:pointer;display:flex;align-items:center;gap:0.9rem;text-decoration:none;background:#0a0a1e;border-left:4px solid #3b82f6;padding:0.85rem 1.2rem;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(59,130,246,0.1)';this.style.boxShadow='0 0 18px rgba(59,130,246,0.35)'" onmouseout="this.style.background='#0a0a1e';this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;flex-shrink:0;">🗄️</span>
-        <span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.08em;color:#3b82f6;">Cheat Sheet</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.65);">Quick-reference guides &amp; playbooks</div>
-        </span>
+      <a onclick="showView('cheatsheets'); setActiveNav(document.querySelector('[onclick*=cheatsheets]'))" class="rn-mod-tile" style="--tc:var(--rn-chrome);">
+        <span class="rn-mod-icon">🗄️</span>
+        <div class="rn-mod-title">Cheat Sheet</div>
+        <div class="rn-mod-sub">Quick reference</div>
       </a>
 
     </div>
   </div>
+
+  <style>
+    .rn-mod-tile {
+      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      text-decoration: none; background: linear-gradient(160deg,rgba(8,6,14,0.97),rgba(2,1,6,0.99));
+      border: 1px solid color-mix(in srgb, var(--tc) 45%, transparent);
+      border-top: 2px solid var(--tc);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      padding: 0.9rem 0.5rem 0.7rem;
+      text-align: center;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--tc) 35%, transparent), 0 4px 14px rgba(0,0,0,0.6);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .rn-mod-tile:hover { background: linear-gradient(160deg,color-mix(in srgb, var(--tc) 14%, #08060e),rgba(2,1,6,0.99)); transform: translateY(-2px); box-shadow: 0 0 30px color-mix(in srgb, var(--tc) 55%, transparent), 0 6px 18px rgba(0,0,0,0.7); }
+    .rn-mod-icon { font-size: 1.5rem; }
+    .rn-mod-title { font-family: var(--rn-font,'Orbitron','Bebas Neue',sans-serif); font-weight:700; font-size: 0.68rem; letter-spacing: 0.04em; color: var(--tc); text-transform: uppercase; line-height: 1.2; }
+    .rn-mod-sub { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: rgba(216,218,232,0.5); line-height: 1.3; }
+    @media (max-width: 480px) { .rn-mod-tile { padding: 0.7rem 0.3rem 0.5rem; } .rn-mod-sub { display: none; } }
+  </style>
 
     <div style="background:linear-gradient(135deg,rgba(201,201,232,0.1),rgba(155,48,255,0.06));border:2px solid var(--neon-cyan);box-shadow:0 0 32px rgba(201,201,232,0.18);backdrop-filter:blur(8px);padding:1.2rem 2rem 1.3rem;margin:0 auto 0.85rem;max-width:680px;width:100%;box-sizing:border-box;clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);">
       <div class="hero-eyebrow" style="margin-bottom:0.6rem;">⚡ INNER CIRCLE RESEARCH HUB</div>
@@ -3667,7 +3637,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- SITE DIRECTORY -->
   <div style="margin-top:1.75rem;width:100%;max-width:1100px;margin-left:auto;margin-right:auto;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;color:rgba(201,201,232,0.55);margin-bottom:0.85rem;text-align:left;padding-left:2px;">— SITE DIRECTORY —</div>
+    <div style="font-family:var(--rn-font,'Orbitron','Bebas Neue',sans-serif);font-weight:700;font-size:0.85rem;letter-spacing:0.3em;color:var(--rn-teal);margin-bottom:0.85rem;text-align:left;padding-left:2px;">▣ ACCESS DIRECTORY ▣</div>
   <style>
     .dir-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; text-align:left; }
     .dir-subhead { grid-column:1/-1; display:flex; align-items:center; gap:0.75rem; margin:1.4rem 0 -0.15rem; }
@@ -3691,7 +3661,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 🧰 TOOLS -->
     <div class="dir-subhead" style="--shc:rgba(201,201,232,0.45);">
-      <span class="dir-subhead-label" style="color:var(--neon-cyan);">🧰 TOOLS</span>
+      <span class="dir-subhead-label" style="color:var(--rn-teal);">🧰 FIELD TOOLS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3731,7 +3701,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 📚 GUIDES & REFERENCE -->
     <div class="dir-subhead" style="--shc:rgba(255,230,0,0.4);">
-      <span class="dir-subhead-label" style="color:#ffe600;">📚 GUIDES &amp; REFERENCE</span>
+      <span class="dir-subhead-label" style="color:var(--rn-chrome);">📚 INTEL ARCHIVES</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3777,7 +3747,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 📥 DOWNLOADS -->
     <div class="dir-subhead" style="--shc:rgba(0,255,136,0.4);">
-      <span class="dir-subhead-label" style="color:#00ff88;">📥 DOWNLOADS</span>
+      <span class="dir-subhead-label" style="color:var(--rn-teal);">📥 DATA DROPS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -3807,7 +3777,7 @@ document.addEventListener('keydown', function(e){
 
     <!-- 👥 COMMUNITY -->
     <div class="dir-subhead" style="--shc:rgba(180,0,255,0.4);">
-      <span class="dir-subhead-label" style="color:#cc44ff;">👥 COMMUNITY</span>
+      <span class="dir-subhead-label" style="color:var(--rn-violet);">👥 NETWORK OPS</span>
       <span class="dir-subhead-line"></span>
     </div>
 
@@ -4188,8 +4158,8 @@ document.addEventListener('keydown', function(e){
   <!-- SUPPLIES -->
   <div class="view" id="view-supplies">
     <div class="section-header" style="margin-bottom:1.25rem;">
-      <div class="section-title">Research Supplies</div>
-      <span class="section-count">Lab equipment · reference tools</span>
+      <div class="section-title">🧰 Field Gear Cache</div>
+      <span class="section-count">Equipment manifest · vetted sourcing intel</span>
     </div>
 
     <!-- Disclaimer -->
@@ -4208,13 +4178,13 @@ document.addEventListener('keydown', function(e){
     <div style="display:flex;flex-direction:column;gap:1rem;">
 
       <!-- Autoject2 Injection Aid — FEATURED TOP OF SUPPLIES -->
-      <div style="background:#0e0e0a;border:2px solid var(--neon-orange);border-top:4px solid var(--neon-orange);overflow:hidden;box-shadow:0 0 28px rgba(255,107,0,0.25);">
+      <div style="background:#0e0e0a;border:2px solid #8b3dff;border-top:4px solid #8b3dff;overflow:hidden;box-shadow:0 0 28px rgba(139,61,255,0.25);">
         <div style="padding:1.25rem 1.75rem 0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:#ffe600;margin-bottom:0.5rem;">🚫😨 SCARED OF NEEDLES? CAN'T REACH SOME INJECTION SITES?</div>
           <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
-            <img src="guides-pictures/owen-mumford-autoject2.jpg" alt="Owen Mumford Autoject2 Injection Aid" style="width:140px;height:140px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:6px;padding:8px;border:2px solid var(--neon-orange);">
+            <img src="guides-pictures/owen-mumford-autoject2.jpg" alt="Owen Mumford Autoject2 Injection Aid" style="width:140px;height:140px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:6px;padding:8px;border:2px solid #8b3dff;">
             <div style="flex:1;min-width:200px;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.15;">Owen Mumford Autoject2 — Injection Aid</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#8b3dff;text-shadow:0 0 10px rgba(139,61,255,0.5);line-height:1.15;">Owen Mumford Autoject2 — Injection Aid</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;margin-top:0.3rem;">You never see the needle. It hides it completely.</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:var(--text-secondary);margin-top:0.3rem;line-height:1.5;">Not ready to switch to a full peptide pen? This spring-loaded aid fits your standard insulin syringe, hides the needle so you never see it go in, and lets you reach hard-to-hit spots — back of arm, outer thigh, love handles — solo, with consistent depth every time.</div>
             </div>
@@ -4222,28 +4192,28 @@ document.addEventListener('keydown', function(e){
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 1.75rem 1.25rem;cursor:pointer;"
              onclick="var b=document.getElementById('autoject-body');var a=document.getElementById('autoject-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(255,107,0,0.6);white-space:nowrap;">Hides needle · Hard to reach areas · Site rotation · Fits insulin syringes</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(139,61,255,0.6);white-space:nowrap;">Hides needle · Hard to reach areas · Site rotation · Fits insulin syringes</span>
           <div style="display:flex;gap:0.5rem;align-items:center;">
             <a href="https://www.adwdiabetes.com/product/2550/owen-mumford-autoject2-injection-aid" target="_blank" rel="noopener" onclick="event.stopPropagation();"
-              style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;border:1px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.06);white-space:nowrap;"
-              onmouseover="this.style.background='rgba(255,107,0,0.15)'" onmouseout="this.style.background='rgba(255,107,0,0.06)'">↗ Buy</a>
-            <span id="autoject-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(255,107,0,0.6);white-space:nowrap;">▼ Expand</span>
+              style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;border:1px solid #8b3dff;color:#8b3dff;text-decoration:none;background:rgba(139,61,255,0.06);white-space:nowrap;"
+              onmouseover="this.style.background='rgba(139,61,255,0.15)'" onmouseout="this.style.background='rgba(139,61,255,0.06)'">↗ Buy</a>
+            <span id="autoject-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(139,61,255,0.6);white-space:nowrap;">▼ Expand</span>
           </div>
         </div>
 
         <div id="autoject-body" style="display:none;">
 
           <!-- Why use it -->
-          <div style="margin:0 1.25rem 1rem;border:1px solid rgba(255,107,0,0.25);border-left:4px solid var(--neon-orange);background:#0e0804;padding:0.85rem 1rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-orange);margin-bottom:0.5rem;">Why Use The Autoject2?</div>
+          <div style="margin:0 1.25rem 1rem;border:1px solid rgba(139,61,255,0.25);border-left:4px solid #8b3dff;background:#0e0804;padding:0.85rem 1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#8b3dff;margin-bottom:0.5rem;">Why Use The Autoject2?</div>
             <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:var(--text-secondary);line-height:1.7;">
               Not ready to switch to a peptide pen? The <strong style="color:#fff;">Owen Mumford Autoject2</strong> fits standard insulin syringes and makes self-injection easier, more consistent, and less stressful:
               <ul style="margin:0.6rem 0 0 1rem;display:flex;flex-direction:column;gap:0.4rem;">
-                <li><strong style="color:var(--neon-orange);">Hides the needle</strong> — you never see it go in, reduces needle anxiety completely</li>
-                <li><strong style="color:var(--neon-orange);">Hard to reach areas</strong> — back of arms, outer thighs, love handles — all manageable solo</li>
-                <li><strong style="color:var(--neon-orange);">Consistent depth</strong> — spring-loaded mechanism ensures the same penetration depth every time</li>
-                <li><strong style="color:var(--neon-orange);">Injection site rotation</strong> — reach spots you'd otherwise need help accessing</li>
-                <li><strong style="color:var(--neon-orange);">Fits standard insulin syringes</strong> — works with 29–31g needles you already use</li>
+                <li><strong style="color:#8b3dff;">Hides the needle</strong> — you never see it go in, reduces needle anxiety completely</li>
+                <li><strong style="color:#8b3dff;">Hard to reach areas</strong> — back of arms, outer thighs, love handles — all manageable solo</li>
+                <li><strong style="color:#8b3dff;">Consistent depth</strong> — spring-loaded mechanism ensures the same penetration depth every time</li>
+                <li><strong style="color:#8b3dff;">Injection site rotation</strong> — reach spots you'd otherwise need help accessing</li>
+                <li><strong style="color:#8b3dff;">Fits standard insulin syringes</strong> — works with 29–31g needles you already use</li>
               </ul>
             </div>
           </div>
@@ -4254,8 +4224,8 @@ document.addEventListener('keydown', function(e){
               ✅ Spring-loaded auto-injection &nbsp;·&nbsp; ✅ Fully conceals needle &nbsp;·&nbsp; ✅ 29–31g insulin syringes &nbsp;·&nbsp; ✅ Reusable &nbsp;·&nbsp; ✅ Compact &nbsp;·&nbsp; ✅ No prescription
             </div>
             <a href="https://www.adwdiabetes.com/product/2550/owen-mumford-autoject2-injection-aid" target="_blank" rel="noopener"
-              style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.6rem 1.25rem;border:2px solid var(--neon-orange);color:var(--neon-orange);text-decoration:none;background:rgba(255,107,0,0.08);text-align:center;transition:background 0.2s;display:block;"
-              onmouseover="this.style.background='rgba(255,107,0,0.18)'" onmouseout="this.style.background='rgba(255,107,0,0.08)'">↗ Buy on ADW Diabetes</a>
+              style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.6rem 1.25rem;border:2px solid #8b3dff;color:#8b3dff;text-decoration:none;background:rgba(139,61,255,0.08);text-align:center;transition:background 0.2s;display:block;"
+              onmouseover="this.style.background='rgba(139,61,255,0.18)'" onmouseout="this.style.background='rgba(139,61,255,0.08)'">↗ Buy on ADW Diabetes</a>
           </div>
 
           <!-- Tutorial video -->
@@ -4277,54 +4247,54 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <!-- BAC WATER SECTION HEADER -->
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);margin-top:0.5rem;border-bottom:1px solid rgba(0,255,100,0.25);padding-bottom:0.4rem;">💧 BAC WATER</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#2dd4bf;text-shadow:0 0 10px rgba(45,212,191,0.5);margin-top:0.5rem;border-bottom:1px solid rgba(45,212,191,0.25);padding-bottom:0.4rem;">💧 RECON FLUID SOURCING</div>
 
       <!-- BacteriostaticWater.com -->
       <a href="https://www.bacteriostaticwater.com/?srsltid=AfmBOoqGML3xCJvpKj_B60s3HzsA_fCv0_j3A-ysNK2BEgM5jSdd9bKG" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00ff64;border-left:6px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #2dd4bf;border-left:6px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(45,212,191,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">💧</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);margin-bottom:0.2rem;">BacteriostaticWater.com</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#2dd4bf;text-shadow:0 0 10px rgba(45,212,191,0.5);margin-bottom:0.2rem;">BacteriostaticWater.com</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Bacteriostatic water · reconstitution supplies</div>
         </div>
-        <span style="color:#00ff64;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
+        <span style="color:#2dd4bf;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
       </a>
 
       <!-- Underground Supply -->
       <a href="https://undergroundsupply.shop/" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00ff64;border-left:6px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #2dd4bf;border-left:6px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(45,212,191,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">💧</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);margin-bottom:0.2rem;">UndergroundSupply.shop</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#2dd4bf;text-shadow:0 0 10px rgba(45,212,191,0.5);margin-bottom:0.2rem;">UndergroundSupply.shop</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Bacteriostatic water · reconstitution supplies</div>
         </div>
-        <span style="color:#00ff64;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
+        <span style="color:#2dd4bf;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
       </a>
 
       <!-- Farris Labs -->
       <a href="https://www.farrislabs.com/products/bacteriostatic-water?utm_source=shop_app&list_generator=link_to_storefront&context=shop_store&user_id=189677788&user_uuid=01962022-1aca-7fa4-98af-1fa4eedb9050" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00ff64;border-left:6px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #2dd4bf;border-left:6px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(45,212,191,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">💧</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);margin-bottom:0.2rem;">Farris Labs — Bacteriostatic Water</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#2dd4bf;text-shadow:0 0 10px rgba(45,212,191,0.5);margin-bottom:0.2rem;">Farris Labs — Bacteriostatic Water</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Bacteriostatic water · reconstitution supplies</div>
         </div>
-        <span style="color:#00ff64;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
+        <span style="color:#2dd4bf;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
       </a>
 
       <!-- Medex Supply -->
       <a href="https://medexsupply.com/water-bacteriostatic-iv-inj-sol-mdv-30ml-sterile-ftv-25-pack/" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00ff64;border-left:6px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,255,100,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #2dd4bf;border-left:6px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(45,212,191,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">💧</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00ff64;text-shadow:0 0 10px rgba(0,255,100,0.5);margin-bottom:0.2rem;">Medex Supply — Bacteriostatic Water (25-Pack)</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#2dd4bf;text-shadow:0 0 10px rgba(45,212,191,0.5);margin-bottom:0.2rem;">Medex Supply — Bacteriostatic Water (25-Pack)</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">30mL sterile MDV · 25-pack · came through fast</div>
         </div>
-        <span style="color:#00ff64;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
+        <span style="color:#2dd4bf;font-size:1rem;opacity:0.8;white-space:nowrap;">↗</span>
       </a>
 
       <!-- pH Measurement Note -->
@@ -4342,7 +4312,7 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <!-- GENERAL LAB SUPPLIES SECTION HEADER -->
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(201,201,232,0.5);margin-top:1rem;border-bottom:1px solid rgba(201,201,232,0.25);padding-bottom:0.4rem;">🔬 GENERAL LAB SUPPLIES</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:var(--neon-cyan);text-shadow:0 0 10px rgba(201,201,232,0.5);margin-top:1rem;border-bottom:1px solid rgba(201,201,232,0.25);padding-bottom:0.4rem;">🔬 LAB STATION ESSENTIALS</div>
 
       <!-- PeptideTest Lab Supplies -->
       <a href="https://peptidetest.com/collections/lab-supplies" target="_blank" rel="noopener"
@@ -4369,46 +4339,46 @@ document.addEventListener('keydown', function(e){
       </a>
 
       <!-- COOLING & STORAGE SECTION HEADER -->
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#00d4ff;text-shadow:0 0 10px rgba(0,212,255,0.4);margin-top:1rem;border-bottom:1px solid rgba(0,212,255,0.25);padding-bottom:0.4rem;">❄️ COOLING &amp; STORAGE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#8b3dff;text-shadow:0 0 10px rgba(139,61,255,0.4);margin-top:1rem;border-bottom:1px solid rgba(139,61,255,0.25);padding-bottom:0.4rem;">❄️ COLD CHAIN LOGISTICS</div>
 
       <!-- PeptiCool Peptide & Insulin Cooler -->
       <a href="https://www.pepticool.com/products/pepticool%E2%84%A2-peptide-insulin-cooler?srsltid=AfmBOooDe0nlk4t4VCDCHPyKrVz8lOUuRFnzEu5dYyOw_VaBDvcQvyoO" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00d4ff;border-left:6px solid #00d4ff;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,212,255,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #8b3dff;border-left:6px solid #8b3dff;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(139,61,255,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">❄️</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00d4ff;text-shadow:0 0 10px rgba(0,212,255,0.5);margin-bottom:0.2rem;">PeptiCool™ — Peptide &amp; Insulin Cooler</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#8b3dff;text-shadow:0 0 10px rgba(139,61,255,0.5);margin-bottom:0.2rem;">PeptiCool™ — Peptide &amp; Insulin Cooler</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Purpose-built travel cooler for peptide vials &amp; pens</div>
         </div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00d4ff;opacity:0.8;">↗</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#8b3dff;opacity:0.8;">↗</span>
       </a>
 
       <!-- Glacier Vault Portable Insulin Refrigerator -->
       <a href="https://glaciervault.shop/products/portable-insulin-refrigerator" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00d4ff;border-left:6px solid #00d4ff;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,212,255,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #8b3dff;border-left:6px solid #8b3dff;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(139,61,255,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">🧊</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00d4ff;text-shadow:0 0 10px rgba(0,212,255,0.5);margin-bottom:0.2rem;">Glacier Vault — Portable Insulin Refrigerator</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#8b3dff;text-shadow:0 0 10px rgba(139,61,255,0.5);margin-bottom:0.2rem;">Glacier Vault — Portable Insulin Refrigerator</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Powered mini fridge for consistent cold storage on the go</div>
         </div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00d4ff;opacity:0.8;">↗</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#8b3dff;opacity:0.8;">↗</span>
       </a>
 
       <!-- Walmart Portable Dual-Temp Mini Fridge -->
       <a href="https://www.walmart.com/ip/Transportable-Double-Temperature-Tiny-Fridge-with-USB-Aluminum-trioxide-Cold-and-Hot-Beverages-Ideal-for-Travel-Camping-and-Car-Use/20248507774" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #00d4ff;border-left:6px solid #00d4ff;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 22px rgba(0,212,255,0.3)'" onmouseout="this.style.boxShadow='none'">
+         style="display:flex;align-items:center;gap:1.25rem;padding:1.4rem 1.75rem;background:#0d0a1e;border:2px solid #8b3dff;border-left:6px solid #8b3dff;text-decoration:none;transition:box-shadow 0.2s;"
+         onmouseover="this.style.boxShadow='0 0 22px rgba(139,61,255,0.3)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:2.2rem;flex-shrink:0;">🚗</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#00d4ff;text-shadow:0 0 10px rgba(0,212,255,0.5);margin-bottom:0.2rem;">Walmart — Portable Dual-Temp Mini Fridge</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.1em;color:#8b3dff;text-shadow:0 0 10px rgba(139,61,255,0.5);margin-bottom:0.2rem;">Walmart — Portable Dual-Temp Mini Fridge</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">USB-powered, hot/cold, budget option for travel &amp; car use</div>
         </div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00d4ff;opacity:0.8;">↗</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#8b3dff;opacity:0.8;">↗</span>
       </a>
 
       <!-- LABELING SECTION HEADER -->
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,0.4);margin-top:1rem;border-bottom:1px solid rgba(255,230,0,0.25);padding-bottom:0.4rem;">🏷️ LABELING</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,0.4);margin-top:1rem;border-bottom:1px solid rgba(255,230,0,0.25);padding-bottom:0.4rem;">🏷️ ASSET TAGGING</div>
 
       <!-- Niimbot Label Paper (Amazon) -->
       <a href="https://www.amazon.com/NIIMBOT-Compatible-Labeling-Ribbon-Replacement/dp/B0FM3DZVWY/" target="_blank" rel="noopener"
@@ -4452,9 +4422,9 @@ document.addEventListener('keydown', function(e){
     <!-- HOME WORKOUT GYM SECTION -->
     <div style="margin-top:2rem;">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:#00ff64;">🏋️ Home Workout Gym — Limited Space & Budget</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;color:#2dd4bf;">🏋️ Home Workout Gym — Limited Space & Budget</div>
       </div>
-      <div style="border:1px solid rgba(0,255,100,0.2);border-left:5px solid #00ff64;background:#020d07;padding:1rem 1.25rem;margin-bottom:1.25rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:rgba(200,255,210,0.85);line-height:1.7;">
+      <div style="border:1px solid rgba(45,212,191,0.2);border-left:5px solid #2dd4bf;background:#020d07;padding:1rem 1.25rem;margin-bottom:1.25rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:rgba(200,255,210,0.85);line-height:1.7;">
         For apartment living, people who hate crowds, or anyone self-conscious at the gym. Buy one at a time as budget allows — you don't need everything at once. 😊<br>
         <span style="color:#ffe600;">⚡ Electrolytes:</span> Only take when heavily sweating or if you barely drank water. Drink your water first — don't over-supplement.
       </div>
@@ -4463,66 +4433,66 @@ document.addEventListener('keydown', function(e){
 
         <!-- Rebounder -->
         <a href="https://www.amazon.com/BCAN-Rebounder-Trampoline-Foldable-Exercise/dp/B0GFWP8DHJ" target="_blank" rel="noopener"
-           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-           onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
+           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(45,212,191,0.35);border-left:4px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+           onmouseover="this.style.boxShadow='0 0 16px rgba(45,212,191,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">🦘</span>
           <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Foldable Rebounder / Mini Trampoline</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#2dd4bf;">Foldable Rebounder / Mini Trampoline</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Safe cardio · Strengthens bones &amp; joints</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Safe for 90+ year olds. ⚠ If you have a herniated disc — bounce gently, no hard heel landings. Everyone verify before use.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(45,212,191,0.6);">Amazon ↗</div>
           </div>
         </a>
 
         <!-- Walking Pad -->
         <a href="https://www.amazon.com/dp/B0H45X9PQX" target="_blank" rel="noopener"
-           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-           onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
+           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(45,212,191,0.35);border-left:4px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+           onmouseover="this.style.boxShadow='0 0 16px rgba(45,212,191,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">🚶</span>
           <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Foldable Walking Pad with Incline</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#2dd4bf;">Foldable Walking Pad with Incline</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Slides under your bed · Incline setting</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Perfect for apartment living. Walk while working from home. Stores flat under the bed.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(45,212,191,0.6);">Amazon ↗</div>
           </div>
         </a>
 
         <!-- Adjustable Dumbbells -->
         <a href="https://www.amazon.com/gp/aw/d/B0FPRPCZDN/" target="_blank" rel="noopener"
-           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-           onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
+           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(45,212,191,0.35);border-left:4px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+           onmouseover="this.style.boxShadow='0 0 16px rgba(45,212,191,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">💪</span>
           <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Adjustable Dumbbell Set</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#2dd4bf;">Adjustable Dumbbell Set</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Multiple weights in one · Space efficient</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Replaces a full rack of dumbbells. Ideal for small spaces and home gyms.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(45,212,191,0.6);">Amazon ↗</div>
           </div>
         </a>
 
         <!-- Adjustable Bench -->
         <a href="https://www.amazon.com/dp/B07XTPLSPW" target="_blank" rel="noopener"
-           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-           onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
+           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(45,212,191,0.35);border-left:4px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+           onmouseover="this.style.boxShadow='0 0 16px rgba(45,212,191,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">🛋️</span>
           <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">3-Way Adjustable Workout Bench</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#2dd4bf;">3-Way Adjustable Workout Bench</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Foldable · Slides under bed · 3 positions</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Flat, incline, and decline. Folds flat and stores under the bed. Great with adjustable dumbbells.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(45,212,191,0.6);">Amazon ↗</div>
           </div>
         </a>
 
         <!-- Vibration Plate -->
         <a href="https://www.amazon.com/dp/B0H496PQRM" target="_blank" rel="noopener"
-           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
-           onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
+           style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(45,212,191,0.35);border-left:4px solid #2dd4bf;text-decoration:none;transition:box-shadow 0.2s;"
+           onmouseover="this.style.boxShadow='0 0 16px rgba(45,212,191,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">📳</span>
           <div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Vibration Plate</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#2dd4bf;">Vibration Plate</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Whole body vibration · Lymphatic support</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Low impact. Can be used while standing, stretching, or doing light exercises. Good complement to peptide recovery protocols.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(45,212,191,0.6);">Amazon ↗</div>
           </div>
         </a>
 
@@ -4543,20 +4513,20 @@ document.addEventListener('keydown', function(e){
 
       <!-- HOME FITNESS GUIDES — dropdown -->
       <div style="margin-top:1.5rem;">
-        <details style="background:#020d07;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;">
+        <details style="background:#020d07;border:1px solid rgba(45,212,191,0.3);border-left:4px solid #2dd4bf;">
           <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
             <div style="display:flex;align-items:center;gap:0.75rem;">
               <span style="font-size:1.5rem;">🏋️</span>
               <div>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:#00ff64;">Home Gym Visual Guides</div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:#2dd4bf;">Home Gym Visual Guides</div>
                 <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(200,255,210,0.7);margin-top:0.15rem;">Equipment guide + Home Fitness Guide — click to expand</div>
               </div>
             </div>
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00ff64;flex-shrink:0;">▼</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#2dd4bf;flex-shrink:0;">▼</span>
           </summary>
-          <div style="padding:1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
-            <div style="background:#031209;border:2px solid rgba(0,255,100,0.4);border-left:5px solid #00ff64;padding:0.85rem 1.1rem;margin-bottom:1.25rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#00ff64;margin-bottom:0.3rem;">🛒 Here's How to Buy Them</div>
+          <div style="padding:1.25rem;border-top:1px solid rgba(45,212,191,0.15);">
+            <div style="background:#031209;border:2px solid rgba(45,212,191,0.4);border-left:5px solid #2dd4bf;padding:0.85rem 1.1rem;margin-bottom:1.25rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#2dd4bf;margin-bottom:0.3rem;">🛒 Here's How to Buy Them</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,255,210,0.85);line-height:1.65;">All 5 pieces of equipment are linked directly on Amazon above — scroll up to the green equipment cards. Buy one at a time as your budget allows. You don't need everything at once. 😊</div>
             </div>
           </div>

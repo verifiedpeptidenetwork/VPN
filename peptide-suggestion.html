@@ -597,8 +597,10 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
 
   var overlay = document.getElementById('auth-gate-overlay');
+  var vaultUnlocked = false;
+  try { vaultUnlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
   onAuthStateChanged(auth, function(user){
-    if (user) {
+    if (user || vaultUnlocked) {
       overlay.style.display = 'none';
     } else {
       window.location.href = 'access.html';

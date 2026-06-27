@@ -926,11 +926,16 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   }
 
   var overlay = document.getElementById('auth-gate-overlay');
+  var vaultUnlocked = false;
+  try { vaultUnlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
   onAuthStateChanged(auth, function(user){
     if (user) {
       overlay.style.display = 'none';
       window.PMD_UID = user.uid;
       pmdCloudLoad(user.uid);
+    } else if (vaultUnlocked) {
+      overlay.style.display = 'none';
+      if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker(null);
     } else {
       window.location.href = 'access.html';
     }
