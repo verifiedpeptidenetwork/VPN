@@ -5805,6 +5805,133 @@ document.addEventListener('keydown', function(e){
 
 
 
+    <!-- ══ VPN HERO ══════════════════════════════════════════ -->
+    <style>
+      @keyframes heroGlow {
+        0%,100% { filter: drop-shadow(0 0 18px #ff2d78) drop-shadow(0 0 40px rgba(255,45,120,0.45)) drop-shadow(0 0 80px rgba(0,245,255,0.2)); }
+        50%      { filter: drop-shadow(0 0 28px #00f5ff) drop-shadow(0 0 60px rgba(0,245,255,0.55)) drop-shadow(0 0 100px rgba(255,45,120,0.2)); }
+      }
+      @keyframes heroRingPulse {
+        0%,100% { opacity:0.55; transform:scale(1); }
+        50%      { opacity:0.85; transform:scale(1.04); }
+      }
+      @keyframes heroTitleFlicker {
+        0%,100%,95% { opacity:1; text-shadow:0 0 18px #ff2d78,0 0 40px rgba(255,45,120,0.6),0 0 80px rgba(255,45,120,0.3); }
+        96%          { opacity:0.88; text-shadow:none; }
+      }
+      @keyframes heroCyanPulse {
+        0%,100% { text-shadow:0 0 14px #00f5ff,0 0 30px rgba(0,245,255,0.55); }
+        50%      { text-shadow:0 0 28px #00f5ff,0 0 60px rgba(0,245,255,0.8),0 0 100px rgba(0,245,255,0.35); }
+      }
+      @keyframes heroLineSlide {
+        0%   { width:0; opacity:0; }
+        100% { width:120px; opacity:1; }
+      }
+      .vpn-hero-wrap {
+        position:relative;
+        text-align:center;
+        padding:1.6rem 1rem 1.4rem;
+        margin-bottom:1.4rem;
+        overflow:hidden;
+      }
+      .vpn-hero-ring {
+        position:absolute;
+        top:50%; left:50%;
+        transform:translate(-50%,-50%);
+        width:310px; height:310px;
+        border-radius:50%;
+        background:conic-gradient(from 0deg,#ff2d78,#cc44ff,#00f5ff,#00ff88,#ff2d78);
+        opacity:0.18;
+        filter:blur(28px);
+        animation:heroRingPulse 3.5s ease-in-out infinite;
+        pointer-events:none;
+        z-index:0;
+      }
+      .vpn-hero-logo {
+        position:relative;
+        z-index:1;
+        width:220px;
+        height:220px;
+        object-fit:contain;
+        animation:heroGlow 3.5s ease-in-out infinite;
+        display:block;
+        margin:0 auto 0.6rem;
+      }
+      .vpn-hero-title {
+        position:relative;
+        z-index:1;
+        font-family:'Bebas Neue',sans-serif;
+        font-size:2.2rem;
+        letter-spacing:0.18em;
+        color:#ff2d78;
+        animation:heroTitleFlicker 6s ease-in-out infinite;
+        line-height:1.05;
+        margin-bottom:0.2rem;
+      }
+      .vpn-hero-sub {
+        position:relative;
+        z-index:1;
+        font-family:'Bebas Neue',sans-serif;
+        font-size:1.05rem;
+        letter-spacing:0.22em;
+        color:#00f5ff;
+        animation:heroCyanPulse 3.5s ease-in-out infinite;
+        margin-bottom:0.8rem;
+      }
+      .vpn-hero-divider {
+        position:relative;
+        z-index:1;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:0.75rem;
+        margin:0 auto 0.6rem;
+      }
+      .vpn-hero-divider span {
+        display:block;
+        height:1.5px;
+        width:120px;
+        background:linear-gradient(90deg,transparent,#ff2d78 60%,transparent);
+        animation:heroLineSlide 1.2s ease-out both;
+      }
+      .vpn-hero-divider span:last-child {
+        transform:scaleX(-1);
+      }
+      .vpn-hero-diamond {
+        color:#ff2d78;
+        font-size:0.7rem;
+        filter:drop-shadow(0 0 6px #ff2d78);
+      }
+      .vpn-hero-tags {
+        position:relative;
+        z-index:1;
+        font-family:'Rajdhani',sans-serif;
+        font-size:0.78rem;
+        font-weight:700;
+        letter-spacing:0.13em;
+        color:rgba(255,255,255,0.38);
+      }
+      @media (min-width:640px) {
+        .vpn-hero-logo { width:270px; height:270px; }
+        .vpn-hero-title { font-size:2.8rem; }
+        .vpn-hero-ring { width:380px; height:380px; }
+      }
+    </style>
+
+    <div class="vpn-hero-wrap">
+      <div class="vpn-hero-ring"></div>
+      <img src="VPNLOGO_nobg.png" alt="Verified Peptide Network" class="vpn-hero-logo">
+      <div class="vpn-hero-title">VERIFIED PEPTIDE NETWORK</div>
+      <div class="vpn-hero-sub">PIN &amp; PRAY &mdash; WE PIN WE PRAY</div>
+      <div class="vpn-hero-divider">
+        <span></span>
+        <span class="vpn-hero-diamond">◆</span>
+        <span></span>
+      </div>
+      <div class="vpn-hero-tags">RESEARCH PURITY &nbsp;·&nbsp; PERFORMANCE &nbsp;·&nbsp; RESEARCH ONLY &nbsp;·&nbsp; NOT FOR HUMAN CONSUMPTION</div>
+    </div>
+    <!-- ══ END VPN HERO ══════════════════════════════════════ -->
+
     <!-- RETA UNFILTERED — DAVID'S OTHER PLATFORMS -->
     <div style="max-width:520px;margin:0 auto 1.5rem;background:#0d0518;border:1.5px solid rgba(204,68,255,0.45);box-shadow:0 0 20px rgba(180,0,255,0.2);padding:1.25rem 1.4rem;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#cc44ff;text-shadow:0 0 10px rgba(180,0,255,0.5);margin-bottom:0.35rem;">📡 RETA UNFILTERED · DAVID'S PLATFORMS</div>
