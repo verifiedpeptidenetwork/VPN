@@ -767,6 +767,8 @@
   /* === VIEWS === */
   .view { display: none; }
   .view.active { display: block; position: relative; z-index: 3; transition: opacity 0.25s; }
+  #view-quick-guide, #view-cheatsheets, #view-studies, #view-workouts,
+  #view-about, #view-contact, #view-intel-feed { background: #04000f !important; min-height: 100vh; }
   #view-quick-guide { max-width: none; }
 
   /* === VIEW HERO BANNER === */
@@ -1748,7 +1750,7 @@
     position: absolute;
     inset: -18px;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, #ff2d78, #cc44ff, #00e5ff, #00ff64, #9d00ff, #ff2d78);
+    background: conic-gradient(from 0deg, #ff0080, #9d00ff, #00f5ff, #9d00ff, #ff0080);
     animation: logoRingSpin 6s linear infinite;
     filter: blur(14px);
     opacity: 0.6;
@@ -1760,7 +1762,7 @@
     position: absolute;
     inset: -8px;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, #ff2d78, #cc44ff, #00e5ff, #00ff64, #9d00ff, #ff2d78);
+    background: conic-gradient(from 0deg, #ff0080, #9d00ff, #00f5ff, #9d00ff, #ff0080);
     animation: logoRingSpin 6s linear infinite;
     z-index: 1;
   }
@@ -4269,6 +4271,18 @@ document.addEventListener('keydown', function(e){
 
 
 
+            <!-- Muscle Loss Data Images -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.85rem;">
+              <div style="cursor:zoom-in;" onclick="openLightbox('MUSCLELOSSDATA.PNG','Retatrutide: Why Muscle Loss Data Doesn\'t Match Real Life')" title="Click to zoom">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff0080;margin-bottom:4px;">💪 RETATRUTIDE MUSCLE LOSS DATA</div>
+                <img loading="lazy" src="MUSCLELOSSDATA.PNG" alt="Retatrutide Muscle Loss Data" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,0,128,0.4);">
+              </div>
+              <div style="cursor:zoom-in;" onclick="openLightbox('GLP1MUSCLEDATA.PNG','New GLP-1 Data Changed the Muscle Loss Story')" title="Click to zoom">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#00f5ff;margin-bottom:4px;">🧬 GLP-1 MUSCLE DATA — NEW RESEARCH</div>
+                <img loading="lazy" src="GLP1MUSCLEDATA.PNG" alt="GLP-1 Muscle Loss Data" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(0,245,255,0.4);">
+              </div>
+            </div>
+
             <p style="font-size:0.82rem;color:rgba(255,180,120,0.55);margin:1rem 0 0;font-style:italic;">For research use only. Not medical advice. Not for human consumption. Consult a licensed physician before any protocol. Your kangaroo agrees.</p>
           </div>
         </details>
@@ -5389,21 +5403,21 @@ document.addEventListener('keydown', function(e){
       #docvid-cta { width:100%; justify-content:center; }
     }
   </style>
-  <div id="vpn-docvid-promo" style="margin:0 0 1rem;width:100%;box-sizing:border-box;background:#000;border:2px solid rgba(255,107,0,0.55);border-top:4px solid #ff6b00;border-radius:10px;overflow:hidden;box-shadow:0 0 40px rgba(255,107,0,0.2),0 0 80px rgba(180,0,255,0.08);">
+  <div id="vpn-docvid-promo" style="margin:0 0 1rem;width:100%;box-sizing:border-box;background:#04000f;border:2px solid rgba(157,0,255,0.55);border-top:4px solid #9d00ff;border-radius:10px;overflow:hidden;box-shadow:0 0 40px rgba(157,0,255,0.2),0 0 80px rgba(0,245,255,0.08);">
 
     <!-- header bar -->
-    <div id="docvid-header" style="padding:0.85rem 1.25rem;background:linear-gradient(90deg,rgba(255,107,0,0.15),rgba(180,0,255,0.08),transparent);border-bottom:1px solid rgba(255,107,0,0.2);display:flex;align-items:center;gap:0.85rem;flex-wrap:wrap;">
+    <div id="docvid-header" style="padding:0.85rem 1.25rem;background:linear-gradient(90deg,rgba(157,0,255,0.15),rgba(0,245,255,0.08),transparent);border-bottom:1px solid rgba(157,0,255,0.2);display:flex;align-items:center;gap:0.85rem;flex-wrap:wrap;">
       <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
-        <div id="docvid-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:#ff6b00;text-shadow:0 0 14px rgba(255,107,0,0.7);line-height:1.1;">DOCTOR &amp; RESEARCHER VIDEO LIBRARY</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(255,200,150,0.5);letter-spacing:0.1em;margin-top:2px;">EDUCATIONAL REFERENCE ONLY · NOT MEDICAL ADVICE</div>
+        <div id="docvid-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.18em;color:#9d00ff;text-shadow:0 0 14px rgba(157,0,255,0.7);line-height:1.1;">DOCTOR &amp; RESEARCHER VIDEO LIBRARY</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(200,180,255,0.5);letter-spacing:0.1em;margin-top:2px;">EDUCATIONAL REFERENCE ONLY · NOT MEDICAL ADVICE</div>
       </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;padding:3px 10px;border:1.5px solid #ff6b00;color:#ff6b00;background:rgba(255,107,0,0.1);border-radius:3px;flex-shrink:0;">▶ FREE ACCESS</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;padding:3px 10px;border:1.5px solid #9d00ff;color:#9d00ff;background:rgba(157,0,255,0.1);border-radius:3px;flex-shrink:0;">▶ FREE ACCESS</span>
     </div>
 
     <!-- doctor roster -->
     <div id="docvid-roster">
-      <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#ff6b00;">
-        <span style="width:6px;height:6px;border-radius:50%;background:#ff6b00;flex-shrink:0;box-shadow:0 0 6px #ff6b00;"></span>Dr. Michael Mueller
+      <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#ff0080;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#ff0080;flex-shrink:0;box-shadow:0 0 6px #ff0080;"></span>Dr. Michael Mueller
       </div>
       <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#cc44ff;">
         <span style="width:6px;height:6px;border-radius:50%;background:#cc44ff;flex-shrink:0;box-shadow:0 0 6px #cc44ff;"></span>Dr. Rick Pescatore
@@ -5417,8 +5431,8 @@ document.addEventListener('keydown', function(e){
       <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#00ff64;">
         <span style="width:6px;height:6px;border-radius:50%;background:#00ff64;flex-shrink:0;box-shadow:0 0 6px #00ff64;"></span>Dr. Greg Jones, NMD
       </div>
-      <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#ff6b00;">
-        <span style="width:6px;height:6px;border-radius:50%;background:#ff6b00;flex-shrink:0;box-shadow:0 0 6px #ff6b00;"></span>Dr. Jones, DC
+      <div style="display:flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.07em;color:#9d00ff;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#9d00ff;flex-shrink:0;box-shadow:0 0 6px #9d00ff;"></span>Dr. Jones, DC
       </div>
     </div>
 
@@ -5427,7 +5441,7 @@ document.addEventListener('keydown', function(e){
       <div id="docvid-desc" style="font-family:'Rajdhani',sans-serif;font-size:0.93rem;font-weight:600;color:rgba(255,200,160,0.75);line-height:1.65;margin-bottom:0.85rem;">
         Curated video library from licensed physicians, researchers, and scientists covering peptides, metabolic health, hormones, and performance — the most credible educational content available in one place.
       </div>
-      <button id="docvid-cta" onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'));window.scrollTo({top:0,behavior:'smooth'});" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.7rem 1.4rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;color:#000;background:#ff6b00;border:2px solid #ff6b00;border-radius:5px;cursor:pointer;box-shadow:0 0 22px rgba(255,107,0,0.55);transition:box-shadow 0.2s,transform 0.15s;" onmouseover="this.style.boxShadow='0 0 38px rgba(255,107,0,0.9)';this.style.transform='scale(1.03)'" onmouseout="this.style.boxShadow='0 0 22px rgba(255,107,0,0.55)';this.style.transform='scale(1)'">
+      <button id="docvid-cta" onclick="showView('videos');setActiveNav(document.querySelector('[onclick*=videos]'));window.scrollTo({top:0,behavior:'smooth'});" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.7rem 1.4rem;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.18em;color:#fff;background:rgba(157,0,255,0.2);border:2px solid #9d00ff;border-radius:5px;cursor:pointer;box-shadow:0 0 22px rgba(157,0,255,0.55);transition:box-shadow 0.2s,transform 0.15s;" onmouseover="this.style.boxShadow='0 0 38px rgba(157,0,255,0.9)';this.style.transform='scale(1.03)'" onmouseout="this.style.boxShadow='0 0 22px rgba(157,0,255,0.55)';this.style.transform='scale(1)'">
         ▶ OPEN DOCTOR VIDEO LIBRARY
       </button>
     </div>
@@ -9064,7 +9078,7 @@ document.addEventListener('keydown', function(e){
 </div>
 </div>
 <div class="view" id="view-quick-guide">
-  <div class="view-hero" style="--vh1:#ff6b00;--vh2:#ff2d95;background:linear-gradient(135deg,rgba(255,107,0,0.07) 0%,rgba(4,0,13,0.98) 50%,rgba(255,45,149,0.04) 100%);">
+  <div class="view-hero" style="--vh1:#9d00ff;--vh2:#00f5ff;background:linear-gradient(135deg,rgba(157,0,255,0.07) 0%,rgba(4,0,13,0.98) 50%,rgba(0,245,255,0.04) 100%);">
     <div class="vh-inner">
       <div class="vh-icon">🛠</div>
       <div>
@@ -11444,6 +11458,24 @@ document.addEventListener('keydown', function(e){
           </div>
           <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/WOLVERINE.png','The Wolverine Stack — BPC-157, TB-500, KPV, AOD-9604, GHK-Cu')">
             <img loading="lazy" src="cheatsheet/WOLVERINE.png" alt="The Wolverine Stack" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          </div>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">Wolverine Stack — Science Data</div>
+            <a href="WOLVERINESTACKDATA.PNG" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox('WOLVERINESTACKDATA.PNG','The Wolverine Stack — BPC-157 + TB4 Research Data')">
+            <img loading="lazy" src="WOLVERINESTACKDATA.PNG" alt="Wolverine Stack Research Data" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          </div>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-purple);overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-purple);">Tesa Guide — New</div>
+            <a href="tesaguidenew.PNG" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-purple);color:var(--neon-purple);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox('tesaguidenew.PNG','Tesa Guide — New Research Reference')">
+            <img loading="lazy" src="tesaguidenew.PNG" alt="Tesa Guide New" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
           </div>
         </div>
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;">
