@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RN — Price Finder</title>
+<title>VPN — Price Finder</title>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -26,7 +26,7 @@
   #gate.hidden{display:none}
   #gate h1{
     font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:.15em;
-    background:linear-gradient(90deg,#c9c9e8,#9b30ff);
+    background:linear-gradient(90deg,#00F5FF,#FF2D78);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   }
   #gate input{
@@ -36,17 +36,17 @@
   }
   #gate button{
     padding:.7rem 2rem;border-radius:5px;border:none;cursor:pointer;
-    background:linear-gradient(90deg,#9b30ff,#9B30FF);
+    background:linear-gradient(90deg,#FF2D78,#9B30FF);
     color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;
     font-weight:700;letter-spacing:.12em;
   }
-  #gate .gate-err{color:#9b30ff;font-size:.85rem;min-height:1rem}
+  #gate .gate-err{color:#FF2D78;font-size:.85rem;min-height:1rem}
   #gate .gate-logo{
     width:52px;height:52px;border-radius:50%;
-    background:linear-gradient(135deg,#9B30FF,#9b30ff);
+    background:linear-gradient(135deg,#9B30FF,#FF2D78);
     display:flex;align-items:center;justify-content:center;
     font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#fff;
-    box-shadow:0 0 24px #9b30ff88;margin-bottom:.5rem;
+    box-shadow:0 0 24px #FF2D7888;margin-bottom:.5rem;
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,7 +56,7 @@
 
 <!-- ADMIN GATE -->
 <div id="gate">
-  <div class="gate-logo">RN</div>
+  <div class="gate-logo">VPN</div>
   <h1>ADMIN ACCESS</h1>
   <input id="gate-input" type="password" placeholder="Enter code" maxlength="20"
     onkeydown="if(event.key==='Enter')checkGate()">
@@ -64,42 +64,94 @@
   <div class="gate-err" id="gate-err"></div>
 </div>
 
-<div id="pin-gate" class="hidden">
-  <div class="gate-logo">RN</div>
-  <h1>SHOP PIN</h1>
-  <input id="pin-gate-input" type="password" placeholder="Enter PIN" maxlength="20"
-    onkeydown="if(event.key==='Enter')checkPinGate()">
-  <button onclick="checkPinGate()">ENTER</button>
-  <div class="gate-err" id="pin-gate-err"></div>
+<!-- MUST READ BANNER — shown after gate unlocks -->
+<div id="must-read-banner" style="display:none;max-width:900px;margin:1.5rem auto;padding:0 1rem;">
+
+  <!-- Main warning -->
+  <div style="border:2px solid #ff6b00;background:linear-gradient(135deg,#120500,#0a0200);border-radius:10px;overflow:hidden;margin-bottom:1rem;box-shadow:0 0 30px rgba(255,107,0,0.35);">
+    <div style="padding:0.9rem 1.2rem;background:linear-gradient(90deg,rgba(255,107,0,0.15),transparent);display:flex;align-items:center;gap:0.75rem;border-bottom:1px solid rgba(255,107,0,0.25);">
+      <svg width="28" height="28" viewBox="0 0 32 32" style="flex-shrink:0;filter:drop-shadow(0 0 8px #ff6b00);"><polygon points="16,2 30,28 2,28" fill="rgba(255,107,0,0.15)" stroke="#ff6b00" stroke-width="2.5" stroke-linejoin="round"/><text x="16" y="24" text-anchor="middle" font-size="15" font-weight="900" fill="#ff6b00" font-family="Arial,sans-serif">!</text></svg>
+      <span style="font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ff6b00;flex:1;">MUST READ BEFORE ANY RESEARCH</span>
+      <span style="font-family:'Orbitron',sans-serif;font-size:0.65rem;padding:3px 10px;border:1.5px solid #ff6b00;color:#ff6b00;border-radius:3px;">⚠ WARNING</span>
+    </div>
+    <div style="padding:1rem 1.2rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(255,220,180,0.9);line-height:1.75;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+
+      <!-- Blindness -->
+      <div style="padding:0.8rem 1rem;background:rgba(255,107,0,0.07);border:1px solid rgba(255,107,0,0.3);border-left:4px solid #ff6b00;border-radius:7px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:0.72rem;color:#ff6b00;margin-bottom:0.5rem;letter-spacing:0.1em;">👁 BLINDNESS — THE REAL PICTURE</div>
+        Headlines say GLP causes blindness. This only applies to people who already have <strong style="color:#ff9966;">diabetic retinopathy or diabetic neuropathy</strong>. No diabetic neuropathy? This headline does not apply to you. Improving metabolic health through research may actually <em>reduce</em> that risk long-term.
+      </div>
+
+      <!-- Cancer -->
+      <div style="padding:0.8rem 1rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.3);border-left:4px solid #ff2d78;border-radius:7px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:0.72rem;color:#ff2d78;margin-bottom:0.5rem;letter-spacing:0.1em;">☣ CANCER — WHAT THEY ARE NOT TELLING YOU</div>
+        The thyroid cancer concern applies <em>only</em> to people with a personal or family history of <strong style="color:#ff9966;">Medullary Thyroid Carcinoma (MTC)</strong> or <strong style="color:#ff9966;">MEN2</strong>. Observed in rodents only at supraphysiological doses. No confirmed causal link in the general human population.
+      </div>
+
+      <!-- Blood work -->
+      <div style="padding:0.8rem 1rem;background:rgba(0,60,25,0.85);border:1px solid rgba(0,255,100,0.4);border-left:4px solid #00ff64;border-radius:7px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:0.72rem;color:#00ff64;margin-bottom:0.5rem;letter-spacing:0.1em;">🩸 BLOOD WORK FIRST — NON-NEGOTIABLE</div>
+        Before your pet kangaroo begins any protocol: <strong style="color:#fff;">CBC · CMP · HbA1c · Fasting Insulin · Lipid Panel · TSH · Free T3/T4 · AST/ALT · Creatinine/eGFR · Full Hormone Panel.</strong> You cannot know if something is working without baseline numbers.
+      </div>
+
+      <!-- Gray market -->
+      <div style="padding:0.8rem 1rem;background:rgba(255,230,0,0.06);border:1px solid rgba(255,230,0,0.35);border-left:4px solid #ffe600;border-radius:7px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:0.72rem;color:#ffe600;margin-bottom:0.5rem;letter-spacing:0.1em;">⚠ GRAY MARKET RISKS</div>
+        No regulatory oversight. Purity not guaranteed. Legal gray area — know your jurisdiction. Always verify CoA from a named accredited lab (HPLC/MS). Start low. Blood work before and after. Never source from anonymous Telegram strangers.
+      </div>
+    </div>
+  </div>
+
+  <!-- Fake vendor fraud card -->
+  <details style="border:1px solid rgba(255,45,120,0.4);background:rgba(12,0,6,0.95);border-left:4px solid #ff2d78;border-radius:8px;overflow:hidden;margin-bottom:1.5rem;">
+    <summary style="cursor:pointer;list-style:none;padding:0.75rem 1.1rem;font-family:'Orbitron',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#ff2d78;display:flex;align-items:center;gap:0.7rem;">
+      🚨 <span style="flex:1;">HOW TO SPOT FAKE VENDORS + COA SCAMS — EXPAND</span> <span style="font-size:0.65rem;padding:2px 8px;border:1px solid #ff2d78;border-radius:3px;">READ THIS</span>
+    </summary>
+    <div style="padding:0.75rem 1.1rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(255,200,220,0.88);line-height:1.7;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem 0.9rem;margin-bottom:0.75rem;">
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 Hidden shipping fee after payment</strong>Any vendor who contacts you after payment asking for an extra customs, insurance, or release fee is running a scam. Cut contact immediately.</div>
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 CoA with no accredited lab name</strong>A real CoA lists the testing lab (not the vendor), assay method (HPLC/MS), lot number, and date. A PDF with just a logo and "99% purity" is fabricated.</div>
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 No community history</strong>Trusted vendors have years of verifiable reviews on Reddit (r/Peptides) and forums. New accounts with perfect reviews are planted. No history = red flag.</div>
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 Prices too far below market</strong>BPC-157 at $8 or Tirzepatide at $20 means underdosed, mislabeled, or counterfeit. Legitimate synthesis costs real money.</div>
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 Crypto-only, no receipt</strong>Designed to make disputes impossible. Legitimate vendors issue order confirmations and accept multiple payment methods.</div>
+        <div style="padding:0.5rem 0.8rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 Telegram DM "insider deals"</strong>Unsolicited DMs offering exclusive peptides or direct-from-lab prices are overwhelmingly scams. Real vendors do not cold-message researchers.</div>
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(0,255,100,0.06);border:1px solid rgba(0,255,100,0.25);border-radius:5px;font-size:0.85rem;color:rgba(200,255,210,0.85);">
+        <strong style="color:#00ff64;">Green flags:</strong> Publicly posted CoA links from named third-party labs · Active community reputation spanning 2+ years · Responsive support before you pay · Clear reship policy · Transparent checkout pricing · No pressure tactics.
+      </div>
+    </div>
+  </details>
 </div>
+
+<script>
+// Show must-read banner after gate passes
+var _origRenderShop = window.renderShop;
+document.addEventListener('DOMContentLoaded', function(){
+  var origCheck = window.checkGate;
+  // patch: also show banner when gate passes
+  window._showMustRead = function(){
+    var b = document.getElementById('must-read-banner');
+    if(b) b.style.display = 'block';
+  };
+});
+</script>
 
 <div id="root"></div>
 
 <script>
-const SHOP_PIN = '1439';
 function checkGate(){
   const v=document.getElementById('gate-input').value.trim();
   if(v==='gabby'){
     document.getElementById('gate').classList.add('hidden');
-    document.getElementById('pin-gate').classList.remove('hidden');
-    document.getElementById('pin-gate-input').focus();
-  } else {
-    document.getElementById('gate-err').textContent='Invalid code.';
-    document.getElementById('gate-input').value='';
-  }
-}
-function checkPinGate(){
-  const v=document.getElementById('pin-gate-input').value.trim();
-  if(v===SHOP_PIN){
-    document.getElementById('pin-gate').classList.add('hidden');
+    var b=document.getElementById('must-read-banner');if(b)b.style.display='block';
     // Babel compiles text/babel scripts async — retry until renderShop is ready
     (function tryRender(n){
       if(typeof window.renderShop==='function'){ window.renderShop(); }
       else if(n>0){ setTimeout(function(){ tryRender(n-1); },80); }
     })(30);
   } else {
-    document.getElementById('pin-gate-err').textContent='Invalid PIN.';
-    document.getElementById('pin-gate-input').value='';
+    document.getElementById('gate-err').textContent='Invalid code.';
+    document.getElementById('gate-input').value='';
   }
 }
 document.getElementById('gate-input').focus();
@@ -109,14 +161,14 @@ document.getElementById('gate-input').focus();
 const { useState, useMemo, useEffect } = React;
 
 const C = {
-  hotPink:"#9b30ff", cyan:"#c9c9e8", purple:"#9B30FF", orange:"#FF6B1A",
+  hotPink:"#FF2D78", cyan:"#00F5FF", purple:"#9B30FF", orange:"#FF6B1A",
   darkBg:"#07060F", panelBg:"#0D0B1E", cardBg:"#110F22",
   border:"#1E1A38", textMain:"#F0EEFF", textMuted:"#6B5F9E",
 };
 
 const VENDOR_COLORS = {
-  "Mia":"#9b30ff","Sophie":"#FF6B1A","Becky":"#FFD700",
-  "InnoPeptide":"#c9c9e8","MarvelPep":"#9B30FF",
+  "Mia":"#FF2D78","Sophie":"#FF6B1A","Becky":"#FFD700",
+  "InnoPeptide":"#00F5FF","MarvelPep":"#9B30FF",
   "Lilly Peptide":"#FF4DC4","Bio Peptides":"#00FFB0","Peptide Lab":"#F5A623",
   "MKM":"#00FFCC","swite2610":"#E1306C","KR":"#4ADE80","USWarehouse":"#3B82F6",
 };
@@ -362,46 +414,46 @@ const css = `
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#07060F}
 .vpn-app{font-family:'Rajdhani',sans-serif;background:#07060F;min-height:100vh;color:#F0EEFF;position:relative;overflow-x:hidden}
-.vpn-app::before{content:'';position:fixed;bottom:0;left:0;right:0;height:45vh;background:linear-gradient(transparent 0%,rgba(201,201,232,0.04) 100%),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(201,201,232,0.07) 40px,rgba(201,201,232,0.07) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,201,232,0.07) 40px,rgba(201,201,232,0.07) 41px);transform:perspective(300px) rotateX(40deg);transform-origin:bottom center;pointer-events:none;z-index:0}
-.vpn-header{background:linear-gradient(180deg,#0D0B1E 0%,rgba(13,11,30,0.95) 100%);border-bottom:1px solid #9b30ff44;padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 0 30px #9b30ff22}
+.vpn-app::before{content:'';position:fixed;bottom:0;left:0;right:0;height:45vh;background:linear-gradient(transparent 0%,rgba(0,245,255,0.04) 100%),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,245,255,0.07) 40px,rgba(0,245,255,0.07) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,245,255,0.07) 40px,rgba(0,245,255,0.07) 41px);transform:perspective(300px) rotateX(40deg);transform-origin:bottom center;pointer-events:none;z-index:0}
+.vpn-header{background:linear-gradient(180deg,#0D0B1E 0%,rgba(13,11,30,0.95) 100%);border-bottom:1px solid #FF2D7844;padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 0 30px #FF2D7822}
 .vpn-header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;flex-wrap:wrap}
 .vpn-logo{display:flex;align-items:center;gap:10px}
-.vpn-badge{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9B30FF,#9b30ff);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;color:#fff;box-shadow:0 0 16px #9b30ff88,0 0 32px #9B30FF44;flex-shrink:0}
+.vpn-badge{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9B30FF,#FF2D78);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;color:#fff;box-shadow:0 0 16px #FF2D7888,0 0 32px #9B30FF44;flex-shrink:0}
 .vpn-title{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;line-height:1.2}
-.vpn-title-top{background:linear-gradient(90deg,#c9c9e8,#9b30ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.vpn-title-top{background:linear-gradient(90deg,#00F5FF,#FF2D78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
 .vpn-title-sub{font-size:10px;font-weight:700;color:#FF6B1A;letter-spacing:2px;-webkit-text-fill-color:#FF6B1A}
 .vpn-back{padding:6px 14px;border-radius:4px;border:1px solid #1E1A38;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;background:transparent;color:#6B5F9E;text-decoration:none;display:flex;align-items:center;gap:6px}
-.vpn-back:hover{border-color:#c9c9e844;color:#c9c9e8}
+.vpn-back:hover{border-color:#00F5FF44;color:#00F5FF}
 .vpn-tabs{display:flex;gap:6px}
 .vpn-tab{padding:7px 14px;border-radius:4px;border:1px solid #1E1A38;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;transition:all .15s;background:transparent;color:#6B5F9E;position:relative;overflow:hidden}
-.vpn-tab.active{border-color:#9b30ff;color:#9b30ff;background:#9b30ff11;box-shadow:0 0 12px #9b30ff44}
-.vpn-badge-count{display:inline-block;margin-left:5px;background:#9b30ff;color:#fff;border-radius:99px;padding:0 5px;font-size:9px;line-height:1.6;vertical-align:middle}
+.vpn-tab.active{border-color:#FF2D78;color:#FF2D78;background:#FF2D7811;box-shadow:0 0 12px #FF2D7844}
+.vpn-badge-count{display:inline-block;margin-left:5px;background:#FF2D78;color:#fff;border-radius:99px;padding:0 5px;font-size:9px;line-height:1.6;vertical-align:middle}
 .vpn-main{max-width:900px;margin:0 auto;padding:18px 14px 60px;position:relative;z-index:1}
 .vpn-search-wrap{position:relative;margin-bottom:20px}
-.vpn-search{width:100%;padding:13px 16px 13px 42px;border-radius:6px;border:1px solid #c9c9e855;background:#0D0B1E;color:#F0EEFF;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s}
-.vpn-search:focus{border-color:#c9c9e8;box-shadow:0 0 0 2px #c9c9e822,0 0 20px #c9c9e822}
+.vpn-search{width:100%;padding:13px 16px 13px 42px;border-radius:6px;border:1px solid #00F5FF55;background:#0D0B1E;color:#F0EEFF;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;outline:none;transition:border-color .2s,box-shadow .2s}
+.vpn-search:focus{border-color:#00F5FF;box-shadow:0 0 0 2px #00F5FF22,0 0 20px #00F5FF22}
 .vpn-search::placeholder{color:#6B5F9E}
-.vpn-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#c9c9e8;font-size:16px;pointer-events:none}
+.vpn-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#00F5FF;font-size:16px;pointer-events:none}
 .vpn-cat-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:24px}
 .vpn-cat-label span{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:#FF6B1A;text-transform:uppercase}
 .vpn-cat-line{flex:1;height:1px;background:linear-gradient(90deg,#FF6B1A44,transparent)}
 .vpn-card{background:#110F22;border:1px solid #1E1A38;border-radius:6px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;gap:10px;transition:border-color .15s,box-shadow .15s;position:relative;overflow:hidden}
-.vpn-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--vc,#9b30ff);opacity:0;transition:opacity .15s}
-.vpn-card.in-cart{border-color:#c9c9e866;box-shadow:0 0 14px #c9c9e818}
+.vpn-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--vc,#FF2D78);opacity:0;transition:opacity .15s}
+.vpn-card.in-cart{border-color:#00F5FF66;box-shadow:0 0 14px #00F5FF18}
 .vpn-card.in-cart::before{opacity:1}
 .vpn-card-info{flex:1;min-width:0}
 .vpn-card-name{font-size:14px;font-weight:700;color:#F0EEFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.3px}
 .vpn-card-spec{font-size:12px;color:#6B5F9E;margin-top:1px}
 .vpn-vendor-pill{display:inline-block;margin-top:5px;border-radius:3px;padding:2px 7px;font-size:10px;font-weight:700;font-family:'Orbitron',sans-serif;letter-spacing:.5px;border:1px solid var(--vc);color:var(--vc);background:color-mix(in srgb,var(--vc) 12%,transparent)}
-.vpn-price{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:#c9c9e8;text-shadow:0 0 12px #c9c9e888;flex-shrink:0}
-.vpn-add-btn{padding:7px 13px;border-radius:4px;border:1px solid #9b30ff;background:transparent;color:#9b30ff;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;flex-shrink:0}
-.vpn-add-btn:hover{background:#9b30ff22;box-shadow:0 0 10px #9b30ff44}
-.vpn-add-btn.added{border-color:#c9c9e8;color:#c9c9e8;background:#c9c9e811}
+.vpn-price{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:#00F5FF;text-shadow:0 0 12px #00F5FF88;flex-shrink:0}
+.vpn-add-btn{padding:7px 13px;border-radius:4px;border:1px solid #FF2D78;background:transparent;color:#FF2D78;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.vpn-add-btn:hover{background:#FF2D7822;box-shadow:0 0 10px #FF2D7844}
+.vpn-add-btn.added{border-color:#00F5FF;color:#00F5FF;background:#00F5FF11}
 .vpn-vendor-block{margin-bottom:18px}
 .vpn-vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .vpn-vendor-name{display:flex;align-items:center;gap:8px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#F0EEFF;letter-spacing:1px}
 .vpn-vendor-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px var(--vc);background:var(--vc);flex-shrink:0}
-.vpn-vendor-sub{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#c9c9e8;text-shadow:0 0 8px #c9c9e888}
+.vpn-vendor-sub{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#00F5FF;text-shadow:0 0 8px #00F5FF88}
 .vpn-cart-panel{background:#110F22;border:1px solid #1E1A38;border-radius:6px;overflow:hidden}
 .vpn-cart-row{padding:10px 13px;display:flex;align-items:center;gap:10px}
 .vpn-cart-row+.vpn-cart-row{border-top:1px solid #07060F}
@@ -409,18 +461,18 @@ body{background:#07060F}
 .vpn-cart-row-name{font-size:13px;font-weight:700;color:#F0EEFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vpn-cart-row-spec{font-size:11px;color:#6B5F9E}
 .vpn-qty{width:46px;padding:5px 4px;border-radius:4px;border:1px solid #1E1A38;background:#07060F;color:#F0EEFF;font-family:'Orbitron',sans-serif;font-size:12px;text-align:center;outline:none}
-.vpn-row-price{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#c9c9e8;min-width:48px;text-align:right;text-shadow:0 0 8px #c9c9e866}
+.vpn-row-price{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#00F5FF;min-width:48px;text-align:right;text-shadow:0 0 8px #00F5FF66}
 .vpn-remove{background:none;border:none;cursor:pointer;color:#6B5F9E;font-size:18px;line-height:1;padding:2px 4px;transition:color .15s}
-.vpn-remove:hover{color:#9b30ff}
-.neon-divider{height:1px;background:linear-gradient(90deg,transparent,#9b30ff66,#c9c9e866,transparent);margin:6px 0 18px}
-.vpn-total-panel{background:#0D0B1E;border:1px solid #9b30ff44;border-radius:6px;padding:16px;margin-top:10px;box-shadow:0 0 24px #9b30ff18}
+.vpn-remove:hover{color:#FF2D78}
+.neon-divider{height:1px;background:linear-gradient(90deg,transparent,#FF2D7866,#00F5FF66,transparent);margin:6px 0 18px}
+.vpn-total-panel{background:#0D0B1E;border:1px solid #FF2D7844;border-radius:6px;padding:16px;margin-top:10px;box-shadow:0 0 24px #FF2D7818}
 .vpn-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .vpn-total-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#6B5F9E;letter-spacing:2px}
-.vpn-total-amount{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;background:linear-gradient(90deg,#c9c9e8,#9b30ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.vpn-total-amount{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;background:linear-gradient(90deg,#00F5FF,#FF2D78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .vpn-copy-btn{width:100%;padding:14px;border-radius:5px;border:none;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:900;letter-spacing:2px;transition:all .2s}
-.vpn-copy-btn.idle{background:linear-gradient(90deg,#9b30ff,#9B30FF);color:#fff;box-shadow:0 0 20px #9b30ff66,0 0 40px #9B30FF33}
-.vpn-copy-btn.idle:hover{box-shadow:0 0 30px #9b30ff88,0 0 60px #9B30FF44;transform:translateY(-1px)}
-.vpn-copy-btn.done{background:linear-gradient(90deg,#00c97a,#c9c9e8);color:#000;box-shadow:0 0 20px #c9c9e866}
+.vpn-copy-btn.idle{background:linear-gradient(90deg,#FF2D78,#9B30FF);color:#fff;box-shadow:0 0 20px #FF2D7866,0 0 40px #9B30FF33}
+.vpn-copy-btn.idle:hover{box-shadow:0 0 30px #FF2D7888,0 0 60px #9B30FF44;transform:translateY(-1px)}
+.vpn-copy-btn.done{background:linear-gradient(90deg,#00c97a,#00F5FF);color:#000;box-shadow:0 0 20px #00F5FF66}
 .vpn-hint{font-size:11px;color:#6B5F9E;text-align:center;margin-top:8px;font-family:'Rajdhani',sans-serif}
 .vpn-empty{text-align:center;padding:60px 20px}
 .vpn-empty-icon{font-size:42px;margin-bottom:12px}
@@ -497,7 +549,7 @@ function VPNPeptideShop() {
 
   const copyOrder = () => {
     if (!cart.length) return;
-    let lines = ["🔒 RN PEPTIDE ORDER\nResearch Network\n"];
+    let lines = ["🔒 VPN PEPTIDE ORDER\nVerified Peptides Network\n"];
     Object.entries(cartByVendor).forEach(([vendor, items]) => {
       lines.push(`📦 ${vendor.toUpperCase()}`);
       items.forEach(i => lines.push(`  • ${i.product} ${i.spec}${i.qty > 1 ? ` x${i.qty}` : ""} — $${i.price * i.qty}`));
@@ -513,7 +565,7 @@ function VPNPeptideShop() {
   const copyVendorOrder = (vendor, items) => {
     const sub = items.reduce((s,i) => s + i.price * i.qty, 0);
     const contact = VENDOR_CONTACTS[vendor];
-    let lines = [`🔒 RN ORDER — ${vendor.toUpperCase()}`, "Research Network\n"];
+    let lines = [`🔒 VPN ORDER — ${vendor.toUpperCase()}`, "Verified Peptides Network\n"];
     items.forEach(i => lines.push(`• ${i.product} ${i.spec}${i.qty > 1 ? ` x${i.qty}` : ""} — $${i.price * i.qty}`));
     lines.push(`\nTotal: $${sub}`);
     if (contact?.telegram) lines.push(`\nSend to: ${contact.telegram}`);
@@ -528,7 +580,7 @@ function VPNPeptideShop() {
       <header className="vpn-header">
         <div className="vpn-header-inner">
           <div className="vpn-logo">
-            <div className="vpn-badge">RN</div>
+            <div className="vpn-badge">VPN</div>
             <div className="vpn-title">
               <div className="vpn-title-top">VERIFIED PEPTIDES</div>
               <div className="vpn-title-sub">PRICE FINDER</div>
@@ -563,7 +615,7 @@ function VPNPeptideShop() {
                   <div className="vpn-cat-line" />
                 </div>
                 {items.map((item, i) => {
-                  const vc = VENDOR_COLORS[item.lowest] || "#9b30ff";
+                  const vc = VENDOR_COLORS[item.lowest] || "#FF2D78";
                   const added = inCart(item);
                   return (
                     <div key={i} className={`vpn-card ${added?"in-cart":""}`} style={{"--vc":vc}}>
@@ -620,7 +672,7 @@ function VPNPeptideShop() {
                     )}
                     {v.phone && (
                       <a href={`tel:${v.phone}`}
-                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #c9c9e888",background:"#c9c9e815",color:"#c9c9e8",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
+                        style={{display:"inline-flex",alignItems:"center",gap:"5px",padding:"6px 12px",borderRadius:"4px",border:"1px solid #00F5FF88",background:"#00F5FF15",color:"#00F5FF",fontSize:"11px",fontFamily:"'Orbitron',sans-serif",fontWeight:700,textDecoration:"none"}}>
                         📞 {v.phone}
                       </a>
                     )}
@@ -654,7 +706,7 @@ function VPNPeptideShop() {
             ) : (
               <>
                 {Object.entries(cartByVendor).map(([vendor, items]) => {
-                  const vc = VENDOR_COLORS[vendor] || "#9b30ff";
+                  const vc = VENDOR_COLORS[vendor] || "#FF2D78";
                   const sub = items.reduce((s,i)=>s+i.price*i.qty,0);
                   return (
                     <div key={vendor} className="vpn-vendor-block">
@@ -737,18 +789,37 @@ function renderShop() {
 }
 window.renderShop = renderShop;
 </script>
-<button id="vpn-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:24px;right:20px;width:50px;height:50px;border-radius:50%;background:rgba(201,201,232,0.12);border:2px solid #c9c9e8;color:#c9c9e8;font-size:1.5rem;line-height:1;cursor:pointer;z-index:99999;display:none;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(201,201,232,0.45);backdrop-filter:blur(4px);transition:opacity 0.2s,transform 0.2s;">↑</button>
+<button onclick="document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);" title="Back to top" style="position:fixed;bottom:1.4rem;right:1.4rem;z-index:2147483647;width:52px;height:52px;border-radius:50%;border:2px solid #00f5ff;background:rgba(0,8,28,0.96);color:#00f5ff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18);transition:transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18)';">↑</button>
 <script>
 (function(){
-  var btn = document.getElementById('vpn-back-to-top');
-  if(!btn) return;
-  function toggle(){ btn.style.display = (window.scrollY > 400) ? 'flex' : 'none'; }
-  window.addEventListener('scroll', toggle, {passive:true});
-  toggle();
-  btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
-  btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
+  var dummy = null; // old scroll handler removed
 })();
 </script>
 
+<!-- GLOBAL TYPOGRAPHY — READABILITY UPDATE -->
+<style>
+  body { font-size:16px !important; line-height:1.6; }
+  p { font-size:1rem; line-height:1.6; margin-bottom:0.75rem; }
+  li { font-size:1rem; line-height:1.6; }
+  td, th { font-size:0.95rem; line-height:1.5; }
+  .dir-card-desc, [class*="desc"], [class*="-body"] { font-size:1rem !important; line-height:1.6 !important; }
+  .dir-card-title, [class*="-title"] { font-size:1.4rem !important; }
+  @media(max-width:768px){ body { font-size:16px !important; } p, li { font-size:1rem !important; } }
+</style>
+<style id="vpn-font-boost">
+  html { font-size: 19px !important; }
+  body { font-size: 19px !important; line-height: 1.75 !important; }
+  p, li, td, th, label, input, select, textarea, button, .dir-card-desc, .vpn-news-body, .qa-item, .pct-desc { font-size: 1rem !important; line-height: 1.75 !important; }
+  h1, .h1 { font-size: 2.2rem !important; }
+  h2, .h2 { font-size: 1.85rem !important; }
+  h3, .h3, .dir-card-title { font-size: 1.55rem !important; }
+  h4, .h4 { font-size: 1.3rem !important; }
+  .dir-card-desc { font-size: 1.05rem !important; }
+  .vpn-news-title { font-size: 1.1rem !important; }
+  .vpn-news-body { font-size: 1rem !important; }
+  small, .small, .sub, .footnote { font-size: 0.88rem !important; }
+</style>
+<!-- BACK TO TOP -->
+<script>(function(){var b=document.createElement('button');b.innerHTML='&#9650;';b.title='Back to top';b.setAttribute('style','display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:2147483647;width:50px;height:50px;border-radius:50%;border:2px solid rgba(0,245,255,0.8);background:rgba(4,0,20,0.95);color:#00f5ff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2);transition:transform 0.2s,box-shadow 0.2s;align-items:center;justify-content:center;');b.onclick=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);;};b.onmouseover=function(){this.style.transform='scale(1.15)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';};b.onmouseout=function(){this.style.transform='scale(1)';this.style.boxShadow='0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2)';};document.body.appendChild(b);function upd(){var s=(window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop)>150;b.style.display=s?'flex':'none';}window.addEventListener('scroll',upd,{passive:true});upd();})();</script>
 </body>
 </html>

@@ -8,7 +8,6 @@
 <style>
   :root { --pink:#ff2d78; --cyan:#00f5ff; --green:#00ff64; --purple:#cc44ff; --dark:#050012; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  @media (min-width:1024px) { html { zoom:0.75; } }
   html, body { width:100%; min-height:100vh; overflow-x:hidden; }
   body {
     font-family:'Rajdhani',sans-serif; font-weight:600;
@@ -74,7 +73,8 @@
   }
   .ln-hero-logo {
     position:relative; z-index:1;
-    width:180px; height:180px; object-fit:contain;
+    width:180px; height:180px; object-fit:cover;
+    border-radius:50%;
     animation:lnGlow 4s ease-in-out infinite;
     display:block; margin:0 auto 0.75rem;
   }
@@ -113,8 +113,13 @@
   /* ── LAYOUT ──────────────────────────────────────────────── */
   .ln-wrap {
     position:relative; z-index:1;
-    max-width:780px; width:100%; margin:0 auto;
-    padding:0 1rem 3rem;
+    width:100%; max-width:1400px; margin:0 auto;
+    padding:0 2rem 3rem;
+  }
+  @media(min-width:1024px) {
+    .ln-cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.85rem; }
+    .ln-cards-grid .vpn-news-card { margin-bottom:0; }
+    .ln-cards-wide { grid-column:1/-1; }
   }
 
   /* ── CATEGORY DIVIDER ────────────────────────────────────── */
@@ -145,10 +150,9 @@
   .vpn-news-badge {
     flex-shrink:0; font-family:'Bebas Neue',sans-serif; font-size:0.75rem;
     letter-spacing:0.08em; padding:3px 9px; border-radius:3px;
-    font-weight:900; white-space:nowrap;
-    animation:vpnNewsPulse 2.4s ease-in-out infinite;
+    font-weight:900; white-space:nowrap; -webkit-text-fill-color:currentColor;
   }
-  .vpn-news-icon { font-size:1.45rem; flex-shrink:0; filter:drop-shadow(0 0 6px var(--nt,#ff2d78)); }
+  .vpn-news-icon { display:none; }
   .vpn-news-title { font-family:'Bebas Neue',sans-serif; font-size:0.97rem; letter-spacing:0.06em; color:var(--nt,#ff2d78); line-height:1.25; flex:1; }
   .vpn-news-arrow { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; color:var(--nt,#ff2d78); opacity:0.6; flex-shrink:0; transition:transform 0.2s; }
   details.vpn-news-card[open] .vpn-news-arrow { transform:rotate(180deg); }
@@ -179,18 +183,18 @@
 
 <nav class="ln-nav">
   <a href="home.html">← Back to VPN</a>
-  <span class="ln-nav-title">📡 VPN Latest News</span>
+  <span class="ln-nav-title">VPN LATEST NEWS</span>
 </nav>
 
 <!-- ══ HERO ════════════════════════════════════════════════════ -->
 <div class="ln-hero">
   <div class="ln-hero-ring"></div>
-  <img src="VPNLOGO_nobg.png" alt="VPN Logo" class="ln-hero-logo">
+  <img src="ruivpnlogo.png?v=1" alt="VPN Logo" class="ln-hero-logo">
   <div class="ln-hero-stripe"></div>
   <div class="ln-hero-title">LATEST NEWS</div>
   <div class="ln-hero-sub">PEPTIDE RESEARCH · CLINICAL DATA · FIELD TOOLS</div>
   <div class="ln-hero-stats">
-    <div class="ln-stat"><span class="ln-stat-num" style="color:#00ff64;">11</span><span class="ln-stat-label">UPDATES</span></div>
+    <div class="ln-stat"><span class="ln-stat-num" style="color:#00ff64;">13</span><span class="ln-stat-label">UPDATES</span></div>
     <div class="ln-stat"><span class="ln-stat-num" style="color:#ff2d78;">2026</span><span class="ln-stat-label">LATEST</span></div>
     <div class="ln-stat"><span class="ln-stat-num" style="color:#00f5ff;">LIVE</span><span class="ln-stat-label">RESEARCH</span></div>
   </div>
@@ -200,9 +204,12 @@
 
   <!-- ── CATEGORY: RESEARCH UPDATES ─────────────────────────── -->
   <div class="ln-cat">
-    <span class="ln-cat-label" style="color:#00ff64;border-color:#00ff64;background:rgba(0,255,100,0.08);">🔬 RESEARCH UPDATES</span>
+    <span class="ln-cat-label" style="color:#00ff64;border-color:#00ff64;background:rgba(0,255,100,0.08);">RESEARCH UPDATES</span>
     <div class="ln-cat-line" style="background:#00ff64;"></div>
   </div>
+
+  <!-- ══ RESEARCH UPDATES ══ -->
+  <div class="ln-cards-grid">
 
   <!-- NEWS ITEM: KPV Self-Targeting Gut Peptide -->
   <details class="vpn-news-card" style="--nt:#00ff64;--ng:rgba(0,255,100,0.4);--nb:rgba(0,255,100,0.4);">
@@ -275,11 +282,56 @@
     </div>
   </details>
 
+  <!-- NEWS ITEM: PP405 Hair Growth -->
+  <details class="vpn-news-card" style="--nt:#cc44ff;--ng:rgba(204,68,255,0.4);--nb:rgba(204,68,255,0.4);">
+    <summary class="vpn-news-summary">
+      <span class="vpn-news-icon">💈</span>
+      <span class="vpn-news-badge" style="background:#cc44ff;color:#fff;">NEW</span>
+      <span class="vpn-news-title">PP405 — Hair Follicle Stem Cell Reactivator Moving Toward Late-Stage Trials</span>
+      <span class="vpn-news-arrow">▼</span>
+    </summary>
+    <div class="vpn-news-body">
+      <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-bottom:0.75rem;">
+        <a href="https://www.dermatologytimes.com/view/reactivating-the-follicle-pp405-moves-toward-late-stage-trials-for-alopecia" target="_blank" rel="noopener" style="color:#cc44ff;text-decoration:none;font-weight:700;">Dermatology Times</a> &nbsp;·&nbsp; 2026 &nbsp;·&nbsp;
+        <a href="https://pelagepharma.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:underline;font-size:0.78rem;">Pelage Pharmaceuticals ↗</a>
+      </div>
+      <div style="color:rgba(255,255,255,0.85);margin-bottom:0.9rem;line-height:1.7;">
+        <strong style="color:#cc44ff;">PP405</strong> is an investigational topical small-molecule drug developed by <strong style="color:#fff;">Pelage Pharmaceuticals</strong> to treat hair loss by reactivating dormant hair follicle stem cells. Not yet FDA-approved or commercially available as a prescription medication.
+      </div>
+      <div style="background:rgba(204,68,255,0.06);border:1px solid rgba(204,68,255,0.2);border-left:3px solid #cc44ff;border-radius:6px;padding:0.85rem 1rem;margin-bottom:0.9rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:#cc44ff;margin-bottom:0.5rem;">🔬 HOW PP405 WORKS</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.6;">
+          <div><strong style="color:#fff;">Cellular mechanism:</strong> Inhibits the mitochondrial pyruvate carrier (MPC) to trigger a metabolic shift in resting hair follicles.</div>
+          <div><strong style="color:#fff;">Growth stimulation:</strong> Signals dormant stem cells to re-enter the proliferative growth phase (anagen).</div>
+          <div><strong style="color:#fff;">Target delivery:</strong> Formulated as a topical treatment designed to avoid systemic absorption — works locally at the follicle level.</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.2);border-left:3px solid #ffb800;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.9rem;font-size:0.88rem;color:rgba(255,220,150,0.85);line-height:1.6;">
+        ⚠ <strong style="color:#ffb800;">NOTE:</strong> Unrelated over-the-counter scalp serums using the "PP405" name have appeared online (including Amazon). These are <strong style="color:#fff;">not the same compound</strong> as the Pelage Pharmaceuticals investigational drug. The pharmaceutical PP405 is not commercially available.
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.85rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;">
+        <span style="padding:0.2rem 0.6rem;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.3);color:#cc44ff;border-radius:4px;">Hair Loss / Alopecia</span>
+        <span style="padding:0.2rem 0.6rem;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.3);color:#cc44ff;border-radius:4px;">Stem Cell Reactivation</span>
+        <span style="padding:0.2rem 0.6rem;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.3);color:#cc44ff;border-radius:4px;">MPC Inhibitor</span>
+        <span style="padding:0.2rem 0.6rem;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.3);color:#cc44ff;border-radius:4px;">Topical</span>
+        <span style="padding:0.2rem 0.6rem;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.3);color:#cc44ff;border-radius:4px;">Late-Stage Trials</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <a href="https://www.dermatologytimes.com/view/reactivating-the-follicle-pp405-moves-toward-late-stage-trials-for-alopecia" target="_blank" rel="noopener" style="color:#cc44ff;font-weight:700;font-size:0.88rem;text-decoration:underline;">📰 Dermatology Times — PP405 Moves Toward Late-Stage Trials ↗</a>
+        <a href="https://pelagepharma.com/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.45);font-size:0.85rem;text-decoration:underline;">🔗 Pelage Pharmaceuticals (Developer) ↗</a>
+      </div>
+    </div>
+  </details>
+
+  </div><!-- /ln-cards-grid RESEARCH -->
+
   <!-- ── CATEGORY: BREAKING ──────────────────────────────────── -->
-  <div class="ln-cat">
-    <span class="ln-cat-label" style="color:#ff2d78;border-color:#ff2d78;background:rgba(255,45,120,0.08);">🚨 BREAKING</span>
+  <div class="ln-cat" style="margin-top:2rem;">
+    <span class="ln-cat-label" style="color:#ff2d78;border-color:#ff2d78;background:rgba(255,45,120,0.08);">BREAKING</span>
     <div class="ln-cat-line" style="background:#ff2d78;"></div>
   </div>
+
+  <div class="ln-cards-grid">
 
   <!-- NEWS ITEM: Eloralintide + Tirzepatide -->
   <details class="vpn-news-card" style="--nt:#cc44ff;--ng:rgba(180,0,255,0.4);--nb:rgba(180,0,255,0.4);">
@@ -318,11 +370,15 @@
     </div>
   </details>
 
+  </div><!-- /ln-cards-grid BREAKING -->
+
   <!-- ── CATEGORY: GUIDES & PROTOCOLS ───────────────────────── -->
-  <div class="ln-cat">
-    <span class="ln-cat-label" style="color:#ff2d78;border-color:#ff2d78;background:rgba(255,45,120,0.08);">📋 GUIDES & PROTOCOLS</span>
+  <div class="ln-cat" style="margin-top:2rem;">
+    <span class="ln-cat-label" style="color:#ff2d78;border-color:#ff2d78;background:rgba(255,45,120,0.08);">GUIDES & PROTOCOLS</span>
     <div class="ln-cat-line" style="background:#ff2d78;"></div>
   </div>
+
+  <div class="ln-cards-grid">
 
   <!-- NEWS ITEM: Tirz <> Reta Switching Guide -->
   <details class="vpn-news-card" style="--nt:#ff2d78;--ng:rgba(255,45,120,0.4);--nb:rgba(255,45,120,0.4);">
@@ -394,6 +450,7 @@
   <details class="vpn-news-card" style="--nt:#ff2d78;--ng:rgba(255,45,120,0.4);--nb:rgba(255,45,120,0.4);">
     <summary class="vpn-news-summary">
       <span class="vpn-news-icon">🛡️</span>
+      <span class="vpn-news-badge" style="background:#ff2d78;color:#fff;">GUIDE</span>
       <span class="vpn-news-title">Peptides for Long-COVID? — Larazotide &amp; Leaky Gut</span>
       <span class="vpn-news-arrow">▼</span>
     </summary>
@@ -420,34 +477,15 @@
     </div>
   </details>
 
+  </div><!-- /ln-cards-grid GUIDES -->
+
   <!-- ── CATEGORY: RESOURCES ─────────────────────────────────── -->
-  <div class="ln-cat">
-    <span class="ln-cat-label" style="color:#cc44ff;border-color:#cc44ff;background:rgba(180,0,255,0.08);">📚 RESOURCES</span>
+  <div class="ln-cat" style="margin-top:2rem;">
+    <span class="ln-cat-label" style="color:#cc44ff;border-color:#cc44ff;background:rgba(180,0,255,0.08);">RESOURCES & TOOLS</span>
     <div class="ln-cat-line" style="background:#cc44ff;"></div>
   </div>
 
-  <!-- NEWS ITEM: Janoshik Lab Testing Videos -->
-  <details class="vpn-news-card" style="--nt:#cc44ff;--ng:rgba(180,0,255,0.4);--nb:rgba(180,0,255,0.4);">
-    <summary class="vpn-news-summary">
-      <span class="vpn-news-icon">🧪</span>
-      <span class="vpn-news-badge" style="background:#cc44ff;color:#fff;">IMPORTANT</span>
-      <span class="vpn-news-title">Janoshik — Peptide Lab Testing Videos</span>
-      <span class="vpn-news-arrow">▼</span>
-    </summary>
-    <div class="vpn-news-body">
-      <div style="color:rgba(255,255,255,0.85);margin-bottom:0.85rem;">
-        Peter Magic, the founder of Janoshik — the gold standard of peptide testing — talks sterility testing, heavy metals, endotoxins, and how to spot a fake COA.
-      </div>
-      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:4px;overflow:hidden;margin-bottom:0.4rem;">
-        <iframe src="https://www.youtube.com/embed/shgk3-u51Ys" title="Janoshik Interview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-      </div>
-      <a href="https://www.youtube.com/watch?v=shgk3-u51Ys" target="_blank" rel="noopener" style="display:block;margin-bottom:1rem;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#cc44ff;text-decoration:none;">▶ Janoshik Interview — Peter Magic ↗</a>
-      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:4px;overflow:hidden;margin-bottom:0.4rem;">
-        <iframe src="https://www.youtube.com/embed/7M5BUWXo5w4" title="How a Peptide Lab Test Works" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-      </div>
-      <a href="https://www.youtube.com/watch?v=7M5BUWXo5w4" target="_blank" rel="noopener" style="display:block;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#cc44ff;text-decoration:none;">▶ How A Peptide Lab Test Works ↗</a>
-    </div>
-  </details>
+  <div class="ln-cards-grid">
 
   <!-- NEWS ITEM: Peptides Bible -->
   <details class="vpn-news-card" style="--nt:#ff2d78;--ng:rgba(255,45,120,0.4);--nb:rgba(255,45,120,0.4);">
@@ -485,6 +523,28 @@
     </div>
   </details>
 
+  <!-- NEWS ITEM: VPN PDF Guide -->
+  <details class="vpn-news-card ln-cards-wide" style="--nt:#ff2d78;--ng:rgba(255,45,120,0.4);--nb:rgba(255,45,120,0.4);">
+    <summary class="vpn-news-summary">
+      <span class="vpn-news-icon">📕</span>
+      <span class="vpn-news-badge" style="background:#ff2d78;color:#fff;">DOWNLOAD</span>
+      <span class="vpn-news-title">Peptide VPN Guide — 82-Page All-in-One PDF Now Available</span>
+      <span class="vpn-news-arrow">▼</span>
+    </summary>
+    <div class="vpn-news-body">
+      <div style="color:rgba(255,255,255,0.85);margin-bottom:1rem;line-height:1.7;">
+        The <strong style="color:#ff2d78;">Peptide VPN Guide</strong> is now live as a single downloadable PDF. It combines three complete guides into one 82-page searchable document:
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.1rem;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.93rem;font-weight:700;color:#fff;"><strong style="color:#ff2d78;">Part 1</strong> — Complete Peptide Reference: 80+ compounds with dosing, protocols, stacks, pinned studies, and blood work markers.</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.93rem;font-weight:700;color:#fff;"><strong style="color:#cc44ff;">Part 2</strong> — Storage &amp; Shelf Life Guide: Lyophilized vs reconstituted stability, temperature ranges, solvent selection (BAC water vs acetic acid), freeze-thaw rules.</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.93rem;font-weight:700;color:#fff;"><strong style="color:#00f5ff;">Part 3</strong> — Reconstitution Guide: Step-by-step per-peptide instructions with exact solvents, concentration math, warnings, and storage after reconstitution.</div>
+      </div>
+      <a href="../Peptide_VPN_Guide.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.6rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;padding:0.75rem 1.5rem;border:2px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(255,45,120,0.1);border-radius:6px;box-shadow:0 0 20px rgba(255,45,120,0.2);">📥 DOWNLOAD PDF GUIDE ↗</a>
+      <div style="margin-top:0.85rem;font-size:0.8rem;color:rgba(255,255,255,0.35);font-style:italic;">⚠ For research and educational purposes only. Not medical advice.</div>
+    </div>
+  </details>
+
   <!-- NEWS ITEM: Crypto Guides -->
   <details class="vpn-news-card" style="--nt:#ffe600;--ng:rgba(255,230,0,0.4);--nb:rgba(255,230,0,0.4);">
     <summary class="vpn-news-summary">
@@ -506,6 +566,39 @@
       </div>
     </div>
   </details>
+
+  </div><!-- /ln-cards-grid RESOURCES -->
+
+  <!-- ── JANOSHIK STANDALONE ───────────────────────────────────── -->
+  <div style="margin-top:2rem;">
+    <details style="width:100%;box-sizing:border-box;border:2px solid rgba(180,0,255,0.6);background:linear-gradient(135deg,#0a000f,#050010,#0d0008);border-radius:10px;overflow:hidden;box-shadow:0 0 32px rgba(180,0,255,0.25);">
+      <div style="height:3px;background:linear-gradient(90deg,#cc44ff,#ff2d78,#cc44ff);background-size:300% 100%;animation:newsStripe 2.5s linear infinite;"></div>
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.14em;color:#cc44ff;display:flex;align-items:center;gap:0.75rem;text-shadow:0 0 14px rgba(180,0,255,0.8);list-style:none;">
+        <span>JANOSHIK — PEPTIDE LAB TESTING VIDEOS</span>
+        <span style="margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.14em;padding:3px 10px;border:1.5px solid #cc44ff;color:#cc44ff;background:rgba(180,0,255,0.12);border-radius:3px;">MUST WATCH</span>
+      </summary>
+      <div style="padding:0 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:0.97rem;font-weight:600;color:rgba(255,220,255,0.88);line-height:1.75;">
+        <p style="margin:0.85rem 0 1rem;color:rgba(255,200,255,0.8);">Peter Magic, the founder of Janoshik — the gold standard of independent peptide testing — breaks down sterility testing, heavy metals, endotoxins, and exactly how to spot a fake COA. Required watching before buying from any vendor.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div>
+            <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:6px;overflow:hidden;margin-bottom:0.5rem;">
+              <iframe src="https://www.youtube.com/embed/shgk3-u51Ys" title="Janoshik Interview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=shgk3-u51Ys" target="_blank" rel="noopener" style="display:block;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#cc44ff;text-decoration:none;">▶ Janoshik Interview — Peter Magic ↗</a>
+          </div>
+          <div>
+            <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:6px;overflow:hidden;margin-bottom:0.5rem;">
+              <iframe src="https://www.youtube.com/embed/7M5BUWXo5w4" title="How a Peptide Lab Test Works" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=7M5BUWXo5w4" target="_blank" rel="noopener" style="display:block;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#cc44ff;text-decoration:none;">▶ How A Peptide Lab Test Works ↗</a>
+          </div>
+        </div>
+        <div style="margin-top:1rem;padding:0.65rem 1rem;background:rgba(180,0,255,0.07);border:1px solid rgba(180,0,255,0.3);border-left:4px solid #cc44ff;border-radius:6px;font-size:0.87rem;color:rgba(220,180,255,0.85);">
+          <strong style="color:#cc44ff;">Why Janoshik matters:</strong> Independent third-party lab testing is the only way to verify purity, identity, and sterility of gray market peptides. A real COA from Janoshik includes HPLC/MS method, lot number, test date, and sterility results — all verifiable directly on their site.
+        </div>
+      </div>
+    </details>
+  </div>
 
   <!-- ── FOOTER ─────────────────────────────────────────────── -->
   <div class="ln-footer">

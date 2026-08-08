@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -597,10 +597,8 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
 
   var overlay = document.getElementById('auth-gate-overlay');
-  var vaultUnlocked = false;
-  try { vaultUnlocked = sessionStorage.getItem('pinUnlocked') === '1'; } catch(e) {}
   onAuthStateChanged(auth, function(user){
-    if (user || vaultUnlocked) {
+    if (user) {
       overlay.style.display = 'none';
     } else {
       window.location.href = 'access.html';
@@ -1473,18 +1471,37 @@ function copyShoppingText(){
 
 </script>
 
-<button id="vpn-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:24px;right:20px;width:50px;height:50px;border-radius:50%;background:rgba(201,201,232,0.12);border:2px solid #c9c9e8;color:#c9c9e8;font-size:1.5rem;line-height:1;cursor:pointer;z-index:99999;display:none;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(201,201,232,0.45);backdrop-filter:blur(4px);transition:opacity 0.2s,transform 0.2s;">↑</button>
+<button onclick="document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);" title="Back to top" style="position:fixed;bottom:1.4rem;right:1.4rem;z-index:2147483647;width:52px;height:52px;border-radius:50%;border:2px solid #00f5ff;background:rgba(0,8,28,0.96);color:#00f5ff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18);transition:transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18)';">↑</button>
 <script>
 (function(){
-  var btn = document.getElementById('vpn-back-to-top');
-  if(!btn) return;
-  function toggle(){ btn.style.display = (window.scrollY > 400) ? 'flex' : 'none'; }
-  window.addEventListener('scroll', toggle, {passive:true});
-  toggle();
-  btn.addEventListener('mouseover', function(){ btn.style.boxShadow='0 0 28px rgba(201,201,232,0.7)'; btn.style.transform='translateY(-2px)'; });
-  btn.addEventListener('mouseout', function(){ btn.style.boxShadow='0 0 18px rgba(201,201,232,0.45)'; btn.style.transform='translateY(0)'; });
+  var dummy = null;
 })();
 </script>
 
+<!-- GLOBAL TYPOGRAPHY — READABILITY UPDATE -->
+<style>
+  body { font-size:16px !important; line-height:1.6; }
+  p { font-size:1rem; line-height:1.6; margin-bottom:0.75rem; }
+  li { font-size:1rem; line-height:1.6; }
+  td, th { font-size:0.95rem; line-height:1.5; }
+  .dir-card-desc, [class*="desc"], [class*="-body"] { font-size:1rem !important; line-height:1.6 !important; }
+  .dir-card-title, [class*="-title"] { font-size:1.4rem !important; }
+  @media(max-width:768px){ body { font-size:16px !important; } p, li { font-size:1rem !important; } }
+</style>
+<style id="vpn-font-boost">
+  html { font-size: 19px !important; }
+  body { font-size: 19px !important; line-height: 1.75 !important; }
+  p, li, td, th, label, input, select, textarea, button, .dir-card-desc, .vpn-news-body, .qa-item, .pct-desc { font-size: 1rem !important; line-height: 1.75 !important; }
+  h1, .h1 { font-size: 2.2rem !important; }
+  h2, .h2 { font-size: 1.85rem !important; }
+  h3, .h3, .dir-card-title { font-size: 1.55rem !important; }
+  h4, .h4 { font-size: 1.3rem !important; }
+  .dir-card-desc { font-size: 1.05rem !important; }
+  .vpn-news-title { font-size: 1.1rem !important; }
+  .vpn-news-body { font-size: 1rem !important; }
+  small, .small, .sub, .footnote { font-size: 0.88rem !important; }
+</style>
+<!-- BACK TO TOP -->
+<script>(function(){var b=document.createElement('button');b.innerHTML='&#9650;';b.title='Back to top';b.setAttribute('style','display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:2147483647;width:50px;height:50px;border-radius:50%;border:2px solid rgba(0,245,255,0.8);background:rgba(4,0,20,0.95);color:#00f5ff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2);transition:transform 0.2s,box-shadow 0.2s;align-items:center;justify-content:center;');b.onclick=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);;};b.onmouseover=function(){this.style.transform='scale(1.15)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';};b.onmouseout=function(){this.style.transform='scale(1)';this.style.boxShadow='0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2)';};document.body.appendChild(b);function upd(){var s=(window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop)>150;b.style.display=s?'flex':'none';}window.addEventListener('scroll',upd,{passive:true});upd();})();</script>
 </body>
 </html>

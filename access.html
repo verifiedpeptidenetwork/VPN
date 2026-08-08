@@ -3,555 +3,582 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RN Research Network | Access</title>
+<title>VPN · Verified Peptide Network | Access</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --pink: #9b30ff;
-    --cyan: #c9c9e8;
-    --yellow: #ffe600;
-    --orange: #ff6b00;
-    --purple: #9b30ff;
-    --dark: #050012;
-    --card: #0c0225;
-    --border: #1e0a3a;
-    --text: #ffffff;
-    --dim: rgba(232,224,240,0.55);
-  }
+/* ── TOKENS ── */
+:root {
+  --pink:   #ff2d78;
+  --cyan:   #00f5ff;
+  --purple: #9b30ff;
+  --dark:   #04000e;
+  --card:   #08011c;
+  --dim:    rgba(220,210,240,.5);
+  --text:   #f0eaff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── SCENE BG ── */
+body{
+  background:
+    radial-gradient(ellipse 140% 60% at 50% -5%, #1c0840 0%, #04000e 60%);
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; padding:2rem 1rem;
+}
 
-  html, body {
-    width: 100%;
-    min-height: 100vh;
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    overflow-x: hidden;
-  }
+/* grid lattice */
+.lattice{
+  position:fixed;inset:-10%;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,245,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,255,.05) 1px,transparent 1px);
+  background-size:52px 52px;
+  animation:latticeDrift 60s linear infinite;
+  mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);
+  -webkit-mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);
+}
+@keyframes latticeDrift{from{transform:translate(0,0);}to{transform:translate(-52px,-52px);}}
 
-  body {
-    background: radial-gradient(ellipse 100% 70% at 50% 0%, #120a22 0%, #04020a 60%, #000 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1rem;
-    min-height: 100vh;
-  }
+/* ambient orbs */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(1px);}
+.orb1{width:500px;height:500px;left:-10%;top:0;background:radial-gradient(circle,rgba(0,245,255,.18),transparent 70%);animation:orbFloat 24s ease-in-out infinite;}
+.orb2{width:600px;height:600px;right:-15%;bottom:-10%;background:radial-gradient(circle,rgba(255,45,120,.14),transparent 70%);animation:orbFloat 30s ease-in-out infinite;animation-delay:-8s;}
+.orb3{width:300px;height:300px;left:40%;top:5%;background:radial-gradient(circle,rgba(155,48,255,.2),transparent 70%);animation:orbFloat 20s ease-in-out infinite;animation-delay:-14s;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(25px,-20px) scale(1.06);}}
 
-  /* digital rain — falling glyph columns, not a sunset */
-  #rain-canvas { position: fixed; inset: 0; z-index: 0; opacity: .4; pointer-events: none; }
+/* scan beam */
+.scan-beam{
+  position:fixed;top:0;bottom:0;width:200px;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(0,245,255,.05),rgba(0,245,255,.1),rgba(0,245,255,.05),transparent);
+  animation:scanSweep 9s ease-in-out infinite;mix-blend-mode:screen;
+}
+@keyframes scanSweep{0%{left:-15%;}50%{left:110%;}100%{left:-15%;}}
 
-  /* radar sweep instead of a retro sun */
-  .radar {
-    position: fixed; left: 50%; top: 50%;
-    width: 900px; height: 900px; margin: -450px 0 0 -450px;
-    border-radius: 50%; pointer-events: none; z-index: 0;
-    border: 1px solid rgba(139,61,255,.08);
-  }
-  .radar::before, .radar::after {
-    content: ''; position: absolute; border-radius: 50%; border: 1px solid rgba(139,61,255,.08);
-  }
-  .radar::before { inset: 160px; }
-  .radar::after { inset: 320px; }
-  .radar-sweep {
-    position: fixed; left: 50%; top: 50%; width: 450px; height: 450px;
-    transform-origin: 0 0; pointer-events: none; z-index: 0;
-    background: conic-gradient(from 0deg, rgba(139,61,255,.22), transparent 35deg);
-    animation: radarSpin 6s linear infinite;
-  }
-  @keyframes radarSpin { to { transform: rotate(360deg); } }
+/* rising glyphs */
+.fragment{
+  position:fixed;z-index:0;pointer-events:none;
+  font-family:'Share Tech Mono',monospace;
+  color:rgba(0,245,255,.2);font-size:.7rem;letter-spacing:.1em;
+  animation:fragmentRise linear infinite;
+}
+@keyframes fragmentRise{
+  0%{transform:translateY(0);opacity:0;}
+  10%{opacity:.5;}90%{opacity:.5;}
+  100%{transform:translateY(-100vh);opacity:0;}
+}
 
-  /* MAIN PANEL — angular HUD console, split layout, no rounded rainbow card */
-  .panel {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 760px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 0;
-    background: linear-gradient(135deg, rgba(10,8,16,.92), rgba(4,2,10,.96));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(216,218,232,.14);
-    clip-path: polygon(0 18px, 18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
-    box-shadow: 0 0 60px rgba(139,61,255,.18), 0 30px 80px rgba(0,0,0,.8);
-    text-align: left;
-    overflow: hidden;
-  }
+/* ── LAYOUT SHELL — two-col desktop, stacked mobile ── */
+.shell{
+  position:relative;z-index:10;
+  width:100%;max-width:940px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  background:rgba(6,1,20,.82);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,245,255,.06),
+    0 0 120px rgba(255,45,120,.18),
+    0 40px 100px rgba(0,0,0,.8);
+}
 
-  /* corner HUD brackets instead of an animated gradient border */
-  .panel::before, .panel::after,
-  .hud-br1, .hud-br2 {
-    content: ''; position: absolute; width: 26px; height: 26px; pointer-events: none; z-index: 5;
-  }
-  .panel::before { top: -1px; left: -1px; border-top: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
-  .panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
-  .hud-br1 { top: -1px; right: -1px; border-top: 2px solid var(--pink); border-right: 2px solid var(--pink); }
-  .hud-br2 { bottom: -1px; left: -1px; border-bottom: 2px solid var(--pink); border-left: 2px solid var(--pink); }
+/* animated rainbow border */
+.shell::before{
+  content:'';position:absolute;inset:-1px;border-radius:28px;
+  background:linear-gradient(135deg,var(--cyan),var(--pink),var(--purple),var(--cyan));
+  background-size:300% 300%;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.4;animation:borderflow 7s linear infinite;z-index:-1;
+}
+@keyframes borderflow{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
 
-  .panel-left {
-    flex: 0 0 240px;
-    background: linear-gradient(135deg, rgba(139,61,255,.07), transparent);
-    border-right: 1px solid rgba(216,218,232,.1);
-    padding: 2.2rem 1.6rem;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-  }
-  .panel-right { flex: 1 1 360px; padding: 2.2rem 2rem; min-width: 280px; }
-  @media (max-width: 620px) {
-    .panel { max-width: 420px; }
-    .panel-left { flex: 1 1 100%; border-right: none; border-bottom: 1px solid rgba(216,218,232,.1); padding: 1.8rem 1.5rem 1.2rem; }
-    .panel-right { flex: 1 1 100%; padding: 1.6rem 1.6rem 2rem; }
-  }
+/* ── LEFT PANEL — logo showcase ── */
+.panel-left{
+  position:relative;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:3rem 2rem;
+  background:linear-gradient(160deg,rgba(0,245,255,.04) 0%,rgba(155,48,255,.06) 100%);
+  border-right:1px solid rgba(255,255,255,.06);
+  gap:1.4rem;
+}
 
-  /* BIG LOGO — hero centerpiece */
-  .logo-wrap {
-    margin: 0 auto 1rem;
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    border: 4px solid var(--cyan);
-    box-shadow: 0 0 32px rgba(201,201,232,.6), 0 0 70px rgba(255,107,0,.35), inset 0 0 24px rgba(201,201,232,.18);
-    overflow: hidden;
-    animation: spin 18s linear infinite;
-  }
-  .logo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; animation: unspin 18s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes unspin { to { transform: rotate(-360deg); } }
+.logo-stage{
+  position:relative;
+  width:220px;height:220px;
+  flex-shrink:0;
+}
+/* outer glow ring — stationary, just glows */
+.logo-stage::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--cyan),var(--pink),var(--purple),var(--cyan));
+  animation:ringRotate 8s linear infinite;z-index:0;
+  filter:blur(3px);opacity:.7;
+}
+/* inner dark gap */
+.logo-stage::after{
+  content:'';position:absolute;inset:-2px;border-radius:50%;
+  background:rgba(6,1,20,.9);z-index:1;
+}
+@keyframes ringRotate{to{transform:rotate(360deg);}}
+.logo-stage img{
+  position:absolute;inset:6px;
+  width:calc(100% - 12px);height:calc(100% - 12px);
+  object-fit:cover;border-radius:50%;z-index:2;
+  animation:logoFloat 6s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(0,245,255,.5)) drop-shadow(0 0 40px rgba(255,45,120,.35));
+}
+@keyframes logoFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 
-  .brand {
-    font-family: 'Orbitron', monospace;
-    font-size: .95rem;
-    font-weight: 900;
-    letter-spacing: .3em;
-    color: var(--cyan);
-    text-shadow: 0 0 14px var(--cyan);
-    margin-bottom: .35rem;
-  }
+.left-brand{text-align:center;}
+.left-brand-main{
+  font-family:'Orbitron',monospace;font-weight:900;
+  font-size:1rem;letter-spacing:.25em;
+  color:var(--cyan);text-shadow:0 0 18px rgba(0,245,255,.7);
+  line-height:1.3;
+}
+.left-brand-sub{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.68rem;letter-spacing:.22em;
+  color:var(--pink);text-shadow:0 0 10px rgba(255,45,120,.6);
+  margin-top:.4rem;
+}
 
-  .brand-sub {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .72rem;
-    letter-spacing: .2em;
-    color: var(--pink);
-    text-shadow: 0 0 8px var(--pink);
-    margin-bottom: 1.3rem;
-  }
+.left-badges{
+  display:flex;flex-direction:column;gap:.6rem;
+  width:100%;max-width:220px;
+}
+.badge{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.5rem .8rem;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.03);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.65rem;letter-spacing:.1em;
+  color:rgba(255,255,255,.45);
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.badge-dot.cyan{background:var(--cyan);box-shadow:0 0 6px var(--cyan);}
+.badge-dot.pink{background:var(--pink);box-shadow:0 0 6px var(--pink);}
+.badge-dot.purple{background:var(--purple);box-shadow:0 0 6px var(--purple);}
 
-  /* 21+ BANNER — big, unmissable */
-  .age-banner {
-    display: flex;
-    align-items: center;
-    gap: .8rem;
-    background: linear-gradient(135deg, rgba(255,26,26,.14), rgba(8,2,16,.4));
-    border-left: 3px solid #ff3333;
-    border-top: 1px solid rgba(255,51,51,.3);
-    border-bottom: 1px solid rgba(255,51,51,.3);
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-    padding: .9rem 1.1rem;
-    margin-bottom: 1.4rem;
-    text-align: left;
-  }
-  .age-banner-num {
-    font-family: var(--rn-font, 'Orbitron', monospace);
-    font-weight: 900;
-    font-size: 2rem;
-    line-height: 1;
-    color: #ff3333;
-    text-shadow: 0 0 12px rgba(255,51,51,.6);
-    flex-shrink: 0;
-  }
-  .age-banner-text {
-    font-size: .82rem;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #d8d4e0;
-  }
-  .age-banner-text strong { display: block; color: #ff5555; font-size: .82rem; letter-spacing: .12em; margin-bottom: .15rem; font-family: 'Share Tech Mono', monospace; }
+/* ── RIGHT PANEL — form ── */
+.panel-right{
+  padding:2.6rem 2.2rem 2.2rem;
+  display:flex;flex-direction:column;
+  gap:0;
+}
 
-  .disclaimer {
-    background: rgba(139,61,255,.04);
-    border-left: 2px solid rgba(139,61,255,.4);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    padding: .65rem .9rem;
-    margin-bottom: 1.4rem;
-    text-align: left;
-    font-size: .68rem;
-    font-weight: 600;
-    line-height: 1.6;
-    color: rgba(216,218,232,.55);
-  }
+/* 21+ banner */
+.age-banner{
+  display:flex;align-items:center;gap:.75rem;
+  background:linear-gradient(135deg,rgba(255,30,30,.15),rgba(255,80,0,.08));
+  border:1.5px solid rgba(255,51,51,.55);
+  border-radius:12px;padding:.8rem 1rem;
+  margin-bottom:1.2rem;
+}
+.age-num{
+  font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;
+  color:#ff4444;text-shadow:0 0 12px #ff4444;flex-shrink:0;
+}
+.age-text{font-size:.78rem;font-weight:700;line-height:1.5;color:#ffe0e0;}
+.age-text strong{display:block;color:#ff6666;font-size:.85rem;letter-spacing:.02em;margin-bottom:.1rem;}
 
-  /* MODE TABS */
-  .mode-tabs {
-    display: flex; gap: 0; margin-bottom: 1.4rem;
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 10px; overflow: hidden;
-  }
-  .mode-tab {
-    flex: 1; padding: .8rem .5rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1rem; letter-spacing: .2em;
-    cursor: pointer; transition: all .2s;
-    background: transparent; border: none;
-    color: var(--dim); position: relative;
-  }
-  .mode-tab.active { background: rgba(201,201,232,.1); color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
-  .mode-tab:first-child { border-right: 1px solid rgba(255,255,255,.1); }
+/* disclaimer */
+.disclaimer{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:.6rem .85rem;
+  margin-bottom:1.3rem;
+  font-size:.65rem;font-weight:600;line-height:1.65;
+  color:rgba(255,255,255,.38);
+}
 
-  /* FORM */
-  .auth-form { display: flex; flex-direction: column; gap: .8rem; }
-  .field-wrap { position: relative; }
-  .field-wrap input {
-    width: 100%; padding: .85rem 1rem .85rem 2.6rem;
-    font-size: 1rem; font-family: 'Rajdhani', sans-serif; font-weight: 600;
-    color: var(--text); background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.12); border-radius: 8px;
-    outline: none; transition: border-color .15s, box-shadow .15s;
-  }
-  .field-wrap input:focus { border-color: var(--cyan); box-shadow: 0 0 14px rgba(201,201,232,.22); background: rgba(201,201,232,.04); }
-  .field-wrap input::placeholder { color: rgba(255,255,255,.3); }
-  .field-icon { position: absolute; left: .85rem; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; opacity: .5; }
+/* tabs */
+.mode-tabs{
+  display:flex;margin-bottom:1.3rem;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;overflow:hidden;
+}
+.mode-tab{
+  flex:1;padding:.75rem .5rem;
+  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.2em;
+  cursor:pointer;transition:all .2s;
+  background:transparent;border:none;color:var(--dim);
+}
+.mode-tab.active{background:rgba(0,245,255,.08);color:var(--cyan);text-shadow:0 0 10px rgba(0,245,255,.6);}
+.mode-tab:first-child{border-right:1px solid rgba(255,255,255,.08);}
 
-  .forgot-row { text-align: right; margin-top: -.2rem; font-size: .8rem; font-weight: 600; }
-  .forgot-row a { color: var(--cyan); cursor: pointer; text-decoration: none; }
-  .forgot-row a:hover { text-decoration: underline; }
+/* fields */
+.auth-form{display:flex;flex-direction:column;gap:.75rem;}
+.field-wrap{position:relative;}
+.field-wrap input{
+  width:100%;padding:.82rem 1rem .82rem 2.6rem;
+  font-size:.95rem;font-family:'Rajdhani',sans-serif;font-weight:600;
+  color:var(--text);
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.1);border-radius:8px;
+  outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.field-wrap input:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 14px rgba(0,245,255,.2);
+  background:rgba(0,245,255,.03);
+}
+.field-wrap input::placeholder{color:rgba(255,255,255,.25);}
+.field-icon{
+  position:absolute;left:.85rem;top:50%;transform:translateY(-50%);
+  font-size:.95rem;pointer-events:none;opacity:.4;
+}
 
-  .submit-btn {
-    width: 100%; padding: 1rem;
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: .25em;
-    color: #05000f; background: var(--cyan); border: none; border-radius: 10px;
-    cursor: pointer; transition: transform .1s, box-shadow .2s;
-    box-shadow: 0 0 24px rgba(201,201,232,.5); margin-top: .2rem;
-  }
-  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(201,201,232,.8); }
-  .submit-btn:active { transform: translateY(0); }
+.forgot-row{text-align:right;margin-top:-.15rem;font-size:.78rem;font-weight:700;}
+.forgot-row a{color:var(--cyan);cursor:pointer;text-decoration:none;opacity:.7;transition:opacity .15s;}
+.forgot-row a:hover{opacity:1;}
 
-  /* NEW USER CTA — much bigger now, impossible to miss */
-  .new-user-cta {
-    margin-top: 1.6rem;
-    background: linear-gradient(135deg, rgba(155,48,255,.16), rgba(155,48,255,.12));
-    border: 2.5px solid var(--pink);
-    border-radius: 16px;
-    padding: 1.4rem 1.3rem;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(155,48,255,.3);
-    animation: pulseglow 2.4s ease-in-out infinite;
-  }
-  @keyframes pulseglow {
-    0%, 100% { box-shadow: 0 0 30px rgba(155,48,255,.3); }
-    50% { box-shadow: 0 0 48px rgba(155,48,255,.55); }
-  }
-  .new-user-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.15rem;
-    letter-spacing: .08em;
-    color: var(--yellow);
-    text-shadow: 0 0 10px var(--yellow);
-    margin-bottom: .8rem;
-    line-height: 1.3;
-  }
-  .create-btn {
-    width: 100%; padding: 1.15rem;
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: .15em;
-    color: #fff; background: linear-gradient(135deg, var(--pink), var(--purple));
-    border: none; border-radius: 12px; cursor: pointer;
-    box-shadow: 0 0 30px rgba(155,48,255,.55);
-    transition: transform .1s, box-shadow .2s;
-  }
-  .create-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 48px rgba(155,48,255,.8); }
-  .create-btn:active { transform: translateY(0) scale(1); }
+.submit-btn{
+  width:100%;padding:.95rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.25em;
+  color:#04000e;background:var(--cyan);
+  border:none;border-radius:10px;cursor:pointer;
+  transition:transform .1s,box-shadow .2s;
+  box-shadow:0 0 24px rgba(0,245,255,.45);margin-top:.2rem;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,245,255,.75);}
+.submit-btn:active{transform:translateY(0);}
 
-  .msg {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .78rem; letter-spacing: .06em;
-    min-height: 1.2em; opacity: 0; transition: opacity .2s;
-    margin-top: .5rem; line-height: 1.5;
-  }
-  .msg.show { opacity: 1; }
-  .msg.error { color: var(--orange); text-shadow: 0 0 6px var(--orange); }
-  .msg.success { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
+/* new user CTA */
+.new-user-cta{
+  margin-top:1.4rem;
+  background:linear-gradient(135deg,rgba(255,45,120,.12),rgba(155,48,255,.1));
+  border:2px solid rgba(255,45,120,.55);
+  border-radius:14px;padding:1.2rem 1.1rem;text-align:center;
+  box-shadow:0 0 28px rgba(255,45,120,.2);
+  animation:pulseglow 2.6s ease-in-out infinite;
+}
+@keyframes pulseglow{
+  0%,100%{box-shadow:0 0 28px rgba(255,45,120,.2);}
+  50%{box-shadow:0 0 46px rgba(255,45,120,.45);}
+}
+.new-user-label{
+  font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.07em;
+  color:#ffe600;text-shadow:0 0 10px rgba(255,230,0,.5);
+  margin-bottom:.7rem;line-height:1.3;
+}
+.create-btn{
+  width:100%;padding:1rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.14em;
+  color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));
+  border:none;border-radius:10px;cursor:pointer;
+  box-shadow:0 0 28px rgba(255,45,120,.5);
+  transition:transform .1s,box-shadow .2s;
+}
+.create-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 46px rgba(255,45,120,.75);}
+.create-btn:active{transform:translateY(0) scale(1);}
 
-  .divider {
-    display: flex; align-items: center; gap: .75rem;
-    margin: 1.5rem 0 1rem;
-    color: rgba(255,255,255,.2);
-    font-size: .72rem; font-family: 'Share Tech Mono', monospace; letter-spacing: .1em;
-  }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1); }
+.msg{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.74rem;letter-spacing:.06em;
+  min-height:1.2em;opacity:0;transition:opacity .2s;
+  margin-top:.5rem;line-height:1.5;
+}
+.msg.show{opacity:1;}
+.msg.error{color:#ff6b35;text-shadow:0 0 6px rgba(255,107,53,.5);}
+.msg.success{color:#00ff88;text-shadow:0 0 6px rgba(0,255,136,.5);}
 
-  .footer-note {
-    margin-top: 1.5rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: .6rem; letter-spacing: .15em;
-    color: rgba(232,224,240,.25);
-  }
+.footer-note{
+  margin-top:1.5rem;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.58rem;letter-spacing:.15em;
+  color:rgba(220,210,240,.2);text-align:center;
+}
 
-  .shake { animation: shake .4s; }
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20%,60% { transform: translateX(-8px); }
-    40%,80% { transform: translateX(8px); }
-  }
+/* shake */
+.shake{animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
 
-  .popup-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,.7);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 100; opacity: 0; pointer-events: none; transition: opacity .2s;
+/* popup */
+.popup-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.popup-overlay.show{opacity:1;pointer-events:auto;}
+.popup-box{
+  position:relative;max-width:320px;width:90%;
+  background:var(--card);border:2px solid #ff6b00;
+  border-radius:14px;padding:2rem 1.5rem 1.5rem;text-align:center;
+  box-shadow:0 0 30px rgba(255,107,0,.4);
+  transform:scale(.85);transition:transform .2s;
+}
+.popup-overlay.show .popup-box{transform:scale(1);}
+.popup-close{
+  position:absolute;top:8px;right:10px;
+  background:none;border:none;color:var(--dim);
+  font-size:1.3rem;cursor:pointer;padding:.2rem .4rem;
+}
+.popup-close:hover{color:#ff6b00;}
+.popup-msg{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1rem;letter-spacing:.1em;
+  color:#ff6b00;text-shadow:0 0 8px rgba(255,107,0,.6);line-height:1.5;
+}
+
+/* ── RESPONSIVE ── */
+/* Tablet */
+@media(max-width:820px){
+  .shell{grid-template-columns:1fr;max-width:480px;}
+  .panel-left{
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    padding:2.2rem 2rem 1.8rem;
+    flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.2rem;
   }
-  .popup-overlay.show { opacity: 1; pointer-events: auto; }
-  .popup-box {
-    position: relative; max-width: 340px; width: 90%;
-    background: var(--card); border: 2px solid var(--orange);
-    border-radius: 12px; padding: 2rem 1.5rem 1.5rem; text-align: center;
-    box-shadow: 0 0 30px rgba(255,107,0,.4);
-    transform: scale(.85); transition: transform .2s;
-  }
-  .popup-overlay.show .popup-box { transform: scale(1); }
-  .popup-close {
-    position: absolute; top: 8px; right: 10px;
-    background: none; border: none; color: var(--dim);
-    font-size: 1.4rem; cursor: pointer; padding: .2rem .4rem;
-  }
-  .popup-close:hover { color: var(--orange); }
-  .popup-msg {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.05rem; letter-spacing: .1em;
-    color: var(--orange); text-shadow: 0 0 8px var(--orange); line-height: 1.5;
-  }
+  .logo-stage{width:130px;height:130px;}
+  .left-badges{flex-direction:row;flex-wrap:wrap;max-width:none;justify-content:center;}
+  .badge{font-size:.6rem;padding:.4rem .65rem;}
+  .panel-right{padding:2rem 1.8rem 1.8rem;}
+}
+
+/* Phone */
+@media(max-width:480px){
+  body{padding:1rem .75rem;}
+  .shell{border-radius:20px;}
+  .panel-left{padding:1.8rem 1.2rem 1.4rem;gap:.9rem;}
+  .logo-stage{width:110px;height:110px;}
+  .logo-stage img{filter:drop-shadow(0 0 10px rgba(0,245,255,.4)) drop-shadow(0 0 22px rgba(255,45,120,.25));}
+  .left-brand-main{font-size:.82rem;letter-spacing:.18em;}
+  .left-badges{gap:.4rem;}
+  .badge{font-size:.58rem;padding:.35rem .55rem;}
+  .panel-right{padding:1.4rem 1.1rem 1.4rem;}
+  .age-num{font-size:1.9rem;}
+  .age-text{font-size:.72rem;}
+  .new-user-label{font-size:.95rem;}
+  .create-btn{font-size:1.05rem;padding:.85rem;}
+}
 </style>
 </head>
 <body>
 
-<canvas id="rain-canvas"></canvas>
-<div class="radar"></div>
-<div class="radar-sweep"></div>
+<div class="lattice"></div>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+<div class="scan-beam"></div>
+<div id="fragments"></div>
 
-<style>
-  /* === VAULT DOOR — thick steel safe door with rivets, dial ring, lever handle === */
-  .vault-wrap { position: relative; width: 220px; height: 220px; margin: 0 auto 1.2rem; }
+<script>
+(function(){
+  var g=['01','10','C12H22','VPN','◇','#','VERIFIED','RX','△','peptide','>>','::','DNA','NAD+'];
+  var h=document.getElementById('fragments');
+  for(var i=0;i<16;i++){
+    var el=document.createElement('div');
+    el.className='fragment';
+    el.textContent=g[Math.floor(Math.random()*g.length)];
+    el.style.left=(Math.random()*100)+'vw';
+    el.style.bottom='-5%';
+    el.style.animationDuration=(16+Math.random()*14)+'s';
+    el.style.animationDelay=(-Math.random()*22)+'s';
+    h.appendChild(el);
+  }
+})();
+</script>
 
-  /* outer steel door body */
-  .vault-door-body {
-    position: absolute; inset: 0; border-radius: 50%;
-    background:
-      radial-gradient(circle at 32% 28%, #3a3850 0%, #15131f 55%, #050008 100%);
-    box-shadow:
-      0 0 0 2px rgba(216,218,232,.18),
-      0 0 30px rgba(139,61,255,.35),
-      inset 0 0 26px rgba(0,0,0,.7);
-  }
-  /* riveted bolts evenly spaced around the rim */
-  .vault-bolt {
-    position: absolute; width: 7px; height: 7px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #eceeF7, #6b6d80 75%);
-    box-shadow: 0 0 4px rgba(0,0,0,.7), 0 0 5px rgba(216,218,232,.3);
-  }
+<div class="shell" id="shell">
 
-  /* rotating combination dial ring, inset from the rim */
-  .vault-ring {
-    position: absolute; inset: 22px; border-radius: 50%;
-    background: conic-gradient(from 0deg, #2a2440, #8b3dff, #d8dae8, #5b1fb8, #2a2440);
-    animation: vaultSpin 14s linear infinite;
-    box-shadow: 0 0 14px rgba(139,61,255,.5);
-  }
-  .vault-ring::after {
-    content: ''; position: absolute; inset: 7px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #1a1626, #050008 70%);
-  }
-  @keyframes vaultSpin { to { transform: rotate(360deg); } }
-
-  /* center emblem — the RN logo, set into the door like an embossed seal */
-  .vault-door-img {
-    position: absolute; inset: 38px; width: calc(100% - 76px); height: calc(100% - 76px);
-    border-radius: 50%; object-fit: cover; z-index: 2;
-    box-shadow: inset 0 0 20px rgba(0,0,0,.7), 0 0 22px rgba(139,61,255,.55);
-  }
-
-  /* vault handle / lever sticking out to the side */
-  .vault-handle {
-    position: absolute; right: -22px; top: 50%; transform: translateY(-50%);
-    width: 30px; height: 64px; border-radius: 6px; z-index: 1;
-    background: linear-gradient(135deg, #3a3850, #15131f);
-    box-shadow: 0 0 0 1px rgba(216,218,232,.2), 2px 0 10px rgba(0,0,0,.6);
-  }
-  .vault-handle::before {
-    content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-    width: 12px; height: 44px; border-radius: 4px;
-    background: linear-gradient(135deg, #8b3dff, #5b1fb8);
-    box-shadow: 0 0 10px rgba(139,61,255,.6);
-  }
-
-  .vault-status {
-    position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-    background: #050008; border: 1px solid var(--pink); border-radius: 20px;
-    padding: .25rem .8rem; font-family: 'Share Tech Mono', monospace; font-size: .65rem;
-    letter-spacing: .12em; color: var(--pink); white-space: nowrap; z-index: 3;
-  }
-
-  /* === PIN KEYPAD === */
-  .pin-row { display: flex; gap: .65rem; justify-content: center; margin: 0.4rem 0 1.3rem; }
-  .pin-box {
-    width: 52px; height: 60px; text-align: center;
-    font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; font-weight: 700;
-    color: var(--cyan); background: rgba(255,255,255,.03);
-    border: 1px solid rgba(216,218,232,.25); border-radius: 8px;
-    outline: none; transition: border-color .15s, box-shadow .15s, transform .1s;
-    caret-color: var(--pink);
-  }
-  .pin-box:focus { border-color: var(--pink); box-shadow: 0 0 16px rgba(139,61,255,.4); transform: translateY(-2px); }
-  .vault-lock-icon { font-size: 1.5rem; text-align: center; margin-bottom: .3rem; opacity: .85; }
-</style>
-
-<div class="panel" id="panel">
-  <div class="hud-br1"></div>
-  <div class="hud-br2"></div>
-
+  <!-- LEFT: logo + branding -->
   <div class="panel-left">
-    <div class="vault-wrap">
-      <div class="vault-door-body"></div>
-      <div class="vault-bolt" style="left:206.5px; top:106.5px;"></div>
-      <div class="vault-bolt" style="left:193.1px; top:156.5px;"></div>
-      <div class="vault-bolt" style="left:156.5px; top:193.1px;"></div>
-      <div class="vault-bolt" style="left:106.5px; top:206.5px;"></div>
-      <div class="vault-bolt" style="left:56.5px; top:193.1px;"></div>
-      <div class="vault-bolt" style="left:19.9px; top:156.5px;"></div>
-      <div class="vault-bolt" style="left:6.5px; top:106.5px;"></div>
-      <div class="vault-bolt" style="left:19.9px; top:56.5px;"></div>
-      <div class="vault-bolt" style="left:56.5px; top:19.9px;"></div>
-      <div class="vault-bolt" style="left:106.5px; top:6.5px;"></div>
-      <div class="vault-bolt" style="left:156.5px; top:19.9px;"></div>
-      <div class="vault-bolt" style="left:193.1px; top:56.5px;"></div>
-      <div class="vault-handle"></div>
-      <div class="vault-ring"></div>
-      <img class="vault-door-img" src="rnlogo.png" alt="Research Network" onerror="this.style.display='none'">
-      <div class="vault-status" id="vault-status">🔒 LOCKED</div>
+    <div class="logo-stage">
+      <img src="VPNNEWLOGO.png" alt="VPN Glowrilla"
+           onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Orbitron,monospace;font-size:1.8rem;font-weight:900;color:#00f5ff;z-index:2;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;\'>VPN</span>'">
     </div>
-
-    <div class="brand">RESEARCH NETWORK</div>
-    <div class="brand-sub">THE VAULT · MEMBERS ONLY</div>
+    <div class="left-brand">
+      <div class="left-brand-main">VERIFIED PEPTIDE<br>NETWORK</div>
+      <div class="left-brand-sub">MEMBERS ONLY · RESEARCH USE</div>
+    </div>
+    <div class="left-badges">
+      <div class="badge"><span class="badge-dot cyan"></span>FIREBASE SECURED</div>
+      <div class="badge"><span class="badge-dot pink"></span>21+ RESTRICTED</div>
+      <div class="badge"><span class="badge-dot purple"></span>RESEARCH ONLY</div>
+    </div>
   </div>
 
-  <div class="panel-right">
-    <div class="vault-lock-icon">🔐 ENTER VAULT CODE</div>
+  <!-- RIGHT: auth form -->
+  <div class="panel-right" id="panel">
 
-    <div class="pin-row">
-      <input class="pin-box" id="pin0" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
-      <input class="pin-box" id="pin1" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
-      <input class="pin-box" id="pin2" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
-      <input class="pin-box" id="pin3" type="tel" inputmode="numeric" maxlength="1" autocomplete="off">
+    <div class="age-banner">
+      <div class="age-num">21+</div>
+      <div class="age-text">
+        <strong>ADULTS ONLY · RESEARCH USE ONLY</strong>
+        You must be 21 or older to access this network. For educational and research purposes only.
+      </div>
     </div>
 
-    <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">UNLOCK VAULT →</button>
+    <div class="disclaimer">
+      Not medical advice. Always verify against published research. Knowledge of safety should be free and accessible to everyone.
+    </div>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-signin" onclick="switchTab('signin')">SIGN IN</button>
+      <button class="mode-tab" id="tab-signup" onclick="switchTab('signup')">CREATE ACCOUNT</button>
+    </div>
+
+    <div class="auth-form" id="auth-form-inner">
+      <div class="field-wrap">
+        <span class="field-icon">📧</span>
+        <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
+      </div>
+      <div class="field-wrap">
+        <span class="field-icon">🔒</span>
+        <input type="password" id="password" placeholder="Password (min 6 characters)" autocomplete="current-password" required>
+      </div>
+      <div class="forgot-row" id="forgot-row"><a id="forgot-link">Forgot password?</a></div>
+      <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">SIGN IN →</button>
+    </div>
 
     <div class="msg error" id="error-msg"></div>
     <div class="msg success" id="success-msg"></div>
 
-    <div class="footer-note">RESEARCH NETWORK · MEMBERS ONLY</div>
+    <div class="new-user-cta" id="new-user-cta">
+      <div class="new-user-label">✨ FIRST TIME HERE?<br>CREATE YOUR FREE ACCOUNT NOW</div>
+      <button class="create-btn" onclick="switchTab('signup')">＋ CREATE MY FREE ACCOUNT</button>
+    </div>
+
+    <div class="footer-note">VERIFIED PEPTIDES NETWORK · RUIC GROUP MEMBERS ONLY</div>
+  </div>
+
+</div><!-- /shell -->
+
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close">✕</button>
+    <div style="font-size:2rem;margin-bottom:.5rem">⚠️</div>
+    <div class="popup-msg" id="popup-msg"></div>
   </div>
 </div>
 
 <script>
-  const VAULT_PIN = '1970';
-  var boxes = ['pin0','pin1','pin2','pin3'].map(id => document.getElementById(id));
+  (function(){
+    try{
+      var fbKey='firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';
+      if(localStorage.getItem(fbKey)) window.location.replace('home.html');
+    }catch(e){}
+  })();
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+    createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  boxes.forEach(function(box, i){
-    box.addEventListener('input', function(){
-      box.value = box.value.replace(/[^0-9]/g, '').slice(0,1);
-      if (box.value && i < boxes.length - 1) boxes[i+1].focus();
-      if (i === boxes.length - 1 && box.value) handleSubmit();
-    });
-    box.addEventListener('keydown', function(e){
-      if (e.key === 'Backspace' && !box.value && i > 0) boxes[i-1].focus();
-      if (e.key === 'Enter') handleSubmit();
-    });
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence);
+
+  onAuthStateChanged(auth, function(user){
+    if(user) window.location.href = 'home.html';
   });
-  boxes[0].focus();
 
-  function getEnteredPin() { return boxes.map(b => b.value).join(''); }
+  var isSignUp = false;
 
-  function handleSubmit() {
+  window.switchTab = function(mode) {
+    isSignUp = mode === 'signup';
     clearMsgs();
-    var pin = getEnteredPin();
-    if (pin.length < 4) { showError('ENTER ALL 4 DIGITS OF THE VAULT CODE'); return; }
+    document.getElementById('tab-signin').classList.toggle('active', !isSignUp);
+    document.getElementById('tab-signup').classList.toggle('active', isSignUp);
+    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
+    document.getElementById('forgot-row').style.display = isSignUp ? 'none' : '';
+    document.getElementById('new-user-cta').style.display = isSignUp ? 'none' : '';
+    document.getElementById('password').placeholder = isSignUp ? 'Choose a password (min 6 characters)' : 'Password (min 6 characters)';
+    document.getElementById('password').autocomplete = isSignUp ? 'new-password' : 'current-password';
+  };
 
+  window.handleSubmit = function() {
+    clearMsgs();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    if(!email || !password){ showError('PLEASE ENTER YOUR EMAIL AND PASSWORD'); return; }
+    if(password.length < 6){ showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS'); return; }
+
+    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING ACCOUNT…' : 'SIGNING IN…';
+    document.getElementById('submit-btn').style.opacity = '.6';
+
+    if(isSignUp){
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'home.html')
+        .catch(err => { resetBtn(); showError(friendlyError(err)); });
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = 'home.html')
+        .catch(err => { resetBtn(); showError(friendlyError(err)); });
+    }
+  };
+
+  function resetBtn(){
     var btn = document.getElementById('submit-btn');
-    btn.textContent = 'VERIFYING…';
-    btn.style.opacity = '.6';
-
-    setTimeout(function(){
-      if (pin === VAULT_PIN) {
-        document.getElementById('vault-status').textContent = '🔓 UNLOCKED';
-        document.getElementById('vault-status').style.borderColor = '#00ff88';
-        document.getElementById('vault-status').style.color = '#00ff88';
-        showSuccess('✓ ACCESS GRANTED — ENTERING THE VAULT…');
-        try { sessionStorage.setItem('pinUnlocked', '1'); } catch(e) {}
-        setTimeout(function(){ window.location.href = 'home.html'; }, 600);
-      } else {
-        btn.textContent = 'UNLOCK VAULT →';
-        btn.style.opacity = '1';
-        showError('INCORRECT VAULT CODE — TRY AGAIN');
-        boxes.forEach(b => b.value = '');
-        boxes[0].focus();
-        var p = document.getElementById('panel');
-        p.classList.remove('shake');
-        requestAnimationFrame(() => p.classList.add('shake'));
-      }
-    }, 500);
+    btn.textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
+    btn.style.opacity = '1';
   }
 
-  function showError(msg) {
+  document.getElementById('email').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('password').focus(); });
+  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') window.handleSubmit(); });
+
+  document.getElementById('forgot-link').addEventListener('click', function(){
+    var email = document.getElementById('email').value.trim();
+    if(!email){ showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD'); return; }
+    sendPasswordResetEmail(auth, email)
+      .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
+      .catch(err => { showError(friendlyError(err) + ' [' + (err.code || 'unknown') + ']'); });
+  });
+
+  document.getElementById('popup-close').addEventListener('click', () => {
+    document.getElementById('popup-overlay').classList.remove('show');
+  });
+
+  function friendlyError(err){
+    var c = err && err.code ? err.code : '';
+    if(c==='auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS — SIGN IN INSTEAD';
+    if(c==='auth/invalid-email') return 'THAT EMAIL ADDRESS LOOKS INVALID';
+    if(c==='auth/user-not-found'||c==='auth/invalid-credential') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
+    if(c==='auth/wrong-password') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
+    if(c==='auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
+    if(c==='auth/too-many-requests') return 'TOO MANY ATTEMPTS — PLEASE WAIT A FEW MINUTES';
+    if(c==='auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION AND TRY AGAIN';
+    return 'SOMETHING WENT WRONG — PLEASE TRY AGAIN';
+  }
+
+  function showError(msg){
     document.getElementById('success-msg').classList.remove('show');
     var el = document.getElementById('error-msg');
-    el.textContent = msg;
-    el.classList.add('show');
+    el.textContent = msg; el.classList.add('show');
+    var p = document.getElementById('panel');
+    p.classList.remove('shake');
+    requestAnimationFrame(() => p.classList.add('shake'));
   }
 
-  function showSuccess(msg) {
+  function showSuccess(msg){
     document.getElementById('error-msg').classList.remove('show');
     var el = document.getElementById('success-msg');
-    el.textContent = msg;
-    el.classList.add('show');
+    el.textContent = msg; el.classList.add('show');
   }
 
-  function clearMsgs() {
+  function clearMsgs(){
     document.getElementById('error-msg').classList.remove('show');
     document.getElementById('success-msg').classList.remove('show');
   }
-</script>
-
-<script>
-(function(){
-  var canvas = document.getElementById('rain-canvas');
-  var ctx = canvas.getContext('2d');
-  var glyphs = '01RN◇#△>>::ID01RN'.split('');
-  var fontSize = 16, columns, drops;
-
-  function resize(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    columns = Math.floor(canvas.width / fontSize);
-    drops = new Array(columns).fill(0).map(function(){ return Math.random() * -50; });
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  function draw(){
-    ctx.fillStyle = 'rgba(4,2,10,0.08)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = fontSize + 'px monospace';
-    for (var i = 0; i < columns; i++){
-      var text = glyphs[Math.floor(Math.random() * glyphs.length)];
-      ctx.fillStyle = Math.random() < 0.04 ? '#d8dae8' : 'rgba(139,61,255,0.6)';
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  }
-  setInterval(draw, 60);
-})();
 </script>
 
 </body>
