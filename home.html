@@ -5638,7 +5638,7 @@ document.addEventListener('keydown', function(e){
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
-    .retro80-arc-svg{position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);width:calc(var(--r80) + 140px);height:90px;overflow:visible;z-index:15;pointer-events:none;}
+    .retro80-arc-svg{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:calc(var(--r80) + 160px);height:130px;overflow:visible;z-index:15;pointer-events:none;}
   </style>
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
@@ -5656,19 +5656,21 @@ document.addEventListener('keydown', function(e){
       <img src="ruivpnlogo.png?v=1" alt="Verified Peptides Network" class="retro80-img">
     </div>
     <!-- Arc text wrapping around the bottom of the logo -->
-    <svg class="retro80-arc-svg" viewBox="0 0 560 80">
+    <svg class="retro80-arc-svg" viewBox="0 0 580 120">
       <defs>
-        <path id="bottomArc" d="M 20,70 A 260,260 0 0,0 540,70"/>
-        <filter id="arcGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <path id="bottomArc" d="M 10,110 A 280,280 0 0,0 570,110"/>
+        <filter id="arcGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <text font-family="'Bebas Neue', sans-serif" font-size="18" letter-spacing="2.5" fill="#00f5ff" filter="url(#arcGlow)" opacity="0.9">
-        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK  ·  VERIFY WITH RESEARCH  ·  BE SAFE  ·  WORK WITH YOUR DOCTOR</textPath>
+      <!-- glow layer -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="22" letter-spacing="3" fill="#ff0080" filter="url(#arcGlow)">
+        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
       </text>
-      <text font-family="'Bebas Neue', sans-serif" font-size="18" letter-spacing="2.5" fill="#ffffff" opacity="0.95">
-        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK  ·  VERIFY WITH RESEARCH  ·  BE SAFE  ·  WORK WITH YOUR DOCTOR</textPath>
+      <!-- white text on top -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="22" letter-spacing="3" fill="#ffffff">
+        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
       </text>
     </svg>
   </div>
