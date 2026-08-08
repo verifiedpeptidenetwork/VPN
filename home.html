@@ -5623,14 +5623,14 @@ document.addEventListener('keydown', function(e){
     .retro80-card{
       position:relative;z-index:2;
       width:var(--r80);height:var(--r80);
-      background:linear-gradient(145deg,rgba(20,8,0,0.95),rgba(10,4,0,0.98));
-      border:3px solid rgba(255,165,0,0.75);
+      background:linear-gradient(145deg,rgba(4,0,20,0.95),rgba(10,0,30,0.98));
+      border:3px solid rgba(255,0,128,0.75);
       border-radius:50%;
-      box-shadow:0 0 18px rgba(255,165,0,0.7),0 0 36px rgba(255,120,0,0.45),0 0 60px rgba(255,200,0,0.2),inset 0 0 60px rgba(0,0,0,0.65);
+      box-shadow:0 0 18px rgba(255,0,128,0.7),0 0 36px rgba(157,0,255,0.45),0 0 60px rgba(0,245,255,0.2),inset 0 0 60px rgba(0,0,0,0.65);
       overflow:hidden;
       flex-shrink:0;
     }
-    .retro80-sun{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:48%;background:linear-gradient(180deg,#ff6b00 0%,#ff2d78 35%,#cc44ff 65%,transparent 100%);border-radius:50% 50% 0 0;opacity:0.16;pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
+    .retro80-sun{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:48%;background:linear-gradient(180deg,#9d00ff 0%,#ff2d78 35%,#00f5ff 65%,transparent 100%);border-radius:50% 50% 0 0;opacity:0.16;pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
     .retro80-grid{position:absolute;bottom:0;left:-25%;right:-25%;height:40%;background-image:linear-gradient(to right,rgba(255,45,120,0.45) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,245,255,0.28) 1px,transparent 1px);background-size:clamp(18px,4.5vw,36px) clamp(14px,3vw,26px);transform:perspective(180px) rotateX(62deg);transform-origin:bottom center;opacity:0.55;pointer-events:none;}
     /* logo image fills most of the card */
     .retro80-img{width:90%;height:90%;border-radius:50%;object-fit:cover;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
@@ -5638,7 +5638,7 @@ document.addEventListener('keydown', function(e){
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
-    .retro80-arc-svg{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:calc(var(--r80) + 160px);height:130px;overflow:visible;z-index:15;pointer-events:none;}
+    .retro80-arc-svg{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:calc(var(--r80) + 200px);height:160px;overflow:visible;z-index:20;pointer-events:none;}
   </style>
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
@@ -5656,20 +5656,29 @@ document.addEventListener('keydown', function(e){
       <img src="ruivpnlogo.png?v=1" alt="Verified Peptides Network" class="retro80-img">
     </div>
     <!-- Arc text wrapping around the bottom of the logo -->
-    <svg class="retro80-arc-svg" viewBox="0 0 580 120">
+    <svg class="retro80-arc-svg" viewBox="0 0 600 140">
       <defs>
-        <path id="bottomArc" d="M 10,110 A 280,280 0 0,0 570,110"/>
-        <filter id="arcGlow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="4" result="blur"/>
+        <path id="bottomArc" d="M 15,130 A 285,285 0 0,0 585,130"/>
+        <filter id="arcGlow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="5" result="blur1"/>
+          <feGaussianBlur stdDeviation="2" result="blur2"/>
+          <feMerge><feMergeNode in="blur1"/><feMergeNode in="blur2"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="arcGlow2" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <!-- glow layer -->
-      <text font-family="'Bebas Neue', sans-serif" font-size="22" letter-spacing="3" fill="#ff0080" filter="url(#arcGlow)">
+      <!-- outer wide glow — cyan -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#00f5ff" filter="url(#arcGlow2)" opacity="0.8">
         <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
       </text>
-      <!-- white text on top -->
-      <text font-family="'Bebas Neue', sans-serif" font-size="22" letter-spacing="3" fill="#ffffff">
+      <!-- tight glow — pink -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#ff0080" filter="url(#arcGlow)">
+        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
+      </text>
+      <!-- crisp white on top -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#ffffff">
         <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
       </text>
     </svg>
