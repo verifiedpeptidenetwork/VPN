@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Peptide Pricing Tool</title>
+<title>THE OG PRICE COMPARISON TOOL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -726,11 +726,19 @@
     opacity: 0.7;
     box-shadow: 0 0 12px var(--card-accent, var(--purple));
   }
-  .vendor-card[data-vendor="innopeptide"] { --card-accent: #ff2d95; }   /* pink */
-  .vendor-card[data-vendor="kerui"]       { --card-accent: #b537f2; }   /* purple */
-  .vendor-card[data-vendor="lilitide"]    { --card-accent: #00f0ff; }   /* cyan */
-  .vendor-card[data-vendor="marvel"]      { --card-accent: #ff6b35; }   /* orange */
-  .vendor-card[data-vendor="wanshun"]     { --card-accent: #c6ff00; }   /* lime */
+  .vendor-card[data-vendor="innopeptide"]     { --card-accent: #ff2d95; }   /* pink */
+  .vendor-card[data-vendor="kerui"]           { --card-accent: #b537f2; }   /* purple */
+  .vendor-card[data-vendor="lilitide"]        { --card-accent: #00f0ff; }   /* cyan */
+  .vendor-card[data-vendor="marvel"]          { --card-accent: #ff6b35; }   /* orange */
+  .vendor-card[data-vendor="wanshun"]         { --card-accent: #c6ff00; }   /* lime */
+  .vendor-card[data-vendor="peptidelabatory"] { --card-accent: #ff9f1c; }   /* amber */
+  .vendor-card[data-vendor="mkm"]             { --card-accent: #2ec4b6; }   /* teal */
+  .vendor-card[data-vendor="instantpeptides"] { --card-accent: #00f0ff; }   /* cyan */
+  .vc-card[data-vendor="peptidelabatory"]     { --card-accent: #ff9f1c; }
+  .vc-card[data-vendor="mkm"]                 { --card-accent: #2ec4b6; }
+  .vc-card[data-vendor="instantpeptides"]     { --card-accent: #00f0ff; }
+  .vc-card[data-vendor="crushresearch"]       { --card-accent: #ffd700; }
+  .vc-card[data-vendor="ethospeptide"]        { --card-accent: #ffd700; }
 
   .vendor-card.cheapest {
     background: linear-gradient(180deg, rgba(198, 255, 0, 0.10), rgba(198, 255, 0, 0.04));
@@ -1493,15 +1501,27 @@
 
   <header>
     <div>
-      <div class="eyebrow">Vendor comparison · interactive calculator</div>
-      <h1>Peptide Pricing Tool</h1>
+      <div class="eyebrow">THE OG PRICE COMPARISON TOOL · ruic-comptool.net</div>
+      <h1>THE OG Price Comparison Tool</h1>
     </div>
     <div class="header-meta">
       <div><strong>101</strong> products tracked</div>
-      <div><strong>5</strong> vendors compared</div>
+      <div><strong>8</strong> vendors listed</div>
       <div><strong>8</strong> categories</div>
     </div>
   </header>
+
+  <div style="margin-bottom:20px;padding:14px 20px;background:rgba(0,240,255,0.06);border:1.5px solid rgba(0,240,255,0.35);border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase;font-weight:700;flex-shrink:0;">🔗 Access</div>
+    <div style="flex:1;min-width:240px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text-dim);line-height:1.7;">
+      <span style="color:#fff;font-weight:600;">Site:</span> <a href="https://ruic-comptool.net" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">ruic-comptool.net</a>
+      &nbsp;·&nbsp;
+      <span style="color:#fff;font-weight:600;">Username:</span> <span style="color:var(--lime);font-family:'JetBrains Mono',monospace;font-size:12px;">members@ruic.com</span>
+      &nbsp;·&nbsp;
+      <span style="color:#fff;font-weight:600;">Password:</span> Message <a href="https://www.skool.com/@ian-emmsley-4048?g=retaunfiltered" target="_blank" rel="noopener" style="color:var(--pink);text-decoration:none;font-weight:700;">Ian on Skool ↗</a> to obtain access
+    </div>
+    <a href="https://ruic-comptool.net" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:linear-gradient(135deg,var(--pink),var(--purple));border:none;border-radius:8px;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:0.08em;text-decoration:none;flex-shrink:0;white-space:nowrap;">OPEN TOOL ↗</a>
+  </div>
 
   <p class="intro">
     Type quantities in the yellow input cells to build your order. Vendor totals
@@ -1763,10 +1783,10 @@
         <div class="vc-vendor">Lilitide</div>
         <div class="vc-contact">
           <div class="vc-contact-label">Contact</div>
-          <div class="vc-contact-name">Anya</div>
+          <div class="vc-contact-name">Mia Becky</div>
         </div>
-        <a class="vc-phone" href="tel:+85268860568" aria-label="Call Anya at +852 6886 0568">+852 6886 0568</a>
-        <a class="vc-cta" href="https://wa.me/85268860568" rel="noopener" data-wa-link>
+        <a class="vc-phone" href="tel:+85265566430" aria-label="Call Mia Becky at +852 6556 6430">+852 6556 6430</a>
+        <a class="vc-cta" href="https://wa.me/85265566430" rel="noopener" data-wa-link>
           <svg class="vc-wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           <span>Message on WhatsApp</span>
         </a>
@@ -1797,11 +1817,85 @@
           <span>Message on WhatsApp</span>
         </a>
       </div>
+
+      <!-- ── NEW VERIFIED VENDORS ── -->
+      <div class="vc-card" data-vendor="peptidelabatory">
+        <div class="vc-vendor">Peptide Labatory</div>
+        <div class="vc-contact">
+          <div class="vc-contact-label">Contact</div>
+          <div class="vc-contact-name">Audrey</div>
+        </div>
+        <a class="vc-phone" href="tel:+85255886802" aria-label="Call Audrey at +852 5588 6802">+852 5588 6802</a>
+        <a class="vc-cta" href="https://wa.me/85255886802" rel="noopener" data-wa-link>
+          <svg class="vc-wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span>Message on WhatsApp</span>
+        </a>
+      </div>
+
+      <div class="vc-card" data-vendor="mkm">
+        <div class="vc-vendor">MKM</div>
+        <div class="vc-contact">
+          <div class="vc-contact-label">Contact</div>
+          <div class="vc-contact-name">Cassie</div>
+        </div>
+        <a class="vc-phone" href="tel:+8617659906901" aria-label="Call Cassie at +86 176 5990 6901">+86 176 5990 6901</a>
+        <a class="vc-cta" href="https://wa.me/8617659906901" rel="noopener" data-wa-link>
+          <svg class="vc-wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span>Message on WhatsApp</span>
+        </a>
+      </div>
+
+      <div class="vc-card" data-vendor="instantpeptides" style="--card-accent:#00f0ff;">
+        <div class="vc-vendor">InstantPeptides.com</div>
+        <div class="vc-contact">
+          <div class="vc-contact-label">Order via</div>
+          <div class="vc-contact-name">Website</div>
+        </div>
+        <a class="vc-phone" href="https://instantpeptides.com" target="_blank" rel="noopener" style="text-decoration:none;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:12px;">instantpeptides.com ↗</a>
+        <a class="vc-cta" href="https://instantpeptides.com" target="_blank" rel="noopener" style="background:linear-gradient(135deg,var(--cyan),#00b8cc);">
+          <span>Visit Website</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── LIMITED TESTING HISTORY ── -->
+    <div style="margin-top:2rem;">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(255,200,0,0.2);">
+        <span style="font-size:1.3rem;">⏳</span>
+        <div>
+          <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:#ffd700;">Limited Testing History</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-mute);letter-spacing:0.1em;margin-top:2px;">Acknowledged by community — not yet fully verified</div>
+        </div>
+      </div>
+      <div class="vc-grid">
+        <div class="vc-card" data-vendor="crushresearch" style="--card-accent:#ffd700;opacity:0.85;">
+          <div class="vc-vendor" style="color:#ffd700;">CrushResearch.com</div>
+          <div class="vc-contact">
+            <div class="vc-contact-label">Order via</div>
+            <div class="vc-contact-name">Website</div>
+          </div>
+          <a class="vc-phone" href="https://crushresearch.com" target="_blank" rel="noopener" style="text-decoration:none;color:#ffd700;font-family:'JetBrains Mono',monospace;font-size:12px;">crushresearch.com ↗</a>
+          <a class="vc-cta" href="https://crushresearch.com" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#b8960a,#ffd700);color:#000;">
+            <span>Visit Website</span>
+          </a>
+        </div>
+        <div class="vc-card" data-vendor="ethospeptide" style="--card-accent:#ffd700;opacity:0.85;">
+          <div class="vc-vendor" style="color:#ffd700;">EthosPeptideResearch.com</div>
+          <div class="vc-contact">
+            <div class="vc-contact-label">Order via</div>
+            <div class="vc-contact-name">Website</div>
+          </div>
+          <a class="vc-phone" href="https://ethospeptideresearch.com" target="_blank" rel="noopener" style="text-decoration:none;color:#ffd700;font-family:'JetBrains Mono',monospace;font-size:12px;">ethospeptideresearch.com ↗</a>
+          <a class="vc-cta" href="https://ethospeptideresearch.com" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#b8960a,#ffd700);color:#000;">
+            <span>Visit Website</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
   <footer>
-    <p><strong>Shipping rates:</strong> Innopeptide $50 · Kerui $50 (FREE on orders ≥ $400, auto-applied) · Lilitide $50 · Marvel $65 · WanShun $56</p>
+    <p><strong>Shipping rates (price comparison vendors):</strong> Innopeptide $50 · Kerui $50 (FREE on orders ≥ $400, auto-applied) · Lilitide $50 · Marvel $65 · WanShun $56 &nbsp;|&nbsp; <strong>Additional verified vendors:</strong> Peptide Labatory · MKM (7–15 day delivery) · InstantPeptides.com (2–4 days) — contact directly for current shipping rates.</p>
     <p><strong>Note:</strong> The "—" symbol indicates a vendor does not carry that product. Mint-highlighted prices are the lowest available for each item. Your order data stays in your browser — nothing is sent anywhere.</p>
   </footer>
 
@@ -2278,5 +2372,28 @@ try {
 })();
 </script>
 
+<!-- GLOBAL TYPOGRAPHY — READABILITY UPDATE -->
+<style>
+  body { font-size:16px !important; line-height:1.6; }
+  p { font-size:1rem; line-height:1.6; margin-bottom:0.75rem; }
+  li { font-size:1rem; line-height:1.6; }
+  td, th { font-size:0.95rem; line-height:1.5; }
+  .dir-card-desc, [class*="desc"], [class*="-body"] { font-size:1rem !important; line-height:1.6 !important; }
+  .dir-card-title, [class*="-title"] { font-size:1.4rem !important; }
+  @media(max-width:768px){ body { font-size:16px !important; } p, li { font-size:1rem !important; } }
+</style>
+<style id="vpn-font-boost">
+  html { font-size: 19px !important; }
+  body { font-size: 19px !important; line-height: 1.75 !important; }
+  p, li, td, th, label, input, select, textarea, button, .dir-card-desc, .vpn-news-body, .qa-item, .pct-desc { font-size: 1rem !important; line-height: 1.75 !important; }
+  h1, .h1 { font-size: 2.2rem !important; }
+  h2, .h2 { font-size: 1.85rem !important; }
+  h3, .h3, .dir-card-title { font-size: 1.55rem !important; }
+  h4, .h4 { font-size: 1.3rem !important; }
+  .dir-card-desc { font-size: 1.05rem !important; }
+  .vpn-news-title { font-size: 1.1rem !important; }
+  .vpn-news-body { font-size: 1rem !important; }
+  small, .small, .sub, .footnote { font-size: 0.88rem !important; }
+</style>
 </body>
 </html>
