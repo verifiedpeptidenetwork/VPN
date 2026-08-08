@@ -43,6 +43,20 @@
   .search-bar input { width:100%; padding:0.85rem 1.1rem; background:rgba(255,255,255,.03); border:1px solid rgba(216,218,232,.2); color:#fff; font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:600; outline:none; }
   .search-bar input:focus { border-color:var(--rn-teal); box-shadow:0 0 14px rgba(45,212,191,.3); }
 
+  /* Section dividers */
+  .section-divider {
+    position:relative; z-index:2; max-width:1100px; margin:2rem auto 1rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .section-divider-line { flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--sd-color, var(--rn-teal)), transparent); }
+  .section-divider-label {
+    font-family:var(--rn-font); font-weight:800; font-size:0.75rem; letter-spacing:0.2em;
+    color:var(--sd-color, var(--rn-teal)); text-shadow:0 0 12px var(--sd-color, var(--rn-teal));
+    white-space:nowrap; padding:0.3rem 0.8rem;
+    border:1px solid var(--sd-color, var(--rn-teal));
+    background:rgba(0,0,0,.5);
+  }
+
   .vendor-grid { position:relative; z-index:2; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
 
   .vendor-card { background:linear-gradient(135deg,rgba(10,8,16,.92),rgba(4,2,10,.96)); border:1px solid rgba(216,218,232,.14); border-top:2px solid var(--vc,var(--rn-teal)); clip-path:polygon(0 12px,12px 0,100% 0,100% 100%,0 100%); padding:1.1rem 1.2rem; transition:transform .15s, box-shadow .2s; }
@@ -50,12 +64,14 @@
   .vendor-name { font-family:var(--rn-font); font-weight:800; font-size:0.98rem; letter-spacing:0.05em; color:var(--vc,var(--rn-teal)); margin-bottom:0.3rem; }
   .vendor-tags { font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:rgba(216,218,232,.55); line-height:1.6; margin-bottom:0.7rem; }
   .in-shop-badge { display:inline-block; font-family:var(--rn-font); font-weight:700; font-size:0.6rem; letter-spacing:0.1em; padding:2px 8px; background:var(--rn-violet); color:#fff; margin-bottom:0.5rem; }
+  .new-badge { display:inline-block; font-family:var(--rn-font); font-weight:700; font-size:0.6rem; letter-spacing:0.1em; padding:2px 8px; background:#ff6b00; color:#fff; margin-bottom:0.5rem; margin-left:4px; }
   .vendor-links { display:flex; flex-wrap:wrap; gap:0.5rem; }
   .vendor-links a { font-family:'Share Tech Mono',monospace; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; padding:0.4rem 0.7rem; border:1px solid var(--vc,var(--rn-teal)); color:var(--vc,var(--rn-teal)); text-decoration:none; transition:background .2s; }
   .vendor-links a:hover { background:rgba(45,212,191,.12); }
   .vendor-note { font-size:0.8rem; color:rgba(216,218,232,.7); margin-top:0.5rem; line-height:1.5; }
+  .ship-tag { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:rgba(45,212,191,.7); margin-top:0.4rem; }
 
-  /* Second password lock for this page specifically */
+  /* Password lock */
   #vv-lock {
     position:fixed; inset:0; z-index:99999; background:#030206;
     display:flex; align-items:center; justify-content:center; padding:1.5rem;
@@ -92,8 +108,8 @@
 <div id="vv-lock">
   <div class="vv-lock-box">
     <div class="vv-lock-icon">🔒</div>
-    <div class="vv-lock-title">SECOND LOCK ENGAGED</div>
-    <div class="vv-lock-sub">VENDOR VAULT · ADDITIONAL PASSWORD REQUIRED</div>
+    <div class="vv-lock-title">VENDOR VAULT</div>
+    <div class="vv-lock-sub">RESTRICTED ACCESS · PASSWORD REQUIRED</div>
     <input id="vv-lock-input" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkVVLock()">
     <button onclick="checkVVLock()">UNLOCK</button>
     <div class="vv-lock-err" id="vv-lock-err"></div>
@@ -103,7 +119,7 @@
 <script>
   function checkVVLock(){
     var v = document.getElementById('vv-lock-input').value.trim().toLowerCase();
-    if (v === 'vendetta') {
+    if (v === 'allah') {
       document.getElementById('vv-lock').classList.add('hidden');
     } else {
       document.getElementById('vv-lock-err').textContent = 'Incorrect password.';
@@ -135,11 +151,11 @@
   <summary>🔍 HOW TO SPOT A FAKE COA — TAP TO EXPAND</summary>
   <div class="coa-guide-body">
     <div class="coa-point"><strong>1. Match the batch/lot number.</strong> The COA must show a batch or lot number that matches the one printed on your actual vial label. If the vendor can't produce a COA tied to your specific batch, that's a red flag.</div>
-    <div class="coa-point"><strong>2. Verify the testing lab is real.</strong> Look up the lab's name independently (not just a link the vendor gives you). Legitimate 3rd-party labs (e.g. Janoshik, MZ Biolabs) have their own websites and a track record — check if the report format matches what the lab actually publishes.</div>
-    <div class="coa-point"><strong>3. Check for inconsistent purity/mass results.</strong> Be suspicious of COAs claiming suspiciously round numbers (always exactly 99.9%) or no mass spec / HPLC chromatogram images included — real lab reports usually include the raw chromatogram, not just a summary number.</div>
-    <div class="coa-point"><strong>4. Cross-check the date.</strong> An old COA reused across many different batches is a major warning sign — testing should be batch-specific and reasonably recent.</div>
-    <div class="coa-point"><strong>5. Contact the lab directly if unsure.</strong> Many testing labs will confirm (without revealing private client info) whether a report ID is genuine. If a vendor discourages you from doing this, that's itself a red flag.</div>
-    <div class="coa-point"><strong>6. Watch for edited PDFs.</strong> Check document metadata/properties where possible — reports edited in image software or generic PDF editors (rather than exported directly from lab software) are a warning sign.</div>
+    <div class="coa-point"><strong>2. Verify the testing lab is real.</strong> Look up the lab's name independently. Legitimate 3rd-party labs (e.g. Janoshik, MZ Biolabs) have their own websites — check if the report format matches what the lab actually publishes.</div>
+    <div class="coa-point"><strong>3. Check for inconsistent purity/mass results.</strong> Be suspicious of COAs claiming suspiciously round numbers (always exactly 99.9%) or no mass spec / HPLC chromatogram images included.</div>
+    <div class="coa-point"><strong>4. Cross-check the date.</strong> An old COA reused across many batches is a major warning sign — testing should be batch-specific and reasonably recent.</div>
+    <div class="coa-point"><strong>5. Contact the lab directly if unsure.</strong> Many testing labs will confirm (without revealing private client info) whether a report ID is genuine.</div>
+    <div class="coa-point"><strong>6. Watch for edited PDFs.</strong> Reports edited in image software rather than exported directly from lab software are a warning sign.</div>
   </div>
 </details>
 
@@ -147,95 +163,70 @@
   <input type="text" id="vendor-search" placeholder="Search vendor name, country, or payment method…" oninput="filterVendors()">
 </div>
 
-<div class="vendor-grid" id="vendor-grid">
+<!-- ══════════════════════════════════════
+     🇺🇸  US VENDORS
+══════════════════════════════════════ -->
+<div class="section-divider" style="--sd-color:#2dd4bf;">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-label">🇺🇸 US / DOMESTIC VENDORS</div>
+  <div class="section-divider-line"></div>
+</div>
 
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="kerui peptides mia china 3rd party tested credit debit wire crypto">
-    <div class="vendor-name">Kerui Peptides (MIA)</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 3rd Party Tested · Credit/Debit · Wire · Crypto</div>
-    <div class="vendor-links">
-      <a href="https://wa.me/85244722635" target="_blank" rel="noopener">📱 WhatsApp</a>
-    </div>
-  </div>
+<div class="vendor-grid" id="vendor-grid-us">
 
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="wanshun peptide sophie china inner circle tested credit debit usd cad mia luna irene">
-    <div class="vendor-name">Wanshun Peptide (Sophie)</div>
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="innopeptide loreler usa based credit debit 3rd party tested whatsapp channel crypto wire">
+    <div class="vendor-name">InnoPeptides (Loreler)</div>
     <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 Inner Circle Tested · Credit/Debit · 3rd Party Tested · USD/CAD pricing</div>
+    <div class="vendor-tags">🇺🇸 USA Based · Crypto &amp; Wire · 3rd Party Tested</div>
     <div class="vendor-links">
-      <a href="https://wa.me/85267291670" target="_blank" rel="noopener">📱 WhatsApp</a>
-      <a href="https://wanshunpeptide.com" target="_blank" rel="noopener">🌐 Website</a>
-    </div>
-    <div class="vendor-note">Other reps: Mia +852 6550 5338 · Luna +852 4635 9085 · Irene +852 4600 7964</div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#d8dae8;" data-search="anya china inner circle tested 3rd party tested">
-    <div class="vendor-name">Anya</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 Inner Circle Tested · 3rd Party Tested</div>
-    <div class="vendor-links">
-      <a href="https://wa.me/85268860568" target="_blank" rel="noopener">📱 WhatsApp</a>
-    </div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="innopeptide loreler usa based credit debit 3rd party tested whatsapp channel">
-    <div class="vendor-name">InnoPeptide (Loreler)</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇺🇸 USA Based · Credit/Debit · 3rd Party Tested</div>
-    <div class="vendor-links">
-      <a href="tel:+12313921328">📞 Call</a>
+      <a href="tel:+12313921328">📞 +1 (231) 392-1328</a>
       <a href="https://whatsapp.com/channel/0029VbCnmsq77qVXwMkUyP3X" target="_blank" rel="noopener">📢 WhatsApp Channel</a>
     </div>
+    <div class="ship-tag">⏱ 10-15 Days · Note: Loreler not in Skool</div>
   </div>
 
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="marvel peptide china 3rd party tested">
-    <div class="vendor-name">Marvel Peptide</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 3rd Party Tested</div>
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="global wellness labs julia usa visa mastercard amex apple pay google pay crypto wire">
+    <div class="vendor-name">Global Wellness Labs (Julia)</div>
+    <div class="new-badge">NEW</div>
+    <div class="vendor-tags">🇺🇸 USA Based · Visa/MC/Amex · Apple Pay · Google Pay · Crypto · Wire</div>
     <div class="vendor-links">
-      <a href="https://wa.me/85267059715" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="https://wa.me/12138188241" target="_blank" rel="noopener">📱 +1 (213) 818-8241</a>
+      <a href="https://wa.me/96138502842704" target="_blank" rel="noopener">📱 Backup Line</a>
     </div>
+    <div class="ship-tag">⏱ 1-2 Days Shipping</div>
   </div>
 
-  <div class="vendor-card" style="--vc:#d8dae8;" data-search="lilipeptide luna china 3rd party tested">
-    <div class="vendor-name">LiliPeptide (Luna)</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 3rd Party Tested</div>
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="luvino peptides sophia usa usdt usdc btc crypto 3 day delivery whatsapp">
+    <div class="vendor-name">Luvino Peptides (Sophia)</div>
+    <div class="new-badge">NEW</div>
+    <div class="vendor-tags">🇺🇸 USA Based · USDT · USDC · BTC</div>
     <div class="vendor-links">
-      <a href="https://wa.me/85265536423" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="https://wa.me/17252448930" target="_blank" rel="noopener">📱 +1 (725) 244-8930</a>
     </div>
+    <div class="ship-tag">⏱ 3-Day Delivery · $30 Ship · Free after $300 · Free Overnight $1,000+</div>
   </div>
 
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="bio peptides hong kong">
-    <div class="vendor-name">Bio Peptides</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇭🇰 Hong Kong</div>
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="instant peptides instantpeptides chris usa single vial retail credit card all forms">
+    <div class="vendor-name">InstantPeptides.com (Chris)</div>
+    <div class="vendor-tags">🇺🇸 USA Based · All Forms of Payment · Single Vial Retail</div>
     <div class="vendor-links">
-      <a href="https://wa.me/85270259794" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="tel:+19542048265">📞 Call</a>
+      <a href="https://instantpeptides.com" target="_blank" rel="noopener">🌐 Website</a>
     </div>
+    <div class="ship-tag">⏱ 2-4 Days</div>
   </div>
 
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="peptide laboratory audrey usa inner circle tested">
-    <div class="vendor-name">Peptide Laboratory (Audrey)</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇺🇸 Inner Circle Tested · Contact Audrey Carter</div>
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="crushresearch crush research shop rory usa all forms credit debit crypto">
+    <div class="vendor-name">CrushResearch.shop (Rory)</div>
+    <div class="new-badge">NEW</div>
+    <div class="vendor-tags">🇺🇸 USA Based · All Forms of Payment</div>
     <div class="vendor-links">
-      <a href="https://wa.me/85255886802" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a href="https://crushresearch.shop" target="_blank" rel="noopener">🌐 crushresearch.shop</a>
     </div>
+    <div class="ship-tag">⏱ 2-4 Days</div>
   </div>
 
-  <div class="vendor-card" style="--vc:#d8dae8;" data-search="mkm peptides cassie china crypto alibaba google apple pay credit debit wire free shipping">
-    <div class="vendor-name">MKM Peptides (Cassie)</div>
-    <div class="in-shop-badge">IN SHOP</div>
-    <div class="vendor-tags">🇨🇳 Crypto · Alibaba · Google/Apple Pay · Credit/Debit · Wire · Free ship over $700 · 3–5 day lead</div>
-    <div class="vendor-links">
-      <a href="https://wa.me/8617659906901" target="_blank" rel="noopener">📱 WhatsApp</a>
-      <a href="https://t.me/17659906901" target="_blank" rel="noopener">✈ Telegram</a>
-    </div>
-    <div class="vendor-note">Discord: cassie2476434775</div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="swite2610 usa telegram coa free shipping venmo apple pay cash app zelle crypto">
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="swite2610 usa telegram coa free shipping venmo apple pay cash app zelle crypto">
     <div class="vendor-name">@swite2610</div>
     <div class="in-shop-badge">IN SHOP</div>
     <div class="vendor-tags">🇺🇸 Ships 24–48hrs · COAs Available · Free Ship 4+ items · Venmo/Apple Pay/Cash App/Zelle/Crypto</div>
@@ -244,25 +235,10 @@
     </div>
   </div>
 
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="kr peptides korea verify before ordering">
-    <div class="vendor-name">KR Peptides</div>
-    <div class="vendor-tags">🇰🇷 Korea-Based Vendor</div>
-    <div class="vendor-note">⚠ Price list / contact info not provided by vendor — verify carefully before ordering.</div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#d8dae8;" data-search="us warehouse a b usa shipping">
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="us warehouse a b usa shipping">
     <div class="vendor-name">US Warehouse (A/B)</div>
     <div class="vendor-tags">🇺🇸 USA Warehouse · 3–5 day delivery · $40 shipping</div>
     <div class="vendor-note">Two separate warehouse locations — confirm which one ships your order.</div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="instant peptides usa single vial retail credit card">
-    <div class="vendor-name">Instant Peptides</div>
-    <div class="vendor-tags">🇺🇸 Single Vial Retail · Credit Card</div>
-    <div class="vendor-links">
-      <a href="tel:+19542048265">📞 Call</a>
-      <a href="https://instantpeptides.com" target="_blank" rel="noopener">🌐 Website</a>
-    </div>
   </div>
 
   <div class="vendor-card" style="--vc:#8b3dff;" data-search="kevkaycar usa vendor referral telegram">
@@ -281,7 +257,131 @@
     </div>
   </div>
 
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="reta group zoey ghk-cu raw materials china">
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="unicornfartzz usa vendor referral telegram">
+    <div class="vendor-name">Unicornfartzz</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor Referral</div>
+    <div class="vendor-links">
+      <a href="https://t.me/unicornfartzz" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="the beauty deli usa beauty aesthetic products instagram">
+    <div class="vendor-name">The Beauty Deli</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor · Beauty &amp; Aesthetic Products</div>
+    <div class="vendor-links">
+      <a href="https://instagram.com/thebeautydeli.co" target="_blank" rel="noopener">📷 Instagram</a>
+      <a href="https://thebeautydeli.com" target="_blank" rel="noopener">🌐 Website</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="medglobe exims usa ivermectin telegram">
+    <div class="vendor-name">Medglobe Exims</div>
+    <div class="vendor-tags">🇺🇸 USA Vendor · Ivermectin · Telegram Group</div>
+    <div class="vendor-links">
+      <a href="https://t.me/globem15" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     🇨🇳  CHINA / HK VENDORS
+══════════════════════════════════════ -->
+<div class="section-divider" style="--sd-color:#ff6b35;">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-label">🇨🇳 CHINA / HONG KONG VENDORS</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="vendor-grid" id="vendor-grid-cn">
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="kerui peptides mia wang li china 3rd party tested credit debit wire crypto">
+    <div class="vendor-name">Kerui Peptides</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 3rd Party Tested · Crypto &amp; Wire</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85244722635" target="_blank" rel="noopener">📱 Mia +852 4472 2635</a>
+      <a href="https://wa.me/85251704324" target="_blank" rel="noopener">📱 Wang Li +852 5170 4324</a>
+    </div>
+    <div class="ship-tag">⏱ 10-15 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="wanshun peptide sophie china inner circle tested credit debit usd cad mia luna irene">
+    <div class="vendor-name">WanShun Peptide (Sophie)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 All Forms (CC over $1k) · 3rd Party Tested · USD/CAD pricing</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85267291670" target="_blank" rel="noopener">📱 +852 6729 1670</a>
+      <a href="https://wanshunpeptide.com" target="_blank" rel="noopener">🌐 Website</a>
+    </div>
+    <div class="vendor-note">Other reps: Chloe · Jessie · Irene · Luna · Vera</div>
+    <div class="ship-tag">⏱ 15-20 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="peptide laboratory audrey china hong kong all forms credit debit wire crypto">
+    <div class="vendor-name">Peptide Laboratory (Audrey)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 All Forms of Payment · Contact Audrey Carter</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85255886802" target="_blank" rel="noopener">📱 +852 5588 6802</a>
+    </div>
+    <div class="ship-tag">⏱ 15-20 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="marvel peptide kitty china 3rd party tested all forms">
+    <div class="vendor-name">Marvel Peptides (Kitty)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 All Forms of Payment · 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85267059715" target="_blank" rel="noopener">📱 +852 6705 9715</a>
+    </div>
+    <div class="ship-tag">⏱ 15-20 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="mkm peptides cassie china crypto alibaba google apple pay credit debit wire free shipping">
+    <div class="vendor-name">MKM Peptides (Cassie)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 Crypto · Alibaba · Google/Apple Pay · Credit/Debit · Wire · Free ship over $700</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/8617659906901" target="_blank" rel="noopener">📱 +86 176 5990 6901</a>
+      <a href="https://wa.me/8615100095795" target="_blank" rel="noopener">📱 +86 151 0009 5795</a>
+      <a href="https://t.me/17659906901" target="_blank" rel="noopener">✈ Telegram</a>
+    </div>
+    <div class="vendor-note">Discord: cassie2476434775</div>
+    <div class="ship-tag">⏱ 7-15 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="lilipeptide mia becky luna china 3rd party tested all forms">
+    <div class="vendor-name">LiliPeptide (Mia Becky)</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 All Forms of Payment · 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85265566430" target="_blank" rel="noopener">📱 +852 6556 6430</a>
+      <a href="https://wa.me/85244578393" target="_blank" rel="noopener">📱 +852 4457 8393</a>
+    </div>
+    <div class="ship-tag">⏱ 7-15 Days</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="sq peptides li na china usdt usdc btc alibaba crypto">
+    <div class="vendor-name">SQ Peptides (Li Na)</div>
+    <div class="new-badge">NEW</div>
+    <div class="vendor-tags">🇨🇳 USDT · USDC · BTC · Alibaba (fee applies)</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/8619041690881" target="_blank" rel="noopener">📱 +86 190 4169 0881</a>
+    </div>
+    <div class="ship-tag">⏱ 2-4 Days · Free after $300</div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="anya china inner circle tested 3rd party tested">
+    <div class="vendor-name">Anya</div>
+    <div class="in-shop-badge">IN SHOP</div>
+    <div class="vendor-tags">🇨🇳 Inner Circle Tested · 3rd Party Tested</div>
+    <div class="vendor-links">
+      <a href="https://wa.me/85268860568" target="_blank" rel="noopener">📱 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="vendor-card" style="--vc:#d8dae8;" data-search="reta group zoey ghk-cu raw materials china cheap">
     <div class="vendor-name">Reta Group (Zoey)</div>
     <div class="vendor-tags">🇨🇳 GHK-Cu Raw Materials · Cheap Pricing</div>
     <div class="vendor-links">
@@ -289,12 +389,23 @@
     </div>
   </div>
 
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="unicornfartzz usa vendor referral telegram">
-    <div class="vendor-name">Unicornfartzz</div>
-    <div class="vendor-tags">🇺🇸 USA Vendor Referral</div>
-    <div class="vendor-links">
-      <a href="https://t.me/unicornfartzz" target="_blank" rel="noopener">✈ Telegram</a>
-    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     🌐  OTHER / INTERNATIONAL
+══════════════════════════════════════ -->
+<div class="section-divider" style="--sd-color:#8b3dff;">
+  <div class="section-divider-line"></div>
+  <div class="section-divider-label">🌐 OTHER / INTERNATIONAL</div>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="vendor-grid" id="vendor-grid-other">
+
+  <div class="vendor-card" style="--vc:#8b3dff;" data-search="kr peptides korea verify before ordering">
+    <div class="vendor-name">KR Peptides</div>
+    <div class="vendor-tags">🇰🇷 Korea-Based Vendor</div>
+    <div class="vendor-note">⚠ Price list / contact info not provided by vendor — verify carefully before ordering.</div>
   </div>
 
   <div class="vendor-card" style="--vc:#d8dae8;" data-search="david park pink drop medifere beauty vendor korea medical aesthetic seoul">
@@ -305,23 +416,6 @@
       <a href="tel:+821096723840">📞 Call</a>
     </div>
     <div class="vendor-note">1604–1606ho, 25 Yeonmujang 5ga-gil, Seongdong-gu, Seoul, South Korea</div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#2dd4bf;" data-search="the beauty deli usa beauty aesthetic products instagram">
-    <div class="vendor-name">The Beauty Deli</div>
-    <div class="vendor-tags">🇺🇸 USA Vendor · Beauty &amp; Aesthetic Products</div>
-    <div class="vendor-links">
-      <a href="https://instagram.com/thebeautydeli.co" target="_blank" rel="noopener">📷 Instagram</a>
-      <a href="https://thebeautydeli.com" target="_blank" rel="noopener">🌐 Website</a>
-    </div>
-  </div>
-
-  <div class="vendor-card" style="--vc:#8b3dff;" data-search="medglobe exims usa ivermectin telegram">
-    <div class="vendor-name">Medglobe Exims</div>
-    <div class="vendor-tags">🇺🇸 USA Vendor · Ivermectin · Telegram Group</div>
-    <div class="vendor-links">
-      <a href="https://t.me/globem15" target="_blank" rel="noopener">✈ Telegram</a>
-    </div>
   </div>
 
 </div>
