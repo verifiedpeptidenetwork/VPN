@@ -5634,10 +5634,11 @@ document.addEventListener('keydown', function(e){
     .retro80-grid{position:absolute;bottom:0;left:-25%;right:-25%;height:40%;background-image:linear-gradient(to right,rgba(255,45,120,0.45) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,245,255,0.28) 1px,transparent 1px);background-size:clamp(18px,4.5vw,36px) clamp(14px,3vw,26px);transform:perspective(180px) rotateX(62deg);transform-origin:bottom center;opacity:0.55;pointer-events:none;}
     /* logo image fills most of the card */
     .retro80-img{width:90%;height:90%;border-radius:50%;object-fit:cover;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
-    .retro80-glow{position:absolute;top:50%;left:50%;width:90%;height:90%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,165,0,0.22) 0%,rgba(255,100,0,0.12) 40%,transparent 70%);pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
+    .retro80-glow{position:absolute;top:50%;left:50%;width:90%;height:90%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(157,0,255,0.22) 0%,rgba(0,245,255,0.08) 40%,transparent 70%);pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
     /* scanline top of card */
-    .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#ffcc00,#ff6b00,transparent);opacity:0.8;z-index:10;}
-    .retro80-tag{margin-top:0.6rem;position:relative;z-index:6;font-family:'Bebas Neue',sans-serif;font-size:clamp(0.65rem,2.6vw,0.88rem);letter-spacing:0.22em;color:#fff;text-shadow:0 0 12px #00f5ff,0 0 24px rgba(255,180,0,0.6);text-transform:uppercase;}
+    .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
+    .retro80-tag{display:none;}
+    .retro80-arc-wrap{position:relative;width:100%;display:flex;justify-content:center;margin-top:-30px;z-index:10;}
   </style>
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
@@ -5654,7 +5655,29 @@ document.addEventListener('keydown', function(e){
       <div class="retro80-glow"></div>
       <img src="ruivpnlogo.png?v=1" alt="Verified Peptides Network" class="retro80-img">
     </div>
-    <div class="retro80-tag">Bloodwork · Verify · Research · Safety</div>
+  </div>
+  <!-- Arc text wrapping around the bottom of the logo -->
+  <div class="retro80-arc-wrap">
+    <svg viewBox="0 0 500 120" width="500" height="120" style="max-width:90vw;filter:drop-shadow(0 0 8px #00f5ff) drop-shadow(0 0 18px rgba(255,0,128,0.6));">
+      <defs>
+        <path id="arcPath" d="M 30,100 A 220,220 0 0,1 470,100"/>
+        <filter id="neonGlow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <text font-family="'Bebas Neue', sans-serif" font-size="16" letter-spacing="3" fill="#ffffff" filter="url(#neonGlow)">
+        <textPath href="#arcPath" startOffset="50%" text-anchor="middle">
+          DO YOUR BLOOD WORK  ·  VERIFY EVERYTHING WITH RESEARCH  ·  BE SAFE  ·  WORK WITH YOUR DOCTOR
+        </textPath>
+      </text>
+      <!-- Second pass for the neon color -->
+      <text font-family="'Bebas Neue', sans-serif" font-size="16" letter-spacing="3" fill="#00f5ff" opacity="0.7">
+        <textPath href="#arcPath" startOffset="50%" text-anchor="middle">
+          DO YOUR BLOOD WORK  ·  VERIFY EVERYTHING WITH RESEARCH  ·  BE SAFE  ·  WORK WITH YOUR DOCTOR
+        </textPath>
+      </text>
+    </svg>
   </div>
 
   <!-- HERO -->
