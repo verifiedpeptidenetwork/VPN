@@ -78,7 +78,7 @@
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 13px;
-    background-color: #050012;
+    background-color: #04000f;
     background-image: url('GLOWRILLAWALLPAPER.png');
     background-size: cover;
     background-position: center top;
@@ -108,7 +108,29 @@
     }
   }
 
-  /* Dark scrim — merged into scanlines rule below; this block intentionally empty */
+  /* Cyberpunk dark overlay — tints wallpaper dark purple so neon colors pop */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      135deg,
+      rgba(4,0,15,0.82) 0%,
+      rgba(20,0,50,0.75) 40%,
+      rgba(4,0,30,0.80) 70%,
+      rgba(0,10,30,0.78) 100%
+    );
+    pointer-events: none;
+  }
+  @media (max-width: 1024px) {
+    body::before {
+      background-image: url('GLOWRILLAWALLPAPER.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
+  }
 
   /* Global: replace Share Tech Mono with bold Rajdhani everywhere — CSS classes + inline styles */
   *[style*="Share Tech Mono"],
@@ -143,18 +165,19 @@
     pointer-events: none;
   }
 
-  /* Scanlines only — no dark scrim so wallpaper shows through */
+  /* Cyberpunk scrim + scanlines over wallpaper */
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     background:
+      linear-gradient(135deg, rgba(4,0,15,0.80) 0%, rgba(20,0,50,0.72) 40%, rgba(4,0,30,0.78) 70%, rgba(0,10,30,0.76) 100%),
       repeating-linear-gradient(
         0deg,
         transparent,
         transparent 2px,
-        rgba(0,0,0,0.06) 2px,
-        rgba(0,0,0,0.06) 4px
+        rgba(0,0,0,0.12) 2px,
+        rgba(0,0,0,0.12) 4px
       );
     pointer-events: none;
     z-index: -1;
