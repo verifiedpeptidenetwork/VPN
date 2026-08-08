@@ -5638,8 +5638,9 @@ document.addEventListener('keydown', function(e){
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
-    .retro80-arc-svg{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:calc(var(--r80) + 200px);height:160px;overflow:visible;z-index:20;pointer-events:none;}
+    .retro80-disclaimer{width:100%;max-width:900px;margin:0 auto 0.6rem;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:clamp(0.9rem,2.2vw,1.2rem);letter-spacing:0.18em;color:#fff;text-shadow:0 0 10px #00f5ff,0 0 22px rgba(255,0,128,0.7),0 0 40px rgba(157,0,255,0.4);line-height:1.5;padding:0.5rem 1rem;background:rgba(4,0,15,0.6);border-top:1px solid rgba(0,245,255,0.25);border-bottom:1px solid rgba(255,0,128,0.25);}
   </style>
+  <div class="retro80-disclaimer">DO YOUR BLOOD WORK &nbsp;·&nbsp; VERIFY EVERYTHING WITH RESEARCH &nbsp;·&nbsp; BE SAFE &nbsp;·&nbsp; WORK WITH YOUR DOCTOR</div>
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
     <div class="retro80-ring-wrap">
@@ -5655,33 +5656,6 @@ document.addEventListener('keydown', function(e){
       <div class="retro80-glow"></div>
       <img src="ruivpnlogo.png?v=1" alt="Verified Peptides Network" class="retro80-img">
     </div>
-    <!-- Arc text wrapping around the bottom of the logo -->
-    <svg class="retro80-arc-svg" viewBox="0 0 600 140">
-      <defs>
-        <path id="bottomArc" d="M 15,130 A 285,285 0 0,0 585,130"/>
-        <filter id="arcGlow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="5" result="blur1"/>
-          <feGaussianBlur stdDeviation="2" result="blur2"/>
-          <feMerge><feMergeNode in="blur1"/><feMergeNode in="blur2"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-        <filter id="arcGlow2" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="8" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <!-- outer wide glow — cyan -->
-      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#00f5ff" filter="url(#arcGlow2)" opacity="0.8">
-        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
-      </text>
-      <!-- tight glow — pink -->
-      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#ff0080" filter="url(#arcGlow)">
-        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
-      </text>
-      <!-- crisp white on top -->
-      <text font-family="'Bebas Neue', sans-serif" font-size="26" letter-spacing="3.5" fill="#ffffff">
-        <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">DO YOUR BLOOD WORK · VERIFY EVERYTHING WITH RESEARCH · BE SAFE · WORK WITH YOUR DOCTOR</textPath>
-      </text>
-    </svg>
   </div>
 
   <!-- HERO -->
