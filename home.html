@@ -79,9 +79,9 @@
     font-weight: 700;
     font-size: 13px;
     background-color: #04000f;
-    background-image: url('VPNNEWLOGO.png');
+    background-image: url('WALLPAPER.png');
     background-size: cover;
-    background-position: center top;
+    background-position: center 20%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-width: 100vw;
@@ -101,18 +101,34 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background-image: url('VPNNEWLOGO.png');
+      background-image: url('WALLPAPER.png');
       background-size: cover;
-      background-position: center top;
+      background-position: center 20%;
       background-repeat: no-repeat;
     }
   }
 
-  /* Portrait phone — zoom out so full logo is visible */
+  /* Landscape phone/iPad — wide image fits naturally */
+  @media (max-width: 1024px) and (orientation: landscape) {
+    body::before {
+      background-size: cover;
+      background-position: center 15%;
+    }
+  }
+
+  /* Portrait phone — zoom out so researchers are visible */
   @media (max-width: 600px) and (orientation: portrait) {
     body::before {
-      background-size: contain;
-      background-position: center center;
+      background-size: 280% auto;
+      background-position: center 25%;
+    }
+  }
+
+  /* Portrait tablet (iPad) */
+  @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+    body::before {
+      background-size: 200% auto;
+      background-position: center 20%;
     }
   }
 
