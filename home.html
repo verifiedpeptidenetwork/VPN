@@ -5638,9 +5638,18 @@ document.addEventListener('keydown', function(e){
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
-    .retro80-disclaimer{width:100%;max-width:900px;margin:0 auto 0.6rem;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:clamp(0.9rem,2.2vw,1.2rem);letter-spacing:0.18em;color:#fff;text-shadow:0 0 10px #00f5ff,0 0 22px rgba(255,0,128,0.7),0 0 40px rgba(157,0,255,0.4);line-height:1.5;padding:0.5rem 1rem;background:rgba(4,0,15,0.6);border-top:1px solid rgba(0,245,255,0.25);border-bottom:1px solid rgba(255,0,128,0.25);}
+    .retro80-ticker{width:100%;overflow:hidden;background:rgba(0,0,0,0.75);border-top:2px solid #00f5ff;border-bottom:2px solid #ff0080;padding:0.45rem 0;margin-bottom:0.75rem;position:relative;z-index:10;}
+    .retro80-ticker-inner{display:inline-block;white-space:nowrap;animation:tickerScroll 18s linear infinite;}
+    .retro80-ticker-inner:hover{animation-play-state:paused;}
+    @keyframes tickerScroll{0%{transform:translateX(60vw);}100%{transform:translateX(-100%);}}
+    .retro80-ticker span{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.22em;color:#fff;text-shadow:0 0 8px #00f5ff,0 0 18px rgba(255,0,128,0.8);padding:0 2.5rem;}
+    .retro80-ticker .dot{color:#ff0080;text-shadow:0 0 10px #ff0080;}
   </style>
-  <div class="retro80-disclaimer">DO YOUR BLOOD WORK &nbsp;·&nbsp; VERIFY EVERYTHING WITH RESEARCH &nbsp;·&nbsp; BE SAFE &nbsp;·&nbsp; WORK WITH YOUR DOCTOR</div>
+  <div class="retro80-ticker">
+    <div class="retro80-ticker-inner">
+      <span>DO YOUR BLOOD WORK</span><span class="dot">✦</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">✦</span><span>BE SAFE</span><span class="dot">✦</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">✦</span><span>DO YOUR BLOOD WORK</span><span class="dot">✦</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">✦</span><span>BE SAFE</span><span class="dot">✦</span><span>WORK WITH YOUR DOCTOR</span>
+    </div>
+  </div>
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
     <div class="retro80-ring-wrap">
