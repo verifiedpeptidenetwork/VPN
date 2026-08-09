@@ -5823,7 +5823,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- WHY WE'RE HERE -->
   <div style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
-    <button onclick="(function(b){var d=document.getElementById('why-here-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.why-arrow').textContent=open?'▲':'▼';})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);background:rgba(0,10,30,0.92);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px 6px 0 0;">
+    <button id="why-here-btn" onclick="(function(b){var d=document.getElementById('why-here-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.why-arrow').textContent=open?'▲':'▼';b.style.borderRadius=open?'6px 6px 0 0':'6px';if(open){setTimeout(function(){d.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);background:rgba(0,10,30,0.92);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px;">
       🏛️ Why We're Here <span class="why-arrow" style="margin-left:auto;font-size:0.75rem;opacity:0.6;">▼</span>
     </button>
     <div id="why-here-body" style="display:none;padding:1rem 1.25rem 1.1rem;background:rgba(0,10,30,0.95);border:2px solid var(--neon-cyan);border-top:none;border-radius:0 0 6px 6px;">
