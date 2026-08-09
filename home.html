@@ -4956,11 +4956,6 @@ document.addEventListener('keydown', function(e){
       @keyframes newsStripe{0%{background-position:0% 0%;}100%{background-position:200% 0%;}}
     </style>
     <div id="home-latest-news" style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
-      <!-- FULL PAGE LINK BANNER -->
-      <a href="latest-news.html" style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;width:100%;box-sizing:border-box;padding:0.55rem 1rem;background:linear-gradient(90deg,rgba(0,245,255,0.08),rgba(157,0,255,0.06));border:1px solid rgba(0,245,255,0.3);border-radius:7px;text-decoration:none;margin-bottom:0.55rem;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:rgba(0,245,255,0.75);">📡 VIEW FULL NEWSPAPER — VPN DISPATCH</span>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;color:#00f5ff;border:1px solid rgba(0,245,255,0.4);padding:0.18rem 0.65rem;border-radius:3px;white-space:nowrap;">OPEN PAGE →</span>
-      </a>
       <!-- CYBERPUNK HEADER BUTTON -->
       <button id="ln-toggle-btn" onclick="(function(btn){var body=document.getElementById('ln-news-body');var open=body.style.display!=='block';body.style.display=open?'block':'none';btn.querySelector('.ln-arrow').textContent=open?'▲':'▼';btn.setAttribute('data-open',open?'1':'0');if(open){setTimeout(function(){body.scrollIntoView({behavior:'smooth',block:'start'});},60);}})(this)" data-open="0"
         style="width:100%;cursor:pointer;background:linear-gradient(135deg,#0d0014 0%,#0a000f 100%);border:2px solid #ff2d78;border-radius:10px 10px 0 0;padding:0;overflow:hidden;position:relative;display:block;text-align:left;animation:newsHeaderPulse 3s ease-in-out infinite;">
@@ -4971,8 +4966,9 @@ document.addEventListener('keydown', function(e){
             <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.2em;color:#ff2d78;text-shadow:0 0 18px rgba(255,45,120,0.9),0 0 36px rgba(255,45,120,0.4);">LATEST NEWS</span>
             <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.22em;color:rgba(0,245,255,0.5);">BREAKING · RESEARCH · UPDATES · PEPTIDES</span>
           </div>
-          <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0.2rem;">
+          <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;">
             <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.15em;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.4);color:#ff2d78;border-radius:3px;">LIVE FEED</span>
+            <a href="latest-news.html" onclick="event.stopPropagation();" style="font-family:'Bebas Neue',sans-serif;font-size:0.62rem;letter-spacing:0.14em;color:#00f5ff;text-decoration:none;opacity:0.7;">📰 FULL PAGE ↗</a>
             <span class="ln-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:rgba(0,245,255,0.6);letter-spacing:0.1em;">▼ OPEN</span>
           </div>
         </div>
@@ -10295,11 +10291,8 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-  <!-- ── PEPTIDE COMPOUND GUIDES ───────────────────────── -->
-  <div style="margin-bottom:1rem;margin-top:1.75rem;">
-    <div class="qg-section-label purple">🔬 PEPTIDE COMPOUND GUIDES</div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:0.75rem;">
+  <!-- PEPTIDE COMPOUND GUIDES moved to Cheat Sheet Vault -->
+  <div style="display:none;">
 
     <!-- GHK-Cu What to Expect -->
     <div style="border:1px solid rgba(0,255,100,0.35);border-top:3px solid #00ff64;background:#080e10;overflow:hidden;">
@@ -10778,6 +10771,7 @@ document.addEventListener('keydown', function(e){
     <div class="cs-cat-tile" style="color:#c9a227;border-color:rgba(201,162,39,0.4);" onclick="csJump('cs-sec-guardian')"><span class="cs-tile-icon">🩸</span>Blood Work</div>
     <div class="cs-cat-tile" style="color:#dc64ff;border-color:rgba(220,100,255,0.4);" onclick="csJump('cs-sec-myths')"><span class="cs-tile-icon">🚫</span>Myths</div>
     <div class="cs-cat-tile" style="color:#00c8ff;border-color:rgba(0,200,255,0.4);" onclick="csJump('cs-sec-autoimmune')"><span class="cs-tile-icon">🦴</span>Autoimmune</div>
+    <div class="cs-cat-tile" style="color:#00ff64;border-color:rgba(0,255,100,0.4);" onclick="csJump('cs-sec-compound-guides')"><span class="cs-tile-icon">🔬</span>Compound Guides</div>
   </div>
   </div><!-- /cs-cat-panel -->
 
@@ -12825,6 +12819,139 @@ document.addEventListener('keydown', function(e){
             <img loading="lazy" src="cheatsheet/TESATRUTHORMYTH.png" alt="Tesamorelin Truth Or Myth" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
           </div>
         </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ── SECTION: Peptide Compound Guides ── -->
+  <details id="cs-sec-compound-guides" data-search="ghk-cu injection what to expect reactions reconstitute bacteriostatic water peptide storage compound guide" style="background:#020d14;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
+    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.5rem;">🔬</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00ff64;">Peptide Compound Guides</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,255,180,0.6);margin-top:0.1rem;">GHK-Cu Injection · Storage · Reconstitution · Bacteriostatic Water · ER Signs</div>
+        </div>
+      </div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,255,100,0.7);flex-shrink:0;">▼ 6 GUIDES</span>
+    </summary>
+    <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:0.75rem;">
+
+        <!-- GHK-Cu What to Expect -->
+        <div style="border:1px solid rgba(0,255,100,0.35);border-top:3px solid #00ff64;background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">🩹</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">GHK-Cu Injection: What to Expect &amp; When to Worry</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(180,240,200,0.6);text-transform:uppercase;letter-spacing:0.06em;">Blue Spot · Normal vs Concern · Injection Depth · ER Signs</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-ghkcu-expect.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(0,255,100,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-ghkcu-expect.png" alt="GHK-Cu Injection What to Expect" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-expect.png','GHK-Cu Injection: What to Expect & When to Worry')" />
+          </div>
+        </div>
+
+        <!-- GHK-Cu Reactions -->
+        <div style="border:1px solid rgba(255,45,120,0.35);border-top:3px solid var(--neon-pink);background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">💉</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-pink);">GHK-Cu Injections — Reactions, Timeline &amp; When to Worry</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(240,180,200,0.6);text-transform:uppercase;letter-spacing:0.06em;">Common Reactions · Adaptation Timeline · When to Seek Help</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-ghkcu-reactions.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(255,45,120,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-ghkcu-reactions.png" alt="GHK-Cu Reactions Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-reactions.png','GHK-Cu Injections — Reactions, Timeline & When to Worry')" />
+          </div>
+        </div>
+
+        <!-- Peptide Storage Guide -->
+        <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">🧊</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-cyan);">Peptide Storage Guide</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(180,220,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Before &amp; After Reconstitution · Freezer vs Fridge · Handling Each Draw</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-peptide-storage.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-peptide-storage.png" alt="Peptide Storage Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-peptide-storage.png','Peptide Storage Guide')" />
+          </div>
+        </div>
+
+        <!-- Bad Bacteriostatic Water -->
+        <div style="border:1px solid rgba(255,45,120,0.35);border-top:3px solid var(--neon-pink);background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">⚠️</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-pink);">Bad Bacteriostatic Water — How to Identify, Risks &amp; What To Do</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(240,180,200,0.6);text-transform:uppercase;letter-spacing:0.06em;">Cloudiness · Particles · Discoloration · ER Protocol</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-bad-bac-water.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(255,45,120,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-bad-bac-water.png?v=2" alt="Bad Bacteriostatic Water Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bad-bac-water.png','Bad Bacteriostatic Water — Risks & What To Do')" />
+          </div>
+        </div>
+
+        <!-- How to Reconstitute -->
+        <div style="border:1px solid rgba(157,0,255,0.35);border-top:3px solid #9d00ff;background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">🧪</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#9d00ff;">How to Reconstitute a Lyophilized Peptide Vial</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,170,255,0.6);text-transform:uppercase;letter-spacing:0.06em;">Step-by-Step Sterile Technique · 6-Step Educational Guide</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-reconstitute.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid #9d00ff;color:#9d00ff;text-decoration:none;background:rgba(157,0,255,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(157,0,255,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-reconstitute.png" alt="How to Reconstitute a Peptide Vial" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-reconstitute.png','How to Reconstitute a Lyophilized Peptide Vial')" />
+          </div>
+        </div>
+
+        <!-- BAC Water Storage -->
+        <div style="border:1px solid rgba(0,245,255,0.35);border-top:3px solid var(--neon-cyan);background:#080e10;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+               onclick="var b=this.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.8rem;">💧</span>
+              <div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--neon-cyan);">Bacteriostatic Water — Storage Guide</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(180,220,240,0.6);text-transform:uppercase;letter-spacing:0.06em;">Before &amp; After Puncture · Storage Temps · 28-Day Rule · Best Practices</div>
+              </div>
+            </div>
+            <a href="guides-pictures/guide-bac-water.png" download onclick="event.stopPropagation();"
+               style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
+          </div>
+          <div style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
+            <img loading="lazy" src="guides-pictures/guide-bac-water.png" alt="Bacteriostatic Water Storage Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bac-water.png','Bacteriostatic Water — Storage Guide')" />
+          </div>
+        </div>
+
       </div>
     </div>
   </details>
