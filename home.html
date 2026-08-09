@@ -790,6 +790,25 @@
     .main { margin-left: 0; width: 100%; padding: 1rem 1.25rem; }
   }
 
+  /* ── SIDEBAR OFFSET: push ALL body content right on desktop ── */
+  @media (min-width: 901px) {
+    #vpnSearchBar,
+    #site-hero,
+    .hero,
+    .mobile-nav-strip,
+    #ln-dropdown,
+    #glp-must-read,
+    .qa-row-wrap,
+    #vpn-hero-reta,
+    .view.active {
+      margin-left: 242px;
+      box-sizing: border-box;
+    }
+    .view.active {
+      width: calc(100% - 242px);
+    }
+  }
+
   /* === VIEWS === */
   .view { display: none; }
   .view.active { display: block; position: relative; z-index: 3; transition: opacity 0.25s; }
@@ -798,62 +817,157 @@
   #view-quick-guide { max-width: none; }
 
   /* === VIEW HERO BANNER === */
+  /* ═══════════════════ CYBERPUNK VIEW HERO BANNERS ═══════════════════ */
+  @property --vh-a { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+  @keyframes vh-ring-spin  { to { --vh-a: 360deg; } }
+  @keyframes vh-scan-sweep { 0% { top:-3px; } 100% { top:100%; } }
+  @keyframes vh-grid-pulse { 0%,100%{opacity:0.055;} 50%{opacity:0.11;} }
+  @keyframes vh-glow-pulse { 0%,100%{opacity:0.35;} 50%{opacity:0.6;} }
+  @keyframes vh-title-in   { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:none;} }
+
   .view-hero {
-    padding: 1.5rem 1.5rem 1.1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border-bottom: 2px solid var(--vh1, #ff2d78);
     margin-bottom: 1.25rem;
+    background: #04000e;
+    min-height: 110px;
   }
+  /* grid overlay */
+  .view-hero::before {
+    content:'';
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 36px 36px;
+    animation: vh-grid-pulse 5s ease-in-out infinite;
+  }
+  /* bottom radial glow */
+  .view-hero::after {
+    content:'';
+    position:absolute; bottom:0; left:0; right:0; height:130px; pointer-events:none;
+    background: radial-gradient(ellipse 70% 100% at 30% 100%, var(--vh1, #ff2d78) 0%, transparent 65%);
+    opacity: 0.18;
+    animation: vh-glow-pulse 4s ease-in-out infinite;
+  }
+
+  /* injected scan line */
+  .vh-scan {
+    position:absolute; left:0; right:0; height:2px; z-index:4; pointer-events:none;
+    background: linear-gradient(90deg, transparent 0%, var(--vh1,#ff2d78) 35%, var(--vh2,#00f5ff) 65%, transparent 100%);
+    animation: vh-scan-sweep 5s linear infinite;
+    opacity: 0.65;
+  }
+
+  /* top stripe */
+  .vh-stripe {
+    position:absolute; top:0; left:0; right:0; height:3px; z-index:3;
+    background: linear-gradient(90deg, var(--vh1,#ff2d78), var(--vh2,#00f5ff), var(--vh1,#ff2d78));
+    background-size: 200% 100%;
+    animation: vh-grid-pulse 3s ease-in-out infinite;
+  }
+
   .vh-inner {
+    position: relative; z-index: 2;
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    max-width: 100%;
+    gap: 1.4rem;
+    padding: 1.2rem 1.5rem 1.1rem;
   }
-  .vh-icon {
-    font-size: 2.6rem;
-    flex-shrink: 0;
-    line-height: 1;
+
+  /* LOGO RING — injected by JS */
+  .vh-logo-wrap {
+    position:relative; flex-shrink:0;
+    width:86px; height:86px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .vh-logo-ring {
+    position:absolute; inset:-3px; border-radius:50%;
+    background: conic-gradient(from var(--vh-a,0deg), var(--vh1,#ff2d78) 0%, var(--vh2,#00f5ff) 45%, var(--vh1,#ff2d78) 55%, var(--vh2,#00f5ff) 80%, var(--vh1,#ff2d78) 100%);
+    animation: vh-ring-spin 3.5s linear infinite;
+    opacity: 0.9;
+    filter: blur(1px);
+  }
+  .vh-logo-bg {
+    position:absolute; inset:3px; border-radius:50%;
+    background: #04000e;
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.8);
+  }
+  .vh-logo-img {
+    position:relative; z-index:1;
+    width:70px; height:70px;
+    object-fit:contain;
+    filter: drop-shadow(0 0 10px var(--vh1,#ff2d78)) drop-shadow(0 0 22px var(--vh2,#00f5ff));
+    transition: filter 0.3s;
+  }
+  .vh-logo-wrap:hover .vh-logo-img {
+    filter: drop-shadow(0 0 18px var(--vh1,#ff2d78)) drop-shadow(0 0 36px var(--vh2,#00f5ff)) brightness(1.15);
+  }
+
+  .vh-content { flex:1; min-width:0; animation: vh-title-in 0.45s ease both; }
+  .vh-eyebrow {
+    font-family:'Share Tech Mono', monospace;
+    font-size:0.6rem; letter-spacing:0.22em;
+    color: var(--vh1,#ff2d78); opacity:0.65;
+    margin-bottom:0.2rem;
   }
   .vh-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    letter-spacing: 0.12em;
-    color: var(--vh1, #ff2d78);
-    text-shadow: 0 0 20px color-mix(in srgb, var(--vh1, #ff2d78) 50%, transparent);
-    margin-bottom: 0.3rem;
+    font-size: clamp(1.8rem, 5vw, 2.9rem);
+    letter-spacing: 0.14em;
+    color: #fff;
+    text-shadow:
+      0 0 14px var(--vh1, #ff2d78),
+      0 0 32px var(--vh1, #ff2d78),
+      0 0 1px #fff;
+    margin-bottom: 0.2rem;
     line-height: 1;
   }
+  .vh-icon { display:none; } /* hidden — logo takes its place */
   .vh-sub {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255,255,255,0.65);
     line-height: 1.6;
-    max-width: 700px;
-    margin-bottom: 0.5rem;
+    max-width: 620px;
+    margin-bottom: 0.45rem;
   }
-  .vh-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .vh-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .vh-badge {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     letter-spacing: 0.18em;
-    padding: 0.22rem 0.75rem;
-    border: 1px solid rgba(255,255,255,0.22);
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--vh1,rgba(255,255,255,0.22));
     border-radius: 3px;
-    color: rgba(255,255,255,0.7);
-    background: rgba(255,255,255,0.04);
+    color: var(--vh1,rgba(255,255,255,0.7));
+    background: rgba(255,255,255,0.03);
   }
   .vh-accent-line {
     height: 2px;
-    margin-top: 1rem;
-    background: linear-gradient(90deg, var(--vh1, #ff2d78), var(--vh2, #00f5ff), transparent);
-    border-radius: 1px;
-    opacity: 0.6;
+    background: linear-gradient(90deg, var(--vh1,#ff2d78), var(--vh2,#00f5ff), transparent 80%);
+    opacity: 0.55;
   }
-  @media (max-width: 900px) {
-    .view-hero { padding: 0.85rem 1rem 0.85rem; margin-bottom: 1rem; }
-    .vh-icon { font-size: 2rem; }
-    .vh-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+
+  /* right-side glyph decoration — injected by JS */
+  .vh-glyph {
+    position:absolute; right:1.5rem; top:50%; transform:translateY(-50%);
+    font-family:'Share Tech Mono',monospace; font-size:4rem; line-height:1;
+    color: var(--vh1,#ff2d78); opacity:0.07; letter-spacing:-0.1em;
+    pointer-events:none; z-index:1; user-select:none;
+    white-space:nowrap;
+  }
+
+  @media (max-width:680px) {
+    .view-hero { min-height:auto; }
+    .vh-inner { padding:1rem 1rem 0.85rem; gap:1rem; }
+    .vh-logo-wrap { width:64px; height:64px; }
+    .vh-logo-img { width:52px; height:52px; }
+    .vh-title { font-size:clamp(1.5rem,7vw,2.2rem); }
+    .vh-glyph { font-size:2.5rem; right:0.75rem; }
   }
 
   /* Cheat Sheet Vault — responsive grid */
@@ -4882,6 +4996,109 @@ document.addEventListener('keydown', function(e){
           </div>
         </div>
 
+        <!-- ══ RETA NEWS — PINNED TOP ══ -->
+        <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;border:2px solid #ff0080;box-shadow:0 0 30px rgba(255,0,128,0.4),0 0 60px rgba(157,0,255,0.2);position:relative;">
+          <div style="height:3px;background:linear-gradient(90deg,#ff0080,#ff4500,#9d00ff,#ff4500,#ff0080);background-size:300% 100%;animation:newsStripe 1.8s linear infinite;"></div>
+          <div style="background:linear-gradient(135deg,#1a0006,#0d0008);padding:0.75rem 1rem;display:flex;align-items:center;gap:0.7rem;border-bottom:1px solid rgba(255,0,128,0.3);">
+            <span style="font-size:1.4rem;">🚨</span>
+            <div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:rgba(255,0,128,0.6);margin-bottom:0.1rem;">PINNED · BREAKING NEWS</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.18em;color:#ff0080;text-shadow:0 0 20px rgba(255,0,128,0.8),0 0 40px rgba(255,0,128,0.3);line-height:1;">⚡ RETA NEWS — FUTURE OF PEPTIDES</div>
+            </div>
+            <div style="margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;padding:0.25rem 0.65rem;background:rgba(255,0,0,0.2);border:1px solid #ff0080;color:#ff0080;border-radius:3px;animation:glowBadgeGold 1.8s ease-in-out infinite;white-space:nowrap;">🔴 LIVE</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(255,0,128,0.08);border-bottom:1px solid rgba(255,0,128,0.2);padding:0.6rem 1rem;">
+            <button onclick="(function(btn){var b=document.getElementById('reta-news-body');var open=b.style.display!=='block';b.style.display=open?'block':'none';btn.querySelector('.rn-arrow').textContent=open?'▲ COLLAPSE':'▼ READ NOW';})(this)" style="flex:1;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0;text-align:left;">
+              <span style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,200,0.85);text-align:left;">Eli Lilly is suing the FDA to classify Retatrutide as a biologic. If they win — compounding is over. Here's everything you need to know.</span>
+              <span class="rn-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff0080;white-space:nowrap;flex-shrink:0;">▼ READ NOW</span>
+            </button>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('reta-copy-src').innerText).then(function(){var b=document.getElementById('reta-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="reta-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.28rem 0.75rem;border:1.5px solid rgba(255,0,128,0.4);color:#ff0080;background:rgba(255,0,128,0.08);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
+          </div>
+          <div id="reta-news-body" style="display:none;background:#0d0008;padding:0.9rem 1rem 1rem;">
+          <div id="reta-copy-src">
+            <img src="retanews.PNG" alt="Eli Lilly vs FDA — Retatrutide as a Vaccine?" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;">
+            <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;margin-bottom:0.9rem;border:1px solid rgba(255,0,128,0.3);">
+              <iframe src="https://www.youtube.com/embed/o5aZ3D4UVAg" title="Eli Lilly vs FDA" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.8rem;">
+              <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,0,128,0.3);border-radius:6px;padding:0.55rem 0.75rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#ff0080;letter-spacing:0.1em;margin-bottom:0.2rem;">⚖️ THE LAWSUIT</div>
+                <p style="margin:0;font-size:0.8rem;color:rgba(255,200,200,0.85);line-height:1.65;">Lilly wants Reta as a biologic (like vaccines). FDA disagrees. Federal judge ruled for FDA. Lilly has appealed — fight is ongoing.</p>
+              </div>
+              <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(0,245,255,0.3);border-radius:6px;padding:0.55rem 0.75rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#00f5ff;letter-spacing:0.1em;margin-bottom:0.2rem;">🔒 THE MOTIVE</div>
+                <p style="margin:0;font-size:0.8rem;color:rgba(200,240,255,0.85);line-height:1.65;">Biologic = 12yr monopoly + permanent compounding ban. Lilly wants to stop what happened with Sema &amp; Tirz going generic.</p>
+              </div>
+            </div>
+            <div style="background:rgba(0,0,0,0.55);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:0.8rem 0.9rem;margin-bottom:0.75rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.14em;color:#00f5ff;margin-bottom:0.5rem;">📋 WHAT THIS MEANS</div>
+              <div style="display:flex;flex-direction:column;gap:0.35rem;">
+                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ff0080;flex-shrink:0;">🔴</span><span><strong style="color:#fff;">Compounding permanently banned for Reta</strong> — even during national shortages</span></div>
+                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ff0080;flex-shrink:0;">🔴</span><span><strong style="color:#fff;">Prices skyrocket</strong> — 12yr monopoly, zero generic competition</span></div>
+                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ffaa00;flex-shrink:0;">⚠️</span><span><strong style="color:#fff;">Precedent for ALL peptides</strong> — BPC-157, TB-500, GHK-Cu could all follow</span></div>
+                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#00f5ff;flex-shrink:0;">✅</span><span><strong style="color:#fff;">FDA won round 1</strong> — Lilly appealed. NOT over yet.</span></div>
+                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#00ff64;flex-shrink:0;">💊</span><span><strong style="color:#fff;">What to do</strong> — source responsibly, stay informed, support compounding access</span></div>
+              </div>
+            </div>
+            <!-- BIOLOGIC COST SECTION -->
+            <div style="background:linear-gradient(135deg,rgba(255,80,0,0.1),rgba(255,0,128,0.07));border:1.5px solid rgba(255,100,0,0.5);border-left:4px solid #ff6400;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.75rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:#ff6400;margin-bottom:0.55rem;">💸 IF RETA BECOMES A BIOLOGIC — WHAT WILL IT COST?</div>
+              <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,210,180,0.9);line-height:1.75;margin:0 0 0.65rem;">A biologic classification doesn't just end compounding — it fundamentally changes who can access Retatrutide and at what price. Here's the real financial picture:</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.65rem;">
+                <div style="background:rgba(0,255,100,0.06);border:1px solid rgba(0,255,100,0.25);border-radius:7px;padding:0.6rem 0.75rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.25rem;">✅ NOW — COMPOUNDED RETA</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:700;color:rgba(200,255,220,0.85);line-height:1.6;">Compounding pharmacies. Cash pay. No insurance gatekeeping. No middlemen. <strong style="color:#00ff64;">Accessible.</strong></div>
+                </div>
+                <div style="background:rgba(255,0,80,0.07);border:1px solid rgba(255,0,80,0.3);border-radius:7px;padding:0.6rem 0.75rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#ff0080;margin-bottom:0.25rem;">🔴 IF BIOLOGIC — BRAND ONLY</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:700;color:rgba(255,200,210,0.85);line-height:1.6;">Eli Lilly controls 100% of supply. <strong style="color:#ff0080;">No generics for 12 years. No compounding. Ever.</strong></div>
+                </div>
+              </div>
+              <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,100,0,0.25);border-radius:7px;padding:0.7rem 0.85rem;margin-bottom:0.6rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff9500;margin-bottom:0.4rem;">📊 REAL-WORLD PRICE COMPARISON</div>
+                <div style="display:flex;flex-direction:column;gap:0.3rem;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:0.25rem;border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:600;color:rgba(255,210,180,0.7);">Ozempic (semaglutide) — brand, no insurance</span>
+                    <span style="font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#ff6400;">~$900–$1,200/mo</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:0.25rem;border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:600;color:rgba(255,210,180,0.7);">Mounjaro / Zepbound (tirzepatide) — brand</span>
+                    <span style="font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#ff6400;">~$1,000–$1,400/mo</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:0.25rem;border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:700;color:rgba(255,200,180,0.9);">Reta — projected brand biologic price</span>
+                    <span style="font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#ff0080;font-weight:700;">~$1,200–$2,000/mo</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:600;color:rgba(255,210,180,0.7);">Humira / Enbrel (biologics) — no insurance</span>
+                    <span style="font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#ff0080;">~$4,000–$7,000/mo</span>
+                  </div>
+                </div>
+              </div>
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-radius:7px;padding:0.65rem 0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ffc800;margin-bottom:0.35rem;">⚠️ WHY BIOLOGICS COST SO MUCH — THE LAW BEHIND IT</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:600;color:rgba(255,230,180,0.8);line-height:1.75;">Under the <strong style="color:#fff;">Biologics Price Competition and Innovation Act (BPCIA)</strong>, biologic drugs receive <strong style="color:#ffc800;">12 years of market exclusivity</strong> — more than double the 5-year protection for regular drugs. During that window:
+                  <ul style="margin:0.4rem 0 0 1rem;padding:0;color:rgba(255,230,180,0.75);line-height:2;">
+                    <li>No biosimilars (biologic generics) are permitted</li>
+                    <li>No compounding pharmacy can legally make it</li>
+                    <li>Eli Lilly sets whatever price the market will bear</li>
+                    <li>Insurance becomes the only path — and insurers can deny coverage</li>
+                  </ul>
+                  <span style="color:#ff9500;display:block;margin-top:0.35rem;">This is why Humira cost $84,000/year before biosimilars. Reta on that same track = most people priced out permanently.</span>
+                </div>
+              </div>
+              <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.25);line-height:1.6;margin:0.5rem 0 0;font-style:italic;">Price figures are estimates based on comparable brand GLP-1 and biologic precedents. Actual Reta brand pricing has not been disclosed by Eli Lilly.</p>
+            </div>
+            <!-- END BIOLOGIC COST SECTION -->
+            <div style="background:linear-gradient(135deg,rgba(0,255,100,0.08),rgba(0,245,255,0.05));border:1.5px solid rgba(0,255,100,0.4);border-left:4px solid #00ff64;border-radius:8px;padding:0.8rem 1rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:#00ff64;margin-bottom:0.35rem;">💡 RESEARCHER TIP — WHILE COMPOUNDING IS STILL LEGAL</div>
+              <p style="margin:0;font-size:0.85rem;color:rgba(200,255,220,0.9);line-height:1.75;">If you have an active research protocol involving Retatrutide, now is the time to <strong style="color:#fff;">ensure your research supply is adequate</strong> before the appeal ruling comes down. Compounding pharmacies can still legally produce Reta while the lawsuit is ongoing — but a Lilly win on appeal could change that overnight. <strong style="color:#00ff64;">Source verified. Source responsibly. Have what you need for your research.</strong></p>
+              <div style="margin-top:0.55rem;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.3);">FOR RESEARCH USE ONLY · NOT FOR HUMAN CONSUMPTION · VERIFY WITH YOUR PHYSICIAN</div>
+            </div>
+          </div><!-- /reta-copy-src -->
+          </div>
+        </div>
+
         <!-- ══ AUTOIMMUNE NEWS CARD ══ -->
         <details class="vpn-news-card" style="--nt:#00c8ff;--ng:rgba(0,200,255,0.4);--nb:rgba(0,200,255,0.45);">
           <summary class="vpn-news-summary">
@@ -4989,62 +5206,85 @@ document.addEventListener('keydown', function(e){
           </div>
         </details>
 
-        <!-- ══ RETA NEWS — PINNED TOP ══ -->
-        <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;border:2px solid #ff0080;box-shadow:0 0 30px rgba(255,0,128,0.4),0 0 60px rgba(157,0,255,0.2);position:relative;">
-          <!-- top stripe -->
-          <div style="height:3px;background:linear-gradient(90deg,#ff0080,#ff4500,#9d00ff,#ff4500,#ff0080);background-size:300% 100%;animation:newsStripe 1.8s linear infinite;"></div>
-          <!-- header -->
-          <div style="background:linear-gradient(135deg,#1a0006,#0d0008);padding:0.75rem 1rem;display:flex;align-items:center;gap:0.7rem;border-bottom:1px solid rgba(255,0,128,0.3);">
-            <span style="font-size:1.4rem;">🚨</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:rgba(255,0,128,0.6);margin-bottom:0.1rem;">PINNED · BREAKING NEWS</div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.18em;color:#ff0080;text-shadow:0 0 20px rgba(255,0,128,0.8),0 0 40px rgba(255,0,128,0.3);line-height:1;">⚡ RETA NEWS — FUTURE OF PEPTIDES</div>
+        <!-- ══ DMSO NEWS CARD ══ -->
+        <details class="vpn-news-card" data-search="DMSO dimethyl sulfoxide cancer tumor skin leukemia solvent delivery vehicle Tractor Supply pharmaceutical grade cheap suppressed" style="--nt:#00e5ff;--ng:rgba(0,229,255,0.4);--nb:rgba(0,229,255,0.45);">
+          <summary class="vpn-news-summary">
+            <span class="vpn-news-icon">🧪</span>
+            <span class="vpn-news-badge" style="background:rgba(0,229,255,0.18);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);">RESEARCH</span>
+            <span class="vpn-news-title" style="color:#00e5ff;">DMSO — The Hidden Miracle Compound: Cancer Research, Delivery Vehicle & Where to Get It</span>
+            <span class="vpn-news-arrow">▼</span>
+          </summary>
+          <div class="vpn-news-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.85rem;">
+              <img src="dmso1.jpg" alt="DMSO Infographic 1" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.35);cursor:zoom-in;" onclick="openLightbox('dmso1.jpg','DMSO — The Hidden Miracle Compound')">
+              <img src="dmso2.jpg" alt="DMSO Infographic 2" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso2.jpg','DMSO Benefits & Safety')">
+              <img src="dmso3.jpg" alt="DMSO Infographic 3" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso3.jpg','DMSO — Additional Research')">
             </div>
-            <div style="margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;padding:0.25rem 0.65rem;background:rgba(255,0,0,0.2);border:1px solid #ff0080;color:#ff0080;border-radius:3px;animation:glowBadgeGold 1.8s ease-in-out infinite;white-space:nowrap;">🔴 LIVE</div>
-          </div>
-          <!-- toggle button -->
-          <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(255,0,128,0.08);border-bottom:1px solid rgba(255,0,128,0.2);padding:0.6rem 1rem;">
-            <button onclick="(function(btn){var b=document.getElementById('reta-news-body');var open=b.style.display!=='block';b.style.display=open?'block':'none';btn.querySelector('.rn-arrow').textContent=open?'▲ COLLAPSE':'▼ READ NOW';})(this)" style="flex:1;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0;text-align:left;">
-              <span style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,200,0.85);text-align:left;">Eli Lilly is suing the FDA to classify Retatrutide as a biologic. If they win — compounding is over. Here's everything you need to know.</span>
-              <span class="rn-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff0080;white-space:nowrap;flex-shrink:0;">▼ READ NOW</span>
-            </button>
-            <button onclick="navigator.clipboard.writeText(document.getElementById('reta-copy-src').innerText).then(function(){var b=document.getElementById('reta-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="reta-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.28rem 0.75rem;border:1.5px solid rgba(255,0,128,0.4);color:#ff0080;background:rgba(255,0,128,0.08);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
-          </div>
-          <!-- body -->
-          <div id="reta-news-body" style="display:none;background:#0d0008;padding:0.9rem 1rem 1rem;">
-          <div id="reta-copy-src">
-            <img src="retanews.PNG" alt="Eli Lilly vs FDA — Retatrutide as a Vaccine?" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;">
-            <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;margin-bottom:0.9rem;border:1px solid rgba(255,0,128,0.3);">
-              <iframe src="https://www.youtube.com/embed/o5aZ3D4UVAg" title="Eli Lilly vs FDA" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.8rem;">
-              <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,0,128,0.3);border-radius:6px;padding:0.55rem 0.75rem;">
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#ff0080;letter-spacing:0.1em;margin-bottom:0.2rem;">⚖️ THE LAWSUIT</div>
-                <p style="margin:0;font-size:0.8rem;color:rgba(255,200,200,0.85);line-height:1.65;">Lilly wants Reta as a biologic (like vaccines). FDA disagrees. Federal judge ruled for FDA. Lilly has appealed — fight is ongoing.</p>
+            <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(200,240,255,0.88);line-height:1.75;margin-bottom:0.85rem;">DMSO (Dimethyl Sulfoxide) is one of the most studied yet suppressed compounds in medicine. A cheap, natural byproduct of the wood pulp industry, it penetrates skin instantly — dragging other molecules straight into the bloodstream. Researchers have explored it for <strong style="color:#fff;">cancer, brain injury, arthritis, wound healing, and bladder disease</strong>. It's FDA-approved for one condition and studied experimentally for many more. The reason it isn't mainstream? It can't be patented.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem;">
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,0,128,0.3);border-top:3px solid #ff2d78;border-radius:7px;padding:0.7rem 0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:#ff2d78;margin-bottom:0.35rem;">🦠 CANCER RESEARCH</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">Acts as a <strong style="color:#fff;">differentiation agent</strong> — forcing rapidly dividing cancer cells to mature into normal, specialized cells that stop proliferating. Being studied in lung, liver, ovarian, and prostate cancers. IV therapy alongside sodium bicarbonate explored for late-stage cancers. A 2022 trial: 30% Vitamin C + 95% DMSO was ~90% effective on basal cell carcinoma with no scarring.</div>
               </div>
-              <div style="background:rgba(0,0,0,0.5);border:1px solid rgba(0,245,255,0.3);border-radius:6px;padding:0.55rem 0.75rem;">
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#00f5ff;letter-spacing:0.1em;margin-bottom:0.2rem;">🔒 THE MOTIVE</div>
-                <p style="margin:0;font-size:0.8rem;color:rgba(200,240,255,0.85);line-height:1.65;">Biologic = 12yr monopoly + permanent compounding ban. Lilly wants to stop what happened with Sema &amp; Tirz going generic.</p>
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,255,0.25);border-top:3px solid #00e5ff;border-radius:7px;padding:0.7rem 0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:#00e5ff;margin-bottom:0.35rem;">🚚 THE DELIVERY VEHICLE</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">DMSO penetrates skin, tissues, and the <strong style="color:#fff;">blood-brain barrier</strong> in minutes — dragging other compounds (Vitamin C, peptides, anti-inflammatories) with it. Applied topically, it can deliver molecules directly to target tissue without needles.</div>
+              </div>
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.25);border-top:3px solid #9d00ff;border-radius:7px;padding:0.7rem 0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:#9d00ff;margin-bottom:0.35rem;">🧠 BRAIN & NERVE PROTECTION</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">Studied for TBI, Alzheimer's, and Parkinson's. Lowers intracranial pressure, restores blood flow, calms overactive sodium channels to stop neuropathic pain.</div>
+              </div>
+              <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:3px solid #00ff64;border-radius:7px;padding:0.7rem 0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:#00ff64;margin-bottom:0.35rem;">🦷 AUTOIMMUNE & PAIN</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">Powerful free-radical scavenger. At low concentrations (&lt;2%) acts as immune stimulant; at high (&gt;2%) suppresses NF-κB inflammation — the same pathway targeted by biologics costing $4,000/month. FDA-approved for <strong style="color:#fff;">interstitial cystitis</strong> via 50% bladder instillation.</div>
               </div>
             </div>
-            <div style="background:rgba(0,0,0,0.55);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:0.8rem 0.9rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.14em;color:#00f5ff;margin-bottom:0.5rem;">📋 WHAT THIS MEANS</div>
-              <div style="display:flex;flex-direction:column;gap:0.35rem;">
-                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ff0080;flex-shrink:0;">🔴</span><span><strong style="color:#fff;">Compounding permanently banned for Reta</strong> — even during national shortages</span></div>
-                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ff0080;flex-shrink:0;">🔴</span><span><strong style="color:#fff;">Prices skyrocket</strong> — 12yr monopoly, zero generic competition</span></div>
-                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#ffaa00;flex-shrink:0;">⚠️</span><span><strong style="color:#fff;">Precedent for ALL peptides</strong> — BPC-157, TB-500, GHK-Cu could all follow</span></div>
-                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#00f5ff;flex-shrink:0;">✅</span><span><strong style="color:#fff;">FDA won round 1</strong> — Lilly appealed. NOT over yet.</span></div>
-                <div style="display:flex;gap:0.55rem;font-size:0.82rem;color:rgba(220,220,255,0.9);line-height:1.6;"><span style="color:#00ff64;flex-shrink:0;">💊</span><span><strong style="color:#fff;">What to do</strong> — source responsibly, stay informed, support compounding access</span></div>
+            <img src="dmso2.png" alt="DMSO Benefits & Safety" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);margin-bottom:0.85rem;" onerror="this.src='dmso2.PNG';this.onerror=null;">
+            <!-- DMSO VIDEOS -->
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:rgba(0,229,255,0.6);margin-bottom:0.5rem;">🎬 WATCH — DMSO DEEP DIVES</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem;">
+              <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,0.3);">
+                <iframe src="https://www.youtube.com/embed/0-m_d4xP8Zs" title="DMSO — The Hidden Miracle Compound Pt. 1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+              </div>
+              <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,0.3);">
+                <iframe src="https://www.youtube.com/embed/-o5BneGBpxE" title="DMSO Deep Dive Pt. 2" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
               </div>
             </div>
-            <div style="margin-top:0.75rem;background:linear-gradient(135deg,rgba(0,255,100,0.08),rgba(0,245,255,0.05));border:1.5px solid rgba(0,255,100,0.4);border-left:4px solid #00ff64;border-radius:8px;padding:0.8rem 1rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:#00ff64;margin-bottom:0.35rem;">💡 RESEARCHER TIP — WHILE COMPOUNDING IS STILL LEGAL</div>
-              <p style="margin:0;font-size:0.85rem;color:rgba(200,255,220,0.9);line-height:1.75;">If you have an active research protocol involving Retatrutide, now is the time to <strong style="color:#fff;">ensure your research supply is adequate</strong> before the appeal ruling comes down. Compounding pharmacies can still legally produce Reta while the lawsuit is ongoing — but a Lilly win on appeal could change that overnight. <strong style="color:#00ff64;">Source verified. Source responsibly. Have what you need for your research.</strong></p>
-              <div style="margin-top:0.55rem;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.3);">FOR RESEARCH USE ONLY · NOT FOR HUMAN CONSUMPTION · VERIFY WITH YOUR PHYSICIAN</div>
+            <!-- WHERE TO GET DMSO -->
+            <div style="background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(157,0,255,0.06));border:1.5px solid rgba(0,229,255,0.35);border-left:4px solid #00e5ff;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.75rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.14em;color:#00e5ff;margin-bottom:0.5rem;">🛒 WHERE TO GET DMSO — SOURCING GUIDE</div>
+              <div style="display:flex;flex-direction:column;gap:0.45rem;">
+                <div style="display:flex;gap:0.6rem;align-items:flex-start;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,240,255,0.85);line-height:1.65;">
+                  <span style="color:#00ff64;flex-shrink:0;margin-top:0.1rem;">🌿</span>
+                  <span><strong style="color:#00ff64;">Tractor Supply Co.</strong> — The classic source. DMSO gel or liquid, often under $20. Agricultural grade — works but NOT pharmaceutical purity. Readily available in stores nationwide.</span>
+                </div>
+                <div style="display:flex;gap:0.6rem;align-items:flex-start;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,240,255,0.85);line-height:1.65;">
+                  <span style="color:#00e5ff;flex-shrink:0;margin-top:0.1rem;">💊</span>
+                  <span><strong style="color:#00e5ff;">Amazon / Online Suppliers</strong> — Search for "DMSO 99.9% pharmaceutical grade." Brands like Nature's Gift, Jacob Lab (the original DMSO researcher's brand). Get 99.9% purity for research use. <strong style="color:#fff;">Always buy pharmaceutical grade — industrial grade contains toxic impurities.</strong></span>
+                </div>
+                <div style="display:flex;gap:0.6rem;align-items:flex-start;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,240,255,0.85);line-height:1.65;">
+                  <span style="color:#ffc800;flex-shrink:0;margin-top:0.1rem;">⚗️</span>
+                  <span><strong style="color:#ffc800;">Lab Chemical Suppliers</strong> — Sigma-Aldrich, Fisher Scientific, VWR for ultra-pure research-grade DMSO. Higher cost but highest purity. Ideal if using as a carrier vehicle alongside other compounds.</span>
+                </div>
+                <div style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.3);border-radius:6px;padding:0.5rem 0.7rem;margin-top:0.25rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:#ffc800;margin-bottom:0.25rem;">⚠️ CRITICAL SAFETY RULES</div>
+                  <ul style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,230,180,0.8);line-height:2;margin:0 0 0 1rem;padding:0;">
+                    <li><strong style="color:#fff;">Clean skin ONLY</strong> — DMSO carries whatever is on your skin into your bloodstream. No soaps, lotions, cosmetics, fragrances before applying.</li>
+                    <li><strong style="color:#fff;">Never use industrial grade</strong> — toxic impurities will be transported straight into tissue.</li>
+                    <li><strong style="color:#fff;">Garlic/oyster breath</strong> is normal — it's the DMSO metabolite (dimethyl sulfide). Not harmful, just social.</li>
+                    <li>High concentrations IV (&gt;30%) can cause blood hemolysis — must be medically supervised.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div><!-- /reta-copy-src -->
+            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.07);border-radius:7px;padding:0.65rem 0.85rem;margin-bottom:0.6rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.14em;color:rgba(0,229,255,0.45);margin-bottom:0.4rem;">// WHY IT'S SUPPRESSED</div>
+              <p style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.75;margin:0;">DMSO is a naturally-derived byproduct, <strong style="color:#fff;">decades old and unpatentable</strong>. Without a patent, pharmaceutical companies have no financial incentive to fund the billions in clinical trials required to get FDA approval as a primary treatment. The suppression isn't a conspiracy — it's a business model. Cheap + powerful + unpatentable = no profit motive.</p>
+            </div>
+            <button onclick="navigator.clipboard.writeText(this.closest('details').querySelector('.vpn-news-body').innerText).then(function(b){b=document.getElementById('dmso-news-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);}.bind(null))" id="dmso-news-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;padding:0.35rem 0.9rem;border:1.5px solid rgba(0,229,255,0.4);color:#00e5ff;background:rgba(0,229,255,0.06);border-radius:4px;cursor:pointer;margin-top:0.35rem;">⧉ COPY TEXT</button>
+            <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(180,200,220,0.3);margin-top:0.5rem;font-style:italic;">Research and educational use only. Not medical advice. Consult your physician before any protocol.</p>
           </div>
-        </div>
+        </details>
 
         <!-- NEWS ITEM: MAGNESIUM L-THREONATE -->
         <details class="vpn-news-card" style="--nt:#9d00ff;--ng:rgba(157,0,255,0.4);--nb:rgba(157,0,255,0.4);">
@@ -8174,6 +8414,114 @@ document.addEventListener('keydown', function(e){
       </div>
     </details>
 
+    <!-- ══ GLYNAC ══ -->
+    <details data-search="GlyNAC glycine NAC N-acetylcysteine mitochondria mitochondrial glutathione NAD antioxidant aging anti-aging muscle strength cognition oxidative stress longevity Stanford" open style="margin-bottom:1.25rem;border:2px solid rgba(0,229,255,0.5);border-top:4px solid #00e5ff;background:linear-gradient(135deg,#000a10,#04000f);border-radius:8px;overflow:hidden;box-shadow:0 0 24px rgba(0,229,255,0.14);">
+      <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;gap:0.85rem;">
+        <span style="font-size:1.5rem;flex-shrink:0;">⚡</span>
+        <div style="flex:1;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.14em;color:#00e5ff;">GLYNAC — GLYCINE + N-ACETYLCYSTEINE (NAC)</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(0,229,255,0.6);letter-spacing:0.04em;margin-top:2px;">MITOCHONDRIAL POWERHOUSE · GLUTATHIONE PRECURSOR · ANTI-AGING · NAD+ SUPPORT</div>
+        </div>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.12em;padding:3px 8px;background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.4);border-radius:3px;color:#00e5ff;flex-shrink:0;">STANFORD STUDIED</span>
+      </summary>
+      <div style="padding:0 1.25rem 1.4rem;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,240,255,0.88);line-height:1.75;margin-bottom:1rem;">GlyNAC is the combination of <strong style="color:#fff;">Glycine</strong> and <strong style="color:#fff;">N-Acetylcysteine (NAC)</strong> — two amino acid derivatives that together dramatically raise <strong style="color:#00e5ff;">glutathione</strong> (your master antioxidant) and support <strong style="color:#00e5ff;">mitochondrial function</strong>. A 2022 Baylor College of Medicine/Stanford trial showed GlyNAC supplementation produced some of the most remarkable anti-aging results ever measured in humans — reversing biological markers of aging by years within weeks.</p>
+
+        <!-- MECHANISM GRID -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:1rem;">
+          <div style="background:rgba(0,0,0,0.45);border:1px solid rgba(0,229,255,0.25);border-top:3px solid #00e5ff;border-radius:7px;padding:0.75rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;color:#00e5ff;margin-bottom:0.35rem;">⚡ MITOCHONDRIAL FUNCTION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,235,255,0.8);line-height:1.65;">GlyNAC improves mitochondrial fuel oxidation, membrane potential, and electron transport chain efficiency. In the Stanford trial, mitochondrial function improved by <strong style="color:#fff;">~36%</strong> in older adults — directly measurable.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.45);border:1px solid rgba(157,0,255,0.25);border-top:3px solid #9d00ff;border-radius:7px;padding:0.75rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:0.35rem;">🛡️ GLUTATHIONE SYNTHESIS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,235,255,0.8);line-height:1.65;">Glutathione (GSH) is your body's master antioxidant — critical for detox, immune function, and cellular protection. NAC provides cysteine (the rate-limiting precursor) and glycine provides the glycine component. GlyNAC raised GSH levels by <strong style="color:#fff;">~100%</strong> in older adults in 24 weeks.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.45);border:1px solid rgba(255,200,0,0.25);border-top:3px solid #ffc800;border-radius:7px;padding:0.75rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;color:#ffc800;margin-bottom:0.35rem;">🔋 NAD+ & ENERGY METABOLISM</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,235,255,0.8);line-height:1.65;">GlyNAC supports mitochondrial NAD+ levels by reducing oxidative stress that consumes NADH. Works synergistically with NMN/NR. Glycine is also a key substrate in the folate cycle that supports methylation and mitochondrial 1-carbon metabolism.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.45);border:1px solid rgba(0,255,100,0.2);border-top:3px solid #00ff64;border-radius:7px;padding:0.75rem 0.9rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.35rem;">💪 MUSCLE STRENGTH & COGNITION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,235,255,0.8);line-height:1.65;">The Baylor/Stanford trial showed significant improvements in grip strength, gait speed, exercise capacity, and cognitive function in older adults taking GlyNAC — consistent with reduced mitochondrial decline and oxidative damage in muscle and neural tissue.</div>
+          </div>
+        </div>
+
+        <!-- WHAT EACH DOES -->
+        <div style="background:rgba(0,229,255,0.05);border:1.5px solid rgba(0,229,255,0.25);border-left:4px solid #00e5ff;border-radius:8px;padding:0.85rem 1rem;margin-bottom:1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.12em;color:#00e5ff;margin-bottom:0.5rem;">🔬 WHAT EACH COMPONENT DOES</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div style="background:rgba(0,0,0,0.35);border-radius:6px;padding:0.6rem 0.75rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.2rem;">GLYCINE</div>
+              <ul style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,235,255,0.75);line-height:1.9;margin:0 0 0 1rem;padding:0;">
+                <li>One of 3 amino acids that make glutathione</li>
+                <li>Anti-inflammatory (calms mTOR)</li>
+                <li>Supports collagen synthesis & sleep quality</li>
+                <li>Rate-limiting for glutathione in aging</li>
+                <li>1–3g/day calming effect (L-Theanine analog)</li>
+              </ul>
+            </div>
+            <div style="background:rgba(0,0,0,0.35);border-radius:6px;padding:0.6rem 0.75rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:0.2rem;">NAC (N-ACETYLCYSTEINE)</div>
+              <ul style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,235,255,0.75);line-height:1.9;margin:0 0 0 1rem;padding:0;">
+                <li>Provides cysteine — the rate-limiting GSH precursor</li>
+                <li>Breaks up mucus (used in hospitals for lung support)</li>
+                <li>Antidote for acetaminophen overdose (GSH depletion)</li>
+                <li>Studied for addiction, OCD, COPD, fertility</li>
+                <li>Mucolytic + antioxidant dual mechanism</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOSING + SYNERGIES -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.9rem;">
+          <div style="background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.25);border-radius:7px;padding:0.7rem 0.85rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#00e5ff;margin-bottom:0.4rem;">💊 DOSING PROTOCOL</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,235,255,0.85);line-height:1.75;">
+              <strong style="color:#fff;">Glycine:</strong> 1.8–3g/day (morning or evening)<br>
+              <strong style="color:#fff;">NAC:</strong> 600–1200mg/day<br>
+              <strong style="color:#fff;">Combined:</strong> GlyNAC products often use a 1:1 to 2:1 Glycine:NAC ratio<br>
+              <strong style="color:#fff;">Timing:</strong> Morning with food; NAC taken away from exercise (antioxidant blunting concern)<br>
+              <strong style="color:#fff;">Duration:</strong> Stanford trial ran 24 weeks; long-term use studied safely
+            </div>
+          </div>
+          <div style="background:rgba(157,0,255,0.06);border:1px solid rgba(157,0,255,0.25);border-radius:7px;padding:0.7rem 0.85rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#9d00ff;margin-bottom:0.4rem;">🔗 SYNERGISTIC STACK</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,235,255,0.85);line-height:1.75;">
+              <span style="color:#ffc800;">+ NMN or NR</span> — boosted NAD+ works alongside mitochondrial GSH<br>
+              <span style="color:#00ff64;">+ Benfotiamine</span> — B1 supports mitochondrial energy (complements GlyNAC perfectly)<br>
+              <span style="color:#ff2d78;">+ CoQ10</span> — electron transport chain support<br>
+              <span style="color:#00e5ff;">+ Magnesium Glycinate</span> — glycine + magnesium for sleep and neuro<br>
+              <span style="color:#9d00ff;">+ SS-31 peptide</span> — advanced mito membrane protection
+            </div>
+          </div>
+        </div>
+
+        <!-- STANFORD TRIAL RESULTS -->
+        <div style="background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(157,0,255,0.06));border:1.5px solid rgba(0,229,255,0.35);border-radius:9px;padding:0.85rem 1rem;margin-bottom:0.85rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.12em;color:#00e5ff;margin-bottom:0.45rem;">📊 STANFORD / BAYLOR TRIAL KEY FINDINGS (24 WEEKS)</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:4px;color:#00e5ff;">↑ Glutathione ~100%</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(0,255,100,0.08);border:1px solid rgba(0,255,100,0.25);border-radius:4px;color:#00ff64;">↑ Mitochondrial function ~36%</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.25);border-radius:4px;color:#ffc800;">↑ Muscle strength & gait speed</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(157,0,255,0.08);border:1px solid rgba(157,0,255,0.25);border-radius:4px;color:#9d00ff;">↓ Oxidative stress markers</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);border-radius:4px;color:#00e5ff;">↑ Cognitive function scores</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.25);border-radius:4px;color:#ff2d78;">↓ Inflammation (CRP, IL-6)</span>
+          </div>
+          <p style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,235,255,0.75);line-height:1.7;margin:0;">
+            Older participants on GlyNAC showed biological aging reversal on par with being <strong style="color:#fff;">years younger</strong> in measurable biomarkers — grip strength, VO2 improvements, oxidative stress reduction, and glutathione restoration all improved significantly versus placebo.
+          </p>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8876608/" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.55rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#00e5ff;text-decoration:underline;">→ PMC8876608: GlyNAC Supplementation in Older Adults — Baylor/Stanford Trial</a>
+        </div>
+
+        <div style="background:rgba(255,200,0,0.06);border:1px solid rgba(255,200,0,0.25);border-radius:6px;padding:0.6rem 0.85rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:#ffc800;margin-bottom:0.3rem;">⚠️ NOTES</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.81rem;font-weight:600;color:rgba(255,230,180,0.8);line-height:1.7;">NAC is best taken away from intense exercise — antioxidants taken immediately around training may blunt hormetic adaptations. Glycine has a strong safety profile; NAC is generally safe at recommended doses but avoid very high doses (&gt;3g/day) without medical oversight. NAC + insulin-sensitizing compounds (berberine, metformin) may have additive blood sugar lowering — monitor if diabetic.</div>
+        </div>
+      </div>
+    </details>
+
     <div style="margin-top:1.5rem;padding:0.85rem 1.1rem;background:rgba(0,0,0,0.88);border:1.5px solid rgba(255,107,0,0.5);font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:var(--neon-orange);line-height:1.5;text-align:left;">
       ⚠ FOR LEARNING ONLY — THIS IS NOT MEDICAL ADVICE. Work with your doctor — even if they disagree with you — and independently verify everything in every part of this website (or any website) before acting on it.
     </div>
@@ -10247,6 +10595,28 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
+  <!-- BUILD YOUR GLUTES -->
+  <div data-search="build glutes glute workout exercises butt booty squat hip thrust deadlift leg lower body women men" style="border:1px solid rgba(255,45,120,0.4);border-top:3px solid #ff2d78;background:linear-gradient(160deg,#0e020a,#09010a);margin-bottom:0.75rem;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:1rem 1.25rem;cursor:pointer;"
+         onclick="var b=document.getElementById('workout-glutes-body');var a=document.getElementById('workout-glutes-arrow');var open=b.style.display!=='none';b.style.display=open?'none':'block';a.textContent=open?'▼ Expand':'▲ Collapse';">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-size:1.8rem;">🍑</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.06em;color:#ff2d78;text-shadow:0 0 12px rgba(255,45,120,0.5);">Build Your Glutes — Exercise Guide</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(255,200,220,0.7);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.12rem;">Exercises · Sets · Reps · Form tips</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <a href="buildglutes.jpg" download onclick="event.stopPropagation();"
+          style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.35rem 0.9rem;border:1px solid #ff2d78;color:#ff2d78;text-decoration:none;background:rgba(255,45,120,0.08);white-space:nowrap;">⬇ Save</a>
+        <span id="workout-glutes-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(255,45,120,0.55);white-space:nowrap;">▼ Expand</span>
+      </div>
+    </div>
+    <div id="workout-glutes-body" style="display:none;border-top:1px solid rgba(255,45,120,0.2);">
+      <img loading="lazy" src="buildglutes.jpg" alt="Build Your Glutes — Exercise Guide" style="width:100%;display:block;cursor:zoom-in;" onclick="openLightbox('buildglutes.jpg','Build Your Glutes — Exercise Guide')" />
+    </div>
+  </div>
+
   <!-- ── HOME GYM EQUIPMENT ─────────────────────────────── -->
   <div style="margin-top:2rem;">
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:2px solid #00ff64;">
@@ -10495,6 +10865,72 @@ document.addEventListener('keydown', function(e){
   <div id="cs-no-results" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:rgba(255,100,100,0.7);text-align:center;padding:2rem 0;">NO RESULTS FOUND ANYWHERE ON THE NETWORK</div>
 
   <script>
+  /* ═══════════════ CYBERPUNK HERO BANNER INJECTION ═══════════════ */
+  (function initVpnBanners(){
+    var BANNERS = {
+      'view-all-peptides': { glyph:'⬡⬡⬡', eyebrow:'VERIFIED PEPTIDE NETWORK' },
+      'view-videos':       { glyph:'▶▶▶', eyebrow:'EDUCATION · PROTOCOLS · RESEARCH' },
+      'view-supplies':     { glyph:'◈◈◈', eyebrow:'GEAR · TOOLS · RECONSTITUTION' },
+      'view-templates':    { glyph:'✦✦✦', eyebrow:'PROTOCOLS · SCRIPTS · TEMPLATES' },
+      'view-bloodwork':    { glyph:'◉◉◉', eyebrow:'LABS · BIOMARKERS · PANELS' },
+      'view-vitamins':     { glyph:'✚✚✚', eyebrow:'SUPPLEMENTS · STACKS · VITAMINS' },
+      'view-bonus':        { glyph:'★★★', eyebrow:'BONUS · EXCLUSIVE · MEMBER ONLY' },
+      'view-team':         { glyph:'◆◆◆', eyebrow:'COMMUNITY · NETWORK · TEAM' },
+      'view-calculator':   { glyph:'⊞⊞⊞', eyebrow:'DOSING · BAC WATER · MATH' },
+      'view-quick-guide':  { glyph:'⚡⚡⚡', eyebrow:'FAST REFERENCE · START HERE' },
+      'view-workouts':     { glyph:'▲▲▲', eyebrow:'TRAINING · PERFORMANCE · GAINS' },
+      'view-cheatsheets':  { glyph:'≡≡≡', eyebrow:'KNOWLEDGE · VAULT · DATABASE' },
+      'view-studies':      { glyph:'◐◐◐', eyebrow:'RESEARCH · PMID · SCIENCE' },
+      'view-about':        { glyph:'◎◎◎', eyebrow:'ABOUT · MISSION · VPN' }
+    };
+    function build(hero, viewId){
+      var cfg = BANNERS[viewId] || { glyph:'////', eyebrow:'VERIFIED PEPTIDE NETWORK' };
+      // stripe
+      var stripe = document.createElement('div');
+      stripe.className = 'vh-stripe';
+      hero.appendChild(stripe);
+      // scan
+      var scan = document.createElement('div');
+      scan.className = 'vh-scan';
+      hero.appendChild(scan);
+      // glyph
+      var glyph = document.createElement('div');
+      glyph.className = 'vh-glyph';
+      glyph.textContent = cfg.glyph;
+      hero.appendChild(glyph);
+      // logo wrap
+      var inner = hero.querySelector('.vh-inner');
+      if(!inner) return;
+      var logoWrap = document.createElement('div');
+      logoWrap.className = 'vh-logo-wrap';
+      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="vpnlogo.png" class="vh-logo-img" alt="VPN">';
+      inner.insertBefore(logoWrap, inner.firstChild);
+      // move text into content wrapper with eyebrow
+      var titleEl = inner.querySelector('.vh-title');
+      var subEl   = inner.querySelector('.vh-sub');
+      var badgesEl= inner.querySelector('.vh-badges');
+      var accentEl= inner.querySelector('.vh-accent-line');
+      var iconEl  = inner.querySelector('.vh-icon');
+      if(iconEl) iconEl.style.display = 'none';
+      var content = document.createElement('div');
+      content.className = 'vh-content';
+      var eyebrow = document.createElement('div');
+      eyebrow.className = 'vh-eyebrow';
+      eyebrow.textContent = '// ' + cfg.eyebrow;
+      content.appendChild(eyebrow);
+      if(titleEl)  content.appendChild(titleEl);
+      if(subEl)    content.appendChild(subEl);
+      if(badgesEl) content.appendChild(badgesEl);
+      inner.appendChild(content);
+      if(accentEl){ hero.appendChild(accentEl); accentEl.className='vh-accent-line'; }
+    }
+    document.querySelectorAll('.view-hero').forEach(function(hero){
+      var view = hero.closest('[id^="view-"]');
+      if(view) build(hero, view.id);
+    });
+  })();
+  /* ══════════════════════════════════════════════════════════════ */
+
   function vpnTagSearch(q){
     var inp=document.getElementById('cs-search-input');
     inp.value=q; inp.focus();
@@ -11098,7 +11534,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- ── SECTION 1: GLP-1 Health, Safety & Education ── -->
   <!-- ══ MYTHS SECTION ══ -->
-  <details id="cs-sec-myths" data-search="myths misconceptions cancer peptide cause cancer GLP blindness thyroid tumor angiogenesis autoimmune inflammation addiction reward dopamine" style="background:#0e0008;border:1px solid rgba(220,100,255,0.35);border-left:4px solid #dc64ff;margin-bottom:0.85rem;">
+  <details id="cs-sec-myths" data-search="myths misconceptions cancer peptide cause cancer GLP blindness thyroid tumor angiogenesis autoimmune inflammation addiction reward dopamine DMSO dimethyl sulfoxide hidden miracle delivery vehicle skin penetration cancer treatment cheap suppressed tractor supply" style="background:#0e0008;border:1px solid rgba(220,100,255,0.35);border-left:4px solid #dc64ff;margin-bottom:0.85rem;">
     <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
       <div style="display:flex;align-items:center;gap:0.75rem;">
         <span style="font-size:1.5rem;">🚫</span>
@@ -11184,6 +11620,42 @@ document.addEventListener('keydown', function(e){
       </div>
 
     </div>
+
+    <!-- DMSO CARD INSIDE MYTHS SECTION -->
+    <div style="background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.3);border-left:4px solid #00e5ff;border-radius:8px;padding:1rem 1.1rem;margin:0.75rem 1.1rem 1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.65rem;">
+        <span style="font-size:1.3rem;">🧪</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#00e5ff;">DMSO (DIMETHYL SULFOXIDE) — THE HIDDEN MIRACLE COMPOUND</div>
+      </div>
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,240,255,0.85);line-height:1.75;margin:0 0 0.7rem;">A cheap, unpatentable byproduct of wood pulp manufacturing. Penetrates skin and carries other molecules straight into the bloodstream. Studied extensively — never mainstream because it can't make pharma money.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+        <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.25);border-radius:6px;padding:0.55rem 0.7rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#ff2d78;margin-bottom:0.2rem;">🦠 CANCER (EXPERIMENTAL)</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.7);line-height:1.6;">Forces cancer cells to differentiate into normal cells. 30% Vit C + 95% DMSO topically → ~90% effective on basal cell carcinoma in 2022 trial. IV studied in leukemia, solid tumors.</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,255,0.2);border-radius:6px;padding:0.55rem 0.7rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#00e5ff;margin-bottom:0.2rem;">🚚 DELIVERY VEHICLE</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.7);line-height:1.6;">Penetrates skin + blood-brain barrier in minutes. Drags Vitamin C, peptides, anti-inflammatories with it. Transdermal = no needle required for local delivery.</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-radius:6px;padding:0.55rem 0.7rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.2rem;">✅ FDA APPROVED FOR</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.7);line-height:1.6;">Interstitial cystitis (painful bladder syndrome) — 50% DMSO solution instilled directly into the bladder. The only approved use, but research spans 100+ other conditions.</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-radius:6px;padding:0.55rem 0.7rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.1em;color:#ffc800;margin-bottom:0.2rem;">⚠️ SAFETY RULES</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.7);line-height:1.6;">CLEAN SKIN ONLY — it carries everything. No soaps, cosmetics, fragrances before applying. Use pharmaceutical grade 99.9% only. Garlic breath = normal (dimethyl sulfide metabolite).</div>
+        </div>
+      </div>
+      <div style="background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);border-radius:6px;padding:0.55rem 0.75rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:#00e5ff;margin-bottom:0.3rem;">🛒 WHERE TO GET DMSO</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.3);border-radius:4px;padding:0.2rem 0.55rem;color:#00ff64;">🌿 Tractor Supply Co. (~$20)</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:4px;padding:0.2rem 0.55rem;color:#00e5ff;">💊 Amazon — 99.9% Pharma Grade</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;background:rgba(255,200,0,0.1);border:1px solid rgba(255,200,0,0.3);border-radius:4px;padding:0.2rem 0.55rem;color:#ffc800;">⚗️ Sigma-Aldrich / Fisher (Lab Grade)</span>
+        </div>
+      </div>
+    </div>
+
   </details>
 
   <!-- ══ AUTOIMMUNE SECTION ══ -->
