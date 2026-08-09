@@ -6221,6 +6221,49 @@ document.addEventListener('keydown', function(e){
   <style>
     #site-hero { display:flex; flex-direction:column; }
 
+    /* ── LOGO + HERO SIDE-BY-SIDE WRAPPER ── */
+    .home-lh-wrap {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      width:100%;
+      order:0;
+    }
+    @media(min-width:1100px){
+      .home-lh-wrap {
+        flex-direction:row;
+        align-items:flex-start;
+        gap:1.5rem;
+      }
+      .home-lh-wrap .retro80-outer {
+        flex-shrink:0;
+        margin:0;
+      }
+      .home-lh-wrap .vpn-home-hero {
+        flex:1;
+        min-width:0;
+        margin-top:0;
+      }
+      :root { --r80: min(32vw, 340px); }
+      .qnav-grid { grid-template-columns:repeat(4,1fr) !important; }
+    }
+    @media(min-width:1400px){
+      :root { --r80: min(28vw, 360px); }
+      .qnav-grid { grid-template-columns:repeat(5,1fr) !important; }
+    }
+    @media(max-width:1099px) and (min-width:701px){
+      :root { --r80: min(55vw, 360px); }
+      .qnav-grid { grid-template-columns:repeat(4,1fr) !important; }
+    }
+    @media(max-width:700px){
+      :root { --r80: min(78vw, 300px); }
+      .qnav-grid { grid-template-columns:repeat(3,1fr) !important; }
+    }
+    @media(max-width:420px){
+      :root { --r80: min(85vw, 260px); }
+      .qnav-grid { grid-template-columns:repeat(2,1fr) !important; }
+    }
+
     /* ── SITE-HERO FLEX ORDER (desktop + mobile match) ── */
     /* WHY WE'RE HERE has no order (default 0) — stays at top */
     #home-latest-news  { order:1; }   /* Latest News             — right under Why We're Here */
@@ -6431,6 +6474,8 @@ document.addEventListener('keydown', function(e){
       <span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH PAPERS · ARTICLES · AND LITERATURE</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span><span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH PAPERS · ARTICLES · AND LITERATURE</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span>
     </div>
   </div>
+  <!-- ═══ LOGO + NAV SIDE-BY-SIDE WRAPPER ═══ -->
+  <div class="home-lh-wrap">
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
     <div class="retro80-ring-wrap">
@@ -6585,6 +6630,7 @@ document.addEventListener('keydown', function(e){
       <span style="color:#ff2d78;">⚠ FOR LEARNING ONLY</span> — NOT MEDICAL ADVICE · CONSULT YOUR DOCTOR · NOT FOR HUMAN CONSUMPTION
     </div>
   </div>
+  </div><!-- /home-lh-wrap -->
 
   <!-- WHY WE'RE HERE -->
   <div style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
