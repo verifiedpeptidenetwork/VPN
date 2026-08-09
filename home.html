@@ -94,7 +94,7 @@
   /* iOS/Android: background-attachment:fixed is broken — use a fixed pseudo-element instead */
   @media (max-width: 1024px) {
     body {
-      background-image: none; /* remove from body on mobile */
+      background-image: none;
     }
     body::before {
       content: '';
@@ -103,17 +103,15 @@
       z-index: -2;
       background-image: url('WALLPAPER.png');
       background-size: cover;
-      background-position: center top;
+      background-position: 30% top; /* shift right so gorilla is visible on portrait */
       background-repeat: no-repeat;
     }
   }
 
-  @media (max-width: 1024px) {
+  /* Portrait phone — shift further to show gorilla */
+  @media (max-width: 480px) and (orientation: portrait) {
     body::before {
-      background-image: url('WALLPAPER.png');
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
+      background-position: 25% top;
     }
   }
 
@@ -5607,6 +5605,11 @@ document.addEventListener('keydown', function(e){
     @keyframes retroRing80a{0%{transform:translate(-50%,-50%) rotate(0deg);}100%{transform:translate(-50%,-50%) rotate(360deg);}}
     @keyframes retroRing80b{0%{transform:translate(-50%,-50%) rotate(0deg);}100%{transform:translate(-50%,-50%) rotate(-360deg);}}
     @keyframes retroPulse80{0%,100%{box-shadow:0 0 40px #ff2d78,0 0 80px #cc44ff,0 0 120px rgba(0,245,255,0.4);}50%{box-shadow:0 0 60px #ff2d78,0 0 120px #cc44ff,0 0 180px rgba(0,245,255,0.6);}}
+    @media(max-width:600px) and (orientation:portrait){
+      @keyframes retroPulse80{0%,100%{box-shadow:0 0 15px #ff2d78,0 0 30px #cc44ff,0 0 45px rgba(0,245,255,0.25);}50%{box-shadow:0 0 20px #ff2d78,0 0 40px #cc44ff,0 0 60px rgba(0,245,255,0.35);}}
+      .retro80-r1,.retro80-r2,.retro80-r3,.retro80-r4{opacity:0.5;}
+      .retro80-glow{opacity:0.4;}
+    }
     @keyframes retroLogoFloat{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.03);}}
     /* ── RETRO80 LOGO — fully responsive ── */
     :root{--r80:min(82vw,420px);}
@@ -5638,16 +5641,17 @@ document.addEventListener('keydown', function(e){
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
-    .retro80-ticker{width:100%;overflow:hidden;background:rgba(0,0,0,0.75);border-top:2px solid #00f5ff;border-bottom:2px solid #ff0080;padding:0.45rem 0;margin-bottom:0.75rem;position:relative;z-index:10;}
-    .retro80-ticker-inner{display:inline-block;white-space:nowrap;animation:tickerScroll 18s linear infinite;}
+    .retro80-ticker{width:100%;overflow:hidden;background:rgba(4,0,15,0.92);border-top:1px solid rgba(0,245,255,0.35);border-bottom:1px solid rgba(255,0,128,0.35);padding:0.38rem 0;margin-bottom:0.75rem;position:relative;z-index:10;}
+    .retro80-ticker-inner{display:inline-block;white-space:nowrap;animation:tickerScroll 22s linear infinite;}
     .retro80-ticker-inner:hover{animation-play-state:paused;}
-    @keyframes tickerScroll{0%{transform:translateX(60vw);}100%{transform:translateX(-100%);}}
-    .retro80-ticker span{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.22em;color:#fff;text-shadow:0 0 8px #00f5ff,0 0 18px rgba(255,0,128,0.8);padding:0 2.5rem;}
-    .retro80-ticker .dot{color:#ff0080;text-shadow:0 0 10px #ff0080;}
+    @keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+    .retro80-ticker span{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.28em;padding-right:4rem;flex-shrink:0;background:linear-gradient(90deg,#00f5ff,#ffffff,#ff0080,#ffffff,#00f5ff);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .retro80-ticker .dot{padding-right:4rem;-webkit-text-fill-color:#9d00ff;background:none;}
+    @media(max-width:600px){.retro80-ticker span{font-size:0.75rem;letter-spacing:0.18em;padding-right:2.5rem;}.retro80-ticker .dot{padding-right:2.5rem;}}
   </style>
-  <div class="retro80-ticker">
+  <div class="retro80-ticker" aria-label="Site disclaimer">
     <div class="retro80-ticker-inner">
-      <span>DO YOUR BLOOD WORK</span><span class="dot">✦</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">✦</span><span>BE SAFE</span><span class="dot">✦</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">✦</span><span>DO YOUR BLOOD WORK</span><span class="dot">✦</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">✦</span><span>BE SAFE</span><span class="dot">✦</span><span>WORK WITH YOUR DOCTOR</span>
+      <span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span><span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span>
     </div>
   </div>
   <div class="retro80-outer">
