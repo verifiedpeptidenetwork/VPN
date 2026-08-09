@@ -116,11 +116,22 @@
     }
   }
 
-  /* Portrait phone — zoom out so researchers are visible */
+  /* Portrait phone — zoom out + remove blocking effects */
   @media (max-width: 600px) and (orientation: portrait) {
+    body {
+      background-color: transparent !important;
+    }
     body::before {
       background-size: 280% auto;
       background-position: center 25%;
+      z-index: 0 !important;
+    }
+    body::after {
+      display: none !important;
+    }
+    #starfield, #scene-canvas {
+      opacity: 0 !important;
+      pointer-events: none;
     }
   }
 
