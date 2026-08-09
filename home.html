@@ -4750,14 +4750,27 @@ document.addEventListener('keydown', function(e){
       @keyframes newsHeaderPulse{0%,100%{box-shadow:0 0 30px rgba(255,45,120,0.35),0 0 0 1px rgba(255,45,120,0.15);}50%{box-shadow:0 0 60px rgba(255,45,120,0.65),0 0 0 1px rgba(255,45,120,0.4);}}
       @keyframes newsStripe{0%{background-position:0% 0%;}100%{background-position:200% 0%;}}
     </style>
-    <details id="home-latest-news" style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;text-align:left;border:2px solid var(--neon-pink);background:linear-gradient(135deg,#1a0006 0%,#0d0008 60%,#0a000f 100%);animation:newsHeaderPulse 3s ease-in-out infinite;border-radius:10px;overflow:hidden;position:relative;">
-      <div style="height:3px;background:linear-gradient(90deg,#ff2d78,#cc44ff,#ff2d78);background-size:300% 100%;animation:newsStripe 2.5s linear infinite;"></div>
-      <summary style="cursor:pointer;padding:0.85rem 1.25rem 0.75rem;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.16em;color:#fff;display:flex;align-items:center;gap:0.75rem;text-shadow:0 0 14px rgba(255,45,120,0.8);user-select:none;list-style:none;">
-        <span style="font-size:1.5rem;filter:drop-shadow(0 0 8px rgba(255,45,120,0.9));">📡</span>
-        <span style="color:#ff2d78;font-size:1.3rem;text-shadow:0 0 18px rgba(255,45,120,0.8);">LATEST NEWS</span>
-        <span style="margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:rgba(255,45,120,0.5);">UPDATES ▼</span>
-      </summary>
-      <div style="padding:0.25rem 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
+    <div id="home-latest-news" style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
+      <!-- CYBERPUNK HEADER BUTTON -->
+      <button id="ln-toggle-btn" onclick="(function(btn){var body=document.getElementById('ln-news-body');var open=body.style.display!=='block';body.style.display=open?'block':'none';btn.querySelector('.ln-arrow').textContent=open?'▲':'▼';btn.setAttribute('data-open',open?'1':'0');if(open){setTimeout(function(){body.scrollIntoView({behavior:'smooth',block:'start'});},60);}})(this)" data-open="0"
+        style="width:100%;cursor:pointer;background:linear-gradient(135deg,#0d0014 0%,#0a000f 100%);border:2px solid #ff2d78;border-radius:10px 10px 0 0;padding:0;overflow:hidden;position:relative;display:block;text-align:left;animation:newsHeaderPulse 3s ease-in-out infinite;">
+        <div style="height:3px;background:linear-gradient(90deg,#00f5ff,#ff2d78,#9d00ff,#ff2d78,#00f5ff);background-size:300% 100%;animation:newsStripe 2.5s linear infinite;"></div>
+        <div style="padding:0.85rem 1.25rem 0.75rem;display:flex;align-items:center;gap:0.75rem;">
+          <span style="font-size:1.4rem;filter:drop-shadow(0 0 8px #ff2d78);">📡</span>
+          <div style="display:flex;flex-direction:column;gap:0.1rem;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.2em;color:#ff2d78;text-shadow:0 0 18px rgba(255,45,120,0.9),0 0 36px rgba(255,45,120,0.4);">LATEST NEWS</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.22em;color:rgba(0,245,255,0.5);">BREAKING · RESEARCH · UPDATES · PEPTIDES</span>
+          </div>
+          <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0.2rem;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.15em;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.4);color:#ff2d78;border-radius:3px;">LIVE FEED</span>
+            <span class="ln-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;color:rgba(0,245,255,0.6);letter-spacing:0.1em;">▼ OPEN</span>
+          </div>
+        </div>
+      </button>
+
+      <!-- DROPDOWN BODY — opens downward -->
+      <div id="ln-news-body" style="display:none;border:2px solid #ff2d78;border-top:none;border-radius:0 0 10px 10px;background:linear-gradient(180deg,#0d0014 0%,#04000f 100%);padding:0.85rem 1rem 1rem;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
 
         <!-- ⚠️ VERIFY WARNING -->
         <div style="border:1.5px solid rgba(255,45,120,0.55);border-radius:8px;background:rgba(139,26,66,0.15);overflow:hidden;margin-bottom:0.9rem;">
@@ -5515,7 +5528,7 @@ document.addEventListener('keydown', function(e){
             <div style="color:rgba(200,240,255,0.9);margin-bottom:0.85rem;line-height:1.7;">
               Many ssRNA viruses — COVID-19, Influenza, RSV — rely on RNA-dependent RNA polymerase (RdRp) to replicate. <strong style="color:#00f5ff;">Zinc may interfere with this process</strong>, but needs a zinc ionophore (EGCG, Quercetin, Ivermectin) to enter cells. Dr. Vladimir Zelenko's early treatment philosophy: act within the first 5 days before cytokine storm develops.
             </div>
-            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('home-latest-news').open=false;window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(0,245,255,0.12);border:1.5px solid #00f5ff;color:#00f5ff;border-radius:4px;cursor:pointer;">⭐ VIEW FULL COVID RESEARCH IN BONUS VAULT ↗</button>
+            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('ln-news-body').style.display='none';document.getElementById('ln-toggle-btn').querySelector('.ln-arrow').textContent='▼ OPEN';window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(0,245,255,0.12);border:1.5px solid #00f5ff;color:#00f5ff;border-radius:4px;cursor:pointer;">⭐ VIEW FULL COVID RESEARCH IN BONUS VAULT ↗</button>
           </div>
         </details>
 
@@ -5531,7 +5544,7 @@ document.addEventListener('keydown', function(e){
             <div style="color:rgba(220,190,255,0.9);margin-bottom:0.85rem;line-height:1.7;">
               Ongoing clinical trials (Harvard/Mass General) are investigating whether <strong style="color:#cc44ff;">Larazotide Acetate</strong> can reduce spike protein leaking from the gut into the bloodstream — lowering systemic inflammation and Long COVID symptoms. BPC-157 + KPV + Larazotide = The Guardian Stack for gut healing and barrier protection.
             </div>
-            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('home-latest-news').open=false;window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(204,68,255,0.12);border:1.5px solid #cc44ff;color:#cc44ff;border-radius:4px;cursor:pointer;">⭐ VIEW GUARDIAN STACK IN BONUS VAULT ↗</button>
+            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('ln-news-body').style.display='none';document.getElementById('ln-toggle-btn').querySelector('.ln-arrow').textContent='▼ OPEN';window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(204,68,255,0.12);border:1.5px solid #cc44ff;color:#cc44ff;border-radius:4px;cursor:pointer;">⭐ VIEW GUARDIAN STACK IN BONUS VAULT ↗</button>
           </div>
         </details>
 
@@ -5547,7 +5560,7 @@ document.addEventListener('keydown', function(e){
             <div style="color:rgba(190,255,210,0.9);margin-bottom:0.85rem;line-height:1.7;">
               <strong style="color:#00ff64;">Fenbendazole</strong> (Wormentel) and <strong style="color:#00ff64;">Mebendazole</strong> (Mebex/Mebental) are anti-parasitic compounds being studied in cancer research contexts. This is cutting-edge, controversial territory — for educational purposes only. Always consult your physician. Research and verify everything.
             </div>
-            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('home-latest-news').open=false;window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(0,255,100,0.12);border:1.5px solid #00ff64;color:#00ff64;border-radius:4px;cursor:pointer;">⭐ VIEW CANCER RESEARCH IN BONUS VAULT ↗</button>
+            <button onclick="showView('bonus');setActiveNav(document.querySelector('[onclick*=bonus]'));document.getElementById('ln-news-body').style.display='none';document.getElementById('ln-toggle-btn').querySelector('.ln-arrow').textContent='▼ OPEN';window.scrollTo({top:0,behavior:'smooth'});" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.45rem 1.1rem;background:rgba(0,255,100,0.12);border:1.5px solid #00ff64;color:#00ff64;border-radius:4px;cursor:pointer;">⭐ VIEW CANCER RESEARCH IN BONUS VAULT ↗</button>
           </div>
         </details>
 
@@ -5558,7 +5571,8 @@ document.addEventListener('keydown', function(e){
         </div>
 
       </div>
-    </details>
+      </div>
+    </div>
 
 
   <!-- ── DOCTOR VIDEOS PROMO ──────────────────────────────────── -->
