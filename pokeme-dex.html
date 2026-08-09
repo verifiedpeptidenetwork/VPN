@@ -969,6 +969,14 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <button class="btn-secondary" style="margin-top:10px;" onclick="searchPeptide()">🔍 Search This Peptide</button>
   </div>
 
+  <!-- CONDITION / GOAL SELECTOR -->
+  <div style="margin-bottom:24px;">
+    <div class="field-label">🎯 OR SELECT A CONDITION / GOAL — GET MATCHED PEPTIDES</div>
+    <div id="condition-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px;"></div>
+    <button class="btn-secondary" onclick="renderSuggestions()" style="margin-top:4px;">⚡ ANALYZE &amp; SUGGEST PEPTIDES</button>
+    <button class="btn-secondary" onclick="SELECTED_GOALS.clear();document.querySelectorAll('.cond-card').forEach(function(c){c.classList.remove('selected');});renderSuggestions();" style="margin-top:4px;margin-left:8px;opacity:0.6;">✕ Clear</button>
+  </div>
+
   <div class="response-box" id="suggestions-box">
     <div class="response-label"><span class="pulse-dot"></span>RESULT</div>
     <div id="suggestions-list"></div>
@@ -1323,6 +1331,43 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
         </div>
       </details>
 
+      <!-- AUTOIMMUNE & RHEUMATIC DISEASE -->
+      <details style="background:#fff;border:1px solid rgba(0,200,255,0.35);border-left:3px solid #00c8ff;margin-bottom:10px;">
+        <summary style="cursor:pointer;padding:10px 14px;font-family:var(--orb);font-size:0.8rem;letter-spacing:0.1em;color:#006080;list-style:none;">🦴 Autoimmune &amp; Rheumatic Disease (RA · Lupus · Psoriasis · IBD · Polymyalgia · Sjögren's) — Vitamins, Supplements &amp; Peptides</summary>
+        <div style="padding:10px 14px 14px;font-size:13px;line-height:1.9;color:#1a1a1a;">
+          <div style="font-family:var(--orb);font-size:0.7rem;letter-spacing:0.12em;color:#006080;margin:6px 0 8px;border-bottom:1px solid rgba(0,200,255,0.2);padding-bottom:4px;">💊 SUPPLEMENTS &amp; VITAMINS</div>
+          <div><strong style="color:#006080;">Omega-3 (EPA + DHA)</strong> — 3–4g/day · suppresses leukotriene B4 and PGE2; multiple RCTs show reduction in morning stiffness and joint pain in RA. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Proudman et al. 2015, PMID 25320462 · Calder 2015, PMID 25800563</span></div>
+          <div><strong style="color:#006080;">Vitamin D3 + K2</strong> — 5,000–10,000 IU D3 + 100mcg K2 daily · VDR activation on T-cells and macrophages directly modulates immune activity; D deficiency is near-universal in autoimmune disease and independently predicts flares. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Correale et al. 2009, PMID 19604026 · Cantorna 2010, PMID 20966408</span></div>
+          <div><strong style="color:#006080;">Magnesium Glycinate</strong> — 400–600mg/day · cofactor in 300+ enzymatic reactions; magnesium deficiency amplifies NF-κB signaling and cytokine release. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Mazur et al. 2007, PMID 17675186</span></div>
+          <div><strong style="color:#006080;">Curcumin (with Piperine)</strong> — 500–1,000mg 2x/day · inhibits NF-κB and COX-2; RCTs show equivalent NSAID efficacy for joint pain in RA with superior GI tolerability. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Chandran &amp; Goel 2012, PMID 22407780 · Daily et al. 2016, PMID 27213821</span></div>
+          <div><strong style="color:#006080;">Boswellia Serrata (AKBA)</strong> — 100–200mg AKBA/day · inhibits 5-LOX (the leukotriene pathway), reducing joint inflammation without NSAID side effects. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Sengupta et al. 2010, PMID 20359267</span></div>
+          <div><strong style="color:#006080;">NAC (N-Acetyl Cysteine)</strong> — 600mg 2–3x/day · precursor to glutathione; reduces oxidative stress that drives autoimmune tissue damage and cytokine storm. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Lai et al. 2010, PMID 20048489</span></div>
+          <div><strong style="color:#006080;">Quercetin</strong> — 500–1,000mg/day · inhibits histamine release and pro-inflammatory cytokine production; stabilizes mast cells relevant to lupus and Sjögren's. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Li et al. 2016, PMID 26616308</span></div>
+          <div><strong style="color:#006080;">Zinc</strong> — 25–30mg elemental/day · required for regulatory T-cell function and thymulin production; deficiency worsens autoimmune activity. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Haase &amp; Rink 2009, PMID 19371543</span></div>
+          <div><strong style="color:#006080;">Probiotics (multi-strain)</strong> — 50B+ CFU/day · gut dysbiosis is a root driver of autoimmune disease; Lactobacillus and Bifidobacterium strains reduce Th17/Treg imbalance central to RA, IBD, and psoriasis. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Zamani et al. 2016, PMID 27370920</span></div>
+          <div><strong style="color:#006080;">Low-Dose Naltrexone (LDN)</strong> — 1.5–4.5mg/night · modulates TLR4 signaling and microglial activation; used off-label for RA, Crohn's, MS, psoriasis with growing evidence base. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Younger &amp; Mackey 2009, PMID 19265012 · Cree et al. 2010, PMID 20085681</span></div>
+
+          <div style="font-family:var(--orb);font-size:0.7rem;letter-spacing:0.12em;color:#006080;margin:14px 0 8px;border-bottom:1px solid rgba(0,200,255,0.2);padding-bottom:4px;">🧬 PEPTIDES FOR AUTOIMMUNE &amp; RHEUMATIC DISEASE</div>
+          <div><strong style="color:#006080;">BPC-157</strong> — 250–500mcg/day SubQ or oral · upregulates NO-cGMP signaling which reduces systemic immune overactivation; heals gut lining (a root trigger of autoimmune disease via leaky gut → molecular mimicry). <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Sikiric et al. 2018, PMID 30197782</span></div>
+          <div><strong style="color:#006080;">TB-500</strong> — 2–5mg 2x/week SubQ (loading), then 2mg/week · reduces TNF-α in inflamed connective tissue; promotes repair of cartilage, synovium, and tendons damaged by chronic inflammation in RA and psoriatic arthritis. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Goldstein et al. 2012, PMID 22226572</span></div>
+          <div><strong style="color:#006080;">KPV</strong> — 250–500mcg/day SubQ or oral · a direct NF-κB inhibitor via the melanocortin-1 receptor; suppresses the master inflammatory switch driving IBD, RA, and psoriasis at the cellular level. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Dalmasso et al. 2008, PMID 18510698 · Kannengiesser et al. 2008</span></div>
+          <div><strong style="color:#006080;">VIP (Vasoactive Intestinal Peptide)</strong> — 50–100mcg SubQ 2–3x/week · one of the most potent endogenous anti-inflammatory neuropeptides; directly suppresses TNF-α, IL-6, IL-12 in macrophages and T-cells. Studied in RA, IBD, and lupus clinical models. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Delgado et al. 2004, PMID 14978027 · Abad et al. 2010, PMID 20498071</span></div>
+          <div><strong style="color:#006080;">Thymosin Alpha-1 (TA-1)</strong> — 1.6mg SubQ 2x/week · restores Treg/Th17 balance — regulatory T-cell deficiency allows autoimmune overactivation to persist; TA-1 directly corrects this imbalance. Used clinically for autoimmune hepatitis and lupus in some countries. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Tuthill et al. 2006, PMID 16336577 · Camerini et al. 2000</span></div>
+          <div><strong style="color:#006080;">GHK-Cu</strong> — 1–2mg/day SubQ · reduces IL-6 and TNF-α while stimulating collagen synthesis — targets both the inflammatory cytokine cascade and the connective tissue destruction central to RA, psoriasis, and Sjögren's. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Pickart et al. 2015, PMID 26060882</span></div>
+          <div><strong style="color:#006080;">Selank</strong> — 250–500mcg/day SubQ or intranasal · modulates HPA axis and reduces stress-induced immune dysregulation; chronic HPA activation worsens autoimmune flares through cortisol-driven cytokine imbalance. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Semenova et al. 2010, PMID 20803000</span></div>
+          <div><strong style="color:#006080;">SS-31 (Elamipretide)</strong> — 1–2mg/day SubQ · improves mitochondrial function and reduces ROS — mitochondrial dysfunction and oxidative stress are primary amplifiers of chronic autoimmune inflammation and fatigue. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Szeto 2014, PMID 25251836</span></div>
+          <div><strong style="color:#006080;">MOTS-c</strong> — 5–10mg 2–3x/week SubQ · activates AMPK which directly suppresses NF-κB and reduces pro-inflammatory cytokine output; studied for systemic anti-inflammatory and metabolic effects in immune-driven conditions. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Lee et al. 2015, PMID 25738459</span></div>
+          <div><strong style="color:#006080;">LL-37</strong> — 0.5–1mg SubQ 2–3x/week · modulates innate immune signaling; reduces pathological TLR activation that drives psoriasis, IBD, and lupus while preserving antimicrobial defense. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Kahlenberg &amp; Kaplan 2013, PMID 23702143</span></div>
+          <div><strong style="color:#006080;">Thymulin</strong> — 0.05–0.1mg SubQ 2–3x/week · thymus hormone that regulates T-cell maturation; zinc-dependent — supplement zinc alongside it. Corrects the T-regulatory deficits that allow autoimmune overactivation. <span style="color:rgba(26,26,26,0.55);font-size:11px;">📖 Dardenne 2002, PMID 11812338</span></div>
+
+          <div style="margin-top:12px;padding:10px 12px;background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.3);border-left:3px solid #00c8ff;font-size:12px;color:#006080;line-height:1.7;">
+            <strong>⚠ GLP-1 NOTE:</strong> Semaglutide, Tirzepatide, and Retatrutide suppress the same cytokines (TNF-α, IL-6, IL-17) targeted by expensive biologic drugs. If you are on a GLP-1 for weight loss AND have an autoimmune condition, discuss the immune implications with your rheumatologist — you may already be getting meaningful anti-inflammatory benefit.
+          </div>
+
+          <button onclick="navigator.clipboard.writeText('AUTOIMMUNE & RHEUMATIC DISEASE FULL STACK\n\nSUPPLEMENTS:\n- Omega-3 (EPA+DHA): 3-4g/day\n- Vitamin D3 (5000-10000 IU) + K2 MK-7 (100mcg): daily\n- Magnesium Glycinate: 400-600mg/day\n- Curcumin + Piperine: 500-1000mg 2x/day\n- Boswellia Serrata (AKBA): 100-200mg/day\n- NAC: 600mg 2-3x/day\n- Quercetin: 500-1000mg/day\n- Zinc: 25-30mg elemental/day\n- Probiotics (multi-strain): 50B+ CFU/day\n- Low-Dose Naltrexone (LDN): 1.5-4.5mg/night (Rx)\n\nPEPTIDES:\n- BPC-157: 250-500mcg/day SubQ or oral\n- TB-500: 2-5mg 2x/week SubQ (loading), then 2mg/week\n- KPV: 250-500mcg/day SubQ or oral\n- VIP: 50-100mcg SubQ 2-3x/week\n- Thymosin Alpha-1: 1.6mg SubQ 2x/week\n- GHK-Cu: 1-2mg/day SubQ\n- Selank: 250-500mcg/day SubQ or intranasal\n- SS-31: 1-2mg/day SubQ\n- MOTS-c: 5-10mg 2-3x/week SubQ\n- LL-37: 0.5-1mg SubQ 2-3x/week\n- Thymulin: 0.05-0.1mg SubQ 2-3x/week\n\nGLP-1 NOTE: Sema/Tirz/Reta also suppress TNF-a, IL-6, IL-17 -- discuss with rheumatologist.\n\nKEY BLOOD MARKERS TO MONITOR: CRP, ESR, IL-6, TNF-a, CBC, condition-specific antibodies (RF, anti-CCP, ANA, ANCA)\n\nNOTE: For educational/research purposes only. Not medical advice. Discuss with your rheumatologist.')" style="margin-top:12px;padding:8px 14px;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.4);color:#006080;font-family:var(--orb);font-size:0.7rem;letter-spacing:0.1em;cursor:pointer;">📋 Copy Full Autoimmune Stack</button>
+        </div>
+      </details>
+
     </div>
   </details>
 
@@ -1376,7 +1421,58 @@ function searchPeptide(){
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-// (goal/gender-based matching UI was removed — search and the Pokédex Index are the only ways to add a peptide now)
+// ── CONDITION / GOAL SELECTOR ────────────────────────────────────────────────
+var CONDITION_META = [
+  { key:'autoimmune', icon:'🦴', label:'Autoimmune / RA',  color:'#00c8ff' },
+  { key:'fatloss',    icon:'🔥', label:'Fat Loss',          color:'#ff6b00' },
+  { key:'muscle',     icon:'💪', label:'Muscle Growth',     color:'#00f5ff' },
+  { key:'recovery',   icon:'🩹', label:'Recovery / Injury', color:'#00ff88' },
+  { key:'antiaging',  icon:'⏳', label:'Anti-Aging',        color:'#9d00ff' },
+  { key:'gut',        icon:'🫁', label:'Gut Health',        color:'#ffc800' },
+  { key:'joints',     icon:'🦿', label:'Joints',            color:'#ff8c00' },
+  { key:'cognitive',  icon:'🧠', label:'Cognitive',         color:'#cc44ff' },
+  { key:'sleep',      icon:'🌙', label:'Sleep',             color:'#4488ff' },
+  { key:'immune',     icon:'🛡️', label:'Immune Support',    color:'#00ff64' },
+  { key:'inflammation',icon:'🌡️',label:'Inflammation',      color:'#ff4444' },
+  { key:'skin',       icon:'✨', label:'Skin & Hair',       color:'#ff64c8' },
+  { key:'energy',     icon:'⚡', label:'Energy / Mito',     color:'#ffd700' },
+  { key:'insulin',    icon:'🍬', label:'Insulin Resistance',color:'#64ff64' },
+  { key:'longevity',  icon:'🧬', label:'Longevity',         color:'#b060ff' },
+  { key:'libido',     icon:'❤️', label:'Libido / Hormones', color:'#ff2d78' },
+  { key:'thyroid',    icon:'🦋', label:'Thyroid',           color:'#40d0ff' }
+];
+
+(function buildConditionGrid(){
+  var grid = document.getElementById('condition-grid');
+  if (!grid) return;
+  CONDITION_META.forEach(function(c){
+    var div = document.createElement('div');
+    div.className = 'cond-card';
+    div.setAttribute('data-key', c.key);
+    div.style.cssText = [
+      'display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:6px;cursor:pointer;',
+      'border:1.5px solid ' + c.color + '44;background:' + c.color + '0d;',
+      'font-family:var(--orb);font-size:0.72rem;letter-spacing:0.08em;color:' + c.color + ';',
+      'transition:background 0.15s,border-color 0.15s;user-select:none;'
+    ].join('');
+    div.innerHTML = '<span style="font-size:1.1rem;flex-shrink:0;">' + c.icon + '</span><span>' + c.label + '</span>';
+    div.onclick = function(){
+      if (SELECTED_GOALS.has(c.key)){
+        SELECTED_GOALS.delete(c.key);
+        div.classList.remove('selected');
+        div.style.background = c.color + '0d';
+        div.style.borderColor = c.color + '44';
+      } else {
+        SELECTED_GOALS.add(c.key);
+        div.classList.add('selected');
+        div.style.background = c.color + '28';
+        div.style.borderColor = c.color;
+        div.style.boxShadow = '0 0 10px ' + c.color + '55';
+      }
+    };
+    grid.appendChild(div);
+  });
+})();
 
 // goal -> peptide keys mapping
 var GOAL_MAP = {
@@ -1395,7 +1491,8 @@ var GOAL_MAP = {
   hair:       ['ghk','ahkcu'],
   energy:     ['nad','mots','ss31','carnitine','slu332','tesablend'],
   immune:     ['thymalpha','thymulin','thymogen','vilon','ll37','gluta'],
-  longevity:  ['bronchogen','cardiogen','crystagen','livagen','ovagen','pancragon','pinealon','prostamax','testagen','naepi','vesugen','cortagen','pnc27']
+  longevity:  ['bronchogen','cardiogen','crystagen','livagen','ovagen','pancragon','pinealon','prostamax','testagen','naepi','vesugen','cortagen','pnc27'],
+  autoimmune: ['bpc','tb500','kpv','thymalpha','ll37','vip','ghk','selank','ss31','mots','ghkkpv','thymulin']
 };
 
 // peptide info + default protocol values
@@ -1497,7 +1594,8 @@ var GOAL_LABELS = {
   sleep:'Sleep', gut:'Gut Health', joints:'Joints', skin:'Skin & Hair', cognitive:'Cognitive',
   libido:'Libido / Hormones', insulin:'Insulin Resistance', thyroid:'Thyroid Support',
   inflammation:'Inflammation', hair:'Hair', energy:'Energy', immune:'Immune Support',
-  longevity:'Longevity / Bioregulators'
+  longevity:'Longevity / Bioregulators',
+  autoimmune:'Autoimmune & Rheumatic Disease'
 };
 
 // short goal-specific "why this helps" blurbs, keyed by goal -> peptide key
@@ -1594,6 +1692,20 @@ var GOAL_REASONS = {
     vilon:     'A broad immune bioregulator studied for modulating immune response as part of longevity protocols.',
     ll37:      'An antimicrobial peptide that supports the immune system\'s defense against pathogens.',
     gluta:     'The body\'s master antioxidant — supports immune cell function and overall detox capacity.'
+  },
+  autoimmune: {
+    bpc:       'BPC-157 reduces systemic inflammation via upregulation of the NO-cGMP pathway — studied for calming chronic immune overactivation and gut-related autoimmune triggers.',
+    tb500:     'TB-500 reduces TNF-α and promotes tissue repair in inflamed joints and connective tissue — key for RA and psoriatic arthritis recovery.',
+    kpv:       'A direct NF-κB inhibitor — suppresses the master inflammatory switch driving most autoimmune conditions, including IBD, psoriasis, and joint disease.',
+    thymalpha: 'Thymosin Alpha-1 restores regulatory T-cell balance — studied for immune modulation in autoimmune protocols, reducing the dysregulated immune activation that drives rheumatic disease.',
+    ll37:      'LL-37 modulates innate immunity — reduces pathological inflammation while preserving immune defense, studied for immune-driven skin and mucosal conditions.',
+    vip:       'VIP (Vasoactive Intestinal Peptide) is one of the most potent anti-inflammatory neuropeptides — suppresses TNF-α, IL-6, and IL-12 directly in immune cells. Studied for RA, IBD, and lupus.',
+    ghk:       'GHK-Cu reduces IL-6 and TNF-α while promoting tissue repair — directly targets the inflammatory cytokines central to RA, psoriasis, and Sjögren\'s.',
+    selank:    'Selank modulates the HPA axis and reduces cortisol-driven immune dysregulation — elevated stress hormones worsen autoimmune flares; Selank blunts this pathway.',
+    ss31:      'SS-31 improves mitochondrial efficiency — mitochondrial dysfunction drives the chronic inflammation and fatigue central to autoimmune disease.',
+    mots:      'MOTS-c activates AMPK which directly suppresses NF-κB and reduces inflammatory cytokine output — studied for systemic anti-inflammatory and metabolic effects.',
+    ghkkpv:    'GHK-Cu + KPV combined — dual anti-inflammatory and tissue-repair action, targeting both the cytokine cascade (KPV) and collagen repair (GHK-Cu) simultaneously.',
+    thymulin:  'Thymulin supports T-cell maturation and immune regulation — corrects the T-regulatory cell deficits that allow autoimmune overactivation to persist.'
   },
   longevity: {
     bronchogen: 'A respiratory-system bioregulator studied for supporting lung health as part of healthy aging.',
