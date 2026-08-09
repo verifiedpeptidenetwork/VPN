@@ -307,6 +307,71 @@
     66%     { border-color: #9d00ff; }
   }
 
+  /* ── CYBER DYSTOPIA SCANNER EYE GLOW ─────────────────────────── */
+  @keyframes vpnScanRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes vpnScanRotateCCW {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+  }
+  @keyframes vpnNeonPunk {
+    0%,100% {
+      box-shadow: 0 0 6px 2px #00f5ff, 0 0 18px 6px rgba(0,245,255,0.55), 0 0 36px 12px rgba(157,0,255,0.3), 0 0 60px 20px rgba(0,245,255,0.08);
+      border-color: #00f5ff;
+    }
+    33% {
+      box-shadow: 0 0 6px 2px #ff0080, 0 0 18px 6px rgba(255,0,128,0.55), 0 0 36px 12px rgba(255,0,128,0.25), 0 0 60px 20px rgba(255,0,128,0.08);
+      border-color: #ff0080;
+    }
+    66% {
+      box-shadow: 0 0 6px 2px #9d00ff, 0 0 18px 6px rgba(157,0,255,0.55), 0 0 36px 12px rgba(157,0,255,0.25), 0 0 60px 20px rgba(157,0,255,0.08);
+      border-color: #9d00ff;
+    }
+  }
+  @keyframes vpnNeonPunkLg {
+    0%,100% {
+      box-shadow: 0 0 10px 3px #00f5ff, 0 0 28px 10px rgba(0,245,255,0.55), 0 0 55px 18px rgba(157,0,255,0.35), 0 0 90px 30px rgba(0,245,255,0.1);
+      border-color: #00f5ff;
+    }
+    33% {
+      box-shadow: 0 0 10px 3px #ff0080, 0 0 28px 10px rgba(255,0,128,0.55), 0 0 55px 18px rgba(255,0,128,0.3), 0 0 90px 30px rgba(255,0,128,0.1);
+      border-color: #ff0080;
+    }
+    66% {
+      box-shadow: 0 0 10px 3px #9d00ff, 0 0 28px 10px rgba(157,0,255,0.55), 0 0 55px 18px rgba(157,0,255,0.3), 0 0 90px 30px rgba(157,0,255,0.1);
+      border-color: #9d00ff;
+    }
+  }
+  @keyframes vpnScanLine {
+    0%   { top: -2px; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 0.7; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes vpnScanLineLg {
+    0%   { top: -3px; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 0.7; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes vpnGlitch {
+    0%,88%,100% { clip-path: none; transform: translate(0,0); filter: none; }
+    89%  { clip-path: inset(20% 0 40% 0); transform: translate(-2px, 0); filter: hue-rotate(90deg) saturate(3); }
+    90%  { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); filter: hue-rotate(270deg); }
+    91%  { clip-path: none; transform: translate(0, 1px); filter: none; }
+    95%  { clip-path: inset(40% 0 30% 0); transform: translate(1px, 0); filter: brightness(2) saturate(0); }
+    96%  { clip-path: none; transform: translate(0,0); filter: none; }
+  }
+  @keyframes vpnRingPulse {
+    0%,100% { opacity: 0.7; transform: rotate(0deg) scale(1); }
+    50%     { opacity: 1;   transform: rotate(180deg) scale(1.04); }
+  }
+  @keyframes vpnDotBlink {
+    0%,100% { opacity: 1; } 50% { opacity: 0.15; }
+  }
+
   /* TOP TITLE BANNER */
   .vpn-top-banner {
     width:100%;
@@ -898,7 +963,8 @@
   .vh-logo-img {
     position:relative; z-index:1;
     width:70px; height:70px;
-    object-fit:contain;
+    object-fit:cover;
+    border-radius:50%;
     filter: drop-shadow(0 0 10px var(--vh1,#ff2d78)) drop-shadow(0 0 22px var(--vh2,#00f5ff));
     transition: filter 0.3s;
   }
@@ -10696,6 +10762,311 @@ document.addEventListener('keydown', function(e){
 
   </div>
 
+  <!-- ══ HOW-TO GUIDES SECTION ══ -->
+  <div style="margin-top:2rem;">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.2em;color:var(--neon-cyan);white-space:nowrap;">📋 HOW-TO GUIDES</span>
+      <span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(0,245,255,0.5),transparent);"></span>
+    </div>
+
+    <!-- GHK-CU STINGS PREVENTION -->
+    <div style="background:rgba(255,200,0,0.05);border:1px solid rgba(255,200,0,0.3);border-left:4px solid #ffc800;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">🩹</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ffc800;">HOW TO PREVENT GHK-CU STINGS</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-ghkcu-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(255,200,0,0.4);color:#ffc800;background:rgba(255,200,0,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-ghkcu-body" style="display:none;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">GHK-Cu injections can burn or sting more than other peptides. This is due to the copper component and slightly acidic pH. Here's exactly how to minimize or eliminate the sting:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💧 USE MORE BAC WATER (DILUTE MORE)</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">The most effective fix. A more diluted solution (e.g., 3–5mL BAC water per vial instead of 1–2mL) reduces the concentration per injection and dramatically cuts the burn. You'll inject a larger volume but with far less discomfort.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">🌡️ ROOM TEMPERATURE BEFORE INJECTING</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Cold solution from the fridge stings more. Remove your GHK-Cu syringe 10–15 minutes before injecting and let it reach room temperature before subcutaneous administration.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">🐌 INJECT SLOWLY</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Push the plunger slowly over 10–20 seconds. Fast bolus injections create pressure that increases burn. Slow and steady distributes the solution more gently into subcutaneous tissue.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">📍 SITE SELECTION MATTERS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Abdominal fat has more padding and fewer nerve endings. Try rotating injection sites if one area stings. Pinch more skin to ensure you're in the subQ layer, not hitting dermis.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">🧊 ICE OR EMLA CREAM BEFORE INJECTING</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Apply ice for 30–60 seconds to numb the site. EMLA cream (lidocaine/prilocaine) applied 45–60 min before virtually eliminates needle pain. Great for those sensitive to GHK-Cu specifically.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">⚗️ VENDOR / BATCH ISSUE</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">If a new batch burns significantly more, the peptide may have higher free copper, incorrect pH, or impurities. Check your vendor's COA. Not all GHK-Cu burns equally — quality variation is real.</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.25);border-radius:7px;padding:0.7rem 0.9rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#ffc800;margin-bottom:0.35rem;">💡 BOTTOM LINE</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;">Some sting is normal for GHK-Cu. Significant burning lasting more than 10–15 minutes, redness, warmth, or swelling warrants checking for infection or product quality issues.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY SOME PEPTIDES NEED ACETIC ACID -->
+    <div style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.3);border-left:4px solid #00f5ff;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">⚗️</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#00f5ff;">WHY SOME PEPTIDES NEED ACETIC ACID</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-acetic-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-acetic-body" style="display:none;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">Some peptides are insoluble in plain water at neutral pH. They need a mildly acidic solution — 0.6% acetic acid — to dissolve properly. Here's why this happens and how to handle it:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">🔬 THE CHEMISTRY: pH & SOLUBILITY</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Peptides with basic amino acid residues (lysine, arginine, histidine) aggregate and precipitate at neutral pH. Acetic acid (pH ~3.5–4.5) protonates these residues, giving the peptide a net positive charge that keeps it in stable solution.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💊 PEPTIDES THAT COMMONLY NEED IT</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">AOD-9604 · IGF-1 LR3 · Tesamorelin · CJC-1295 (no DAC) · Hexarelin · TB-500 (some batches). Check the COA — lyophilization methods vary by manufacturer.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">🧪 HOW TO MAKE 0.6% ACETIC ACID SOLUTION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Mix 0.6mL of pharmaceutical-grade glacial acetic acid with 99.4mL of sterile water. Use only food/pharma-grade acetic acid — NOT vinegar (impure, wrong concentration, not sterile).</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">⚠️ USING BAC WATER WHEN ACETIC ACID IS NEEDED</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">If you use BAC water on a peptide that needs acetic acid, you may see cloudiness or gel-like precipitate — the peptide won't fully dissolve. If it went cloudy, that batch is compromised.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">🔄 THE DILUTION STEP AFTER</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Once dissolved in acetic acid, dilute to your target concentration with BAC water or sterile saline. At your target dose (100–200mcg), the acetic acid amount is negligible and physiologically safe subcutaneously.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">📦 STORAGE AFTER ACETIC ACID RECONSTITUTION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Peptides in acetic acid are typically less stable than in BAC water. Use within 30 days refrigerated. If you see color change, cloudiness, or unusual smell after opening — discard.</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,245,255,0.07);border:1px solid rgba(0,245,255,0.2);border-radius:7px;padding:0.7rem 0.9rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00f5ff;margin-bottom:0.35rem;">📋 QUICK REFERENCE</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;"><strong style="color:#fff;">BAC Water:</strong> Most peptides (BPC-157, GHK-Cu, TB-500, GLP-1s, MOTSC, SS-31) &nbsp;|&nbsp; <strong style="color:#fff;">0.6% Acetic Acid:</strong> IGF-1 LR3, AOD-9604, CJC-1295 no-DAC, Hexarelin, some GH variants. Always verify with your vendor's documentation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONE PEN MULTIPLE VIALS -->
+    <div style="background:#020a0e;border:1px solid rgba(0,245,255,0.25);border-left:4px solid var(--neon-cyan);border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">💉</span>
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-cyan);">ONE PEN, MULTIPLE VIALS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(150,230,255,0.6);">Budget-friendly pen sharing guide · Finance vs Convenience</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#021014;border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-bottom:0.85rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.65;">
+        <strong style="color:var(--neon-cyan);">Can't afford multiple pens?</strong> — You can absolutely use <strong style="color:#fff;">one pen across multiple vials</strong>. It takes a little more patience but it works perfectly. You're trading convenience for cost savings — pick what works for your situation.
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">One Pen Multiple Vials — Overview</div>
+            <a href="cheatsheet/ONEPENMULTIPLE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/ONEPENMULTIPLE.png','One Pen, Multiple Vials — Overview Guide')">
+            <img loading="lazy" src="cheatsheet/ONEPENMULTIPLE.png" alt="One Pen Multiple Vials Overview" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          </div>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff88;overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff88;">One Pen Multiple Vials — Step by Step</div>
+            <a href="cheatsheet/onepenmult2.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #00ff88;color:#00ff88;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/onepenmult2.png','One Pen, Multiple Vials — Step by Step')">
+            <img loading="lazy" src="cheatsheet/onepenmult2.png" alt="One Pen Multiple Vials Step by Step" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          </div>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#9d00ff;">One Pen Multiple Vials — Tips &amp; FAQ</div>
+            <a href="cheatsheet/onepenmult3.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #9d00ff;color:#9d00ff;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/onepenmult3.png','One Pen, Multiple Vials — Tips & FAQ')">
+            <img loading="lazy" src="cheatsheet/onepenmult3.png" alt="One Pen Multiple Vials Tips FAQ" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MUSCLE LOSS PREVENTION ON GLP-1 -->
+    <div style="background:rgba(0,255,100,0.04);border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">💪</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#00ff64;">HOW TO PREVENT MUSCLE LOSS ON GLP-1</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-muscle-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,255,100,0.4);color:#00ff64;background:rgba(0,255,100,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-muscle-body" style="display:none;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">GLP-1 medications (semaglutide, tirzepatide) cause rapid caloric restriction that can lead to significant muscle loss — sometimes 30–40% of total weight lost. This is preventable. Here's how:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">🥩 HIT YOUR PROTEIN TARGET FIRST</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Target <strong style="color:#fff;">0.7–1g of protein per lb of body weight</strong> (or per lb of lean mass). GLP-1s crush appetite so this is hard — prioritize protein at every meal over carbs or fat. Protein shakes, Greek yogurt, eggs, cottage cheese are your friends.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">🏋️ RESISTANCE TRAINING IS NON-NEGOTIABLE</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Lift weights 3–4x per week with progressive overload. Even 2x is significantly better than none. Muscle requires a stimulus to be maintained — cardio alone will not prevent catabolism on a deep caloric deficit.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💊 ATX-304 — MUSCLE PRESERVATION PEPTIDE</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">ATX-304</strong> (available for research at Umbrella Labs) is a selective androgen receptor modulator analog being studied for muscle preservation during caloric restriction. Research users pair it with GLP-1 therapy specifically to counteract lean mass loss. Always review COAs.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">🧬 PEPTIDE STACK FOR MUSCLE ON GLP-1</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">BPC-157</strong> supports tissue repair and GI lining (often disturbed by GLP-1 side effects). <strong style="color:#fff;">GHK-Cu</strong> improves collagen and reduces inflammation. <strong style="color:#fff;">Ipamorelin/CJC-1295</strong> stimulates natural GH release, supporting fat loss and muscle retention simultaneously.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">⚡ EAAs & CREATINE — THE ESSENTIALS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">Creatine monohydrate</strong> (5g/day) is the most evidence-backed supplement for muscle preservation — non-negotiable. <strong style="color:#fff;">EAAs</strong> (especially leucine-rich) between meals cover gaps when appetite is too low to hit protein targets through food.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">📉 DON'T CRASH CALORIES TOO FAST</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Aggressive deficits (&gt;1000 cal/day below maintenance) accelerate muscle loss even with training. GLP-1s can push you there without feeling it. Track food for the first few weeks to ensure you're not under 1200–1400 kcal/day (women) or 1500–1700 (men).</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,255,100,0.07);border:1px solid rgba(0,255,100,0.2);border-radius:7px;padding:0.7rem 0.9rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.35rem;">📋 MUSCLE PROTECTION STACK (GLP-1 USERS)</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;"><strong style="color:#fff;">Must-haves:</strong> 0.7–1g protein/lb · Creatine 5g/day · Resistance training 3x/week &nbsp;|&nbsp; <strong style="color:#fff;">Add if needed:</strong> EAAs between meals · Ipamorelin/CJC-1295 · BPC-157 · ATX-304 (research use, Umbrella Labs)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROTEIN GUIDE + PROTEIN MYTHS -->
+    <div style="background:rgba(255,107,0,0.04);border:1px solid rgba(255,107,0,0.3);border-left:4px solid #ff6b00;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">🥩</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ff6b00;">EATING ENOUGH PROTEIN — FACTS & MYTHS</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-protein-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(255,107,0,0.4);color:#ff6b00;background:rgba(255,107,0,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-protein-body" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.85rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">🎯 HOW MUCH DO YOU ACTUALLY NEED</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">For muscle preservation/growth: <strong style="color:#fff;">0.7–1g per lb of body weight</strong> (1.6–2.2g/kg). Active adults at the higher end. Older adults and GLP-1 users should aim for 1g/lb. The RDA of 0.36g/lb is a minimum to prevent deficiency — not a performance target.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">✅ BEST HIGH-PROTEIN FOODS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Chicken breast (31g/100g) · Tuna (30g/100g) · Greek yogurt (17g/cup) · Eggs (6g each) · Cottage cheese (14g/cup) · Whey protein (25g/scoop) · Skyr · Lean beef · Edamame · Lentils (18g/cup)</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">❌ MYTH: "YOUR BODY CAN ONLY ABSORB 30G PER MEAL"</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">False.</strong> Your body absorbs essentially all the protein you eat — it just digests it slower in larger amounts. The "30g limit" myth came from studies on muscle protein synthesis rate, not absorption. Eating 60g in one meal still counts fully toward your daily total.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">❌ MYTH: "HIGH PROTEIN DAMAGES YOUR KIDNEYS"</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">False for healthy individuals.</strong> This myth originated from people with pre-existing kidney disease, in whom protein restriction is sometimes advised. In healthy kidneys, high protein diets show no evidence of harm across dozens of controlled trials. Hydration matters more.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">❌ MYTH: "PROTEIN MAKES YOU BULKY"</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">False.</strong> Protein does not cause unwanted mass — caloric surplus + progressive overload does. High protein actually aids fat loss by keeping you full (highest thermic effect of food — burns ~25–30% of its own calories during digestion) and preserving muscle during cuts.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💡 PROTEIN TIMING</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Distribute protein across 3–4 meals for optimal muscle protein synthesis signaling. Prioritize 30–50g within 1–2 hours of resistance training. Pre-sleep protein (casein or cottage cheese) supports overnight muscle repair. Don't skip breakfast protein on GLP-1 — morning appetite suppression is strongest.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO SLEEP ON GLP-1 -->
+    <div style="background:rgba(157,0,255,0.04);border:1px solid rgba(157,0,255,0.3);border-left:4px solid #9d00ff;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">😴</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#9d00ff;">HOW TO SLEEP BETTER ON GLP-1 MEDICATION</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-sleep-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(157,0,255,0.4);color:#9d00ff;background:rgba(157,0,255,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-sleep-body" style="display:none;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">GLP-1 medications commonly disrupt sleep through nausea, GI discomfort, vivid dreams, or increased alertness. These evidence-based supplements and practices directly address each cause:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">🍃 L-THEANINE (200–400MG BEFORE BED)</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Found naturally in green tea. Promotes alpha brain wave activity — the state of calm wakefulness that eases sleep onset without sedation. Reduces the anxiety/restlessness that GLP-1 stimulant-like effects can cause at night. Non-habit-forming, very safe.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,255,0.2);border-top:2px solid #00e5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00e5ff;margin-bottom:0.3rem;">🧬 GLYCINE (3G BEFORE BED)</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">An amino acid shown in clinical studies to lower core body temperature, reduce time-to-sleep, and improve sleep quality scores. Also supports collagen production, gut lining integrity (important on GLP-1), and is a precursor to glutathione via GlyNAC. One of the most underrated sleep aids.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">⚡ GLYNAC (GLYCINE + NAC) — BONUS BENEFITS</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Taking glycine as part of GlyNAC (Glycine + N-Acetylcysteine) adds NAC's antioxidant and glutathione-boosting benefits on top of glycine's sleep effects. A 2022 Stanford trial showed GlyNAC reversed mitochondrial aging markers by years. See the full GlyNAC guide in the Supplement Library.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">🌙 MAGNESIUM GLYCINATE (300–400MG)</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">The glycinate form crosses the blood-brain barrier and has calming GABA-like effects. GLP-1 medications can cause magnesium depletion through nausea-induced low food intake. Repleting magnesium is critical for muscle function, sleep, and mood. Take with dinner or 1hr before bed.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">🍽️ TIMING YOUR INJECTION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Weekly injections (semaglutide): try moving injection day to Friday if weekend nausea/fatigue disrupts your workweek. For daily GLP-1s, experiment with morning vs evening injection timing — some users sleep better with morning doses as peak nausea occurs during the day rather than at night.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">🛏️ SLEEP HYGIENE ON GLP-1</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Avoid eating 2–3 hours before bed (GLP-1 already slows gastric emptying — lying down with food in your stomach worsens reflux and nausea). Elevate the head of the bed 6–8 inches. Keep room cool (67–69°F). Consider DGL chewables or alginate (RefluxRaft) if nighttime reflux is the main issue.</div>
+          </div>
+        </div>
+        <div style="background:rgba(157,0,255,0.07);border:1px solid rgba(157,0,255,0.2);border-radius:7px;padding:0.7rem 0.9rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:0.35rem;">💡 RECOMMENDED GLP-1 SLEEP STACK</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;"><strong style="color:#fff;">Core:</strong> L-Theanine 200–400mg · Glycine 3g · Magnesium glycinate 300–400mg — all 30–60 min before bed &nbsp;|&nbsp; <strong style="color:#fff;">Upgrade:</strong> Replace standalone glycine with GlyNAC (glycine + NAC) for added mitochondrial and antioxidant benefits.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLYNAC IN T&G — REFERENCE -->
+    <div style="background:rgba(0,229,255,0.04);border:1px solid rgba(0,229,255,0.3);border-left:4px solid #00e5ff;border-radius:8px;padding:1rem 1.1rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span style="font-size:1.2rem;">⚡</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#00e5ff;">GLYNAC — GLYCINE + NAC MITOCHONDRIAL PROTOCOL</div>
+        </div>
+        <button onclick="(function(){var t=document.getElementById('tg-glynac-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,229,255,0.4);color:#00e5ff;background:rgba(0,229,255,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
+      </div>
+      <div id="tg-glynac-body" style="display:none;">
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">GlyNAC is the combination of Glycine and N-Acetylcysteine (NAC) — together they dramatically raise glutathione (your master antioxidant) and restore mitochondrial function. A 2022 Baylor/Stanford trial showed GlyNAC reversed biological aging markers by years in 24 weeks.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,255,0.2);border-top:2px solid #00e5ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00e5ff;margin-bottom:0.3rem;">⚡ MITOCHONDRIAL FUNCTION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">GlyNAC improves mitochondrial fuel oxidation and electron transport chain efficiency. The Stanford trial showed mitochondrial function improved ~36% in older adults — directly measurable within 24 weeks.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">🛡️ GLUTATHIONE +100%</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">NAC provides cysteine (the rate-limiting precursor for glutathione) and glycine provides the glycine component. GlyNAC raised GSH levels ~100% in older adults within 24 weeks — the biggest glutathione boost measurable without IV.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💪 MUSCLE STRENGTH + COGNITION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">The Baylor/Stanford trial showed significant improvements in grip strength, gait speed, exercise capacity, and cognitive function — consistent with reduced mitochondrial decline and oxidative damage in muscle and neural tissue.</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">📋 DOSING PROTOCOL</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;"><strong style="color:#fff;">Glycine:</strong> 1.33mg/kg/day (typically 3–4g for most adults) &nbsp;|&nbsp; <strong style="color:#fff;">NAC:</strong> 0.81mg/kg/day (typically 1.5–2g for most adults). Split into 2 doses (morning + evening). Take with food. 12–24 weeks minimum for full benefit.</div>
+          </div>
+        </div>
+        <div style="background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);border-radius:7px;padding:0.7rem 0.9rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00e5ff;margin-bottom:0.35rem;">🔬 STANFORD STUDIED · BAYLOR TRIAL 2022</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;">Pairs exceptionally well with: <strong style="color:#fff;">Glycine pre-bed</strong> (sleep quality) · <strong style="color:#fff;">NMN/NR</strong> (NAD+ stack) · <strong style="color:#fff;">Creatine</strong> (muscle preservation). For GLP-1 users: GlyNAC counteracts the oxidative stress and mitochondrial strain of aggressive caloric restriction. See the full deep-dive in the Supplement Library section.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 <!-- CHEAT SHEETS VIEW -->
 </div>
 <div class="view" id="view-cheatsheets">
@@ -13316,94 +13687,6 @@ document.addEventListener('keydown', function(e){
 
       </div>
 
-      <!-- GHK-Cu STINGS PREVENTION GUIDE -->
-      <div style="background:rgba(255,200,0,0.05);border:1px solid rgba(255,200,0,0.3);border-left:4px solid #ffc800;border-radius:8px;padding:1rem 1.1rem;margin-top:1rem;">
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:0.6rem;">
-            <span style="font-size:1.2rem;">🩹</span>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ffc800;">HOW TO PREVENT GHK-CU STINGS</div>
-          </div>
-          <button onclick="(function(){var t=document.getElementById('ghkcu-stings-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(255,200,0,0.4);color:#ffc800;background:rgba(255,200,0,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
-        </div>
-        <div id="ghkcu-stings-body" style="display:none;">
-          <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">GHK-Cu injections can burn or sting more than other peptides. This is due to the copper component and slightly acidic pH. Here's exactly how to minimize or eliminate the sting:</p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💧 USE MORE BAC WATER (DILUTE MORE)</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">The most effective fix. A more diluted solution (e.g., 3–5mL BAC water per vial instead of 1–2mL) reduces the concentration per injection and dramatically cuts the burn. You'll inject a larger volume but with far less discomfort.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">🌡️ ROOM TEMPERATURE BEFORE INJECTING</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Cold solution from the fridge stings more. Remove your GHK-Cu syringe from the fridge 10–15 minutes before injecting. Let it reach room temperature in the syringe before subcutaneous administration.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">🐌 INJECT SLOWLY</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Speed of injection matters. Push the plunger slowly over 10–20 seconds. Fast bolus injections create a pressure surge that increases burn. Slow and steady distributes the solution more gently into subcutaneous tissue.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">📍 SITE SELECTION MATTERS</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Abdominal fat has more padding and fewer nerve endings than arms or thighs for most people. Try rotating to a different injection site if one area stings consistently. Pinch more skin to ensure you're fully in the subQ layer, not hitting dermis.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">🧊 ICE OR EMLA CREAM BEFORE INJECTING</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Apply ice for 30–60 seconds to numb the injection site. EMLA cream (lidocaine/prilocaine) applied 45–60 min before virtually eliminates any needle or injection pain. Great for those sensitive to GHK-Cu specifically.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">⚗️ VENDOR / BATCH ISSUE</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">If it burns significantly with a new batch that didn't before, the peptide may have higher free copper, incorrect pH, or impurities. Check your vendor's COA. Try a different batch or source. Not all GHK-Cu burns equally — quality variation is real.</div>
-            </div>
-          </div>
-          <div style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.25);border-radius:7px;padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#ffc800;margin-bottom:0.35rem;">💡 BOTTOM LINE</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;">Some sting is normal for GHK-Cu. Significant burning that lasts more than 10–15 minutes, redness, warmth, or swelling warrants checking for infection or product quality issues. Mild post-injection sting that fades in a few minutes is generally expected and not harmful.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- WHY SOME PEPTIDES NEED ACETIC ACID -->
-      <div style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.3);border-left:4px solid #00f5ff;border-radius:8px;padding:1rem 1.1rem;margin-top:0.85rem;">
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:0.6rem;">
-            <span style="font-size:1.2rem;">⚗️</span>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#00f5ff;">WHY SOME PEPTIDES NEED ACETIC ACID</div>
-          </div>
-          <button onclick="(function(){var t=document.getElementById('acetic-acid-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;">▼ READ</button>
-        </div>
-        <div id="acetic-acid-body" style="display:none;">
-          <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.75rem;">Some peptides are insoluble in plain water (or bacteriostatic water) at neutral pH. They need a mildly acidic solution — 0.6% acetic acid — to dissolve properly. Here's why this happens and how to handle it:</p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.5rem;margin-bottom:0.75rem;">
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);border-top:2px solid #00f5ff;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00f5ff;margin-bottom:0.3rem;">🔬 THE CHEMISTRY: pH & SOLUBILITY</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Peptides with basic (positively charged) amino acid residues — like lysine, arginine, histidine — aggregate and precipitate at neutral pH. Acetic acid (pH ~3.5–4.5) protonates these residues, giving the peptide a net positive charge that keeps it in stable solution and prevents clumping.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,200,0,0.2);border-top:2px solid #ffc800;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ffc800;margin-bottom:0.3rem;">💊 PEPTIDES THAT COMMONLY NEED IT</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">AOD-9604 · IGF-1 LR3 · Tesamorelin · CJC-1295 (no DAC) · Hexarelin · TB-500 (some batches). These peptides are typically lyophilized with acetic acid salts and specify acetic acid for reconstitution in their technical data. When in doubt, check the COA.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,100,0.2);border-top:2px solid #00ff64;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#00ff64;margin-bottom:0.3rem;">🧪 HOW TO MAKE 0.6% ACETIC ACID SOLUTION</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Mix 0.6mL of pharmaceutical-grade glacial acetic acid with 99.4mL of sterile water. Or use pre-made 0.6% acetic acid solution. Store at room temp. Use only food/pharma-grade acetic acid — NOT vinegar (impure, wrong concentration, not sterile).</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,45,120,0.2);border-top:2px solid #ff2d78;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff2d78;margin-bottom:0.3rem;">⚠️ RECONSTITUTING WITH BAC WATER WHEN ACETIC ACID IS NEEDED</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">If you use BAC water on a peptide that needs acetic acid, you may see cloudiness, clumping, or gel-like precipitate — meaning the peptide won't fully dissolve. Some people add a few drops of 0.6% acetic acid to the BAC water solution as a workaround. Check if your peptide went cloudy — if so, that batch is compromised.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(157,0,255,0.2);border-top:2px solid #9d00ff;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#9d00ff;margin-bottom:0.3rem;">🔄 THE DILUTION STEP AFTER</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Once dissolved in acetic acid, dilute to your final target concentration with BAC water or sterile saline. The ratio you draw from the vial will still be mostly acetic acid solution — but at your target dose (e.g., 100–200mcg), the acetic acid amount is negligible and physiologically safe at subcutaneous injection.</div>
-            </div>
-            <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,107,0,0.2);border-top:2px solid #ff6b00;border-radius:6px;padding:0.65rem 0.8rem;">
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;color:#ff6b00;margin-bottom:0.3rem;">📦 STORAGE AFTER ACETIC ACID RECONSTITUTION</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.6;">Peptides in acetic acid are typically less stable long-term than in BAC water. Use within 30 days refrigerated. Avoid repeated freeze-thaw cycles. Keep away from light. If you see color change, cloudiness, or unusual smell after opening — discard.</div>
-            </div>
-          </div>
-          <div style="background:rgba(0,245,255,0.07);border:1px solid rgba(0,245,255,0.2);border-radius:7px;padding:0.7rem 0.9rem;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00f5ff;margin-bottom:0.35rem;">📋 QUICK REFERENCE</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;"><strong style="color:#fff;">BAC Water:</strong> Most peptides (BPC-157, GHK-Cu, TB-500, GLP-1s, MOTSC, SS-31, Tesamorelin from some vendors) &nbsp;|&nbsp; <strong style="color:#fff;">0.6% Acetic Acid:</strong> IGF-1 LR3, AOD-9604, CJC-1295 no-DAC, Hexarelin, some GH peptide variants. Always check your specific vendor's documentation — lyophilization methods vary by manufacturer.</div>
-          </div>
-        </div>
-      </div>
-
     </div>
     </div>
   </details>
@@ -14206,54 +14489,6 @@ document.addEventListener('keydown', function(e){
     </div>
   </details>
 
-  <!-- ── SECTION: One Pen, Multiple Vials ── -->
-  <details style="background:#020a0e;border:1px solid rgba(0,245,255,0.25);border-left:4px solid var(--neon-cyan);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">💉</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);">One Pen, Multiple Vials</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,230,255,0.6);margin-top:0.1rem;">Budget-friendly pen sharing guide · Finance vs Convenience</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,245,255,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
-    </summary>
-    <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,245,255,0.15);">
-      <div style="background:#021014;border-left:3px solid var(--neon-cyan);padding:0.75rem 1rem;margin-bottom:1rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.65;">
-        <strong style="color:var(--neon-cyan);">Can't afford multiple pens?</strong> — You can absolutely use <strong style="color:#fff;">one pen across multiple vials</strong>. It takes a little more patience but it works perfectly. On the flip side, if you can buy as many pens as you like, go for it — more pens means more convenience. <em style="color:rgba(200,220,255,0.55);">There's no wrong way. You're trading convenience for finance, or finance for convenience — pick what works for your situation.</em>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:var(--neon-cyan);">One Pen Multiple Vials — Overview</div>
-            <a href="cheatsheet/ONEPENMULTIPLE.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/ONEPENMULTIPLE.png','One Pen, Multiple Vials — Overview Guide')">
-            <img loading="lazy" src="cheatsheet/ONEPENMULTIPLE.png" alt="One Pen Multiple Vials Overview" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-          </div>
-        </div>
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff88;overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff88;">One Pen Multiple Vials — Step by Step</div>
-            <a href="cheatsheet/onepenmult2.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #00ff88;color:#00ff88;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/onepenmult2.png','One Pen, Multiple Vials — Step by Step')">
-            <img loading="lazy" src="cheatsheet/onepenmult2.png" alt="One Pen Multiple Vials Step by Step" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-          </div>
-        </div>
-        <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;">
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#9d00ff;">One Pen Multiple Vials — Tips &amp; FAQ</div>
-            <a href="cheatsheet/onepenmult3.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #9d00ff;color:#9d00ff;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
-          </div>
-          <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/onepenmult3.png','One Pen, Multiple Vials — Tips & FAQ')">
-            <img loading="lazy" src="cheatsheet/onepenmult3.png" alt="One Pen Multiple Vials Tips FAQ" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
-          </div>
-        </div>
-      </div>
-    </div>
-  </details>
-
   <!-- ── INJECTION PEN GUIDE ── -->
   <details id="cs-sec-pen" style="background:#0e0204;border:1px solid rgba(255,45,120,0.35);border-left:4px solid var(--neon-pink);margin-bottom:0.85rem;">
     <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
@@ -14290,18 +14525,8 @@ document.addEventListener('keydown', function(e){
     </div>
   </details>
 
-  <!-- ── CUSTOMIZE YOUR PEPTIDE PEN ── -->
-  <details style="background:#0e0204;border:1px solid rgba(180,0,255,0.35);border-left:4px solid #cc44ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🎨</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#cc44ff;">Customize Your Peptide Pen</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,170,255,0.6);margin-top:0.1rem;">Stickers + how to make your own with AI</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(204,68,255,0.7);flex-shrink:0;">▼ 5 SHEETS</span>
-    </summary>
+  <!-- Customize Your Peptide Pen section removed (moved to T&G / retired) -->
+  <details style="display:none;">
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(180,0,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
