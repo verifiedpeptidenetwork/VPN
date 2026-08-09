@@ -4263,7 +4263,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- GLP SAFETY — full-width second row inside the button group -->
       <div style="width:100%;flex-basis:100%;box-sizing:border-box;">
-        <details id="glp-must-read" style="width:100%;box-sizing:border-box;text-align:left;border:2px solid #ff0080;background:#04000f;box-shadow:0 0 28px rgba(255,0,128,0.35),0 0 55px rgba(157,0,255,0.15);border-radius:8px;overflow:hidden;">
+        <details id="glp-must-read" data-search="GLP safety myths cancer peptide cause cancer angiogenesis thyroid tumor blindness misconceptions warnings blood work" style="width:100%;box-sizing:border-box;text-align:left;border:2px solid #ff0080;background:#04000f;box-shadow:0 0 28px rgba(255,0,128,0.35),0 0 55px rgba(157,0,255,0.15);border-radius:8px;overflow:hidden;">
           <summary style="cursor:pointer;padding:0.85rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#ff0080;display:flex;align-items:center;gap:0.75rem;list-style:none;background:rgba(255,0,128,0.06);text-shadow:0 0 10px #ff0080;">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;filter:drop-shadow(0 0 8px #cc44ff);">
               <polygon points="16,2 30,28 2,28" fill="rgba(255,0,128,0.12)" stroke="#ff0080" stroke-width="2.5" stroke-linejoin="round"/>
@@ -4283,6 +4283,96 @@ document.addEventListener('keydown', function(e){
                 <li><strong style="color:#ff9966;">Cancer (Thyroid — specifically Medullary Thyroid Carcinoma):</strong> This applies <em>only</em> to people with a personal or family history of <strong style="color:#fff;">Medullary Thyroid Carcinoma (MTC)</strong> or <strong style="color:#fff;">Multiple Endocrine Neoplasia Type 2 (MEN 2)</strong>. The general population does not carry this risk. It was observed in rodent studies at supraphysiological doses — there is no confirmed causal link in humans outside those two specific conditions.</li>
               </ul>
               <p style="margin:0;color:rgba(255,200,150,0.8);font-size:0.9rem;"><strong style="color:#ff6b00;">Bottom line:</strong> If you do not have diabetic neuropathy, MTC history, or MEN 2 — these headlines do not apply to you. Always verify with your physician.</p>
+            </div>
+
+            <!-- DO PEPTIDES CAUSE CANCER? -->
+            <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;border:2px solid rgba(157,0,255,0.55);box-shadow:0 0 24px rgba(157,0,255,0.18);">
+              <!-- header -->
+              <div style="background:linear-gradient(135deg,rgba(157,0,255,0.18),rgba(255,45,120,0.1));padding:0.9rem 1.1rem 0.75rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:0.65rem;">
+                  <span style="font-size:1.3rem;">🧬</span>
+                  <div>
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.14em;color:#c060ff;text-shadow:0 0 12px rgba(157,0,255,0.7);">DO PEPTIDES CAUSE CANCER?</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(200,180,255,0.5);margin-top:0.1rem;">BIOLOGY · MECHANISMS · WHAT THE RESEARCH ACTUALLY SAYS</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <button onclick="(function(){var t=document.getElementById('cancer-card-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;padding:0.3rem 0.85rem;border:1.5px solid rgba(157,0,255,0.6);color:#c060ff;background:rgba(157,0,255,0.12);border-radius:4px;cursor:pointer;">▼ READ</button>
+                  <button onclick="(function(){var text=document.getElementById('cancer-card-copy-src').innerText;navigator.clipboard.writeText(text).then(function(){var b=document.getElementById('cancer-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);});})();" id="cancer-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;">⧉ COPY</button>
+                </div>
+              </div>
+
+              <!-- body -->
+              <div id="cancer-card-body" style="display:none;background:rgba(10,2,28,0.95);padding:1rem 1.1rem 1.1rem;">
+                <div id="cancer-card-copy-src">
+
+                  <!-- intro -->
+                  <p style="font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:rgba(220,200,255,0.85);line-height:1.75;margin-bottom:0.9rem;">It is a far more complicated question than most people realize. In the absence of definitive human data, we have to think in terms of <strong style="color:#fff;">biology and competing mechanisms</strong>. Some pathways could theoretically promote pre-existing tumor growth. Others could actively protect against cancer. The truth may be a tug-of-war — and understanding the mechanisms is what makes an informed decision possible.</p>
+
+                  <!-- mechanisms grid -->
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:1rem;">
+
+                    <div style="background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.3);border-top:3px solid #ff2d78;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#ff2d78;margin-bottom:0.4rem;">⚠ ANGIOGENESIS</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Some peptides (e.g. BPC-157, GHK-Cu) promote blood vessel formation (angiogenesis). This accelerates healing — but tumors also rely on angiogenesis to grow. In a person with a pre-existing undetected tumor, this could theoretically feed it. No confirmed causal link in humans — but a valid mechanistic concern.</div>
+                    </div>
+
+                    <div style="background:rgba(255,140,0,0.07);border:1px solid rgba(255,140,0,0.3);border-top:3px solid #ff8c00;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#ff8c00;margin-bottom:0.4rem;">⚠ GROWTH FACTOR SIGNALING</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Peptides that stimulate GH, IGF-1, or mTOR pathways (e.g. ipamorelin, CJC-1295, MK-677) activate the same signaling cascades that cancer cells exploit for rapid growth. Chronically elevated IGF-1 has been associated with increased cancer risk in some epidemiological studies. This is why bloodwork and moderation matter.</div>
+                    </div>
+
+                    <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-top:3px solid #00f5ff;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#00f5ff;margin-bottom:0.4rem;">✅ THYMIC REJUVENATION</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Peptides like Thymosin Alpha-1, Thymalin, and Epithalon act on the thymus gland — the organ responsible for training immune T-cells. A rejuvenated thymus produces more competent immune cells, which play a direct role in identifying and eliminating cancerous cells before they take hold (immunosurveillance).</div>
+                    </div>
+
+                    <div style="background:rgba(0,255,100,0.06);border:1px solid rgba(0,255,100,0.25);border-top:3px solid #00ff64;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#00ff64;margin-bottom:0.4rem;">✅ TUMOR IMMUNOSURVEILLANCE</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Your immune system constantly patrols for abnormal cells — this is called tumor immunosurveillance. Peptides that enhance NK cell activity, T-cell function, or macrophage efficiency (e.g. Thymosin Alpha-1, LL-37) may strengthen this patrol. A stronger immune system = less chance of early tumors escaping detection.</div>
+                    </div>
+
+                    <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.25);border-top:3px solid #00c8ff;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#00c8ff;margin-bottom:0.4rem;">✅ MITOCHONDRIAL FUNCTION</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Cancer cells frequently hijack cellular energy production (the Warburg effect). Peptides that support mitochondrial health and NAD+ pathways (e.g. SS-31, Epithalon, BPC-157) may reduce the oxidative stress and DNA damage that initiates malignant transformation in the first place. This is protective, not promotional.</div>
+                    </div>
+
+                    <div style="background:rgba(255,200,0,0.06);border:1px solid rgba(255,200,0,0.25);border-top:3px solid #ffc800;border-radius:8px;padding:0.8rem;">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#ffc800;margin-bottom:0.4rem;">⚠ CHRONIC INFLAMMATION</div>
+                      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(220,200,255,0.75);line-height:1.65;">Chronic, unresolved inflammation is one of the most well-established drivers of cancer development. Peptides with strong anti-inflammatory profiles (BPC-157, TB-500, KPV) may actually reduce cancer risk by resolving the inflammatory environment that tumors thrive in. Conversely, anything that worsens chronic inflammation adds risk.</div>
+                    </div>
+
+                  </div>
+
+                  <!-- tug of war callout -->
+                  <div style="background:linear-gradient(135deg,rgba(157,0,255,0.12),rgba(255,45,120,0.08));border:1.5px solid rgba(157,0,255,0.45);border-radius:10px;padding:0.9rem 1rem;margin-bottom:0.85rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#c060ff;margin-bottom:0.5rem;">⚖ THE TUG-OF-WAR — WHAT THIS ACTUALLY MEANS</div>
+                    <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,200,255,0.8);line-height:1.75;">
+                      <p style="margin-bottom:0.6rem;">The biology does not give a clean yes or no. It gives you a set of competing forces:</p>
+                      <ul style="margin:0 0 0.7rem 1.2rem;line-height:2;">
+                        <li><strong style="color:#ff8c00;">Pro-tumor mechanisms:</strong> Angiogenesis, IGF-1/mTOR activation in someone with existing occult tumors</li>
+                        <li><strong style="color:#00ff64;">Anti-tumor mechanisms:</strong> Thymic rejuvenation, immunosurveillance enhancement, anti-inflammatory action, mitochondrial protection</li>
+                        <li><strong style="color:#fff;">The net result</strong> depends on the individual — their baseline cancer risk, pre-existing conditions, which peptides they use, dose, duration, and whether they are monitoring</li>
+                      </ul>
+                      <p style="margin:0;color:rgba(255,230,180,0.75);font-size:0.85rem;"><strong style="color:#ffd700;">The key insight:</strong> The question is not "do peptides cause cancer" — it is "which mechanisms dominate in your specific biology, and are you monitoring to know?" This is exactly why bloodwork, baseline scans if warranted, and physician oversight are non-negotiable.</p>
+                    </div>
+                  </div>
+
+                  <!-- bottom line -->
+                  <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0.75rem 1rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:rgba(220,200,255,0.5);margin-bottom:0.5rem;">// PRACTICAL GUIDANCE</div>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.83rem;font-weight:600;color:rgba(200,185,255,0.75);line-height:2;margin:0 0 0 1.1rem;">
+                      <li>If you have a <strong style="color:#ff7777;">personal or family history of cancer</strong>, consult an oncologist before using any growth-promoting peptides (GH secretagogues, IGF-1 stimulators)</li>
+                      <li>Get baseline <strong style="color:#fff;">CBC, CMP, and cancer screening</strong> appropriate for your age before any protocol</li>
+                      <li>Prefer peptides with <strong style="color:#00ff64;">immune-enhancing and anti-inflammatory profiles</strong> if this is a concern (Thymosin Alpha-1, BPC-157 at moderate doses)</li>
+                      <li>Avoid <strong style="color:#ff8c00;">chronically supraphysiological IGF-1</strong> — cycle, monitor, and stay in range</li>
+                      <li>Verify everything with <strong style="color:#00f5ff;">published research, your physician, and your own bloodwork</strong></li>
+                    </ul>
+                  </div>
+
+                </div><!-- /copy-src -->
+                <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(180,160,220,0.35);margin-top:0.85rem;font-style:italic;">For research and educational purposes only. Not medical advice. Consult your physician.</p>
+              </div>
             </div>
 
             <!-- Blood work block -->
@@ -4806,13 +4896,16 @@ document.addEventListener('keydown', function(e){
             <div style="margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.14em;padding:0.25rem 0.65rem;background:rgba(255,0,0,0.2);border:1px solid #ff0080;color:#ff0080;border-radius:3px;animation:glowBadgeGold 1.8s ease-in-out infinite;white-space:nowrap;">🔴 LIVE</div>
           </div>
           <!-- toggle button -->
-          <button onclick="(function(btn){var b=document.getElementById('reta-news-body');var open=b.style.display!=='block';b.style.display=open?'block':'none';btn.querySelector('.rn-arrow').textContent=open?'▲ COLLAPSE':'▼ READ NOW';})(this)"
-            style="width:100%;background:rgba(255,0,128,0.08);border:none;border-bottom:1px solid rgba(255,0,128,0.2);padding:0.6rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;">
-            <span style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,200,0.85);text-align:left;">Eli Lilly is suing the FDA to classify Retatrutide as a biologic. If they win — compounding is over. Here's everything you need to know.</span>
-            <span class="rn-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff0080;white-space:nowrap;flex-shrink:0;">▼ READ NOW</span>
-          </button>
+          <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(255,0,128,0.08);border-bottom:1px solid rgba(255,0,128,0.2);padding:0.6rem 1rem;">
+            <button onclick="(function(btn){var b=document.getElementById('reta-news-body');var open=b.style.display!=='block';b.style.display=open?'block':'none';btn.querySelector('.rn-arrow').textContent=open?'▲ COLLAPSE':'▼ READ NOW';})(this)" style="flex:1;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0;text-align:left;">
+              <span style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:rgba(255,200,200,0.85);text-align:left;">Eli Lilly is suing the FDA to classify Retatrutide as a biologic. If they win — compounding is over. Here's everything you need to know.</span>
+              <span class="rn-arrow" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff0080;white-space:nowrap;flex-shrink:0;">▼ READ NOW</span>
+            </button>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('reta-copy-src').innerText).then(function(){var b=document.getElementById('reta-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="reta-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.28rem 0.75rem;border:1.5px solid rgba(255,0,128,0.4);color:#ff0080;background:rgba(255,0,128,0.08);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
+          </div>
           <!-- body -->
           <div id="reta-news-body" style="display:none;background:#0d0008;padding:0.9rem 1rem 1rem;">
+          <div id="reta-copy-src">
             <img src="retanews.PNG" alt="Eli Lilly vs FDA — Retatrutide as a Vaccine?" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;">
             <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;margin-bottom:0.9rem;border:1px solid rgba(255,0,128,0.3);">
               <iframe src="https://www.youtube.com/embed/o5aZ3D4UVAg" title="Eli Lilly vs FDA" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
@@ -4842,6 +4935,7 @@ document.addEventListener('keydown', function(e){
               <p style="margin:0;font-size:0.85rem;color:rgba(200,255,220,0.9);line-height:1.75;">If you have an active research protocol involving Retatrutide, now is the time to <strong style="color:#fff;">ensure your research supply is adequate</strong> before the appeal ruling comes down. Compounding pharmacies can still legally produce Reta while the lawsuit is ongoing — but a Lilly win on appeal could change that overnight. <strong style="color:#00ff64;">Source verified. Source responsibly. Have what you need for your research.</strong></p>
               <div style="margin-top:0.55rem;font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.3);">FOR RESEARCH USE ONLY · NOT FOR HUMAN CONSUMPTION · VERIFY WITH YOUR PHYSICIAN</div>
             </div>
+          </div><!-- /reta-copy-src -->
           </div>
         </div>
 
@@ -4854,6 +4948,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('mag-copy-src').innerText).then(function(){var b=document.getElementById('mag-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="mag-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(157,0,255,0.5);color:#9d00ff;background:rgba(157,0,255,0.08);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="mag-copy-src">
 
             <!-- WHAT IS IT -->
             <div style="background:rgba(157,0,255,0.08);border:1px solid rgba(157,0,255,0.4);border-left:4px solid #9d00ff;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.9rem;">
@@ -4928,6 +5024,7 @@ document.addEventListener('keydown', function(e){
               <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);line-height:1.6;border-top:1px solid rgba(255,255,255,0.08);padding-top:0.55rem;">⚠ Research use only. Not for human consumption. Verify all compounds and protocols with a licensed physician before use. VPN provides this for educational reference only.</div>
             </div>
 
+          </div><!-- /mag-copy-src -->
           </div>
         </details>
 
@@ -4975,6 +5072,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('pdf-copy-src').innerText).then(function(){var b=document.getElementById('pdf-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="pdf-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,255,136,0.4);color:#00ff88;background:rgba(0,255,136,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="pdf-copy-src">
             <div style="color:rgba(220,255,235,0.9);line-height:1.75;margin-bottom:1rem;">
               The <strong style="color:#00ff88;">Peptide VPN Guide</strong> is now live as a single downloadable PDF. It combines three complete guides into one 82-page searchable document:
             </div>
@@ -4988,6 +5087,7 @@ document.addEventListener('keydown', function(e){
               💡 <strong style="color:#fff;">Don't like the colors?</strong> Upload the PDF to ChatGPT and type: <em style="color:#00ff88;">"Make this a black and white document for printing"</em>
             </div>
             <div style="margin-top:0.6rem;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.35);font-style:italic;">For research and educational purposes only · Not medical advice</div>
+          </div><!-- /pdf-copy-src -->
           </div>
         </details>
 
@@ -4999,6 +5099,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow" style="color:#00ff64;">▼</span>
           </summary>
           <div class="vpn-news-body" style="border-top-color:rgba(0,255,100,0.15);">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('peptide6-copy-src').innerText).then(function(){var b=document.getElementById('peptide6-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="peptide6-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,255,100,0.4);color:#00ff64;background:rgba(0,255,100,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="peptide6-copy-src">
 
             <!-- Win banner -->
             <div style="background:linear-gradient(135deg,rgba(0,255,100,0.12),rgba(0,180,70,0.08));border:1px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;border-radius:6px;padding:1rem 1.1rem;margin-bottom:1.1rem;">
@@ -5074,6 +5176,7 @@ document.addEventListener('keydown', function(e){
               <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:3px 10px;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.35);color:#ff2d78;border-radius:3px;">⚗️ GRAY MARKET SHRINKING</span>
               <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:3px 10px;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.35);color:#00ff64;border-radius:3px;">🏆 COMMUNITY WIN</span>
             </div>
+          </div><!-- /peptide6-copy-src -->
           </div>
         </details>
         <!-- NEWS ITEM: CML ACE / CMLase BREAKTHROUGH -->
@@ -5085,6 +5188,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow" style="color:#00f5ff;">▼</span>
           </summary>
           <div class="vpn-news-body" style="border-top-color:rgba(0,245,255,0.12);">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('cml-copy-src').innerText).then(function(){var b=document.getElementById('cml-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="cml-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="cml-copy-src">
 
             <div style="background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(0,150,200,0.06));border:1px solid rgba(0,245,255,0.3);border-left:4px solid #00f5ff;border-radius:6px;padding:1rem 1.1rem;margin-bottom:1rem;">
               <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#00f5ff;margin-bottom:0.4rem;">🔬 WHAT IS CML AND WHY DOES IT MATTER?</div>
@@ -5136,6 +5241,7 @@ document.addEventListener('keydown', function(e){
               <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:3px 10px;background:rgba(255,180,0,0.1);border:1px solid rgba(255,180,0,0.35);color:#9d00ff;border-radius:3px;">🔬 LAB STAGE ONLY</span>
               <a href="https://youtu.be/_Vf9pdoU3tU" target="_blank" rel="noopener" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:3px 10px;background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.35);color:#ff2d78;border-radius:3px;text-decoration:none;">▶ WATCH VIDEO</a>
             </div>
+          </div><!-- /cml-copy-src -->
           </div>
         </details>
 
@@ -5189,6 +5295,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('kpv-copy-src').innerText).then(function(){var b=document.getElementById('kpv-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="kpv-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,255,100,0.4);color:#00ff64;background:rgba(0,255,100,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="kpv-copy-src">
             <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-bottom:0.75rem;">
               <a href="https://staycuriousmetabolism.substack.com" target="_blank" rel="noopener" style="color:#00ff64;text-decoration:none;font-weight:700;" title="Article is behind a paywall — follow him to read more">Nick Norwitz MD PhD</a> &nbsp;·&nbsp; Jul 05, 2026 &nbsp;·&nbsp; <a href="https://staycuriousmetabolism.substack.com" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.45);text-decoration:underline;font-size:0.78rem;" title="Article is behind a paywall — follow him to read more">staycuriousmetabolism.substack.com ↗</a>
               <div style="margin-top:0.35rem;font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.35);letter-spacing:0.04em;">🔒 Article behind paywall — follow him on Substack to read more</div>
@@ -5205,6 +5313,7 @@ document.addEventListener('keydown', function(e){
               <span style="padding:0.25rem 0.6rem;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.3);color:#00ff64;border-radius:4px;">IBD / Crohn's</span>
               <span style="padding:0.25rem 0.6rem;background:rgba(0,255,100,0.12);border:1px solid rgba(0,255,100,0.3);color:#00ff64;border-radius:4px;">FDA Cat. 2 Removed May 2026</span>
             </div>
+          </div><!-- /kpv-copy-src -->
           </div>
         </details>
 
@@ -5217,6 +5326,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('motsc-copy-src').innerText).then(function(){var b=document.getElementById('motsc-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="motsc-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="motsc-copy-src">
             <div style="color:rgba(255,255,255,0.85);margin-bottom:0.9rem;">
               <strong style="color:#00f5ff;">MOTS-c</strong> and <strong style="color:#00f5ff;">SS-31</strong> are both mitochondrial-derived peptides but they work at different levels — MOTS-c targets metabolic flexibility and gene expression while SS-31 (Elamipretide) directly protects the inner mitochondrial membrane via cardiolipin stabilization. Sequencing and timing matters. The guide below outlines how to layer them correctly for maximum mitochondrial output.
             </div>
@@ -5281,6 +5392,7 @@ document.addEventListener('keydown', function(e){
                 });
               })()" style="width:100%;padding:0.85rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;background:rgba(0,245,255,0.06);border:1.5px solid rgba(0,245,255,0.4);border-radius:5px;color:#00f5ff;cursor:pointer;transition:all 0.2s;text-align:center;">📋 COPY EMAIL TEXT FOR YOUR DOCTOR</button>
             </div>
+          </div><!-- /motsc-copy-src -->
           </div>
         </details>
 
@@ -5293,6 +5405,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('elora-copy-src').innerText).then(function(){var b=document.getElementById('elora-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="elora-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(180,0,255,0.4);color:#cc44ff;background:rgba(180,0,255,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="elora-copy-src">
             <div style="color:rgba(255,255,255,0.85);margin-bottom:0.9rem;font-size:0.95rem;line-height:1.7;">
               Eli Lilly has been quietly running phase 1b trials combining <strong style="color:#cc44ff;">Eloralintide</strong> (a selective amylin receptor agonist / SARA) with <strong style="color:#cc44ff;">Tirzepatide</strong> — results just surfaced in the EASD 2026 conference abstracts. The combo produces bariatric-surgery-level weight loss, faster than anything seen in a drug trial.
             </div>
@@ -5348,6 +5462,7 @@ document.addEventListener('keydown', function(e){
               ⚠️ <strong style="color:#fff;">Caveats:</strong> Phase 1b — small groups (3–16 patients), short duration, high dropout likely from rapid weight loss. Side effects mostly mild-to-moderate GI. Proof of concept only.
             </div>
             <a href="https://the-incretins.beehiiv.com/p/eloralintide-tirzepatide-bariatric-surgery-results" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;color:#cc44ff;text-decoration:none;border:1px solid rgba(180,0,255,0.4);padding:0.4rem 0.85rem;border-radius:4px;background:rgba(180,0,255,0.06);">📖 READ FULL ARTICLE — THE INCRETINS ↗</a>
+          </div><!-- /elora-copy-src -->
           </div>
         </details>
 
@@ -5360,6 +5475,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('switch-copy-src').innerText).then(function(){var b=document.getElementById('switch-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="switch-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(255,45,120,0.4);color:#ff2d78;background:rgba(255,45,120,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="switch-copy-src">
             <div style="color:rgba(255,255,255,0.85);margin-bottom:0.9rem;">
               Switching between <strong style="color:#ff2d78;">Tirzepatide</strong> and <strong style="color:#ff2d78;">Retatrutide</strong> isn't as simple as swapping vials — each has a different half-life, receptor profile, and washout window. Doing it wrong can spike your resting heart rate, cause unpredictable blood sugar swings, or stack receptor stimulation to dangerous levels. This guide covers the right washout protocol for both directions, how Cagrilintide fits in, and what the next-gen compound Eloralinatide may mean for RHR management. <strong style="color:#fff;">Never mix Tirz and Reta. One at a time.</strong>
             </div>
@@ -5372,6 +5489,7 @@ document.addEventListener('keydown', function(e){
             <div style="cursor:zoom-in;margin-bottom:0.75rem;" onclick="openLightbox('cheatsheet/retatotirzcagrielora.png','Reta · Tirz · Cagrilintide · Eloralinatide — Full Switching Reference')">
               <img loading="lazy" src="cheatsheet/retatotirzcagrielora.png" alt="Reta Tirz Cagrilintide Eloralinatide Reference" style="width:100%;display:block;border-radius:4px;border:1px solid rgba(255,45,120,0.25);" title="Click to zoom">
             </div>
+          </div><!-- /switch-copy-src -->
           </div>
         </details>
 
@@ -5384,6 +5502,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('atx-copy-src').innerText).then(function(){var b=document.getElementById('atx-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="atx-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(180,0,255,0.4);color:#cc44ff;background:rgba(180,0,255,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="atx-copy-src">
             <div style="color:rgba(255,255,255,0.85);">
               <strong style="color:#cc44ff;">ATX304</strong> (also sold as OS01 / OS04) is an oral compound being studied as an <strong style="color:#fff;">AMPK and mitochondrial activator</strong> — it's not a GLP-1 medication itself, but it's being researched alongside GLP-1/GIP agonists like Tirzepatide for a theoretically complementary mechanism: Tirzepatide reduces appetite and food intake, while ATX304's proposed AMPK activation may support energy expenditure, fat oxidation, and metabolic flexibility.<br><br>
               The angle generating the most interest: early research and anecdotal reports suggest that people using ATX304 <strong style="color:#fff;">alongside or while titrating off</strong> a GLP-1 medication may be more likely to keep weight off afterward, compared to stopping the GLP-1 alone — plus emerging research on fatty liver (MASLD) benefits.<br><br>
@@ -5401,6 +5521,7 @@ document.addEventListener('keydown', function(e){
               <a href="https://youtube.com/shorts/el7QFV_0VIA?si=cxaC8lBITzdWasVH" target="_blank" rel="noopener" style="color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">▶ YouTube Short — Quick Overview ↗</a>
               <a href="https://youtu.be/zkj9HBGe_Do?si=zPHQlL6Bi7Aqyh1p" target="_blank" rel="noopener" style="color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">▶ YouTube — Full Deep Dive ↗</a>
             </div>
+          </div><!-- /atx-copy-src -->
           </div>
         </details>
 
@@ -5431,6 +5552,8 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('lara-copy-src').innerText).then(function(){var b=document.getElementById('lara-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY TEXT';},2000);})" id="lara-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(255,45,120,0.4);color:#ff2d78;background:rgba(255,45,120,0.07);border-radius:4px;cursor:pointer;margin-bottom:0.75rem;display:block;">⧉ COPY TEXT</button>
+          <div id="lara-copy-src">
             <div style="color:rgba(255,255,255,0.85);">
               One ongoing theory about long COVID is that viral reservoirs and spike protein may persist in the gut, then leak into circulation because of increased intestinal permeability.<br><br>
               Along these lines, the specific peptide <strong style="color:var(--neon-pink);">larazotide</strong> is being explored for long COVID at Harvard and elsewhere.<br><br>
@@ -5459,6 +5582,7 @@ document.addEventListener('keydown', function(e){
                 <a href="https://x.com/i/status/2066222714403303629" target="_blank" rel="noopener" style="color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">🐦 X / Twitter Thread ↗</a>
               </div>
             </div>
+          </div><!-- /lara-copy-src -->
           </div>
         </details>
 
@@ -7747,8 +7871,12 @@ document.addEventListener('keydown', function(e){
 
     <!-- LACTOFERRIN -->
     <details id="vitamin-lactoferrin" data-search="lactoferrin fat loss visceral fat immune iron support bovine supplement anti-cancer anemia pregnancy 300mg" style="margin-bottom:0.85rem;border:1px solid rgba(0,245,255,0.4);background:#0e0e0a;">
-      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);">🥛 Lactoferrin — Fat Loss, Immune &amp; Iron Support</summary>
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;">
+        <span>🥛 Lactoferrin — Fat Loss, Immune &amp; Iron Support</span>
+        <button onclick="event.stopPropagation();event.preventDefault();navigator.clipboard.writeText(document.getElementById('lacto-copy-src').innerText).then(function(){var b=document.getElementById('lacto-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="lacto-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,245,255,0.4);color:#00f5ff;background:rgba(0,245,255,0.07);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
+      </summary>
       <div style="padding:0 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
+      <div id="lacto-copy-src">
 
         <div style="color:rgba(255,255,255,0.85);">Lactoferrin is an iron-binding protein found in milk and other body fluids, well known for its role in immune defense and iron metabolism. Research has also found benefits for visceral fat reduction, cancer-related pathways, and iron status — particularly in women.</div>
 
@@ -7789,13 +7917,18 @@ document.addEventListener('keydown', function(e){
 
         <div style="margin-top:0.85rem;"><a href="Lactoferrin_Infographic.html" target="_blank" rel="noopener" style="color:var(--neon-cyan);font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;text-decoration:underline;">📥 Open / Download Lactoferrin Infographic</a></div>
 
+      </div><!-- /lacto-copy-src -->
       </div>
     </details>
 
     <!-- TUDCA -->
     <details style="margin-bottom:0.85rem;border:1px solid rgba(255,230,0,0.4);background:#0e0e0a;">
-      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#9d00ff;">🟡 TUDCA — Bile Support During Rapid Weight Loss</summary>
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#9d00ff;display:flex;align-items:center;justify-content:space-between;gap:0.6rem;">
+        <span>🟡 TUDCA — Bile Support During Rapid Weight Loss</span>
+        <button onclick="event.stopPropagation();event.preventDefault();navigator.clipboard.writeText(document.getElementById('tudca-copy-src').innerText).then(function(){var b=document.getElementById('tudca-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="tudca-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(157,0,255,0.4);color:#9d00ff;background:rgba(157,0,255,0.07);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
+      </summary>
       <div style="padding:0 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
+      <div id="tudca-copy-src">
 
         <div style="color:rgba(255,255,255,0.85);">TUDCA (Tauroursodeoxycholic acid) is a water-soluble bile acid that supports liver health, helps break down dietary fats, and promotes metabolic wellness. While not a magic weight loss pill, research suggests it may aid weight management by improving insulin sensitivity, reducing cellular stress, and supporting the gut microbiome.</div>
 
@@ -7817,13 +7950,18 @@ document.addEventListener('keydown', function(e){
 
         <div style="margin-top:0.85rem;"><a href="TUDCA_Infographic.html" target="_blank" rel="noopener" style="color:#9d00ff;font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;text-decoration:underline;">📥 Open / Download TUDCA Infographic</a></div>
 
+      </div><!-- /tudca-copy-src -->
       </div>
     </details>
 
     <!-- SIMPLE STACK SUMMARY -->
     <details style="margin-bottom:0.85rem;border:1px solid rgba(0,255,100,0.4);background:#0e0e0a;">
-      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#00ff64;">📋 Simple Stack Summary</summary>
+      <summary style="cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#00ff64;display:flex;align-items:center;justify-content:space-between;gap:0.6rem;">
+        <span>📋 Simple Stack Summary</span>
+        <button onclick="event.stopPropagation();event.preventDefault();navigator.clipboard.writeText(document.getElementById('stack-copy-src').innerText).then(function(){var b=document.getElementById('stack-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="stack-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1.5px solid rgba(0,255,100,0.4);color:#00ff64;background:rgba(0,255,100,0.07);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
+      </summary>
       <div style="padding:0 1.25rem 1.25rem;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#ffffff;line-height:1.75;">
+      <div id="stack-copy-src">
 
         <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Men with Thyroid &amp; Insulin Resistance</div>
         <div style="color:rgba(255,255,255,0.85);">
@@ -7840,6 +7978,7 @@ document.addEventListener('keydown', function(e){
 
         <div style="margin-top:0.85rem;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(200,230,255,0.7);">These dosages are based on the most commonly studied ranges in human clinical trials and are not random estimates.</div>
 
+      </div><!-- /stack-copy-src -->
       </div>
     </details>
 
@@ -10165,15 +10304,188 @@ document.addEventListener('keydown', function(e){
     <span id="cs-dl-status" style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;color:rgba(255,230,0,0.6);display:none;"></span>
   </div>
 
-  <!-- Search bar -->
-  <div style="margin-bottom:1.1rem;position:relative;">
-    <input id="cs-search-input" type="text" placeholder="🔍  Search cheat sheets… (e.g. tirzepatide, recon, GLP-1)"
-      oninput="csFilterSheets(this.value)"
-      style="width:100%;box-sizing:border-box;padding:0.75rem 1rem;background:#06000f;border:1.5px solid rgba(255,230,0,0.45);border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:#9d00ff;outline:none;letter-spacing:0.04em;transition:border-color 0.2s;"
-      onfocus="this.style.borderColor='rgba(255,230,0,0.9)'" onblur="this.style.borderColor='rgba(255,230,0,0.45)'">
-    <button onclick="document.getElementById('cs-search-input').value='';csFilterSheets('');" style="position:absolute;right:0.7rem;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,230,0,0.5);font-size:1.1rem;cursor:pointer;padding:0;line-height:1;" title="Clear search">✕</button>
+  <!-- FUTURISTIC SEARCH BAR -->
+  <style>
+    .vpn-search-wrap{position:relative;margin-bottom:1.1rem;}
+    .vpn-search-glow{
+      position:absolute;inset:-1px;border-radius:10px;z-index:0;
+      background:conic-gradient(from var(--a,0deg),#00f5ff,#ff2d78,#9d00ff,#00f5ff);
+      opacity:0;transition:opacity 0.3s;
+    }
+    .vpn-search-wrap:focus-within .vpn-search-glow{opacity:0.55;animation:searchRing 3s linear infinite;}
+    @keyframes searchRing{to{--a:360deg;}}
+    @property --a{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    .vpn-search-inner{
+      position:relative;z-index:1;
+      display:flex;align-items:center;gap:0;
+      background:#06000f;border:1.5px solid rgba(0,245,255,0.3);border-radius:10px;overflow:hidden;
+      transition:border-color 0.2s;
+    }
+    .vpn-search-wrap:focus-within .vpn-search-inner{border-color:transparent;}
+    .vpn-search-icon{
+      padding:0 0.85rem 0 1rem;color:rgba(0,245,255,0.6);font-size:1rem;flex-shrink:0;
+      font-family:'Share Tech Mono',monospace;letter-spacing:0.05em;
+    }
+    .vpn-search-input{
+      flex:1;background:transparent;border:none;outline:none;
+      font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;
+      color:#fff;letter-spacing:0.06em;padding:0.85rem 0;
+      caret-color:#00f5ff;
+    }
+    .vpn-search-input::placeholder{color:rgba(0,245,255,0.3);font-weight:600;}
+    .vpn-search-count{
+      font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;
+      color:rgba(0,245,255,0.4);padding:0 0.8rem;flex-shrink:0;white-space:nowrap;
+    }
+    .vpn-search-clear{
+      padding:0 1rem;background:none;border:none;color:rgba(255,255,255,0.25);
+      font-size:1.05rem;cursor:pointer;line-height:1;flex-shrink:0;transition:color 0.15s;
+    }
+    .vpn-search-clear:hover{color:rgba(255,45,120,0.8);}
+    .vpn-search-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem;margin-bottom:0.1rem;}
+    .vpn-stag{
+      font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.1em;
+      padding:0.18rem 0.6rem;border-radius:3px;cursor:pointer;border:1px solid;
+      transition:opacity 0.15s;opacity:0.65;
+    }
+    .vpn-stag:hover{opacity:1;}
+  </style>
+
+  <div class="vpn-search-wrap">
+    <div class="vpn-search-glow"></div>
+    <div class="vpn-search-inner">
+      <span class="vpn-search-icon">⌕</span>
+      <input id="cs-search-input" class="vpn-search-input" type="text" autocomplete="off" spellcheck="false"
+        placeholder="Search everything — peptides, GLP-1, vitamins, news, cancer, addiction…"
+        oninput="vpnGlobalSearch(this.value)">
+      <span class="vpn-search-count" id="vpn-search-count"></span>
+      <button class="vpn-search-clear" onclick="document.getElementById('cs-search-input').value='';vpnGlobalSearch('');" title="Clear">✕</button>
+    </div>
+    <div class="vpn-search-tags" id="vpn-search-tags">
+      <span class="vpn-stag" style="color:#ff2d78;border-color:rgba(255,45,120,0.4);background:rgba(255,45,120,0.07);" onclick="vpnTagSearch('retatrutide')">RETA</span>
+      <span class="vpn-stag" style="color:#ff8c00;border-color:rgba(255,140,0,0.4);background:rgba(255,140,0,0.07);" onclick="vpnTagSearch('GLP-1')">GLP-1</span>
+      <span class="vpn-stag" style="color:#00f5ff;border-color:rgba(0,245,255,0.4);background:rgba(0,245,255,0.07);" onclick="vpnTagSearch('BPC-157')">BPC-157</span>
+      <span class="vpn-stag" style="color:#00ff64;border-color:rgba(0,255,100,0.4);background:rgba(0,255,100,0.07);" onclick="vpnTagSearch('TB-500')">TB-500</span>
+      <span class="vpn-stag" style="color:#9d00ff;border-color:rgba(157,0,255,0.4);background:rgba(157,0,255,0.07);" onclick="vpnTagSearch('addiction')">ADDICTION</span>
+      <span class="vpn-stag" style="color:#dc64ff;border-color:rgba(220,100,255,0.4);background:rgba(220,100,255,0.07);" onclick="vpnTagSearch('cancer')">CANCER</span>
+      <span class="vpn-stag" style="color:#00c8ff;border-color:rgba(0,200,255,0.4);background:rgba(0,200,255,0.07);" onclick="vpnTagSearch('autoimmune')">AUTOIMMUNE</span>
+      <span class="vpn-stag" style="color:#ffc800;border-color:rgba(255,200,0,0.4);background:rgba(255,200,0,0.07);" onclick="vpnTagSearch('sleep')">SLEEP</span>
+      <span class="vpn-stag" style="color:#00ff64;border-color:rgba(0,255,100,0.4);background:rgba(0,255,100,0.07);" onclick="vpnTagSearch('reconstitution')">RECON</span>
+      <span class="vpn-stag" style="color:#ff2d78;border-color:rgba(255,45,120,0.4);background:rgba(255,45,120,0.07);" onclick="vpnTagSearch('fat loss')">FAT LOSS</span>
+      <span class="vpn-stag" style="color:#00f5ff;border-color:rgba(0,245,255,0.4);background:rgba(0,245,255,0.07);" onclick="vpnTagSearch('mitochondria')">MITO</span>
+      <span class="vpn-stag" style="color:#9d00ff;border-color:rgba(157,0,255,0.4);background:rgba(157,0,255,0.07);" onclick="vpnTagSearch('peptide')">ALL PEPTIDES</span>
+    </div>
   </div>
-  <div id="cs-no-results" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:rgba(255,100,100,0.7);text-align:center;padding:2rem 0;">NO MATCHING SHEETS FOUND</div>
+
+  <!-- Cross-view results panel -->
+  <div id="vpn-cross-results" style="display:none;margin-bottom:0.85rem;background:rgba(0,0,0,0.5);border:1px solid rgba(0,245,255,0.2);border-radius:8px;padding:0.75rem 1rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;color:rgba(0,245,255,0.4);margin-bottom:0.55rem;">// RESULTS FROM OTHER SECTIONS — CLICK TO NAVIGATE</div>
+    <div id="vpn-cross-list" style="display:flex;flex-direction:column;gap:0.4rem;"></div>
+  </div>
+
+  <div id="cs-no-results" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:rgba(255,100,100,0.7);text-align:center;padding:2rem 0;">NO RESULTS FOUND ANYWHERE ON THE NETWORK</div>
+
+  <script>
+  function vpnTagSearch(q){
+    var inp=document.getElementById('cs-search-input');
+    inp.value=q; inp.focus();
+    vpnGlobalSearch(q);
+  }
+
+  function vpnGlobalSearch(q){
+    // Always run cheat sheet filter first
+    csFilterSheets(q);
+
+    q=(q||"").trim().toLowerCase();
+    var tags=document.getElementById('vpn-search-tags');
+    if(tags) tags.style.display=q?'none':'flex';
+
+    var crossPanel=document.getElementById('vpn-cross-results');
+    var crossList=document.getElementById('vpn-cross-list');
+    var countEl=document.getElementById('vpn-search-count');
+
+    if(!q){
+      if(crossPanel) crossPanel.style.display='none';
+      if(countEl) countEl.textContent='';
+      return;
+    }
+
+    var words=q.split(/\s+/).filter(Boolean);
+    var crossMatches=[];
+
+    // Search news cards (intel-feed view)
+    document.querySelectorAll('.vpn-news-card').forEach(function(el){
+      var combined=((el.textContent||'')+' '+(el.getAttribute('data-search')||'')).toLowerCase();
+      if(words.every(function(w){return combined.indexOf(w)!==-1;})){
+        var title=el.querySelector('.vpn-news-title');
+        if(title) crossMatches.push({label:'📡 INTEL FEED: '+title.textContent.trim(),view:'intel-feed',navSel:'[data-view="intel-feed"]',el:el});
+      }
+    });
+
+    // Search vitamin/supplement details
+    document.querySelectorAll('#view-vitamins details').forEach(function(el){
+      var combined=((el.textContent||'')+' '+(el.getAttribute('data-search')||'')).toLowerCase();
+      if(words.every(function(w){return combined.indexOf(w)!==-1;})){
+        var sum=el.querySelector('summary');
+        var label=sum?sum.textContent.trim().replace(/⧉.*$/,'').trim().substring(0,55):'Supplement';
+        crossMatches.push({label:'💊 VITAMINS & SUPPS: '+label,view:'vitamins',navSel:'[data-view="vitamins"]',el:el});
+      }
+    });
+
+    // Search GLP safety section
+    var glpEl=document.getElementById('glp-must-read');
+    if(glpEl){
+      var ds=(glpEl.getAttribute('data-search')||'').toLowerCase();
+      var glpText=(glpEl.textContent||'').toLowerCase();
+      if(words.every(function(w){return (ds+' '+glpText).indexOf(w)!==-1;})){
+        crossMatches.push({label:'⚠ GLP SAFETY & MYTHS: Cancer · Blindness · Autoimmune · Blood Work',view:'cheatsheets',navSel:'[data-view="cheatsheets"]',el:glpEl});
+      }
+    }
+
+    // Search studies view
+    document.querySelectorAll('#view-studies [data-search]').forEach(function(el){
+      var ds=(el.getAttribute('data-search')||'').toLowerCase();
+      if(words.every(function(w){return ds.indexOf(w)!==-1;})){
+        var title=el.querySelector('h3,h4,.study-title,strong');
+        var label=title?title.textContent.trim().substring(0,55):'Study';
+        crossMatches.push({label:'📊 RESEARCH: '+label,view:'studies',navSel:'[data-view="studies"]',el:el});
+      }
+    });
+
+    // Build cross-view panel
+    if(crossMatches.length>0 && crossPanel && crossList){
+      crossList.innerHTML='';
+      crossMatches.forEach(function(m){
+        var btn=document.createElement('button');
+        btn.style.cssText='width:100%;text-align:left;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.15);border-radius:5px;padding:0.45rem 0.75rem;font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(220,240,255,0.85);cursor:pointer;transition:background 0.15s;';
+        btn.textContent=m.label;
+        btn.onmouseover=function(){this.style.background='rgba(0,245,255,0.09)';};
+        btn.onmouseout=function(){this.style.background='rgba(0,245,255,0.04)';};
+        btn.onclick=(function(view,navSel,el){return function(){
+          showView(view);
+          var navBtn=document.querySelector(navSel);
+          if(navBtn && navBtn.onclick) navBtn.onclick.call(navBtn);
+          else if(navBtn) setSbActive(navBtn);
+          setTimeout(function(){
+            if(el.tagName==='DETAILS') el.open=true;
+            el.scrollIntoView({behavior:'smooth',block:'start'});
+          },250);
+        };})(m.view,m.navSel,m.el);
+        crossList.appendChild(btn);
+      });
+      crossPanel.style.display='block';
+    } else if(crossPanel){
+      crossPanel.style.display='none';
+    }
+
+    // Update count
+    var csCount=document.querySelectorAll('#view-cheatsheets [data-search]').length;
+    var visibleCS=0;
+    document.querySelectorAll('#view-cheatsheets details').forEach(function(d){if(d.style.display!=='none') visibleCS++;});
+    var total=visibleCS+(crossMatches.length);
+    if(countEl) countEl.textContent=total>0?total+' found':'';
+  }
+  </script>
 
   <script>
   function csJump(id){
@@ -10971,11 +11283,15 @@ document.addEventListener('keydown', function(e){
         </div>
         <!-- RETA + REWARD RECEPTOR / ADDICTION -->
         <div data-search="retatrutide addiction reward receptor dopamine cravings alcohol opioid gambling food addiction GLP-1 brain nucleus accumbens VTA habit breaking" style="background:var(--card-bg);border:2px solid rgba(157,0,255,0.5);border-top:4px solid #9d00ff;border-radius:6px;overflow:hidden;margin-bottom:0.85rem;">
-          <div style="padding:0.75rem 1rem;background:rgba(157,0,255,0.1);border-bottom:1px solid rgba(157,0,255,0.3);">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:0.15rem;">🧠 RETATRUTIDE &amp; THE REWARD SYSTEM — HOW IT AFFECTS ADDICTION</div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:rgba(255,255,255,0.35);">FOR RESEARCH USE ONLY · NOT FOR HUMAN CONSUMPTION</div>
+          <div style="padding:0.75rem 1rem;background:rgba(157,0,255,0.1);border-bottom:1px solid rgba(157,0,255,0.3);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;flex-wrap:wrap;">
+            <div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:0.15rem;">🧠 RETATRUTIDE &amp; THE REWARD SYSTEM — HOW IT AFFECTS ADDICTION</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:rgba(255,255,255,0.35);">FOR RESEARCH USE ONLY · NOT FOR HUMAN CONSUMPTION</div>
+            </div>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('addiction-copy-src').innerText).then(function(){var b=document.getElementById('addiction-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="addiction-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.3rem 0.85rem;border:1.5px solid rgba(157,0,255,0.5);color:#9d00ff;background:rgba(157,0,255,0.1);border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⧉ COPY</button>
           </div>
           <div style="padding:0.85rem 1rem;">
+          <div id="addiction-copy-src">
 
             <div style="background:rgba(157,0,255,0.07);border:1px solid rgba(157,0,255,0.3);border-left:3px solid #9d00ff;border-radius:5px;padding:0.65rem 0.85rem;margin-bottom:0.75rem;">
               <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:#9d00ff;letter-spacing:0.1em;margin-bottom:0.3rem;">🔬 THE SCIENCE — WHY RETA AFFECTS CRAVINGS &amp; REWARD</div>
@@ -11010,7 +11326,107 @@ document.addEventListener('keydown', function(e){
               <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:rgba(255,200,100,0.9);letter-spacing:0.1em;margin-bottom:0.2rem;">⚠ IMPORTANT NOTE</div>
               <p style="margin:0;font-size:0.8rem;color:rgba(255,220,170,0.85);line-height:1.65;">These effects are a <strong style="color:#fff;">side effect of receptor activation</strong>, not the primary research purpose of Retatrutide. Addiction is complex — no peptide replaces therapy, support, or medical treatment. Always work with a physician. This card is for educational research reference only.</p>
             </div>
+          </div><!-- /addiction-copy-src -->
 
+          </div>
+        </div>
+
+        <!-- GLP-1 RHEUMATISM & AUTOIMMUNE -->
+        <div data-search="GLP-1 rheumatism autoimmune rheumatoid arthritis lupus inflammation cytokines TNF IL-6 psoriasis IBD Crohns semaglutide tirzepatide retatrutide immune modulation joint pain" style="background:var(--card-bg);border:2px solid rgba(0,200,255,0.45);border-top:4px solid #00c8ff;border-radius:6px;overflow:hidden;margin-bottom:0.85rem;">
+          <div style="padding:0.75rem 1rem;background:rgba(0,200,255,0.07);border-bottom:1px solid rgba(0,200,255,0.25);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;flex-wrap:wrap;">
+            <div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#00c8ff;margin-bottom:0.1rem;">🦴 GLP-1 MEDICATIONS &amp; AUTOIMMUNE / RHEUMATIC DISEASE</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.3);">EMERGING RESEARCH · FOR EDUCATIONAL USE ONLY</div>
+            </div>
+            <div style="display:flex;gap:0.45rem;">
+              <button onclick="(function(){var t=document.getElementById('autoimmune-body');var open=t.style.display!=='block';t.style.display=open?'block':'none';this.textContent=open?'▲ COLLAPSE':'▼ READ';}).call(this)" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.28rem 0.8rem;border:1.5px solid rgba(0,200,255,0.5);color:#00c8ff;background:rgba(0,200,255,0.08);border-radius:4px;cursor:pointer;">▼ READ</button>
+              <button onclick="navigator.clipboard.writeText(document.getElementById('autoimmune-copy-src').innerText).then(function(){var b=document.getElementById('autoimmune-copy-btn');b.textContent='✓ COPIED';setTimeout(function(){b.textContent='⧉ COPY';},2000);})" id="autoimmune-copy-btn" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.28rem 0.8rem;border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.04);border-radius:4px;cursor:pointer;">⧉ COPY</button>
+            </div>
+          </div>
+
+          <div id="autoimmune-body" style="display:none;padding:0.9rem 1rem 1rem;">
+            <div id="autoimmune-copy-src">
+
+              <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.9rem;">GLP-1 receptor agonists were developed for metabolic disease — but researchers are increasingly finding that their <strong style="color:#fff;">anti-inflammatory and immune-modulating properties</strong> extend far beyond blood sugar and weight. Emerging evidence suggests significant benefits for people with rheumatic and autoimmune conditions.</p>
+
+              <!-- mechanism box -->
+              <div style="background:rgba(0,200,255,0.07);border:1px solid rgba(0,200,255,0.3);border-left:3px solid #00c8ff;border-radius:6px;padding:0.75rem 0.9rem;margin-bottom:0.85rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.1em;color:#00c8ff;margin-bottom:0.4rem;">🔬 THE MECHANISM — HOW GLP-1 MODULATES IMMUNITY</div>
+                <p style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;margin:0 0 0.5rem;">GLP-1 receptors are expressed on <strong style="color:#fff;">immune cells</strong> — including macrophages, T-cells, dendritic cells, and natural killer cells. When activated, GLP-1 agonists:</p>
+                <ul style="font-family:'Rajdhani',sans-serif;font-size:0.84rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:2;margin:0 0 0 1.1rem;">
+                  <li>↓ Suppress pro-inflammatory cytokines — especially <strong style="color:#fff;">TNF-α, IL-6, IL-1β, and IL-17</strong> (the main drivers of autoimmune joint and tissue destruction)</li>
+                  <li>↓ Reduce <strong style="color:#fff;">NF-κB signaling</strong> — the master inflammatory switch in immune cells</li>
+                  <li>↑ Shift macrophages from pro-inflammatory (M1) to anti-inflammatory (M2) phenotype</li>
+                  <li>↓ Reduce <strong style="color:#fff;">oxidative stress</strong> and reactive oxygen species in inflamed tissue</li>
+                  <li>↓ Lower <strong style="color:#fff;">CRP, ESR</strong>, and other inflammatory markers measurable on bloodwork</li>
+                </ul>
+              </div>
+
+              <!-- conditions grid -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem;">
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(0,200,255,0.2);border-top:3px solid #00c8ff;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#00c8ff;margin-bottom:0.4rem;">🦴 RHEUMATOID ARTHRITIS</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">RA is driven by TNF-α and IL-6 — the exact cytokines GLP-1 agonists suppress. Observational data shows semaglutide users with RA report reduced joint pain, morning stiffness, and disease activity scores (DAS28). Some rheumatologists now discuss GLP-1s as adjunct therapy. Research is ongoing.</div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(220,100,255,0.25);border-top:3px solid #dc64ff;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#dc64ff;margin-bottom:0.4rem;">🔴 LUPUS (SLE)</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">Lupus involves dysregulated immune activation, high cardiovascular risk, and chronic inflammation — three areas where GLP-1s show benefit. Early case reports and small studies show reduced flare frequency and improved metabolic markers in SLE patients on semaglutide. Formal trials underway.</div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,160,0,0.25);border-top:3px solid #ffa000;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#ffa000;margin-bottom:0.4rem;">🧴 PSORIASIS & PSORIATIC ARTHRITIS</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">IL-17 and TNF-α drive psoriatic skin and joint disease. GLP-1 agonists suppress both. Multiple studies show meaningful reduction in PASI scores (skin plaque severity) and joint inflammation in psoriatic arthritis patients. The weight loss component also reduces psoriasis severity independently.</div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(0,255,100,0.2);border-top:3px solid #00ff64;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#00ff64;margin-bottom:0.4rem;">🫁 IBD — CROHN'S &amp; ULCERATIVE COLITIS</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">GLP-1 receptors are expressed in the gut. GLP-1 agonists reduce intestinal inflammation, improve mucosal healing, and lower systemic IL-6. IBD patients on semaglutide for weight management are anecdotally reporting reduced flares. Formal IBD trials are now recruiting. Very promising area.</div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,80,80,0.25);border-top:3px solid #ff5050;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#ff5050;margin-bottom:0.4rem;">💪 POLYMYALGIA RHEUMATICA</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">PMR is characterized by severe proximal muscle pain and very high CRP/ESR. It is treated with long-term corticosteroids — which cause weight gain, metabolic syndrome, and diabetes. GLP-1s could serve a dual role: reducing inflammation AND counteracting steroid-induced metabolic damage. Actively studied.</div>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,200,0,0.2);border-top:3px solid #ffc800;border-radius:7px;padding:0.75rem 0.85rem;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.08em;color:#ffc800;margin-bottom:0.4rem;">🦋 SJÖGREN'S &amp; MIXED CONNECTIVE TISSUE</div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:1.65;">These overlap syndromes involve glandular inflammation, fatigue, and systemic autoimmunity. GLP-1's dampening of TNF-α and IL-6, combined with neuroprotective effects and reduced fatigue reported by users, makes it a compelling research candidate. Data is limited but directionally positive.</div>
+                </div>
+
+              </div>
+
+              <!-- obesity link callout -->
+              <div style="background:linear-gradient(135deg,rgba(0,200,255,0.09),rgba(157,0,255,0.07));border:1.5px solid rgba(0,200,255,0.3);border-radius:9px;padding:0.85rem 1rem;margin-bottom:0.75rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.12em;color:#00c8ff;margin-bottom:0.45rem;">🔗 THE OBESITY-AUTOIMMUNE LINK — WHY WEIGHT LOSS HELPS TOO</div>
+                <p style="font-family:'Rajdhani',sans-serif;font-size:0.84rem;font-weight:600;color:rgba(200,230,255,0.8);line-height:1.75;margin:0;">Adipose (fat) tissue is not inert — it is an <strong style="color:#fff;">active inflammatory organ</strong>. Excess body fat secretes TNF-α, IL-6, leptin, and resistin — all of which worsen autoimmune disease activity. Every kilogram of fat lost reduces the inflammatory load on the body independently of the drug's direct immune effects. This means GLP-1 medications offer a <strong style="color:#fff;">double hit</strong> for autoimmune patients: direct cytokine suppression + fat-loss-driven inflammation reduction.</p>
+              </div>
+
+              <!-- bottom line -->
+              <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:0.75rem 1rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:rgba(200,230,255,0.45);margin-bottom:0.45rem;">// KEY TAKEAWAYS</div>
+                <ul style="font-family:'Rajdhani',sans-serif;font-size:0.83rem;font-weight:600;color:rgba(200,230,255,0.75);line-height:2;margin:0 0 0 1.1rem;">
+                  <li>GLP-1 agonists suppress the same cytokines (TNF-α, IL-6, IL-17) targeted by expensive biologic drugs used in autoimmune disease</li>
+                  <li>Benefits appear to be <strong style="color:#fff;">independent of weight loss</strong> — direct immune modulation via GLP-1 receptors on immune cells</li>
+                  <li>Most evidence is currently observational and from small studies — robust RCTs are needed and underway</li>
+                  <li>If you have an autoimmune condition, <strong style="color:#00c8ff;">discuss GLP-1 research with your rheumatologist</strong> — this is an active, evolving clinical conversation</li>
+                  <li>Monitor: CRP, ESR, IL-6, CBC, and your condition-specific markers on bloodwork</li>
+                </ul>
+              </div>
+
+              <!-- study links -->
+              <div style="margin-top:0.85rem;padding:0.75rem 0.9rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:8px;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.14em;color:rgba(0,200,255,0.5);margin-bottom:0.5rem;">// PUBLISHED RESEARCH — VERIFY FOR YOURSELF</div>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.45rem;">
+                  <li><a href="https://www.autoimmuneinstitute.org/articles/glp-1-receptor-agonists-and-autoimmune-diseases/" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#00c8ff;text-decoration:underline;line-height:1.5;">→ Autoimmune Institute: GLP-1 Receptor Agonists & Autoimmune Diseases — Overview &amp; Clinical Relevance</a></li>
+                  <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10823863/" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#00c8ff;text-decoration:underline;line-height:1.5;">→ PMC10823863: GLP-1 Receptor Agonists in Inflammatory &amp; Autoimmune Conditions — Mechanism &amp; Evidence Review</a></li>
+                  <li><a href="https://www.sciencedirect.com/science/article/pii/S0896841125000988" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#00c8ff;text-decoration:underline;line-height:1.5;">→ ScienceDirect (2025): GLP-1 Receptor Agonists in Autoimmune Disease — Latest Research &amp; Findings</a></li>
+                </ul>
+              </div>
+
+            </div><!-- /copy-src -->
+            <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(180,200,220,0.3);margin-top:0.85rem;font-style:italic;">Research and educational use only. Not medical advice. Consult your rheumatologist or physician.</p>
           </div>
         </div>
 
