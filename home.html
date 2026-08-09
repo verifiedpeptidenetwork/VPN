@@ -79,7 +79,7 @@
     font-weight: 700;
     font-size: 13px;
     background-color: #04000f;
-    background-image: url('WALLPAPER.png');
+    background-image: url('VPNNEWLOGO.png');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -101,17 +101,18 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background-image: url('WALLPAPER.png');
+      background-image: url('VPNNEWLOGO.png');
       background-size: cover;
-      background-position: 30% top; /* shift right so gorilla is visible on portrait */
+      background-position: center top;
       background-repeat: no-repeat;
     }
   }
 
-  /* Portrait phone — shift further to show gorilla */
-  @media (max-width: 480px) and (orientation: portrait) {
+  /* Portrait phone — zoom out so full logo is visible */
+  @media (max-width: 600px) and (orientation: portrait) {
     body::before {
-      background-position: 25% top;
+      background-size: contain;
+      background-position: center center;
     }
   }
 
@@ -5681,7 +5682,7 @@ document.addEventListener('keydown', function(e){
       <div class="retro80-sun"></div>
       <div class="retro80-grid"></div>
       <div class="retro80-glow"></div>
-      <img src="ruivpnlogo.png?v=1" alt="Verified Peptides Network" class="retro80-img">
+      <img src="VPNNEWLOGO.png" alt="Verified Peptides Network" class="retro80-img">
     </div>
   </div>
 
