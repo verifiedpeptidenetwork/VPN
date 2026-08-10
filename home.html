@@ -6219,7 +6219,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- ═══ HOME FLEX ORDER — GLP + News on top, Glowrilla/3D below ═══ -->
   <style>
-    #site-hero { display:flex; flex-direction:column; }
+    #site-hero { display:flex; flex-direction:column; align-items:center; width:100%; }
     .qnav-grid { grid-template-columns:repeat(2,1fr) !important; }
 
     /* ── SITE-HERO FLEX ORDER (desktop + mobile match) ── */
@@ -6384,8 +6384,13 @@ document.addEventListener('keydown', function(e){
     }
     @keyframes retroLogoFloat{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.03);}}
     /* ── RETRO80 LOGO — fully responsive ── */
-    :root{--r80:min(82vw,420px);}
-    .retro80-outer{position:relative;z-index:2;margin:0 auto 0.5rem;width:calc(var(--r80) + 60px);display:flex;flex-direction:column;align-items:center;}
+    /* phone portrait */
+    :root{--r80:min(78vw,300px);}
+    /* tablet (iPad portrait + landscape) */
+    @media(min-width:600px){:root{--r80:min(60vw,380px);}}
+    /* desktop */
+    @media(min-width:1024px){:root{--r80:380px;}}
+    .retro80-outer{position:relative;z-index:2;margin:0 auto 0.5rem;width:calc(var(--r80) + 70px);display:flex;flex-direction:column;align-items:center;}
     /* spinning rings live OUTSIDE the card, clipped by outer wrapper */
     .retro80-ring-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;pointer-events:none;z-index:10;}
     .retro80-logo-ring{position:absolute;border-radius:50%;transform:translate(-50%,-50%);}
