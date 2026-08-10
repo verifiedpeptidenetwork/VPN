@@ -79,7 +79,7 @@
     font-weight: 700;
     font-size: 13px;
     background-color: #04000f;
-    background-image: url('wallpaper.png');
+    background-image: url('WALLPAPER.png');
     background-size: cover;
     background-position: center 20%;
     background-repeat: no-repeat;
@@ -101,7 +101,7 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background-image: url('wallpaper.png');
+      background-image: url('WALLPAPER.png');
       background-size: cover;
       background-position: center 20%;
       background-repeat: no-repeat;
@@ -6403,18 +6403,18 @@ document.addEventListener('keydown', function(e){
     .retro80-card{
       position:relative;z-index:2;
       width:var(--r80);height:var(--r80);
-      background:linear-gradient(145deg,rgba(4,0,20,0.95),rgba(10,0,30,0.98));
+      background:#04000e;
       border:3px solid rgba(255,0,128,0.75);
       border-radius:50%;
       box-shadow:0 0 28px rgba(255,0,128,0.85),0 0 55px rgba(157,0,255,0.55),0 0 90px rgba(0,245,255,0.25),inset 0 0 60px rgba(0,0,0,0.65);
       overflow:hidden;
       flex-shrink:0;
     }
-    .retro80-sun{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:48%;background:linear-gradient(180deg,#9d00ff 0%,#ff2d78 35%,#00f5ff 65%,transparent 100%);border-radius:50% 50% 0 0;opacity:0.08;pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
-    .retro80-grid{position:absolute;bottom:0;left:-25%;right:-25%;height:40%;background-image:linear-gradient(to right,rgba(255,45,120,0.45) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,245,255,0.28) 1px,transparent 1px);background-size:clamp(18px,4.5vw,36px) clamp(14px,3vw,26px);transform:perspective(180px) rotateX(62deg);transform-origin:bottom center;opacity:0.2;pointer-events:none;}
+    .retro80-sun{display:none;}
+    .retro80-grid{display:none;}
     /* logo image fills the card */
-    .retro80-img{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;height:92%;object-fit:contain;object-position:center;z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
-    .retro80-glow{position:absolute;top:50%;left:50%;width:90%;height:90%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(157,0,255,0.12) 0%,rgba(0,245,255,0.04) 40%,transparent 70%);pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
+    .retro80-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
+    .retro80-glow{display:none;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
     .retro80-tag{display:none;}
