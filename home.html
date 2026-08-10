@@ -17837,7 +17837,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initAdminUploadPanel();
 
   // Stamp the initial page load into history so back never exits the site on first press
-  var initView = window.location.hash ? window.location.hash.replace('#', '') : 'home';
+  var initView = 'home';
   var initEl = document.getElementById('view-' + initView);
   if (!initEl) initView = 'home';
   history.replaceState({ vpnView: initView }, '', '#' + initView);
