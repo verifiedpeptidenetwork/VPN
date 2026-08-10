@@ -4197,11 +4197,11 @@ document.addEventListener('keydown', function(e){
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
     <div style="position:relative;flex-shrink:0;width:42px;height:42px;">
       <!-- outer glow -->
-      <div style="position:absolute;inset:-8px;border-radius:50%;animation:vpnNeonPunk 4s ease-in-out infinite;z-index:0;pointer-events:none;"></div>
+      <div style="position:absolute;inset:-4px;border-radius:50%;animation:vpnNeonPunk 4s ease-in-out infinite;z-index:0;pointer-events:none;"></div>
       <!-- rotating dashed ring -->
-      <div style="position:absolute;inset:-5px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.6);animation:vpnScanRotate 8s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
+      <div style="position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.5);animation:vpnScanRotate 8s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
       <!-- inner ring CCW -->
-      <div style="position:absolute;inset:-2px;border-radius:50%;border:2px solid #00f5ff;animation:vpnScanRotateCCW 5s linear infinite,vpnNeonPunk 4s ease-in-out infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
+      <div style="position:absolute;inset:-1px;border-radius:50%;border:1.5px solid #00f5ff;animation:vpnScanRotateCCW 5s linear infinite,vpnNeonPunk 4s ease-in-out infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
       <!-- scan line -->
       <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:3;pointer-events:none;">
         <div style="position:absolute;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.9),transparent);animation:vpnScanLine 3s ease-in-out infinite;"></div>
@@ -6219,7 +6219,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- ═══ HOME FLEX ORDER — GLP + News on top, Glowrilla/3D below ═══ -->
   <style>
-    #site-hero { display:flex; flex-direction:column; align-items:center; width:100%; }
+    #site-hero { display:flex; flex-direction:column; width:100%; }
     .qnav-grid { grid-template-columns:repeat(2,1fr) !important; }
 
     /* ── SITE-HERO FLEX ORDER (desktop + mobile match) ── */
@@ -6413,7 +6413,7 @@ document.addEventListener('keydown', function(e){
     .retro80-sun{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:48%;background:linear-gradient(180deg,#9d00ff 0%,#ff2d78 35%,#00f5ff 65%,transparent 100%);border-radius:50% 50% 0 0;opacity:0.08;pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
     .retro80-grid{position:absolute;bottom:0;left:-25%;right:-25%;height:40%;background-image:linear-gradient(to right,rgba(255,45,120,0.45) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,245,255,0.28) 1px,transparent 1px);background-size:clamp(18px,4.5vw,36px) clamp(14px,3vw,26px);transform:perspective(180px) rotateX(62deg);transform-origin:bottom center;opacity:0.2;pointer-events:none;}
     /* logo image fills the card */
-    .retro80-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:5;border-radius:0;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
+    .retro80-img{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;height:92%;object-fit:contain;object-position:center;z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
     .retro80-glow{position:absolute;top:50%;left:50%;width:90%;height:90%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(157,0,255,0.12) 0%,rgba(0,245,255,0.04) 40%,transparent 70%);pointer-events:none;animation:retroSunrise 3s ease-in-out infinite;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
