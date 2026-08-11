@@ -20509,7 +20509,7 @@ function copyGuide(id, btn){
 
 <!-- ═══════════════════════════════════════════
      VPN ADMIN DELETE MODE
-     Activate: type "vpnadmin" anywhere on page
+     Activate: visit home.html?admin=1
      ═══════════════════════════════════════════ -->
 <style>
 #vpn-admin-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0a0000;border-top:2px solid #ff0040;padding:0.6rem 1rem;display:none;align-items:center;gap:0.75rem;flex-wrap:wrap;}
@@ -20537,44 +20537,49 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 (function(){
   var flagged = [];
   var active = false;
-  var buf = '';
 
-  // Activate by typing "vpnadmin"
-  document.addEventListener('keydown', function(e){
-    buf += e.key.toLowerCase();
-    if(buf.length > 10) buf = buf.slice(-10);
-    if(buf.includes('vpnadmin') && !active) vpnAdminEnter();
-  });
+  // Activate via URL param: home.html?admin=1
+  if(window.location.search.indexOf('admin=1') !== -1) {
+    document.addEventListener('DOMContentLoaded', vpnAdminEnter);
+    if(document.readyState !== 'loading') setTimeout(vpnAdminEnter, 300);
+  }
 
   window.vpnAdminEnter = function(){
     active = true;
     document.body.classList.add('vpnadmin-on');
     document.getElementById('vpn-admin-bar').classList.add('on');
-    // Add delete buttons to every image card
-    document.querySelectorAll('[style*="cursor:zoom-in"]').forEach(function(wrap, i){
+
+    // Target every img inside the cheat sheet and templates views
+    var views = document.querySelectorAll('#view-cheatsheets img, #view-templates img, #view-quick-guide img');
+    views.forEach(function(img){
+      if(!img.src || img.classList.contains('vpn-admin-tagged')) return;
+      img.classList.add('vpn-admin-tagged');
+      var src = img.src;
+      var label = img.alt || src.split('/').pop();
+      // Use the closest card container as the anchor
+      var wrap = img.closest('[data-search]') || img.parentElement;
+      if(!wrap) return;
       if(wrap.querySelector('.vpn-del-btn')) return;
-      var img = wrap.querySelector('img');
-      var src = img ? img.src : '';
-      var label = img ? (img.alt || src) : src;
       wrap.style.position = 'relative';
       var btn = document.createElement('button');
       btn.className = 'vpn-del-btn';
       btn.textContent = '🗑 FLAG';
-      btn.dataset.src = src;
-      btn.dataset.label = label;
+      btn.style.cssText = 'position:absolute;top:6px;right:6px;z-index:999;font-family:Bebas Neue,sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:3px 8px;background:rgba(200,0,30,0.92);color:#fff;border:1px solid #ff0040;border-radius:3px;cursor:pointer;';
       btn.onclick = function(e){
         e.stopPropagation();
-        var already = flagged.findIndex(function(f){return f.src===src;});
-        if(already > -1){
-          flagged.splice(already,1);
-          wrap.classList.remove('vpn-flagged');
+        var idx = flagged.findIndex(function(f){return f.src===src;});
+        if(idx > -1){
+          flagged.splice(idx,1);
+          wrap.style.outline = '';
+          wrap.style.opacity = '';
           btn.textContent = '🗑 FLAG';
-          btn.style.background = 'rgba(255,0,40,0.85)';
+          btn.style.background = 'rgba(200,0,30,0.92)';
         } else {
           flagged.push({src:src, label:label});
-          wrap.classList.add('vpn-flagged');
+          wrap.style.outline = '3px solid #ff0040';
+          wrap.style.opacity = '0.45';
           btn.textContent = '✓ FLAGGED';
-          btn.style.background = '#005500';
+          btn.style.background = '#004400';
         }
         document.getElementById('vpn-delete-count').textContent = flagged.length + ' flagged';
       };
