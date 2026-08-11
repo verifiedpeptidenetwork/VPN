@@ -11238,6 +11238,74 @@ document.addEventListener('keydown', function(e){
   </div>
   <div class="section-header" style="margin-bottom:1.25rem;">
     <div class="section-title">🗄️ Cheat Sheet Vault</div>
+<style>
+/* ── CHEAT SHEET VAULT RECONSTRUCTION ───────────────────────── */
+.csv-filter-bar{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0 0 1.4rem;padding:0.75rem 1rem;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.07);border-radius:10px;position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);}
+.csv-pill{font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;padding:0.3rem 0.9rem;border-radius:4px;border:1.5px solid;cursor:pointer;transition:all 0.15s;background:transparent;color:inherit;}
+.csv-pill:hover,.csv-pill.active{background:currentColor !important;}
+.csv-pill.active span,.csv-pill:hover span{color:#000 !important;mix-blend-mode:normal;}
+.csv-pill span{pointer-events:none;}
+.csv-group-label{width:100%;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.28em;color:rgba(255,255,255,0.22);padding:1.1rem 0 0.4rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:0.5rem;}
+.csv-group-label:first-child{border-top:none;margin-top:0;padding-top:0;}
+/* Section wrapper */
+.csv-section{border-radius:10px;overflow:hidden;margin-bottom:1rem;border:1px solid rgba(255,255,255,0.07);transition:opacity 0.2s;}
+.csv-section[hidden]{display:none;}
+.csv-section summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.1rem;user-select:none;}
+.csv-section summary::-webkit-details-marker{display:none;}
+.csv-sec-icon{font-size:1.35rem;flex-shrink:0;line-height:1;}
+.csv-sec-info{flex:1;min-width:0;}
+.csv-sec-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;line-height:1.1;}
+.csv-sec-sub{font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;opacity:0.5;margin-top:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.csv-sec-meta{display:flex;align-items:center;gap:0.5rem;flex-shrink:0;}
+.csv-count{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.15rem 0.55rem;border-radius:3px;border:1px solid currentColor;opacity:0.7;}
+.csv-chevron{font-size:0.75rem;opacity:0.4;transition:transform 0.2s;flex-shrink:0;}
+details.csv-section[open] .csv-chevron{transform:rotate(180deg);}
+/* Card grid */
+.csv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;padding:0.75rem 1rem 1rem;}
+@media(max-width:900px){.csv-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:580px){.csv-grid{grid-template-columns:1fr;}}
+/* Cards inside grid */
+.csv-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;}
+.csv-card-label{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.08em;padding:0.45rem 0.75rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;gap:0.4rem;}
+.csv-card-label a{font-size:0.7rem;padding:0.15rem 0.5rem;border:1px solid currentColor;text-decoration:none;background:rgba(0,0,0,0.3);flex-shrink:0;}
+.csv-card img{width:100%;display:block;object-fit:contain;max-height:200px;cursor:zoom-in;}
+/* Group separator */
+.csv-group-sep{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.3em;color:rgba(255,255,255,0.18);padding:1.2rem 0 0.5rem;display:flex;align-items:center;gap:0.75rem;}
+.csv-group-sep::before,.csv-group-sep::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+</style>
+
+<div class="csv-filter-bar" id="csv-filter-bar">
+  <div class="csv-group-label">FILTER BY CATEGORY</div>
+  <button class="csv-pill active" style="color:#fff;border-color:rgba(255,255,255,0.3);" onclick="csvFilter('all',this)"><span>ALL GUIDES</span></button>
+  <button class="csv-pill" style="color:#ff2d78;border-color:rgba(255,45,120,0.5);" onclick="csvFilter('glp1',this)"><span>💊 GLP-1 & WEIGHT LOSS</span></button>
+  <button class="csv-pill" style="color:#cc44ff;border-color:rgba(204,68,255,0.5);" onclick="csvFilter('peptides',this)"><span>🔬 PEPTIDE RESEARCH</span></button>
+  <button class="csv-pill" style="color:#00f5ff;border-color:rgba(0,245,255,0.5);" onclick="csvFilter('injection',this)"><span>💉 INJECTION & RECON</span></button>
+  <button class="csv-pill" style="color:#ff4444;border-color:rgba(255,68,68,0.5);" onclick="csvFilter('bloodwork',this)"><span>🛡 BLOOD WORK & LABS</span></button>
+  <button class="csv-pill" style="color:#9d00ff;border-color:rgba(157,0,255,0.5);" onclick="csvFilter('vendors',this)"><span>🔍 VENDORS & CRYPTO</span></button>
+  <button class="csv-pill" style="color:#00ff64;border-color:rgba(0,255,100,0.5);" onclick="csvFilter('protocols',this)"><span>📖 PROTOCOLS & STACKS</span></button>
+  <button class="csv-pill" style="color:#ff8c00;border-color:rgba(255,140,0,0.5);" onclick="csvFilter('fitness',this)"><span>🏋 FITNESS & HORMONES</span></button>
+  <button class="csv-pill" style="color:#00c8ff;border-color:rgba(0,200,255,0.5);" onclick="csvFilter('safety',this)"><span>⚠ SAFETY & REACTIONS</span></button>
+</div>
+<script>
+function csvFilter(cat, btn) {
+  document.querySelectorAll('.csv-filter-bar .csv-pill').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.csv-section').forEach(function(sec){
+    if(cat==='all'||sec.dataset.cat===cat){sec.removeAttribute('hidden');}
+    else{sec.setAttribute('hidden','');}
+  });
+  document.querySelectorAll('.csv-group-sep').forEach(function(sep){
+    var next=sep.nextElementSibling;
+    var hasVisible=false;
+    while(next&&!next.classList.contains('csv-group-sep')){
+      if(!next.hasAttribute('hidden'))hasVisible=true;
+      next=next.nextElementSibling;
+    }
+    sep.style.display=hasVisible?'':'none';
+  });
+}
+</script>
+
     <span class="section-count">Health &amp; Safety · Playbooks · Retatrutide · Tirzepatide · Peptides · Reconstitution · Fitness</span>
   </div>
   <div style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.6;">
@@ -11761,17 +11829,10 @@ document.addEventListener('keydown', function(e){
   </script>
 
   <!-- ── BE PATIENT (general reminder, opened by default) ── -->
-  <details id="cs-sec-glp1" style="background:#0e0204;border:1px solid rgba(255,107,0,0.3);border-left:4px solid var(--neon-orange);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🏥</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-orange);">GLP-1 Health, Safety &amp; Education</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,120,0.6);margin-top:0.1rem;">Warning Signs · Pain Areas · Headaches · Body Composition · Mindset</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,107,0,0.7);flex-shrink:0;">▼ 20 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">💊  GLP-1 & WEIGHT LOSS</div>
+<details id="cs-sec-glp1" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">💊</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">GLP-1 Health, Safety & Education</div><div class="csv-sec-sub">118 guides • semaglutide • tirzepatide • retatrutide</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff2d78;">118</span><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,107,0,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div data-search="Autoimmune Peptides — Immune Modulation cheatsheet" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00c8ff;overflow:hidden;">
@@ -12484,17 +12545,8 @@ document.addEventListener('keydown', function(e){
           </div>
         </div>
   </details>
-  <details id="cs-sec-myths" data-search="myths misconceptions cancer peptide cause cancer GLP blindness thyroid tumor angiogenesis autoimmune inflammation addiction reward dopamine DMSO dimethyl sulfoxide hidden miracle delivery vehicle skin penetration cancer treatment cheap suppressed tractor supply" style="background:#0e0008;border:1px solid rgba(220,100,255,0.35);border-left:4px solid #dc64ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🚫</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#dc64ff;">Myths, Misconceptions &amp; Hard Questions</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,100,255,0.6);margin-top:0.1rem;">Cancer · Blindness · Addiction · Thyroid · Common Fears Debunked</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(220,100,255,0.45);">▼ EXPAND</span>
-    </summary>
+  <details id="cs-sec-myths" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🚫</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">Myths, Misconceptions & Hard Questions</div><div class="csv-sec-sub">Cancer • blindness • arrhythmia • facts vs fear</div></div><div class="csv-sec-meta"><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:0 1.25rem 1.25rem;">
 
       <!-- CANCER MYTHS -->
@@ -12681,17 +12733,8 @@ document.addEventListener('keydown', function(e){
     </div>
 
   </details>
-  <details id="cs-sec-bepatient" style="background:#0e0204;border:1px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🧘</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00ff64;">Be Patient</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,255,180,0.6);margin-top:0.1rem;">A general reminder before you start your protocol</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,255,100,0.7);flex-shrink:0;">▼ 1 SHEET</span>
-    </summary>
+  <details id="cs-sec-bepatient" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🧘</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">Be Patient — Setting Expectations</div><div class="csv-sec-sub">Stalls • slow progress • mindset before starting</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff2d78;">4</span><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
@@ -12735,17 +12778,10 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── HOW TO VERIFY VENDORS / COAs ── -->
-  <details id="cs-sec-vendors" style="background:#0e0204;border:1px solid rgba(0,245,255,0.35);border-left:4px solid var(--neon-cyan);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🔍</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);">How To Verify Vendors &amp; COAs</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,230,255,0.6);margin-top:0.1rem;">Spot fake/altered COAs · Vendor scam red flags · Verify before you buy</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,245,255,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">🔍  VENDORS & CRYPTO</div>
+<details id="cs-sec-vendors" data-cat="vendors" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #9d00ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🔍</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#9d00ff;">Vendor Verification & COA Testing</div><div class="csv-sec-sub">30 guides • spot fakes • HPLC • vendor testing</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#9d00ff;">30</span><span class="csv-chevron" style="color:#9d00ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,245,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div data-search="Chinese Supply Red Flags cheatsheet" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;">
@@ -12870,17 +12906,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── CRYPTO GUIDE ── -->
-  <details id="cs-sec-crypto" style="background:#0e0204;border:1px solid rgba(255,230,0,0.35);border-left:4px solid #9d00ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🪙</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#9d00ff;">Crypto Guide</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,230,160,0.6);margin-top:0.1rem;">Paying vendors with crypto — quick reference</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,230,0,0.7);flex-shrink:0;">▼ 8 SHEETS + PDF</span>
-    </summary>
+  <details id="cs-sec-crypto" data-cat="vendors" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #9d00ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🪙</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#9d00ff;">Crypto Buying Guide</div><div class="csv-sec-sub">20 guides • paying vendors with crypto</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#9d00ff;">20</span><span class="csv-chevron" style="color:#9d00ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,230,0,0.15);">
       <div style="margin-bottom:0.85rem;">
         <a href="Pdf/CryptoGuide.pdf" download target="_blank" rel="noopener" style="display:flex;align-items:center;gap:0.75rem;padding:0.9rem 1.1rem;background:rgba(255,230,0,0.06);border:1px solid #9d00ff;text-decoration:none;">
@@ -13028,17 +13055,8 @@ document.addEventListener('keydown', function(e){
 
 
   <!-- ══ AUTOIMMUNE SECTION ══ -->
-  <details id="cs-sec-autoimmune" data-search="GLP-1 autoimmune rheumatoid arthritis lupus SLE psoriasis IBD Crohns ulcerative colitis polymyalgia Sjogrens rheumatism joint pain inflammation cytokines TNF IL-6 semaglutide tirzepatide retatrutide immune modulation" style="background:#000a10;border:1px solid rgba(0,200,255,0.35);border-left:4px solid #00c8ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🦴</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00c8ff;">GLP-1 &amp; Autoimmune / Rheumatic Disease</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(0,200,255,0.6);margin-top:0.1rem;">RA · Lupus · Psoriasis · IBD · Polymyalgia · Sjögren's · Immune Modulation</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(0,200,255,0.45);">▼ EXPAND</span>
-    </summary>
+  <details id="cs-sec-autoimmune" data-cat="safety" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00c8ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🦴</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00c8ff;">GLP-1 & Autoimmune / Rheumatic Disease</div><div class="csv-sec-sub">RA • lupus • psoriasis • IBD • emerging research</div></div><div class="csv-sec-meta"><span class="csv-chevron" style="color:#00c8ff;">▼</span></div></summary>
     <div style="padding:0 1.25rem 1.25rem;">
       <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(220,235,255,0.85);line-height:1.75;margin-bottom:0.85rem;">GLP-1 receptor agonists were developed for metabolic disease — but their <strong style="color:#fff;">anti-inflammatory and immune-modulating properties</strong> extend far beyond blood sugar and weight. Emerging evidence suggests significant benefits for rheumatic and autoimmune conditions.</p>
       <div style="background:rgba(0,200,255,0.07);border:1px solid rgba(0,200,255,0.3);border-left:3px solid #00c8ff;border-radius:6px;padding:0.75rem 0.9rem;margin-bottom:0.85rem;">
@@ -13172,17 +13190,10 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── MOTS-C ANAPHYLAXIS & REACTIONS ── -->
-  <details id="cs-sec-reactions" style="background:#0e0204;border:1px solid rgba(255,230,0,0.35);border-left:4px solid #9d00ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">⚠️</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#9d00ff;">MOTS-C Anaphylaxis &amp; Reactions</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,230,160,0.6);margin-top:0.1rem;">Reaction guide &amp; the MOTS-c anomaly</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,230,0,0.7);flex-shrink:0;">▼ 5 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">⚠  SAFETY & REACTIONS</div>
+<details id="cs-sec-reactions" data-cat="safety" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff8c00;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">⚠</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff8c00;">Anaphylaxis & Adverse Reactions</div><div class="csv-sec-sub">MOTS-C reactions • emergency response • signs</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff8c00;">15</span><span class="csv-chevron" style="color:#ff8c00;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,230,0,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;">
@@ -13325,17 +13336,10 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION: The Guardian & The Kraken ── -->
-  <details id="cs-sec-guardian" style="background:#06010f;border:1px solid rgba(180,120,0,0.4);border-left:4px solid #c9a227;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🛡️</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#c9a227;">The Guardian &amp; The Kraken</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,162,39,0.6);margin-top:0.1rem;">Guardian — Gut Healing &amp; Barrier Protection · Kraken — Obesity &amp; Metabolic Health</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(200,162,39,0.7);flex-shrink:0;">▼ 4 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">🛡  BLOOD WORK & LABS</div>
+<details id="cs-sec-guardian" data-cat="bloodwork" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff4444;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🛡</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff4444;">Blood Work & Labs Guide</div><div class="csv-sec-sub">36 guides • Guardian • Kraken • gut health</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff4444;">36</span><span class="csv-chevron" style="color:#ff4444;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(180,120,0,0.2);">
 
       <!-- Guardian summary -->
@@ -13462,17 +13466,8 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- ── SECTION 3: Retatrutide ── -->
-  <details id="cs-sec-reta" style="background:#020e05;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">💊</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00ff64;">Retatrutide</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,255,180,0.6);margin-top:0.1rem;">Reconstitution · Dose Safety · Phase 3</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,255,100,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
-    </summary>
+  <details id="cs-sec-reta" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">💊</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">Retatrutide — Full Protocol Guide</div><div class="csv-sec-sub">Reconstitution • dosing • phase 3 data</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff2d78;">6</span><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
@@ -13534,17 +13529,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION 4: Tirzepatide ── -->
-  <details id="cs-sec-tirz" style="background:#0e0318;border:1px solid rgba(255,45,120,0.3);border-left:4px solid var(--neon-pink);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">💉</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);">Tirzepatide</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,200,0.6);margin-top:0.1rem;">Reconstitution · Safe Titration · Appetite Guide</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,45,120,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
-    </summary>
+  <details id="cs-sec-tirz" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">💉</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">Tirzepatide — Full Protocol Guide</div><div class="csv-sec-sub">Reconstitution • titration • appetite windows</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff2d78;">7</span><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,45,120,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div data-search="What Caused Tirzepatide Deaths cheatsheet" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
@@ -13615,17 +13601,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION 5: Tirz & Reta Crossover ── -->
-  <details id="cs-sec-crossover" style="background:#020d14;border:1px solid rgba(0,245,255,0.3);border-left:4px solid var(--neon-cyan);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🔀</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);">Tirz &amp; Reta — Shared Protocols</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,230,255,0.6);margin-top:0.1rem;">Switching · Sugar Cravings · When to Eat More</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,245,255,0.7);flex-shrink:0;">▼ 3 SHEETS</span>
-    </summary>
+  <details id="cs-sec-crossover" data-cat="glp1" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff2d78;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🔀</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff2d78;">Tirz & Reta — Shared Protocols</div><div class="csv-sec-sub">Switching • supplementing • combined guides</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff2d78;">8</span><span class="csv-chevron" style="color:#ff2d78;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,245,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
@@ -13759,17 +13736,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION: Peptide Compound Guides ── -->
-  <details id="cs-sec-compound-guides" data-search="ghk-cu injection what to expect reactions reconstitute bacteriostatic water peptide storage compound guide" style="background:#020d14;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🔬</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00ff64;">Peptide Compound Guides</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,255,180,0.6);margin-top:0.1rem;">GHK-Cu Injection · Storage · Reconstitution · Bacteriostatic Water · ER Signs</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,255,100,0.7);flex-shrink:0;">▼ 6 GUIDES</span>
-    </summary>
+  <details id="cs-sec-compound-guides" data-cat="peptides" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #cc44ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🔬</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#cc44ff;">Compound Peptide Guides</div><div class="csv-sec-sub">GHK-Cu • ARA290 • combination protocols</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#cc44ff;">11</span><span class="csv-chevron" style="color:#cc44ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:0.75rem;">
 
@@ -13939,17 +13907,10 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION 8: Peptide Research Guides ── -->
-  <details id="cs-sec-peptides" style="background:#020d14;border:1px solid rgba(0,245,255,0.3);border-left:4px solid var(--neon-cyan);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🔬</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);">Peptide Research Guides</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,230,255,0.6);margin-top:0.1rem;">BPC-157 · TB-500 · KPV · Wolverine Stack · AOD · GHK-Cu · NAD+ · MOTS-c · CJC · Tesamorelin · KLOW</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,245,255,0.7);flex-shrink:0;">▼ 22 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">🔬  PEPTIDE RESEARCH</div>
+<details id="cs-sec-peptides" data-cat="peptides" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #cc44ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🔬</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#cc44ff;">Peptide Research Guides</div><div class="csv-sec-sub">BPC-157 • TB-500 • KPV • semax • selank • 100+ peptides</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#cc44ff;">101</span><span class="csv-chevron" style="color:#cc44ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,245,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div data-search="Peptide Shelf Life & Reconstitution cheatsheet" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #cc44ff;overflow:hidden;">
@@ -14528,17 +14489,10 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- ── SECTION 7: Reconstitution · Dosing · Vial Accuracy ── -->
-  <details id="cs-sec-recon" style="background:#0e0a02;border:1px solid rgba(255,107,0,0.3);border-left:4px solid var(--neon-orange);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🧪</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-orange);">Reconstitution · Dosing · Vial Accuracy</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,120,0.6);margin-top:0.1rem;">Reconstitution · Overfill · BAC Water · Injection Rotation · Storage</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,107,0,0.7);flex-shrink:0;">▼ 12 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">💉  INJECTION & RECONSTITUTION</div>
+<details id="cs-sec-recon" data-cat="injection" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00f5ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🧪</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00f5ff;">Reconstitution, Dosing & Vial Accuracy</div><div class="csv-sec-sub">61 guides • BAC water • mixing • dose math</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#00f5ff;">61</span><span class="csv-chevron" style="color:#00f5ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,107,0,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div data-search="Storing Vials — Cold Chain & Preservation cheatsheet" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;">
@@ -14745,17 +14699,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── INJECTION PEN GUIDE ── -->
-  <details id="cs-sec-pen" style="background:#0e0204;border:1px solid rgba(255,45,120,0.35);border-left:4px solid var(--neon-pink);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">💉</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);">Injection Pen Guide</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,210,0.6);margin-top:0.1rem;">How to use a peptide injection pen</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,45,120,0.7);flex-shrink:0;">▼ 2 SHEETS</span>
-    </summary>
+  <details id="cs-sec-pen" data-cat="injection" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00f5ff;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">💉</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00f5ff;">Injection Technique Guide</div><div class="csv-sec-sub">82 guides • sites • pen use • angles • rotation</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#00f5ff;">82</span><span class="csv-chevron" style="color:#00f5ff;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,45,120,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
@@ -14875,17 +14820,10 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- ── SECTION 2: Protocol Playbooks · Community References ── -->
-  <details id="cs-sec-playbooks" style="background:#0e0318;border:1px solid rgba(255,45,120,0.3);border-left:4px solid var(--neon-pink);margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">📖</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-pink);">Protocol Playbooks · Community References</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,180,200,0.6);margin-top:0.1rem;">Peptide Tactical Playbook · Metabolic Domino</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(255,45,120,0.7);flex-shrink:0;">▼ 6 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">📖  PROTOCOLS & STACKS</div>
+<details id="cs-sec-playbooks" data-cat="protocols" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00ff64;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">📖</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00ff64;">Protocol Playbooks & Community References</div><div class="csv-sec-sub">28 guides • BAC labels • community protocols</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#00ff64;">28</span><span class="csv-chevron" style="color:#00ff64;">▼</span></div></summary>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;padding:1rem 1.25rem;border-top:1px solid rgba(255,45,120,0.15);">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
           <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
@@ -15008,17 +14946,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION: VPN Signature Stacks ── -->
-  <details id="cs-sec-stacks" style="background:#06010f;border:1px solid rgba(155,48,255,0.4);border-left:4px solid #9b30ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">⚡</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#9b30ff;">VPN Signature Stacks</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(180,120,255,0.6);margin-top:0.1rem;">The Ultimate Stack · Wolverine Stack · The Phoenix · The Reaper · Fusion Core</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(155,48,255,0.7);flex-shrink:0;">▼ 5 SHEETS</span>
-    </summary>
+  <details id="cs-sec-stacks" data-cat="protocols" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00ff64;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">⚡</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00ff64;">VPN Signature Stacks</div><div class="csv-sec-sub">12 guides • Ultimate Stack • Wolverine • longevity</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#00ff64;">12</span><span class="csv-chevron" style="color:#00ff64;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(155,48,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9b30ff;overflow:hidden;">
@@ -15071,17 +15000,8 @@ document.addEventListener('keydown', function(e){
   </details>
 
   <!-- ── SECTION 6: Hormones · Body Composition · Mindset ── -->
-  <details id="cs-sec-hormones" style="background:#0d0218;border:1px solid rgba(204,68,255,0.3);border-left:4px solid #cc44ff;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🧬</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#cc44ff;">Hormones · Body Composition · Mindset</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(210,150,255,0.6);margin-top:0.1rem;">Enclomiphene · Visceral Fat · Whoosh Effect · Testosterone · Insulin Resistance</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(204,68,255,0.7);flex-shrink:0;">▼ 7 SHEETS</span>
-    </summary>
+  <details id="cs-sec-hormones" data-cat="fitness" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff8c00;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🧬</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff8c00;">Hormones, Body Composition & Mindset</div><div class="csv-sec-sub">14 guides • enclomiphene • testosterone • mindset</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff8c00;">14</span><span class="csv-chevron" style="color:#ff8c00;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(204,68,255,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
@@ -15220,17 +15140,10 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- ── SECTION 9: Fitness · Home Gym Guides ── -->
-  <details id="cs-sec-fitness" style="background:#020e05;border:1px solid rgba(0,255,100,0.3);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
-    <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.5rem;">🏋️</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#00ff64;">Fitness · Home Gym Guides</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(150,255,180,0.6);margin-top:0.1rem;">Home Gym Equipment · Home Fitness Guide</div>
-        </div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:rgba(0,255,100,0.7);flex-shrink:0;">▼ 2 SHEETS</span>
-    </summary>
+  
+<div class="csv-group-sep">🏋  FITNESS & HORMONES</div>
+<details id="cs-sec-fitness" data-cat="fitness" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #ff8c00;">
+    <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">🏋</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#ff8c00;">Fitness & Home Gym Guides</div><div class="csv-sec-sub">11 guides • home gym • training • glutes</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#ff8c00;">11</span><span class="csv-chevron" style="color:#ff8c00;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(0,255,100,0.15);">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.85rem;">
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
