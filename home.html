@@ -20686,20 +20686,11 @@ function csCloseAll(){
     btn.style.display = onCS ? 'flex' : 'none';
   }
   document.addEventListener('DOMContentLoaded', function(){
-    /* Auto-open all cheat sheet sections on first visit */
-    document.querySelectorAll('[id^="cs-sec-"]').forEach(function(s){ s.open = true; });
-
     if(window.showView){
       var orig = window.showView;
       window.showView = function(name){
         orig(name);
         setTimeout(syncCloseBtn, 50);
-        /* Re-open all sections whenever user navigates to cheatsheets */
-        if(name === 'cheatsheets'){
-          setTimeout(function(){
-            document.querySelectorAll('[id^="cs-sec-"]').forEach(function(s){ s.open = true; });
-          }, 60);
-        }
       };
     }
     syncCloseBtn();
