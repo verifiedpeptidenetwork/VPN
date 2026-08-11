@@ -20591,8 +20591,12 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     document.body.classList.add('vpnadmin-on');
     document.getElementById('vpn-admin-bar').classList.add('on');
     addFlagButtons();
-    // Watch for new cards appearing when sections are opened
-    observer.observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['open']});
+    // When any <details> section opens, add flag buttons to its newly visible cards
+    document.querySelectorAll('details').forEach(function(det){
+      det.addEventListener('toggle', function(){
+        if(det.open && active) setTimeout(addFlagButtons, 50);
+      });
+    });
   };
 
   window.vpnAdminCopy = function(){
