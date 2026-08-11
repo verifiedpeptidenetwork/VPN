@@ -20549,37 +20549,36 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     document.body.classList.add('vpnadmin-on');
     document.getElementById('vpn-admin-bar').classList.add('on');
 
-    // Target every img inside the cheat sheet and templates views
-    var views = document.querySelectorAll('#view-cheatsheets img, #view-templates img, #view-quick-guide img');
-    views.forEach(function(img){
-      if(!img.src || img.classList.contains('vpn-admin-tagged')) return;
-      img.classList.add('vpn-admin-tagged');
-      var src = img.src;
-      var label = img.alt || src.split('/').pop();
-      // Use the closest card container as the anchor
-      var wrap = img.closest('[data-search]') || img.parentElement;
-      if(!wrap) return;
+    // Target EVERY card container (data-search) in cheat sheet, templates, T&G
+    var containers = document.querySelectorAll(
+      '#view-cheatsheets [data-search], #view-templates [data-search], #view-quick-guide [data-search]'
+    );
+    containers.forEach(function(wrap){
       if(wrap.querySelector('.vpn-del-btn')) return;
+      var img = wrap.querySelector('img');
+      var src = img ? img.src : '';
+      var titleEl = wrap.querySelector('[style*="Bebas Neue"]') || wrap.querySelector('div');
+      var label = (titleEl ? titleEl.textContent.trim().slice(0,80) : '') || wrap.dataset.search.slice(0,60);
       wrap.style.position = 'relative';
       var btn = document.createElement('button');
       btn.className = 'vpn-del-btn';
       btn.textContent = '🗑 FLAG';
-      btn.style.cssText = 'position:absolute;top:6px;right:6px;z-index:999;font-family:Bebas Neue,sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:3px 8px;background:rgba(200,0,30,0.92);color:#fff;border:1px solid #ff0040;border-radius:3px;cursor:pointer;';
+      btn.style.cssText = 'position:absolute;top:6px;right:6px;z-index:9999;font-family:"Bebas Neue",sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:4px 10px;background:rgba(200,0,30,0.95);color:#fff;border:1.5px solid #ff0040;border-radius:3px;cursor:pointer;box-shadow:0 0 8px rgba(255,0,40,0.6);';
       btn.onclick = function(e){
         e.stopPropagation();
-        var idx = flagged.findIndex(function(f){return f.src===src;});
+        var idx = flagged.findIndex(function(f){return f.label===label;});
         if(idx > -1){
           flagged.splice(idx,1);
           wrap.style.outline = '';
           wrap.style.opacity = '';
           btn.textContent = '🗑 FLAG';
-          btn.style.background = 'rgba(200,0,30,0.92)';
+          btn.style.background = 'rgba(200,0,30,0.95)';
         } else {
           flagged.push({src:src, label:label});
           wrap.style.outline = '3px solid #ff0040';
-          wrap.style.opacity = '0.45';
+          wrap.style.opacity = '0.4';
           btn.textContent = '✓ FLAGGED';
-          btn.style.background = '#004400';
+          btn.style.background = '#003300';
         }
         document.getElementById('vpn-delete-count').textContent = flagged.length + ' flagged';
       };
