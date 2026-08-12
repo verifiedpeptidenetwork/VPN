@@ -6436,7 +6436,39 @@ document.addEventListener('keydown', function(e){
     /* tablet (iPad portrait + landscape) */
     @media(min-width:600px){:root{--r80:min(60vw,380px);}}
     /* desktop */
-    @media(min-width:1024px){:root{--r80:380px;}}
+    @media(min-width:1024px){:root{--r80:200px;}}
+    /* ── DESKTOP 2-COLUMN HOME LAYOUT ── */
+    #home-desktop-cols{display:contents;} /* transparent on mobile — children remain in flex flow */
+    @media(min-width:1024px){
+      #home-desktop-cols{
+        display:grid;
+        grid-template-columns:260px 1fr;
+        gap:1.5rem;
+        align-items:start;
+        width:100%;
+        padding:1rem 1.5rem 0;
+        box-sizing:border-box;
+      }
+      /* logo column: centered, sticky so it stays visible while scrolling the nav cards */
+      #home-desktop-cols .retro80-outer{
+        margin:0 auto;
+        position:sticky;
+        top:1rem;
+        align-self:start;
+      }
+      /* hide the two large noisy rings on desktop — cleaner, more professional */
+      .retro80-r3,.retro80-r4{display:none;}
+      /* hero column: full width, no extra margin */
+      #home-desktop-cols .vpn-home-hero{
+        order:unset !important;
+        margin:0 !important;
+        width:100% !important;
+      }
+      /* qnav grid: 3 cols on desktop inside the hero column */
+      #home-desktop-cols .qnav-grid{
+        grid-template-columns:repeat(3,1fr) !important;
+      }
+    }
     .retro80-outer{position:relative;z-index:2;margin:0 auto 0.5rem;width:calc(var(--r80) + 70px);display:flex;flex-direction:column;align-items:center;}
     /* spinning rings live OUTSIDE the card, clipped by outer wrapper */
     .retro80-ring-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;pointer-events:none;z-index:10;}
@@ -6491,6 +6523,8 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
+  <!-- DESKTOP 2-COLUMN WRAP: logo left, quick-nav right -->
+  <div id="home-desktop-cols">
   <div class="retro80-outer">
     <!-- spinning rings wrap around the circular card -->
     <div class="retro80-ring-wrap">
@@ -6645,6 +6679,7 @@ document.addEventListener('keydown', function(e){
       <span style="color:#ff2d78;">⚠ FOR LEARNING ONLY</span> — NOT MEDICAL ADVICE · CONSULT YOUR DOCTOR · NOT FOR HUMAN CONSUMPTION
     </div>
   </div>
+  </div><!-- /home-desktop-cols -->
 
 
   <!-- WHY WE'RE HERE -->
