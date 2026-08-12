@@ -4465,43 +4465,65 @@ document.addEventListener('keydown', function(e){
       }
     </style>
 
-    <!-- SPIRITUAL QUOTE CARD -->
-    <div style="width:100%;box-sizing:border-box;margin:0 0 0.85rem;position:relative;overflow:hidden;border-radius:12px;border:1px solid rgba(180,140,60,0.45);background:linear-gradient(150deg,rgba(8,4,18,0.98) 0%,rgba(14,8,28,0.98) 50%,rgba(6,10,6,0.98) 100%);box-shadow:0 0 40px rgba(180,140,60,0.14),0 0 80px rgba(0,180,80,0.06),inset 0 1px 0 rgba(255,215,100,0.08);">
-      <!-- gold shimmer top -->
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(255,200,80,0.0) 10%,rgba(255,200,80,0.6) 40%,rgba(180,255,140,0.5) 60%,rgba(255,200,80,0.0) 90%,transparent 100%);pointer-events:none;"></div>
-      <!-- ambient glow left -->
-      <div style="position:absolute;top:-20px;left:-20px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(180,140,60,0.16) 0%,transparent 70%);pointer-events:none;"></div>
-      <!-- ambient glow right -->
-      <div style="position:absolute;bottom:-20px;right:-20px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,80,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-      <div style="position:relative;z-index:1;padding:1.1rem 1.3rem 1.05rem;">
-        <!-- crescent + label row -->
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;">
-          <span style="font-size:1.1rem;line-height:1;filter:drop-shadow(0 0 10px rgba(255,200,80,0.8));color:#ffd060;">☽</span>
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.26em;color:rgba(255,200,80,0.65);text-transform:uppercase;">Faith &amp; Research</span>
-          <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,200,80,0.25),transparent);"></div>
+    <!-- SPIRITUAL QUOTE CARD — cyberpunk neon green -->
+    <style>
+      @keyframes faithScan{0%{top:-6px;opacity:0;}8%{opacity:1;}88%{opacity:0.7;}100%{top:100%;opacity:0;}}
+      @keyframes faithPulse{0%,100%{box-shadow:0 0 18px rgba(0,255,100,0.5),0 0 40px rgba(0,255,100,0.18),0 0 70px rgba(0,200,255,0.08);}50%{box-shadow:0 0 28px rgba(0,255,100,0.8),0 0 60px rgba(0,255,100,0.3),0 0 100px rgba(0,200,255,0.14);}}
+      @keyframes faithGlow{0%,100%{text-shadow:0 0 14px rgba(0,255,100,0.8),0 0 28px rgba(0,255,100,0.4);}50%{text-shadow:0 0 22px rgba(0,255,100,1),0 0 44px rgba(0,255,100,0.6),0 0 70px rgba(0,200,255,0.3);}}
+    </style>
+    <div style="width:100%;box-sizing:border-box;margin:0 0 0.85rem;position:relative;overflow:hidden;
+      clip-path:polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      background:linear-gradient(135deg,rgba(0,8,4,0.98) 0%,rgba(0,14,10,0.98) 60%,rgba(0,6,14,0.98) 100%);
+      border:1px solid rgba(0,255,100,0.5);
+      animation:faithPulse 3s ease-in-out infinite;">
+      <!-- corner accents -->
+      <div style="position:absolute;top:0;left:0;width:32px;height:32px;border-top:2px solid #00ff64;border-left:2px solid #00ff64;pointer-events:none;z-index:2;"></div>
+      <div style="position:absolute;top:0;right:0;width:32px;height:32px;border-top:2px solid #00f5ff;border-right:2px solid #00f5ff;pointer-events:none;z-index:2;"></div>
+      <div style="position:absolute;bottom:0;left:0;width:32px;height:32px;border-bottom:2px solid #00f5ff;border-left:2px solid #00f5ff;pointer-events:none;z-index:2;"></div>
+      <div style="position:absolute;bottom:0;right:0;width:32px;height:32px;border-bottom:2px solid #00ff64;border-right:2px solid #00ff64;pointer-events:none;z-index:2;"></div>
+      <!-- scan line -->
+      <div style="position:absolute;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.9),rgba(0,245,255,0.7),transparent);filter:blur(1px);animation:faithScan 3.5s ease-in-out infinite;z-index:3;pointer-events:none;"></div>
+      <!-- top bar -->
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.7) 30%,rgba(0,245,255,0.6) 70%,transparent);pointer-events:none;"></div>
+      <!-- ambient green glow left -->
+      <div style="position:absolute;top:-30px;left:-30px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,100,0.1) 0%,transparent 70%);pointer-events:none;"></div>
+      <!-- ambient cyan glow right -->
+      <div style="position:absolute;bottom:-30px;right:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,0.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+      <div style="position:relative;z-index:1;padding:1.15rem 1.4rem 1.1rem;">
+        <!-- crescent + label -->
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.85rem;">
+          <span style="font-size:1.15rem;line-height:1;color:#00ff64;filter:drop-shadow(0 0 10px rgba(0,255,100,0.9));">☽</span>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.28em;color:rgba(0,255,100,0.6);text-transform:uppercase;">Faith &amp; Research</span>
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(0,255,100,0.35),rgba(0,245,255,0.15),transparent);"></div>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.62rem;letter-spacing:0.2em;color:rgba(0,245,255,0.45);padding:2px 7px;border:1px solid rgba(0,245,255,0.3);border-radius:2px;">QURAN 26:80</span>
         </div>
         <!-- arabic verse -->
-        <div style="text-align:center;margin-bottom:0.7rem;">
-          <span style="font-size:1.45rem;line-height:1.6;color:rgba(255,215,100,0.92);text-shadow:0 0 22px rgba(255,200,80,0.35);letter-spacing:0.04em;font-weight:400;">وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ</span>
+        <div style="text-align:center;margin-bottom:0.75rem;padding:0.5rem 0;">
+          <span style="font-size:1.55rem;line-height:1.7;color:#00ff64;letter-spacing:0.05em;font-weight:400;animation:faithGlow 2.5s ease-in-out infinite;display:inline-block;">وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ</span>
         </div>
-        <!-- divider -->
-        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,200,80,0.2),rgba(0,200,80,0.15),transparent);margin-bottom:0.7rem;"></div>
-        <!-- english translation -->
-        <p style="margin:0 0 0.4rem;font-family:'Rajdhani',sans-serif;font-size:1.06rem;font-weight:700;line-height:1.55;color:rgba(255,255,255,0.92);text-align:center;text-shadow:0 0 16px rgba(255,200,80,0.15);">
+        <!-- neon divider -->
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.4));"></div>
+          <span style="font-size:0.55rem;color:rgba(0,245,255,0.5);letter-spacing:0.15em;">◆</span>
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(0,255,100,0.4),transparent);"></div>
+        </div>
+        <!-- translation -->
+        <p style="margin:0 0 0.35rem;font-family:'Rajdhani',sans-serif;font-size:1.08rem;font-weight:700;line-height:1.5;color:rgba(255,255,255,0.95);text-align:center;">
           "And when I am ill, it is He who cures me."
         </p>
-        <p style="margin:0 0 0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;line-height:1.5;color:rgba(180,220,160,0.75);text-align:center;letter-spacing:0.06em;">
-          QURAN 26:80 — SURAH ASH-SHU'ARA
+        <p style="margin:0 0 0.65rem;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;font-weight:400;line-height:1.4;color:rgba(0,245,255,0.55);text-align:center;letter-spacing:0.2em;">
+          SURAH ASH-SHU'ARA
         </p>
         <!-- your words -->
-        <div style="border-top:1px solid rgba(255,200,80,0.1);padding-top:0.6rem;margin-top:0.15rem;">
-          <p style="margin:0;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.6;color:rgba(255,255,255,0.9);text-align:center;letter-spacing:0.02em;">
+        <div style="background:rgba(0,255,100,0.04);border:1px solid rgba(0,255,100,0.15);border-left:3px solid rgba(0,255,100,0.6);padding:0.6rem 0.85rem;border-radius:0 4px 4px 0;">
+          <p style="margin:0;font-family:'Rajdhani',sans-serif;font-size:1.02rem;font-weight:700;line-height:1.55;color:rgba(200,255,220,0.92);text-align:center;">
             God is who cures. Peptides or medications are a means.
           </p>
         </div>
       </div>
-      <!-- gold shimmer bottom -->
-      <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(255,200,80,0.2) 50%,transparent 100%);pointer-events:none;"></div>
+      <!-- bottom bar -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.4) 50%,transparent);pointer-events:none;"></div>
     </div>
 
     <div class="hero-btn-row">
@@ -6437,7 +6459,7 @@ document.addEventListener('keydown', function(e){
     .retro80-sun{display:none;}
     .retro80-grid{display:none;}
     /* logo image fills the card */
-    .retro80-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
+    .retro80-img{position:absolute;top:0;left:0;width:112%;height:112%;margin:-6% 0 0 -6%;object-fit:cover;object-position:center;z-index:5;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
     .retro80-glow{display:none;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
