@@ -215,7 +215,7 @@
     }
     /* Views that live OUTSIDE #site-hero — give them the sidebar offset */
     #view-about, #view-contact, #view-intel-feed,
-    #view-quick-guide, #view-workouts, #view-cheatsheets, #view-studies {
+    #view-quick-guide, #view-workouts, #view-cheatsheets, #view-studies, #view-ruqyah {
       margin-left: 242px !important;
       width: calc(100% - 242px) !important;
       box-sizing: border-box;
@@ -224,7 +224,7 @@
   }
   @media(max-width:900px) {
     #view-about, #view-contact, #view-intel-feed,
-    #view-quick-guide, #view-workouts, #view-cheatsheets, #view-studies {
+    #view-quick-guide, #view-workouts, #view-cheatsheets, #view-studies, #view-ruqyah {
       margin-left: 0 !important;
       width: 100% !important;
       padding: 0 1rem 1.5rem !important;
@@ -4260,6 +4260,7 @@ document.addEventListener('keydown', function(e){
   <button class="sb-item" data-view="videos" onclick="showView('videos');setSbActive(this)"><span class="sb-icon">▶️</span>Doctor Videos</button>
   <button class="sb-item" data-view="team" onclick="showView('team');setSbActive(this)"><span class="sb-icon">🧬</span>Meet The Team</button>
   <button class="sb-item" data-view="bonus" onclick="showView('bonus');setSbActive(this)"><span class="sb-icon">⭐</span>Bonus Vault</button>
+  <button class="sb-item" data-view="ruqyah" onclick="showView('ruqyah');setSbActive(this)"><span class="sb-icon">☽</span>Ruqyah Healing</button>
 
   <!-- Theme toggle -->
   <button id="vpn-theme-toggle" onclick="vpnToggleTheme()" title="Toggle light / dark mode">
@@ -11673,6 +11674,114 @@ document.addEventListener('keydown', function(e){
             <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(180,200,220,0.3);margin-top:0.85rem;font-style:italic;">Research and educational use only. Not medical advice. Consult your rheumatologist or physician.</p>
           </div>
         </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     RUQYAH ISLAMIC HEALING VIEW
+     ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-ruqyah">
+  <div class="view-hero" style="--vh1:#00c853;--vh2:#ffd600;background:linear-gradient(135deg,rgba(0,200,83,0.08) 0%,rgba(4,0,13,0.98) 55%,rgba(255,214,0,0.04) 100%);">
+    <div class="vh-inner">
+      <div class="vh-icon">☽</div>
+      <div>
+        <div class="vh-title" style="color:#00c853;">RUQYAH ISLAMIC HEALING</div>
+        <div class="vh-sub">Quranic & Sunnah-based healing · Spiritual protection · Sidr · Dua · Practical self-ruqyah resources</div>
+        <div class="vh-badges"><span class="vh-badge" style="border-color:rgba(0,200,83,0.5);color:#00c853;">QURAN</span><span class="vh-badge" style="border-color:rgba(0,200,83,0.5);color:#00c853;">SUNNAH</span><span class="vh-badge" style="border-color:rgba(255,214,0,0.4);color:#ffd600;">SIDR</span><span class="vh-badge" style="border-color:rgba(255,214,0,0.4);color:#ffd600;">DUA</span></div>
+      </div>
+    </div>
+    <div class="vh-accent-line" style="background:linear-gradient(90deg,transparent,#00c853,#ffd600,transparent);"></div>
+  </div>
+
+  <!-- Quran verse banner -->
+  <div style="background:linear-gradient(135deg,rgba(0,12,6,0.98),rgba(0,18,8,0.98));border:1px solid rgba(0,200,83,0.4);border-left:4px solid #00c853;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,83,0.6),rgba(255,214,0,0.4),transparent);"></div>
+    <div style="text-align:center;margin-bottom:0.65rem;">
+      <span style="font-size:1.7rem;line-height:1.8;color:#00c853;font-weight:400;display:block;">وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ</span>
+    </div>
+    <div style="text-align:center;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:0.3rem;">"And when I am ill, it is He who cures me."</div>
+    <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.25em;color:rgba(0,200,83,0.55);">SURAH ASH-SHU'ARA · QURAN 26:80</div>
+  </div>
+
+  <!-- 3 healing images -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.3);cursor:zoom-in;" onclick="openLightbox('ruqyah.jpg','Ruqyah — Islamic Healing')">
+      <img src="ruqyah.jpg" alt="Ruqyah Islamic Healing" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00c853;">Ruqyah — Quranic Healing</div>
+    </div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.3);cursor:zoom-in;" onclick="openLightbox('sidrwitchcraft.jpg','Sidr — Protection from Witchcraft')">
+      <img src="sidrwitchcraft.jpg" alt="Sidr — Protection from Witchcraft" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ffd600;">Sidr — Witchcraft & Evil Eye</div>
+    </div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.3);cursor:zoom-in;" onclick="openLightbox('duaprotectionfromsatan.jpg','Dua — Protection from Satan')">
+      <img src="duaprotectionfromsatan.jpg" alt="Dua — Protection from Satan" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00c853;">Dua — Protection from Satan</div>
+    </div>
+  </div>
+
+  <!-- Practical Self Ruqyah — main promo card -->
+  <div style="background:linear-gradient(135deg,rgba(0,10,5,0.99),rgba(0,16,8,0.99));border:2px solid rgba(0,200,83,0.5);border-radius:10px;overflow:hidden;margin-bottom:1.25rem;">
+    <!-- header -->
+    <div style="background:linear-gradient(90deg,rgba(0,200,83,0.15),rgba(255,214,0,0.06));padding:1.1rem 1.4rem;border-bottom:1px solid rgba(0,200,83,0.25);display:flex;align-items:center;gap:0.85rem;flex-wrap:wrap;">
+      <div style="font-size:2rem;line-height:1;">☽</div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.12em;color:#00c853;text-shadow:0 0 14px rgba(0,200,83,0.5);">PRACTICAL SELF RUQYAH</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,214,0,0.75);margin-top:0.1rem;">COUNSELLING &amp; COACHING SERVICES</div>
+      </div>
+      <a href="https://practicalselfruqya.com/" target="_blank" rel="noopener" style="margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.14em;color:#00c853;text-decoration:none;border:1.5px solid rgba(0,200,83,0.5);padding:0.3rem 0.8rem;border-radius:4px;white-space:nowrap;">VISIT SITE ↗</a>
+    </div>
+
+    <div style="padding:1.25rem 1.4rem;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(220,240,230,0.85);line-height:1.7;margin:0 0 1.1rem;">Practical Self Ruqyah offers one-to-one counselling and coaching for those suffering from sihr (witchcraft), evil eye, and waswas (whispering of shaytaan) — rooted in authentic Quranic & Sunnah methodology. Sessions are conducted via <strong style="color:#fff;">Google Meet</strong>.</p>
+
+      <!-- services grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:1.1rem;">
+        <!-- counselling -->
+        <div style="background:rgba(0,200,83,0.06);border:1px solid rgba(0,200,83,0.25);border-top:3px solid #00c853;border-radius:6px;padding:0.85rem 1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00c853;margin-bottom:0.55rem;">🌿 COUNSELLING</div>
+          <ul style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,230,215,0.8);line-height:1.9;margin:0 0 0 1rem;padding:0;">
+            <li>Sihr (witchcraft) assessment</li>
+            <li>Evil eye (ayn) identification</li>
+            <li>Jinn possession guidance</li>
+            <li>Waswas &amp; OCD from shaytaan</li>
+            <li>Emotional &amp; spiritual support</li>
+            <li>Ruqyah symptom review</li>
+          </ul>
+          <div style="margin-top:0.7rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.1em;color:#ffd600;">£55 / 45 min · Google Meet</div>
+        </div>
+        <!-- coaching -->
+        <div style="background:rgba(255,214,0,0.05);border:1px solid rgba(255,214,0,0.2);border-top:3px solid #ffd600;border-radius:6px;padding:0.85rem 1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ffd600;margin-bottom:0.55rem;">📖 COACHING</div>
+          <ul style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(230,225,195,0.8);line-height:1.9;margin:0 0 0 1rem;padding:0;">
+            <li>How to perform ruqyah on yourself</li>
+            <li>Correct recitation technique</li>
+            <li>Sidr &amp; honey treatment method</li>
+            <li>Black seed (habbatus sauda) use</li>
+            <li>Protection duas &amp; adhkar</li>
+            <li>Building a daily ruqyah routine</li>
+          </ul>
+          <div style="margin-top:0.7rem;font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.1em;color:#ffd600;">£55 / 45 min · Google Meet</div>
+        </div>
+      </div>
+
+      <!-- book now -->
+      <a href="https://practicalselfruqya.com/" target="_blank" rel="noopener" style="display:block;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.18em;color:#000;background:linear-gradient(90deg,#00c853,#69f0ae);padding:0.75rem 1rem;border-radius:6px;text-decoration:none;margin-bottom:0.85rem;box-shadow:0 0 24px rgba(0,200,83,0.35);">BOOK A SESSION — PRACTICALSELFRUQYA.COM ↗</a>
+    </div>
+  </div>
+
+  <!-- YouTube channel -->
+  <div style="background:rgba(0,8,4,0.97);border:1px solid rgba(0,200,83,0.3);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+    <div style="font-size:1.8rem;line-height:1;">▶️</div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#00c853;margin-bottom:0.2rem;">YOUTUBE CHANNEL — PRACTICAL SELF RUQYAH</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,230,215,0.7);">Free ruqyah lectures, guided sessions, and educational content on Islamic healing methodology.</div>
+    </div>
+    <a href="https://www.youtube.com/@practicalselfruqya" target="_blank" rel="noopener" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.14em;color:#00c853;text-decoration:none;border:1.5px solid rgba(0,200,83,0.45);padding:0.4rem 1rem;border-radius:4px;white-space:nowrap;flex-shrink:0;">WATCH ↗</a>
+  </div>
+
+  <!-- disclaimer -->
+  <div style="background:rgba(255,214,0,0.04);border:1px solid rgba(255,214,0,0.2);border-left:3px solid #ffd600;border-radius:4px;padding:0.65rem 0.9rem;">
+    <p style="margin:0;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(230,225,180,0.65);line-height:1.6;">Ruqyah is a Sunnah practice rooted in Quranic verses and authentic prophetic supplications. It is not a replacement for medical care — Islam encourages seeking both spiritual and medical treatment. Always consult qualified Islamic scholars for religious guidance.</p>
+  </div>
 </div>
 
 <div class="view" id="view-workouts">
