@@ -535,28 +535,32 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
 <!-- ══════════════════════════════════════════════════════════════
      🧬 SPIKE PROTEIN — LONG COVID & VACCINE INJURY FEATURED SECTION
      ══════════════════════════════════════════════════════════════ -->
+<style>@keyframes spikePulse{0%,100%{opacity:0.6;}50%{opacity:1;}}</style>
 <div style="position:relative;z-index:1;background:linear-gradient(135deg,#0d0005 0%,#110008 50%,#0d0005 100%);border-top:5px solid #ff1450;border-bottom:5px solid #ff1450;overflow:hidden;">
 
   <!-- animated background pulse -->
   <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(255,20,80,0.07) 0%,transparent 70%);animation:spikePulse 4s ease-in-out infinite;"></div>
-  <style>@keyframes spikePulse{0%,100%{opacity:0.6;}50%{opacity:1;}}</style>
 
-  <div style="max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:2;">
-
-    <!-- HEADLINE -->
-    <div style="text-align:center;margin-bottom:2rem;">
-      <div style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(255,20,80,0.15);border:1px solid rgba(255,20,80,0.5);border-radius:4px;padding:0.3rem 1rem;margin-bottom:1rem;">
-        <span style="width:9px;height:9px;border-radius:50%;background:#ff1450;display:inline-block;animation:liveDot 1.2s ease-in-out infinite;flex-shrink:0;"></span>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.3em;color:#ff1450;">URGENT HEALTH INTELLIGENCE</span>
-      </div>
-      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,4rem);letter-spacing:0.12em;line-height:1;color:#fff;margin-bottom:0.5rem;">
-        🧬 SPIKE PROTEIN IS STILL<br>
-        <span style="background:linear-gradient(90deg,#ff1450,#ff6080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">IN YOUR BODY</span>
-      </h2>
-      <p style="font-family:'Rajdhani',sans-serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:rgba(255,180,195,0.9);max-width:680px;margin:0 auto;line-height:1.6;">
-        Long COVID · Post-Vax Injury · Turbo Cancer Risk · Blood Clot Markers.<br>Get tested. Know your numbers. See the treatment protocol.
-      </p>
+  <!-- CLICKABLE HEADER / TOGGLE -->
+  <button onclick="(function(btn){var b=document.getElementById('spike-body');var open=b.style.display!=='block';b.style.display=open?'block':'none';btn.querySelector('.sp-arr').textContent=open?'▲ COLLAPSE':'▼ EXPAND FULL PROTOCOL';})(this)"
+    style="width:100%;background:none;border:none;cursor:pointer;padding:2rem 1.5rem 1.5rem;position:relative;z-index:2;text-align:center;display:block;">
+    <div style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(255,20,80,0.15);border:1px solid rgba(255,20,80,0.5);border-radius:4px;padding:0.3rem 1rem;margin-bottom:1rem;">
+      <span style="width:9px;height:9px;border-radius:50%;background:#ff1450;display:inline-block;animation:liveDot 1.2s ease-in-out infinite;flex-shrink:0;"></span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.3em;color:#ff1450;">URGENT HEALTH INTELLIGENCE</span>
     </div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,4rem);letter-spacing:0.12em;line-height:1;color:#fff;margin-bottom:0.5rem;">
+      🧬 SPIKE PROTEIN IS STILL<br>
+      <span style="background:linear-gradient(90deg,#ff1450,#ff6080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">IN YOUR BODY</span>
+    </h2>
+    <p style="font-family:'Rajdhani',sans-serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:rgba(255,180,195,0.9);max-width:680px;margin:0 auto 0.75rem;line-height:1.6;">
+      Long COVID · Post-Vax Injury · Turbo Cancer Risk · Blood Clot Markers.<br>Get tested. Know your numbers. See the treatment protocol.
+    </p>
+    <span class="sp-arr" style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.2em;color:rgba(255,20,80,0.7);display:block;">▼ EXPAND FULL PROTOCOL</span>
+  </button>
+
+  <!-- COLLAPSIBLE BODY -->
+  <div id="spike-body" style="display:none;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1.5rem 2rem;position:relative;z-index:2;">
 
     <!-- ALERT BOX -->
     <div style="background:rgba(255,20,80,0.09);border:2px solid rgba(255,20,80,0.5);border-left:6px solid #ff1450;border-radius:6px;padding:1rem 1.25rem;margin-bottom:2rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:rgba(255,200,210,0.95);line-height:1.75;">
@@ -657,6 +661,7 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
     </div>
 
   </div>
+  </div><!-- /spike-body -->
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -820,6 +825,56 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
           </div>
           <div style="font-family:'Rajdhani',sans-serif;font-size:0.79rem;font-weight:600;color:rgba(180,170,255,0.55);">Goal: TPO antibodies trending toward &lt;100 IU/mL or &lt;35 · TSH 1.0–2.0 mIU/L · Free T3 in upper third of range</div>
         </div>
+        <!-- VPN Synergistic Protocol Study -->
+        <div style="background:linear-gradient(135deg,rgba(123,82,255,0.1) 0%,rgba(80,40,200,0.08) 100%);border:2px solid rgba(123,82,255,0.5);border-radius:10px;padding:1rem 1.1rem;margin-bottom:0.85rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#7b52ff;margin-bottom:0.5rem;">🧬 VPN SYNERGISTIC PROTOCOL — MURINE STUDY (EAT MODEL, 12 WEEKS)</div>
+          <p style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(210,200,255,0.9);line-height:1.75;margin-bottom:0.6rem;">
+            <strong style="color:#fff;">Source: Trevor Bachmeyer</strong> — A protocol combining <strong style="color:#fff;">Retatrutide + KPV + BPC-157 + Thymosin Alpha-1 + Nicotine Patch</strong> in an experimental autoimmune thyroiditis (EAT) murine model produced remarkable results over 12 weeks: autoantibody titers reduced by <strong style="color:#a0ff80;">60%</strong>, thyroid histology improved by <strong style="color:#a0ff80;">55%</strong>, TSH/T4 normalized, and inflammation dropped by <strong style="color:#a0ff80;">50%</strong> — with 100% survival and zero adverse effects.
+          </p>
+          <!-- Study abstract block -->
+          <div style="background:rgba(0,0,0,0.3);border-left:3px solid #7b52ff;border-radius:4px;padding:0.7rem 0.85rem;margin-bottom:0.8rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(200,190,255,0.8);line-height:1.7;">
+            <strong style="color:#7b52ff;display:block;margin-bottom:0.3rem;">ABSTRACT</strong>
+            This study evaluates the combined administration of Retatrutide (1 mg/week s.c.), KPV (400 mcg/day s.c.), BPC-157 (500 mcg/day s.c.), Thymosin Alpha-1 (500 mcg 2×/week s.c.), and Nicotine (7 mg/day transdermal patch) in EAT-induced Hashimoto's adult female C57BL/6 mice over 12 weeks. The combination reduced autoantibody titers by <strong style="color:#a0ff80;">60%</strong>, improved histology score by <strong style="color:#a0ff80;">55%</strong>, normalized TSH/T4, and decreased inflammation by <strong style="color:#a0ff80;">50%</strong>. No adverse effects. IACUC Protocol #2025-MUR-058. Suggests potential for Hashimoto's reversal through metabolic, anti-inflammatory, and immunomodulatory mechanisms.
+          </div>
+          <!-- Infographic -->
+          <div style="text-align:center;margin-bottom:0.8rem;">
+            <img src="hashimotoi reversal.jpg" alt="VPN Hashimoto's Synergistic Protocol Infographic" onclick="this.requestFullscreen&&this.requestFullscreen()" style="max-width:100%;border-radius:8px;border:1px solid rgba(123,82,255,0.4);cursor:zoom-in;">
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(180,170,255,0.5);margin-top:0.35rem;">VPN Glowrilla Research Labs · Click to expand</div>
+          </div>
+          <!-- Dosages -->
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:#7b52ff;margin-bottom:0.4rem;">EXACT PROTOCOL DOSAGES</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem;">
+            <span style="background:rgba(123,82,255,0.12);border:1px solid rgba(123,82,255,0.35);border-radius:4px;padding:0.25rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#c0b0ff;">Retatrutide — 1 mg/week s.c.</span>
+            <span style="background:rgba(123,82,255,0.12);border:1px solid rgba(123,82,255,0.35);border-radius:4px;padding:0.25rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#c0b0ff;">KPV — 400 mcg/day s.c.</span>
+            <span style="background:rgba(123,82,255,0.12);border:1px solid rgba(123,82,255,0.35);border-radius:4px;padding:0.25rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#c0b0ff;">BPC-157 — 500 mcg/day s.c.</span>
+            <span style="background:rgba(123,82,255,0.12);border:1px solid rgba(123,82,255,0.35);border-radius:4px;padding:0.25rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#c0b0ff;">Thymosin Alpha-1 — 500 mcg 2×/week s.c.</span>
+            <span style="background:rgba(123,82,255,0.12);border:1px solid rgba(123,82,255,0.35);border-radius:4px;padding:0.25rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#c0b0ff;">Nicotine — 7 mg/day transdermal patch</span>
+          </div>
+          <!-- Results table -->
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:#7b52ff;margin-bottom:0.4rem;">PRIMARY OUTCOMES</div>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;">
+              <thead>
+                <tr style="background:rgba(123,82,255,0.15);">
+                  <th style="padding:0.35rem 0.6rem;text-align:left;color:#7b52ff;border:1px solid rgba(123,82,255,0.25);">Outcome</th>
+                  <th style="padding:0.35rem 0.6rem;text-align:center;color:#7b52ff;border:1px solid rgba(123,82,255,0.25);">Control</th>
+                  <th style="padding:0.35rem 0.6rem;text-align:center;color:#7b52ff;border:1px solid rgba(123,82,255,0.25);">Protocol</th>
+                  <th style="padding:0.35rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.25);">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">Anti-Tg/Anti-TPO (AU/mL)</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">450 ± 40</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#fff;border:1px solid rgba(123,82,255,0.15);">180 ± 20</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">↓ 60% ***</td></tr>
+                <tr style="background:rgba(123,82,255,0.04);"><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">Thyroid Histology Score (0–4)</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">3.2 ± 0.3</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#fff;border:1px solid rgba(123,82,255,0.15);">1.4 ± 0.2</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">↓ 55% ***</td></tr>
+                <tr><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">TNF-α / IL-6 (pg/mL)</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">120 ± 11</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#fff;border:1px solid rgba(123,82,255,0.15);">60 ± 6</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">↓ 50% ***</td></tr>
+                <tr style="background:rgba(123,82,255,0.04);"><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">TSH / T4</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">Abnormal</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">Normalized **</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">✓</td></tr>
+                <tr><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">HOMA-IR (Insulin Sensitivity)</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">1.82 ± 0.18</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">Normalized **</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">↓ 57%</td></tr>
+                <tr style="background:rgba(123,82,255,0.04);"><td style="padding:0.3rem 0.6rem;color:rgba(210,200,255,0.85);border:1px solid rgba(123,82,255,0.15);">ROS / MDA (Oxidative Stress)</td><td style="padding:0.3rem 0.6rem;text-align:center;color:rgba(210,200,255,0.7);border:1px solid rgba(123,82,255,0.15);">High</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#fff;border:1px solid rgba(123,82,255,0.15);">ROS ↓45% / MDA ↓40%</td><td style="padding:0.3rem 0.6rem;text-align:center;color:#a0ff80;border:1px solid rgba(123,82,255,0.15);">*** / **</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(180,170,255,0.45);margin-top:0.5rem;">* p&lt;0.05 ** p&lt;0.01 *** p&lt;0.001 · GraphPad Prism v9.0 · IACUC Protocol #2025-MUR-058 · ARRIVE 2.0 Compliant</div>
+        </div>
+
         <p style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(180,170,255,0.35);font-style:italic;">Research and educational use only. Not medical advice. Work with a functional medicine physician or endocrinologist open to root-cause protocols, not just TSH management.</p>
       </div>
     </details>
