@@ -20910,26 +20910,31 @@ function vpnBuildIndex() {
     });
   });
 
-  // Cheat sheet data-search cards
+  // data-search cards — detect parent view, don't assume cheatsheets
   document.querySelectorAll('[data-search]').forEach(function(el) {
     var ds = el.getAttribute('data-search') || '';
     var imgEl = el.querySelector('img');
     var lbEl = el.querySelector('[onclick*="openLightbox"]');
     var lbOnclick = lbEl ? (lbEl.getAttribute('onclick')||'') : '';
     var lbM = lbOnclick.match(/openLightbox\('([^']+)','([^']+)'\)/);
-    var title = (imgEl ? imgEl.alt : '') || ds.split(' ').slice(0,4).join(' ') || 'Cheat Sheet';
-    _vpnIdx.push({ e:'🖼️', cat:'vsr-cheat', lbl:'CHEAT SHEET',
+    var title = (imgEl ? imgEl.alt : '') || el.querySelector('.vpn-news-title,.vpn-card-title,summary,h3,h4,strong') || null;
+    title = (title && title.textContent) ? title.textContent.trim().substring(0,80) : (ds.split(' ').slice(0,5).join(' ') || 'Result');
+    var viewEl = el.closest('[id^="view-"]');
+    var viewId = viewEl ? viewEl.id.replace('view-','') : null;
+    // Use correct emoji/label based on view
+    var isCheat = viewId === 'cheatsheets';
+    _vpnIdx.push({ e: isCheat ? '🖼️' : '📋', cat: isCheat ? 'vsr-cheat' : 'vsr-tool', lbl: isCheat ? 'CHEAT SHEET' : (viewId ? viewId.toUpperCase() : 'RESULT'),
       title: title,
       kw: (ds + ' ' + title).toLowerCase(),
-      go: (function(lm, card){ return function(){
-        showView('cheatsheets');
+      go: (function(lm, card, vid){ return function(){
+        if(vid) showView(vid);
         setTimeout(function(){
-          // Open all ancestor details so card is visible
           var p=card.parentElement; while(p){ if(p.tagName==='DETAILS') p.open=true; p=p.parentElement; }
+          if(card.tagName==='DETAILS') card.open=true;
           card.scrollIntoView({behavior:'smooth',block:'center'});
-          if(lm){ setTimeout(function(){ openLightbox(lm[1], lm[2]); }, 200); }
-        }, 350);
-      };})(lbM, el)
+          if(lm && isCheat){ setTimeout(function(){ openLightbox(lm[1], lm[2]); }, 200); }
+        }, vid ? 350 : 0);
+      };})(lbM, el, viewId)
     });
   });
 
@@ -20980,10 +20985,10 @@ function vpnBuildIndex() {
   });
 
   // Ruqyah Healing — static entry
-  _vpnIdx.push({ e:'☽', cat:'vsr-tool', lbl:'PAGE',
-    title: 'Ruqyah Islamic Healing',
-    kw: 'ruqyah islamic healing quran sunnah spiritual protection sidr dua faith prayer',
-    go: function(){ showView('ruqyah'); }
+  _vpnIdx.push({ e:'☽', cat:'vsr-tool', lbl:'RUQYAH',
+    title: 'Ruqyah — Islamic Healing for Sihr, Jinn & Evil Eye',
+    kw: 'ruqyah islamic healing quran sunnah spiritual protection sidr dua faith prayer sihr black magic jinn jinnee possession mass ayn evil eye hasd hasad envy jealousy waswaas whispers witchcraft sorcery magic cure illness affliction burn destroy falaq naas fatiha self ruqyah diagnosis treatment bath olive oil honey water black seed ruqyah water exorcism spiritual harm',
+    go: function(){ showView('ruqyah'); window.scrollTo({top:0,behavior:'smooth'}); }
   });
 }
 
