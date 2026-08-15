@@ -4774,6 +4774,10 @@ document.addEventListener('keydown', function(e){
                       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:4px;">🔍 HOW TO SPOT A FAKE COA</div>
                       <img loading="lazy" src="cheatsheet/upload/1000090737.png" alt="How To Spot A Fake COA" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,230,0,0.4);">
                     </div>
+                    <div style="cursor:zoom-in;grid-column:1/-1;" onclick="openLightbox('cheatsheet/fakecoasnew.jpg','Fake COA Examples — What To Look For')" title="Click to zoom">
+                      <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff2d78;margin-bottom:4px;">🚨 FAKE COA EXAMPLES — NEW</div>
+                      <img loading="lazy" src="cheatsheet/fakecoasnew.jpg" alt="Fake COA Examples" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,45,120,0.5);">
+                    </div>
                   </div>
                 </div>
 
@@ -4863,6 +4867,14 @@ document.addEventListener('keydown', function(e){
             <div>
               <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">MOTSC + NAD+ Metabolic Reboot</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Insulin sensitivity · metabolic health</div>
+            </div>
+            <span style="color:#00f5ff;margin-left:auto;">↗</span>
+          </div>
+          <div class="qa-item" onclick="openLightbox('cheatsheet/glpbnenefits.jpg','GLP Benefits — Research Overview');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
+            <span style="font-size:1.3rem;">💉</span>
+            <div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">GLP Benefits — Research Overview</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Full benefit breakdown · mechanism · research</div>
             </div>
             <span style="color:#00f5ff;margin-left:auto;">↗</span>
           </div>
@@ -5197,8 +5209,9 @@ document.addEventListener('keydown', function(e){
                 <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Learn to spot fake COAs.</strong> Verify certificates of analysis — identify fraudulent lab reports before you buy.</span>
                 <span class="coa-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
               </div>
-              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);">
+              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);display:flex;flex-direction:column;gap:0.5rem;">
                 <img src="cheatsheet/vendors-how-to-spot-fake-coa.jpg" alt="How to Spot a Fake COA" loading="lazy" onclick="openLightbox('cheatsheet/vendors-how-to-spot-fake-coa.jpg','How to Spot a Fake COA')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;">
+                <img src="cheatsheet/fakecoasnew.jpg" alt="Fake COA Examples" loading="lazy" onclick="openLightbox('cheatsheet/fakecoasnew.jpg','Fake COA Examples — What To Look For')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;border:1px solid rgba(255,45,120,0.4);">
               </div>
             </div>
 
@@ -23404,11 +23417,12 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     audio.play().then(function(){setPlaying(true);_userStarted=true;}).catch(function(){});
   };
 
+  var _suppressAutoplay=false;
   window.addEventListener('load',function(){
-    if(sessionStorage.getItem('vpn-from-access')){sessionStorage.removeItem('vpn-from-access');return;}
+    if(sessionStorage.getItem('vpn-from-access')){sessionStorage.removeItem('vpn-from-access');_suppressAutoplay=true;return;}
     tryPlay();
   });
-  function onFirst(){if(_userStarted)return;tryPlay();document.removeEventListener('click',onFirst);document.removeEventListener('touchend',onFirst);}
+  function onFirst(){if(_userStarted||_suppressAutoplay)return;tryPlay();document.removeEventListener('click',onFirst);document.removeEventListener('touchend',onFirst);}
   document.addEventListener('click',onFirst);
   document.addEventListener('touchend',onFirst);
 
