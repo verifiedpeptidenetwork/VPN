@@ -7144,24 +7144,36 @@ document.addEventListener('keydown', function(e){
     .qnav-card{
       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.32rem;
       padding:1rem 0.4rem 0.85rem;text-align:center;cursor:pointer;text-decoration:none;
-      background:#04001a;
+      background:#07021a;
       border:1.5px solid currentColor;
       border-top:3px solid currentColor;
       font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.08em;
       transition:background 0.2s,transform 0.18s,box-shadow 0.22s;
-      position:relative;overflow:hidden;
-      box-shadow:0 0 10px rgba(255,255,255,0.05);
+      position:relative;overflow:visible;
+      box-shadow:2px 3px 10px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.06);
+      clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
     }
+    /* dog-ear fold */
     .qnav-card::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:2px;
-      background:linear-gradient(90deg,currentColor,transparent,currentColor);
-      opacity:0.4;pointer-events:none;
+      content:'';
+      position:absolute;top:0;right:0;
+      width:14px;height:14px;
+      background:currentColor;
+      opacity:0.35;
+      clip-path:polygon(100% 0,0 0,100% 100%);
+      pointer-events:none;
+      z-index:3;
     }
-    .qnav-card::after{content:none;}
+    /* top-edge neon glow line */
+    .qnav-card::after{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:currentColor;
+      opacity:0.6;pointer-events:none;
+    }
     .qnav-card:hover{
-      transform:translateY(-4px) scale(1.04);
-      background:#0a0530;
-      box-shadow:0 0 22px currentColor,0 4px 20px rgba(0,0,0,0.3);
+      transform:translateY(-5px) scale(1.04);
+      background:#0d0535;
+      box-shadow:0 0 22px currentColor,0 6px 24px rgba(0,0,0,0.5);
     }
     .qnav-icon{font-size:1.5rem;line-height:1;filter:drop-shadow(0 0 6px currentColor);}
     .qnav-label{font-size:0.76rem;letter-spacing:0.07em;line-height:1.1;}
