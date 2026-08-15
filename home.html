@@ -6987,11 +6987,15 @@ document.addEventListener('keydown', function(e){
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
       <img src="VPNNEWLOGO.png" alt="Verified Peptides Network" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
+      <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
+      <div class="vpn-logo-pulse-ring"></div>
+      <div class="vpn-logo-pulse-ring"></div>
     </div>
   </div>
 
   <!-- HERO -->
   <div class="vpn-home-hero">
+    <canvas id="vpn-matrix-canvas"></canvas>
     <div class="hero-corner tl"></div>
     <div class="hero-corner tr"></div>
     <div class="hero-corner bl"></div>
@@ -22223,6 +22227,40 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     document.getElementById('vpn-admin-bar').classList.remove('on');
     vpnAdminClear();
   };
+})();
+</script>
+<script>
+(function(){
+  var canvas = document.getElementById('vpn-matrix-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var chars = 'VPNABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ΨΦΩβαδ∑∫≈≠<>[]{}|/\\'.split('');
+  var fontSize = 13;
+  var cols, drops;
+  function resize(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    cols = Math.floor(canvas.width / fontSize);
+    drops = [];
+    for(var i=0;i<cols;i++) drops[i] = Math.random() * -canvas.height / fontSize;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  var colors = ['#00f5ff','#ff2d78','#cc44ff','#00ff64'];
+  function draw(){
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font = fontSize + 'px monospace';
+    for(var i=0;i<drops.length;i++){
+      var ch = chars[Math.floor(Math.random()*chars.length)];
+      var col = colors[Math.floor(Math.random()*colors.length)];
+      ctx.fillStyle = col;
+      ctx.fillText(ch, i*fontSize, drops[i]*fontSize);
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += 0.4;
+    }
+  }
+  setInterval(draw, 45);
 })();
 </script>
 </body>
