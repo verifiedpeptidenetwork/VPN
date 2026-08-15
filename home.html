@@ -21716,7 +21716,7 @@ function showToast(msg, color) {
   /* ── MY STORY KEYFRAMES ── */
   @keyframes ms-spin   { to { transform:rotate(360deg); } }
   @keyframes ms-spin-r { to { transform:rotate(-360deg); } }
-  @keyframes ms-float  { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+  @keyframes ms-float  { 0%,100%{transform:translate(-50%,-50%) scale(1);} 50%{transform:translate(-50%,-50%) scale(1.04);} }
   @keyframes ms-pulse  { 0%,100%{opacity:.6;} 50%{opacity:1;} }
   @keyframes ms-sweep  { 0%{background-position:0 50%;} 100%{background-position:300% 50%;} }
   @keyframes ms-scanln { 0%{top:-80px;} 100%{top:110%;} }
@@ -21756,12 +21756,12 @@ function showToast(msg, color) {
   @media(max-width:640px){ .ms-hero-inner{gap:0.85rem;} }
 
   /* ── LOGO RING — compact 90px ── */
-  .ms-logo-wrap { position:relative;width:120px;height:120px;flex-shrink:0; }
+  .ms-logo-wrap { position:relative;width:160px;height:160px;flex-shrink:0; }
   .ms-logo-ring { position:absolute;border-radius:50%;top:50%;left:50%; }
   .ms-lr1 { width:130px;height:130px;margin:-65px 0 0 -65px;border:2px solid transparent;border-top:2px solid #00f5ff;border-right:2px solid rgba(255,149,0,0.3);animation:ms-spin 2.5s linear infinite; }
   .ms-lr2 { width:140px;height:140px;margin:-70px 0 0 -70px;border:1.5px solid transparent;border-top:1.5px solid #ffcc00;border-left:1.5px solid rgba(255,204,0,0.3);animation:ms-spin-r 4s linear infinite; }
   .ms-lr3 { width:150px;height:150px;margin:-75px 0 0 -75px;border:1px dashed rgba(255,165,0,0.25);animation:ms-spin 10s linear infinite; }
-  .ms-logo-img { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:114px;height:114px;border-radius:50%;object-fit:cover;animation:ms-float 4s ease-in-out infinite;z-index:2; }
+  .ms-logo-img { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:114px;height:114px;border-radius:50%;object-fit:cover;animation:ms-float 4s ease-in-out infinite;z-index:2;transform-origin:center center; }
   .ms-logo-glow { position:absolute;top:50%;left:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:radial-gradient(circle,rgba(255,149,0,0.22) 0%,rgba(255,100,0,0.1) 50%,transparent 70%);animation:ms-pulse 3s ease-in-out infinite;z-index:1; }
 
   /* ── HERO TEXT ── */
@@ -23251,7 +23251,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 </script>
 <!-- ── VPN BACKGROUND MUSIC PLAYER v2 ── -->
 <audio id="vpn-bg-audio" loop preload="auto">
-  <source src="bgmusic.mp3" type="audio/mpeg">
+  <source src="burning-skyline.mp3" type="audio/mpeg">
 </audio>
 
 <!-- FAB pill (collapsed) -->
@@ -23265,7 +23265,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   <div style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0.85rem;background:rgba(0,255,65,0.07);border-bottom:1px solid rgba(0,255,65,0.12);">
     <span style="font-size:1rem;flex-shrink:0;">&#127925;</span>
     <div style="flex:1;min-width:0;">
-      <div id="vpn-track-name" style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#00ff41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">VPN THEME</div>
+      <div id="vpn-track-name" style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#00ff41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">BURNING SKYLINE</div>
       <div id="vpn-track-status" style="font-family:'Rajdhani',sans-serif;font-size:0.6rem;font-weight:600;color:rgba(0,255,65,0.4);letter-spacing:0.06em;">TAP &#9654; TO PLAY</div>
     </div>
     <button onclick="vpnMusicCollapse()" title="Minimise" style="background:none;border:none;color:rgba(0,255,65,0.4);font-size:1rem;cursor:pointer;padding:0.1rem 0.3rem;line-height:1;">&#8722;</button>
@@ -23278,11 +23278,10 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   </div>
   <div style="padding:0 0.6rem 0.75rem;display:flex;flex-direction:column;gap:0.28rem;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.58rem;letter-spacing:0.2em;color:rgba(0,255,65,0.28);padding:0 0.25rem 0.18rem;">SELECT TRACK</div>
-    <button class="vpn-tr vpn-tr-on" id="vpn-t0" onclick="vpnLoadTrack(0)">&#127925; VPN Theme</button>
-    <button class="vpn-tr" id="vpn-t1" onclick="vpnLoadTrack(1)">&#128293; Burning Skyline</button>
-    <button class="vpn-tr" id="vpn-t2" onclick="vpnLoadTrack(2)">&#9889; 80s Pulse</button>
-    <button class="vpn-tr" id="vpn-t3" onclick="vpnLoadTrack(3)">&#127769; Neon Shadows</button>
-    <button class="vpn-tr" id="vpn-t4" onclick="vpnLoadTrack(4)">&#128640; Synthwave BG</button>
+    <button class="vpn-tr vpn-tr-on" id="vpn-t0" onclick="vpnLoadTrack(0)">&#128293; Burning Skyline</button>
+    <button class="vpn-tr" id="vpn-t1" onclick="vpnLoadTrack(1)">&#9889; 80s Pulse</button>
+    <button class="vpn-tr" id="vpn-t2" onclick="vpnLoadTrack(2)">&#127769; Neon Shadows</button>
+    <button class="vpn-tr" id="vpn-t3" onclick="vpnLoadTrack(3)">&#128640; Synthwave BG</button>
   </div>
 </div>
 
@@ -23298,7 +23297,6 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 <script>
 (function(){
   var tracks=[
-    {src:'bgmusic.mp3',        name:'VPN THEME'},
     {src:'burning-skyline.mp3',name:'BURNING SKYLINE'},
     {src:'80s-pulse.mp3',      name:'80S PULSE'},
     {src:'neon-shadows.mp3',   name:'NEON SHADOWS'},
