@@ -5043,15 +5043,18 @@ document.addEventListener('keydown', function(e){
           <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:3px 9px;border:1.5px solid #ff1450;color:#ff1450;border-radius:3px;white-space:nowrap;">▶ WATCH</span>
         </div>
         <!-- Video -->
-        <div style="width:100%;background:#000;">
-          <video controls preload="metadata" style="width:100%;display:block;max-height:380px;background:#000;" playsinline>
+        <div style="width:100%;">
+          <video controls preload="metadata" style="width:100%;display:block;aspect-ratio:16/9;background:#000;" playsinline>
             <source src="welcomevideovpn.mp4" type="video/mp4">
           </video>
         </div>
         <!-- Before You Research info -->
-        <div style="padding:0.85rem 1.1rem;background:#000;border-top:1px solid rgba(255,20,80,0.2);">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:#ff1450;margin-bottom:0.7rem;text-align:center;">📋 BEFORE YOU RESEARCH — READ THIS</div>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="background:#000;border-top:1px solid rgba(255,20,80,0.2);">
+          <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='flex';b.style.display=open?'none':'flex';el.querySelector('.byr-main-arr').textContent=open?'▼':'▲';})(this)"
+               style="padding:0.85rem 1.1rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:#ff1450;text-align:center;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+            📋 BEFORE YOU RESEARCH — READ THIS <span class="byr-main-arr" style="font-size:0.7rem;">▼</span>
+          </div>
+          <div style="display:none;flex-direction:column;gap:0.5rem;padding:0 1.1rem 0.85rem;">
 
             <!-- 01 — Doctor + Bloodwork COMBINED (same thing) -->
             <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
@@ -5079,14 +5082,36 @@ document.addEventListener('keydown', function(e){
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.6rem;">
                   <div style="background:rgba(0,100,255,0.06);border:1px solid rgba(80,140,255,0.25);border-top:2px solid #4d8fff;border-radius:5px;padding:0.55rem 0.7rem;">
                     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.11em;color:#4d8fff;margin-bottom:0.35rem;">♂ MEN — BASELINE PANEL</div>
-                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(180,210,255,0.85);line-height:1.85;margin:0 0 0 0.85rem;padding:0;">
-                      <li>Total &amp; Free Testosterone</li><li>LH &amp; FSH</li><li>Estradiol (E2) sensitive</li><li>SHBG</li><li>IGF-1 &amp; GH</li><li>Prolactin</li><li>PSA (40+)</li><li>CBC &amp; CMP</li><li>Lipid panel</li><li>HbA1c &amp; fasting glucose</li><li>TSH, hs-CRP, Vitamin D</li><li>Haematocrit</li>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(180,210,255,0.85);line-height:1;margin:0;padding:0;list-style:none;">
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">Total &amp; Free Testosterone</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Main androgens — free T is what's bioavailable</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">LH &amp; FSH</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Pituitary signals driving T production &amp; sperm</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">Estradiol (E2) sensitive</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Estrogen balance — critical on peptide/TRT protocols</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">SHBG</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Binds testosterone — high SHBG lowers free T</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">IGF-1 &amp; GH</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Growth hormone axis — baseline before GH peptides</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">Prolactin</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Elevated levels suppress T and libido</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">PSA (40+)</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Prostate marker — T protocols can elevate it</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">CBC &amp; CMP</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Full blood count + kidney, liver, electrolytes</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">Lipid panel</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Cholesterol — hormones &amp; peptides affect these</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">HbA1c &amp; fasting glucose</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Blood sugar &amp; insulin sensitivity baseline</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(80,140,255,0.1);"><span style="color:#fff;">TSH, hs-CRP, Vitamin D</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">Thyroid, systemic inflammation, immune health</span></li>
+                      <li style="padding:0.3rem 0;"><span style="color:#fff;">Haematocrit</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(150,190,255,0.6);">RBC density — T &amp; peptides can raise this dangerously</span></li>
                     </ul>
                   </div>
                   <div style="background:rgba(255,20,120,0.05);border:1px solid rgba(255,80,160,0.25);border-top:2px solid #ff4da6;border-radius:5px;padding:0.55rem 0.7rem;">
                     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.11em;color:#ff4da6;margin-bottom:0.35rem;">♀ WOMEN — BASELINE PANEL</div>
-                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(255,190,220,0.85);line-height:1.85;margin:0 0 0 0.85rem;padding:0;">
-                      <li>Total &amp; Free Testosterone</li><li>Estradiol (E2)</li><li>Progesterone</li><li>LH &amp; FSH</li><li>DHEA-S</li><li>IGF-1 &amp; GH</li><li>Prolactin</li><li>CBC &amp; CMP</li><li>Lipid panel</li><li>HbA1c &amp; fasting glucose</li><li>TSH, Free T3, Free T4</li><li>AMH (if applicable)</li>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(255,190,220,0.85);line-height:1;margin:0;padding:0;list-style:none;">
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">Total &amp; Free Testosterone</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Low T affects libido, energy &amp; muscle in women</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">Estradiol (E2)</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Primary female hormone; drives cycle &amp; mood</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">Progesterone</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Balances estrogen; key for cycle health &amp; sleep</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">LH &amp; FSH</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Pituitary hormones driving ovarian function</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">DHEA-S</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Adrenal androgen precursor; affects energy &amp; libido</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">IGF-1 &amp; GH</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Growth hormone axis — baseline before GH peptides</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">Prolactin</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Elevated levels disrupt cycle &amp; suppress sex hormones</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">CBC &amp; CMP</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Blood count + kidney, liver, electrolytes baseline</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">Lipid panel</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Cholesterol &amp; cardiovascular baseline</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">HbA1c &amp; fasting glucose</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Blood sugar &amp; insulin sensitivity</span></li>
+                      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,80,160,0.1);"><span style="color:#fff;">TSH, Free T3, Free T4</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Thyroid function — mimics hormone imbalance when off</span></li>
+                      <li style="padding:0.3rem 0;"><span style="color:#fff;">AMH (if applicable)</span><br><span style="font-size:0.68rem;font-weight:500;color:rgba(255,160,200,0.6);">Ovarian reserve; relevant for fertility &amp; perimenopause</span></li>
                     </ul>
                   </div>
                 </div>
