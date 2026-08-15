@@ -226,7 +226,7 @@ html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);f
     <!-- Video -->
     <div class="vid-block">
       <div style="position:relative;width:100%;background:#000;">
-        <video id="av-vid" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:340px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
+        <video id="av-vid" autoplay playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:340px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
           <source src="accessvideo.mp4?v=1" type="video/mp4; codecs=avc1">
           <source src="accessvideo.mp4?v=1" type="video/mp4">
         </video>
@@ -319,8 +319,15 @@ var avUnlocked = false;
   var vid = document.getElementById('av-vid');
   var fill = document.getElementById('av-fill');
   if(!vid) return;
-  vid.muted = true;
-  vid.play().catch(function(){});
+  vid.muted = false;
+  vid.play().catch(function(){
+    // Browser blocked unmuted autoplay — fall back to muted, then unmute on first interaction
+    vid.muted = true;
+    vid.play().catch(function(){});
+    var unmute = function(){ vid.muted = false; document.removeEventListener('click', unmute); document.removeEventListener('touchstart', unmute); };
+    document.addEventListener('click', unmute, {once:true});
+    document.addEventListener('touchstart', unmute, {once:true, passive:true});
+  });
   document.addEventListener('touchstart', function(){ vid.play().catch(function(){}); }, {once:true, passive:true});
   vid.addEventListener('play', function(){ var o=document.getElementById('av-tap-overlay');if(o)o.style.display='none'; });
   vid.addEventListener('timeupdate', function(){
