@@ -3139,6 +3139,26 @@
     <div id="dg-title">⚠ RESEARCH DISCLAIMER</div>
     <div id="dg-scroll-hint-top">READ EVERYTHING BELOW — THEN CONFIRM AT THE BOTTOM</div>
 
+    <!-- 0. ACCESS VIDEO -->
+    <div class="dg-section" style="border-left-color:#ff2d78;padding:0;overflow:hidden;">
+      <div style="background:#000;padding:0.7rem 1rem 0.5rem;border-bottom:1px solid rgba(255,45,120,0.2);">
+        <div class="dg-section-head" style="color:#ff2d78;margin-bottom:0;">🎬 WATCH BEFORE YOU ENTER</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(255,200,210,0.55);letter-spacing:0.05em;">Watch the video — then check the box below to unlock access</div>
+      </div>
+      <div style="background:#000;position:relative;">
+        <video id="dg-vid" controls playsinline preload="metadata" style="width:100%;display:block;max-height:300px;background:#000;object-fit:contain;">
+          <source src="accessvideo.mp4" type="video/mp4">
+        </video>
+        <div style="height:3px;background:rgba(255,255,255,0.07);">
+          <div id="dg-vid-fill" style="height:100%;width:0%;background:linear-gradient(90deg,#00f5ff,#ff2d78);transition:width 0.3s;"></div>
+        </div>
+      </div>
+      <div style="padding:0.6rem 1rem 0.75rem;background:#000;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">
+        <div id="dg-vid-status" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:rgba(255,45,120,0.7);">▶ WATCH TO UNLOCK THE ENTER BUTTON</div>
+        <div id="dg-vid-ready" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#00ff88;display:none;">✓ VIDEO WATCHED — PROCEED BELOW</div>
+      </div>
+    </div>
+
     <!-- 1. Research only -->
     <div class="dg-section" style="border-left-color:#ff2d78;">
       <div class="dg-section-head" style="color:#ff2d78;">⚗ NOT FOR HUMAN CONSUMPTION</div>
@@ -3212,6 +3232,26 @@
     try{localStorage.setItem('vpn-terms-accepted','1');}catch(e){}
   }
 })();
+var dgVidUnlocked = false;
+(function(){
+  var vid = document.getElementById('dg-vid');
+  if(!vid) return;
+  vid.addEventListener('timeupdate', function(){
+    if(!vid.duration) return;
+    var pct = (vid.currentTime / vid.duration) * 100;
+    document.getElementById('dg-vid-fill').style.width = pct + '%';
+    if(pct >= 85 && !dgVidUnlocked){
+      dgVidUnlocked = true;
+      document.getElementById('dg-vid-status').style.display = 'none';
+      document.getElementById('dg-vid-ready').style.display = 'block';
+    }
+  });
+  vid.addEventListener('ended', function(){
+    dgVidUnlocked = true;
+    document.getElementById('dg-vid-status').style.display = 'none';
+    document.getElementById('dg-vid-ready').style.display = 'block';
+  });
+})();
 function dgCheckChange(){
   var btn = document.getElementById('dg-btn');
   var chk = document.getElementById('dg-check');
@@ -3226,8 +3266,15 @@ function dgCheckChange(){
 }
 function dgEnter(){
   var chk = document.getElementById('dg-check');
+  var btn = document.getElementById('dg-btn');
+  if(!dgVidUnlocked){
+    btn.classList.add('shake');
+    btn.textContent = '⚠ Watch the video first';
+    setTimeout(function(){ btn.classList.remove('shake'); btn.textContent = chk.checked ? 'I UNDERSTAND — ENTER SITE' : 'CHECK THE BOX ABOVE TO ENTER'; }, 2200);
+    document.getElementById('dg-vid').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   if(!chk.checked){
-    var btn = document.getElementById('dg-btn');
     btn.classList.add('shake');
     btn.textContent = '⚠ Please check the box above';
     setTimeout(function(){ btn.classList.remove('shake'); btn.textContent='CHECK THE BOX ABOVE TO ENTER'; },2000);
