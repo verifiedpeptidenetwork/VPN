@@ -6,50 +6,41 @@
 <title>VPN · Verified Peptide Network | Access</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-:root{
-  --pink:#ff2d78;--cyan:#00f5ff;--purple:#9b30ff;
-  --dark:#04000e;--card:#08011c;--dim:rgba(220,210,240,.5);--text:#f0eaff;
-}
+:root{--pink:#ff2d78;--cyan:#00f5ff;--purple:#9b30ff;--dark:#04000e;--card:#08011c;--dim:rgba(220,210,240,.5);--text:#f0eaff;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
 
-/* ── SCENE ── */
-.lattice{
-  position:fixed;inset:-10%;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(0,245,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.05) 1px,transparent 1px);
-  background-size:52px 52px;animation:latticeDrift 60s linear infinite;
-  mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);
-  -webkit-mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);
-}
+/* scene */
+.lattice{position:fixed;inset:-10%;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.05) 1px,transparent 1px);background-size:52px 52px;animation:latticeDrift 60s linear infinite;mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);-webkit-mask:radial-gradient(ellipse 80% 70% at 50% 40%,#fff 0%,transparent 100%);}
 @keyframes latticeDrift{from{transform:translate(0,0);}to{transform:translate(-52px,-52px);}}
 .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(1px);}
-.orb1{width:500px;height:500px;left:-10%;top:0;background:radial-gradient(circle,rgba(0,245,255,.15),transparent 70%);animation:orbFloat 24s ease-in-out infinite;}
-.orb2{width:600px;height:600px;right:-15%;bottom:-10%;background:radial-gradient(circle,rgba(255,45,120,.12),transparent 70%);animation:orbFloat 30s ease-in-out infinite;animation-delay:-8s;}
-.orb3{width:300px;height:300px;left:40%;top:5%;background:radial-gradient(circle,rgba(155,48,255,.18),transparent 70%);animation:orbFloat 20s ease-in-out infinite;animation-delay:-14s;}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(25px,-20px) scale(1.06);}}
-.scan-beam{position:fixed;top:0;bottom:0;width:200px;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(0,245,255,.06),rgba(0,245,255,.1),rgba(0,245,255,.06),transparent);animation:scanSweep 9s ease-in-out infinite;mix-blend-mode:screen;}
+.orb1{width:600px;height:600px;left:-8%;top:-5%;background:radial-gradient(circle,rgba(0,245,255,.12),transparent 70%);animation:orbFloat 24s ease-in-out infinite;}
+.orb2{width:700px;height:700px;right:-12%;bottom:-10%;background:radial-gradient(circle,rgba(255,45,120,.1),transparent 70%);animation:orbFloat 30s ease-in-out infinite;animation-delay:-8s;}
+.orb3{width:400px;height:400px;left:38%;top:0;background:radial-gradient(circle,rgba(155,48,255,.14),transparent 70%);animation:orbFloat 20s ease-in-out infinite;animation-delay:-14s;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-16px) scale(1.05);}}
+.scan-beam{position:fixed;top:0;bottom:0;width:200px;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(0,245,255,.05),rgba(0,245,255,.09),rgba(0,245,255,.05),transparent);animation:scanSweep 9s ease-in-out infinite;mix-blend-mode:screen;}
 @keyframes scanSweep{0%{left:-15%;}50%{left:110%;}100%{left:-15%;}}
-.fragment{position:fixed;z-index:0;pointer-events:none;font-family:'Share Tech Mono',monospace;color:rgba(0,245,255,.2);font-size:.7rem;letter-spacing:.1em;animation:fragmentRise linear infinite;}
-@keyframes fragmentRise{0%{transform:translateY(0);opacity:0;}10%{opacity:.5;}90%{opacity:.5;}100%{transform:translateY(-100vh);opacity:0;}}
+.fragment{position:fixed;z-index:0;pointer-events:none;font-family:'Share Tech Mono',monospace;color:rgba(0,245,255,.18);font-size:.7rem;animation:fragmentRise linear infinite;}
+@keyframes fragmentRise{0%{transform:translateY(0);opacity:0;}10%{opacity:.45;}90%{opacity:.45;}100%{transform:translateY(-100vh);opacity:0;}}
 
-/* ── PAGES ── */
-.page{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem 1rem;transition:opacity .4s,transform .4s;}
-.page.hidden{display:none;opacity:0;pointer-events:none;}
-.page.fade-out{opacity:0;transform:translateY(-18px);}
+/* ── OUTER WRAPPER ── */
+.page{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1.25rem;}
 
-/* ═══════════════════════════════
-   PAGE 1 — VIDEO GATE
-═══════════════════════════════ */
-.gate-wrap{
-  width:100%;max-width:780px;
-  background:rgba(6,1,20,.88);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-radius:24px;border:1px solid rgba(255,255,255,.08);
+/* ── MASTER SHELL — 2 col desktop ── */
+.shell{
+  width:100%;max-width:1180px;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:0;
+  background:rgba(6,1,20,.86);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.07);
   overflow:hidden;
-  box-shadow:0 0 0 1px rgba(0,245,255,.06),0 0 100px rgba(255,45,120,.18),0 40px 80px rgba(0,0,0,.8);
+  box-shadow:0 0 0 1px rgba(0,245,255,.05),0 0 120px rgba(255,45,120,.15),0 40px 100px rgba(0,0,0,.85);
   position:relative;
 }
-.gate-wrap::before{
+.shell::before{
   content:'';position:absolute;inset:-1px;border-radius:24px;
   background:linear-gradient(135deg,var(--cyan),var(--pink),var(--purple),var(--cyan));
   background-size:300% 300%;
@@ -59,232 +50,143 @@ html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);f
 }
 @keyframes borderflow{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
 
-/* header strip */
-.gate-header{
-  padding:1.1rem 1.4rem;
-  background:linear-gradient(90deg,rgba(0,245,255,.07),rgba(155,48,255,.05));
-  border-bottom:1px solid rgba(255,255,255,.07);
-  display:flex;align-items:center;gap:1rem;
+/* ── LEFT: video + disclaimer ── */
+.col-left{
+  display:flex;flex-direction:column;
+  border-right:1px solid rgba(255,255,255,.07);
+  overflow:hidden;
 }
-.gate-logo{width:48px;height:48px;border-radius:50%;border:2px solid rgba(0,245,255,.5);flex-shrink:0;object-fit:cover;}
-.gate-header-text{}
-.gate-title{font-family:'Orbitron',monospace;font-weight:900;font-size:.9rem;letter-spacing:.2em;color:var(--cyan);text-shadow:0 0 14px rgba(0,245,255,.6);}
-.gate-sub{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--pink);margin-top:.25rem;}
+
+/* top bar */
+.col-left-header{
+  padding:1rem 1.4rem;
+  background:linear-gradient(90deg,rgba(0,245,255,.06),rgba(155,48,255,.04));
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:.9rem;flex-shrink:0;
+}
+.col-logo{width:44px;height:44px;border-radius:50%;border:2px solid rgba(0,245,255,.45);object-fit:cover;flex-shrink:0;}
+.col-brand-main{font-family:'Orbitron',monospace;font-weight:900;font-size:.82rem;letter-spacing:.2em;color:var(--cyan);text-shadow:0 0 12px rgba(0,245,255,.6);line-height:1.25;}
+.col-brand-sub{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.18em;color:var(--pink);margin-top:.2rem;}
 
 /* video block */
-.gate-video-wrap{
-  position:relative;background:#000;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.gate-video-wrap video{width:100%;display:block;max-height:420px;object-fit:contain;background:#000;}
+.vid-block{position:relative;background:#000;flex-shrink:0;}
+.vid-block video{width:100%;display:block;max-height:340px;object-fit:contain;background:#000;}
+.vid-prog{height:3px;background:rgba(255,255,255,.07);}
+.vid-prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .25s;}
+.vid-status-row{padding:.4rem 1rem;background:#000;border-bottom:1px solid rgba(255,45,120,.12);display:flex;align-items:center;gap:.5rem;}
+.vid-status-row span{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.1em;}
+#av-status{color:rgba(255,45,120,.7);}
+#av-ready{color:#00ff88;display:none;}
 
-/* progress bar overlay */
-.vid-progress-bar{
-  height:3px;background:rgba(255,255,255,.08);position:relative;
-}
-.vid-progress-fill{
-  height:100%;width:0%;
-  background:linear-gradient(90deg,var(--cyan),var(--pink));
-  transition:width .3s;
-}
+/* disclaimer scroll area */
+.disc-scroll{overflow-y:auto;flex:1;padding:1rem 1.4rem 1.2rem;display:flex;flex-direction:column;gap:.65rem;}
+.disc-scroll::-webkit-scrollbar{width:4px;}
+.disc-scroll::-webkit-scrollbar-track{background:transparent;}
+.disc-scroll::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:2px;}
 
-/* info + understand */
-.gate-body{padding:1.4rem 1.4rem 1.6rem;display:flex;flex-direction:column;gap:1rem;}
+.disc-heading{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.18em;color:var(--pink);text-shadow:0 0 8px rgba(255,45,120,.4);margin-bottom:.1rem;}
+.disc-row{display:flex;gap:.55rem;align-items:flex-start;}
+.disc-icon{font-size:.85rem;flex-shrink:0;margin-top:.05rem;}
+.disc-text{font-size:.8rem;font-weight:600;color:rgba(255,255,255,.72);line-height:1.6;}
+.disc-text strong{color:#fff;}
 
-.gate-info-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:.75rem;
-}
-.gate-info-card{
-  background:rgba(255,255,255,.028);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;padding:.75rem .9rem;
-}
-.gate-info-label{
-  font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.18em;margin-bottom:.35rem;
-}
-.gate-info-label.cyan{color:var(--cyan);text-shadow:0 0 8px rgba(0,245,255,.5);}
-.gate-info-label.pink{color:var(--pink);text-shadow:0 0 8px rgba(255,45,120,.5);}
-.gate-info-label.purple{color:var(--purple);text-shadow:0 0 8px rgba(155,48,255,.5);}
-.gate-info-label.yellow{color:#ffd700;text-shadow:0 0 8px rgba(255,215,0,.5);}
-.gate-info-text{font-size:.78rem;font-weight:600;line-height:1.6;color:rgba(255,255,255,.6);}
-
-/* understand checklist */
-.understand-list{
-  background:rgba(0,245,255,.03);
-  border:1px solid rgba(0,245,255,.15);
-  border-radius:10px;padding:.9rem 1rem;
-  display:flex;flex-direction:column;gap:.5rem;
-}
-.understand-item{
-  display:flex;align-items:flex-start;gap:.6rem;
-  font-size:.82rem;font-weight:700;line-height:1.5;color:rgba(255,255,255,.75);
-}
-.understand-num{
-  font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.1em;
-  color:var(--cyan);flex-shrink:0;min-width:1.5rem;
+/* ── RIGHT: login form ── */
+.col-right{
+  padding:2rem 1.8rem;
+  display:flex;flex-direction:column;
+  gap:0;background:rgba(4,0,14,.6);
+  flex-shrink:0;
 }
 
-/* age bar */
-.age-row{
-  display:flex;align-items:center;gap:.8rem;
-  background:linear-gradient(135deg,rgba(255,30,30,.13),rgba(255,80,0,.07));
-  border:1.5px solid rgba(255,51,51,.5);border-radius:10px;padding:.7rem 1rem;
-}
-.age-big{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;color:#ff4444;text-shadow:0 0 12px #ff4444;flex-shrink:0;}
-.age-txt{font-size:.75rem;font-weight:700;line-height:1.5;color:#ffe0e0;}
-.age-txt strong{display:block;color:#ff6666;font-size:.82rem;letter-spacing:.02em;margin-bottom:.1rem;}
+/* age banner */
+.age-banner{display:flex;align-items:center;gap:.7rem;background:linear-gradient(135deg,rgba(255,30,30,.14),rgba(255,80,0,.07));border:1.5px solid rgba(255,51,51,.5);border-radius:10px;padding:.7rem .9rem;margin-bottom:1.1rem;}
+.age-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;color:#ff4444;text-shadow:0 0 12px #ff4444;flex-shrink:0;}
+.age-text{font-size:.74rem;font-weight:700;line-height:1.5;color:#ffe0e0;}
+.age-text strong{display:block;color:#ff6666;font-size:.8rem;letter-spacing:.02em;margin-bottom:.1rem;}
 
-/* CTA button */
-.understand-btn{
-  width:100%;padding:1.1rem;
-  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.22em;
-  color:#04000e;
-  background:linear-gradient(135deg,var(--cyan),#00c8d4);
-  border:none;border-radius:12px;cursor:pointer;
-  box-shadow:0 0 32px rgba(0,245,255,.5);
-  transition:transform .15s,box-shadow .2s,opacity .2s,filter .2s;
-  position:relative;overflow:hidden;
-}
-.understand-btn:not(.locked):hover{transform:translateY(-3px);box-shadow:0 0 52px rgba(0,245,255,.8);}
-.understand-btn:not(.locked):active{transform:translateY(0);}
-.understand-btn.locked{
-  opacity:.4;filter:grayscale(.6);cursor:not-allowed;
-  background:rgba(255,255,255,.1);color:rgba(255,255,255,.4);
-  box-shadow:none;
-}
-.btn-lock-msg{
-  font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.12em;
-  color:rgba(255,255,255,.35);text-align:center;margin-top:.4rem;
-  transition:opacity .3s;
-}
-.btn-lock-msg.hidden{opacity:0;}
+/* disclaimer note */
+.disc-note{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:.55rem .8rem;margin-bottom:1.1rem;font-size:.63rem;font-weight:600;line-height:1.65;color:rgba(255,255,255,.36);}
 
-/* disclaimer footer */
-.gate-footer{
-  font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.12em;
-  color:rgba(220,210,240,.22);text-align:center;padding:0 1.4rem 1rem;
-}
-
-/* ═══════════════════════════════
-   PAGE 2 — LOGIN SHELL
-═══════════════════════════════ */
-.shell{
-  position:relative;z-index:10;
-  width:100%;max-width:940px;
-  display:grid;grid-template-columns:1fr 1fr;
-  background:rgba(6,1,20,.82);
-  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
-  border-radius:28px;border:1px solid rgba(255,255,255,.08);overflow:hidden;
-  box-shadow:0 0 0 1px rgba(0,245,255,.06),0 0 120px rgba(255,45,120,.18),0 40px 100px rgba(0,0,0,.8);
-}
-.shell::before{
-  content:'';position:absolute;inset:-1px;border-radius:28px;
-  background:linear-gradient(135deg,var(--cyan),var(--pink),var(--purple),var(--cyan));
-  background-size:300% 300%;
-  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  opacity:.4;animation:borderflow 7s linear infinite;z-index:-1;
-}
-.panel-left{
-  position:relative;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:3rem 2rem;
-  background:linear-gradient(160deg,rgba(0,245,255,.04) 0%,rgba(155,48,255,.06) 100%);
-  border-right:1px solid rgba(255,255,255,.06);gap:1.4rem;
-}
-.logo-stage{position:relative;width:220px;height:220px;flex-shrink:0;}
-.logo-stage::before{content:'';position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,var(--cyan),var(--pink),var(--purple),var(--cyan));animation:ringRotate 8s linear infinite;z-index:0;filter:blur(3px);opacity:.7;}
-.logo-stage::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:rgba(6,1,20,.9);z-index:1;}
-@keyframes ringRotate{to{transform:rotate(360deg);}}
-.logo-stage img{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);object-fit:cover;border-radius:50%;z-index:2;animation:logoFloat 6s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(0,245,255,.5)) drop-shadow(0 0 40px rgba(255,45,120,.35));}
-@keyframes logoFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-.left-brand{text-align:center;}
-.left-brand-main{font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;letter-spacing:.25em;color:var(--cyan);text-shadow:0 0 18px rgba(0,245,255,.7);line-height:1.3;}
-.left-brand-sub{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--pink);text-shadow:0 0 10px rgba(255,45,120,.6);margin-top:.4rem;}
-.left-badges{display:flex;flex-direction:column;gap:.6rem;width:100%;max-width:220px;}
-.badge{display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.45);}
-.badge-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.badge-dot.cyan{background:var(--cyan);box-shadow:0 0 6px var(--cyan);}
-.badge-dot.pink{background:var(--pink);box-shadow:0 0 6px var(--pink);}
-.badge-dot.purple{background:var(--purple);box-shadow:0 0 6px var(--purple);}
-.panel-right{padding:2.6rem 2.2rem 2.2rem;display:flex;flex-direction:column;gap:0;}
-.age-banner{display:flex;align-items:center;gap:.75rem;background:linear-gradient(135deg,rgba(255,30,30,.15),rgba(255,80,0,.08));border:1.5px solid rgba(255,51,51,.55);border-radius:12px;padding:.8rem 1rem;margin-bottom:1.2rem;}
-.age-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;color:#ff4444;text-shadow:0 0 12px #ff4444;flex-shrink:0;}
-.age-text{font-size:.78rem;font-weight:700;line-height:1.5;color:#ffe0e0;}
-.age-text strong{display:block;color:#ff6666;font-size:.85rem;letter-spacing:.02em;margin-bottom:.1rem;}
-.disclaimer{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.6rem .85rem;margin-bottom:1.3rem;font-size:.65rem;font-weight:600;line-height:1.65;color:rgba(255,255,255,.38);}
-.mode-tabs{display:flex;margin-bottom:1.3rem;border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;}
-.mode-tab{flex:1;padding:.75rem .5rem;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.2em;cursor:pointer;transition:all .2s;background:transparent;border:none;color:var(--dim);}
+/* tabs */
+.mode-tabs{display:flex;margin-bottom:1.1rem;border:1px solid rgba(255,255,255,.08);border-radius:9px;overflow:hidden;}
+.mode-tab{flex:1;padding:.7rem .5rem;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.18em;cursor:pointer;transition:all .2s;background:transparent;border:none;color:var(--dim);}
 .mode-tab.active{background:rgba(0,245,255,.08);color:var(--cyan);text-shadow:0 0 10px rgba(0,245,255,.6);}
 .mode-tab:first-child{border-right:1px solid rgba(255,255,255,.08);}
-.auth-form{display:flex;flex-direction:column;gap:.75rem;}
+
+/* fields */
+.auth-form{display:flex;flex-direction:column;gap:.7rem;}
 .field-wrap{position:relative;}
-.field-wrap input{width:100%;padding:.82rem 1rem .82rem 2.6rem;font-size:.95rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text);background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:8px;outline:none;transition:border-color .15s,box-shadow .15s;}
-.field-wrap input:focus{border-color:var(--cyan);box-shadow:0 0 14px rgba(0,245,255,.2);background:rgba(0,245,255,.03);}
-.field-wrap input::placeholder{color:rgba(255,255,255,.25);}
-.field-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.95rem;pointer-events:none;opacity:.4;}
-.forgot-row{text-align:right;margin-top:-.15rem;font-size:.78rem;font-weight:700;}
-.forgot-row a{color:var(--cyan);cursor:pointer;text-decoration:none;opacity:.7;transition:opacity .15s;}
+.field-wrap input{width:100%;padding:.78rem .9rem .78rem 2.5rem;font-size:.92rem;font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text);background:rgba(255,255,255,.033);border:1px solid rgba(255,255,255,.1);border-radius:8px;outline:none;transition:border-color .15s,box-shadow .15s;}
+.field-wrap input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,245,255,.18);background:rgba(0,245,255,.03);}
+.field-wrap input::placeholder{color:rgba(255,255,255,.24);}
+.field-icon{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;opacity:.38;}
+.forgot-row{text-align:right;margin-top:-.1rem;font-size:.75rem;font-weight:700;}
+.forgot-row a{color:var(--cyan);cursor:pointer;text-decoration:none;opacity:.65;transition:opacity .15s;}
 .forgot-row a:hover{opacity:1;}
-.submit-btn{width:100%;padding:.95rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.25em;color:#04000e;background:var(--cyan);border:none;border-radius:10px;cursor:pointer;transition:transform .1s,box-shadow .2s;box-shadow:0 0 24px rgba(0,245,255,.45);margin-top:.2rem;}
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,245,255,.75);}
+
+/* enter gate btn — locked until video watched */
+#gate-submit{
+  width:100%;padding:.9rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.22em;
+  color:#04000e;background:var(--cyan);
+  border:none;border-radius:10px;cursor:pointer;
+  transition:transform .1s,box-shadow .2s,opacity .2s,filter .2s;
+  box-shadow:0 0 22px rgba(0,245,255,.4);margin-top:.2rem;
+}
+#gate-submit:hover:not(.locked){transform:translateY(-2px);box-shadow:0 0 38px rgba(0,245,255,.7);}
+#gate-submit.locked{opacity:.35;filter:grayscale(.5);cursor:not-allowed;background:rgba(255,255,255,.1);color:rgba(255,255,255,.35);box-shadow:none;}
+.gate-lock-hint{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(255,255,255,.3);text-align:center;margin-top:.35rem;transition:opacity .3s;}
+.gate-lock-hint.hidden{opacity:0;pointer-events:none;}
+
+.submit-btn{width:100%;padding:.9rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.22em;color:#04000e;background:var(--cyan);border:none;border-radius:10px;cursor:pointer;transition:transform .1s,box-shadow .2s;box-shadow:0 0 22px rgba(0,245,255,.4);margin-top:.2rem;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 38px rgba(0,245,255,.7);}
 .submit-btn:active{transform:translateY(0);}
-.new-user-cta{margin-top:1.4rem;background:linear-gradient(135deg,rgba(255,45,120,.12),rgba(155,48,255,.1));border:2px solid rgba(255,45,120,.55);border-radius:14px;padding:1.2rem 1.1rem;text-align:center;box-shadow:0 0 28px rgba(255,45,120,.2);animation:pulseglow 2.6s ease-in-out infinite;}
-@keyframes pulseglow{0%,100%{box-shadow:0 0 28px rgba(255,45,120,.2);}50%{box-shadow:0 0 46px rgba(255,45,120,.45);}}
-.new-user-label{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.07em;color:#00f5ff;text-shadow:0 0 10px rgba(0,245,255,.5);margin-bottom:.7rem;line-height:1.3;}
-.create-btn{width:100%;padding:1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));border:none;border-radius:10px;cursor:pointer;box-shadow:0 0 28px rgba(255,45,120,.5);transition:transform .1s,box-shadow .2s;}
-.create-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 46px rgba(255,45,120,.75);}
-.create-btn:active{transform:translateY(0) scale(1);}
-.msg{font-family:'Share Tech Mono',monospace;font-size:.74rem;letter-spacing:.06em;min-height:1.2em;opacity:0;transition:opacity .2s;margin-top:.5rem;line-height:1.5;}
+
+.new-user-cta{margin-top:1.2rem;background:linear-gradient(135deg,rgba(255,45,120,.11),rgba(155,48,255,.09));border:2px solid rgba(255,45,120,.5);border-radius:12px;padding:1rem;text-align:center;box-shadow:0 0 24px rgba(255,45,120,.18);animation:pulseglow 2.6s ease-in-out infinite;}
+@keyframes pulseglow{0%,100%{box-shadow:0 0 24px rgba(255,45,120,.18);}50%{box-shadow:0 0 42px rgba(255,45,120,.42);}}
+.new-user-label{font-family:'Bebas Neue',sans-serif;font-size:.98rem;letter-spacing:.07em;color:#00f5ff;text-shadow:0 0 10px rgba(0,245,255,.5);margin-bottom:.6rem;line-height:1.3;}
+.create-btn{width:100%;padding:.9rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));border:none;border-radius:9px;cursor:pointer;box-shadow:0 0 24px rgba(255,45,120,.45);transition:transform .1s,box-shadow .2s;}
+.create-btn:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 42px rgba(255,45,120,.7);}
+
+.msg{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.06em;min-height:1.2em;opacity:0;transition:opacity .2s;margin-top:.45rem;line-height:1.5;}
 .msg.show{opacity:1;}
-.msg.error{color:#ff6b35;text-shadow:0 0 6px rgba(255,107,53,.5);}
-.msg.success{color:#00ff88;text-shadow:0 0 6px rgba(0,255,136,.5);}
-.footer-note{margin-top:1.5rem;font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:rgba(220,210,240,.2);text-align:center;}
+.msg.error{color:#ff6b35;}
+.msg.success{color:#00ff88;}
+.footer-note{margin-top:1.2rem;font-family:'Share Tech Mono',monospace;font-size:.55rem;letter-spacing:.14em;color:rgba(220,210,240,.18);text-align:center;}
 .shake{animation:shake .4s;}
-@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-7px);}40%,80%{transform:translateX(7px);}}
+
+/* popup */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;}
 .popup-overlay.show{opacity:1;pointer-events:auto;}
 .popup-box{position:relative;max-width:320px;width:90%;background:var(--card);border:2px solid #9d00ff;border-radius:14px;padding:2rem 1.5rem 1.5rem;text-align:center;box-shadow:0 0 30px rgba(157,0,255,.4);transform:scale(.85);transition:transform .2s;}
 .popup-overlay.show .popup-box{transform:scale(1);}
 .popup-close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--dim);font-size:1.3rem;cursor:pointer;padding:.2rem .4rem;}
 .popup-close:hover{color:#ff0080;}
-.popup-msg{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:#ff0080;text-shadow:0 0 8px rgba(255,0,128,.6);line-height:1.5;}
+.popup-msg{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:#ff0080;line-height:1.5;}
 
 /* ── RESPONSIVE ── */
-@media(max-width:820px){
-  .shell{grid-template-columns:1fr;max-width:480px;}
-  .panel-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);padding:2.2rem 2rem 1.8rem;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.2rem;}
-  .logo-stage{width:130px;height:130px;}
-  .left-badges{flex-direction:row;flex-wrap:wrap;max-width:none;justify-content:center;}
-  .badge{font-size:.6rem;padding:.4rem .65rem;}
-  .panel-right{padding:2rem 1.8rem 1.8rem;}
-  .gate-info-grid{grid-template-columns:1fr;}
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr;max-width:520px;}
+  .col-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .disc-scroll{max-height:none;}
+  .col-right{padding:1.6rem 1.4rem;}
 }
 @media(max-width:480px){
-  body{padding:1rem .75rem;}
-  .shell{border-radius:20px;}
-  .gate-wrap{border-radius:18px;}
-  .panel-left{padding:1.8rem 1.2rem 1.4rem;gap:.9rem;}
-  .logo-stage{width:110px;height:110px;}
-  .left-brand-main{font-size:.82rem;letter-spacing:.18em;}
-  .left-badges{gap:.4rem;}
-  .badge{font-size:.58rem;padding:.35rem .55rem;}
-  .panel-right{padding:1.4rem 1.1rem 1.4rem;}
-  .age-num{font-size:1.9rem;}
-  .gate-header{padding:.8rem 1rem;gap:.75rem;}
-  .gate-logo{width:38px;height:38px;}
-  .gate-title{font-size:.75rem;letter-spacing:.14em;}
-  .gate-body{padding:1rem 1rem 1.2rem;}
-  .understand-btn{font-size:1rem;padding:.95rem;}
+  .page{padding:1rem .6rem;}
+  .shell{border-radius:18px;}
+  .col-left-header{padding:.75rem 1rem;gap:.65rem;}
+  .col-logo{width:36px;height:36px;}
+  .col-brand-main{font-size:.72rem;}
+  .disc-scroll{padding:.8rem 1rem 1rem;}
+  .col-right{padding:1.2rem 1rem;}
 }
-/* Landscape phone */
 @media(max-height:500px) and (orientation:landscape){
-  .page{padding:.6rem .8rem;align-items:flex-start;}
-  .gate-wrap{border-radius:14px;}
-  .gate-video-wrap video{max-height:55vw;}
-  .gate-body{padding:.8rem 1rem 1rem;gap:.6rem;}
-  .gate-info-grid{grid-template-columns:1fr 1fr;}
-  .gate-header{padding:.6rem 1rem;}
+  .page{padding:.5rem .8rem;align-items:flex-start;}
+  .shell{grid-template-columns:1fr 380px;}
+  .vid-block video{max-height:42vw;}
+  .disc-scroll{max-height:38vh;}
+  .col-right{padding:1rem 1.2rem;overflow-y:auto;max-height:100vh;}
 }
 </style>
 </head>
@@ -297,141 +199,102 @@ html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);f
 
 <script>
 (function(){
-  var g=['01','10','C12H22','VPN','◇','#','VERIFIED','RX','△','peptide','>>','::','DNA','NAD+'];
+  try{var k='firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';if(localStorage.getItem(k))window.location.replace('home.html');}catch(e){}
+})();
+(function(){
+  var g=['01','10','VPN','VERIFY','◇','#','DNA','NAD+','RX','peptide','>>','::'];
   var h=document.getElementById('fragments');
-  for(var i=0;i<16;i++){
-    var el=document.createElement('div');
-    el.className='fragment';
-    el.textContent=g[Math.floor(Math.random()*g.length)];
-    el.style.left=(Math.random()*100)+'vw';
-    el.style.bottom='-5%';
-    el.style.animationDuration=(16+Math.random()*14)+'s';
-    el.style.animationDelay=(-Math.random()*22)+'s';
-    h.appendChild(el);
-  }
+  for(var i=0;i<14;i++){var el=document.createElement('div');el.className='fragment';el.textContent=g[Math.floor(Math.random()*g.length)];el.style.left=(Math.random()*100)+'vw';el.style.bottom='-5%';el.style.animationDuration=(16+Math.random()*14)+'s';el.style.animationDelay=(-Math.random()*22)+'s';h.appendChild(el);}
 })();
 </script>
 
-<!-- ═══════════════════ PAGE 1: VIDEO GATE ═══════════════════ -->
-<div class="page" id="page-gate">
-  <div class="gate-wrap">
+<div class="page" id="page-main">
+<div class="shell">
+
+  <!-- ═══ LEFT COL: video + disclaimers ═══ -->
+  <div class="col-left">
 
     <!-- Header -->
-    <div class="gate-header">
-      <img class="gate-logo" src="VPNNEWLOGO.png" alt="VPN" onerror="this.style.display='none'">
-      <div class="gate-header-text">
-        <div class="gate-title">VERIFIED PEPTIDE NETWORK</div>
-        <div class="gate-sub">WATCH BEFORE YOU ENTER · RESEARCH USE ONLY</div>
+    <div class="col-left-header">
+      <img class="col-logo" src="VPNNEWLOGO.png" alt="VPN" onerror="this.style.display='none'">
+      <div>
+        <div class="col-brand-main">VERIFIED PEPTIDE NETWORK</div>
+        <div class="col-brand-sub">WATCH BEFORE YOU ENTER · RESEARCH USE ONLY</div>
       </div>
     </div>
 
     <!-- Video -->
-    <div class="gate-video-wrap">
-      <video id="gate-vid" controls playsinline preload="metadata" style="width:100%;display:block;max-height:420px;background:#000;">
+    <div class="vid-block">
+      <video id="av-vid" autoplay muted playsinline controls preload="auto" style="width:100%;display:block;max-height:340px;background:#000;object-fit:contain;">
         <source src="accessvideo.mp4" type="video/mp4">
       </video>
-    </div>
-    <div class="vid-progress-bar"><div class="vid-progress-fill" id="vid-fill"></div></div>
-
-    <div class="gate-body">
-
-      <!-- Info grid -->
-      <div class="gate-info-grid">
-        <div class="gate-info-card">
-          <div class="gate-info-label cyan">🧬 WHAT THIS SITE IS</div>
-          <div class="gate-info-text">A free research intelligence hub for the VPN &amp; RUIC community. Peptide guides, blood work analysis, protocol research — all in one place.</div>
-        </div>
-        <div class="gate-info-card">
-          <div class="gate-info-label pink">⚠️ NOT MEDICAL ADVICE</div>
-          <div class="gate-info-text">Everything here is for <strong style="color:#fff;">educational and research purposes only.</strong> Always work with a licensed physician. Verify everything against published studies.</div>
-        </div>
-        <div class="gate-info-card">
-          <div class="gate-info-label purple">🔬 VERIFY YOUR SOURCES</div>
-          <div class="gate-info-text">Learn to spot fake COAs, identify fraudulent vendors, and cross-reference every claim. Trust, but always verify independently.</div>
-        </div>
-        <div class="gate-info-card">
-          <div class="gate-info-label yellow">💉 DO YOUR BLOOD WORK</div>
-          <div class="gate-info-text">Before starting any research protocol, get baseline labs. Work with your doctor. Document your numbers before and after.</div>
-        </div>
+      <div class="vid-prog"><div class="vid-prog-fill" id="av-fill"></div></div>
+      <div class="vid-status-row">
+        <span id="av-status">▶ WATCH THE VIDEO TO UNLOCK THE SIGN-IN FORM</span>
+        <span id="av-ready">✓ VIDEO COMPLETE — SIGN IN BELOW</span>
       </div>
-
-      <!-- I Understand checklist -->
-      <div class="understand-list">
-        <div class="understand-item"><span class="understand-num">01</span><span>I am <strong style="color:#fff;">21 years or older</strong> and accessing this site for educational research purposes only.</span></div>
-        <div class="understand-item"><span class="understand-num">02</span><span>I understand this is <strong style="color:#fff;">NOT medical advice</strong> and I will always consult a licensed physician.</span></div>
-        <div class="understand-item"><span class="understand-num">03</span><span>I will <strong style="color:#fff;">verify all information</strong> against published research before taking any action.</span></div>
-        <div class="understand-item"><span class="understand-num">04</span><span>I accept that <strong style="color:#fff;">peptides are for research use only</strong> — not for human consumption.</span></div>
-      </div>
-
-      <!-- Age row -->
-      <div class="age-row">
-        <div class="age-big">21+</div>
-        <div class="age-txt"><strong>ADULTS ONLY · RESTRICTED ACCESS</strong>You must be 21 or older to enter. By clicking below you confirm you meet this requirement.</div>
-      </div>
-
-      <!-- CTA -->
-      <button class="understand-btn locked" id="understand-btn" onclick="enterSite()">
-        ✓ I UNDERSTAND — ENTER THE NETWORK
-      </button>
-      <div class="btn-lock-msg" id="lock-msg">▶ WATCH THE VIDEO TO UNLOCK ACCESS</div>
-
     </div>
 
-    <div class="gate-footer">VERIFIED PEPTIDES NETWORK · RUIC GROUP · RESEARCH REFERENCE ONLY · NOT FOR HUMAN CONSUMPTION</div>
+    <!-- Disclaimer rows -->
+    <div class="disc-scroll">
+      <div class="disc-heading">⚠ RESEARCH DISCLAIMER — READ BEFORE ENTERING</div>
+
+      <div class="disc-row"><span class="disc-icon">⚗</span><div class="disc-text"><strong style="color:#ff2d78;">NOT FOR HUMAN CONSUMPTION.</strong> All content is strictly for laboratory research and scientific study only. Nothing here is intended or approved for ingestion, injection, or administration of any kind.</div></div>
+
+      <div class="disc-row"><span class="disc-icon">🔞</span><div class="disc-text"><strong style="color:#9d00ff;">21+ RESEARCHERS ONLY.</strong> For adults <strong>21 years or older</strong> engaged in legitimate research. By entering you confirm this and that you are accessing for lawful educational purposes only.</div></div>
+
+      <div class="disc-row"><span class="disc-icon">🩺</span><div class="disc-text"><strong style="color:#00f5ff;">NOT MEDICAL ADVICE.</strong> Nothing here is a diagnosis or treatment plan. <strong>Always consult a licensed physician</strong> before making any health decisions.</div></div>
+
+      <div class="disc-row"><span class="disc-icon">🚨</span><div class="disc-text"><strong style="color:#ff7800;">GLP-1 RISKS.</strong> Thyroid cancer history (MTC/MEN2), diabetic retinopathy, pancreatitis, pregnancy, or eating disorders — <strong>consult a physician before any GLP-1 research.</strong> FDA boxed warning applies.</div></div>
+
+      <div class="disc-row"><span class="disc-icon">⚡</span><div class="disc-text"><strong style="color:#cc44ff;">GRAY MARKET RISKS.</strong> Sourcing outside licensed pharmacies means unknown purity, incorrect dosing, contamination. <strong>Always verify COAs</strong> from independent labs like Janoshik.</div></div>
+
+      <div class="disc-row"><span class="disc-icon">📋</span><div class="disc-text"><strong style="color:#00ff64;">NO LIABILITY.</strong> VPN and its contributors <strong>bear zero liability</strong> for any actions you take. All content is "as-is" for educational reference only.</div></div>
+    </div>
+
   </div>
+
+  <!-- ═══ RIGHT COL: login ═══ -->
+  <div class="col-right" id="panel">
+
+    <div class="age-banner">
+      <div class="age-num">21+</div>
+      <div class="age-text"><strong>ADULTS ONLY · RESEARCH USE ONLY</strong>You must be 21 or older to access this network. Educational purposes only.</div>
+    </div>
+
+    <div class="disc-note">Not medical advice. Always verify against published research. Knowledge of safety should be free and accessible to everyone.</div>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-signin" onclick="switchTab('signin')">SIGN IN</button>
+      <button class="mode-tab" id="tab-signup" onclick="switchTab('signup')">CREATE ACCOUNT</button>
+    </div>
+
+    <div class="auth-form" id="auth-form-inner">
+      <div class="field-wrap">
+        <span class="field-icon">📧</span>
+        <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
+      </div>
+      <div class="field-wrap">
+        <span class="field-icon">🔒</span>
+        <input type="password" id="password" placeholder="Password (min 6 characters)" autocomplete="current-password" required>
+      </div>
+      <div class="forgot-row" id="forgot-row"><a id="forgot-link">Forgot password?</a></div>
+      <button class="submit-btn locked" id="submit-btn" onclick="handleSubmit()">SIGN IN →</button>
+    </div>
+
+    <div class="gate-lock-hint" id="lock-hint">▶ WATCH THE VIDEO ON THE LEFT TO UNLOCK</div>
+    <div class="msg error" id="error-msg"></div>
+    <div class="msg success" id="success-msg"></div>
+
+    <div class="new-user-cta" id="new-user-cta" style="opacity:.4;pointer-events:none;">
+      <div class="new-user-label">✨ FIRST TIME HERE?<br>CREATE YOUR FREE ACCOUNT</div>
+      <button class="create-btn" onclick="switchTab('signup')">＋ CREATE MY FREE ACCOUNT</button>
+    </div>
+
+    <div class="footer-note">VERIFIED PEPTIDES NETWORK · RUIC GROUP MEMBERS ONLY</div>
+  </div>
+
 </div>
-
-<!-- ═══════════════════ PAGE 2: LOGIN ═══════════════════ -->
-<div class="page hidden" id="page-login">
-  <div class="shell" id="shell">
-
-    <div class="panel-left">
-      <div class="logo-stage">
-        <img src="VPNNEWLOGO.png" alt="VPN" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Orbitron,monospace;font-size:1.8rem;font-weight:900;color:#00f5ff;z-index:2;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;\'>VPN</span>'">
-      </div>
-      <div class="left-brand">
-        <div class="left-brand-main">VERIFIED PEPTIDE<br>NETWORK</div>
-        <div class="left-brand-sub">MEMBERS ONLY · RESEARCH USE</div>
-      </div>
-      <div class="left-badges">
-        <div class="badge"><span class="badge-dot cyan"></span>FIREBASE SECURED</div>
-        <div class="badge"><span class="badge-dot pink"></span>21+ RESTRICTED</div>
-        <div class="badge"><span class="badge-dot purple"></span>RESEARCH ONLY</div>
-      </div>
-    </div>
-
-    <div class="panel-right" id="panel">
-      <div class="age-banner">
-        <div class="age-num">21+</div>
-        <div class="age-text"><strong>ADULTS ONLY · RESEARCH USE ONLY</strong>You must be 21 or older to access this network. For educational and research purposes only.</div>
-      </div>
-      <div class="disclaimer">Not medical advice. Always verify against published research. Knowledge of safety should be free and accessible to everyone.</div>
-      <div class="mode-tabs">
-        <button class="mode-tab active" id="tab-signin" onclick="switchTab('signin')">SIGN IN</button>
-        <button class="mode-tab" id="tab-signup" onclick="switchTab('signup')">CREATE ACCOUNT</button>
-      </div>
-      <div class="auth-form" id="auth-form-inner">
-        <div class="field-wrap">
-          <span class="field-icon">📧</span>
-          <input type="email" id="email" placeholder="Email address" autocomplete="email" required>
-        </div>
-        <div class="field-wrap">
-          <span class="field-icon">🔒</span>
-          <input type="password" id="password" placeholder="Password (min 6 characters)" autocomplete="current-password" required>
-        </div>
-        <div class="forgot-row" id="forgot-row"><a id="forgot-link">Forgot password?</a></div>
-        <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">SIGN IN →</button>
-      </div>
-      <div class="msg error" id="error-msg"></div>
-      <div class="msg success" id="success-msg"></div>
-      <div class="new-user-cta" id="new-user-cta">
-        <div class="new-user-label">✨ FIRST TIME HERE?<br>CREATE YOUR FREE ACCOUNT NOW</div>
-        <button class="create-btn" onclick="switchTab('signup')">＋ CREATE MY FREE ACCOUNT</button>
-      </div>
-      <div class="footer-note">VERIFIED PEPTIDES NETWORK · RUIC GROUP MEMBERS ONLY</div>
-    </div>
-
-  </div>
 </div>
 
 <div class="popup-overlay" id="popup-overlay">
@@ -443,87 +306,48 @@ html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);f
 </div>
 
 <script>
-// ── Already logged in? Skip gate ──
+var avUnlocked = false;
 (function(){
-  try{
-    var fbKey='firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';
-    if(localStorage.getItem(fbKey)) window.location.replace('home.html');
-  }catch(e){}
+  var vid = document.getElementById('av-vid');
+  var fill = document.getElementById('av-fill');
+  if(!vid) return;
+  vid.addEventListener('timeupdate', function(){
+    if(!vid.duration) return;
+    var pct = (vid.currentTime / vid.duration) * 100;
+    fill.style.width = pct + '%';
+    if(pct >= 85 && !avUnlocked) unlockForm();
+  });
+  vid.addEventListener('ended', function(){ if(!avUnlocked) unlockForm(); });
 })();
 
-// ── Video gate logic ──
-var vid = document.getElementById('gate-vid');
-var btn = document.getElementById('understand-btn');
-var lockMsg = document.getElementById('lock-msg');
-var fill = document.getElementById('vid-fill');
-var unlocked = false;
-
-vid.addEventListener('timeupdate', function(){
-  if(!vid.duration) return;
-  var pct = (vid.currentTime / vid.duration) * 100;
-  fill.style.width = pct + '%';
-  if(pct >= 85 && !unlocked){
-    unlocked = true;
-    btn.classList.remove('locked');
-    lockMsg.classList.add('hidden');
-    btn.style.animation = 'pulseglow 1.8s ease-in-out infinite';
-  }
-});
-
-vid.addEventListener('ended', function(){
-  unlocked = true;
+function unlockForm(){
+  avUnlocked = true;
+  document.getElementById('av-status').style.display = 'none';
+  document.getElementById('av-ready').style.display = 'inline';
+  var btn = document.getElementById('submit-btn');
   btn.classList.remove('locked');
-  lockMsg.classList.add('hidden');
-});
-
-window.enterSite = function(){
-  if(!unlocked) return;
-  var gate = document.getElementById('page-gate');
-  gate.classList.add('fade-out');
-  setTimeout(function(){
-    gate.classList.add('hidden');
-    var login = document.getElementById('page-login');
-    login.classList.remove('hidden');
-    login.style.opacity = '0';
-    requestAnimationFrame(function(){
-      login.style.transition = 'opacity .4s';
-      login.style.opacity = '1';
-    });
-  }, 380);
-};
+  var hint = document.getElementById('lock-hint');
+  hint.classList.add('hidden');
+  var cta = document.getElementById('new-user-cta');
+  cta.style.opacity = '1';
+  cta.style.pointerEvents = 'auto';
+}
 </script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-    createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
-    authDomain: "vpnhub-data.firebaseapp.com",
-    projectId: "vpnhub-data",
-    storageBucket: "vpnhub-data.firebasestorage.app",
-    messagingSenderId: "519239456167",
-    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
-  };
-
-  const app = initializeApp(firebaseConfig);
+  const app = initializeApp({apiKey:"AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",authDomain:"vpnhub-data.firebaseapp.com",projectId:"vpnhub-data",storageBucket:"vpnhub-data.firebasestorage.app",messagingSenderId:"519239456167",appId:"1:519239456167:web:2ee7f62c48e17f07c75282"});
   const auth = getAuth(app);
   setPersistence(auth, browserLocalPersistence);
-
-  onAuthStateChanged(auth, function(user){
-    if(user) window.location.href = 'home.html';
-  });
+  onAuthStateChanged(auth, u => { if(u) window.location.href = 'home.html'; });
 
   var isSignUp = false;
-
-  window.switchTab = function(mode) {
-    isSignUp = mode === 'signup';
-    clearMsgs();
-    document.getElementById('tab-signin').classList.toggle('active', !isSignUp);
-    document.getElementById('tab-signup').classList.toggle('active', isSignUp);
+  window.switchTab = function(mode){
+    isSignUp = mode==='signup'; clearMsgs();
+    document.getElementById('tab-signin').classList.toggle('active',!isSignUp);
+    document.getElementById('tab-signup').classList.toggle('active',isSignUp);
     document.getElementById('submit-btn').textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
     document.getElementById('forgot-row').style.display = isSignUp ? 'none' : '';
     document.getElementById('new-user-cta').style.display = isSignUp ? 'none' : '';
@@ -531,78 +355,44 @@ window.enterSite = function(){
     document.getElementById('password').autocomplete = isSignUp ? 'new-password' : 'current-password';
   };
 
-  window.handleSubmit = function() {
+  window.handleSubmit = function(){
+    if(!avUnlocked){ showError('WATCH THE VIDEO ON THE LEFT FIRST'); return; }
     clearMsgs();
     var email = document.getElementById('email').value.trim();
-    var password = document.getElementById('password').value;
-    if(!email || !password){ showError('PLEASE ENTER YOUR EMAIL AND PASSWORD'); return; }
-    if(password.length < 6){ showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS'); return; }
-    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING ACCOUNT…' : 'SIGNING IN…';
-    document.getElementById('submit-btn').style.opacity = '.6';
-    if(isSignUp){
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'home.html')
-        .catch(err => { resetBtn(); showError(friendlyError(err)); });
-    } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = 'home.html')
-        .catch(err => { resetBtn(); showError(friendlyError(err)); });
-    }
+    var pw = document.getElementById('password').value;
+    if(!email||!pw){ showError('PLEASE ENTER YOUR EMAIL AND PASSWORD'); return; }
+    if(pw.length<6){ showError('PASSWORD MUST BE AT LEAST 6 CHARACTERS'); return; }
+    document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING…' : 'SIGNING IN…';
+    document.getElementById('submit-btn').style.opacity='.6';
+    (isSignUp ? createUserWithEmailAndPassword(auth,email,pw) : signInWithEmailAndPassword(auth,email,pw))
+      .then(()=>window.location.href='home.html')
+      .catch(err=>{ resetBtn(); showError(friendlyError(err)); });
   };
 
-  function resetBtn(){
-    var btn = document.getElementById('submit-btn');
-    btn.textContent = isSignUp ? 'CREATE ACCOUNT →' : 'SIGN IN →';
-    btn.style.opacity = '1';
-  }
+  function resetBtn(){ var b=document.getElementById('submit-btn'); b.textContent=isSignUp?'CREATE ACCOUNT →':'SIGN IN →'; b.style.opacity='1'; }
 
-  document.getElementById('email').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('password').focus(); });
-  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') window.handleSubmit(); });
-
-  document.getElementById('forgot-link').addEventListener('click', function(){
-    var email = document.getElementById('email').value.trim();
-    if(!email){ showError('ENTER YOUR EMAIL FIRST, THEN CLICK FORGOT PASSWORD'); return; }
-    sendPasswordResetEmail(auth, email)
-      .then(() => showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX (AND SPAM FOLDER)'))
-      .catch(err => { showError(friendlyError(err) + ' [' + (err.code || 'unknown') + ']'); });
+  document.getElementById('email').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('password').focus(); });
+  document.getElementById('password').addEventListener('keydown',e=>{ if(e.key==='Enter') window.handleSubmit(); });
+  document.getElementById('forgot-link').addEventListener('click',function(){
+    var email=document.getElementById('email').value.trim();
+    if(!email){ showError('ENTER YOUR EMAIL FIRST'); return; }
+    sendPasswordResetEmail(auth,email).then(()=>showSuccess('✓ RESET EMAIL SENT — CHECK YOUR INBOX')).catch(err=>showError(friendlyError(err)));
   });
-
-  document.getElementById('popup-close').addEventListener('click', () => {
-    document.getElementById('popup-overlay').classList.remove('show');
-  });
+  document.getElementById('popup-close').addEventListener('click',()=>document.getElementById('popup-overlay').classList.remove('show'));
 
   function friendlyError(err){
-    var c = err && err.code ? err.code : '';
-    if(c==='auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS — SIGN IN INSTEAD';
-    if(c==='auth/invalid-email') return 'THAT EMAIL ADDRESS LOOKS INVALID';
-    if(c==='auth/user-not-found'||c==='auth/invalid-credential') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
-    if(c==='auth/wrong-password') return 'WRONG EMAIL OR PASSWORD — TRY AGAIN';
+    var c=err&&err.code?err.code:'';
+    if(c==='auth/email-already-in-use') return 'AN ACCOUNT WITH THAT EMAIL ALREADY EXISTS';
+    if(c==='auth/invalid-email') return 'INVALID EMAIL ADDRESS';
+    if(c==='auth/user-not-found'||c==='auth/invalid-credential'||c==='auth/wrong-password') return 'WRONG EMAIL OR PASSWORD';
     if(c==='auth/weak-password') return 'PASSWORD MUST BE AT LEAST 6 CHARACTERS';
-    if(c==='auth/too-many-requests') return 'TOO MANY ATTEMPTS — PLEASE WAIT A FEW MINUTES';
-    if(c==='auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION AND TRY AGAIN';
+    if(c==='auth/too-many-requests') return 'TOO MANY ATTEMPTS — WAIT A FEW MINUTES';
+    if(c==='auth/network-request-failed') return 'NETWORK ERROR — CHECK YOUR CONNECTION';
     return 'SOMETHING WENT WRONG — PLEASE TRY AGAIN';
   }
-
-  function showError(msg){
-    document.getElementById('success-msg').classList.remove('show');
-    var el = document.getElementById('error-msg');
-    el.textContent = msg; el.classList.add('show');
-    var p = document.getElementById('panel');
-    p.classList.remove('shake');
-    requestAnimationFrame(() => p.classList.add('shake'));
-  }
-
-  function showSuccess(msg){
-    document.getElementById('error-msg').classList.remove('show');
-    var el = document.getElementById('success-msg');
-    el.textContent = msg; el.classList.add('show');
-  }
-
-  function clearMsgs(){
-    document.getElementById('error-msg').classList.remove('show');
-    document.getElementById('success-msg').classList.remove('show');
-  }
+  function showError(msg){ document.getElementById('success-msg').classList.remove('show'); var el=document.getElementById('error-msg'); el.textContent=msg; el.classList.add('show'); var p=document.getElementById('panel'); p.classList.remove('shake'); requestAnimationFrame(()=>p.classList.add('shake')); }
+  function showSuccess(msg){ document.getElementById('error-msg').classList.remove('show'); var el=document.getElementById('success-msg'); el.textContent=msg; el.classList.add('show'); }
+  function clearMsgs(){ document.getElementById('error-msg').classList.remove('show'); document.getElementById('success-msg').classList.remove('show'); }
 </script>
-
 </body>
 </html>
