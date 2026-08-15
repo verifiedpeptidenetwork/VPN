@@ -225,9 +225,17 @@ html,body{width:100%;min-height:100vh;background:var(--dark);color:var(--text);f
 
     <!-- Video -->
     <div class="vid-block">
-      <video id="av-vid" autoplay muted playsinline controls preload="auto" style="width:100%;display:block;max-height:340px;background:#000;object-fit:contain;">
-        <source src="accessvideo.mp4" type="video/mp4">
-      </video>
+      <div style="position:relative;width:100%;background:#000;">
+        <video id="av-vid" playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:340px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
+          <source src="accessvideo.mp4?v=1" type="video/mp4; codecs=avc1">
+          <source src="accessvideo.mp4?v=1" type="video/mp4">
+        </video>
+        <div id="av-tap-overlay" onclick="var v=document.getElementById('av-vid');v.play();this.style.display='none';" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,0.35);">
+          <div style="width:70px;height:70px;border-radius:50%;background:rgba(0,245,255,0.18);border:2px solid rgba(0,245,255,0.6);display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-top:18px solid transparent;border-bottom:18px solid transparent;border-left:28px solid #00f5ff;margin-left:6px;filter:drop-shadow(0 0 8px #00f5ff);"></div>
+          </div>
+        </div>
+      </div>
       <div class="vid-prog"><div class="vid-prog-fill" id="av-fill"></div></div>
       <div class="vid-status-row">
         <span id="av-status">▶ WATCH THE VIDEO TO UNLOCK THE SIGN-IN FORM</span>
@@ -311,6 +319,7 @@ var avUnlocked = false;
   var vid = document.getElementById('av-vid');
   var fill = document.getElementById('av-fill');
   if(!vid) return;
+  vid.addEventListener('play', function(){ var o=document.getElementById('av-tap-overlay');if(o)o.style.display='none'; });
   vid.addEventListener('timeupdate', function(){
     if(!vid.duration) return;
     var pct = (vid.currentTime / vid.duration) * 100;
