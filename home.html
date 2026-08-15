@@ -4257,21 +4257,13 @@ document.addEventListener('keydown', function(e){
   <!-- Logo -->
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
     <div style="position:relative;flex-shrink:0;width:42px;height:42px;">
-      <!-- outer glow -->
-      <div style="position:absolute;inset:-4px;border-radius:50%;animation:vpnNeonPunk 4s ease-in-out infinite;z-index:0;pointer-events:none;"></div>
-      <!-- rotating dashed ring -->
-      <div style="position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.5);animation:vpnScanRotate 8s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
-      <!-- inner ring CCW -->
-      <div style="position:absolute;inset:-1px;border-radius:50%;border:1.5px solid #00f5ff;animation:vpnScanRotateCCW 5s linear infinite,vpnNeonPunk 4s ease-in-out infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
-      <!-- scan line -->
-      <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:3;pointer-events:none;">
-        <div style="position:absolute;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.9),transparent);animation:vpnScanLine 3s ease-in-out infinite;"></div>
-      </div>
-      <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;object-fit:cover;z-index:4;animation:vpnGlitch 7s ease-in-out infinite;">
+      <!-- subtle rotating ring only -->
+      <div style="position:absolute;inset:-2px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.45);animation:vpnScanRotate 10s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
+      <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);border-radius:50%;object-fit:cover;z-index:4;">
     </div>
     <div class="sb-logo-text">
-      <div class="sb-logo-title">VERIFIED PEPTIDES</div>
-      <div class="sb-logo-sub">NETWORK · VPN</div>
+      <div class="sb-logo-title">Research &amp; Usable Information</div>
+      <div class="sb-logo-sub">Verified Peptide Data</div>
     </div>
   </div>
 
@@ -20920,13 +20912,13 @@ function vpnBuildIndex() {
       title: title,
       kw: (ds + ' ' + title).toLowerCase(),
       go: (function(lm, card){ return function(){
-        // Navigate to vault first, then open
         showView('cheatsheets');
-        var p=card.closest('details'); while(p){ p.open=true; p=p.parentElement?p.parentElement.closest('details'):null; }
         setTimeout(function(){
+          // Open all ancestor details so card is visible
+          var p=card.parentElement; while(p){ if(p.tagName==='DETAILS') p.open=true; p=p.parentElement; }
           card.scrollIntoView({behavior:'smooth',block:'center'});
-          if(lm){ setTimeout(function(){ openLightbox(lm[1], lm[2]); }, 180); }
-        }, 320);
+          if(lm){ setTimeout(function(){ openLightbox(lm[1], lm[2]); }, 200); }
+        }, 350);
       };})(lbM, el)
     });
   });
@@ -20966,7 +20958,13 @@ function vpnBuildIndex() {
       kw: (title + ' ' + body).toLowerCase(),
       go: (function(det, vid){ return function(){
         if(vid) showView(vid);
-        setTimeout(function(){ det.open=true; det.scrollIntoView({behavior:'smooth',block:'center'}); }, vid ? 300 : 0);
+        setTimeout(function(){
+          // Open all ancestor details so the target is visible
+          var p = det.parentElement;
+          while(p){ if(p.tagName==='DETAILS') p.open=true; p=p.parentElement; }
+          det.open=true;
+          det.scrollIntoView({behavior:'smooth',block:'center'});
+        }, vid ? 350 : 0);
       };})(el, viewId)
     });
   });
