@@ -6996,9 +6996,9 @@ document.addEventListener('keydown', function(e){
     @keyframes retroLogoFloat{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
     /* ── RETRO80 LOGO — fully responsive ── */
     /* phone portrait */
-    :root{--r80:min(52vw,200px);}
+    :root{--r80:min(70vw,260px);}
     /* tablet (iPad portrait + landscape) */
-    @media(min-width:600px){:root{--r80:min(45vw,280px);}}
+    @media(min-width:600px){:root{--r80:min(52vw,290px);}}
     /* desktop */
     @media(min-width:1024px){:root{--r80:300px;}}
     /* ── DESKTOP 2-COLUMN HOME LAYOUT ── */
@@ -7040,10 +7040,9 @@ document.addEventListener('keydown', function(e){
     /* rings sized as diameter around the card (var(--r80)) */
     /* ── MATRIX CIPHER SCANNER RINGS ── */
     @keyframes mxGlowPulse {
-      0%,100%{ box-shadow:0 0 0 0 rgba(0,255,65,0),  0 0 18px rgba(0,255,65,0.7),  0 0 40px rgba(0,255,65,0.3);  border-color:#00ff41; }
-      25%    { box-shadow:0 0 0 6px rgba(0,245,255,0.08),0 0 22px rgba(0,245,255,0.8),0 0 50px rgba(0,245,255,0.35);border-color:#00f5ff; }
-      50%    { box-shadow:0 0 0 0 rgba(255,45,120,0),  0 0 18px rgba(255,45,120,0.7), 0 0 40px rgba(255,45,120,0.3); border-color:#ff2d78; }
-      75%    { box-shadow:0 0 0 6px rgba(204,68,255,0.08),0 0 22px rgba(204,68,255,0.8),0 0 50px rgba(204,68,255,0.35);border-color:#cc44ff; }
+      0%,100%{ filter:drop-shadow(0 0 10px #ff1450) drop-shadow(0 0 22px rgba(255,20,80,0.6)); }
+      33%    { filter:drop-shadow(0 0 10px #cc44ff) drop-shadow(0 0 22px rgba(204,68,255,0.6)); }
+      66%    { filter:drop-shadow(0 0 10px #4d8fff) drop-shadow(0 0 22px rgba(77,143,255,0.6)); }
     }
     @keyframes mxArcSpin    { from{transform:translate(-50%,-50%) rotate(0deg);}   to{transform:translate(-50%,-50%) rotate(360deg);} }
     @keyframes mxArcSpinCCW { from{transform:translate(-50%,-50%) rotate(0deg);}   to{transform:translate(-50%,-50%) rotate(-360deg);} }
@@ -7057,13 +7056,13 @@ document.addEventListener('keydown', function(e){
       50%    { box-shadow:0 0 30px rgba(255,45,120,0.55),0 0 70px rgba(255,45,120,0.2),0 0 110px rgba(255,45,120,0.08); }
       75%    { box-shadow:0 0 30px rgba(204,68,255,0.55),0 0 70px rgba(204,68,255,0.2),0 0 110px rgba(204,68,255,0.08); }
     }
-    /* r1 = tight inner arc, fast CW */
-    .retro80-r1{width:calc(var(--r80) + 10px);height:calc(var(--r80) + 10px);border:3px solid transparent;border-top:3px solid #00ff41;border-right:3px solid rgba(0,255,65,0.4);animation:mxArcSpin 1.8s linear infinite,mxGlowPulse 4s ease-in-out infinite;filter:drop-shadow(0 0 8px #00ff41);}
-    /* r2 = mid ring CCW, slower */
-    .retro80-r2{width:calc(var(--r80) + 30px);height:calc(var(--r80) + 30px);border:2.5px solid transparent;border-top:2.5px solid #00f5ff;border-left:2.5px solid rgba(0,245,255,0.35);animation:mxArcSpinCCW 3s linear infinite;filter:drop-shadow(0 0 10px #00f5ff);}
-    /* r3 = outer dashed breath ring */
-    .retro80-r3{width:calc(var(--r80) + 54px);height:calc(var(--r80) + 54px);border:1.5px dashed rgba(0,255,65,0.35);animation:mxArcSpin 14s linear infinite,mxOuterPulse 3s ease-in-out infinite;}
-    /* r4 = tight arc opposite spin, purple accent */
+    /* r1 = tight inner arc CW — reddish pink */
+    .retro80-r1{width:calc(var(--r80) + 10px);height:calc(var(--r80) + 10px);border:3px solid transparent;border-top:3px solid #ff1450;border-right:3px solid rgba(255,20,80,0.45);animation:mxArcSpin 1.8s linear infinite,mxGlowPulse 4s ease-in-out infinite;}
+    /* r2 = mid arc CCW — blue */
+    .retro80-r2{width:calc(var(--r80) + 30px);height:calc(var(--r80) + 30px);border:2.5px solid transparent;border-top:2.5px solid #4d8fff;border-left:2.5px solid rgba(77,143,255,0.4);animation:mxArcSpinCCW 3s linear infinite;filter:drop-shadow(0 0 10px #4d8fff);}
+    /* r3 = outer dashed breath ring — purple */
+    .retro80-r3{width:calc(var(--r80) + 54px);height:calc(var(--r80) + 54px);border:1.5px dashed rgba(204,68,255,0.4);animation:mxArcSpin 14s linear infinite,mxOuterPulse 3s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(204,68,255,0.5));}
+    /* r4 = tight arc CCW — purple */
     .retro80-r4{width:calc(var(--r80) + 6px);height:calc(var(--r80) + 6px);border:2.5px solid transparent;border-bottom:2.5px solid #cc44ff;border-left:2.5px solid rgba(204,68,255,0.4);animation:mxArcSpinCCW 5s linear infinite;filter:drop-shadow(0 0 8px #cc44ff);}
     /* the circular card itself */
     .retro80-card{
