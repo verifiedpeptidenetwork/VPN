@@ -5050,110 +5050,101 @@ document.addEventListener('keydown', function(e){
         </div>
         <!-- Before You Research info -->
         <div style="padding:0.85rem 1.1rem;background:#000;border-top:1px solid rgba(255,20,80,0.2);">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:#ff1450;margin-bottom:0.6rem;text-align:center;">📋 BEFORE YOU RESEARCH — READ THIS</div>
-          <div style="display:flex;flex-direction:column;gap:0.45rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:#ff1450;margin-bottom:0.7rem;text-align:center;">📋 BEFORE YOU RESEARCH — READ THIS</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
 
-            <!-- 01 -->
-            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
-              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">01</span><span><strong style="color:#fff;">Work with your doctor.</strong> Share what you're researching. Always have physician oversight.</span>
-            </div>
-
-            <!-- 02 — Bloodwork dropdown -->
-            <div style="border:1px solid rgba(255,20,80,0.25);border-radius:6px;overflow:hidden;">
-              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.bw-arr').textContent=open?'▼':'▲';})(this)"
-                   style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;cursor:pointer;padding:0.4rem 0.5rem;background:rgba(255,20,80,0.05);user-select:none;">
-                <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">02</span>
-                <span style="flex:1;"><strong style="color:#fff;">Do your bloodwork first.</strong> Baseline labs before any research protocol — no exceptions.</span>
-                <span class="bw-arr" style="color:#ff1450;font-size:0.7rem;flex-shrink:0;margin-left:0.4rem;align-self:center;">▼</span>
+            <!-- 01 — Doctor + Bloodwork COMBINED (same thing) -->
+            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.byr-arr').textContent=open?'▲':'▼';})(this)"
+                   style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.06);user-select:none;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">01</span>
+                <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Work with your doctor &amp; do your bloodwork first.</strong> Share what you're researching. Get baseline labs before any protocol — no exceptions.</span>
+                <span class="byr-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
               </div>
-              <div style="display:none;padding:0.65rem 0.75rem;background:rgba(0,0,0,0.6);border-top:1px solid rgba(255,20,80,0.15);">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;">
+              <div style="display:none;padding:0.7rem 0.75rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);">
 
-                  <!-- MEN -->
-                  <div style="background:rgba(0,100,255,0.06);border:1px solid rgba(80,140,255,0.25);border-top:2px solid #4d8fff;border-radius:5px;padding:0.6rem 0.75rem;">
-                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#4d8fff;margin-bottom:0.4rem;">♂ MEN — BASELINE PANEL</div>
-                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(180,210,255,0.85);line-height:1.9;margin:0 0 0 0.9rem;padding:0;">
-                      <li>Total Testosterone &amp; Free Testosterone</li>
-                      <li>LH &amp; FSH</li>
-                      <li>Estradiol (E2) — sensitive assay</li>
-                      <li>SHBG</li>
-                      <li>IGF-1 &amp; GH</li>
-                      <li>Prolactin</li>
-                      <li>PSA (if 40+)</li>
-                      <li>CBC — complete blood count</li>
-                      <li>CMP — comprehensive metabolic panel</li>
-                      <li>Lipid panel (total, LDL, HDL, triglycerides)</li>
-                      <li>HbA1c &amp; fasting glucose</li>
-                      <li>TSH (thyroid)</li>
-                      <li>Haematocrit / haemoglobin</li>
-                    </ul>
+                <!-- Why inform doctor — nested -->
+                <div style="border:1px solid rgba(255,20,80,0.2);border-radius:5px;overflow:hidden;margin-bottom:0.65rem;">
+                  <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.wd2-arr').textContent=open?'▲':'▼';})(this)"
+                       style="cursor:pointer;padding:0.45rem 0.7rem;background:rgba(255,20,80,0.09);display:flex;align-items:center;justify-content:space-between;user-select:none;">
+                    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;">⚕️ WHY YOU MUST INFORM YOUR DOCTOR — TAP TO SEE</span>
+                    <span class="wd2-arr" style="color:#ff1450;font-size:0.7rem;">▼</span>
                   </div>
-
-                  <!-- WOMEN -->
-                  <div style="background:rgba(255,20,120,0.05);border:1px solid rgba(255,80,160,0.25);border-top:2px solid #ff4da6;border-radius:5px;padding:0.6rem 0.75rem;">
-                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ff4da6;margin-bottom:0.4rem;">♀ WOMEN — BASELINE PANEL</div>
-                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(255,190,220,0.85);line-height:1.9;margin:0 0 0 0.9rem;padding:0;">
-                      <li>Total &amp; Free Testosterone</li>
-                      <li>Estradiol (E2)</li>
-                      <li>Progesterone</li>
-                      <li>LH &amp; FSH</li>
-                      <li>DHEA-S</li>
-                      <li>IGF-1 &amp; GH</li>
-                      <li>Prolactin</li>
-                      <li>CBC — complete blood count</li>
-                      <li>CMP — comprehensive metabolic panel</li>
-                      <li>Lipid panel (total, LDL, HDL, triglycerides)</li>
-                      <li>HbA1c &amp; fasting glucose</li>
-                      <li>TSH + Free T3 + Free T4</li>
-                      <li>AMH (if fertility relevant)</li>
-                    </ul>
-                  </div>
-
-                </div>
-                <div style="margin-top:0.55rem;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(255,200,210,0.45);line-height:1.5;">Get these drawn <strong style="color:rgba(255,200,210,0.7);">before</strong> starting any protocol. Retest every 6–8 weeks while active. Share results with your doctor.</div>
-
-                <!-- Doctor Letters -->
-                <div style="margin-top:0.75rem;display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
-                  <div>
-                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:#4d8fff;margin-bottom:0.3rem;">♂ TAKE THIS LETTER TO YOUR DOCTOR — MEN</div>
-                    <img src="TESTSFORMEN.png" alt="Request for Evaluation — Men" loading="lazy" onclick="openLightbox('TESTSFORMEN.png','Request for Evaluation — Low Testosterone &amp; Metabolic Health (Men)')" style="width:100%;border-radius:5px;border:1px solid rgba(77,143,255,0.35);cursor:zoom-in;display:block;">
-                  </div>
-                  <div>
-                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;color:#ff4da6;margin-bottom:0.3rem;">♀ TAKE THIS LETTER TO YOUR DOCTOR — WOMEN</div>
-                    <img src="TESTSFORWOMEN.png" alt="Request for Medical Evaluation — Women" loading="lazy" onclick="openLightbox('TESTSFORWOMEN.png','Request for Medical Evaluation — Women')" style="width:100%;border-radius:5px;border:1px solid rgba(255,77,166,0.35);cursor:zoom-in;display:block;">
-                  </div>
-                </div>
-
-                <!-- Why Inform Your Doctor — nested dropdown -->
-                <div style="margin-top:0.65rem;border:1px solid rgba(255,20,80,0.2);border-radius:5px;overflow:hidden;">
-                  <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.wd-arr').textContent=open?'▲ COLLAPSE':'▼ WHY YOU MUST INFORM YOUR DOCTOR';})(this)"
-                       style="cursor:pointer;padding:0.5rem 0.75rem;background:rgba(255,20,80,0.08);display:flex;align-items:center;justify-content:space-between;user-select:none;">
-                    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:#ff1450;">⚕️ WHY YOU MUST INFORM YOUR DOCTOR</span>
-                    <span class="wd-arr" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;color:#ff1450;white-space:nowrap;">▼ WHY YOU MUST INFORM YOUR DOCTOR</span>
-                  </div>
-                  <div style="display:none;padding:0.5rem;">
+                  <div style="display:none;padding:0.45rem;">
                     <img src="WORKWITHDOCTOR.png" alt="Inform Your Doctor — Protect Your Health" loading="lazy" onclick="openLightbox('WORKWITHDOCTOR.png','Inform Your Doctor. Protect Your Health.')" style="width:100%;border-radius:4px;cursor:zoom-in;display:block;">
                   </div>
                 </div>
 
+                <!-- Lab panels -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.6rem;">
+                  <div style="background:rgba(0,100,255,0.06);border:1px solid rgba(80,140,255,0.25);border-top:2px solid #4d8fff;border-radius:5px;padding:0.55rem 0.7rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.11em;color:#4d8fff;margin-bottom:0.35rem;">♂ MEN — BASELINE PANEL</div>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(180,210,255,0.85);line-height:1.85;margin:0 0 0 0.85rem;padding:0;">
+                      <li>Total &amp; Free Testosterone</li><li>LH &amp; FSH</li><li>Estradiol (E2) sensitive</li><li>SHBG</li><li>IGF-1 &amp; GH</li><li>Prolactin</li><li>PSA (40+)</li><li>CBC &amp; CMP</li><li>Lipid panel</li><li>HbA1c &amp; fasting glucose</li><li>TSH, hs-CRP, Vitamin D</li><li>Haematocrit</li>
+                    </ul>
+                  </div>
+                  <div style="background:rgba(255,20,120,0.05);border:1px solid rgba(255,80,160,0.25);border-top:2px solid #ff4da6;border-radius:5px;padding:0.55rem 0.7rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.11em;color:#ff4da6;margin-bottom:0.35rem;">♀ WOMEN — BASELINE PANEL</div>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;color:rgba(255,190,220,0.85);line-height:1.85;margin:0 0 0 0.85rem;padding:0;">
+                      <li>Total &amp; Free Testosterone</li><li>Estradiol (E2)</li><li>Progesterone</li><li>LH &amp; FSH</li><li>DHEA-S</li><li>IGF-1 &amp; GH</li><li>Prolactin</li><li>CBC &amp; CMP</li><li>Lipid panel</li><li>HbA1c &amp; fasting glucose</li><li>TSH, Free T3, Free T4</li><li>AMH (if applicable)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Doctor letters side by side -->
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.12em;color:rgba(255,200,210,0.5);margin-bottom:0.4rem;">PRINT &amp; TAKE TO YOUR DOCTOR:</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+                  <div>
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;color:#4d8fff;margin-bottom:0.25rem;">♂ MEN'S EVALUATION LETTER</div>
+                    <img src="TESTSFORMEN.png" alt="Men's Doctor Letter" loading="lazy" onclick="openLightbox('TESTSFORMEN.png','Request for Evaluation — Low Testosterone &amp; Metabolic Health (Men)')" style="width:100%;border-radius:4px;border:1px solid rgba(77,143,255,0.3);cursor:zoom-in;display:block;">
+                  </div>
+                  <div>
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.1em;color:#ff4da6;margin-bottom:0.25rem;">♀ WOMEN'S EVALUATION LETTER</div>
+                    <img src="TESTSFORWOMEN.png" alt="Women's Doctor Letter" loading="lazy" onclick="openLightbox('TESTSFORWOMEN.png','Request for Medical Evaluation — Women')" style="width:100%;border-radius:4px;border:1px solid rgba(255,77,166,0.3);cursor:zoom-in;display:block;">
+                  </div>
+                </div>
+                <div style="margin-top:0.45rem;font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:600;color:rgba(255,200,210,0.35);">Get labs before starting. Retest every 6–8 weeks while active.</div>
               </div>
             </div>
 
-            <!-- 03 -->
-            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
-              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">03</span><span><strong style="color:#fff;">Learn to spot fake COAs.</strong> You'll learn how to verify certificates of analysis and identify fraudulent lab reports.</span>
+            <!-- 02 — Spot Fake COAs -->
+            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.coa-arr').textContent=open?'▲':'▼';})(this)"
+                   style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.06);user-select:none;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">02</span>
+                <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Learn to spot fake COAs.</strong> Verify certificates of analysis — identify fraudulent lab reports before you buy.</span>
+                <span class="coa-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
+              </div>
+              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);">
+                <img src="cheatsheet/vendors-how-to-spot-fake-coa.jpg" alt="How to Spot a Fake COA" loading="lazy" onclick="openLightbox('cheatsheet/vendors-how-to-spot-fake-coa.jpg','How to Spot a Fake COA')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;">
+              </div>
             </div>
 
-            <!-- 04 — Peptide Index + Studies links -->
-            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
-              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">04</span>
-              <span>
-                <strong style="color:#fff;">Check out the Peptide Index &amp; Studies.</strong>
-                <span style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.35rem;">
-                  <span onclick="showView('directory');setSbActive(document.querySelector('[data-view=directory]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;">PEPTIDE INDEX ↗</span>
-                  <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;">STUDIES ↗</span>
-                </span>
-              </span>
+            <!-- 03 — Spot Fake Vendors -->
+            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.vnd-arr').textContent=open?'▲':'▼';})(this)"
+                   style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.06);user-select:none;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">03</span>
+                <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Learn to spot fake vendors.</strong> Red flags, scam patterns, and how to verify who you're buying from.</span>
+                <span class="vnd-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
+              </div>
+              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);">
+                <img src="cheatsheet/vendors-scam-red-flags-vpn.jpg" alt="Vendor Scam Red Flags" loading="lazy" onclick="openLightbox('cheatsheet/vendors-scam-red-flags-vpn.jpg','Vendor Scam Red Flags — How to Spot a Fake Vendor')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;">
+              </div>
+            </div>
+
+            <!-- 04 — Peptide Index + Studies -->
+            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.04);">
+              <div style="display:flex;align-items:flex-start;gap:0.6rem;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">04</span>
+                <div>
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;margin-bottom:0.4rem;"><strong style="color:#fff;">Explore the Peptide Index &amp; Studies.</strong> Learn what each peptide does before you research it.</div>
+                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <span onclick="showView('directory');setSbActive(document.querySelector('[data-view=directory]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">PEPTIDE INDEX ↗</span>
+                    <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">STUDIES ↗</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -7544,17 +7535,18 @@ document.addEventListener('keydown', function(e){
       </a>
 
       <!-- Dr Trevor Bachmeyer -->
-      <a href="https://rumble.com/c/DrTrevorBachmeyer" target="_blank" rel="noopener"
-         style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 0 18px rgba(255,45,120,0.25)'" onmouseout="this.style.boxShadow='none'">
+      <div style="display:flex;align-items:flex-start;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);">
         <span style="font-size:2rem;flex-shrink:0;">▶</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.15rem;">Dr Trevor Bachmeyer</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Doctor · speaker · podcast host · peptides · metabolic health</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,100,100,0.75);margin-top:0.2rem;">⚠️ YouTube channel deleted — Find him on Rumble ↗</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.1rem;">Dr Trevor Bachmeyer</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.35rem;">Doctor · speaker · podcast host · peptides · metabolic health</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,130,130,0.8);margin-bottom:0.55rem;">⚠️ YouTube channel was deleted — follow him here:</div>
+          <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+            <a href="https://rumble.com/c/DrTrevorBachmeyer" target="_blank" rel="noopener" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.13em;color:#fff;background:#85c742;padding:0.35rem 0.9rem;border-radius:4px;text-decoration:none;white-space:nowrap;">▶ FOLLOW ON RUMBLE ↗</a>
+            <a href="https://x.com/DrBachmeyer" target="_blank" rel="noopener" style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.13em;color:#fff;background:#000;border:1px solid rgba(255,255,255,0.25);padding:0.35rem 0.9rem;border-radius:4px;text-decoration:none;white-space:nowrap;">𝕏 FOLLOW ON X ↗</a>
+          </div>
         </div>
-        <span style="color:var(--neon-pink);font-size:1rem;opacity:0.8;">↗</span>
-      </a>
+      </div>
 
       <!-- Dr Amin Hedayat -->
       <a href="https://www.youtube.com/@DrAminHedayat" target="_blank" rel="noopener"
