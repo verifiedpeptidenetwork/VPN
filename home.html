@@ -5052,18 +5052,85 @@ document.addEventListener('keydown', function(e){
         <div style="padding:0.85rem 1.1rem;background:#000;border-top:1px solid rgba(255,20,80,0.2);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.15em;color:#ff1450;margin-bottom:0.6rem;text-align:center;">📋 BEFORE YOU RESEARCH — READ THIS</div>
           <div style="display:flex;flex-direction:column;gap:0.45rem;">
+
+            <!-- 01 -->
             <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
               <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">01</span><span><strong style="color:#fff;">Work with your doctor.</strong> Share what you're researching. Always have physician oversight.</span>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
-              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">02</span><span><strong style="color:#fff;">Do your blood work first.</strong> Baseline labs before any research protocol — no exceptions.</span>
+
+            <!-- 02 — Bloodwork dropdown -->
+            <div style="border:1px solid rgba(255,20,80,0.25);border-radius:6px;overflow:hidden;">
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.bw-arr').textContent=open?'▼':'▲';})(this)"
+                   style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;cursor:pointer;padding:0.4rem 0.5rem;background:rgba(255,20,80,0.05);user-select:none;">
+                <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">02</span>
+                <span style="flex:1;"><strong style="color:#fff;">Do your bloodwork first.</strong> Baseline labs before any research protocol — no exceptions.</span>
+                <span class="bw-arr" style="color:#ff1450;font-size:0.7rem;flex-shrink:0;margin-left:0.4rem;align-self:center;">▼</span>
+              </div>
+              <div style="display:none;padding:0.65rem 0.75rem;background:rgba(0,0,0,0.6);border-top:1px solid rgba(255,20,80,0.15);">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;">
+
+                  <!-- MEN -->
+                  <div style="background:rgba(0,100,255,0.06);border:1px solid rgba(80,140,255,0.25);border-top:2px solid #4d8fff;border-radius:5px;padding:0.6rem 0.75rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#4d8fff;margin-bottom:0.4rem;">♂ MEN — BASELINE PANEL</div>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(180,210,255,0.85);line-height:1.9;margin:0 0 0 0.9rem;padding:0;">
+                      <li>Total Testosterone &amp; Free Testosterone</li>
+                      <li>LH &amp; FSH</li>
+                      <li>Estradiol (E2) — sensitive assay</li>
+                      <li>SHBG</li>
+                      <li>IGF-1 &amp; GH</li>
+                      <li>Prolactin</li>
+                      <li>PSA (if 40+)</li>
+                      <li>CBC — complete blood count</li>
+                      <li>CMP — comprehensive metabolic panel</li>
+                      <li>Lipid panel (total, LDL, HDL, triglycerides)</li>
+                      <li>HbA1c &amp; fasting glucose</li>
+                      <li>TSH (thyroid)</li>
+                      <li>Haematocrit / haemoglobin</li>
+                    </ul>
+                  </div>
+
+                  <!-- WOMEN -->
+                  <div style="background:rgba(255,20,120,0.05);border:1px solid rgba(255,80,160,0.25);border-top:2px solid #ff4da6;border-radius:5px;padding:0.6rem 0.75rem;">
+                    <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ff4da6;margin-bottom:0.4rem;">♀ WOMEN — BASELINE PANEL</div>
+                    <ul style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(255,190,220,0.85);line-height:1.9;margin:0 0 0 0.9rem;padding:0;">
+                      <li>Total &amp; Free Testosterone</li>
+                      <li>Estradiol (E2)</li>
+                      <li>Progesterone</li>
+                      <li>LH &amp; FSH</li>
+                      <li>DHEA-S</li>
+                      <li>IGF-1 &amp; GH</li>
+                      <li>Prolactin</li>
+                      <li>CBC — complete blood count</li>
+                      <li>CMP — comprehensive metabolic panel</li>
+                      <li>Lipid panel (total, LDL, HDL, triglycerides)</li>
+                      <li>HbA1c &amp; fasting glucose</li>
+                      <li>TSH + Free T3 + Free T4</li>
+                      <li>AMH (if fertility relevant)</li>
+                    </ul>
+                  </div>
+
+                </div>
+                <div style="margin-top:0.55rem;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;color:rgba(255,200,210,0.45);line-height:1.5;">Get these drawn <strong style="color:rgba(255,200,210,0.7);">before</strong> starting any protocol. Retest every 6–8 weeks while active. Share results with your doctor.</div>
+              </div>
             </div>
+
+            <!-- 03 -->
             <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
               <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">03</span><span><strong style="color:#fff;">Learn to spot fake COAs.</strong> You'll learn how to verify certificates of analysis and identify fraudulent lab reports.</span>
             </div>
+
+            <!-- 04 — Peptide Index + Studies links -->
             <div style="display:flex;align-items:flex-start;gap:0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
-              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">04</span><span><strong style="color:#fff;">Learn to spot fake vendors.</strong> Red flags, scam patterns, and how to verify who you're buying from.</span>
+              <span style="color:#ff1450;flex-shrink:0;min-width:1.6rem;">04</span>
+              <span>
+                <strong style="color:#fff;">Check out the Peptide Index &amp; Studies.</strong>
+                <span style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.35rem;">
+                  <span onclick="showView('directory');setSbActive(document.querySelector('[data-view=directory]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;">PEPTIDE INDEX ↗</span>
+                  <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.2rem 0.6rem;border-radius:4px;white-space:nowrap;">STUDIES ↗</span>
+                </span>
+              </span>
             </div>
+
           </div>
         </div>
       </div>
@@ -7452,13 +7519,14 @@ document.addEventListener('keydown', function(e){
       </a>
 
       <!-- Dr Trevor Bachmeyer -->
-      <a href="https://www.youtube.com/@drtrevorbachmeyer" target="_blank" rel="noopener"
+      <a href="https://rumble.com/c/DrTrevorBachmeyer" target="_blank" rel="noopener"
          style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem 1.5rem;background:#0d0a1e;border:2px solid var(--neon-pink);border-left:6px solid var(--neon-pink);text-decoration:none;transition:box-shadow 0.2s;"
          onmouseover="this.style.boxShadow='0 0 18px rgba(255,45,120,0.25)'" onmouseout="this.style.boxShadow='none'">
-        <img src="https://unavatar.io/youtube/@drtrevorbachmeyer" alt="" loading="lazy" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--neon-pink);" onerror="this.outerHTML='<span style=\'font-size:2rem;flex-shrink:0;\'>▶</span>'">
+        <span style="font-size:2rem;flex-shrink:0;">▶</span>
         <div style="flex:1;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.15rem;">Dr Trevor Bachmeyer — @drtrevorbachmeyer</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size: 1rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Doctor · speaker · podcast host · peptides · metabolic health · 383K subscribers</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.1em;color:var(--neon-pink);margin-bottom:0.15rem;">Dr Trevor Bachmeyer</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:0.05em;">Doctor · speaker · podcast host · peptides · metabolic health</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,100,100,0.75);margin-top:0.2rem;">⚠️ YouTube channel deleted — Find him on Rumble ↗</div>
         </div>
         <span style="color:var(--neon-pink);font-size:1rem;opacity:0.8;">↗</span>
       </a>
@@ -12277,6 +12345,23 @@ document.addEventListener('keydown', function(e){
     <div class="vh-accent-line" style="background:linear-gradient(90deg,transparent,#00c853,#ffd600,transparent);"></div>
   </div>
 
+  <!-- WHAT IS SELF RUQYAH — pinned first under hero -->
+  <div style="background:rgba(0,10,5,0.99);border:2px solid rgba(0,200,83,0.5);border-top:4px solid #00c853;border-radius:8px;overflow:hidden;margin-bottom:1.25rem;">
+    <div style="position:relative;background:#000;aspect-ratio:16/9;">
+      <video id="rq-vid-1" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;">
+        <source src="whatisselfruqyah.mp4" type="video/mp4; codecs=avc1">
+        <source src="whatisselfruqyah.mp4" type="video/mp4">
+      </video>
+      <div id="rq-tap-1" onclick="document.getElementById('rq-vid-1').play();this.style.display='none';" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;">
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,83,0.9);display:flex;align-items:center;justify-content:center;"><span style="color:#000;font-size:1.8rem;margin-left:5px;">▶</span></div>
+      </div>
+    </div>
+    <div style="padding:0.85rem 1.1rem;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:#00c853;margin-bottom:0.25rem;">WHAT IS SELF RUQYAH?</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(200,230,215,0.7);">Introduction to Quranic healing, who it's for, and how to start your own ruqyah practice.</div>
+    </div>
+  </div>
+
   <!-- Quran verse banner -->
   <div style="background:linear-gradient(135deg,rgba(0,12,6,0.98),rgba(0,18,8,0.98));border:1px solid rgba(0,200,83,0.4);border-left:4px solid #00c853;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;">
     <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,83,0.6),rgba(255,214,0,0.4),transparent);"></div>
@@ -12447,23 +12532,6 @@ document.addEventListener('keydown', function(e){
       <span>▶</span> RUQYAH VIDEO GUIDES
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.1rem;">
-
-      <!-- Video 1: What is Self Ruqyah -->
-      <div style="background:rgba(0,10,5,0.99);border:1px solid rgba(0,200,83,0.35);border-top:3px solid #00c853;border-radius:8px;overflow:hidden;position:relative;">
-        <div style="position:relative;background:#000;aspect-ratio:16/9;">
-          <video id="rq-vid-1" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;">
-            <source src="whatisselfruqyah.mp4" type="video/mp4; codecs=avc1">
-            <source src="whatisselfruqyah.mp4" type="video/mp4">
-          </video>
-          <div id="rq-tap-1" onclick="document.getElementById('rq-vid-1').play();this.style.display='none';" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;">
-            <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,200,83,0.85);display:flex;align-items:center;justify-content:center;"><span style="color:#000;font-size:1.6rem;margin-left:4px;">▶</span></div>
-          </div>
-        </div>
-        <div style="padding:0.75rem 1rem;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#00c853;margin-bottom:0.2rem;">WHAT IS SELF RUQYAH?</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.83rem;font-weight:600;color:rgba(200,230,215,0.65);">Introduction to Quranic healing, who it's for, and how to start your own ruqyah practice.</div>
-        </div>
-      </div>
 
       <!-- Video 2: Lost Due to Magic -->
       <div style="background:rgba(0,10,5,0.99);border:1px solid rgba(255,214,0,0.35);border-top:3px solid #ffd600;border-radius:8px;overflow:hidden;position:relative;">
