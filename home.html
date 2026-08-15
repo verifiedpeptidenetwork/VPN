@@ -3952,8 +3952,9 @@ document.addEventListener('keydown', function(e){
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
       <div style="position:relative;flex-shrink:0;width:44px;height:44px;">
-        <div style="position:absolute;inset:-2px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.45);animation:vpnScanRotate 10s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
-        <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);border-radius:50%;object-fit:cover;z-index:2;">
+        <div style="position:absolute;inset:-3px;border-radius:50%;border:2px solid rgba(0,255,65,0.7);animation:sbLogoGlow 4s ease-in-out infinite,sbRingRotate 12s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0px;border-radius:50%;border:1px dashed rgba(0,245,255,0.4);animation:sbRingRotateCCW 8s linear infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
+        <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;object-fit:cover;z-index:3;">
       </div>
       <div class="logo-text">
         <div class="logo-title">Research &amp; Usable Information</div>
@@ -4157,6 +4158,14 @@ document.addEventListener('keydown', function(e){
   #vpn-sidebar::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.2); border-radius: 2px; }
   @media(max-width:900px) { #vpn-sidebar { display: none !important; } }
 
+  @keyframes sbLogoGlow {
+    0%   { box-shadow: 0 0 0 2px rgba(0,255,65,0.7),  0 0 14px rgba(0,255,65,0.5),  0 0 28px rgba(0,255,65,0.2); border-color: rgba(0,255,65,0.8); }
+    33%  { box-shadow: 0 0 0 2px rgba(0,245,255,0.7), 0 0 14px rgba(0,245,255,0.5), 0 0 28px rgba(0,245,255,0.2); border-color: rgba(0,245,255,0.8); }
+    66%  { box-shadow: 0 0 0 2px rgba(255,45,120,0.7), 0 0 14px rgba(255,45,120,0.5), 0 0 28px rgba(255,45,120,0.2); border-color: rgba(255,45,120,0.8); }
+    100% { box-shadow: 0 0 0 2px rgba(0,255,65,0.7),  0 0 14px rgba(0,255,65,0.5),  0 0 28px rgba(0,255,65,0.2); border-color: rgba(0,255,65,0.8); }
+  }
+  @keyframes sbRingRotate { to { transform: rotate(360deg); } }
+  @keyframes sbRingRotateCCW { to { transform: rotate(-360deg); } }
   .sb-logo {
     display: flex; align-items: center; gap: 0.75rem;
     padding: 1rem 1rem 0.75rem;
@@ -4241,9 +4250,11 @@ document.addEventListener('keydown', function(e){
   <!-- Logo -->
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
     <div style="position:relative;flex-shrink:0;width:42px;height:42px;">
-      <!-- subtle rotating ring only -->
-      <div style="position:absolute;inset:-2px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.45);animation:vpnScanRotate 10s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
-      <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);border-radius:50%;object-fit:cover;z-index:4;">
+      <!-- matrix glow border -->
+      <div style="position:absolute;inset:-3px;border-radius:50%;border:2px solid rgba(0,255,65,0.7);animation:sbLogoGlow 4s ease-in-out infinite,sbRingRotate 12s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
+      <!-- inner dashed ring CCW -->
+      <div style="position:absolute;inset:0px;border-radius:50%;border:1px dashed rgba(0,245,255,0.4);animation:sbRingRotateCCW 8s linear infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
+      <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;object-fit:cover;z-index:4;">
     </div>
     <div class="sb-logo-text">
       <div class="sb-logo-title">Research &amp; Usable Information</div>
@@ -6842,7 +6853,8 @@ document.addEventListener('keydown', function(e){
       .vpn-logo-glow{width:298px;height:298px;margin:-149px 0 0 -149px;}
     }
     /* ── MATRIX CANVAS ── */
-    #vpn-matrix-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.13;z-index:0;}
+    #vpn-matrix-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.22;z-index:0;}
+    #vpn-logo-matrix{position:absolute;inset:0;border-radius:50%;pointer-events:none;opacity:0.28;z-index:6;mix-blend-mode:screen;}
     /* ── LOGO PULSE RINGS ── */
     .vpn-logo-pulse-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:2px solid rgba(0,245,255,0.6);animation:vpnLogoGlowRing 2.4s ease-out infinite;pointer-events:none;z-index:0;}
     .vpn-logo-pulse-ring:nth-child(2){width:480px;height:480px;margin-left:-240px;margin-top:-240px;animation-delay:0.8s;border-color:rgba(255,45,120,0.5);}
@@ -7079,6 +7091,7 @@ document.addEventListener('keydown', function(e){
       <div class="retro80-glow"></div>
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
+      <canvas id="vpn-logo-matrix"></canvas>
       <img src="VPNNEWLOGO.png" alt="Verified Peptides Network" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
       <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
       <div class="vpn-logo-pulse-ring"></div>
@@ -22799,36 +22812,71 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   });
 })();
 (function(){
+  // ── HERO BACKGROUND MATRIX RAIN ──
   var canvas = document.getElementById('vpn-matrix-canvas');
-  if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var chars = 'VPNABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ΨΦΩβαδ∑∫≈≠<>[]{}|/\\'.split('');
-  var fontSize = 13;
-  var cols, drops;
-  function resize(){
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    cols = Math.floor(canvas.width / fontSize);
-    drops = [];
-    for(var i=0;i<cols;i++) drops[i] = Math.random() * -canvas.height / fontSize;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-  var colors = ['#00f5ff','#ff2d78','#cc44ff','#00ff64'];
-  function draw(){
-    ctx.fillStyle = 'rgba(0,0,0,0.05)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.font = fontSize + 'px monospace';
-    for(var i=0;i<drops.length;i++){
-      var ch = chars[Math.floor(Math.random()*chars.length)];
-      var col = colors[Math.floor(Math.random()*colors.length)];
-      ctx.fillStyle = col;
-      ctx.fillText(ch, i*fontSize, drops[i]*fontSize);
-      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i] += 0.4;
+  if(canvas){
+    var ctx = canvas.getContext('2d');
+    var chars = 'VPNアイウエオカキクケコ01アABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ΨΦΩβαδ∑∫≈≠<>[]{}|/\\ابتثجحخد'.split('');
+    var fontSize = 14;
+    var cols, drops;
+    function resizeMx(){
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      cols = Math.floor(canvas.width / fontSize);
+      drops = [];
+      for(var i=0;i<cols;i++) drops[i] = Math.random() * -canvas.height / fontSize;
     }
+    resizeMx();
+    window.addEventListener('resize', resizeMx);
+    // mostly matrix green with occasional brand accents
+    var mxColors = ['#00ff41','#00ff41','#00ff41','#39ff14','#00f5ff','#ff2d78','#00ff41','#00ff41','#ccffcc'];
+    function drawMx(){
+      ctx.fillStyle = 'rgba(0,0,0,0.055)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.font = 'bold '+fontSize+'px monospace';
+      for(var i=0;i<drops.length;i++){
+        var ch = chars[Math.floor(Math.random()*chars.length)];
+        // lead char is bright white, trail is colored
+        ctx.fillStyle = drops[i] < 2 ? '#ffffff' : mxColors[Math.floor(Math.random()*mxColors.length)];
+        ctx.fillText(ch, i*fontSize, drops[i]*fontSize);
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.97) drops[i] = 0;
+        drops[i] += 0.55;
+      }
+    }
+    setInterval(drawMx, 40);
   }
-  setInterval(draw, 45);
+
+  // ── LOGO MATRIX RAIN (inside the big logo circle) ──
+  var lmc = document.getElementById('vpn-logo-matrix');
+  if(lmc){
+    var lctx = lmc.getContext('2d');
+    var lchars = 'VPN0123456789ABCDEFアイウエオ<>{}|'.split('');
+    var lfont = 11;
+    var lcols, ldrops;
+    function resizeLmc(){
+      lmc.width = lmc.offsetWidth || 400;
+      lmc.height = lmc.offsetHeight || 400;
+      lcols = Math.floor(lmc.width / lfont);
+      ldrops = [];
+      for(var i=0;i<lcols;i++) ldrops[i] = Math.random() * -lmc.height / lfont;
+    }
+    resizeLmc();
+    window.addEventListener('resize', resizeLmc);
+    var lColors = ['#00ff41','#39ff14','#00ff41','#ccffcc','#00f5ff'];
+    function drawLmc(){
+      lctx.fillStyle = 'rgba(0,0,0,0.08)';
+      lctx.fillRect(0,0,lmc.width,lmc.height);
+      lctx.font = 'bold '+lfont+'px monospace';
+      for(var i=0;i<ldrops.length;i++){
+        var ch = lchars[Math.floor(Math.random()*lchars.length)];
+        lctx.fillStyle = lColors[Math.floor(Math.random()*lColors.length)];
+        lctx.fillText(ch, i*lfont, ldrops[i]*lfont);
+        if(ldrops[i]*lfont > lmc.height && Math.random() > 0.965) ldrops[i] = 0;
+        ldrops[i] += 0.7;
+      }
+    }
+    setInterval(drawLmc, 40);
+  }
 })();
 
 // Ruqyah videos — hide tap overlays once playing
