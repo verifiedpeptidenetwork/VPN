@@ -7038,10 +7038,33 @@ document.addEventListener('keydown', function(e){
     .retro80-ring-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;pointer-events:none;z-index:10;}
     .retro80-logo-ring{position:absolute;border-radius:50%;transform:translate(-50%,-50%);}
     /* rings sized as diameter around the card (var(--r80)) */
-    .retro80-r1{width:calc(var(--r80) + 18px);height:calc(var(--r80) + 18px);border:3px solid transparent;border-top:3px solid #ff2d78;border-right:3px solid rgba(255,45,120,0.6);animation:retroRing80a 2.2s linear infinite,r80c1 4s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff2d78);}
-    .retro80-r2{width:calc(var(--r80) + 36px);height:calc(var(--r80) + 36px);border:2.5px solid transparent;border-top:2.5px solid #00f5ff;border-left:2.5px solid rgba(0,245,255,0.5);animation:retroRing80b 3.5s linear infinite,r80c2 5s ease-in-out infinite;filter:drop-shadow(0 0 12px #00f5ff);}
-    .retro80-r3{width:calc(var(--r80) + 58px);height:calc(var(--r80) + 58px);border:2.5px dashed rgba(0,245,255,0.7);animation:retroRing80a 9s linear infinite,r80c3 6s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(0,245,255,0.6));}
-    .retro80-r4{width:calc(var(--r80) + 8px);height:calc(var(--r80) + 8px);border:3px solid transparent;border-bottom:3px solid #cc44ff;border-right:3px solid rgba(204,68,255,0.6);animation:retroRing80b 6s linear infinite,r80c4 4.5s ease-in-out infinite;filter:drop-shadow(0 0 10px #cc44ff);}
+    /* ── MATRIX CIPHER SCANNER RINGS ── */
+    @keyframes mxGlowPulse {
+      0%,100%{ box-shadow:0 0 0 0 rgba(0,255,65,0),  0 0 18px rgba(0,255,65,0.7),  0 0 40px rgba(0,255,65,0.3);  border-color:#00ff41; }
+      25%    { box-shadow:0 0 0 6px rgba(0,245,255,0.08),0 0 22px rgba(0,245,255,0.8),0 0 50px rgba(0,245,255,0.35);border-color:#00f5ff; }
+      50%    { box-shadow:0 0 0 0 rgba(255,45,120,0),  0 0 18px rgba(255,45,120,0.7), 0 0 40px rgba(255,45,120,0.3); border-color:#ff2d78; }
+      75%    { box-shadow:0 0 0 6px rgba(204,68,255,0.08),0 0 22px rgba(204,68,255,0.8),0 0 50px rgba(204,68,255,0.35);border-color:#cc44ff; }
+    }
+    @keyframes mxArcSpin    { from{transform:translate(-50%,-50%) rotate(0deg);}   to{transform:translate(-50%,-50%) rotate(360deg);} }
+    @keyframes mxArcSpinCCW { from{transform:translate(-50%,-50%) rotate(0deg);}   to{transform:translate(-50%,-50%) rotate(-360deg);} }
+    @keyframes mxOuterPulse {
+      0%,100%{ opacity:0.5; transform:translate(-50%,-50%) scale(1); }
+      50%    { opacity:1;   transform:translate(-50%,-50%) scale(1.015); }
+    }
+    @keyframes mxImageGlow {
+      0%,100%{ box-shadow:0 0 30px rgba(0,255,65,0.55), 0 0 70px rgba(0,255,65,0.2),  0 0 110px rgba(0,255,65,0.08); }
+      25%    { box-shadow:0 0 30px rgba(0,245,255,0.55),0 0 70px rgba(0,245,255,0.2), 0 0 110px rgba(0,245,255,0.08); }
+      50%    { box-shadow:0 0 30px rgba(255,45,120,0.55),0 0 70px rgba(255,45,120,0.2),0 0 110px rgba(255,45,120,0.08); }
+      75%    { box-shadow:0 0 30px rgba(204,68,255,0.55),0 0 70px rgba(204,68,255,0.2),0 0 110px rgba(204,68,255,0.08); }
+    }
+    /* r1 = tight inner arc, fast CW */
+    .retro80-r1{width:calc(var(--r80) + 10px);height:calc(var(--r80) + 10px);border:3px solid transparent;border-top:3px solid #00ff41;border-right:3px solid rgba(0,255,65,0.4);animation:mxArcSpin 1.8s linear infinite,mxGlowPulse 4s ease-in-out infinite;filter:drop-shadow(0 0 8px #00ff41);}
+    /* r2 = mid ring CCW, slower */
+    .retro80-r2{width:calc(var(--r80) + 30px);height:calc(var(--r80) + 30px);border:2.5px solid transparent;border-top:2.5px solid #00f5ff;border-left:2.5px solid rgba(0,245,255,0.35);animation:mxArcSpinCCW 3s linear infinite;filter:drop-shadow(0 0 10px #00f5ff);}
+    /* r3 = outer dashed breath ring */
+    .retro80-r3{width:calc(var(--r80) + 54px);height:calc(var(--r80) + 54px);border:1.5px dashed rgba(0,255,65,0.35);animation:mxArcSpin 14s linear infinite,mxOuterPulse 3s ease-in-out infinite;}
+    /* r4 = tight arc opposite spin, purple accent */
+    .retro80-r4{width:calc(var(--r80) + 6px);height:calc(var(--r80) + 6px);border:2.5px solid transparent;border-bottom:2.5px solid #cc44ff;border-left:2.5px solid rgba(204,68,255,0.4);animation:mxArcSpinCCW 5s linear infinite;filter:drop-shadow(0 0 8px #cc44ff);}
     /* the circular card itself */
     .retro80-card{
       position:relative;z-index:2;
@@ -7105,7 +7128,7 @@ document.addEventListener('keydown', function(e){
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
       <canvas id="vpn-logo-matrix"></canvas>
-      <img src="VPNNEWLOGO.png" alt="Verified Peptides Network" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
+      <img src="VPNNEWLOGO.png" alt="Verified Peptides Network" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
       <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
       <div class="vpn-logo-pulse-ring"></div>
       <div class="vpn-logo-pulse-ring"></div>
@@ -7256,7 +7279,7 @@ document.addEventListener('keydown', function(e){
 
   <!-- WHY WE'RE HERE -->
   <div style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
-    <button id="why-here-btn" onclick="(function(b){var d=document.getElementById('why-here-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.why-arrow').textContent=open?'▲':'▼';b.style.borderRadius=open?'6px 6px 0 0':'6px';if(open){setTimeout(function(){d.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);background:rgba(0,10,30,0.92);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px;">
+    <button id="why-here-btn" onclick="(function(b){var d=document.getElementById('why-here-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.why-arrow').textContent=open?'▲':'▼';b.style.borderRadius=open?'6px 6px 0 0':'6px';if(open){setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'start'});},60);}})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:var(--neon-cyan);background:rgba(0,10,30,0.92);border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px;">
       🏛️ Why We're Here <span class="why-arrow" style="margin-left:auto;font-size:0.75rem;opacity:0.6;">▼</span>
     </button>
     <div id="why-here-body" style="display:none;padding:1rem 1.25rem 1.1rem;background:rgba(0,10,30,0.95);border:2px solid var(--neon-cyan);border-top:none;border-radius:0 0 6px 6px;">
@@ -7266,15 +7289,12 @@ document.addEventListener('keydown', function(e){
       <div style="position:relative;width:100%;padding-bottom:56.25%;margin-top:1rem;background:#000;border-radius:4px;overflow:hidden;">
         <iframe src="https://www.youtube.com/embed/VAfy26xs6e0" title="Why We're Here" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
       </div>
-      <video controls style="width:100%;max-height:480px;border-radius:6px;margin-top:1rem;border:1px solid rgba(0,245,255,0.25);box-shadow:0 0 18px rgba(0,245,255,0.1);" preload="metadata">
-        <source src="ruivpndatavideo.mp4" type="video/mp4">
-      </video>
     </div>
   </div>
 
   <!-- JANOSHIK LAB TESTING VIDEOS -->
   <div style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
-    <button id="janoshik-btn" onclick="(function(b){var d=document.getElementById('janoshik-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.ja-chev').textContent=open?'▲':'▼';b.style.borderRadius=open?'6px 6px 0 0':'6px';})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#cc44ff;background:rgba(10,0,20,0.92);border:2px solid #cc44ff;box-shadow:0 0 24px rgba(180,0,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px;">
+    <button id="janoshik-btn" onclick="(function(b){var d=document.getElementById('janoshik-body');var open=d.style.display!=='block';d.style.display=open?'block':'none';b.querySelector('.ja-chev').textContent=open?'▲':'▼';b.style.borderRadius=open?'6px 6px 0 0':'6px';if(open){setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'start'});},60);}})(this)" style="width:100%;text-align:left;cursor:pointer;padding:0.9rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.1em;color:#cc44ff;background:rgba(10,0,20,0.92);border:2px solid #cc44ff;box-shadow:0 0 24px rgba(180,0,255,0.2);display:flex;align-items:center;gap:0.5rem;border-radius:6px;">
       🧪 Janoshik — Peptide Lab Testing Videos <span class="ja-chev" style="margin-left:auto;font-size:0.75rem;opacity:0.6;">▼</span>
     </button>
     <div id="janoshik-body" style="display:none;padding:1rem 1.25rem 1.1rem;background:rgba(10,0,20,0.95);border:2px solid #cc44ff;border-top:none;border-radius:0 0 6px 6px;">
