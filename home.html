@@ -10904,6 +10904,18 @@ document.addEventListener('keydown', function(e){
       <span class="section-count">BAC Water · Desired MG · Vial MG → Units to Draw</span>
     </div>
 
+    <!-- KLOW / GLOW BLEND SHORTCUT -->
+    <div onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});"
+      style="cursor:pointer;margin-bottom:1.5rem;padding:0.85rem 1.1rem;background:linear-gradient(90deg,rgba(204,68,255,0.1),rgba(255,20,80,0.06));border:1.5px solid rgba(204,68,255,0.45);border-left:4px solid #cc44ff;border-radius:8px;display:flex;align-items:center;gap:0.85rem;transition:box-shadow 0.2s;"
+      onmouseover="this.style.boxShadow='0 0 20px rgba(204,68,255,0.35)'" onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.5rem;">⚗️</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.16em;color:#cc44ff;line-height:1.1;">KLOW &amp; GLOW BLEND CALCULATOR</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(204,68,255,0.6);margin-top:0.1rem;">Specifically for KLOW (80mg) and GLOW (70mg) blend reconstitution math — tap to open</div>
+      </div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:rgba(204,68,255,0.7);">↗</span>
+    </div>
+
     <!-- ── REFERENCE / DISCLAIMER BLOCK ── -->
     <div style="margin-bottom:1.75rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
 
@@ -11456,6 +11468,20 @@ document.addEventListener('keydown', function(e){
     <!-- How to use note -->
     <div style="margin-top:1.25rem;padding:0.7rem 1rem;background:rgba(204,68,255,0.04);border:1px solid rgba(204,68,255,0.18);border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(204,68,255,0.7);line-height:1.65;">
       <strong style="color:#cc44ff;">How to use:</strong> Add your BAC water volume → the calculator shows concentration per mL for each component. Then enter how many units you plan to draw on a U-100 syringe — it shows exactly how many mcg/mg of each compound per injection.
+    </div>
+
+    <!-- Glowrilla Reconstitution Video -->
+    <div style="margin-top:1.5rem;border:2px solid rgba(0,255,100,0.5);border-top:4px solid #00ff64;background:linear-gradient(135deg,#000e05,#04000c);border-radius:10px;overflow:hidden;box-shadow:0 0 30px rgba(0,255,100,0.15);">
+      <div style="padding:0.65rem 1rem;background:rgba(0,255,100,0.07);border-bottom:1px solid rgba(0,255,100,0.15);display:flex;align-items:center;gap:0.6rem;">
+        <span style="font-size:1.2rem;">🦍</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.15em;color:#00ff64;">RESEARCHER GLOWRILLA'S PEPTIDE LAB</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;color:rgba(0,255,100,0.5);letter-spacing:0.1em;">HOW TO RECONSTITUTE A PEPTIDE VIAL · RESEARCH ONLY</div>
+        </div>
+      </div>
+      <video controls preload="metadata" style="width:100%;display:block;max-height:380px;background:#000;" playsinline>
+        <source src="peptide-tutorial.mp4" type="video/mp4">
+      </video>
     </div>
 
   </div>
@@ -15970,7 +15996,7 @@ function csvFilter(cat, btn) {
   </details>
 
   <!-- ── TESAMORELIN ── -->
-  <details style="background:#0e0204;border:1px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
+  <details id="cs-tesa-details" style="background:#0e0204;border:1px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;margin-bottom:0.85rem;">
     <summary style="cursor:pointer;padding:1rem 1.25rem;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;">
       <div style="display:flex;align-items:center;gap:0.75rem;">
         <span style="font-size:1.5rem;">🧬</span>
@@ -21330,6 +21356,24 @@ function vpnBuildIndex() {
     title: 'Ruqyah — Islamic Healing for Sihr, Jinn & Evil Eye',
     kw: 'ruqyah islamic healing quran sunnah spiritual protection sidr dua faith prayer sihr black magic jinn jinnee possession mass ayn evil eye hasd hasad envy jealousy waswaas whispers witchcraft sorcery magic cure illness affliction burn destroy falaq naas fatiha self ruqyah diagnosis treatment bath olive oil honey water black seed ruqyah water exorcism spiritual harm',
     go: function(){ showView('ruqyah'); window.scrollTo({top:0,behavior:'smooth'}); }
+  });
+  // Tesamorelin — static entry (opens cheatsheets + tesa section)
+  _vpnIdx.push({ e:'🧬', cat:'vsr-cheat', lbl:'TESAMORELIN',
+    title: 'Tesamorelin — Dosage, Vials, Storage & Gelling Guide',
+    kw: 'tesamorelin tesa tesa gelling gell gel fix storage refrigerate refrigeration reconstitute reconstitution bac water dose dosage 5mg 2mg guide vial variation simple truth myth store how to fix',
+    go: function(){
+      showView('cheatsheets');
+      setTimeout(function(){
+        var det = document.getElementById('cs-tesa-details');
+        if(det){ det.open = true; det.scrollIntoView({behavior:'smooth', block:'start'}); }
+      }, 380);
+    }
+  });
+  // KLOW & GLOW Calculator — static entry
+  _vpnIdx.push({ e:'⚗️', cat:'vsr-tool', lbl:'KLOW/GLOW CALC',
+    title: 'KLOW & GLOW Blend Reconstitution Calculator',
+    kw: 'klow glow blend calculator reconstitution bpc 157 kpv tb500 tb 500 ghkcu ghk-cu bac water concentration dose units per injection blend peptide stack recon math',
+    go: function(){ showView('klow-glow'); setSbActive(document.querySelector('[data-view=klow-glow]')); window.scrollTo({top:0,behavior:'smooth'}); }
   });
 }
 
