@@ -4213,19 +4213,57 @@ document.addEventListener('keydown', function(e){
 
   .sb-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 0.4rem 0.75rem; }
 
-  .sb-search-btn {
-    display: flex; align-items: center; gap: 0.6rem;
-    margin: 0.6rem 0.75rem;
-    padding: 0.55rem 0.85rem;
-    background: rgba(0,245,255,0.06);
-    border: 1px solid rgba(0,245,255,0.2);
-    border-radius: 6px;
-    font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 700;
-    color: rgba(0,245,255,0.6);
-    cursor: pointer; width: calc(100% - 1.5rem); text-align: left;
-    transition: background 0.15s, border-color 0.15s;
+  /* ── SIDEBAR SEARCH ── */
+  .sb-search-wrap { position:relative; margin:0.6rem 0.75rem; }
+  .sb-search-wrap .sb-search-icon { position:absolute;left:0.65rem;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none; }
+  .sb-search-input {
+    width:100%;box-sizing:border-box;
+    padding:0.5rem 0.75rem 0.5rem 2rem;
+    background:rgba(0,0,0,0.6);
+    border:1px solid rgba(0,245,255,0.25);
+    border-radius:6px;
+    font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;
+    color:#fff;outline:none;
+    transition:border-color 0.15s,box-shadow 0.15s;
   }
-  .sb-search-btn:hover { background: rgba(0,245,255,0.1); border-color: rgba(0,245,255,0.4); color: #00f5ff; }
+  .sb-search-input::placeholder{color:rgba(0,245,255,0.35);}
+  .sb-search-input:focus{border-color:rgba(0,245,255,0.7);box-shadow:0 0 12px rgba(0,245,255,0.15);}
+
+  /* ── SIDEBAR NAV ITEMS — yellow file/document style ── */
+  .sb-item {
+    display: flex; align-items: center; gap: 0.55rem;
+    padding: 0.48rem 0.85rem 0.48rem 0.85rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.82rem; letter-spacing: 0.1em;
+    color: #1a1200;
+    background: linear-gradient(135deg, #ffe566 0%, #ffd020 60%, #f5c000 100%);
+    border: none;
+    border-left: 3px solid #c8980a;
+    text-align: left; cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    margin: 0.22rem 0.5rem;
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    box-shadow: 1px 2px 6px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: filter 0.12s, transform 0.1s;
+  }
+  .sb-item::after {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 10px; height: 10px;
+    background: #c8980a;
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+  }
+  .sb-item:hover { filter:brightness(1.12); transform:translateX(2px); }
+  .sb-item.sb-active {
+    background: linear-gradient(135deg, #fff0a0 0%, #ffe040 60%, #ffc800 100%);
+    border-left: 4px solid #ff6b00;
+    color: #0a0600;
+    box-shadow: 2px 3px 12px rgba(255,180,0,0.45), inset 0 1px 0 rgba(255,255,255,0.35);
+  }
+  .sb-item .sb-icon { font-size: 0.95rem; flex-shrink: 0; width: 18px; text-align: center; filter:drop-shadow(0 0 3px rgba(0,0,0,0.4)); }
 
   .sb-bottom {
     margin-top: auto;
@@ -4262,10 +4300,20 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
-  <!-- Search shortcut -->
-  <button class="sb-search-btn" onclick="document.getElementById('vpnSearchInput')?.focus();document.getElementById('vpnSearchBar')?.scrollIntoView()">
-    <span>🔍</span><span>Search...</span>
-  </button>
+  <!-- Search — inline, live -->
+  <div class="sb-search-wrap">
+    <span class="sb-search-icon">🔍</span>
+    <input class="sb-search-input" type="text" placeholder="Search..." autocomplete="off"
+      oninput="(function(v){
+        var bar=document.getElementById('vpnSearchBar');
+        var inp=document.getElementById('vpnSearchInput');
+        if(inp){inp.value=v;}
+        if(typeof vpnSearch==='function'){vpnSearch(v);}
+        if(bar && v.length>0){bar.style.display='block';}
+        else if(bar && v.length===0){if(typeof vpnSearchClose==='function')vpnSearchClose();}
+      })(this.value)"
+      onkeydown="if(event.key==='Escape'){this.value='';if(typeof vpnSearchClose==='function')vpnSearchClose();}">
+  </div>
 
   <!-- MAIN -->
   <div class="sb-section">MAIN</div>
