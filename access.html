@@ -264,7 +264,7 @@ html,body{width:100%;min-height:100vh;background:#0a0a0b;color:var(--text);font-
 
 <script>
 (function(){
-  try{var k='firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';if(localStorage.getItem(k))window.location.replace('home.html');}catch(e){}
+  try{var k='firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';if(localStorage.getItem(k)){sessionStorage.setItem('vpn-from-access','1');window.location.replace('home.html');}}catch(e){}
 })();
 </script>
 
@@ -486,7 +486,7 @@ function unlockForm(){
   const app = initializeApp({apiKey:"AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",authDomain:"vpnhub-data.firebaseapp.com",projectId:"vpnhub-data",storageBucket:"vpnhub-data.firebasestorage.app",messagingSenderId:"519239456167",appId:"1:519239456167:web:2ee7f62c48e17f07c75282"});
   const auth = getAuth(app);
   setPersistence(auth, browserLocalPersistence);
-  onAuthStateChanged(auth, u => { if(u) window.location.href = 'home.html'; });
+  onAuthStateChanged(auth, u => { if(u){ sessionStorage.setItem('vpn-from-access','1'); window.location.href = 'home.html'; } });
 
   var isSignUp = false;
   window.switchTab = function(mode){
@@ -510,7 +510,7 @@ function unlockForm(){
     document.getElementById('submit-btn').textContent = isSignUp ? 'CREATING…' : 'SIGNING IN…';
     document.getElementById('submit-btn').style.opacity = '0.6';
     (isSignUp ? createUserWithEmailAndPassword(auth,email,pw) : signInWithEmailAndPassword(auth,email,pw))
-      .then(()=>window.location.href='home.html')
+      .then(()=>{sessionStorage.setItem('vpn-from-access','1');window.location.href='home.html';})
       .catch(err=>{ resetBtn(); showError(friendlyError(err)); });
   };
 

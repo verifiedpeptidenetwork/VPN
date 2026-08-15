@@ -7131,7 +7131,7 @@ document.addEventListener('keydown', function(e){
     .qnav-card{
       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.32rem;
       padding:1rem 0.4rem 0.85rem;text-align:center;cursor:pointer;text-decoration:none;
-      background:rgba(4,0,20,0.7);
+      background:#04001a;
       border:1.5px solid currentColor;
       border-top:3px solid currentColor;
       font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.08em;
@@ -7147,7 +7147,7 @@ document.addEventListener('keydown', function(e){
     .qnav-card::after{content:none;}
     .qnav-card:hover{
       transform:translateY(-4px) scale(1.04);
-      background:rgba(255,255,255,0.06);
+      background:#0a0530;
       box-shadow:0 0 22px currentColor,0 4px 20px rgba(0,0,0,0.3);
     }
     .qnav-icon{font-size:1.5rem;line-height:1;filter:drop-shadow(0 0 6px currentColor);}
@@ -7392,7 +7392,8 @@ document.addEventListener('keydown', function(e){
   </div><!-- /home-desktop-cols -->
 
   <!-- QUICK NAV GRID — below hero on desktop, natural flow on mobile -->
-  <div class="qnav-grid" style="margin-bottom:0.85rem;">
+  <div style="background:#04001a;margin-bottom:0.85rem;border:1px solid rgba(255,255,255,0.06);">
+  <div class="qnav-grid">
     <a href="pokeme-dex.html" class="qnav-card" style="color:#ff6b00;border-color:rgba(255,107,0,0.35);"
        onmouseover="this.style.boxShadow='0 0 20px rgba(255,107,0,0.4),0 4px 20px rgba(255,107,0,0.2)'"
        onmouseout="this.style.boxShadow='none'">
@@ -7466,6 +7467,7 @@ document.addEventListener('keydown', function(e){
       <span class="qnav-icon">📗</span><span class="qnav-label">PEPTIDE VPN GUIDE</span><span class="qnav-sub">74 pages · logo · all-in-one PDF</span>
     </a>
   </div>
+  </div><!-- /qnav-grid wrapper -->
 
   <!-- WHY WE'RE HERE -->
   <div style="margin:0 0 0.85rem;width:100%;box-sizing:border-box;">
@@ -23402,7 +23404,10 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     audio.play().then(function(){setPlaying(true);_userStarted=true;}).catch(function(){});
   };
 
-  window.addEventListener('load',function(){tryPlay();});
+  window.addEventListener('load',function(){
+    if(sessionStorage.getItem('vpn-from-access')){sessionStorage.removeItem('vpn-from-access');return;}
+    tryPlay();
+  });
   function onFirst(){if(_userStarted)return;tryPlay();document.removeEventListener('click',onFirst);document.removeEventListener('touchend',onFirst);}
   document.addEventListener('click',onFirst);
   document.addEventListener('touchend',onFirst);
