@@ -3145,7 +3145,7 @@
       <!-- Video -->
       <div style="background:#000;">
         <div style="position:relative;width:100%;">
-          <video id="dg-vid" playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:320px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
+          <video id="dg-vid" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:320px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
             <source src="accessvideo.mp4?v=1" type="video/mp4; codecs=avc1">
             <source src="accessvideo.mp4?v=1" type="video/mp4">
           </video>
@@ -3225,6 +3225,9 @@ var dgVidUnlocked = false;
 (function(){
   var vid = document.getElementById('dg-vid');
   if(!vid) return;
+  vid.muted = true;
+  vid.play().catch(function(){});
+  document.addEventListener('touchstart', function(){ vid.play().catch(function(){}); }, {once:true, passive:true});
   vid.addEventListener('play', function(){ var o=document.getElementById('dg-tap-overlay');if(o)o.style.display='none'; });
   vid.addEventListener('timeupdate', function(){
     if(!vid.duration) return;
