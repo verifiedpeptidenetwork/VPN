@@ -4905,17 +4905,35 @@ document.addEventListener('keydown', function(e){
 
       <!-- WATCH HERE Dropdown -->
       <div class="qa-dropdown" id="watchHereDropdown">
-        <button class="qa-trigger hbtn" onclick="document.getElementById('watchHereDropdown').classList.toggle('open')" style="border-color:rgba(255,20,80,0.8);color:#ff1450;text-shadow:0 0 8px rgba(255,20,80,0.9);animation:glowBadgePink 2.4s ease-in-out infinite;background:rgba(255,20,80,0.06);">
+        <button class="qa-trigger hbtn" onclick="document.getElementById('watchHereDropdown').classList.toggle('open')" style="border-color:rgba(255,20,80,0.8);color:#ff1450;text-shadow:0 0 8px rgba(255,20,80,0.9);animation:glowBadgePink 2.4s ease-in-out infinite;background:#000;">
           ▶ WATCH HERE <span style="font-size:0.75rem;opacity:0.8;">▼</span>
         </button>
-        <div class="qa-panel" style="min-width:320px;background:#0d0005;border-color:rgba(255,20,80,0.55);box-shadow:0 8px 32px #000,0 0 24px rgba(255,20,80,0.25);">
+        <div class="qa-panel" style="min-width:min(520px,95vw);background:#000;border-color:rgba(255,20,80,0.6);box-shadow:0 8px 40px #000,0 0 30px rgba(255,20,80,0.3);">
           <!-- Welcome Video -->
-          <div style="padding:0.6rem 1rem;border-bottom:1px solid rgba(255,20,80,0.2);">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.14em;color:#ff1450;margin-bottom:0.5rem;">🎬 WELCOME TO VPN — START HERE</div>
-            <video src="welcomevideovpn.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:220px;object-fit:contain;background:#000;border:1px solid rgba(255,20,80,0.3);border-radius:4px;"></video>
+          <div style="padding:0.75rem 1rem 0.5rem;border-bottom:1px solid rgba(255,20,80,0.2);background:#000;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:#ff1450;margin-bottom:0.5rem;">🎬 WELCOME TO VPN — START HERE</div>
+            <video src="welcomevideovpn.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:260px;object-fit:contain;background:#000;border:1px solid rgba(255,20,80,0.35);border-radius:4px;"></video>
+          </div>
+          <!-- Info block -->
+          <div style="padding:0.75rem 1rem;background:#000;border-bottom:1px solid rgba(255,20,80,0.18);">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.15em;color:#ff1450;margin-bottom:0.5rem;">📋 BEFORE YOU RESEARCH — READ THIS</div>
+            <div style="display:flex;flex-direction:column;gap:0.35rem;">
+              <div style="display:flex;align-items:flex-start;gap:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
+                <span style="color:#ff1450;flex-shrink:0;">01</span><span><strong style="color:#fff;">Work with your doctor.</strong> Share what you're researching. Always have physician oversight.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
+                <span style="color:#ff1450;flex-shrink:0;">02</span><span><strong style="color:#fff;">Do your blood work first.</strong> Baseline labs before any research protocol — no exceptions.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
+                <span style="color:#ff1450;flex-shrink:0;">03</span><span><strong style="color:#fff;">Learn to spot fake COAs.</strong> You'll learn how to verify certificates of analysis and identify fraudulent lab reports.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.55;">
+                <span style="color:#ff1450;flex-shrink:0;">04</span><span><strong style="color:#fff;">Learn to spot fake vendors.</strong> Red flags, scam patterns, and how to verify who you're buying from.</span>
+              </div>
+            </div>
           </div>
           <!-- Glowrilla Recon Video -->
-          <div class="qa-item" onclick="document.getElementById('vpn-lab-video').scrollIntoView({behavior:'smooth'});document.getElementById('watchHereDropdown').classList.remove('open');" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,20,80,0.15);">
+          <div class="qa-item" onclick="var v=document.getElementById('glowrilla-video-body');v.style.display='block';document.getElementById('vpn-lab-video').scrollIntoView({behavior:'smooth'});document.getElementById('watchHereDropdown').classList.remove('open');" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,20,80,0.15);background:#000;">
             <span style="font-size:1.3rem;">🦍</span>
             <div>
               <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#ff1450;">Glowrilla's Peptide Lab — Reconstitution Guide</div>
@@ -4924,7 +4942,7 @@ document.addEventListener('keydown', function(e){
             <span style="color:#ff1450;margin-left:auto;">↗</span>
           </div>
           <!-- Spike Protocol Videos -->
-          <div class="qa-item" onclick="showView('quick-guide');document.getElementById('watchHereDropdown').classList.remove('open');setTimeout(function(){var el=document.querySelector('[data-spike-section]');if(el)el.scrollIntoView({behavior:'smooth'});},400);" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;">
+          <div class="qa-item" onclick="showView('quick-guide');document.getElementById('watchHereDropdown').classList.remove('open');setTimeout(function(){var el=document.querySelector('[data-spike-section]');if(el)el.scrollIntoView({behavior:'smooth'});},400);" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;background:#000;">
             <span style="font-size:1.3rem;">🧬</span>
             <div>
               <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#ff1450;">Spike Protein &amp; Long COVID Videos</div>
@@ -6699,7 +6717,18 @@ document.addEventListener('keydown', function(e){
     @keyframes vpnLogoSpinRev{0%{transform:rotate(0deg);}100%{transform:rotate(-360deg);}}
     @keyframes vpnLogoPulse{0%,100%{opacity:0.65;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
     @keyframes vpnScanLine{0%{top:-4px;opacity:0;}5%{opacity:1;}90%{opacity:0.8;}100%{top:100%;opacity:0;}}
-    @keyframes vpnLogoBeat{0%,100%{box-shadow:0 0 50px rgba(0,245,255,0.6),0 0 100px rgba(255,45,120,0.3),0 0 160px rgba(204,68,255,0.18);}50%{box-shadow:0 0 70px rgba(0,245,255,0.9),0 0 130px rgba(255,45,120,0.45),0 0 200px rgba(204,68,255,0.28);}}
+    @keyframes vpnLogoBeat{
+      0%  {box-shadow:0 0 40px rgba(0,245,255,0.7),0 0 80px rgba(0,245,255,0.3),0 0 140px rgba(255,45,120,0.2),0 0 200px rgba(204,68,255,0.1);}
+      25% {box-shadow:0 0 55px rgba(255,45,120,0.8),0 0 100px rgba(255,45,120,0.4),0 0 160px rgba(0,245,255,0.15);}
+      50% {box-shadow:0 0 60px rgba(204,68,255,0.9),0 0 110px rgba(204,68,255,0.45),0 0 180px rgba(0,255,100,0.15),0 0 240px rgba(0,245,255,0.08);}
+      75% {box-shadow:0 0 50px rgba(0,255,100,0.7),0 0 90px rgba(0,245,255,0.4),0 0 150px rgba(255,45,120,0.12);}
+      100%{box-shadow:0 0 40px rgba(0,245,255,0.7),0 0 80px rgba(0,245,255,0.3),0 0 140px rgba(255,45,120,0.2),0 0 200px rgba(204,68,255,0.1);}
+    }
+    @keyframes vpnLogoGlowRing{
+      0%  {opacity:1;transform:translate(-50%,-50%) scale(1);}
+      50% {opacity:0;transform:translate(-50%,-50%) scale(1.5);}
+      100%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+    }
     /* ── LOGO ── */
     .vpn-home-logo-wrap{position:relative;width:440px;height:440px;margin:0 auto 0.5rem;flex-shrink:0;}
     .vpn-home-logo-img{width:420px;height:420px;border-radius:0;object-fit:contain;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;animation:vpnLogoBeat 3s ease-in-out infinite;}
@@ -6718,6 +6747,16 @@ document.addEventListener('keydown', function(e){
       .vpn-logo-ring-3{width:336px;height:336px;margin:-168px 0 0 -168px;}
       .vpn-logo-ring-4{width:300px;height:300px;margin:-150px 0 0 -150px;}
       .vpn-logo-glow{width:298px;height:298px;margin:-149px 0 0 -149px;}
+    }
+    /* ── MATRIX CANVAS ── */
+    #vpn-matrix-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.13;z-index:0;}
+    /* ── LOGO PULSE RINGS ── */
+    .vpn-logo-pulse-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:2px solid rgba(0,245,255,0.6);animation:vpnLogoGlowRing 2.4s ease-out infinite;pointer-events:none;z-index:0;}
+    .vpn-logo-pulse-ring:nth-child(2){width:480px;height:480px;margin-left:-240px;margin-top:-240px;animation-delay:0.8s;border-color:rgba(255,45,120,0.5);}
+    .vpn-logo-pulse-ring:nth-child(3){width:520px;height:520px;margin-left:-260px;margin-top:-260px;animation-delay:1.6s;border-color:rgba(204,68,255,0.4);}
+    @media(max-width:480px){
+      .vpn-logo-pulse-ring:nth-child(2){width:350px;height:350px;margin-left:-175px;margin-top:-175px;}
+      .vpn-logo-pulse-ring:nth-child(3){width:390px;height:390px;margin-left:-195px;margin-top:-195px;}
     }
     /* ── HERO ── */
     @keyframes vpnBorderSweep{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
