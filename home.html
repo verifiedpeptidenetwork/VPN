@@ -10079,9 +10079,39 @@ document.addEventListener('keydown', function(e){
     </div>
 
 
+    <!-- SKOOL COMMUNITY DIVIDER -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(157,0,255,0.5));"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#9d00ff;">🏫 COMMUNITY — SKOOL</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(157,0,255,0.5),transparent);"></div>
+    </div>
+
+    <!-- SKOOL CARD -->
+    <a href="https://www.skool.com/retaunfiltered/about" target="_blank" rel="noopener"
+       style="display:block;text-decoration:none;background:#0a0014;border:2px solid rgba(157,0,255,0.45);border-left:5px solid #9d00ff;border-radius:8px;padding:1.25rem 1.35rem;margin-bottom:1.25rem;transition:background 0.2s;">
+      <div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:0.75rem;">
+        <span style="font-size:2rem;flex-shrink:0;">🏫</span>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.12em;color:#9d00ff;line-height:1.1;">RETA UNFILTERED — SKOOL COMMUNITY</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-top:2px;">skool.com/retaunfiltered</div>
+        </div>
+        <span style="margin-left:auto;font-size:1.3rem;color:#9d00ff;">↗</span>
+      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.97rem;font-weight:600;color:rgba(220,190,255,0.9);line-height:1.65;margin-bottom:0.85rem;">
+        Join the community — peptide research, protocols, real talk, and members who actually know their stuff. When you join, tell them <strong style="color:#fff;letter-spacing:0.03em;">ruivpndata.com sent you.</strong>
+      </div>
+      <div style="display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:#9d00ff;border:1px solid rgba(157,0,255,0.5);padding:0.3rem 0.85rem;background:rgba(157,0,255,0.1);">JOIN THE COMMUNITY ↗</div>
+    </a>
+
+    <!-- FUCKFAUCI DIVIDER -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,120,0.4));"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:var(--neon-pink);">📌 COMMUNITY RESOURCE</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,45,120,0.4),transparent);"></div>
+    </div>
+
     <!-- FUCKFAUCI IMAGE CARD -->
     <div style="background:#0a060e;border:1px solid rgba(255,45,120,0.3);border-left:4px solid var(--neon-pink);border-radius:8px;padding:1rem 1.1rem;margin-bottom:1.25rem;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-pink);margin-bottom:0.75rem;">📌 COMMUNITY RESOURCE</div>
       <div style="text-align:center;">
         <img src="FUCKFAUCI.jpg" alt="Community Resource" style="max-width:100%;border-radius:6px;border:2px solid rgba(255,45,120,0.3);box-shadow:0 0 24px rgba(255,0,128,0.25);" loading="lazy">
       </div>
@@ -23417,14 +23447,8 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     audio.play().then(function(){setPlaying(true);_userStarted=true;}).catch(function(){});
   };
 
-  var _suppressAutoplay=false;
-  window.addEventListener('load',function(){
-    if(sessionStorage.getItem('vpn-from-access')){sessionStorage.removeItem('vpn-from-access');_suppressAutoplay=true;return;}
-    tryPlay();
-  });
-  function onFirst(){if(_userStarted||_suppressAutoplay)return;tryPlay();document.removeEventListener('click',onFirst);document.removeEventListener('touchend',onFirst);}
-  document.addEventListener('click',onFirst);
-  document.addEventListener('touchend',onFirst);
+  // No autoplay — user must click the play button manually
+  sessionStorage.removeItem('vpn-from-access');
 
   function watchVid(v){
     v.addEventListener('play',function(){if(_playing&&!audio.paused){audio.pause();_pausedByVideo=true;setPlaying(false);}});
