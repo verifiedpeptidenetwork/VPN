@@ -5118,21 +5118,23 @@ document.addEventListener('keydown', function(e){
     <!-- WELCOME VIDEO + BEFORE YOU RESEARCH CARD -->
     <div id="vpn-watch-first" style="margin:0 0 0.9rem;width:100%;box-sizing:border-box;">
       <div style="border:2px solid rgba(255,20,80,0.7);border-top:4px solid #ff1450;background:#000;border-radius:10px;overflow:hidden;box-shadow:0 0 40px rgba(255,20,80,0.2),0 0 80px rgba(255,20,80,0.07);">
-        <!-- Header -->
-        <div style="padding:0.75rem 1.1rem;background:linear-gradient(90deg,rgba(255,20,80,0.13),transparent);border-bottom:1px solid rgba(255,20,80,0.18);display:flex;align-items:center;gap:0.75rem;">
-          <span style="font-size:1.4rem;">🎬</span>
-          <div style="flex:1;text-align:center;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.14em;color:#ff1450;line-height:1.1;">WELCOME TO VPN — START HERE</div>
-            <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(255,20,80,0.6);letter-spacing:0.1em;">WATCH THIS FIRST BEFORE EXPLORING · RESEARCH USE ONLY</div>
+        <!-- Header / toggle -->
+        <details id="vpn-welcome-video-details">
+          <summary style="list-style:none;padding:0.75rem 1.1rem;background:linear-gradient(90deg,rgba(255,20,80,0.13),transparent);border-bottom:1px solid rgba(255,20,80,0.18);display:flex;align-items:center;gap:0.75rem;cursor:pointer;user-select:none;">
+            <span style="font-size:1.4rem;">🎬</span>
+            <div style="flex:1;text-align:center;">
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.14em;color:#ff1450;line-height:1.1;">WELCOME TO VPN — START HERE</div>
+              <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;color:rgba(255,20,80,0.6);letter-spacing:0.1em;">WATCH THIS FIRST BEFORE EXPLORING · RESEARCH USE ONLY</div>
+            </div>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:3px 9px;border:1.5px solid #ff1450;color:#ff1450;border-radius:3px;white-space:nowrap;">▶ TAP TO OPEN</span>
+          </summary>
+          <!-- Video -->
+          <div style="width:100%;">
+            <video controls preload="metadata" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
+              <source src="welcomevideovpn.mp4" type="video/mp4">
+            </video>
           </div>
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:3px 9px;border:1.5px solid #ff1450;color:#ff1450;border-radius:3px;white-space:nowrap;">▶ WATCH</span>
-        </div>
-        <!-- Video -->
-        <div style="width:100%;">
-          <video controls preload="metadata" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
-            <source src="welcomevideovpn.mp4" type="video/mp4">
-          </video>
-        </div>
+        </details>
         <!-- Before You Research info -->
         <div style="background:#000;border-top:1px solid rgba(255,20,80,0.2);">
           <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='flex';b.style.display=open?'none':'flex';el.querySelector('.byr-main-arr').textContent=open?'▼':'▲';})(this)"
@@ -7373,6 +7375,14 @@ document.addEventListener('keydown', function(e){
     <div style="text-align:center;margin-top:0.2rem;">
       <span style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,160,190,0.75);letter-spacing:0.04em;">"And when I am ill, it is He who cures me." &nbsp;·&nbsp; Peptides &amp; Medications are a Means — God is who cures.</span>
     </div>
+    <details style="margin-top:0.55rem;text-align:center;">
+      <summary style="display:inline-flex;align-items:center;gap:0.45rem;cursor:pointer;list-style:none;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.16em;color:rgba(255,20,80,0.75);padding:3px 10px;border:1px solid rgba(255,20,80,0.4);border-radius:3px;user-select:none;">
+        ☽ GOD IS THE CURER · TAP TO SEE
+      </summary>
+      <div style="margin-top:0.55rem;border-radius:7px;overflow:hidden;border:1px solid rgba(255,20,80,0.35);max-width:480px;margin-inline:auto;">
+        <img src="godcures.jpg" alt="God is who cures — Quran 26:80" style="width:100%;display:block;" loading="lazy" onclick="openLightbox('godcures.jpg','God is the Curer — Quran 26:80')">
+      </div>
+    </details>
   </div>
 
   <!-- DESKTOP 2-COLUMN WRAP: logo left, quick-nav right -->
@@ -13140,21 +13150,27 @@ document.addEventListener('keydown', function(e){
   </div>
 
   <!-- WHAT IS SELF RUQYAH — pinned first under hero -->
-  <div style="background:rgba(0,10,5,0.99);border:2px solid rgba(0,200,83,0.5);border-top:4px solid #00c853;border-radius:8px;overflow:hidden;margin-bottom:1.25rem;">
-    <div style="position:relative;background:#000;aspect-ratio:16/9;">
-      <video id="rq-vid-1" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;">
-        <source src="whatisselfruqyah.mp4" type="video/mp4; codecs=avc1">
-        <source src="whatisselfruqyah.mp4" type="video/mp4">
-      </video>
-      <div id="rq-tap-1" onclick="document.getElementById('rq-vid-1').play();this.style.display='none';" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;">
-        <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,83,0.9);display:flex;align-items:center;justify-content:center;"><span style="color:#000;font-size:1.8rem;margin-left:5px;">▶</span></div>
+  <details style="margin-bottom:1.25rem;">
+    <summary style="list-style:none;background:rgba(0,10,5,0.99);border:2px solid rgba(0,200,83,0.5);border-top:4px solid #00c853;border-radius:8px;padding:0.85rem 1.1rem;cursor:pointer;user-select:none;display:flex;align-items:center;gap:0.75rem;">
+      <span style="font-size:1.4rem;">☽</span>
+      <div style="flex:1;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:#00c853;margin-bottom:0.15rem;">WHAT IS SELF RUQYAH?</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,230,215,0.65);">Introduction to Quranic healing, who it's for, and how to start your own ruqyah practice.</div>
+      </div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:3px 9px;border:1.5px solid #00c853;color:#00c853;border-radius:3px;white-space:nowrap;flex-shrink:0;">▶ WATCH</span>
+    </summary>
+    <div style="background:rgba(0,10,5,0.99);border:2px solid rgba(0,200,83,0.5);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;">
+      <div style="position:relative;background:#000;aspect-ratio:16/9;">
+        <video id="rq-vid-1" muted playsinline webkit-playsinline controls preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;">
+          <source src="whatisselfruqyah.mp4" type="video/mp4; codecs=avc1">
+          <source src="whatisselfruqyah.mp4" type="video/mp4">
+        </video>
+        <div id="rq-tap-1" onclick="document.getElementById('rq-vid-1').play();this.style.display='none';" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,83,0.9);display:flex;align-items:center;justify-content:center;"><span style="color:#000;font-size:1.8rem;margin-left:5px;">▶</span></div>
+        </div>
       </div>
     </div>
-    <div style="padding:0.85rem 1.1rem;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.15em;color:#00c853;margin-bottom:0.25rem;">WHAT IS SELF RUQYAH?</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(200,230,215,0.7);">Introduction to Quranic healing, who it's for, and how to start your own ruqyah practice.</div>
-    </div>
-  </div>
+  </details>
 
   <!-- Quran verse banner -->
   <div style="background:linear-gradient(135deg,rgba(0,12,6,0.98),rgba(0,18,8,0.98));border:1px solid rgba(0,200,83,0.4);border-left:4px solid #00c853;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;">
@@ -13164,6 +13180,15 @@ document.addEventListener('keydown', function(e){
     </div>
     <div style="text-align:center;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:0.3rem;">"And when I am ill, it is He who cures me."</div>
     <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.25em;color:rgba(0,200,83,0.55);">SURAH ASH-SHU'ARA · QURAN 26:80</div>
+    <!-- God Cures image dropdown -->
+    <details style="margin-top:0.9rem;text-align:center;">
+      <summary style="display:inline-flex;align-items:center;gap:0.5rem;cursor:pointer;list-style:none;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.18em;color:rgba(0,200,83,0.8);padding:4px 12px;border:1px solid rgba(0,200,83,0.45);border-radius:4px;user-select:none;">
+        ☽ GOD IS WHO CURES · TAP TO SEE
+      </summary>
+      <div style="margin-top:0.65rem;border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);max-width:520px;margin-inline:auto;">
+        <img src="godcures.jpg" alt="God is the Curer — Quran 26:80" style="width:100%;display:block;" loading="lazy" onclick="openLightbox('godcures.jpg','God is the Curer — Quran 26:80')">
+      </div>
+    </details>
   </div>
 
   <!-- ══════════════════════════════════════════════
@@ -21082,6 +21107,270 @@ const SHEET_KEYWORD_MAP = {
   'plateau':       ['plateau','stall','weight loss','whoosh','glycogen','glp','switching'],
   'whoosh':        ['whoosh','water retention','weight loss','stall','plateau','glp'],
   'constipation':  ['constipation','gi','side effect','glp','motility','fiber'],
+
+  // ── BRAND NAME ALIASES ──
+  'ozempic':       ['semaglutide','glp-1','glp','glp1','weight loss','fatjab','incretin'],
+  'wegovy':        ['semaglutide','glp-1','glp','glp1','weight loss','fatjab','incretin'],
+  'mounjaro':      ['tirzepatide','glp-1','gip','tirz','weight loss','fatjab','incretin'],
+  'zepbound':      ['tirzepatide','glp-1','gip','tirz','weight loss','fatjab'],
+  'saxenda':       ['liraglutide','glp-1','weight loss','fatjab'],
+  'victoza':       ['liraglutide','glp-1','fatjab'],
+  'trulicity':     ['dulaglutide','glp-1','fatjab'],
+  'rybelsus':      ['semaglutide','oral glp','glp-1','fatjab'],
+  'manjaro':       ['tirzepatide','tirz','glp-1','fatjab'],  // common misspelling
+  'fatjab':        ['glp-1','semaglutide','tirzepatide','retatrutide','weight loss','incretin','fatjab'],
+  'glp1 drug':     ['glp-1','semaglutide','tirzepatide','retatrutide','incretin'],
+  'diabetes':      ['diabetes','glp-1','insulin','blood sugar','hba1c','glucose','metformin','tirzepatide'],
+  'prediabetes':   ['prediabetes','insulin resistance','blood sugar','hba1c','glp-1','fasting glucose'],
+
+  // ── SYMPTOMS → COMPOUNDS ──
+  'tired':         ['fatigue','energy','mitochondria','motsc','ss-31','nad','thyroid','hashimoto','tsh'],
+  'fatigue':       ['fatigue','energy','mitochondrial','motsc','ss-31','nad','thyroid','long covid','covid','burnout'],
+  'brain fog':     ['brain fog','cognitive','semax','selank','nootropic','nad','long covid','hashimoto'],
+  'bloating':      ['bloating','gi','gut','glp','soda','carbonated','side effect','bpc','kpv'],
+  'bloat':         ['bloat','bloating','gi','gut','glp','side effect','bpc'],
+  'headache':      ['headache','migraine','glp','tirz','reta','electrolytes','dehydration','side effect'],
+  'migraine':      ['migraine','headache','glp','electrolytes','side effect'],
+  'acne':          ['acne','skin','ghk-cu','collagen','anti-aging'],
+  'wrinkles':      ['wrinkles','skin','ghk-cu','collagen','anti-aging','aging','snap'],
+  'belly fat':     ['belly fat','visceral','fat loss','glp','weight loss','aod','lactoferrin'],
+  'abdominal fat': ['abdominal','visceral','belly fat','fat loss','glp'],
+  'libido':        ['libido','pt-141','pt141','kisspeptin','testosterone','trt','sex','sexual'],
+  'sex drive':     ['libido','sex drive','pt-141','pt141','kisspeptin','testosterone'],
+  'erectile':      ['erectile','libido','pt-141','kisspeptin','testosterone','trt'],
+  'ed':            ['erectile','libido','pt-141','kisspeptin','testosterone'],
+
+  // ── COMMON SEARCH TERMS ──
+  'how to':        ['guide','reconstitution','injection','protocol','how to'],
+  'beginner':      ['beginner','starter','peptides 101','introduction','guide','basics'],
+  'start':         ['starter','beginner','peptides 101','introduction','guide','basics','start'],
+  'stacking':      ['stack','protocol','combination','glowrilla','guide'],
+  'cycle':         ['cycle','cycling','peptide','tolerance','desensitization'],
+  'cycling':       ['cycling','cycle','peptide','tolerance','desensitization'],
+  'side effect':   ['side effect','safety','nausea','reflux','gi','headache','heart rate','warning'],
+  'side effects':  ['side effects','safety','nausea','reflux','gi','headache','heart rate'],
+  'risks':         ['risks','safety','contraindications','warning','side effects'],
+  'safe':          ['safety','safe','risks','contraindications','myths','side effects'],
+  'safety':        ['safety','safe','risks','myths','contraindications','side effects','cancer'],
+  'warning':       ['warning','safety','contraindications','side effect','emergency','stop'],
+  'contraindication':['contraindication','safety','who should not','rule out','glp'],
+  'who should not':['contraindication','safety','rule out','glp','risks'],
+  'labels':        ['labels','niimbot','vial label','template','print','sticker'],
+  'label':         ['label','labels','niimbot','vial label','template','print'],
+  'niimbot':       ['niimbot','label','vial label','template','print','label maker','m2'],
+  'print':         ['print','label','niimbot','vial label','template'],
+  'sticker':       ['sticker','label','niimbot','vial label','template'],
+  'vial':          ['vial','label','niimbot','reconstitution','storage','refrigeration'],
+  'refrigerate':   ['refrigerate','refrigeration','storage','vial','stability','tesamorelin'],
+  'freeze':        ['freeze','freezing','storage','refrigeration','stability'],
+  'shelf life':    ['shelf life','storage','stability','reconstitution','refrigeration'],
+  'half life':     ['half-life','pharmacokinetics','switching','tirz','reta','dosing'],
+  'half-life':     ['half-life','pharmacokinetics','tirz','reta','cagrilintide'],
+  'testing':       ['testing','coa','janoshik','lab','third party','vendor','certificate'],
+  'lab test':      ['lab test','janoshik','coa','testing','third party','certificate'],
+  'janoshik':      ['janoshik','lab','testing','coa','certificate','third party','vendor'],
+  'certificate':   ['certificate','coa','janoshik','lab','testing','third party'],
+  'hplc':          ['hplc','coa','janoshik','lab','testing','certificate'],
+  'fake':          ['fake','coa','vendor','scam','red flags','certificate','janoshik'],
+  'scam vendor':   ['scam','vendor','red flags','fake','coa'],
+  'alibaba':       ['alibaba','china','vendor','sourcing','research','buy'],
+  'china':         ['china','alibaba','vendor','sourcing','research','chinese','supply'],
+  'grey market':   ['grey market','gray market','vendor','research','doctor','pharmacy'],
+  'gray market':   ['gray market','grey market','vendor','research','doctor'],
+  'doctor':        ['doctor','physician','grey market','gray market','prescription','guide'],
+  'prescription':  ['prescription','doctor','physician','grey market','gray market'],
+  'pharmacy':      ['pharmacy','compounding','grey market','doctor','prescription'],
+  'compounding':   ['compounding','pharmacy','grey market','prescription','peptides approved'],
+  'approved':      ['approved','fda','compounding','pharmacy','peptides approved','legal'],
+  'legal':         ['legal','fda','approved','grey market','law','sell'],
+  'fda':           ['fda','approved','legal','compounding','pharmacy'],
+  'ivermectin':    ['ivermectin','antiparasitic','parasite','fenbendazole','mebendazole','cancer','zinc ionophore','covilife','iverheal'],
+  'fenbendazole':  ['fenbendazole','antiparasitic','parasite','ivermectin','mebendazole','cancer'],
+  'mebendazole':   ['mebendazole','antiparasitic','parasite','ivermectin','fenbendazole','cancer'],
+  'parasite cleanse':['parasite','ivermectin','fenbendazole','mebendazole','die off','herxheimer'],
+  'herx':          ['herxheimer','die off','parasite','ivermectin','detox'],
+  'detox':         ['detox','die off','herxheimer','parasite','toxins','fat loss'],
+  'toxins':        ['toxins','detox','fat loss','pfas','chemicals','stored'],
+  'blood pressure':['blood pressure','cardiovascular','heart','salt','electrolytes','glp'],
+  'heart':         ['heart','heart rate','rhr','cardiovascular','glp','tirz','reta'],
+  'cardiovascular':['cardiovascular','heart','heart rate','rhr','glp','tirz'],
+  'cholesterol':   ['cholesterol','lipids','triglycerides','hdl','ldl','metabolic','glp'],
+  'triglycerides': ['triglycerides','cholesterol','lipids','hdl','fat in blood','metabolic','glp'],
+  'hba1c':         ['hba1c','blood sugar','diabetes','prediabetes','glucose','insulin','glp'],
+  'a1c':           ['hba1c','a1c','blood sugar','diabetes','glucose','insulin'],
+  'fasting glucose':['fasting glucose','blood sugar','insulin resistance','homa-ir','prediabetes'],
+  'homa':          ['homa-ir','insulin resistance','fasting','glucose','metabolic','glp'],
+  'homa-ir':       ['homa-ir','insulin resistance','fasting','glucose','metabolic'],
+  'peptide 101':   ['peptides 101','beginner','introduction','how peptides work','basics'],
+  'how peptides':  ['peptides 101','beginner','introduction','how peptides work'],
+  'what is':       ['guide','introduction','basics','beginners','peptides 101'],
+  'dmso':          ['dmso','dimethyl sulfoxide','cancer','delivery vehicle','solvent'],
+  'magnesium':     ['magnesium','sleep','supplement','recovery','l-threonate'],
+  'l-threonate':   ['magnesium','l-threonate','sleep','brain','cognitive'],
+  'glycine':       ['glycine','glynac','sleep','collagen','gut','amino acid','deficit'],
+  'nac':           ['nac','n-acetylcysteine','glynac','glutathione','antioxidant','aging'],
+  'glynac':        ['glynac','glycine','nac','glutathione','mitochondria','aging','muscle'],
+  'lactoferrin':   ['lactoferrin','fat loss','visceral fat','immune','iron','bovine','anti-cancer'],
+  'kpv':           ['kpv','gut healing','bpc-157','inflammation','autoimmune','leaky gut','anti-inflammatory'],
+  'ruqyah':        ['ruqyah','islamic healing','sihr','jinn','evil eye','quran','spiritual','dua'],
+  'sihr':          ['sihr','ruqyah','black magic','witchcraft','sorcery','jinn','islamic'],
+  'jinn':          ['jinn','sihr','ruqyah','islamic healing','possession','spiritual'],
+  'evil eye':      ['evil eye','ayn','hasad','ruqyah','islamic','jealousy','envy'],
+  'black magic':   ['black magic','sihr','witchcraft','sorcery','ruqyah','jinn'],
+  'islamic':       ['islamic','ruqyah','sihr','jinn','evil eye','dua','quran','prayer'],
+  'quran':         ['quran','ruqyah','islamic','sihr','healing','dua','prayer'],
+  'skool':         ['skool','community','reta unfiltered','membership','join'],
+  'community':     ['community','skool','reta unfiltered','membership'],
+  'telegram':      ['telegram','research stores','peptide stores','vendor','community'],
+  'research store':['research store','telegram','vendor','peptide stores','supplier'],
+  'cjc 1295':      ['cjc-1295','cjc','ipamorelin','growth hormone','ghrh','secretagogue'],
+  'growth hormone':['growth hormone','hgh','cjc-1295','ipamorelin','tesamorelin','ghrh','ghrp','sermorelin'],
+  'gh':            ['growth hormone','hgh','cjc','ipamorelin','tesamorelin','secretagogue'],
+  'ghrp':          ['ghrp','ghrp-2','ghrp-6','growth hormone','secretagogue','cjc'],
+  'ghrh':          ['ghrh','cjc-1295','growth hormone','secretagogue','sermorelin'],
+  'igf':           ['igf','igf-1','growth hormone','cjc','ipamorelin','insulin-like'],
+  'colostrum':     ['colostrum','immune','gut','bovine','supplement','healing'],
+  'zinc':          ['zinc','ionophore','ivermectin','immune','supplement','covid'],
+  'vitamin c':     ['vitamin c','immune','antioxidant','supplement','cancer'],
+  'b12':           ['b12','vitamin b12','methylcobalamin','cobalamin','b12k2','energy','nerve','methylation'],
+  'methylcobalamin':['methylcobalamin','b12','vitamin b12','energy','nerve','methylation'],
+  'b12 k2':        ['b12','k2','vitamin d3','b12k2','methylcobalamin','supplement','stack'],
+  'enclomiphene':  ['enclomiphene','testosterone','trt','hormones','men','fertility'],
+  'epigenetic':    ['epigenetic','aging','truage','biological age','dna methylation','testing'],
+  'truage':        ['truage','epigenetic','biological age','aging','testing'],
+  'biological age':['biological age','epigenetic','truage','aging','dna methylation'],
+  'cold chain':    ['cold chain','storage','refrigeration','stability','vial'],
+  'ban water':     ['bac water','bacteriostatic','reconstitution','mixing'],  // common mistype
+  'backwater':     ['bac water','bacteriostatic','reconstitution','mixing'],  // common mistype
+  'bac':           ['bac water','bacteriostatic','reconstitution','mixing'],
+  'bacteriostatic water':['bac water','bacteriostatic','reconstitution','mixing'],
+  'syringe':       ['syringe','injection','mixing','peptide','breather needle','subcutaneous'],
+  'needle':        ['needle','syringe','injection','breather','insulin','subcutaneous'],
+  'breather needle':['breather needle','needle','injection','technique','vial'],
+  'insulin syringe':['insulin syringe','syringe','injection','subcutaneous','dose','units'],
+  'units':         ['units','dose','dosing','insulin syringe','reconstitution','concentration'],
+  'concentration': ['concentration','reconstitution','dose','units','bac water','dilution'],
+  'dilution':      ['dilution','reconstitution','concentration','bac water','dose'],
+  'peptide guide': ['peptide guide','pdf','guide','all-in-one','download','82 page'],
+  'pdf':           ['pdf','peptide guide','download','all-in-one','guide'],
+  'download':      ['download','pdf','peptide guide','guide','all-in-one'],
+  'catalog':       ['catalog','medglobe','vendor','products','menu','list'],
+  'medglobe':      ['medglobe','exims','catalog','vendor','products','menu'],
+  'goodlabs':      ['goodlabs','blood work','labs','bloodwork','code santos'],
+  'bloodwork':     ['bloodwork','blood work','labs','panel','metabolic','fasting'],
+  'santos':        ['santos','goodlabs','blood work','labs','code','discount'],
+  'aspartame':     ['aspartame','artificial sweetener','diet soda','cancer','carcinogen','sugar'],
+  'artificial sweetener':['artificial sweetener','aspartame','diet soda','cancer','sugar'],
+  'diet soda':     ['diet soda','aspartame','artificial sweetener','cancer','sugar'],
+  'obesity harm':  ['obesity','harm','data','research','metabolic','visceral','cancer','heart'],
+  'survodutide':   ['survodutide','dual','glp-1','glucagon','liver','visceral fat','weight loss'],
+  'atx304':        ['atx304','os01','os04','ampk','metabolic','exercise mimetic','fatty liver','tirzepatide'],
+  'os01':          ['atx304','os01','os04','ampk','metabolic','exercise','fatty liver'],
+  'ampk':          ['ampk','atx304','os01','motsc','mots-c','metabolic','exercise mimetic','energy'],
+  'eloralintide':  ['eloralintide','elora','sara','glp-1','glp','incretin','weight loss','tirzepatide'],
+  'elora':         ['eloralintide','elora','sara','glp-1','weight loss','tirzepatide'],
+  '5-amino-1mq':   ['5-amino-1mq','5amino','nnmt','fat loss','glp-1','retatrutide','energy'],
+  '5 amino':       ['5-amino-1mq','5amino','nnmt','fat loss','glp-1'],
+  'nnmt':          ['nnmt','5-amino-1mq','5amino','fat loss','metabolic'],
+  'aod 9604':      ['aod-9604','aod','fat loss','weight','hgh fragment','growth hormone'],
+  'hgh fragment':  ['hgh fragment 176-191','aod-9604','fat loss','growth hormone','hgh'],
+  'wolverine':     ['wolverine','bpc-157','tb-500','kpv','ghk-cu','healing','recovery','blend','stack'],
+  'glow':          ['glow','wolverine','klow','blend','bpc-157','tb-500','kpv','ghk-cu','healing'],
+  'klow':          ['klow','glow','wolverine','blend','bpc-157','tb-500','kpv','ghk-cu'],
+  'deadpool':      ['deadpool','stack','peptide','healing','recovery','protocol'],
+  'pin pray':      ['pin pray','vial label','label','niimbot','miami','vpn','sticker'],
+  'tesamorelin':   ['tesamorelin','tesa','gelling','gell','gel','storage','dosing','5mg','2mg','reconstitution','bac water','growth hormone','visceral fat'],
+  'tesa':          ['tesamorelin','tesa','gelling','gell','gel','storage','dosing','reconstitution','visceral fat'],
+  'gelling':       ['gelling','tesamorelin','tesa','gel','fix','storage','reconstitution'],
+  'ss31':          ['ss-31','elamipretide','mitochondria','cardiolipin','oxidative stress','aging','energy'],
+  'ss-31':         ['ss-31','elamipretide','mitochondria','cardiolipin','oxidative stress','aging'],
+  'elamipretide':  ['elamipretide','ss-31','mitochondria','cardiolipin','oxidative stress'],
+  'motsc':         ['mots-c','motsc','mitochondria','insulin resistance','glucose','aging','energy','ampk'],
+  'mots-c':        ['mots-c','motsc','mitochondria','insulin resistance','glucose','aging','energy'],
+  'nad+':          ['nad+','nad','nicotinamide','mitochondria','energy','aging','anti-aging','cellular'],
+  'nicotinamide':  ['nicotinamide','nad+','nad','niacin','supplement','energy','aging'],
+  'dsip':          ['dsip','sleep','delta sleep','peptide','recovery','insomnia'],
+  'insomnia':      ['insomnia','sleep','dsip','magnesium','recovery','protocol'],
+  'snap-8':        ['snap-8','snap','wrinkles','anti-aging','skin','botox alternative'],
+  'botox':         ['botox','snap-8','snap','wrinkles','anti-aging','skin'],
+  'epitalon':      ['epitalon','anti-aging','longevity','telomere','aging','pineal'],
+  'telomere':      ['telomere','epitalon','aging','longevity','anti-aging'],
+  'thymosin':      ['thymosin','thymosin alpha-1','ta-1','immune','autoimmune','cancer','viral'],
+  'ta-1':          ['ta-1','thymosin alpha-1','thymosin','immune','autoimmune','cancer'],
+  'thymulin':      ['thymulin','thymus','immune','autoimmune','cancer','aging'],
+  'll-37':         ['ll-37','antimicrobial','immune','infection','gut','healing'],
+  'melanotan':     ['melanotan','mt1','mt2','melanocyte','tan','libido','skin'],
+  'tan':           ['tan','melanotan','mt2','melanocyte','skin','pigmentation'],
+  'tanning':       ['tanning','melanotan','mt2','melanocyte','skin'],
+  'kisspeptin':    ['kisspeptin','kiss','libido','sex drive','testosterone','reproductive'],
+  'pt-141':        ['pt-141','pt141','bremelanotide','libido','sex drive','sexual','erectile'],
+  'bremelanotide': ['bremelanotide','pt-141','pt141','libido','sex drive'],
+  'pe-22-28':      ['pe-22-28','pe22','depression','antidepressant','serotonin','mood'],
+  'depression':    ['depression','pe-22-28','semax','selank','mood','serotonin'],
+  'mood':          ['mood','pe-22-28','semax','selank','serotonin','dopamine','depression'],
+  'abaloparatide': ['abaloparatide','bone','osteoporosis','teriparatide','parathyroid'],
+  'teriparatide':  ['teriparatide','abaloparatide','bone','osteoporosis','parathyroid'],
+  'osteoporosis':  ['osteoporosis','bone','teriparatide','abaloparatide','vitamin d','k2'],
+  'bone':          ['bone','osteoporosis','teriparatide','abaloparatide','vitamin d','k2'],
+  'cerebrolysin':  ['cerebrolysin','brain','cognitive','nootropic','neuroprotection'],
+  'adamax':        ['adamax','brain','cognitive','nootropic','neuroprotection'],
+  'foxo4':         ['foxo4','foxo4-dri','senescent cells','aging','longevity','anti-aging'],
+  'senescent':     ['senescent','foxo4','aging','longevity','anti-aging'],
+  'oxytocin':      ['oxytocin','bonding','trust','social','peptide','mood'],
+  'vip':           ['vip','vasoactive','autoimmune','inflammation','gut','immune'],
+  'hexarelin':     ['hexarelin','growth hormone','secretagogue','ghrp','cjc','cardiac'],
+  'sermorelin':    ['sermorelin','growth hormone','secretagogue','ghrh','cjc','anti-aging'],
+  'glowrilla protocol':['glowrilla','protocol','stack','guide','peptide','combination'],
+  'pin pray stack':['pin pray','glowrilla','stack','protocol','vpn','guide'],
+  'vpn stack':     ['vpn','stack','protocol','glowrilla','pin pray','guide'],
+  'research':      ['research','guide','protocol','study','clinical','peptide','reference'],
+  'study':         ['study','research','clinical','trial','phase','data'],
+  'clinical trial':['clinical trial','phase','study','research','retatrutide','tirzepatide'],
+  'phase 2':       ['phase 2','clinical trial','study','retatrutide','tirzepatide','research'],
+  'phase 3':       ['phase 3','clinical trial','study','retatrutide','tirzepatide','surmount'],
+  'surmount':      ['surmount','phase 3','retatrutide','clinical trial','weight loss'],
+  'asthma':        ['asthma','respiratory','autoimmune','bpc','kpv','thymosin'],
+  'lupus':         ['lupus','autoimmune','glp-1','rheumatoid','thymosin','ta-1','immune'],
+  'psoriasis':     ['psoriasis','autoimmune','skin','glp-1','kpv','immune','bpc'],
+  'spondylitis':   ['spondylitis','bpc-157','kpv','neck','spine','autoimmune','inflammation'],
+  'prostate':      ['prostate','bpc-157','kpv','tb-500','healing','inflammation'],
+  'eczema':        ['eczema','skin','bpc-157','kpv','ghk-cu','atopic','dermatitis'],
+  'atopic':        ['atopic','eczema','dermatitis','skin','bpc-157','kpv','ghk-cu'],
+  'dermatitis':    ['dermatitis','eczema','atopic','skin','bpc-157','kpv','ghk-cu'],
+  'copper purging':['purging','ghk-cu','copper','side effects','uglies','detox','reaction'],
+  'uglies':        ['uglies','ghk-cu','copper','purging','side effects','detox'],
+  'purging':       ['purging','ghk-cu','copper','uglies','side effects','detox'],
+  'masha':         ['maha','make america healthy','holistic','functional','medicine','reform'],
+  'make america healthy':['maha','holistic','functional','medicine','reform','sick care'],
+  'sick care':     ['sick care','healthcare','reform','maha','functional','holistic'],
+  'functional medicine':['functional','medicine','holistic','maha','root cause','healing'],
+  'root cause':    ['root cause','functional','medicine','holistic','healing'],
+  'research template':['template','research','protocol','document','guide','how to research'],
+  'how to research':['research template','guide','protocol','document','peptide','how to'],
+  'recon':         ['reconstitution','bac water','mixing','dilution','dose','guide'],
+  'reconstitute':  ['reconstitution','reconstitute','bac water','mixing','dilution','vial'],
+  'mannitol':      ['mannitol','bac water','solvent','reconstitution','peptide'],
+  'solvent':       ['solvent','bac water','mannitol','reconstitution','mixing'],
+  'ghrp-2':        ['ghrp-2','ghrp2','growth hormone','secretagogue','cjc','hexarelin'],
+  'ghrp-6':        ['ghrp-6','ghrp6','growth hormone','secretagogue','appetite','cjc'],
+  'crp':           ['crp','c-reactive protein','inflammation','blood work','labs','metabolic'],
+  'c-reactive':    ['c-reactive protein','crp','inflammation','blood work','labs'],
+  'cortisol':      ['cortisol','stress','adrenal','thyroid','blood work','weight'],
+  'adrenal':       ['adrenal','cortisol','stress','fatigue','thyroid','hormones'],
+  'dhea':          ['dhea','adrenal','hormones','aging','testosterone','supplement'],
+  'ferritin':      ['ferritin','iron','anemia','lactoferrin','blood work','labs'],
+  'iron':          ['iron','ferritin','lactoferrin','anemia','blood work','labs'],
+  'anemia':        ['anemia','iron','ferritin','lactoferrin','blood work'],
+  'skinny fat':    ['skinny fat','body composition','visceral fat','metabolic','recomposition'],
+  'body composition':['body composition','skinny fat','visceral fat','muscle','fat','recomposition'],
+  'recomposition': ['recomposition','body composition','muscle','fat','glp','peptide'],
+  'rob':           ['robinhood','crypto','buy','bitcoin','payment'],
+  'bitcoin':       ['bitcoin','crypto','payment','grey market','vendor','buying'],
+  'monero':        ['monero','crypto','payment','private','grey market','vendor'],
+  'exodus':        ['exodus','crypto','wallet','payment','grey market','vendor'],
+  'kraken':        ['kraken','crypto','exchange','payment','grey market','vendor'],
+  'wallet':        ['wallet','crypto','payment','exodus','buying','grey market'],
+  'exchange':      ['exchange','crypto','payment','kraken','coinbase','buying'],
 };
 
 
