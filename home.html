@@ -23952,12 +23952,25 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     <input id="vpn-vol2" type="range" min="0" max="1" step="0.05" value="0.35" oninput="vpnMusicVolume(this.value)" style="flex:1;accent-color:#00ff41;cursor:pointer;" title="Volume">
     <span style="font-family:'Bebas Neue',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:rgba(0,255,65,0.35);">VOL</span>
   </div>
-  <div style="padding:0 0.6rem 0.75rem;display:flex;flex-direction:column;gap:0.28rem;">
+  <!-- Tab switcher -->
+  <div style="display:flex;border-bottom:1px solid rgba(0,255,65,0.12);">
+    <button id="vpn-tab-local" onclick="vpnSwitchTab('local')" style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:0.45rem 0.3rem;background:rgba(0,255,65,0.1);border:none;border-right:1px solid rgba(0,255,65,0.12);color:#00ff41;cursor:pointer;">&#127925; LOCAL</button>
+    <button id="vpn-tab-yt" onclick="vpnSwitchTab('yt')" style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.12em;padding:0.45rem 0.3rem;background:none;border:none;color:rgba(0,255,65,0.4);cursor:pointer;">&#9654; YT PLAYLIST</button>
+  </div>
+  <!-- Local tracks panel -->
+  <div id="vpn-local-panel" style="padding:0 0.6rem 0.75rem;display:flex;flex-direction:column;gap:0.28rem;margin-top:0.5rem;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:0.58rem;letter-spacing:0.2em;color:rgba(0,255,65,0.28);padding:0 0.25rem 0.18rem;">SELECT TRACK</div>
     <button class="vpn-tr vpn-tr-on" id="vpn-t0" onclick="vpnLoadTrack(0)">&#128293; Burning Skyline</button>
     <button class="vpn-tr" id="vpn-t1" onclick="vpnLoadTrack(1)">&#9889; 80s Pulse</button>
     <button class="vpn-tr" id="vpn-t2" onclick="vpnLoadTrack(2)">&#127769; Neon Shadows</button>
     <button class="vpn-tr" id="vpn-t3" onclick="vpnLoadTrack(3)">&#128640; Synthwave BG</button>
+  </div>
+  <!-- YouTube playlist panel -->
+  <div id="vpn-yt-panel" style="display:none;flex-direction:column;">
+    <div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;">
+      <iframe id="vpn-yt-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
+    </div>
+    <div style="padding:0.45rem 0.7rem;font-family:'Rajdhani',sans-serif;font-size:0.68rem;font-weight:600;color:rgba(0,255,65,0.45);text-align:center;letter-spacing:0.06em;">YOUTUBE MIX · RDqtBzqygCxLM</div>
   </div>
 </div>
 
@@ -24008,7 +24021,29 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   window.vpnMusicVolume=function(v){audio.volume=parseFloat(v);};
   window.vpnMusicExpand=function(){if(_closed)return;panel.style.display='flex';fab.style.display='none';};
   window.vpnMusicCollapse=function(){panel.style.display='none';fab.style.display='flex';};
-  window.vpnMusicClose=function(){panel.style.display='none';fab.style.display='none';audio.pause();setPlaying(false);_closed=true;};
+  window.vpnMusicClose=function(){panel.style.display='none';fab.style.display='none';audio.pause();setPlaying(false);_closed=true;var fi=document.getElementById('vpn-yt-iframe');if(fi)fi.src='';};
+  window.vpnSwitchTab=function(tab){
+    var lp=document.getElementById('vpn-local-panel');
+    var yp=document.getElementById('vpn-yt-panel');
+    var tl=document.getElementById('vpn-tab-local');
+    var ty=document.getElementById('vpn-tab-yt');
+    var fi=document.getElementById('vpn-yt-iframe');
+    var ppRow=document.querySelector('#vpn-music-panel > div:nth-child(3)'); // play/vol row
+    if(tab==='yt'){
+      lp.style.display='none';yp.style.display='flex';
+      tl.style.background='none';tl.style.color='rgba(0,255,65,0.4)';
+      ty.style.background='rgba(0,255,65,0.1)';ty.style.color='#00ff41';
+      if(ppRow)ppRow.style.display='none';
+      if(fi&&!fi.src.includes('youtube'))fi.src='https://www.youtube.com/embed/cujmxMCF6QI?list=RDqtBzqygCxLM&index=6&autoplay=1';
+      audio.pause();setPlaying(false);
+    } else {
+      yp.style.display='none';lp.style.display='flex';
+      ty.style.background='none';ty.style.color='rgba(0,255,65,0.4)';
+      tl.style.background='rgba(0,255,65,0.1)';tl.style.color='#00ff41';
+      if(ppRow)ppRow.style.display='flex';
+      if(fi)fi.src='';
+    }
+  };
   window.vpnLoadTrack=function(i){
     cur=i;audio.src=tracks[i].src;audio.load();
     tname.textContent=tracks[i].name;
