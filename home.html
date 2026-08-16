@@ -4506,27 +4506,22 @@ document.addEventListener('keydown', function(e){
   #vpnSearchIcon{position:absolute;left:0.85rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;opacity:0.55;}
   #vpnSearchClear{position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,0.35);font-size:1rem;cursor:pointer;padding:0;display:none;}
   #vpnSearchResults{
-    display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;
-    background:#04001a;border:2px solid rgba(0,245,255,0.35);border-radius:8px;
-    z-index:9999;max-height:400px;overflow-y:auto;
-    box-shadow:0 16px 48px rgba(0,0,0,0.97),0 0 24px rgba(0,245,255,0.12);
+    display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;
+    background:#06030f;border:1px solid rgba(0,245,255,0.25);border-radius:8px;
+    z-index:9999;max-height:440px;overflow-y:auto;overflow-x:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.98),0 0 30px rgba(0,245,255,0.08);
+    scrollbar-width:thin;scrollbar-color:rgba(0,245,255,0.18) transparent;
   }
-  .vsr-news{background:rgba(255,45,120,0.2);color:#ff2d78;}
-  .vsr-cheat{background:rgba(255,230,0,0.15);color:#9d00ff;}
-  .vsr-tool{background:rgba(0,255,100,0.15);color:#00ff64;}
-  .vsr-peptide{background:rgba(180,0,255,0.2);color:#cc44ff;}
-  .vsrItem{display:flex;align-items:flex-start;gap:0.7rem;padding:0.65rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.12s;}
-  .vsrItem:last-child{border-bottom:none;}
-  .vsrItem:hover{background:rgba(0,245,255,0.06);}
-  .vsrEmoji{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
-  .vsrText{flex:1;min-width:0;}
-  .vsrTitle{font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.08em;color:#00f5ff;line-height:1.2;}
-  .vsrCat{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.15em;flex-shrink:0;padding:2px 6px;border-radius:3px;align-self:center;}
-  .vsr-news{background:rgba(255,45,120,0.15);color:#ff2d78;}
-  .vsr-cheat{background:rgba(255,230,0,0.12);color:#9d00ff;}
-  .vsr-tool{background:rgba(0,255,100,0.12);color:#00ff64;}
-  .vsr-peptide{background:rgba(180,0,255,0.15);color:#cc44ff;}
-  #vsrNone{padding:1rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;color:rgba(255,255,255,0.38);text-align:center;}
+  #vpnSearchResults::-webkit-scrollbar{width:3px;}
+  #vpnSearchResults::-webkit-scrollbar-thumb{background:rgba(0,245,255,0.18);border-radius:2px;}
+  /* result row top label strip */
+  .vsr-strip{padding:0.25rem 1rem;background:rgba(0,0,0,0.4);border-bottom:1px solid rgba(255,255,255,0.04);
+    font-family:'Bebas Neue',sans-serif;font-size:0.55rem;letter-spacing:0.3em;color:rgba(255,255,255,0.2);}
+  .vsr-news{background:rgba(255,107,0,0.14);color:#ff6b00;border:1px solid rgba(255,107,0,0.3);}
+  .vsr-cheat{background:rgba(204,68,255,0.12);color:#cc44ff;border:1px solid rgba(204,68,255,0.3);}
+  .vsr-tool{background:rgba(0,255,100,0.1);color:#00ff64;border:1px solid rgba(0,255,100,0.25);}
+  .vsr-peptide{background:rgba(0,245,255,0.1);color:#00f5ff;border:1px solid rgba(0,245,255,0.25);}
+  #vsrNone{padding:1.1rem;font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.35);text-align:center;}
 </style>
 <div id="vpnSearchBar">
   <div id="vpnSearchWrap">
@@ -21698,10 +21693,10 @@ function vpnBuildIndex() {
     _vpnIdx.push({ e:'📰', cat:'vsr-news', lbl:'NEWS',
       title: t.textContent.trim(),
       kw: (t.textContent + ' ' + (b ? b.textContent : '')).toLowerCase(),
+      newsLink: 'latest-news.html',
       go: (function(card, vid){ return function(){
         showView(vid);
         setTimeout(function(){
-          // Open all ancestor <details> so the card is visible
           var p = card.parentElement;
           while(p){ if(p.tagName==='DETAILS') p.open=true; p=p.parentElement; }
           card.open=true;
@@ -21852,13 +21847,33 @@ function vpnSearch(q) {
   });
   if (!box) return;
   if (!hits.length) {
-    box.innerHTML = '<div style="padding:1rem;font-family:Rajdhani,sans-serif;font-size:0.95rem;color:rgba(255,255,255,0.4);text-align:center;">No results for <strong style="color:#fff;">"'+q.replace(/</g,'&lt;')+'"</strong></div>';
+    box.innerHTML = '<div style="padding:1rem 1.1rem;font-family:Rajdhani,sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.38);text-align:center;">No results for <strong style="color:#fff;">"'+q.replace(/</g,'&lt;')+'"</strong></div>';
   } else {
+    // type badge config
+    var badgeCfg = {
+      'vsr-cheat':  { color:'#cc44ff', bg:'rgba(204,68,255,0.12)',  icon:'🖼️',  tag:'IMAGE'     },
+      'vsr-peptide':{ color:'#00f5ff', bg:'rgba(0,245,255,0.1)',   icon:'🧬',  tag:'PEPTIDE'   },
+      'vsr-news':   { color:'#ff6b00', bg:'rgba(255,107,0,0.12)',  icon:'📰',  tag:'NEWS'      },
+      'vsr-tool':   { color:'#00ff64', bg:'rgba(0,255,100,0.1)',   icon:'📋',  tag:'GUIDE'     },
+    };
     box.innerHTML = hits.map(function(h,i){
-      return '<div style="display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);" onclick="vpnSearchGo('+i+')" onmouseover="this.style.background=\'rgba(0,245,255,0.06)\'" onmouseout="this.style.background=\'transparent\'">'
-        +'<span style="font-size:1.2rem;flex-shrink:0;">'+h.e+'</span>'
-        +'<div style="flex:1;min-width:0;font-family:Bebas Neue,sans-serif;font-size:0.92rem;letter-spacing:0.07em;color:#00f5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+h.title.substring(0,80).replace(/</g,'&lt;')+'</div>'
-        +'<span style="font-family:Bebas Neue,sans-serif;font-size:0.65rem;letter-spacing:0.15em;padding:2px 6px;border-radius:3px;flex-shrink:0;" class="'+h.cat+'">'+h.lbl+'</span>'
+      var cfg = badgeCfg[h.cat] || { color:'#aaa', bg:'rgba(255,255,255,0.06)', icon:h.e, tag:h.lbl };
+      // Detect if news item should redirect externally
+      var isNewsExternal = h.cat === 'vsr-news' && h.newsLink;
+      var badgeExtra = isNewsExternal ? ' ↗' : '';
+      return '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 1rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.1s;" onclick="vpnSearchGo('+i+')" onmouseover="this.style.background=\'rgba(255,255,255,0.04)\'" onmouseout="this.style.background=\'transparent\'">'
+        // type icon
+        +'<span style="font-size:1rem;flex-shrink:0;opacity:0.8;">'+cfg.icon+'</span>'
+        // title
+        +'<div style="flex:1;min-width:0;">'
+          +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:0.88rem;letter-spacing:0.06em;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2;">'+h.title.substring(0,90).replace(/</g,'&lt;')+'</div>'
+          +(h.cat==='vsr-cheat' ? '<div style="font-family:\'Rajdhani\',sans-serif;font-size:0.65rem;font-weight:700;color:rgba(204,68,255,0.6);letter-spacing:0.1em;margin-top:1px;">CHEAT SHEET IMAGE — click to zoom</div>'
+          : h.cat==='vsr-news' ? '<div style="font-family:\'Rajdhani\',sans-serif;font-size:0.65rem;font-weight:700;color:rgba(255,107,0,0.65);letter-spacing:0.1em;margin-top:1px;">'+(isNewsExternal?'LATEST NEWS — opens news page ↗':'NEWS ARTICLE — opens in feed')+'</div>'
+          : h.cat==='vsr-peptide' ? '<div style="font-family:\'Rajdhani\',sans-serif;font-size:0.65rem;font-weight:700;color:rgba(0,245,255,0.5);letter-spacing:0.1em;margin-top:1px;">PEPTIDE GUIDE</div>'
+          : '<div style="font-family:\'Rajdhani\',sans-serif;font-size:0.65rem;font-weight:700;color:rgba(0,255,100,0.5);letter-spacing:0.1em;margin-top:1px;">ARTICLE / GUIDE</div>')
+        +'</div>'
+        // badge pill
+        +'<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.6rem;letter-spacing:0.14em;padding:2px 7px;border-radius:3px;flex-shrink:0;background:'+cfg.bg+';color:'+cfg.color+';border:1px solid '+cfg.color+'33;">'+cfg.tag+badgeExtra+'</span>'
         +'</div>';
     }).join('');
   }
@@ -21868,11 +21883,18 @@ function vpnSearch(q) {
 
 function vpnSearchGo(i) {
   var h = window._vpnHits && window._vpnHits[i];
-  if (h) {
+  if (!h) return;
+  // News items that live on latest-news.html → open that page
+  if (h.cat === 'vsr-news' && h.newsLink) {
+    window.open(h.newsLink, '_blank', 'noopener');
+  } else {
     h.go();
-    vpnSearchClose();
-    document.getElementById('vpnSearchInput').value = '';
   }
+  vpnSearchClose();
+  var inp = document.getElementById('vpnSearchInput');
+  if (inp) inp.value = '';
+  var sbInp = document.querySelector('.sb-search-input');
+  if (sbInp) sbInp.value = '';
 }
 
 function vpnSearchClose() {
