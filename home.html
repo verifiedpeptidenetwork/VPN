@@ -7144,9 +7144,7 @@ document.addEventListener('keydown', function(e){
     @keyframes vpnCornerPop{0%,100%{opacity:0.6;}50%{opacity:1;}}
     .vpn-home-hero{
       position:relative;overflow:hidden;
-      background:radial-gradient(ellipse at 30% 0%,rgba(0,60,80,0.35) 0%,transparent 60%),
-                 radial-gradient(ellipse at 80% 100%,rgba(80,0,80,0.3) 0%,transparent 55%),
-                 linear-gradient(170deg,rgba(4,1,18,0.99) 0%,rgba(1,0,10,1) 100%);
+      background:#000;
       border:0 none;
       outline:1.5px solid rgba(0,245,255,0.3);
       margin:0 0 1rem;width:100%;box-sizing:border-box;
@@ -7154,6 +7152,7 @@ document.addEventListener('keydown', function(e){
       animation:vpnHeroGlow 5s ease-in-out infinite;
       clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
     }
+    #vpn-petals-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;}
     /* animated rainbow top border */
     .vpn-home-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;z-index:10;pointer-events:none;
       background:linear-gradient(90deg,#00f5ff,#cc44ff,#ff2d78,#7b2fff,#00f5ff);
@@ -7409,6 +7408,7 @@ document.addEventListener('keydown', function(e){
   <!-- HERO -->
   <div class="vpn-home-hero">
     <canvas id="vpn-matrix-canvas"></canvas>
+    <canvas id="vpn-petals-canvas"></canvas>
     <div class="hero-corner tl"></div>
     <div class="hero-corner tr"></div>
     <div class="hero-corner bl"></div>
@@ -23495,6 +23495,79 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     }
     setInterval(drawMx, 40);
   }
+
+  // ── ROSE PETALS ──
+  (function(){
+    var pc = document.getElementById('vpn-petals-canvas');
+    if(!pc) return;
+    var px = pc.getContext('2d');
+    var petals = [];
+    var NUM = 38;
+
+    // petal shapes: tiny ellipses rotated, in soft pink/red/magenta
+    var colors = ['rgba(255,100,140,0.82)','rgba(220,50,90,0.78)','rgba(255,160,180,0.72)',
+                  'rgba(255,60,110,0.85)','rgba(200,30,70,0.75)','rgba(255,180,200,0.65)',
+                  'rgba(240,80,130,0.8)','rgba(180,20,60,0.7)'];
+
+    function randomPetal(fromTop){
+      return {
+        x: Math.random() * pc.width,
+        y: fromTop ? -20 - Math.random()*200 : Math.random() * pc.height,
+        w: 8 + Math.random()*10,
+        h: 4 + Math.random()*6,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random()-0.5) * 0.04,
+        vx: (Math.random()-0.5) * 1.2,
+        vy: 0.6 + Math.random() * 1.1,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.015 + Math.random()*0.025,
+        swayAmt: 0.5 + Math.random()*1.2,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        opacity: 0.55 + Math.random()*0.45
+      };
+    }
+
+    function resizePc(){
+      pc.width = pc.offsetWidth;
+      pc.height = pc.offsetHeight;
+      petals = [];
+      for(var i=0;i<NUM;i++) petals.push(randomPetal(false));
+    }
+    resizePc();
+    window.addEventListener('resize', resizePc);
+
+    function drawPetals(){
+      px.clearRect(0,0,pc.width,pc.height);
+      for(var i=0;i<petals.length;i++){
+        var p = petals[i];
+        p.sway += p.swaySpeed;
+        p.x += p.vx + Math.sin(p.sway) * p.swayAmt;
+        p.y += p.vy;
+        p.angle += p.spin;
+        if(p.y > pc.height + 30) { petals[i] = randomPetal(true); continue; }
+        px.save();
+        px.translate(p.x, p.y);
+        px.rotate(p.angle);
+        px.globalAlpha = p.opacity;
+        // draw a petal: two bezier curves forming a leaf shape
+        px.beginPath();
+        px.moveTo(0, -p.h/2);
+        px.bezierCurveTo(p.w/2, -p.h/2, p.w/2, p.h/2, 0, p.h/2);
+        px.bezierCurveTo(-p.w/2, p.h/2, -p.w/2, -p.h/2, 0, -p.h/2);
+        px.fillStyle = p.color;
+        px.fill();
+        // vein
+        px.beginPath();
+        px.moveTo(0,-p.h/2);
+        px.lineTo(0,p.h/2);
+        px.strokeStyle = 'rgba(255,255,255,0.25)';
+        px.lineWidth = 0.5;
+        px.stroke();
+        px.restore();
+      }
+    }
+    setInterval(drawPetals, 35);
+  })();
 
   // ── LOGO MATRIX RAIN (inside the big logo circle) ──
   var lmc = document.getElementById('vpn-logo-matrix');
