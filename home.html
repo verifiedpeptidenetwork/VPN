@@ -7065,30 +7065,39 @@ document.addEventListener('keydown', function(e){
   <!-- ═══ HOME FLEX ORDER — GLP + News on top, Glowrilla/3D below ═══ -->
   <style>
     #site-hero { display:flex; flex-direction:column; width:100%; }
-    .qnav-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .qnav-grid { grid-template-columns:repeat(3,1fr) !important; }
 
     /* ── SITE-HERO FLEX ORDER (desktop + mobile match) ── */
-    /* WHY WE'RE HERE has no order (default 0) — stays at top */
-    #home-latest-news  { order:1; }   /* Latest News             — right under Why We're Here */
-    .hero-btn-row      { order:2; }   /* GLP / Gray / Glowrilla — under Latest News */
-    #vpn-lab-video     { order:3; }   /* Glowrilla video */
-    #vpn-docvid-promo  { order:4; }   /* Doctor Library */
-    #if-promo          { order:5; }   /* Intel Feed */
-    #qnav-wrap         { order:6; }   /* Quick Nav Grid — below intel feed */
-    .vpn-home-hero     { order:7; }   /* Big nav card — bottom */
+    /* retro80-outer logo has no order (default 0) — stays at very top */
+    .vpn-home-hero     { order:1; }   /* Hero title/status bar — right after logo (matches desktop prominence) */
+    #home-latest-news  { order:2; }   /* Latest News */
+    .hero-btn-row      { order:3; }   /* GLP / Gray / Glowrilla */
+    #vpn-lab-video     { order:4; }   /* Glowrilla video */
+    #vpn-docvid-promo  { order:5; }   /* Doctor Library */
+    #if-promo          { order:6; }   /* Intel Feed */
+    #qnav-wrap         { order:7; }   /* Quick Nav Grid — bottom */
 
-    /* ── MOBILE COMPACTNESS ── */
+    /* ── MOBILE LAYOUT — phone portrait matches desktop prominence ── */
     @media(max-width:900px){
       #site-hero { padding:0 0.5rem; }
       #vpn-lab-video video { max-height:220px; }
       #vpn-docvid-promo { margin-bottom:0.75rem; }
       .hero-btn-row { margin-bottom:0.65rem; }
       #if-promo { margin:0 0 0.75rem; }
-      .vpn-home-hero { margin-top:0.5rem; }
+      .vpn-home-hero { margin-top:0.4rem; margin-bottom:0.75rem; }
       .qnav-grid { grid-template-columns:repeat(3,1fr) !important; gap:0.45rem; }
       .qnav-card { padding:0.6rem 0.25rem !important; }
-      .hero-inner { padding:1rem !important; }
-      .vpn-home-title { font-size:clamp(1.8rem,8vw,3rem) !important; }
+      .hero-inner { padding:1.1rem !important; }
+      .vpn-home-title { font-size:clamp(2rem,9vw,3.2rem) !important; }
+      /* status bar wraps cleanly on narrow screens */
+      .hero-status-bar { flex-wrap:wrap; gap:0.25rem 0.5rem; padding:0.45rem 0.7rem; }
+      .hero-status-sep { display:none; }
+    }
+    /* ── PHONE PORTRAIT FINE-TUNE (≤480px) ── */
+    @media(max-width:480px){
+      .qnav-grid { grid-template-columns:repeat(3,1fr) !important; }
+      .vpn-home-title { font-size:clamp(1.9rem,10vw,3rem) !important; }
+      .hero-inner { padding:0.85rem !important; }
     }
     /* ── LOGO ANIMATIONS ── */
     @keyframes vpnLogoSpin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
@@ -7118,13 +7127,13 @@ document.addEventListener('keydown', function(e){
     .vpn-logo-glow{position:absolute;top:50%;left:50%;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,0.18) 0%,rgba(255,45,120,0.1) 45%,transparent 70%);animation:vpnLogoPulse 3s ease-in-out infinite;z-index:1;}
     .vpn-logo-scan{position:absolute;left:0;width:100%;height:4px;border-radius:50%;background:linear-gradient(90deg,transparent 0%,rgba(0,245,255,0) 20%,rgba(0,245,255,0.9) 50%,rgba(0,245,255,0) 80%,transparent 100%);animation:vpnScanLine 2.8s ease-in-out infinite;z-index:5;pointer-events:none;}
     @media(max-width:480px){
-      .vpn-home-logo-wrap{width:310px;height:310px;}
-      .vpn-home-logo-img{width:298px;height:298px;}
-      .vpn-logo-ring-1{width:308px;height:308px;margin:-154px 0 0 -154px;}
-      .vpn-logo-ring-2{width:322px;height:322px;margin:-161px 0 0 -161px;}
-      .vpn-logo-ring-3{width:336px;height:336px;margin:-168px 0 0 -168px;}
-      .vpn-logo-ring-4{width:300px;height:300px;margin:-150px 0 0 -150px;}
-      .vpn-logo-glow{width:298px;height:298px;margin:-149px 0 0 -149px;}
+      .vpn-home-logo-wrap{width:340px;height:340px;}
+      .vpn-home-logo-img{width:326px;height:326px;}
+      .vpn-logo-ring-1{width:336px;height:336px;margin:-168px 0 0 -168px;}
+      .vpn-logo-ring-2{width:350px;height:350px;margin:-175px 0 0 -175px;}
+      .vpn-logo-ring-3{width:364px;height:364px;margin:-182px 0 0 -182px;}
+      .vpn-logo-ring-4{width:328px;height:328px;margin:-164px 0 0 -164px;}
+      .vpn-logo-glow{width:326px;height:326px;margin:-163px 0 0 -163px;}
     }
     /* ── MATRIX CANVAS ── */
     #vpn-matrix-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.22;z-index:0;}
@@ -7267,8 +7276,8 @@ document.addEventListener('keydown', function(e){
     }
     @keyframes retroLogoFloat{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
     /* ── RETRO80 LOGO — fully responsive ── */
-    /* phone portrait */
-    :root{--r80:min(70vw,260px);}
+    /* phone portrait — larger so it feels as prominent as desktop sidebar */
+    :root{--r80:min(82vw,290px);}
     /* tablet (iPad portrait + landscape) */
     @media(min-width:600px){:root{--r80:min(52vw,290px);}}
     /* desktop */
