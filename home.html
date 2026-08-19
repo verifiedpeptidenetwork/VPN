@@ -5238,13 +5238,13 @@ document.addEventListener('keydown', function(e){
 
             <!-- 02 — Spot Fake COAs -->
             <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
-              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.coa-arr').textContent=open?'▲':'▼';})(this)"
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'flex';el.querySelector('.coa-arr').textContent=open?'▼':'▲';})(this)"
                    style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.06);user-select:none;">
                 <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">02</span>
                 <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Learn to spot fake COAs.</strong> Verify certificates of analysis — identify fraudulent lab reports before you buy.</span>
                 <span class="coa-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
               </div>
-              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);display:flex;flex-direction:column;gap:0.5rem;">
+              <div style="display:none;padding:0.5rem;background:rgba(0,0,0,0.55);border-top:1px solid rgba(255,20,80,0.12);flex-direction:column;gap:0.5rem;">
                 <img src="cheatsheet/vendors-how-to-spot-fake-coa.jpg" alt="How to Spot a Fake COA" loading="lazy" onclick="openLightbox('cheatsheet/vendors-how-to-spot-fake-coa.jpg','How to Spot a Fake COA')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;">
                 <img src="cheatsheet/fakecoasnew.jpg" alt="Fake COA Examples" loading="lazy" onclick="openLightbox('cheatsheet/fakecoasnew.jpg','Fake COA Examples — What To Look For')" style="width:100%;border-radius:5px;cursor:zoom-in;display:block;border:1px solid rgba(255,45,120,0.4);">
               </div>
@@ -5263,19 +5263,21 @@ document.addEventListener('keydown', function(e){
               </div>
             </div>
 
-            <!-- 04 — Peptide Index + Studies -->
-            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.04);">
-              <div style="display:flex;align-items:flex-start;gap:0.6rem;">
+            <!-- 04 — Peptide Index + Studies (collapsible) -->
+            <div style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
+              <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display!=='none';b.style.display=open?'none':'block';el.querySelector('.idx-arr').textContent=open?'▼':'▲';})(this)"
+                   style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(255,20,80,0.06);user-select:none;">
                 <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;min-width:1.6rem;">04</span>
-                <div>
-                  <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;margin-bottom:0.4rem;"><strong style="color:#fff;">Explore the Peptide Index &amp; Studies.</strong> Learn what each peptide does before you research it.</div>
-                  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                    <span onclick="showView('all-peptides');setSbActive(document.querySelector('[data-view=all-peptides]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">PEPTIDE INDEX ↗</span>
-                    <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">STUDIES ↗</span>
-                    <span onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#cc44ff;border:1px solid rgba(204,68,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(204,68,255,0.07);">⚗️ KLOW &amp; GLOW CALC ↗</span>
-                    <a href="peptide-suggestion.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff2d78;border:1px solid rgba(255,45,120,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,45,120,0.07);text-decoration:none;">🧬 PEPTIDE SUGGEST ↗</a>
-                    <a href="latest-news.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#00f5ff;border:1px solid rgba(0,245,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(0,245,255,0.07);text-decoration:none;">📡 LATEST NEWS ↗</a>
-                  </div>
+                <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(255,200,210,0.9);line-height:1.45;"><strong style="color:#fff;">Explore the Peptide Index &amp; Studies.</strong> Learn what each peptide does before you research it.</span>
+                <span class="idx-arr" style="color:#ff1450;font-size:0.72rem;flex-shrink:0;">▼</span>
+              </div>
+              <div style="display:none;padding:0.6rem 0.7rem 0.7rem;background:rgba(0,0,0,0.45);border-top:1px solid rgba(255,20,80,0.12);">
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                  <span onclick="showView('all-peptides');setSbActive(document.querySelector('[data-view=all-peptides]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">PEPTIDE INDEX ↗</span>
+                  <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">STUDIES ↗</span>
+                  <span onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#cc44ff;border:1px solid rgba(204,68,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(204,68,255,0.07);">⚗️ KLOW &amp; GLOW CALC ↗</span>
+                  <a href="peptide-suggestion.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff2d78;border:1px solid rgba(255,45,120,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,45,120,0.07);text-decoration:none;">🧬 PEPTIDE SUGGEST ↗</a>
+                  <a href="latest-news.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#00f5ff;border:1px solid rgba(0,245,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(0,245,255,0.07);text-decoration:none;">📡 LATEST NEWS ↗</a>
                 </div>
               </div>
             </div>
