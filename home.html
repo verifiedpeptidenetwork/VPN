@@ -21400,10 +21400,19 @@ const SHEET_KEYWORD_MAP = {
   'black magic':   ['black magic','sihr','witchcraft','sorcery','ruqyah','jinn'],
   'islamic':       ['islamic','ruqyah','sihr','jinn','evil eye','dua','quran','prayer'],
   'quran':         ['quran','ruqyah','islamic','sihr','healing','dua','prayer'],
-  'skool':         ['skool','community','reta unfiltered','membership','join'],
-  'community':     ['community','skool','reta unfiltered','membership'],
-  'telegram':      ['telegram','research stores','peptide stores','vendor','community'],
-  'research store':['research store','telegram','vendor','peptide stores','supplier'],
+  'skool':         ['skool','community','reta unfiltered','membership','join','group','forum','members'],
+  'reta unfiltered':['reta unfiltered','skool','community','membership','join','peptide community'],
+  'community':     ['community','skool','telegram','reta unfiltered','membership','join','group'],
+  'join':          ['join','skool','telegram','community','membership','reta unfiltered','group'],
+  'membership':    ['membership','skool','join','community','reta unfiltered'],
+  'telegram':      ['telegram','research stores','peptide stores','vendor','community','channel','group','join','t.me'],
+  'research store':['research store','telegram','vendor','peptide stores','supplier','channel'],
+  'where to buy':  ['telegram','research store','vendor','peptide stores','community','channel'],
+  'where to find': ['telegram','research store','vendor','peptide stores','community'],
+  'vendor':        ['vendor','telegram','research store','peptide stores','channel','community','grey market'],
+  'bonus':         ['bonus vault','bonus','secret shop','skool','telegram','community','extras','exclusive'],
+  'secret shop':   ['secret shop','bonus vault','ian tool','pacheco','tools','password','login','member'],
+  'bonus vault':   ['bonus vault','bonus','secret shop','skool','telegram','community','ian','pacheco'],
   'cjc 1295':      ['cjc-1295','cjc','ipamorelin','growth hormone','ghrh','secretagogue'],
   'growth hormone':['growth hormone','hgh','cjc-1295','ipamorelin','tesamorelin','ghrh','ghrp','sermorelin'],
   'gh':            ['growth hormone','hgh','cjc','ipamorelin','tesamorelin','secretagogue'],
@@ -22285,6 +22294,24 @@ function vpnBuildIndex() {
         if(det){ det.open = true; det.scrollIntoView({behavior:'smooth', block:'start'}); }
       }, 380);
     }
+  });
+  // Telegram — static entry
+  _vpnIdx.push({ e:'✈️', cat:'vsr-tool', lbl:'COMMUNITY',
+    title: 'Telegram — Research Peptide Stores & Community',
+    kw: 'telegram research peptide stores vendor community join channel group chat peptide stores buy where telegram group vpn research stores channel link',
+    go: function(){ showView('bonus'); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(function(){ window.open('https://t.me/+H6REuzfM1zRmNjgx','_blank','noopener'); },300); }
+  });
+  // Skool community — static entry
+  _vpnIdx.push({ e:'🏫', cat:'vsr-tool', lbl:'COMMUNITY',
+    title: 'Skool — Reta Unfiltered Community',
+    kw: 'skool community reta unfiltered join membership group forum peptide community skool.com retaunfiltered join community members',
+    go: function(){ showView('bonus'); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(function(){ window.open('https://www.skool.com/retaunfiltered/about','_blank','noopener'); },300); }
+  });
+  // Secret Shop / Bonus Vault — static entry
+  _vpnIdx.push({ e:'⭐', cat:'vsr-tool', lbl:'BONUS VAULT',
+    title: 'Bonus Vault — Secret Shop, Community Tools & Extras',
+    kw: 'bonus vault secret shop telegram skool community reta unfiltered tools pacheco kerui ian price tool member login password access exclusive extra content bonus',
+    go: function(){ showView('bonus'); window.scrollTo({top:0,behavior:'smooth'}); }
   });
   // KLOW & GLOW Calculator — static entry
   _vpnIdx.push({ e:'⚗️', cat:'vsr-tool', lbl:'KLOW/GLOW CALC',
