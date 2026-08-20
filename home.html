@@ -7156,7 +7156,8 @@ document.addEventListener('keydown', function(e){
     @keyframes vpnCornerPop{0%,100%{opacity:0.6;}50%{opacity:1;}}
     .vpn-home-hero{
       position:relative;overflow:hidden;
-      background:#000;
+      background:rgba(0,0,8,0.45);
+      backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
       border:0 none;
       outline:1.5px solid rgba(0,245,255,0.3);
       margin:0 0 1rem;width:100%;box-sizing:border-box;
@@ -7403,6 +7404,8 @@ document.addEventListener('keydown', function(e){
   <!-- DESKTOP 2-COLUMN WRAP: logo left, quick-nav right -->
   <div id="home-desktop-cols">
   <div class="retro80-outer">
+    <!-- rose petals fall over the logo area -->
+    <canvas id="vpn-logo-petals" style="position:absolute;top:-60px;left:-60px;width:calc(100% + 120px);height:calc(100% + 120px);pointer-events:none;z-index:20;"></canvas>
     <!-- spinning rings wrap around the circular card -->
     <div class="retro80-ring-wrap">
       <div class="retro80-logo-ring retro80-r3"></div>
@@ -24136,6 +24139,72 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       }
     }
     setInterval(drawPetals, 35);
+  })();
+
+  // ── LOGO ROSE PETALS (retro80 logo area) ──
+  (function(){
+    var lc = document.getElementById('vpn-logo-petals');
+    if(!lc) return;
+    var lx = lc.getContext('2d');
+    var lpetals = [];
+    var LNUM = 22;
+    var lcolors = ['rgba(255,100,140,0.85)','rgba(220,50,90,0.8)','rgba(255,160,180,0.75)',
+                   'rgba(255,60,110,0.88)','rgba(200,30,70,0.78)','rgba(255,180,200,0.68)',
+                   'rgba(240,80,130,0.82)','rgba(255,220,235,0.65)'];
+    function rLp(fromTop){
+      return {
+        x: Math.random() * lc.width,
+        y: fromTop ? -15 - Math.random()*80 : Math.random() * lc.height,
+        w: 7 + Math.random()*9,
+        h: 3.5 + Math.random()*5,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random()-0.5) * 0.05,
+        vx: (Math.random()-0.5) * 1.0,
+        vy: 0.5 + Math.random() * 1.0,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.018 + Math.random()*0.028,
+        swayAmt: 0.4 + Math.random()*1.0,
+        color: lcolors[Math.floor(Math.random()*lcolors.length)],
+        opacity: 0.6 + Math.random()*0.4
+      };
+    }
+    function resizeLc(){
+      lc.width = lc.offsetWidth;
+      lc.height = lc.offsetHeight;
+      lpetals = [];
+      for(var i=0;i<LNUM;i++) lpetals.push(rLp(false));
+    }
+    resizeLc();
+    window.addEventListener('resize', resizeLc);
+    function drawLogoPetals(){
+      lx.clearRect(0,0,lc.width,lc.height);
+      for(var i=0;i<lpetals.length;i++){
+        var p = lpetals[i];
+        p.sway += p.swaySpeed;
+        p.x += p.vx + Math.sin(p.sway) * p.swayAmt;
+        p.y += p.vy;
+        p.angle += p.spin;
+        if(p.y > lc.height + 20){ lpetals[i] = rLp(true); continue; }
+        lx.save();
+        lx.translate(p.x, p.y);
+        lx.rotate(p.angle);
+        lx.globalAlpha = p.opacity;
+        lx.beginPath();
+        lx.moveTo(0, -p.h/2);
+        lx.bezierCurveTo(p.w/2, -p.h/2, p.w/2, p.h/2, 0, p.h/2);
+        lx.bezierCurveTo(-p.w/2, p.h/2, -p.w/2, -p.h/2, 0, -p.h/2);
+        lx.fillStyle = p.color;
+        lx.fill();
+        lx.beginPath();
+        lx.moveTo(0,-p.h/2);
+        lx.lineTo(0,p.h/2);
+        lx.strokeStyle = 'rgba(255,255,255,0.22)';
+        lx.lineWidth = 0.5;
+        lx.stroke();
+        lx.restore();
+      }
+    }
+    setInterval(drawLogoPetals, 35);
   })();
 
   // ── LOGO MATRIX RAIN (inside the big logo circle) ──
