@@ -89,10 +89,10 @@
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 13px;
-    background-color: #04000f;
+    background-color: #000;
     background-image: url('WALLPAPER.png');
-    background-size: 70%;
-    background-position: center 20%;
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-width: 100vw;
@@ -113,45 +113,17 @@
       inset: 0;
       z-index: -2;
       background-image: url('WALLPAPER.png');
-      background-size: 70%;
-      background-position: center 20%;
+      background-size: cover;
+      background-position: center center;
       background-repeat: no-repeat;
     }
   }
 
-  /* Landscape phone/iPad — wide image fits naturally */
-  @media (max-width: 1024px) and (orientation: landscape) {
-    body::before {
-      background-size: cover;
-      background-position: center 15%;
-    }
-  }
-
-  /* Portrait phone — zoom out + remove blocking effects */
+  /* All orientations: cover fills the viewport */
   @media (max-width: 600px) and (orientation: portrait) {
-    body {
-      background-color: transparent !important;
-    }
-    body::before {
-      background-size: cover;
-      background-position: center center;
-      z-index: 0 !important;
-    }
-    body::after {
-      display: none !important;
-    }
-    #starfield, #scene-canvas {
-      opacity: 0 !important;
-      pointer-events: none;
-    }
-  }
-
-  /* Portrait tablet (iPad) */
-  @media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
-    body::before {
-      background-size: 200% auto;
-      background-position: center 20%;
-    }
+    body { background-color: transparent !important; }
+    body::before { z-index: 0 !important; }
+    #starfield, #scene-canvas { opacity: 0 !important; pointer-events: none; }
   }
 
   /* Global: replace Share Tech Mono with bold Rajdhani everywhere — CSS classes + inline styles */
@@ -187,21 +159,7 @@
     pointer-events: none;
   }
 
-  /* Subtle scanlines only — wallpaper shows through */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.04) 2px,
-      rgba(0,0,0,0.04) 4px
-    );
-    pointer-events: none;
-    z-index: -1;
-  }
+  /* scanlines removed — wallpaper pops fully */
 
   /* Hide home-only content inside #site-hero on non-home views — applies on ALL screen sizes.
      .view elements stay unaffected — they use their own display:none/block via .active */
