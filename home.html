@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VPN Verified Peptides Network | Research Guides</title>
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VPN Research">
+<link rel="apple-touch-icon" href="VPNNEWLOGO.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://www.gstatic.com">
@@ -4382,7 +4388,7 @@ document.addEventListener('keydown', function(e){
         <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:3;pointer-events:none;">
           <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.85),transparent);animation:vpnScanLine 3s ease-in-out infinite;"></div>
         </div>
-        <img src="VPNNEWLOGO.png?v=1" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;animation:vpnGlitch 7s ease-in-out infinite;">
+        <img src="VPNNEWLOGO.png?v=1" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;">
       </div>
       <div>
         <div class="retro-nav-logo-title">VERIFIED PEPTIDES NETWORK</div>
@@ -4552,6 +4558,15 @@ document.addEventListener('keydown', function(e){
     </style>
 
     <div class="hero-btn-row">
+
+      <!-- INSTALL APP BUTTON -->
+      <div id="vpn-install-wrap" style="display:none;width:100%;flex-basis:100%;box-sizing:border-box;margin-bottom:0.5rem;">
+        <button id="vpn-install-btn" onclick="vpnInstallApp()"
+          style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.75rem 1.25rem;background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(204,68,255,0.1));border:1.5px solid rgba(0,245,255,0.55);border-radius:8px;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.16em;color:#00f5ff;box-shadow:0 0 18px rgba(0,245,255,0.15);transition:border-color 0.2s;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00f5ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v13M7 10l5 5 5-5"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg>
+          INSTALL APP — ADD TO HOME SCREEN
+        </button>
+      </div>
 
       <!-- GLP SAFETY — full-width second row inside the button group -->
       <div style="width:100%;flex-basis:100%;box-sizing:border-box;margin:0;">
@@ -24312,6 +24327,32 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.tagName==='VIDEO')watchVid(n);else if(n.querySelectorAll)n.querySelectorAll('video').forEach(watchVid);});});}).observe(document.body,{childList:true,subtree:true});
   audio.addEventListener('ended',function(){setPlaying(false);});
 })();
+</script>
+<script>
+// PWA service worker + install prompt
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+var _vpnDeferredInstall = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  _vpnDeferredInstall = e;
+  var w = document.getElementById('vpn-install-wrap');
+  if(w) w.style.display = 'block';
+});
+function vpnInstallApp(){
+  if(!_vpnDeferredInstall) return;
+  _vpnDeferredInstall.prompt();
+  _vpnDeferredInstall.userChoice.then(function(){
+    _vpnDeferredInstall = null;
+    var w = document.getElementById('vpn-install-wrap');
+    if(w) w.style.display = 'none';
+  });
+}
+window.addEventListener('appinstalled', function(){
+  var w = document.getElementById('vpn-install-wrap');
+  if(w) w.style.display = 'none';
+});
 </script>
 </body>
 </html>
