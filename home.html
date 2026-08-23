@@ -1997,7 +1997,7 @@
     max-height: 80vw;
     object-fit: contain;
     border-radius: 50%;
-    animation: logoGlow 3s ease-in-out infinite, flicker 8s infinite;
+    animation: logoGlow 3s ease-in-out infinite;
     filter:
       drop-shadow(0 0 6px rgba(0,245,255,0.9))
       drop-shadow(0 0 14px rgba(255,45,120,0.6))
@@ -2898,21 +2898,16 @@
    ══════════════════════════════════════════════════════ */
 
 /* ── WELCOME / COA "Before You Research" card ── acid yellow */
-#vpn-watch-first > div {
-  border-color: rgba(212,255,0,0.7) !important;
-  border-top-color: #d4ff00 !important;
-  box-shadow: 0 0 40px rgba(212,255,0,0.18), 0 0 80px rgba(212,255,0,0.07) !important;
-  background: #020500 !important;
-}
-#vpn-watch-first summary { background: linear-gradient(90deg,rgba(212,255,0,0.13),transparent) !important; border-bottom-color: rgba(212,255,0,0.18) !important; }
-#vpn-watch-first summary div:first-child { color: #d4ff00 !important; }
-#vpn-watch-first summary div:last-child { color: rgba(212,255,0,0.6) !important; }
-#vpn-watch-first summary span[style*="border"] { border-color: #d4ff00 !important; color: #d4ff00 !important; }
-#vpn-watch-first [style*="#ff1450"], #vpn-watch-first [style*="rgba(255,20,80"] { color: #d4ff00 !important; border-color: rgba(212,255,0,0.4) !important; }
-#vpn-watch-first .byr-arr, #vpn-watch-first .byr-main-arr { color: #d4ff00 !important; }
-#vpn-watch-first .coa-arr { color: #d4ff00 !important; }
-#vpn-watch-first [style*="border-left:3px solid #ff1450"] { border-left-color: #d4ff00 !important; border-color: rgba(212,255,0,0.3) !important; }
-#vpn-watch-first [style*="background:rgba(255,20,80"] { background: rgba(212,255,0,0.06) !important; }
+#vpn-watch-first > div { border-color: rgba(255,0,80,0.75)!important; border-top-color: #ff0050!important; background: #0a0003!important; }
+#vpn-watch-first summary { background: linear-gradient(90deg,rgba(255,0,80,0.13),transparent) !important; border-bottom-color: rgba(255,0,80,0.18) !important; }
+#vpn-watch-first summary div:first-child { color: #ff0050 !important; }
+#vpn-watch-first summary div:last-child { color: rgba(255,0,80,0.7) !important; }
+#vpn-watch-first summary span[style*="border"] { border-color: #ff0050 !important; color: #ff0050 !important; }
+#vpn-watch-first [style*="#ff1450"], #vpn-watch-first [style*="rgba(255,20,80"] { color: #ff0050 !important; border-color: rgba(255,0,80,0.4) !important; }
+#vpn-watch-first .byr-arr, #vpn-watch-first .byr-main-arr { color: #ff0050 !important; }
+#vpn-watch-first .coa-arr { color: #ff0050 !important; }
+#vpn-watch-first [style*="border-left:3px solid #ff1450"] { border-left-color: #ff0050 !important; border-color: rgba(255,0,80,0.3) !important; }
+#vpn-watch-first [style*="background:rgba(255,20,80"] { background: rgba(255,0,80,0.06) !important; }
 /* 05 install row */
 #vpn-install-row { border-color: rgba(212,255,0,0.3) !important; border-left-color: #d4ff00 !important; background: rgba(212,255,0,0.05) !important; }
 #vpn-install-row span:first-child { color: #d4ff00 !important; }
@@ -4691,7 +4686,22 @@ document.addEventListener('keydown', function(e){
               <p style="margin:0;color:rgba(255,200,150,0.8);font-size:0.9rem;"><strong style="color:#ff6b00;">Bottom line:</strong> If you do not have diabetic neuropathy, MTC history, or MEN 2 — these headlines do not apply to you. Always verify with your physician.</p>
             </div>
 
-            <!-- DO PEPTIDES CAUSE CANCER? -->
+
+            <!-- Two opinions on GLP blindness risk -->
+            <div style="margin-top:0.85rem;display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+              <div>
+                <div style="font-family:''Bebas Neue'',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff6b00;margin-bottom:0.3rem;text-align:center;">OPINION 1</div>
+                <div style="cursor:zoom-in;" onclick="openLightbox(''glpblind.jpg'',''GLP & Blindness — Opinion 1'')">
+                  <img loading="lazy" src="glpblind.jpg" alt="GLP Blindness Opinion 1" style="width:100%;display:block;border:1px solid rgba(255,107,0,0.4);border-radius:4px;" title="Click to zoom">
+                </div>
+              </div>
+              <div>
+                <div style="font-family:''Bebas Neue'',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff6b00;margin-bottom:0.3rem;text-align:center;">OPINION 2</div>
+                <div style="cursor:zoom-in;" onclick="openLightbox(''glpblind2.jpg'',''GLP & Blindness — Opinion 2'')">
+                  <img loading="lazy" src="glpblind2.jpg" alt="GLP Blindness Opinion 2" style="width:100%;display:block;border:1px solid rgba(255,107,0,0.4);border-radius:4px;" title="Click to zoom">
+                </div>
+              </div>
+            </div>            <!-- DO PEPTIDES CAUSE CANCER? -->
             <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;border:2px solid rgba(157,0,255,0.55);box-shadow:0 0 24px rgba(157,0,255,0.18);">
               <!-- header -->
               <div style="background:linear-gradient(135deg,rgba(157,0,255,0.18),rgba(255,45,120,0.1));padding:0.9rem 1.1rem 0.75rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
@@ -6911,7 +6921,25 @@ document.addEventListener('keydown', function(e){
           </div>
         </details>
 
-        <!-- NEWS ITEM: Larazotide / Long-COVID -->
+
+        <!-- NEWS ITEM: Reta Crackdown -->
+        <details class="vpn-news-card" style="--nt:#ff0050;--ng:rgba(255,0,80,0.4);--nb:rgba(255,0,80,0.4);">
+          <summary class="vpn-news-summary">
+            <span class="vpn-news-icon">⚠️</span>
+            <span class="vpn-news-badge" style="background:#ff0050;">ALERT</span>
+            <span class="vpn-news-title">Retatrutide — The Crackdown</span>
+            <span class="vpn-news-arrow">▼</span>
+          </summary>
+          <div class="vpn-news-body">
+            <div style="color:rgba(255,255,255,0.85);">
+              <strong style="color:#ff0050;">What is happening to Reta availability and why.</strong><br><br>
+              The regulatory and supply landscape for Retatrutide is shifting. Here is what we know, what it means for researchers, and how to stay ahead of it.
+            </div>
+            <div style="margin-top:0.85rem;cursor:zoom-in;" onclick="openLightbox('retacrackdown.jpg','Retatrutide — The Crackdown')">
+              <img loading="lazy" src="retacrackdown.jpg" alt="Retatrutide Crackdown" style="width:100%;display:block;border:1px solid rgba(255,0,80,0.3);border-radius:4px;" title="Click to zoom">
+            </div>
+          </div>
+        </details>        <!-- NEWS ITEM: Larazotide / Long-COVID -->
         <details class="vpn-news-card" style="--nt:#ff2d78;--ng:rgba(255,45,120,0.4);--nb:rgba(255,45,120,0.4);">
           <summary class="vpn-news-summary">
             <span class="vpn-news-icon">🛡️</span>
@@ -18012,7 +18040,16 @@ function csvFilter(cat, btn) {
     </div>
   </details>
 
-  <!-- ── SECTION 2: Protocol Playbooks · Community References ── -->
+
+        <div data-search="pens vs needles insulin pen syringe when to use both injection method comparison" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:''Bebas Neue'',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00f5ff;">Pens vs Needles — When To Use Both</div>
+            <a href="cheatsheet/pennsvsneedlesusebothwhen.jpg" download style="font-family:''Bebas Neue'',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #00f5ff;color:#00f5ff;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox(''cheatsheet/pennsvsneedlesusebothwhen.jpg'',''Pens vs Needles — When To Use Both'')">
+            <img loading="lazy" src="cheatsheet/pennsvsneedlesusebothwhen.jpg" alt="Pens vs Needles When To Use Both" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
+          </div>
+        </div>  <!-- ── SECTION 2: Protocol Playbooks · Community References ── -->
   
 <div class="csv-group-sep">📖  PROTOCOLS & STACKS</div>
 <details id="cs-sec-playbooks" data-cat="protocols" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00ff64;">
@@ -18138,7 +18175,16 @@ function csvFilter(cat, btn) {
         </div>
   </details>
 
-  <!-- ── SECTION: VPN Signature Stacks ── -->
+
+        <div data-search="research playbook protocol guide peptide research beginner advanced reference" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;">
+          <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-family:''Bebas Neue'',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00ff64;">Research Playbooks — Full Reference</div>
+            <a href="cheatsheet/researchplaybooks.jpg" download style="font-family:''Bebas Neue'',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
+          </div>
+          <div style="cursor:zoom-in;" onclick="openLightbox(''cheatsheet/researchplaybooks.jpg'',''Research Playbooks — Full Reference'')">
+            <img loading="lazy" src="cheatsheet/researchplaybooks.jpg" alt="Research Playbooks Full Reference" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
+          </div>
+        </div>  <!-- ── SECTION: VPN Signature Stacks ── -->
   <details id="cs-sec-stacks" data-cat="protocols" class="csv-section" style="background:#020008;border-color:rgba(255,255,255,0.08);border-left:3px solid #00ff64;">
     <summary style="background:rgba(0,0,0,0.4);"><span class="csv-sec-icon">⚡</span><div class="csv-sec-info"><div class="csv-sec-title" style="color:#00ff64;">VPN Signature Stacks</div><div class="csv-sec-sub">5 guides • Ultimate Stack • Wolverine • longevity</div></div><div class="csv-sec-meta"><span class="csv-count" style="color:#00ff64;">5</span><span class="csv-chevron" style="color:#00ff64;">▼</span></div></summary>
     <div style="padding:1rem 1.25rem;border-top:1px solid rgba(155,48,255,0.15);">
