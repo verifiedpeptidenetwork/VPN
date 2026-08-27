@@ -15096,13 +15096,8 @@ function csvFilter(cat, btn) {
       'cs-sec-hormones',
       'cs-sec-fitness',
 
-      /* ── MYTHS & MISCONCEPTIONS ─────────────────────────────── */
-      { header: true, label: 'MYTHS & MISCONCEPTIONS', icon: '🚫', color: '#dc64ff', sub: 'Cancer · Blindness · Thyroid · Addiction · Hard Questions Answered' },
-      'cs-sec-myths',
-
-      /* ── AUTOIMMUNE & RHEUMATIC ──────────────────────────────── */
-      { header: true, label: 'AUTOIMMUNE & RHEUMATIC DISEASE', icon: '🦴', color: '#00c8ff', sub: 'RA · Lupus · Psoriasis · IBD · Polymyalgia · Sjögren\'s' },
-      'cs-sec-autoimmune',
+      /* ── MYTHS & MISCONCEPTIONS — moved to Tools & Guides ── */
+      /* ── AUTOIMMUNE & RHEUMATIC — moved to Tools & Guides ── */
 
       /* ── RESEARCH & SAFETY ─────────────────────────────────── */
       { header: true, label: 'RESEARCH & SAFETY', icon: '🛡️', color: '#cc44ff', sub: 'Vendor verification · Crypto payment · Blood work labs' },
@@ -25110,6 +25105,38 @@ window.addEventListener('appinstalled', function(){
   window.addEventListener('touchmove',onMove,{passive:false});
   window.addEventListener('mouseup',onUp);
   window.addEventListener('touchend',onUp);
+})();
+</script>
+
+<!-- MOVE MYTHS & AUTOIMMUNE SECTIONS TO TOOLS & GUIDES -->
+<script>
+(function(){
+  function moveToTools(){
+    var toolsView=document.getElementById('view-quick-guide');
+    if(!toolsView)return;
+
+    var myths=document.getElementById('cs-sec-myths');
+    var auto=document.getElementById('cs-sec-autoimmune');
+
+    // Build section header helper
+    function makeHeader(icon,label,color,sub){
+      var h=document.createElement('div');
+      h.style.cssText='display:flex;align-items:center;gap:1rem;margin:2rem 0 0.9rem;padding:0.9rem 1.25rem;background:linear-gradient(90deg,'+color+'22 0%,rgba(4,0,13,0.98) 60%);border-top:2px solid '+color+';border-bottom:1px solid '+color+'33;border-radius:8px;';
+      h.innerHTML='<span style="font-size:2rem;flex-shrink:0;filter:drop-shadow(0 0 8px '+color+');">'+icon+'</span><div style="flex:1;"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.35rem;letter-spacing:0.28em;color:#fff;text-shadow:0 0 14px '+color+',0 0 28px '+color+'66;">'+label+'</div><div style="font-family:\'Rajdhani\',sans-serif;font-weight:600;font-size:0.82rem;color:'+color+'bb;letter-spacing:0.1em;margin-top:2px;">'+sub+'</div></div>';
+      return h;
+    }
+
+    if(myths){
+      toolsView.appendChild(makeHeader('🚫','MYTHS & MISCONCEPTIONS','#dc64ff','Cancer · Blindness · Thyroid · Addiction · Hard Questions Answered'));
+      toolsView.appendChild(myths);
+    }
+    if(auto){
+      toolsView.appendChild(makeHeader('🦴','AUTOIMMUNE & RHEUMATIC DISEASE','#00c8ff','RA · Lupus · Psoriasis · IBD · Polymyalgia · Sjögren\'s'));
+      toolsView.appendChild(auto);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',moveToTools);}
+  else{moveToTools();}
 })();
 </script>
 
