@@ -25056,6 +25056,160 @@ window.addEventListener('appinstalled', function(){
   if(w) w.style.display = 'none';
 });
 </script>
+
+<!-- DRAGGABLE MUSIC PLAYER (portrait/mobile only) -->
+<script>
+(function(){
+  var isMobile=function(){return window.innerWidth<=600||window.matchMedia('(orientation:portrait)').matches;};
+  var fab=document.getElementById('vpn-fab2');
+  var panel=document.getElementById('vpn-music-panel');
+  if(!fab||!panel)return;
+  var dragging=false,moved=false,startX,startY,startElX,startElY,activeEl;
+
+  function getPos(el){var r=el.getBoundingClientRect();return{x:r.left,y:r.top};}
+  function setPos(el,x,y){
+    x=Math.max(0,Math.min(window.innerWidth-el.offsetWidth,x));
+    y=Math.max(0,Math.min(window.innerHeight-el.offsetHeight,y));
+    el.style.left=x+'px';el.style.top=y+'px';
+    el.style.right='';el.style.bottom='';
+  }
+
+  function onDown(el,e){
+    if(!isMobile())return;
+    dragging=true;moved=false;activeEl=el;
+    var p=e.touches?e.touches[0]:e;
+    startX=p.clientX;startY=p.clientY;
+    var pos=getPos(el);
+    startElX=pos.x;startElY=pos.y;
+    el.style.position='fixed';
+    el.style.left=pos.x+'px';el.style.top=pos.y+'px';
+    el.style.right='';el.style.bottom='';
+    e.stopPropagation();
+  }
+  function onMove(e){
+    if(!dragging||!activeEl)return;
+    var p=e.touches?e.touches[0]:e;
+    var dx=p.clientX-startX,dy=p.clientY-startY;
+    if(Math.abs(dx)>5||Math.abs(dy)>5)moved=true;
+    setPos(activeEl,startElX+dx,startElY+dy);
+    e.preventDefault();
+  }
+  function onUp(){dragging=false;activeEl=null;}
+
+  // Drag on FAB
+  fab.addEventListener('mousedown',function(e){onDown(fab,e);});
+  fab.addEventListener('touchstart',function(e){onDown(fab,e);},{passive:false});
+  // Drag on panel header (first child)
+  var header=panel.querySelector('div');
+  if(header){
+    header.style.cursor='grab';
+    header.addEventListener('mousedown',function(e){onDown(panel,e);});
+    header.addEventListener('touchstart',function(e){onDown(panel,e);},{passive:false});
+  }
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('mouseup',onUp);
+  window.addEventListener('touchend',onUp);
+})();
+</script>
+
+<!-- GLOWRILLA FLOATING MASCOT -->
+<style>
+#gw-fab-home{position:fixed;bottom:9.5rem;left:1rem;z-index:2147483645;width:78px;height:78px;border-radius:50%;cursor:grab;border:2.5px solid #ff2dff;box-shadow:0 0 22px rgba(255,45,255,0.7),0 0 50px rgba(255,45,255,0.3);background:#0a001a;overflow:hidden;padding:0;touch-action:none;user-select:none;}
+#gw-fab-home.dragging{cursor:grabbing;transform:scale(1.12);}
+#gw-fab-home img{width:100%;height:100%;object-fit:cover;border-radius:50%;pointer-events:none;}
+#gw-menu-home{display:none;position:fixed;z-index:2147483644;background:rgba(8,0,24,0.97);border:1.5px solid rgba(255,45,255,0.5);border-radius:14px;padding:0.6rem 0.5rem;min-width:180px;box-shadow:0 0 30px rgba(255,45,255,0.4);}
+#gw-menu-home a{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.9rem;border-radius:8px;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.07em;color:#e0d0ff;transition:background 0.15s,color 0.15s;}
+#gw-menu-home a:hover{background:rgba(255,45,255,0.18);color:#ff2dff;}
+#gw-menu-home.open{display:block;animation:gmFadeH 0.18s ease;}
+@keyframes gmFadeH{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.gw-vial-home{position:fixed;pointer-events:none;z-index:2147483643;font-size:1.4rem;transition:left 0.12s ease,top 0.12s ease;transform:translate(-50%,-50%);}
+</style>
+<button id="gw-fab-home" title="Glowrilla Hub">
+  <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
+</button>
+<div id="gw-menu-home">
+  <a href="#view-bloodwork">🩸 Blood Work</a>
+  <a href="#view-calculator">🧮 Calculator</a>
+  <a href="#view-vitamins">💊 Vitamins</a>
+  <a href="#view-workouts">🏋️ Workouts</a>
+  <a href="#view-cheatsheets">📋 Cheat Sheet Vault</a>
+  <a href="#view-shops">🛒 Shop</a>
+  <a href="pokeme-dex.html">🦍 PokeMe-Dex</a>
+</div>
+<script>
+(function(){
+  var fab=document.getElementById('gw-fab-home');
+  var menu=document.getElementById('gw-menu-home');
+  var vialEmojis=['💉','🧪','💉','🧪','💉'];
+  var vials=[];
+  var fabX=60,fabY=window.innerHeight-160;
+  var dragging=false,moved=false,startX,startY,startFabX,startFabY;
+  var history=[];
+
+  function setFab(x,y){
+    fabX=Math.max(30,Math.min(window.innerWidth-30,x));
+    fabY=Math.max(30,Math.min(window.innerHeight-30,y));
+    fab.style.left=fabX+'px';fab.style.top=fabY+'px';
+    fab.style.right='';fab.style.bottom='';
+  }
+  setFab(fabX,fabY);
+
+  vialEmojis.forEach(function(e,i){
+    var v=document.createElement('div');
+    v.className='gw-vial-home';v.textContent=e;
+    v.style.left=fabX+'px';v.style.top=fabY+'px';v.style.opacity='0';
+    document.body.appendChild(v);
+    vials.push(v);
+  });
+
+  function pushHistory(x,y){history.push({x:x,y:y});if(history.length>60)history.shift();}
+  function updateVials(){
+    vials.forEach(function(v,i){
+      var idx=history.length-1-(i+1)*10;
+      if(idx>=0){v.style.left=history[idx].x+'px';v.style.top=history[idx].y+'px';v.style.opacity='1';}
+    });
+  }
+  function positionMenu(){
+    var mw=190,mh=250;
+    var mx=fabX+70>window.innerWidth-mw-10?fabX-mw-10:fabX+70;
+    var my=fabY-mh<10?fabY+40:fabY-mh;
+    menu.style.left=mx+'px';menu.style.top=my+'px';menu.style.right='';menu.style.bottom='';
+  }
+
+  function onDown(e){
+    dragging=true;moved=false;
+    var p=e.touches?e.touches[0]:e;
+    startX=p.clientX;startY=p.clientY;startFabX=fabX;startFabY=fabY;
+    fab.classList.add('dragging');history=[];
+    vials.forEach(function(v){v.style.opacity='1';});
+    e.preventDefault();
+  }
+  function onMove(e){
+    if(!dragging)return;
+    var p=e.touches?e.touches[0]:e;
+    var dx=p.clientX-startX,dy=p.clientY-startY;
+    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
+    setFab(startFabX+dx,startFabY+dy);
+    pushHistory(fabX,fabY);updateVials();e.preventDefault();
+  }
+  function onUp(){
+    if(!dragging)return;
+    dragging=false;fab.classList.remove('dragging');
+    if(!moved){menu.classList.toggle('open');if(menu.classList.contains('open'))positionMenu();}
+    setTimeout(function(){vials.forEach(function(v){v.style.opacity='0';});},800);
+  }
+  fab.addEventListener('mousedown',onDown);
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('mouseup',onUp);
+  fab.addEventListener('touchstart',onDown,{passive:false});
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('touchend',onUp);
+  document.addEventListener('click',function(e){
+    if(!fab.contains(e.target)&&!menu.contains(e.target))menu.classList.remove('open');
+  });
+})();
+</script>
 </body>
 </html>
 
