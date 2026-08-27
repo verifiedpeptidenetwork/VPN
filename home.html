@@ -25050,14 +25050,13 @@ window.addEventListener('appinstalled', function(){
 });
 </script>
 
-<!-- DRAGGABLE MUSIC PLAYER (portrait/mobile only) -->
+<!-- DRAGGABLE MUSIC PLAYER (all devices) -->
 <script>
 (function(){
-  var isMobile=function(){return window.innerWidth<=600||window.matchMedia('(orientation:portrait)').matches;};
   var fab=document.getElementById('vpn-fab2');
   var panel=document.getElementById('vpn-music-panel');
   if(!fab||!panel)return;
-  var dragging=false,moved=false,startX,startY,startElX,startElY,activeEl;
+  var dragging=false,startX,startY,startElX,startElY,activeEl;
 
   function getPos(el){var r=el.getBoundingClientRect();return{x:r.left,y:r.top};}
   function setPos(el,x,y){
@@ -25066,10 +25065,8 @@ window.addEventListener('appinstalled', function(){
     el.style.left=x+'px';el.style.top=y+'px';
     el.style.right='';el.style.bottom='';
   }
-
   function onDown(el,e){
-    if(!isMobile())return;
-    dragging=true;moved=false;activeEl=el;
+    dragging=true;activeEl=el;
     var p=e.touches?e.touches[0]:e;
     startX=p.clientX;startY=p.clientY;
     var pos=getPos(el);
@@ -25082,17 +25079,14 @@ window.addEventListener('appinstalled', function(){
   function onMove(e){
     if(!dragging||!activeEl)return;
     var p=e.touches?e.touches[0]:e;
-    var dx=p.clientX-startX,dy=p.clientY-startY;
-    if(Math.abs(dx)>5||Math.abs(dy)>5)moved=true;
-    setPos(activeEl,startElX+dx,startElY+dy);
+    setPos(activeEl,startElX+(p.clientX-startX),startElY+(p.clientY-startY));
     e.preventDefault();
   }
   function onUp(){dragging=false;activeEl=null;}
 
-  // Drag on FAB
+  fab.style.cursor='grab';
   fab.addEventListener('mousedown',function(e){onDown(fab,e);});
   fab.addEventListener('touchstart',function(e){onDown(fab,e);},{passive:false});
-  // Drag on panel header (first child)
   var header=panel.querySelector('div');
   if(header){
     header.style.cursor='grab';
@@ -25154,14 +25148,14 @@ window.addEventListener('appinstalled', function(){
   <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
 </button>
 <div id="gw-menu-home">
-  <a href="javascript:void(0)" onclick="window.showView('view-bloodwork');document.getElementById('gw-menu-home').classList.remove('open');">🩸 Blood Work</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-calculator');document.getElementById('gw-menu-home').classList.remove('open');">🧮 Calculator</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-vitamins');document.getElementById('gw-menu-home').classList.remove('open');">💊 Vitamins</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-workouts');document.getElementById('gw-menu-home').classList.remove('open');">🏋️ Workouts</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-cheatsheets');document.getElementById('gw-menu-home').classList.remove('open');">📋 Cheat Sheet Vault</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-shops');document.getElementById('gw-menu-home').classList.remove('open');">🛒 Shop</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-supplies');document.getElementById('gw-menu-home').classList.remove('open');">🧴 Supplies</a>
-  <a href="javascript:void(0)" onclick="window.showView('view-all-peptides');document.getElementById('gw-menu-home').classList.remove('open');">🔬 Peptide Index</a>
+  <a href="javascript:void(0)" onclick="showView('bloodwork');document.getElementById('gw-menu-home').classList.remove('open');">🩸 Blood Work</a>
+  <a href="javascript:void(0)" onclick="showView('calculator');document.getElementById('gw-menu-home').classList.remove('open');">🧮 Calculator</a>
+  <a href="javascript:void(0)" onclick="showView('vitamins');document.getElementById('gw-menu-home').classList.remove('open');">💊 Vitamins</a>
+  <a href="javascript:void(0)" onclick="showView('workouts');document.getElementById('gw-menu-home').classList.remove('open');">🏋️ Workouts</a>
+  <a href="javascript:void(0)" onclick="showView('cheatsheets');document.getElementById('gw-menu-home').classList.remove('open');">📋 Cheat Sheet Vault</a>
+  <a href="javascript:void(0)" onclick="showView('shops');document.getElementById('gw-menu-home').classList.remove('open');">🛒 Shop</a>
+  <a href="javascript:void(0)" onclick="showView('supplies');document.getElementById('gw-menu-home').classList.remove('open');">🧴 Supplies</a>
+  <a href="javascript:void(0)" onclick="showView('all-peptides');document.getElementById('gw-menu-home').classList.remove('open');">🔬 Peptide Index</a>
   <a href="pokeme-dex.html">🦍 PokeMe-Dex</a>
   <a href="peptide-suggestion.html">💡 Peptide Suggestion</a>
 </div>
