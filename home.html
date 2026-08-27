@@ -24889,7 +24889,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 </audio>
 
 <!-- FAB pill (collapsed) -->
-<div id="vpn-fab2" onclick="vpnMusicExpand()" title="Open music player" style="position:fixed;bottom:80px;right:18px;z-index:99999;display:flex;align-items:center;gap:0.4rem;padding:0.35rem 0.8rem 0.35rem 0.5rem;background:rgba(4,0,14,0.95);border:1.5px solid rgba(0,255,65,0.5);border-radius:50px;cursor:pointer;box-shadow:0 0 16px rgba(0,255,65,0.25);backdrop-filter:blur(8px);">
+<div id="vpn-fab2" title="Open music player" style="position:fixed;bottom:80px;right:18px;z-index:99999;display:flex;align-items:center;gap:0.4rem;padding:0.35rem 0.8rem 0.35rem 0.5rem;background:rgba(4,0,14,0.95);border:1.5px solid rgba(0,255,65,0.5);border-radius:50px;cursor:grab;box-shadow:0 0 16px rgba(0,255,65,0.25);backdrop-filter:blur(8px);user-select:none;-webkit-user-select:none;">
   <span style="font-size:1rem;">&#127925;</span>
   <span style="font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:#00ff41;">VPN MUSIC</span>
 </div>
@@ -25056,42 +25056,59 @@ window.addEventListener('appinstalled', function(){
   var fab=document.getElementById('vpn-fab2');
   var panel=document.getElementById('vpn-music-panel');
   if(!fab||!panel)return;
-  var dragging=false,startX,startY,startElX,startElY,activeEl;
+  var dragging=false,moved=false,activeEl=null;
+  var startX,startY,startElX,startElY;
+  var CLICK_PX=6;
 
-  function getPos(el){var r=el.getBoundingClientRect();return{x:r.left,y:r.top};}
-  function setPos(el,x,y){
-    x=Math.max(0,Math.min(window.innerWidth-el.offsetWidth,x));
-    y=Math.max(0,Math.min(window.innerHeight-el.offsetHeight,y));
-    el.style.left=x+'px';el.style.top=y+'px';
-    el.style.right='';el.style.bottom='';
+  function clamp(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
+  function anchor(el){
+    /* convert right/bottom positioning to left/top so drag math works without jumps */
+    var r=el.getBoundingClientRect();
+    el.style.position='fixed';
+    el.style.left=r.left+'px';
+    el.style.top=r.top+'px';
+    el.style.right='';
+    el.style.bottom='';
   }
-  function onDown(el,e){
-    dragging=true;activeEl=el;
+  function setPos(el,x,y){
+    x=clamp(x,0,window.innerWidth-el.offsetWidth);
+    y=clamp(y,0,window.innerHeight-el.offsetHeight);
+    el.style.left=x+'px';el.style.top=y+'px';
+  }
+  function startDrag(el,e){
+    anchor(el);
     var p=e.touches?e.touches[0]:e;
     startX=p.clientX;startY=p.clientY;
-    var pos=getPos(el);
-    startElX=pos.x;startElY=pos.y;
-    el.style.position='fixed';
-    el.style.left=pos.x+'px';el.style.top=pos.y+'px';
-    el.style.right='';el.style.bottom='';
-    e.stopPropagation();
+    var r=el.getBoundingClientRect();
+    startElX=r.left;startElY=r.top;
+    dragging=true;moved=false;activeEl=el;
+    e.preventDefault();e.stopPropagation();
   }
   function onMove(e){
     if(!dragging||!activeEl)return;
     var p=e.touches?e.touches[0]:e;
-    setPos(activeEl,startElX+(p.clientX-startX),startElY+(p.clientY-startY));
-    e.preventDefault();
+    var dx=p.clientX-startX,dy=p.clientY-startY;
+    if(Math.abs(dx)>CLICK_PX||Math.abs(dy)>CLICK_PX){moved=true;}
+    if(moved){setPos(activeEl,startElX+dx,startElY+dy);e.preventDefault();}
   }
-  function onUp(){dragging=false;activeEl=null;}
+  function onUp(){
+    if(!dragging)return;
+    dragging=false;
+    var el=activeEl;activeEl=null;
+    if(!moved&&el===fab)vpnMusicExpand();
+    moved=false;
+  }
 
-  fab.style.cursor='grab';
-  fab.addEventListener('mousedown',function(e){onDown(fab,e);});
-  fab.addEventListener('touchstart',function(e){onDown(fab,e);},{passive:false});
+  /* FAB — drag OR tap-to-open */
+  fab.addEventListener('mousedown',function(e){startDrag(fab,e);});
+  fab.addEventListener('touchstart',function(e){startDrag(fab,e);},{passive:false});
+
+  /* Panel header — drag handle */
   var header=panel.querySelector('div');
   if(header){
     header.style.cursor='grab';
-    header.addEventListener('mousedown',function(e){onDown(panel,e);});
-    header.addEventListener('touchstart',function(e){onDown(panel,e);},{passive:false});
+    header.addEventListener('mousedown',function(e){startDrag(panel,e);});
+    header.addEventListener('touchstart',function(e){startDrag(panel,e);},{passive:false});
   }
   window.addEventListener('mousemove',onMove);
   window.addEventListener('touchmove',onMove,{passive:false});
