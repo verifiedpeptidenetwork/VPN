@@ -2415,6 +2415,136 @@ function showTab(name){
   .vpn-news-body { font-size: 1rem !important; }
   small, .small, .sub, .footnote { font-size: 0.88rem !important; }
 </style>
+<!-- BACK TO HOME BUTTON -->
+<a href="home.html" title="Back to RUI VPN Hub" style="position:fixed;bottom:5.8rem;right:1.4rem;z-index:2147483646;width:52px;height:52px;border-radius:50%;border:2px solid #ff2d78;background:rgba(10,0,28,0.96);color:#ff2d78;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(255,45,120,0.55),0 0 40px rgba(255,45,120,0.18);transition:transform 0.18s,box-shadow 0.18s;text-decoration:none;" onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 30px rgba(255,45,120,0.9),0 0 60px rgba(255,45,120,0.4)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 18px rgba(255,45,120,0.55),0 0 40px rgba(255,45,120,0.18)';">🏠</a>
+
+<!-- GLOWRILLA FLOATING MASCOT MENU -->
+<style>
+#glowrilla-fab{position:fixed;bottom:9.5rem;right:1.25rem;z-index:2147483645;width:62px;height:62px;border-radius:50%;cursor:grab;border:2.5px solid #ff2dff;box-shadow:0 0 22px rgba(255,45,255,0.7),0 0 50px rgba(255,45,255,0.3);background:#0a001a;overflow:hidden;padding:0;touch-action:none;user-select:none;}
+#glowrilla-fab.dragging{cursor:grabbing;box-shadow:0 0 40px rgba(255,45,255,1),0 0 80px rgba(255,45,255,0.5);transform:scale(1.12);}
+#glowrilla-fab img{width:100%;height:100%;object-fit:cover;border-radius:50%;pointer-events:none;}
+#glowrilla-menu{display:none;position:fixed;z-index:2147483644;background:rgba(8,0,24,0.97);border:1.5px solid rgba(255,45,255,0.5);border-radius:14px;padding:0.6rem 0.5rem;min-width:180px;box-shadow:0 0 30px rgba(255,45,255,0.4);}
+#glowrilla-menu a{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.9rem;border-radius:8px;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.07em;color:#e0d0ff;transition:background 0.15s,color 0.15s;}
+#glowrilla-menu a:hover{background:rgba(255,45,255,0.18);color:#ff2dff;}
+#glowrilla-menu.open{display:block;animation:gmFade 0.18s ease;}
+@keyframes gmFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.gw-vial{position:fixed;pointer-events:none;z-index:2147483643;font-size:1.4rem;transition:left 0.12s ease,top 0.12s ease;transform:translate(-50%,-50%);}
+</style>
+<button id="glowrilla-fab" title="Glowrilla Hub">
+  <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
+</button>
+<div id="glowrilla-menu">
+  <a href="home.html#view-bloodwork">🩸 Blood Work</a>
+  <a href="home.html#view-calculator">🧮 Calculator</a>
+  <a href="home.html#view-vitamins">💊 Vitamins</a>
+  <a href="home.html#view-workouts">🏋️ Workouts</a>
+  <a href="home.html#view-cheatsheets">📋 Cheat Sheet Vault</a>
+  <a href="home.html#view-shops">🛒 Shop</a>
+</div>
+<script>
+(function(){
+  var fab=document.getElementById('glowrilla-fab');
+  var menu=document.getElementById('glowrilla-menu');
+  var vialEmojis=['💉','🧪','💉','🧪','💉'];
+  var vials=[];
+  var trail=[];
+  var dragging=false,moved=false;
+  var fabX=window.innerWidth-80,fabY=window.innerHeight-160;
+
+  // Position fab
+  function setFab(x,y){
+    fabX=Math.max(30,Math.min(window.innerWidth-30,x));
+    fabY=Math.max(30,Math.min(window.innerHeight-30,y));
+    fab.style.left=fabX+'px'; fab.style.top=fabY+'px';
+    fab.style.right=''; fab.style.bottom='';
+  }
+  setFab(fabX,fabY);
+
+  // Create vials
+  vialEmojis.forEach(function(e,i){
+    var v=document.createElement('div');
+    v.className='gw-vial'; v.textContent=e;
+    v.style.left=fabX+'px'; v.style.top=fabY+'px';
+    v.style.opacity='0';
+    v.style.transitionDelay=(i*0.04)+'s';
+    document.body.appendChild(v);
+    vials.push({el:v,x:fabX,y:fabY});
+  });
+
+  // Trail history
+  var history=[];
+  function pushHistory(x,y){history.push({x:x,y:y});if(history.length>60)history.shift();}
+
+  // Update vials to follow trail
+  function updateVials(){
+    vials.forEach(function(v,i){
+      var idx=history.length-1-(i+1)*10;
+      if(idx>=0){
+        v.el.style.left=history[idx].x+'px';
+        v.el.style.top=history[idx].y+'px';
+        v.el.style.opacity='1';
+        v.el.style.transform='translate(-50%,-50%) rotate('+(i%2?-20:20)+'deg)';
+      }
+    });
+  }
+
+  // Menu positioning
+  function positionMenu(){
+    var mw=190,mh=220;
+    var mx=fabX+36>window.innerWidth-mw-10?fabX-mw-10:fabX+36;
+    var my=fabY-mh<10?fabY+36:fabY-mh;
+    menu.style.left=mx+'px'; menu.style.top=my+'px';
+    menu.style.right=''; menu.style.bottom='';
+  }
+
+  // Drag
+  var startX,startY,startFabX,startFabY;
+  function onDown(e){
+    dragging=true; moved=false;
+    var p=e.touches?e.touches[0]:e;
+    startX=p.clientX; startY=p.clientY;
+    startFabX=fabX; startFabY=fabY;
+    fab.classList.add('dragging');
+    history=[];
+    vials.forEach(function(v){v.el.style.opacity='1';});
+    e.preventDefault();
+  }
+  function onMove(e){
+    if(!dragging)return;
+    var p=e.touches?e.touches[0]:e;
+    var dx=p.clientX-startX,dy=p.clientY-startY;
+    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
+    setFab(startFabX+dx,startFabY+dy);
+    pushHistory(fabX,fabY);
+    updateVials();
+    e.preventDefault();
+  }
+  function onUp(e){
+    if(!dragging)return;
+    dragging=false;
+    fab.classList.remove('dragging');
+    if(!moved){
+      menu.classList.toggle('open');
+      if(menu.classList.contains('open'))positionMenu();
+    }
+    // fade vials out after drag
+    setTimeout(function(){vials.forEach(function(v){v.el.style.opacity='0';});},800);
+  }
+
+  fab.addEventListener('mousedown',onDown);
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('mouseup',onUp);
+  fab.addEventListener('touchstart',onDown,{passive:false});
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('touchend',onUp);
+
+  // Close menu on outside click
+  document.addEventListener('click',function(e){
+    if(!fab.contains(e.target)&&!menu.contains(e.target))menu.classList.remove('open');
+  });
+})();
+</script>
+
 <!-- BACK TO TOP -->
 <script>(function(){var b=document.createElement('button');b.innerHTML='&#9650;';b.title='Back to top';b.setAttribute('style','display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:2147483647;width:50px;height:50px;border-radius:50%;border:2px solid rgba(0,245,255,0.8);background:rgba(4,0,20,0.95);color:#00f5ff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2);transition:transform 0.2s,box-shadow 0.2s;align-items:center;justify-content:center;');b.onclick=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);;};b.onmouseover=function(){this.style.transform='scale(1.15)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';};b.onmouseout=function(){this.style.transform='scale(1)';this.style.boxShadow='0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2)';};document.body.appendChild(b);function upd(){var s=(window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop)>150;b.style.display=s?'flex':'none';}window.addEventListener('scroll',upd,{passive:true});upd();})();</script>
 </body>
