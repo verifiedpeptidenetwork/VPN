@@ -208,8 +208,8 @@
   function injectStyle(){
     if(document.getElementById('vt-toggle-style')) return;
     var css=
-      '#vt-toggle-btn{position:fixed;bottom:1.5rem;left:1rem;z-index:2147483647;width:48px;height:48px;border-radius:50%;border:2px solid #00f5ff;background:#0a001a;color:#00f5ff;font-size:1.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(0,245,255,0.5),0 0 32px rgba(0,245,255,0.2);transition:transform 0.15s,box-shadow 0.15s;padding:0;font-family:inherit;}'
-      +'#vt-toggle-btn:hover{transform:scale(1.1);box-shadow:0 0 24px rgba(0,245,255,0.8),0 0 46px rgba(0,245,255,0.35);}'
+      '#vt-toggle-btn{position:fixed;top:0.6rem;right:0.6rem;z-index:2147483647;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.5);background:rgba(10,0,26,0.55);color:rgba(0,245,255,0.75);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.55;}'
+      +'#vt-toggle-btn:hover{opacity:1;transform:scale(1.12);box-shadow:0 0 18px rgba(0,245,255,0.6),0 0 34px rgba(0,245,255,0.25);border-color:#00f5ff;color:#00f5ff;}'
       +'#vt-toggle-btn:active{transform:scale(0.94);}'
       +'@media print{#vt-toggle-btn{display:none!important;}}';
     var s=document.createElement('style');
