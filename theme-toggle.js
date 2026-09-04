@@ -28,8 +28,11 @@
   var KEY='vpn_theme';
   var DARK_THRESHOLD=0.32;        // bg luminance below this = "dark", gets lightened
   var LIGHT_TEXT_L=0.42;          // text HSL-lightness above this = "light", gets darkened
-  var TEXT_TARGET_L=0.30;         // darkened text is pulled down to at most this HSL-lightness
+  var TEXT_TARGET_L=0.24;         // darkened text is pulled down to at most this HSL-lightness
   var TEXT_MIN_S=0.55;            // darkened text is boosted to at least this saturation (stays a real color, not gray-mud)
+  var TEXT_MIN_ALPHA=0.92;        // darkened text is boosted to at least this opaque -- translucent "muted gray"
+                                   // text read as faded-light against black, but the same low alpha reads as
+                                   // faded-light against WHITE too, so it has to become solid to look dark
   var MIN_ALPHA=0.12;             // ignore near-fully-transparent colors
   var OPAQUE_FLOOR=0.96;          // lightened backgrounds become (at least) this opaque
   var BACKDROP_AREA=180000;       // px^2 — url() backgrounds bigger than this are treated as decorative texture
@@ -109,7 +112,9 @@
     // tint it an arbitrary color instead of a clean neutral dark gray.
     var s = hsl[1]>0.08 ? Math.max(hsl[1], TEXT_MIN_S) : hsl[1];
     var out=hslToRgb(hsl[0], s, l);
-    return {r:out[0],g:out[1],b:out[2], a:(rgb.a===undefined?1:rgb.a)};
+    var a=(rgb.a===undefined?1:rgb.a);
+    if(a>MIN_ALPHA) a=Math.max(a, TEXT_MIN_ALPHA);
+    return {r:out[0],g:out[1],b:out[2], a:a};
   }
   function rgbaStr(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
@@ -129,6 +134,26 @@
       return full;
     });
     return any ? out : null;
+  }
+  // For background-clip:text gradients (the gradient IS the visible text) --
+  // darken the light stops instead of lightening the dark ones.
+  function remapGradientText(str){
+    var any=false;
+    var out=str.replace(/rgba?\(([^)]+)\)/g, function(full, inner){
+      var p=inner.split(',').map(function(s){return parseFloat(s);});
+      var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
+      if(rgb.a<=MIN_ALPHA) return full;
+      if(rgbToHsl(rgb.r,rgb.g,rgb.b)[2]>LIGHT_TEXT_L){
+        any=true;
+        return rgbaStr(darkenRGB(rgb));
+      }
+      return full;
+    });
+    return any ? out : null;
+  }
+  function isTextClip(cs){
+    var bc = cs.getPropertyValue('-webkit-background-clip') || cs.backgroundClip || '';
+    return bc.indexOf('text')!==-1;
   }
 
   function shouldSkip(el){
@@ -184,51 +209,92 @@
     hiddenBgUrls=[];
   }
 
+  // Recolors one element. Shared by the initial full-DOM walk and the
+  // MutationObserver (for content added/cloned after the initial pass --
+  // e.g. ticker/marquee text that JS duplicates for a seamless loop).
+  function processElement(el){
+    if(shouldSkip(el)) return;
+    if(el.nodeType!==1) return;
+    var cs=getComputedStyle(el);
+    var bgImgVal=cs.backgroundImage;
+    var isRasterImage = bgImgVal && bgImgVal.indexOf('url(')!==-1;
+    var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
+    var isTextGradient = isGradient && isTextClip(cs);
+    var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||'', filter:el.style.filter||''};
+    var changed=false;
+
+    if(isTextGradient){
+      var remappedText=remapGradientText(bgImgVal);
+      if(remappedText){
+        el.style.setProperty('background-image', remappedText, 'important');
+        if(cs.textShadow && cs.textShadow!=='none') el.style.setProperty('text-shadow','none','important');
+        if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1) el.style.setProperty('filter','none','important');
+        changed=true;
+      }
+    } else if(isGradient){
+      var remapped=remapGradient(bgImgVal);
+      if(remapped){ el.style.setProperty('background-image', remapped, 'important'); changed=true; }
+    } else if(!isRasterImage){
+      var bgRgb=toRGBA(cs.backgroundColor);
+      if(bgRgb && bgRgb.a>MIN_ALPHA && luminance(bgRgb)<DARK_THRESHOLD){
+        el.style.setProperty('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
+        changed=true;
+      }
+    }
+
+    if(!isRasterImage){
+      var colRgb=toRGBA(cs.color);
+      if(colRgb && rgbToHsl(colRgb.r,colRgb.g,colRgb.b)[2]>LIGHT_TEXT_L){
+        el.style.setProperty('color', rgbaStr(darkenRGB(colRgb)), 'important');
+        if(cs.textShadow && cs.textShadow!=='none'){
+          el.style.setProperty('text-shadow','none','important');
+        }
+        if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1){
+          el.style.setProperty('filter','none','important');
+        }
+        changed=true;
+      }
+    }
+    if(changed) touched.push(rec);
+  }
+
   function applyLight(){
     neutralizeBackdrops();
     var all=document.body.querySelectorAll('*');
-    for(var i=0;i<all.length;i++){
-      var el=all[i];
-      if(shouldSkip(el)) continue;
-      var cs=getComputedStyle(el);
-      var bgImgVal=cs.backgroundImage;
-      var isRasterImage = bgImgVal && bgImgVal.indexOf('url(')!==-1;
-      var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
-      var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||''};
-      var changed=false;
+    for(var i=0;i<all.length;i++) processElement(all[i]);
+    startObserver();
+  }
 
-      if(isGradient){
-        var remapped=remapGradient(bgImgVal);
-        if(remapped){ el.style.setProperty('background-image', remapped, 'important'); changed=true; }
-      } else if(!isRasterImage){
-        var bgRgb=toRGBA(cs.backgroundColor);
-        if(bgRgb && bgRgb.a>MIN_ALPHA && luminance(bgRgb)<DARK_THRESHOLD){
-          el.style.setProperty('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
-          changed=true;
+  var observer=null;
+  function startObserver(){
+    if(observer) return;
+    observer=new MutationObserver(function(mutations){
+      for(var i=0;i<mutations.length;i++){
+        var added=mutations[i].addedNodes;
+        for(var j=0;j<added.length;j++){
+          var node=added[j];
+          if(node.nodeType!==1) continue;
+          processElement(node);
+          var descendants=node.querySelectorAll ? node.querySelectorAll('*') : [];
+          for(var k=0;k<descendants.length;k++) processElement(descendants[k]);
         }
       }
-
-      if(!isRasterImage){
-        var colRgb=toRGBA(cs.color);
-        if(colRgb && rgbToHsl(colRgb.r,colRgb.g,colRgb.b)[2]>LIGHT_TEXT_L){
-          el.style.setProperty('color', rgbaStr(darkenRGB(colRgb)), 'important');
-          if(cs.textShadow && cs.textShadow!=='none'){
-            el.style.setProperty('text-shadow','none','important');
-          }
-          changed=true;
-        }
-      }
-      if(changed) touched.push(rec);
-    }
+    });
+    observer.observe(document.body, {childList:true, subtree:true});
+  }
+  function stopObserver(){
+    if(observer){ observer.disconnect(); observer=null; }
   }
 
   function revertLight(){
+    stopObserver();
     for(var i=0;i<touched.length;i++){
       var rec=touched[i];
       if(rec.bg) rec.el.style.setProperty('background-color', rec.bg); else rec.el.style.removeProperty('background-color');
       if(rec.bgImg) rec.el.style.setProperty('background-image', rec.bgImg); else rec.el.style.removeProperty('background-image');
       if(rec.color) rec.el.style.setProperty('color', rec.color); else rec.el.style.removeProperty('color');
       if(rec.textShadow) rec.el.style.setProperty('text-shadow', rec.textShadow); else rec.el.style.removeProperty('text-shadow');
+      if(rec.filter) rec.el.style.setProperty('filter', rec.filter); else rec.el.style.removeProperty('filter');
     }
     touched=[];
     restoreBackdrops();
