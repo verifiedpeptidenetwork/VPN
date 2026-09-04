@@ -27,7 +27,9 @@
 (function(){
   var KEY='vpn_theme';
   var DARK_THRESHOLD=0.32;        // bg luminance below this = "dark", gets lightened
-  var LIGHT_TEXT_THRESHOLD=0.68;  // text luminance above this = "light", gets darkened
+  var LIGHT_TEXT_L=0.42;          // text HSL-lightness above this = "light", gets darkened
+  var TEXT_TARGET_L=0.30;         // darkened text is pulled down to at most this HSL-lightness
+  var TEXT_MIN_S=0.55;            // darkened text is boosted to at least this saturation (stays a real color, not gray-mud)
   var MIN_ALPHA=0.12;             // ignore near-fully-transparent colors
   var OPAQUE_FLOOR=0.96;          // lightened backgrounds become (at least) this opaque
   var BACKDROP_AREA=180000;       // px^2 — url() backgrounds bigger than this are treated as decorative texture
@@ -53,6 +55,40 @@
   }
   function luminance(rgb){ return (0.299*rgb.r+0.587*rgb.g+0.114*rgb.b)/255; }
 
+  function rgbToHsl(r,g,b){
+    r/=255; g/=255; b/=255;
+    var max=Math.max(r,g,b), min=Math.min(r,g,b);
+    var h=0,s=0,l=(max+min)/2;
+    if(max!==min){
+      var d=max-min;
+      s = l>0.5 ? d/(2-max-min) : d/(max+min);
+      switch(max){
+        case r: h=(g-b)/d+(g<b?6:0); break;
+        case g: h=(b-r)/d+2; break;
+        default: h=(r-g)/d+4;
+      }
+      h/=6;
+    }
+    return [h,s,l];
+  }
+  function hslToRgb(h,s,l){
+    var r,g,b;
+    if(s===0){ r=g=b=l; }
+    else {
+      var hue2rgb=function(p,q,t){
+        if(t<0)t+=1; if(t>1)t-=1;
+        if(t<1/6) return p+(q-p)*6*t;
+        if(t<1/2) return q;
+        if(t<2/3) return p+(q-p)*(2/3-t)*6;
+        return p;
+      };
+      var q=l<0.5 ? l*(1+s) : l+s-l*s;
+      var p=2*l-q;
+      r=hue2rgb(p,q,h+1/3); g=hue2rgb(p,q,h); b=hue2rgb(p,q,h-1/3);
+    }
+    return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+  }
+
   function lightenRGB(rgb){
     var mix=0.93;
     var r=Math.round(rgb.r+(255-rgb.r)*mix);
@@ -62,8 +98,18 @@
     if(a>MIN_ALPHA) a=Math.max(a,OPAQUE_FLOOR); // opaque, so it fully covers whatever's behind it
     return {r:r,g:g,b:b,a:a};
   }
+  // Pulls lightness down (keeping hue) so "that blue"/"that green" stays recognizably
+  // that color but is dark enough to read on a light background, with saturation
+  // boosted so it doesn't turn into gray mud.
   function darkenRGB(rgb){
-    return {r:Math.round(rgb.r*0.12), g:Math.round(rgb.g*0.12), b:Math.round(rgb.b*0.12), a:(rgb.a===undefined?1:rgb.a)};
+    var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
+    var l=Math.min(hsl[2], TEXT_TARGET_L);
+    // Only boost saturation for colors that were actually tinted (cyan/pink/green/etc).
+    // Near-grayscale text (white/off-white/gray) has no real hue -- boosting it would
+    // tint it an arbitrary color instead of a clean neutral dark gray.
+    var s = hsl[1]>0.08 ? Math.max(hsl[1], TEXT_MIN_S) : hsl[1];
+    var out=hslToRgb(hsl[0], s, l);
+    return {r:out[0],g:out[1],b:out[2], a:(rgb.a===undefined?1:rgb.a)};
   }
   function rgbaStr(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
@@ -164,7 +210,7 @@
 
       if(!isRasterImage){
         var colRgb=toRGBA(cs.color);
-        if(colRgb && luminance(colRgb)>LIGHT_TEXT_THRESHOLD){
+        if(colRgb && rgbToHsl(colRgb.r,colRgb.g,colRgb.b)[2]>LIGHT_TEXT_L){
           el.style.setProperty('color', rgbaStr(darkenRGB(colRgb)), 'important');
           if(cs.textShadow && cs.textShadow!=='none'){
             el.style.setProperty('text-shadow','none','important');
