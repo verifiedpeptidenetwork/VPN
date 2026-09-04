@@ -1,8 +1,22 @@
-/* VPN site-wide light/dark toggle.
-   Only ever changes background colors and text colors. Never touches
-   actual images/video (<img>, <video>, url(...) backgrounds) — CSS
-   gradients used as decorative panel/page backgrounds ARE remapped
-   (they're color, not photos), so the page genuinely goes light.
+/* VPN site-wide light/dark toggle — real color remap, not a page filter.
+
+   What it does in light mode:
+   - Lightens dark backgrounds (solid colors AND gradient stops) toward a
+     clean, near-opaque light tint — opaque on purpose, so it fully covers
+     whatever decorative texture/photo sits behind it instead of letting it
+     ghost through (which is what a translucent dark-turned-light overlay
+     would otherwise do).
+   - Darkens near-white text for contrast, and clears any text-shadow glow
+     on that text (a neon glow tuned for dark backgrounds turns into a muddy
+     smear once the text itself goes dark).
+   - Hides large, dim, decoratively-positioned background photos/textures
+     (absolute/fixed <img> at low opacity, or big url() backgrounds) —
+     these exist purely as dark-mode atmosphere and have no clean light-mode
+     equivalent, so they're hidden rather than recolored.
+   - Never touches normal content images (logos, mascot art, screenshots,
+     lightbox thumbnails) — those stay exactly as they are.
+   - Everything is reversible: toggling back to dark restores every
+     original inline value exactly.
 
    Include:
    1) in <head>, as early as possible:
@@ -12,10 +26,17 @@
 */
 (function(){
   var KEY='vpn_theme';
-  var DARK_THRESHOLD=0.32;        // luminance below this = "dark", gets lightened
+  var DARK_THRESHOLD=0.32;        // bg luminance below this = "dark", gets lightened
   var LIGHT_TEXT_THRESHOLD=0.68;  // text luminance above this = "light", gets darkened
   var MIN_ALPHA=0.12;             // ignore near-fully-transparent colors
-  var touched=[]; // {el, bg, bgImg, color} original inline values, for reverting
+  var OPAQUE_FLOOR=0.96;          // lightened backgrounds become (at least) this opaque
+  var BACKDROP_AREA=180000;       // px^2 — url() backgrounds bigger than this are treated as decorative texture
+  var BACKDROP_OPACITY=0.6;       // decorative <img> opacity ceiling to be considered atmosphere, not content
+
+  var touched=[];      // {el,bg,bgImg,color,textShadow} — recolored elements
+  var hiddenImgs=[];   // {el,prev} — decorative <img> visibility
+  var hiddenBgUrls=[]; // {el,bgImg} — decorative url() backgrounds
+  var bodyRec=null;
 
   var SKIP_TAGS={IMG:1,VIDEO:1,SVG:1,CANVAS:1,PICTURE:1,IFRAME:1,SOURCE:1,SCRIPT:1,STYLE:1};
   var probe=null;
@@ -33,27 +54,28 @@
   function luminance(rgb){ return (0.299*rgb.r+0.587*rgb.g+0.114*rgb.b)/255; }
 
   function lightenRGB(rgb){
-    var mix=0.93; // slide toward white but keep a whisper of the original hue
+    var mix=0.93;
     var r=Math.round(rgb.r+(255-rgb.r)*mix);
     var g=Math.round(rgb.g+(255-rgb.g)*mix);
     var b=Math.round(rgb.b+(255-rgb.b)*mix);
-    return {r:r,g:g,b:b,a:rgb.a};
+    var a=(rgb.a===undefined?1:rgb.a);
+    if(a>MIN_ALPHA) a=Math.max(a,OPAQUE_FLOOR); // opaque, so it fully covers whatever's behind it
+    return {r:r,g:g,b:b,a:a};
   }
   function darkenRGB(rgb){
-    return {r:Math.round(rgb.r*0.12), g:Math.round(rgb.g*0.12), b:Math.round(rgb.b*0.12), a:rgb.a};
+    return {r:Math.round(rgb.r*0.12), g:Math.round(rgb.g*0.12), b:Math.round(rgb.b*0.12), a:(rgb.a===undefined?1:rgb.a)};
   }
   function rgbaStr(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
     return a>=1 ? 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')' : 'rgba('+rgb.r+','+rgb.g+','+rgb.b+','+a+')';
   }
 
-  // Remap every rgb()/rgba() color stop inside a gradient string, lightening dark ones.
   function remapGradient(str){
     var any=false;
     var out=str.replace(/rgba?\(([^)]+)\)/g, function(full, inner){
       var p=inner.split(',').map(function(s){return parseFloat(s);});
       var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
-      if(rgb.a<=MIN_ALPHA) return full; // fully transparent stop, leave as-is
+      if(rgb.a<=MIN_ALPHA) return full;
       if(luminance(rgb)<DARK_THRESHOLD){
         any=true;
         return rgbaStr(lightenRGB(rgb));
@@ -69,7 +91,55 @@
     return false;
   }
 
+  function neutralizeBackdrops(){
+    // Body: drop any decorative gradient/photo entirely for a clean flat base.
+    bodyRec={bg:document.body.style.backgroundColor||'', bgImg:document.body.style.backgroundImage||''};
+    document.body.style.setProperty('background-image','none','important');
+    document.body.style.setProperty('background-color','#f4f4f8','important');
+
+    // Decorative <img> atmosphere: absolute/fixed + dim.
+    var imgs=document.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var img=imgs[i];
+      var cs=getComputedStyle(img);
+      var op=parseFloat(cs.opacity);
+      if(isNaN(op)) op=1;
+      if((cs.position==='absolute'||cs.position==='fixed') && op<BACKDROP_OPACITY){
+        hiddenImgs.push({el:img, prev:img.style.visibility||''});
+        img.style.setProperty('visibility','hidden','important');
+      }
+    }
+
+    // Decorative url() backgrounds: large area.
+    var all=document.body.querySelectorAll('*');
+    for(var j=0;j<all.length;j++){
+      var el=all[j];
+      if(shouldSkip(el)) continue;
+      var bcs=getComputedStyle(el);
+      if(bcs.backgroundImage && bcs.backgroundImage.indexOf('url(')!==-1){
+        var rect=el.getBoundingClientRect();
+        if(rect.width*rect.height>BACKDROP_AREA){
+          hiddenBgUrls.push({el:el, bgImg:el.style.backgroundImage||''});
+          el.style.setProperty('background-image','none','important');
+        }
+      }
+    }
+  }
+
+  function restoreBackdrops(){
+    if(bodyRec){
+      if(bodyRec.bg) document.body.style.setProperty('background-color',bodyRec.bg); else document.body.style.removeProperty('background-color');
+      if(bodyRec.bgImg) document.body.style.setProperty('background-image',bodyRec.bgImg); else document.body.style.removeProperty('background-image');
+      bodyRec=null;
+    }
+    hiddenImgs.forEach(function(r){ if(r.prev) r.el.style.setProperty('visibility',r.prev); else r.el.style.removeProperty('visibility'); });
+    hiddenImgs=[];
+    hiddenBgUrls.forEach(function(r){ if(r.bgImg) r.el.style.setProperty('background-image',r.bgImg); else r.el.style.removeProperty('background-image'); });
+    hiddenBgUrls=[];
+  }
+
   function applyLight(){
+    neutralizeBackdrops();
     var all=document.body.querySelectorAll('*');
     for(var i=0;i<all.length;i++){
       var el=all[i];
@@ -78,15 +148,12 @@
       var bgImgVal=cs.backgroundImage;
       var isRasterImage = bgImgVal && bgImgVal.indexOf('url(')!==-1;
       var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
-      var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||''};
+      var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||''};
       var changed=false;
 
       if(isGradient){
         var remapped=remapGradient(bgImgVal);
-        if(remapped){
-          el.style.setProperty('background-image', remapped, 'important');
-          changed=true;
-        }
+        if(remapped){ el.style.setProperty('background-image', remapped, 'important'); changed=true; }
       } else if(!isRasterImage){
         var bgRgb=toRGBA(cs.backgroundColor);
         if(bgRgb && bgRgb.a>MIN_ALPHA && luminance(bgRgb)<DARK_THRESHOLD){
@@ -99,6 +166,9 @@
         var colRgb=toRGBA(cs.color);
         if(colRgb && luminance(colRgb)>LIGHT_TEXT_THRESHOLD){
           el.style.setProperty('color', rgbaStr(darkenRGB(colRgb)), 'important');
+          if(cs.textShadow && cs.textShadow!=='none'){
+            el.style.setProperty('text-shadow','none','important');
+          }
           changed=true;
         }
       }
@@ -112,8 +182,10 @@
       if(rec.bg) rec.el.style.setProperty('background-color', rec.bg); else rec.el.style.removeProperty('background-color');
       if(rec.bgImg) rec.el.style.setProperty('background-image', rec.bgImg); else rec.el.style.removeProperty('background-image');
       if(rec.color) rec.el.style.setProperty('color', rec.color); else rec.el.style.removeProperty('color');
+      if(rec.textShadow) rec.el.style.setProperty('text-shadow', rec.textShadow); else rec.el.style.removeProperty('text-shadow');
     }
     touched=[];
+    restoreBackdrops();
   }
 
   function current(){ return document.documentElement.getAttribute('data-theme')||'dark'; }
