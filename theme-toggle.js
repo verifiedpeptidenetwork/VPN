@@ -92,14 +92,15 @@
     return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
   }
 
+  // One consistent warm cream tone for every lightened background -- not a tint of
+  // each panel's own original color. That per-panel-hue approach left some cards
+  // reading as pale pink, others pale cyan, etc., which looked inconsistent; this
+  // gives every panel across the whole site the same warm, neutral background.
+  var LIGHT_BG=[253,246,230];
   function lightenRGB(rgb){
-    var mix=0.93;
-    var r=Math.round(rgb.r+(255-rgb.r)*mix);
-    var g=Math.round(rgb.g+(255-rgb.g)*mix);
-    var b=Math.round(rgb.b+(255-rgb.b)*mix);
     var a=(rgb.a===undefined?1:rgb.a);
     if(a>MIN_ALPHA) a=Math.max(a,OPAQUE_FLOOR); // opaque, so it fully covers whatever's behind it
-    return {r:r,g:g,b:b,a:a};
+    return {r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:a};
   }
   // Pulls lightness down (keeping hue) so "that blue"/"that green" stays recognizably
   // that color but is dark enough to read on a light background, with saturation
@@ -166,7 +167,7 @@
     // Body: drop any decorative gradient/photo entirely for a clean flat base.
     bodyRec={bg:document.body.style.backgroundColor||'', bgImg:document.body.style.backgroundImage||''};
     document.body.style.setProperty('background-image','none','important');
-    document.body.style.setProperty('background-color','#f4f4f8','important');
+    document.body.style.setProperty('background-color','#fdf6e6','important');
 
     // Decorative <img> atmosphere: absolute/fixed + dim.
     var imgs=document.querySelectorAll('img');
