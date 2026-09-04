@@ -850,6 +850,7 @@
     }
     .view.active {
       width: calc(100% - 242px);
+      max-width: 1200px; /* caps content width on wide monitors so width:100% images/videos don't blow up past their native resolution */
     }
   }
 
@@ -858,7 +859,6 @@
   .view.active { display: block; position: relative; z-index: 3; transition: opacity 0.25s; }
   #view-quick-guide, #view-cheatsheets, #view-studies, #view-workouts,
   #view-about, #view-contact, #view-intel-feed { background: #04000f !important; min-height: 100vh; }
-  #view-quick-guide { max-width: none; }
 
   /* === VIEW HERO BANNER === */
   /* ═══════════════════ CYBERPUNK VIEW HERO BANNERS ═══════════════════ */
@@ -2799,7 +2799,6 @@
     .feature-cards .feature-card:last-child:nth-child(odd) { grid-column: auto; }
     .hero { padding: 2rem 2rem 1.5rem; }
     .hero-logo-img { width: 260px; height: 260px; }
-    #view-quick-guide { max-width: none; }
     .dir-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
   }
 
