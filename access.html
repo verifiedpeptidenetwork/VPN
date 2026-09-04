@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+<style>html[data-theme="light"]{filter:invert(1) hue-rotate(180deg);background:#fff;}html{transition:filter .25s ease;}@media (prefers-reduced-motion:reduce){html{transition:none!important;}}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VPN · RESTRICTED ACCESS</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -642,5 +644,6 @@ function unlockForm(){avUnlocked=true;
   function showSuccess(msg){document.getElementById('error-msg').classList.remove('show');var el=document.getElementById('success-msg');el.textContent=msg;el.classList.add('show');}
   function clearMsgs(){document.getElementById('error-msg').classList.remove('show');document.getElementById('success-msg').classList.remove('show');}
 </script>
+<script src="theme-toggle.js" defer></script>
 </body>
 </html>
