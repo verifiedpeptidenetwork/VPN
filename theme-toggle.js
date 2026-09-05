@@ -97,6 +97,15 @@
   // reading as pale pink, others pale cyan, etc., which looked inconsistent; this
   // gives every panel across the whole site the same warm, neutral background.
   var LIGHT_BG=[253,246,230];
+  // Yellow and gray accent borders read poorly against the cream background --
+  // swapped for one consistent teal accent in light mode instead.
+  var BORDER_ACCENT=[14,124,134];
+  function isYellowOrGray(rgb){
+    var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
+    if(hsl[1]<0.15) return true; // low saturation -- gray/neutral
+    var hueDeg=hsl[0]*360;
+    return hueDeg>=40 && hueDeg<=68; // yellow/gold band
+  }
   function lightenRGB(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
     if(a>MIN_ALPHA) a=Math.max(a,OPAQUE_FLOOR); // opaque, so it fully covers whatever's behind it
@@ -122,19 +131,22 @@
     return a>=1 ? 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')' : 'rgba('+rgb.r+','+rgb.g+','+rgb.b+','+a+')';
   }
 
-  function remapGradient(str){
-    var any=false;
-    var out=str.replace(/rgba?\(([^)]+)\)/g, function(full, inner){
-      var p=inner.split(',').map(function(s){return parseFloat(s);});
+  // True if this gradient has any solid-ish dark stop -- i.e. it's a decorative
+  // dark-mode vignette/panel background, not something to preserve as a gradient.
+  // These often pair a near-opaque dark middle with low-alpha (<MIN_ALPHA) tinted
+  // edges for mood -- remapping stop-by-stop would leave those edges nearly
+  // transparent (since they never individually cross MIN_ALPHA), letting whatever
+  // sits behind bleed through unevenly. Simpler and more reliable: once any stop
+  // says "this is a dark decorative background", collapse the WHOLE thing to one
+  // flat opaque cream fill instead of trying to keep a gradient shape.
+  function gradientHasDarkStop(str){
+    var stops=str.match(/rgba?\([^)]+\)/g) || [];
+    for(var i=0;i<stops.length;i++){
+      var p=stops[i].replace(/rgba?\(|\)/g,'').split(',').map(function(s){return parseFloat(s);});
       var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
-      if(rgb.a<=MIN_ALPHA) return full;
-      if(luminance(rgb)<DARK_THRESHOLD){
-        any=true;
-        return rgbaStr(lightenRGB(rgb));
-      }
-      return full;
-    });
-    return any ? out : null;
+      if(rgb.a>MIN_ALPHA && luminance(rgb)<DARK_THRESHOLD) return true;
+    }
+    return false;
   }
   // For background-clip:text gradients (the gradient IS the visible text) --
   // darken the light stops instead of lightening the dark ones.
@@ -233,8 +245,11 @@
         changed=true;
       }
     } else if(isGradient){
-      var remapped=remapGradient(bgImgVal);
-      if(remapped){ el.style.setProperty('background-image', remapped, 'important'); changed=true; }
+      if(gradientHasDarkStop(bgImgVal)){
+        el.style.setProperty('background-image','none','important');
+        el.style.setProperty('background-color', rgbaStr({r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:OPAQUE_FLOOR}), 'important');
+        changed=true;
+      }
     } else if(!isRasterImage){
       var bgRgb=toRGBA(cs.backgroundColor);
       if(bgRgb && bgRgb.a>MIN_ALPHA && luminance(bgRgb)<DARK_THRESHOLD){
@@ -253,6 +268,20 @@
         if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1){
           el.style.setProperty('filter','none','important');
         }
+        changed=true;
+      }
+    }
+
+    // Yellow/gray borders -> one consistent teal accent instead.
+    var BORDER_SIDES=['borderTopColor','borderRightColor','borderBottomColor','borderLeftColor'];
+    var BORDER_CSS_PROP={borderTopColor:'border-top-color',borderRightColor:'border-right-color',borderBottomColor:'border-bottom-color',borderLeftColor:'border-left-color'};
+    for(var s=0;s<BORDER_SIDES.length;s++){
+      var side=BORDER_SIDES[s];
+      var borderRgb=toRGBA(cs[side]);
+      if(borderRgb && borderRgb.a>MIN_ALPHA && isYellowOrGray(borderRgb)){
+        if(!rec.border) rec.border={};
+        rec.border[side]=el.style[side]||'';
+        el.style.setProperty(BORDER_CSS_PROP[side], rgbaStr({r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:borderRgb.a}), 'important');
         changed=true;
       }
     }
@@ -296,6 +325,11 @@
       if(rec.color) rec.el.style.setProperty('color', rec.color); else rec.el.style.removeProperty('color');
       if(rec.textShadow) rec.el.style.setProperty('text-shadow', rec.textShadow); else rec.el.style.removeProperty('text-shadow');
       if(rec.filter) rec.el.style.setProperty('filter', rec.filter); else rec.el.style.removeProperty('filter');
+      if(rec.border){
+        for(var side in rec.border){
+          if(rec.border[side]) rec.el.style[side]=rec.border[side]; else rec.el.style.removeProperty(side.replace(/([A-Z])/g,'-$1').toLowerCase());
+        }
+      }
     }
     touched=[];
     restoreBackdrops();
@@ -341,10 +375,22 @@
     document.body.appendChild(btn);
   }
 
+  // Re-walk the DOM and fix anything the first pass missed. On a very large page,
+  // a handful of elements can occasionally read a stale computed style back when
+  // thousands of getComputedStyle/style-mutation calls fire in one tight synchronous
+  // loop; re-running shortly after (and again once the page is fully settled) is cheap
+  // and catches those without needing to chase the exact cause on every huge page.
+  function reapplyIfLight(){
+    if(current()==='light') applyLight();
+  }
+
   function init(){
     injectStyle();
     injectButton();
     if(current()==='light') applyLight();
+    setTimeout(reapplyIfLight, 400);
+    setTimeout(reapplyIfLight, 1500);
+    window.addEventListener('load', function(){ setTimeout(reapplyIfLight, 200); });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
   else init();
