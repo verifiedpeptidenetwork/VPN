@@ -44,14 +44,14 @@
   var bodyRec=null;
 
   var SKIP_TAGS={IMG:1,VIDEO:1,SVG:1,CANVAS:1,PICTURE:1,IFRAME:1,SOURCE:1,SCRIPT:1,STYLE:1};
-  var probe=null;
+  // Every caller passes a value straight from getComputedStyle(), which the browser
+  // already normalizes to rgb()/rgba() -- no need to round-trip it through a probe
+  // element + a second getComputedStyle() call just to re-parse it. That extra call,
+  // done for every background/text/border check on every element, was the main cost
+  // behind the toggle feeling slow on a page this size.
   function toRGBA(colorStr){
     if(!colorStr) return null;
-    if(!probe){ probe=document.createElement('div'); probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;'; document.documentElement.appendChild(probe); }
-    probe.style.color='';
-    probe.style.color=colorStr;
-    var resolved=getComputedStyle(probe).color;
-    var m=resolved.match(/rgba?\(([^)]+)\)/);
+    var m=colorStr.match(/rgba?\(([^)]+)\)/);
     if(!m) return null;
     var p=m[1].split(',').map(function(s){return parseFloat(s);});
     return {r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
@@ -355,7 +355,10 @@
   function injectStyle(){
     if(document.getElementById('vt-toggle-style')) return;
     var css=
-      '#vt-toggle-btn{position:fixed;top:0.6rem;right:0.6rem;z-index:2147483647;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.5);background:rgba(10,0,26,0.55);color:rgba(0,245,255,0.75);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.55;}'
+      /* Docked top-right, below the ticker + nav bar (~92px tall on mobile) so it
+         never sits under scrolling ticker text, and clear of the bottom-corner
+         clutter (mascot, music player, back-to-top). */
+      '#vt-toggle-btn{position:fixed;top:6rem;right:0.6rem;z-index:2147483647;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.5);background:rgba(10,0,26,0.55);color:rgba(0,245,255,0.75);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.55;}'
       +'#vt-toggle-btn:hover{opacity:1;transform:scale(1.12);box-shadow:0 0 18px rgba(0,245,255,0.6),0 0 34px rgba(0,245,255,0.25);border-color:#00f5ff;color:#00f5ff;}'
       +'#vt-toggle-btn:active{transform:scale(0.94);}'
       +'@media print{#vt-toggle-btn{display:none!important;}}';
@@ -389,8 +392,6 @@
     injectButton();
     if(current()==='light') applyLight();
     setTimeout(reapplyIfLight, 400);
-    setTimeout(reapplyIfLight, 1500);
-    window.addEventListener('load', function(){ setTimeout(reapplyIfLight, 200); });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
   else init();
