@@ -100,11 +100,28 @@
   // Yellow and gray accent borders read poorly against the cream background --
   // swapped for one consistent teal accent in light mode instead.
   var BORDER_ACCENT=[14,124,134];
+  // Pink/magenta reads as a jarring, washed-out color choice in light mode --
+  // swapped for one consistent dark red accent instead, same as the yellow->teal rule.
+  var RED_ACCENT=[139,0,0];
   function isYellowOrGray(rgb){
     var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
     if(hsl[1]<0.15) return true; // low saturation -- gray/neutral
     var hueDeg=hsl[0]*360;
     return hueDeg>=40 && hueDeg<=68; // yellow/gold band
+  }
+  // Yellow hue only (no gray) -- used for text, where gray/white should stay a
+  // clean neutral dark gray via darkenRGB rather than being pulled to teal.
+  function isYellowHue(hsl){
+    if(hsl[1]<0.15) return false;
+    var hueDeg=hsl[0]*360;
+    return hueDeg>=40 && hueDeg<=68;
+  }
+  // Pink/magenta/hot-pink band -- stops short of true red (350-360) and true
+  // purple/violet (<300) so it only catches colors that actually read as "pink".
+  function isPinkHue(hsl){
+    if(hsl[1]<0.15) return false;
+    var hueDeg=hsl[0]*360;
+    return hueDeg>=300 && hueDeg<=349;
   }
   function lightenRGB(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
@@ -156,8 +173,11 @@
       var p=inner.split(',').map(function(s){return parseFloat(s);});
       var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
       if(rgb.a<=MIN_ALPHA) return full;
-      if(rgbToHsl(rgb.r,rgb.g,rgb.b)[2]>LIGHT_TEXT_L){
+      var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
+      if(hsl[2]>LIGHT_TEXT_L){
         any=true;
+        if(isPinkHue(hsl)) return rgbaStr({r:RED_ACCENT[0],g:RED_ACCENT[1],b:RED_ACCENT[2],a:Math.max(rgb.a,TEXT_MIN_ALPHA)});
+        if(isYellowHue(hsl)) return rgbaStr({r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:Math.max(rgb.a,TEXT_MIN_ALPHA)});
         return rgbaStr(darkenRGB(rgb));
       }
       return full;
@@ -260,29 +280,49 @@
 
     if(!isRasterImage){
       var colRgb=toRGBA(cs.color);
-      if(colRgb && rgbToHsl(colRgb.r,colRgb.g,colRgb.b)[2]>LIGHT_TEXT_L){
-        el.style.setProperty('color', rgbaStr(darkenRGB(colRgb)), 'important');
-        if(cs.textShadow && cs.textShadow!=='none'){
-          el.style.setProperty('text-shadow','none','important');
+      if(colRgb){
+        var colHsl=rgbToHsl(colRgb.r,colRgb.g,colRgb.b);
+        if(colHsl[2]>LIGHT_TEXT_L){
+          var newColor;
+          if(isPinkHue(colHsl)){
+            var pinkA=(colRgb.a===undefined?1:colRgb.a);
+            newColor={r:RED_ACCENT[0],g:RED_ACCENT[1],b:RED_ACCENT[2],a:pinkA>MIN_ALPHA?Math.max(pinkA,TEXT_MIN_ALPHA):pinkA};
+          } else if(isYellowHue(colHsl)){
+            var yellowA=(colRgb.a===undefined?1:colRgb.a);
+            newColor={r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:yellowA>MIN_ALPHA?Math.max(yellowA,TEXT_MIN_ALPHA):yellowA};
+          } else {
+            newColor=darkenRGB(colRgb);
+          }
+          el.style.setProperty('color', rgbaStr(newColor), 'important');
+          if(cs.textShadow && cs.textShadow!=='none'){
+            el.style.setProperty('text-shadow','none','important');
+          }
+          if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1){
+            el.style.setProperty('filter','none','important');
+          }
+          changed=true;
         }
-        if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1){
-          el.style.setProperty('filter','none','important');
-        }
-        changed=true;
       }
     }
 
-    // Yellow/gray borders -> one consistent teal accent instead.
+    // Yellow/gray borders -> one consistent teal accent; pink/magenta borders -> dark red.
+    // Same "no yellow, no pink" rule as text, applied to borders.
     var BORDER_SIDES=['borderTopColor','borderRightColor','borderBottomColor','borderLeftColor'];
     var BORDER_CSS_PROP={borderTopColor:'border-top-color',borderRightColor:'border-right-color',borderBottomColor:'border-bottom-color',borderLeftColor:'border-left-color'};
     for(var s=0;s<BORDER_SIDES.length;s++){
       var side=BORDER_SIDES[s];
       var borderRgb=toRGBA(cs[side]);
-      if(borderRgb && borderRgb.a>MIN_ALPHA && isYellowOrGray(borderRgb)){
-        if(!rec.border) rec.border={};
-        rec.border[side]=el.style[side]||'';
-        el.style.setProperty(BORDER_CSS_PROP[side], rgbaStr({r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:borderRgb.a}), 'important');
-        changed=true;
+      if(borderRgb && borderRgb.a>MIN_ALPHA){
+        var borderHsl=rgbToHsl(borderRgb.r,borderRgb.g,borderRgb.b);
+        var accent=null;
+        if(isYellowOrGray(borderRgb)) accent=BORDER_ACCENT;
+        else if(isPinkHue(borderHsl)) accent=RED_ACCENT;
+        if(accent){
+          if(!rec.border) rec.border={};
+          rec.border[side]=el.style[side]||'';
+          el.style.setProperty(BORDER_CSS_PROP[side], rgbaStr({r:accent[0],g:accent[1],b:accent[2],a:borderRgb.a}), 'important');
+          changed=true;
+        }
       }
     }
     if(changed) touched.push(rec);
