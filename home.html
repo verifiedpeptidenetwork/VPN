@@ -25455,8 +25455,8 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 <div id="vpn-mp-fab" title="Open music player" role="button" tabindex="0" aria-label="Open music player" style="position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;width:52px;height:52px;border-radius:50%;border:2px solid #00ff41;background:rgba(0,8,28,0.96);color:#00ff41;font-size:1.3rem;cursor:grab;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,255,65,0.5),0 0 40px rgba(0,255,65,0.18);user-select:none;-webkit-user-select:none;">&#127925;</div>
 
 <!-- Expanded panel -->
-<div id="vpn-mp-panel" role="dialog" aria-label="Music player" style="position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;width:272px;max-width:calc(100vw - 2rem);background:rgba(4,0,14,0.97);border:2px solid rgba(0,255,65,0.55);border-radius:16px;box-shadow:0 0 34px rgba(0,255,65,0.28),0 8px 28px rgba(0,0,0,0.85);backdrop-filter:blur(14px);overflow:hidden;display:none;flex-direction:column;">
-  <div id="vpn-mp-header" style="display:flex;align-items:center;gap:0.5rem;padding:0.65rem 0.5rem 0.65rem 0.9rem;background:rgba(0,255,65,0.08);border-bottom:1px solid rgba(0,255,65,0.14);cursor:grab;">
+<div id="vpn-mp-panel" role="dialog" aria-label="Music player" style="position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;width:272px;max-width:calc(100vw - 2rem);max-height:calc(100vh - 10.6rem);background:rgba(4,0,14,0.97);border:2px solid rgba(0,255,65,0.55);border-radius:16px;box-shadow:0 0 34px rgba(0,255,65,0.28),0 8px 28px rgba(0,0,0,0.85);backdrop-filter:blur(14px);overflow:hidden;display:none;flex-direction:column;">
+  <div id="vpn-mp-header" style="flex-shrink:0;display:flex;align-items:center;gap:0.5rem;padding:0.65rem 0.5rem 0.65rem 0.9rem;background:rgba(0,255,65,0.08);border-bottom:1px solid rgba(0,255,65,0.14);cursor:grab;">
     <span style="font-size:1.05rem;flex-shrink:0;">&#127925;</span>
     <div style="flex:1;min-width:0;">
       <div id="vpn-mp-track" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00ff41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">BURNING SKYLINE</div>
@@ -25465,6 +25465,10 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     <button id="vpn-mp-min" onclick="vpnMPCollapse()" title="Minimize" aria-label="Minimize player" style="background:none;border:none;color:rgba(0,255,65,0.45);font-size:1.05rem;cursor:pointer;width:30px;height:30px;line-height:1;flex-shrink:0;">&#8722;</button>
     <button id="vpn-mp-close" onclick="vpnMPClose()" title="Close player" aria-label="Close player" style="background:rgba(255,45,80,0.14);border:1.5px solid rgba(255,60,80,0.5);border-radius:50%;color:#ff4d6a;font-size:1rem;cursor:pointer;width:30px;height:30px;line-height:1;flex-shrink:0;display:flex;align-items:center;justify-content:center;">&#x2715;</button>
   </div>
+
+  <!-- Scrollable body — keeps the header (minimize/close) always on-screen even if the
+       track list or YT embed makes the content taller than the available viewport space -->
+  <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;">
 
   <!-- Transport: prev / play-pause / next -->
   <div style="display:flex;align-items:center;justify-content:center;gap:1rem;padding:0.85rem 0.85rem 0.6rem;">
@@ -25497,6 +25501,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       <iframe id="vpn-mp-yt-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
     </div>
     <div style="padding:0.5rem 0.7rem;font-family:'Rajdhani',sans-serif;font-size:0.68rem;font-weight:600;color:rgba(0,255,65,0.45);text-align:center;letter-spacing:0.06em;">YOUTUBE MIX · RDqtBzqygCxLM</div>
+  </div>
   </div>
 </div>
 
