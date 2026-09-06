@@ -259,47 +259,50 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
 .popup-close:hover{color:var(--red2);}
 .popup-msg{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:var(--red2);line-height:1.5;}
 
-/* ── MUSIC PLAYER ── */
-#mx-fab{position:fixed;bottom:20px;right:20px;z-index:9999;
-  display:flex;align-items:center;gap:0.4rem;
-  padding:0.28rem 0.68rem 0.28rem 0.5rem;
-  background:rgba(2,1,10,0.96);border:1.5px solid rgba(0,255,65,0.38);border-radius:40px;
-  box-shadow:0 0 12px rgba(0,255,65,0.16);backdrop-filter:blur(10px);
-  cursor:grab;user-select:none;-webkit-user-select:none;}
-#mx-fab.playing{animation:mxPulse 2.2s ease-in-out infinite;}
-@keyframes mxPulse{0%,100%{box-shadow:0 0 12px rgba(0,255,65,0.16);}50%{box-shadow:0 0 24px rgba(0,255,65,0.44);}}
-#mx-fab-icon{font-size:0.84rem;flex-shrink:0;}
-#mx-fab-track{font-family:'Bebas Neue',sans-serif;font-size:0.58rem;letter-spacing:0.1em;color:#00ff41;
-  max-width:90px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-#mx-fab-pp{background:none;border:none;color:#00ff41;font-size:0.84rem;cursor:pointer;
-  padding:0;line-height:1;flex-shrink:0;pointer-events:auto;}
-#mx-panel{position:fixed;bottom:60px;right:20px;z-index:9998;
-  width:220px;background:rgba(2,1,10,0.97);border:1.5px solid rgba(0,255,65,0.4);
-  border-radius:10px;box-shadow:0 0 20px rgba(0,255,65,0.16),0 8px 20px rgba(0,0,0,0.92);
+/* ── VPN MUSIC PLAYER v3 — same design as home.html: real transport, easy close, docked clear of other UI ── */
+#vpn-mp-fab{position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;
+  width:52px;height:52px;border-radius:50%;border:2px solid #00ff41;
+  background:rgba(0,8,28,0.96);color:#00ff41;font-size:1.3rem;cursor:grab;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px rgba(0,255,65,0.5),0 0 40px rgba(0,255,65,0.18);
+  user-select:none;-webkit-user-select:none;}
+#vpn-mp-fab.playing{animation:vpnMPPulse 2.2s ease-in-out infinite;}
+@keyframes vpnMPPulse{0%,100%{box-shadow:0 0 18px rgba(0,255,65,0.5),0 0 40px rgba(0,255,65,0.18);}50%{box-shadow:0 0 26px rgba(0,255,65,0.8),0 0 55px rgba(0,255,65,0.4);}}
+#vpn-mp-panel{position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;
+  width:250px;max-width:calc(100vw - 2rem);background:rgba(4,0,14,0.97);
+  border:2px solid rgba(0,255,65,0.55);border-radius:16px;
+  box-shadow:0 0 34px rgba(0,255,65,0.28),0 8px 28px rgba(0,0,0,0.85);
   backdrop-filter:blur(14px);overflow:hidden;display:none;flex-direction:column;}
-.mx-hdr{display:flex;align-items:center;gap:0.36rem;padding:0.46rem 0.7rem;
-  background:rgba(0,255,65,0.05);border-bottom:1px solid rgba(0,255,65,0.09);cursor:grab;}
-.mx-hdr-title{font-family:'Bebas Neue',sans-serif;font-size:0.6rem;letter-spacing:0.14em;color:#00ff41;flex:1;}
-.mx-close{background:none;border:none;color:rgba(255,70,70,0.45);font-size:0.8rem;cursor:pointer;padding:0;line-height:1;}
-.mx-body{padding:0.5rem 0.66rem 0.6rem;display:flex;flex-direction:column;gap:0.4rem;}
-.mx-tname{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.1em;
+#vpn-mp-header{display:flex;align-items:center;gap:0.5rem;padding:0.65rem 0.5rem 0.65rem 0.9rem;
+  background:rgba(0,255,65,0.08);border-bottom:1px solid rgba(0,255,65,0.14);cursor:grab;}
+.vpn-mp-hdr-title{font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:#00ff41;flex:1;}
+#vpn-mp-min{background:none;border:none;color:rgba(0,255,65,0.45);font-size:1.05rem;cursor:pointer;width:28px;height:28px;line-height:1;flex-shrink:0;}
+#vpn-mp-close{background:rgba(255,45,80,0.14);border:1.5px solid rgba(255,60,80,0.5);border-radius:50%;
+  color:#ff4d6a;font-size:0.95rem;cursor:pointer;width:28px;height:28px;line-height:1;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;}
+#vpn-mp-close:hover{background:rgba(255,45,80,0.32);color:#fff;}
+.vpn-mp-body{padding:0.7rem 0.75rem 0.5rem;display:flex;flex-direction:column;gap:0.6rem;}
+#vpn-mp-track{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;
   color:#00ff41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mx-tstatus{font-family:'Share Tech Mono',monospace;font-size:0.46rem;
-  color:rgba(0,255,65,0.33);letter-spacing:0.08em;margin-top:-0.16rem;}
-.mx-controls{display:flex;align-items:center;gap:0.52rem;}
-.mx-pp{width:27px;height:27px;border-radius:50%;border:1.5px solid #00ff41;
-  background:rgba(0,255,65,0.07);color:#00ff41;font-size:0.8rem;cursor:pointer;
+#vpn-mp-status{font-family:'Share Tech Mono',monospace;font-size:0.55rem;
+  color:rgba(0,255,65,0.4);letter-spacing:0.06em;margin-top:0.1rem;}
+.vpn-mp-transport{display:flex;align-items:center;justify-content:center;gap:0.85rem;}
+#vpn-mp-prev,#vpn-mp-next{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,255,65,0.4);
+  background:rgba(0,255,65,0.06);color:#00ff41;font-size:0.85rem;cursor:pointer;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.mx-vol{flex:1;display:flex;align-items:center;gap:0.36rem;}
-.mx-vol input{flex:1;accent-color:#00ff41;cursor:pointer;}
-.mx-vol span{font-family:'Bebas Neue',sans-serif;font-size:0.48rem;letter-spacing:0.1em;color:rgba(0,255,65,0.26);}
-.mx-tracks{display:flex;flex-direction:column;gap:0.18rem;}
-.mx-tr{font-family:'Bebas Neue',sans-serif;font-size:0.58rem;letter-spacing:0.06em;
-  padding:0.18rem 0.5rem;border-radius:3px;border:1px solid rgba(0,255,65,0.12);
-  background:rgba(0,255,65,0.02);color:rgba(0,255,65,0.4);cursor:pointer;text-align:left;
+#vpn-mp-pp{width:42px;height:42px;border-radius:50%;border:2px solid #00ff41;
+  background:rgba(0,255,65,0.12);color:#00ff41;font-size:1.05rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#vpn-mp-prev:hover,#vpn-mp-next:hover,#vpn-mp-pp:hover{background:rgba(0,255,65,0.22);border-color:#00ff41;}
+.vpn-mp-vol{display:flex;align-items:center;gap:0.5rem;}
+.vpn-mp-vol input{flex:1;accent-color:#00ff41;cursor:pointer;}
+.vpn-mp-tracks{display:flex;flex-direction:column;gap:0.22rem;}
+.vpn-mp-tr{font-family:'Bebas Neue',sans-serif;font-size:0.6rem;letter-spacing:0.06em;
+  padding:0.26rem 0.6rem;border-radius:4px;border:1px solid rgba(0,255,65,0.14);
+  background:rgba(0,255,65,0.02);color:rgba(0,255,65,0.45);cursor:pointer;text-align:left;
   transition:all 0.1s;width:100%;}
-.mx-tr:hover{background:rgba(0,255,65,0.08);color:#00ff41;border-color:rgba(0,255,65,0.36);}
-.mx-tr.on{background:rgba(0,255,65,0.11)!important;color:#00ff41!important;border-color:#00ff41!important;}
+.vpn-mp-tr:hover{background:rgba(0,255,65,0.08);color:#00ff41;border-color:rgba(0,255,65,0.36);}
+.vpn-mp-tr.on{background:rgba(0,255,65,0.11)!important;color:#00ff41!important;border-color:#00ff41!important;}
 
 /* ══════════════════════════
    RESPONSIVE
@@ -320,7 +323,8 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
   .age-num{font-size:1.75rem;}
   .mode-tab{font-size:0.75rem;}
   .col-login{padding:1.1rem 0.9rem 2.5rem;}
-  #mx-panel{width:calc(100vw - 40px);}
+  #vpn-mp-panel{width:calc(100vw - 2rem);right:1rem;bottom:9.6rem;}
+  #vpn-mp-fab{right:1rem;bottom:9.6rem;}
 }
 </style>
 </head>
@@ -388,58 +392,111 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
 })();
 </script>
 
-<!-- MUSIC PLAYER -->
-<audio id="mx-audio" preload="none" loop></audio>
-<div id="mx-fab"><span id="mx-fab-icon">🎵</span><span id="mx-fab-track">VPN MUSIC</span><button id="mx-fab-pp">▶</button></div>
-<div id="mx-panel">
-  <div class="mx-hdr" id="mx-hdr"><span style="font-size:0.8rem;">🎵</span><span class="mx-hdr-title">VPN MUSIC</span><button class="mx-close" id="mx-close-btn">✕</button></div>
-  <div class="mx-body">
-    <div><div class="mx-tname" id="mx-tname">BURNING SKYLINE</div><div class="mx-tstatus" id="mx-tstatus">TAP ▶ TO PLAY</div></div>
-    <div class="mx-controls">
-      <button class="mx-pp" id="mx-pp-btn">▶</button>
-      <div class="mx-vol"><input type="range" min="0" max="1" step="0.05" value="0.35" id="mx-vol"><span>VOL</span></div>
+<!-- VPN MUSIC PLAYER v3 — same transport/close design as home.html -->
+<audio id="vpn-bg-audio" preload="none" loop></audio>
+<div id="vpn-mp-fab" title="Open music player" role="button" tabindex="0" aria-label="Open music player">&#127925;</div>
+<div id="vpn-mp-panel" role="dialog" aria-label="Music player">
+  <div id="vpn-mp-header">
+    <span style="font-size:0.95rem;">&#127925;</span>
+    <span class="vpn-mp-hdr-title">VPN MUSIC</span>
+    <button id="vpn-mp-min" title="Minimize" aria-label="Minimize player">&#8722;</button>
+    <button id="vpn-mp-close" title="Close player" aria-label="Close player">&#x2715;</button>
+  </div>
+  <div class="vpn-mp-body">
+    <div>
+      <div id="vpn-mp-track">BURNING SKYLINE</div>
+      <div id="vpn-mp-status">TAP PLAY TO START</div>
     </div>
-    <div class="mx-tracks" id="mx-tracklist"></div>
+    <div class="vpn-mp-transport">
+      <button id="vpn-mp-prev" title="Previous track" aria-label="Previous track">&#9198;</button>
+      <button id="vpn-mp-pp" title="Play / pause" aria-label="Play or pause">&#9654;</button>
+      <button id="vpn-mp-next" title="Next track" aria-label="Next track">&#9197;</button>
+    </div>
+    <div class="vpn-mp-vol"><span style="font-size:0.75rem;">&#128266;</span><input type="range" min="0" max="1" step="0.05" value="0.35" id="vpn-mp-vol" aria-label="Volume"></div>
+    <div class="vpn-mp-tracks" id="vpn-mp-tracklist"></div>
   </div>
 </div>
 <script>
 (function(){
-  var T=[{src:'burning-skyline.mp3',name:'🔥 BURNING SKYLINE'},{src:'80s-pulse.mp3',name:'⚡ 80S PULSE'},{src:'neon-shadows.mp3',name:'🌙 NEON SHADOWS'},{src:'synthwave-bg.mp3',name:'🚀 SYNTHWAVE BG'}];
-  var cur=0,_pl=false;
-  var aud=document.getElementById('mx-audio');
-  var fab=document.getElementById('mx-fab');
-  var pan=document.getElementById('mx-panel');
-  var fpp=document.getElementById('mx-fab-pp');
-  var ppp=document.getElementById('mx-pp-btn');
-  var ftr=document.getElementById('mx-fab-track');
-  var ptn=document.getElementById('mx-tname');
-  var pts=document.getElementById('mx-tstatus');
-  aud.src=T[0].src;aud.volume=0.35;aud.loop=true;
-  var tl=document.getElementById('mx-tracklist');
-  T.forEach(function(t,i){var b=document.createElement('button');b.className='mx-tr'+(i===0?' on':'');b.textContent=t.name;b.onclick=function(){load(i);};tl.appendChild(b);});
-  function ui(on){_pl=on;fpp.textContent=on?'⏸':'▶';ppp.textContent=on?'⏸':'▶';pts.textContent=on?'NOW PLAYING':'PAUSED';on?fab.classList.add('playing'):fab.classList.remove('playing');}
-  function tryPlay(){aud.muted=false;aud.play().then(function(){ui(true);}).catch(function(){aud.muted=true;aud.play().then(function(){ui(true);setTimeout(function(){aud.muted=false;},200);}).catch(function(){});});}
-  function load(i){cur=i;aud.src=T[i].src;aud.load();ftr.textContent=T[i].name.replace(/^[^\s]+\s/,'');ptn.textContent=T[i].name;document.querySelectorAll('.mx-tr').forEach(function(b,j){b.classList.toggle('on',j===i);});aud.play().then(function(){ui(true);}).catch(function(){});}
-  window.mxToggle=function(){if(aud.paused){tryPlay();}else{aud.pause();ui(false);}};
-  fpp.addEventListener('click',function(e){e.stopPropagation();mxToggle();});
-  ppp.addEventListener('click',mxToggle);
-  document.getElementById('mx-vol').addEventListener('input',function(){aud.volume=parseFloat(this.value);aud.muted=false;});
-  aud.addEventListener('ended',function(){ui(false);});
+  var tracks=[
+    {src:'burning-skyline.mp3',name:'BURNING SKYLINE',icon:'🔥'},
+    {src:'80s-pulse.mp3',      name:'80S PULSE',      icon:'⚡'},
+    {src:'neon-shadows.mp3',   name:'NEON SHADOWS',   icon:'🌙'},
+    {src:'synthwave-bg.mp3',   name:'SYNTHWAVE BG',   icon:'🚀'}
+  ];
+  var cur=0;
+  var audio=document.getElementById('vpn-bg-audio');
+  var pp=document.getElementById('vpn-mp-pp');
+  var fab=document.getElementById('vpn-mp-fab');
+  var panel=document.getElementById('vpn-mp-panel');
+  var tname=document.getElementById('vpn-mp-track');
+  var tstatus=document.getElementById('vpn-mp-status');
+  var _closed=false;
+  audio.src=tracks[0].src;
+  audio.volume=0.35;
+
+  var tl=document.getElementById('vpn-mp-tracklist');
+  tracks.forEach(function(t,i){
+    var b=document.createElement('button');
+    b.className='vpn-mp-tr'+(i===0?' on':'');
+    b.textContent=t.icon+' '+t.name;
+    b.onclick=function(){vpnMPLoadTrack(i);};
+    tl.appendChild(b);
+  });
+
+  function setPlaying(on){
+    pp.textContent=on?'⏸':'▶';
+    tstatus.textContent=on?'NOW PLAYING':'PAUSED';
+    if(on){fab.classList.add('playing');}else{fab.classList.remove('playing');}
+  }
+  function tryPlay(){
+    audio.muted=false;
+    audio.play().then(function(){setPlaying(true);}).catch(function(){
+      audio.muted=true;
+      audio.play().then(function(){setPlaying(true);setTimeout(function(){audio.muted=false;},200);}).catch(function(){});
+    });
+  }
+  window.vpnMPToggle=function(){if(audio.paused){tryPlay();}else{audio.pause();setPlaying(false);}};
+  window.vpnMPVolume=function(v){audio.volume=parseFloat(v);audio.muted=false;};
+  window.vpnMPExpand=function(){if(_closed)return;panel.style.display='flex';fab.style.display='none';};
+  window.vpnMPCollapse=function(){panel.style.display='none';fab.style.display='flex';};
+  window.vpnMPClose=function(){panel.style.display='none';fab.style.display='none';audio.pause();setPlaying(false);_closed=true;};
+  window.vpnMPLoadTrack=function(i){
+    cur=i;audio.src=tracks[i].src;audio.load();
+    tname.textContent=tracks[i].name;
+    document.querySelectorAll('.vpn-mp-tr').forEach(function(b,j){b.classList.toggle('on',j===i);});
+    audio.play().then(function(){setPlaying(true);}).catch(function(){});
+  };
+  window.vpnMPSkip=function(dir){ window.vpnMPLoadTrack((cur+dir+tracks.length)%tracks.length); };
+
+  pp.addEventListener('click',window.vpnMPToggle);
+  document.getElementById('vpn-mp-prev').addEventListener('click',function(){vpnMPSkip(-1);});
+  document.getElementById('vpn-mp-next').addEventListener('click',function(){vpnMPSkip(1);});
+  document.getElementById('vpn-mp-vol').addEventListener('input',function(){vpnMPVolume(this.value);});
+  document.getElementById('vpn-mp-min').addEventListener('click',window.vpnMPCollapse);
+  document.getElementById('vpn-mp-close').addEventListener('click',function(e){e.stopPropagation();vpnMPClose();});
+  audio.addEventListener('ended',function(){setPlaying(false);});
+
   tryPlay();
-  var panOpen=false;
-  function openP(){panOpen=true;pan.style.display='flex';}
-  function closeP(){panOpen=false;pan.style.display='none';}
-  document.getElementById('mx-close-btn').addEventListener('click',function(e){e.stopPropagation();closeP();});
-  var dr=false,mv=false,ael=null,sx,sy,slx,sly,TH=6;
-  function anc(el){var r=el.getBoundingClientRect();el.style.position='fixed';el.style.left=r.left+'px';el.style.top=r.top+'px';el.style.right='';el.style.bottom='';}
-  function clmp(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
-  function spos(el,x,y){el.style.left=clmp(x,0,window.innerWidth-el.offsetWidth)+'px';el.style.top=clmp(y,0,window.innerHeight-el.offsetHeight)+'px';}
-  function dn(el,e){if(e.target===fpp)return;anc(el);var p=e.touches?e.touches[0]:e;sx=p.clientX;sy=p.clientY;var r=el.getBoundingClientRect();slx=r.left;sly=r.top;dr=true;mv=false;ael=el;e.preventDefault();}
-  function mm(e){if(!dr||!ael)return;var p=e.touches?e.touches[0]:e;var dx=p.clientX-sx,dy=p.clientY-sy;if(Math.abs(dx)>TH||Math.abs(dy)>TH){mv=true;}if(mv){spos(ael,slx+dx,sly+dy);e.preventDefault();}}
-  function mu(){if(!dr)return;dr=false;var el=ael;ael=null;if(!mv&&el===fab){panOpen?closeP():openP();}mv=false;}
-  fab.addEventListener('mousedown',function(e){dn(fab,e);});fab.addEventListener('touchstart',function(e){dn(fab,e);},{passive:false});
-  var hdr=document.getElementById('mx-hdr');hdr.addEventListener('mousedown',function(e){dn(pan,e);});hdr.addEventListener('touchstart',function(e){dn(pan,e);},{passive:false});
-  window.addEventListener('mousemove',mm);window.addEventListener('touchmove',mm,{passive:false});window.addEventListener('mouseup',mu);window.addEventListener('touchend',mu);
+
+  /* Drag OR tap-to-open — identical behavior to home.html's player */
+  var dragging=false,moved=false,activeEl=null,startX,startY,startElX,startElY,CLICK_PX=6;
+  function clamp(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
+  function anchor(el){var r=el.getBoundingClientRect();el.style.position='fixed';el.style.left=r.left+'px';el.style.top=r.top+'px';el.style.right='';el.style.bottom='';}
+  function setPos(el,x,y){x=clamp(x,0,window.innerWidth-el.offsetWidth);y=clamp(y,0,window.innerHeight-el.offsetHeight);el.style.left=x+'px';el.style.top=y+'px';}
+  function startDrag(el,e){anchor(el);var p=e.touches?e.touches[0]:e;startX=p.clientX;startY=p.clientY;var r=el.getBoundingClientRect();startElX=r.left;startElY=r.top;dragging=true;moved=false;activeEl=el;e.preventDefault();e.stopPropagation();}
+  function onMove(e){if(!dragging||!activeEl)return;var p=e.touches?e.touches[0]:e;var dx=p.clientX-startX,dy=p.clientY-startY;if(Math.abs(dx)>CLICK_PX||Math.abs(dy)>CLICK_PX){moved=true;}if(moved){setPos(activeEl,startElX+dx,startElY+dy);e.preventDefault();}}
+  function onUp(){if(!dragging)return;dragging=false;var el=activeEl;activeEl=null;if(!moved&&el===fab)vpnMPExpand();moved=false;}
+  fab.addEventListener('mousedown',function(e){startDrag(fab,e);});
+  fab.addEventListener('touchstart',function(e){startDrag(fab,e);},{passive:false});
+  fab.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();vpnMPExpand();}});
+  var header=document.getElementById('vpn-mp-header');
+  header.addEventListener('mousedown',function(e){startDrag(panel,e);});
+  header.addEventListener('touchstart',function(e){startDrag(panel,e);},{passive:false});
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('mouseup',onUp);
+  window.addEventListener('touchend',onUp);
 })();
 </script>
 
