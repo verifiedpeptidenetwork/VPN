@@ -13683,6 +13683,49 @@ document.addEventListener('keydown', function(e){
      ══════════════════════════════════════════════════════════ -->
 <div class="view" id="view-shops">
 
+  <!-- PASSWORD GATE — blocks this view until the correct password is entered.
+       Client-side only: this keeps casual visitors out, it is not real security
+       (anyone can read the password in the page source). Persists via localStorage
+       so it only needs to be entered once per browser. -->
+  <div id="shops-pw-gate" style="position:fixed;inset:0;z-index:99999;background:#050004;display:flex;align-items:center;justify-content:center;padding:1.5rem;">
+    <div style="max-width:380px;width:100%;background:#0a0008;border:2px solid rgba(255,0,60,0.4);border-radius:10px;padding:2rem 1.75rem;text-align:center;box-shadow:0 0 60px rgba(255,0,60,0.15);">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔒</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.12em;color:#ff0050;margin-bottom:0.5rem;">RESEARCH SHOPS — PASSWORD PROTECTED</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,210,200,0.65);margin-bottom:1.25rem;">Enter the password to view this section.</div>
+      <input type="password" id="shops-pw-input" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')vpnCheckShopsPassword()" style="width:100%;box-sizing:border-box;padding:0.7rem 0.9rem;background:#000;border:1.5px solid rgba(255,0,60,0.35);border-radius:6px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;outline:none;margin-bottom:0.75rem;">
+      <button onclick="vpnCheckShopsPassword()" style="width:100%;padding:0.7rem;background:rgba(255,0,60,0.12);border:1.5px solid #ff0050;border-radius:6px;color:#ff0050;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;cursor:pointer;">UNLOCK</button>
+      <div id="shops-pw-error" style="display:none;margin-top:0.75rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ff5050;">✗ Incorrect password. Try again.</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var UNLOCK_KEY='vpn-shops-unlocked';
+    var PASSWORD='allah';
+    function gateEl(){ return document.getElementById('shops-pw-gate'); }
+    function checkStoredUnlock(){
+      var g=gateEl(); if(!g) return;
+      var unlocked=false;
+      try{ unlocked = localStorage.getItem(UNLOCK_KEY)==='1'; }catch(e){}
+      if(unlocked) g.style.display='none';
+    }
+    window.vpnCheckShopsPassword=function(){
+      var input=document.getElementById('shops-pw-input');
+      var val=(input.value||'').trim().toLowerCase();
+      if(val===PASSWORD){
+        try{localStorage.setItem(UNLOCK_KEY,'1');}catch(e){}
+        gateEl().style.display='none';
+        document.getElementById('shops-pw-error').style.display='none';
+      } else {
+        document.getElementById('shops-pw-error').style.display='block';
+        input.value='';
+        input.focus();
+      }
+    };
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', checkStoredUnlock); }
+    else { checkStoredUnlock(); }
+  })();
+  </script>
+
   <!-- SHOP HERO DISCLAIMER -->
   <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#0d0005 0%,#080000 50%,#0a0008 100%);border-bottom:2px solid rgba(255,0,60,0.35);">
     <!-- animated stripe -->
