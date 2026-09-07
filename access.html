@@ -493,8 +493,9 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
   fab.addEventListener('touchstart',function(e){startDrag(fab,e);},{passive:false});
   fab.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();vpnMPExpand();}});
   var header=document.getElementById('vpn-mp-header');
-  header.addEventListener('mousedown',function(e){startDrag(panel,e);});
-  header.addEventListener('touchstart',function(e){startDrag(panel,e);},{passive:false});
+  var isHeaderBtn=function(t){ return t.closest && t.closest('#vpn-mp-close,#vpn-mp-min'); };
+  header.addEventListener('mousedown',function(e){ if(isHeaderBtn(e.target)) return; startDrag(panel,e); });
+  header.addEventListener('touchstart',function(e){ if(isHeaderBtn(e.target)) return; startDrag(panel,e); },{passive:false});
   window.addEventListener('mousemove',onMove);
   window.addEventListener('touchmove',onMove,{passive:false});
   window.addEventListener('mouseup',onUp);
