@@ -26330,6 +26330,9 @@ window.addEventListener('appinstalled', function(){
     padding-right: max(2rem, calc((100% - var(--vpn-sb) - var(--vpn-max)) / 2)) !important;
   }
   #site-hero > .view.active { margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; max-width: none !important; }
+  /* The old sidebar-offset rule also hit these blocks when nested inside #site-hero (e.g. GLP Safety bar) */
+  #site-hero #glp-must-read, #site-hero #ln-dropdown, #site-hero .qa-row-wrap,
+  #site-hero #vpn-hero-reta, #site-hero .mobile-nav-strip, #site-hero .hero { margin-left: 0 !important; }
   /* Views that are direct children of <body> — :not(#_) lifts specificity over the old #view-about… rules */
   body > .view.active:not(#_) {
     margin-left: calc(var(--vpn-sb) + max(2rem, calc((100% - var(--vpn-sb) - var(--vpn-max)) / 2))) !important;
