@@ -2434,7 +2434,6 @@ function showTab(name){
 #glowrilla-menu a:hover{background:rgba(255,45,255,0.18);color:#ff2dff;}
 #glowrilla-menu.open{display:block;animation:gmFade 0.18s ease;}
 @keyframes gmFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.gw-vial{position:fixed;pointer-events:none;z-index:2147483643;font-size:1.4rem;transition:left 0.12s ease,top 0.12s ease;transform:translate(-50%,-50%);}
 </style>
 <button id="glowrilla-fab" title="Glowrilla Hub">
   <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
@@ -2451,9 +2450,6 @@ function showTab(name){
 (function(){
   var fab=document.getElementById('glowrilla-fab');
   var menu=document.getElementById('glowrilla-menu');
-  var vialEmojis=['💉','🧪','💉','🧪','💉'];
-  var vials=[];
-  var trail=[];
   var dragging=false,moved=false;
   var fabX=window.innerWidth-80,fabY=window.innerHeight-160;
 
@@ -2465,34 +2461,6 @@ function showTab(name){
     fab.style.right=''; fab.style.bottom='';
   }
   setFab(fabX,fabY);
-
-  // Create vials
-  vialEmojis.forEach(function(e,i){
-    var v=document.createElement('div');
-    v.className='gw-vial'; v.textContent=e;
-    v.style.left=fabX+'px'; v.style.top=fabY+'px';
-    v.style.opacity='0';
-    v.style.transitionDelay=(i*0.04)+'s';
-    document.body.appendChild(v);
-    vials.push({el:v,x:fabX,y:fabY});
-  });
-
-  // Trail history
-  var history=[];
-  function pushHistory(x,y){history.push({x:x,y:y});if(history.length>60)history.shift();}
-
-  // Update vials to follow trail
-  function updateVials(){
-    vials.forEach(function(v,i){
-      var idx=history.length-1-(i+1)*10;
-      if(idx>=0){
-        v.el.style.left=history[idx].x+'px';
-        v.el.style.top=history[idx].y+'px';
-        v.el.style.opacity='1';
-        v.el.style.transform='translate(-50%,-50%) rotate('+(i%2?-20:20)+'deg)';
-      }
-    });
-  }
 
   // Menu positioning
   function positionMenu(){
@@ -2511,8 +2479,6 @@ function showTab(name){
     startX=p.clientX; startY=p.clientY;
     startFabX=fabX; startFabY=fabY;
     fab.classList.add('dragging');
-    history=[];
-    vials.forEach(function(v){v.el.style.opacity='1';});
     e.preventDefault();
   }
   function onMove(e){
@@ -2521,8 +2487,6 @@ function showTab(name){
     var dx=p.clientX-startX,dy=p.clientY-startY;
     if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
     setFab(startFabX+dx,startFabY+dy);
-    pushHistory(fabX,fabY);
-    updateVials();
     e.preventDefault();
   }
   function onUp(e){
@@ -2533,8 +2497,6 @@ function showTab(name){
       menu.classList.toggle('open');
       if(menu.classList.contains('open'))positionMenu();
     }
-    // fade vials out after drag
-    setTimeout(function(){vials.forEach(function(v){v.el.style.opacity='0';});},800);
   }
 
   fab.addEventListener('mousedown',onDown);

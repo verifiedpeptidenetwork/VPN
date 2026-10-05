@@ -26211,8 +26211,6 @@ window.addEventListener('appinstalled', function(){
 #gw-menu-home a:hover{background:rgba(255,45,255,0.18);color:#ff2dff;}
 #gw-menu-home.open{display:block;animation:gmFadeH 0.18s ease;}
 @keyframes gmFadeH{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.gw-vial-home{position:fixed;pointer-events:none;z-index:2147483643;width:22px;height:6px;border-radius:3px;transition:left 0.12s ease,top 0.12s ease;transform:translate(-50%,-50%);}
-@keyframes gwSunFlicker{0%,100%{filter:brightness(1);}50%{filter:brightness(1.35);}}
 </style>
 <button id="gw-fab-home" title="Glowrilla Hub">
   <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
@@ -26233,12 +26231,8 @@ window.addEventListener('appinstalled', function(){
 (function(){
   var fab=document.getElementById('gw-fab-home');
   var menu=document.getElementById('gw-menu-home');
-  /* Retro wave trail — synthwave sunset gradient, magenta -> purple -> cyan */
-  var waveColors=['#ff2dff','#ff2dff','#e030ff','#b030ff','#7a3aff','#3a8fff','#00c8ff','#00f5ff'];
-  var vials=[];
   var fabX=window.innerWidth>900?242+60:60,fabY=window.innerHeight-160; /* start clear of the desktop sidebar */
   var dragging=false,moved=false,startX,startY,startFabX,startFabY;
-  var history=[];
 
   function setFab(x,y){
     fabX=Math.max(30,Math.min(window.innerWidth-30,x));
@@ -26248,33 +26242,6 @@ window.addEventListener('appinstalled', function(){
   }
   setFab(fabX,fabY);
 
-  waveColors.forEach(function(c,i){
-    var v=document.createElement('div');
-    v.className='gw-vial-home';
-    var scale=1-(i/waveColors.length)*0.55;
-    v.style.background='linear-gradient(90deg,'+c+',transparent)';
-    v.style.boxShadow='0 0 10px '+c+',0 0 18px '+c+'99';
-    v.style.left=fabX+'px';v.style.top=fabY+'px';v.style.opacity='0';
-    v.style.transform='translate(-50%,-50%) scale('+scale.toFixed(2)+')';
-    v.style.animation='gwSunFlicker '+(0.6+i*0.08)+'s ease-in-out infinite';
-    document.body.appendChild(v);
-    vials.push(v);
-  });
-
-  function pushHistory(x,y){history.push({x:x,y:y});if(history.length>60)history.shift();}
-  function updateVials(){
-    vials.forEach(function(v,i){
-      var idx=history.length-1-(i+1)*7;
-      if(idx>=0){
-        var pt=history[idx];
-        var dx=fabX-pt.x,dy=fabY-pt.y;
-        var angle=Math.atan2(dy,dx)*180/Math.PI;
-        v.style.left=pt.x+'px';v.style.top=pt.y+'px';v.style.opacity=(1-i/vials.length).toFixed(2);
-        var scale=1-(i/vials.length)*0.55;
-        v.style.transform='translate(-50%,-50%) rotate('+angle+'deg) scale('+scale.toFixed(2)+')';
-      }
-    });
-  }
   function positionMenu(){
     var mw=190,mh=250;
     var mx=fabX+70>window.innerWidth-mw-10?fabX-mw-10:fabX+70;
@@ -26286,8 +26253,7 @@ window.addEventListener('appinstalled', function(){
     dragging=true;moved=false;
     var p=e.touches?e.touches[0]:e;
     startX=p.clientX;startY=p.clientY;startFabX=fabX;startFabY=fabY;
-    fab.classList.add('dragging');history=[];
-    vials.forEach(function(v){v.style.opacity='1';});
+    fab.classList.add('dragging');
     e.preventDefault();
   }
   function onMove(e){
@@ -26296,13 +26262,12 @@ window.addEventListener('appinstalled', function(){
     var dx=p.clientX-startX,dy=p.clientY-startY;
     if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
     setFab(startFabX+dx,startFabY+dy);
-    pushHistory(fabX,fabY);updateVials();e.preventDefault();
+    e.preventDefault();
   }
   function onUp(){
     if(!dragging)return;
     dragging=false;fab.classList.remove('dragging');
     if(!moved){menu.classList.toggle('open');if(menu.classList.contains('open'))positionMenu();}
-    setTimeout(function(){vials.forEach(function(v){v.style.opacity='0';});},800);
   }
   fab.addEventListener('mousedown',onDown);
   window.addEventListener('mousemove',onMove);
