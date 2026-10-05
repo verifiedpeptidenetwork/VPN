@@ -26236,7 +26236,7 @@ window.addEventListener('appinstalled', function(){
   /* Retro wave trail — synthwave sunset gradient, magenta -> purple -> cyan */
   var waveColors=['#ff2dff','#ff2dff','#e030ff','#b030ff','#7a3aff','#3a8fff','#00c8ff','#00f5ff'];
   var vials=[];
-  var fabX=60,fabY=window.innerHeight-160;
+  var fabX=window.innerWidth>900?242+60:60,fabY=window.innerHeight-160; /* start clear of the desktop sidebar */
   var dragging=false,moved=false,startX,startY,startFabX,startFabY;
   var history=[];
 
@@ -26316,6 +26316,29 @@ window.addEventListener('appinstalled', function(){
 })();
 </script>
 <script src="theme-toggle.js?v=11" defer></script>
+<style id="vpn-layout-fix">
+/* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
+   Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
+   views nested in #site-hero, which left a big empty strip on wide monitors. These rules
+   come last so they win. Percentages resolve against <body>, so the scrollbar is accounted for. */
+@media (min-width: 901px) {
+  :root { --vpn-sb: 242px; --vpn-max: 1440px; }
+  #vpnSearchBar { width: calc(100% - var(--vpn-sb)) !important; box-sizing: border-box; }
+  /* Home + views that live inside #site-hero: hero holds the offset, gutters center the column */
+  #site-hero {
+    padding-left:  max(2rem, calc((100% - var(--vpn-sb) - var(--vpn-max)) / 2)) !important;
+    padding-right: max(2rem, calc((100% - var(--vpn-sb) - var(--vpn-max)) / 2)) !important;
+  }
+  #site-hero > .view.active { margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; max-width: none !important; }
+  /* Views that are direct children of <body> — :not(#_) lifts specificity over the old #view-about… rules */
+  body > .view.active:not(#_) {
+    margin-left: calc(var(--vpn-sb) + max(2rem, calc((100% - var(--vpn-sb) - var(--vpn-max)) / 2))) !important;
+    width: min(var(--vpn-max), calc(100% - var(--vpn-sb) - 4rem)) !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+}
+</style>
 </body>
 </html>
 
