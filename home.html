@@ -4119,53 +4119,50 @@ document.addEventListener('keydown', function(e){
     border-bottom:2px solid rgba(0,245,255,0.25);
     box-shadow:0 4px 24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(0,245,255,0.1);
     position:relative;z-index:1001;
-    padding:0 18px;
+    /* right padding keeps the corner light/dark + A+/A- buttons clear of the nav */
+    padding:0 64px 0 16px;
   }
-  .retro-nav-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;gap:18px;}
-  .retro-nav-logo{flex-shrink:0;display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 0 6px;border-right:1px solid rgba(0,245,255,0.2);padding-right:18px;margin-right:2px;}
-  .retro-nav-logo-title{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.13em;color:#00f5ff;text-shadow:0 0 8px #00f5ff;line-height:1.2;white-space:nowrap;}
-  .retro-nav-logo-sub{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.65rem;letter-spacing:0.1em;color:#ff2d95;white-space:nowrap;}
-  .retro-nav-rows{flex:1;min-width:0;}
-  .retro-nav-row {
-    display:flex;gap:0;align-items:flex-end;
-    border-bottom:1.5px solid rgba(0,245,255,0.12);
-    padding-top:14px;
-  }
-  .retro-nav-row:last-child{border-bottom:none;padding-bottom:0;}
-  .rnav-group{display:flex;align-items:flex-end;gap:3px;position:relative;padding-right:14px;margin-right:10px;border-right:1px solid rgba(0,245,255,0.2);}
-  .rnav-group:last-child{border-right:none;padding-right:0;margin-right:0;}
+  /* Tablet portrait nav: logo on its own line, then labeled groups that wrap
+     instead of running off-screen. Clean outlined buttons, colored left edge. */
+  .retro-nav-inner{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:10px 0 12px;}
+  .retro-nav-logo{flex-shrink:0;display:flex;align-items:center;gap:28px;cursor:pointer;padding:12px 0 14px 12px;border-bottom:1px solid rgba(0,245,255,0.18);} /* gap/padding clear the logo's glow ring */
+  .retro-nav-logo-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.13em;color:#00f5ff;text-shadow:0 0 8px rgba(0,245,255,0.6);line-height:1.2;white-space:nowrap;}
+  .retro-nav-logo-sub{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.1em;color:#ff2d95;white-space:nowrap;}
+  .retro-nav-rows{display:flex;flex-direction:column;gap:4px;min-width:0;}
+  .retro-nav-row{display:flex;flex-wrap:wrap;gap:4px 22px;align-items:flex-start;}
+  .rnav-group{display:flex;flex-wrap:wrap;align-items:center;gap:6px;position:relative;padding-top:18px;}
   .rnav-group-label{
-    position:absolute;top:-11px;left:2px;
-    font-family:'Bebas Neue',sans-serif;font-size:0.5rem;letter-spacing:0.22em;
-    color:rgba(0,245,255,0.4);white-space:nowrap;pointer-events:none;
+    position:absolute;top:2px;left:2px;
+    font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.22em;
+    color:rgba(0,245,255,0.55);white-space:nowrap;pointer-events:none;
   }
   @media(min-width:769px){.site-header{display:none;}}
   .rtab {
-    font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;
-    padding:6px 13px 8px;
-    border:none !important;border-radius:0;
-    background:linear-gradient(180deg,#9d00ff 0%,#00f5ff 45%,#c89600 100%) !important;
-    color:#1a0c00 !important;
+    font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;
+    padding:7px 12px 7px 10px;
+    border:1px solid rgba(0,245,255,0.3) !important;border-left:3px solid var(--rt,#00f5ff) !important;
+    border-radius:6px;
+    background:rgba(0,245,255,0.05) !important;
+    color:#d8f4ff !important;
     cursor:pointer;white-space:nowrap;flex-shrink:0;
-    position:relative;transition:all 0.15s;
-    text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+    position:relative;transition:background 0.15s,color 0.15s,border-color 0.15s;
+    text-decoration:none;display:inline-flex;align-items:center;gap:6px;
     margin-bottom:0;
-    clip-path:polygon(10% 0%,90% 0%,100% 100%,0% 100%) !important;
+    clip-path:none !important;
     text-shadow:none;
     box-shadow:none;
   }
   .rtab::before,.rtab::after{content:none !important;}
   .rtab:hover{
-    background:linear-gradient(180deg,#ffffff 0%,#ffe033 45%,#d4a800 100%) !important;
-    transform:translateY(-3px);
-    z-index:2;color:#000 !important;
+    background:rgba(0,245,255,0.14) !important;
+    color:#ffffff !important;border-color:rgba(0,245,255,0.6) !important;
   }
   .rtab.rtab-active{
-    background:linear-gradient(180deg,#ffffff 0%,#fffde0 40%,#00f5ff 100%) !important;
-    transform:translateY(-5px);
-    z-index:3;color:#000 !important;
+    background:rgba(0,245,255,0.2) !important;
+    color:#00f5ff !important;border-color:#00f5ff !important;
   }
-  .rtab-pink,.rtab-cyan,.rtab-orange,.rtab-yellow,.rtab-green,.rtab-purple{color:#1a0c00 !important;border:none !important;}
+  .rtab-pink{--rt:#ff2d78;} .rtab-cyan{--rt:#00f5ff;} .rtab-orange{--rt:#ff8c00;}
+  .rtab-yellow{--rt:#ffd000;} .rtab-green{--rt:#00ff64;} .rtab-purple{--rt:#b366ff;}
   .rtab-pulse{animation:ogNavPulse 2.5s ease-in-out infinite;}
   @keyframes ogNavPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.18);}}
   .rtab-dropdown{position:relative;display:inline-block;}
@@ -4496,10 +4493,10 @@ document.addEventListener('keydown', function(e){
     <!-- ROW 1: RUIC + DATABASE + TOOLS -->
     <div class="retro-nav-row">
       <div class="rnav-group">
-        <span class="rnav-group-label">RUIC</span>
+        <span class="rnav-group-label">MAIN</span>
         <button class="rtab rtab-cyan" onclick="showView('home');setRTab(this)">🏠 HOME</button>
       </div>
-      <div class="rnav-group">
+      <div class="rnav-group" style="order:1;">
         <span class="rnav-group-label">DATABASE</span>
         <a href="peptide-suggestion.html" class="rtab rtab-pink">🧬 PEPTIDE SUGGEST</a>
         <button class="rtab rtab-cyan" onclick="showView('all-peptides');setRTab(this)">🔬 PEPTIDE INDEX</button>
