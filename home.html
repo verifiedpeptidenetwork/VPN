@@ -41,19 +41,8 @@
     --grid-color: rgba(157,0,255,0.06);
   }
 
-  /* ── LIGHT MODE ─────────────────────────────────────────────── */
-  body.vpn-light {
-    filter: invert(1) hue-rotate(180deg);
-  }
-  body.vpn-light img,
-  body.vpn-light video,
-  body.vpn-light iframe,
-  body.vpn-light canvas,
-  body.vpn-light .vpn-home-logo-img,
-  body.vpn-light .sb-logo-img {
-    filter: invert(1) hue-rotate(180deg);
-  }
-  /* toggle button */
+  /* ── LIGHT MODE: handled site-wide by theme-toggle.js (html[data-theme="light"]) ── */
+  /* sidebar toggle button */
   #vpn-theme-toggle {
     display:flex; align-items:center; gap:0.5rem;
     width:100%; padding:0.55rem 1rem;
@@ -75,8 +64,8 @@
     background:rgba(255,255,255,0.5);
     transition:transform 0.25s, background 0.25s;
   }
-  body.vpn-light #vpn-theme-toggle .tgl-track { background:rgba(0,245,255,0.4); border-color:rgba(0,245,255,0.6); }
-  body.vpn-light #vpn-theme-toggle .tgl-thumb { transform:translateX(16px); background:#00f5ff; }
+  html[data-theme="light"] #vpn-theme-toggle .tgl-track { background:rgba(176,141,60,0.35); border-color:#b08d3c; }
+  html[data-theme="light"] #vpn-theme-toggle .tgl-thumb { transform:translateX(16px); background:#b08d3c; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -25339,23 +25328,20 @@ function csCloseAll(){
 
 <script>
 /* ── LIGHT / DARK MODE TOGGLE ───────────────────────────────── */
-function vpnToggleTheme() {
-  var isLight = document.body.classList.toggle('vpn-light');
-  localStorage.setItem('vpn-theme', isLight ? 'light' : 'dark');
-  document.getElementById('vpn-theme-icon').textContent  = isLight ? '🌙' : '☀️';
-  document.getElementById('vpn-theme-label').textContent = isLight ? 'DARK MODE' : 'LIGHT MODE';
+/* Sidebar button drives the same site-wide light mode as the corner ☀️ button (theme-toggle.js) */
+function vpnSyncThemeLabel() {
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  var icon  = document.getElementById('vpn-theme-icon');
+  var label = document.getElementById('vpn-theme-label');
+  if (icon)  icon.textContent  = isLight ? '🌙' : '☀️';
+  if (label) label.textContent = isLight ? 'DARK MODE' : 'LIGHT MODE';
 }
-(function() {
-  if (localStorage.getItem('vpn-theme') === 'light') {
-    document.body.classList.add('vpn-light');
-    document.addEventListener('DOMContentLoaded', function() {
-      var icon  = document.getElementById('vpn-theme-icon');
-      var label = document.getElementById('vpn-theme-label');
-      if (icon)  icon.textContent  = '🌙';
-      if (label) label.textContent = 'DARK MODE';
-    });
-  }
-})();
+function vpnToggleTheme() {
+  if (window.vpnThemeToggle) window.vpnThemeToggle();
+}
+document.addEventListener('vpn-theme-change', vpnSyncThemeLabel);
+document.addEventListener('DOMContentLoaded', vpnSyncThemeLabel);
+try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old invert-filter light mode */
 </script>
 
 <!-- ═══════════════════════════════════════════════════
@@ -26300,7 +26286,7 @@ window.addEventListener('appinstalled', function(){
   });
 })();
 </script>
-<script src="theme-toggle.js?v=12" defer></script>
+<script src="theme-toggle.js?v=19" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
    Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
