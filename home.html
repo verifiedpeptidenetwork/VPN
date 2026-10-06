@@ -4645,7 +4645,11 @@ document.addEventListener('keydown', function(e){
         white-space:nowrap;text-align:center;
       }
       .hero-btn-row .qa-dropdown{flex:1;min-width:0;position:relative;}
-      .hero-btn-row .qa-dropdown .hbtn{width:100%;box-sizing:border-box;}
+      .hero-btn-row .qa-dropdown .hbtn{width:100%;box-sizing:border-box;height:100%;}
+      /* Long titles (e.g. Gray Market) wrap inside the button instead of spilling out of it */
+      .hero-btn-row .qa-dropdown .hbtn{white-space:normal;line-height:1.2;padding-left:0.9rem;padding-right:0.9rem;}
+      .hero-btn-row .qa-dropdown .hbtn > span:not(:last-child){text-align:center;min-width:0;overflow-wrap:anywhere;}
+      .hero-btn-row .qa-dropdown .hbtn:hover{transform:none;}
       @media(max-width:700px){
         .hero-btn-row{flex-direction:column;flex-wrap:nowrap;}
         .hero-btn-row .hbtn,.hero-btn-row .qa-dropdown{flex:unset;width:100%;}
