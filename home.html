@@ -26518,8 +26518,8 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     setInterval(drawMx, 40);
   }
 
-  // ── ROSE PETALS ── (skipped on phones/tablets and reduced-motion: two canvas loops lag mobile GPUs)
-  var VPN_NO_PETALS = window.matchMedia && matchMedia('(max-width:1100px), (pointer:coarse), (prefers-reduced-motion:reduce)').matches;
+  // ── ROSE PETALS ── turned off site-wide (canvases removed before the draw loops start)
+  var VPN_NO_PETALS = true;
   if(VPN_NO_PETALS){ ['vpn-petals-canvas','vpn-logo-petals'].forEach(function(id){ var c=document.getElementById(id); if(c) c.remove(); }); }
   (function(){
     var pc = document.getElementById('vpn-petals-canvas');
