@@ -115,6 +115,21 @@
     }
   }
 
+  /* Light mode keeps the wallpaper, under a soft cream wash so the light cards stay readable.
+     :root adds specificity so this beats theme-toggle.js hiding body::before. */
+  html[data-theme="light"]:root body::before {
+    display: block !important;
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-image: linear-gradient(rgba(243,239,230,0.42), rgba(243,239,230,0.42)), url('WALLPAPER.png') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+
   /* All orientations: cover fills the viewport */
   @media (max-width: 600px) and (orientation: portrait) {
     body { background-color: transparent !important; }
@@ -7110,6 +7125,8 @@ document.addEventListener('keydown', function(e){
       background:linear-gradient(180deg,rgba(255,170,0,0.07),rgba(255,45,120,0.04) 40%,rgba(0,0,0,0) 100%),rgba(10,3,24,0.85);
       border:1px solid rgba(255,190,0,0.4);box-shadow:inset 0 1px 0 rgba(255,214,0,0.25);}
     .vpn-musts::before{content:'';position:absolute;left:14px;right:14px;top:-1px;height:2px;border-radius:2px;background:repeating-linear-gradient(135deg,#ffd400 0 12px,#111 12px 24px);opacity:0.9;}
+    html[data-theme="light"] .vpn-musts{background-color:#fffaf0 !important;border-color:rgba(176,132,0,0.45) !important;}
+    html[data-theme="light"] .vpn-musts-sub{color:#5a4a1a !important;}
     .vpn-musts-head{display:flex;align-items:center;flex-wrap:wrap;gap:0.4rem 0.7rem;margin:0.15rem 0 0.75rem;}
     .vpn-musts-tag{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.16em;color:#111;background:#ffd400;border-radius:4px;padding:2px 8px;}
     .vpn-musts-t{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.12em;color:#ffe680;}
