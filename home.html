@@ -1068,6 +1068,11 @@
     border: 1px solid rgba(0,245,255,0.32);
     background: rgba(0,245,255,0.07);
   }
+  @media (max-width: 600px) {
+    .section-header { flex-direction: column; align-items: flex-start; padding: 0.85rem 1rem 0.85rem 1.2rem; gap: 0.4rem; }
+    .section-title { font-size: 1.4rem; text-align: left; }
+    .section-count { font-size: 0.8rem; letter-spacing: 0.04em; text-transform: none; text-align: left; padding: 0.25rem 0.6rem; line-height: 1.4; }
+  }
 
   /* === HELIX GROUP BANNER === */
   .helix-banner {
@@ -7646,6 +7651,12 @@ document.addEventListener('keydown', function(e){
     .retro80-grid{display:none;}
     /* logo image fills the card */
     .retro80-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:5;border-radius:50%;transform-origin:center center;animation:retroLogoFloat 4s ease-in-out infinite,retroPulse80 3s ease-in-out infinite;}
+    /* Yellow glow around every VPN logo badge (!important beats the colour-cycling glow animations) */
+    img[src^="VPNNEWLOGO.png"]{border-radius:50%;box-shadow:0 0 0 2px rgba(255,221,0,0.95),0 0 14px 3px rgba(255,214,0,0.75),0 0 34px 8px rgba(255,190,0,0.38) !important;}
+    html[data-theme="light"] img[src^="VPNNEWLOGO.png"]{box-shadow:0 0 0 2px #e0b400,0 0 12px 3px rgba(230,180,0,0.6),0 0 26px 6px rgba(230,180,0,0.28) !important;}
+    /* hero badge: the card clips its image, so the yellow glow goes on the card itself */
+    #home-desktop-cols .retro80-card{border-color:#ffd400 !important;box-shadow:0 0 0 1px rgba(255,236,120,0.9),0 0 22px 4px rgba(255,214,0,0.8),0 0 48px 12px rgba(255,190,0,0.4),0 0 90px 18px rgba(255,170,0,0.18) !important;}
+    html[data-theme="light"] #home-desktop-cols .retro80-card{border-color:#e0b400 !important;box-shadow:0 0 18px 4px rgba(230,180,0,0.55),0 0 40px 10px rgba(230,180,0,0.25) !important;}
     .retro80-glow{display:none;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
@@ -7837,6 +7848,27 @@ document.addEventListener('keydown', function(e){
       padding:0.28rem 0.7rem;border-radius:999px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);}
     .vpn-hc-chip:nth-child(2){border-color:rgba(0,255,100,0.35);background:rgba(0,255,100,0.06);}
     .vpn-hc-chip:nth-child(3){border-color:rgba(255,45,120,0.4);background:rgba(255,45,120,0.07);}
+    /* status reads as a path under SYSTEM ONLINE: Research › Verify › Knowledge free */
+    .vpn-hc-status{flex-direction:column;justify-content:center !important;gap:0.55rem;text-align:center;}
+    .vpn-hc-chips{align-items:center;justify-content:center;gap:0.4rem;}
+    .vpn-hc-arrow{font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;line-height:1;color:#ffd400;text-shadow:0 0 8px rgba(255,212,0,0.6);}
+    .vpn-hc-chip:nth-child(3){border-color:rgba(0,255,100,0.35);background:rgba(0,255,100,0.06);}
+    .vpn-hc-chip:nth-child(5){border-color:rgba(255,45,120,0.4);background:rgba(255,45,120,0.07);}
+    html[data-theme="light"] .vpn-hc-arrow{color:#a87f00;text-shadow:none;}
+    @media(max-width:600px){
+      #home-desktop-cols.vpn-hero-card{--r80:150px !important;}
+      .vpn-hc-status{padding:0.6rem 0.6rem 0.7rem;gap:0.45rem;}
+      .vpn-hc-chips{gap:0.3rem;}
+      .vpn-hc-chip{font-size:0.6rem !important;letter-spacing:0.08em !important;padding:0.22rem 0.5rem !important;}
+      .vpn-hc-arrow{font-size:0.95rem;}
+      .vpn-hc-body{gap:0.85rem !important;padding:1.1rem 0.95rem 1.1rem !important;}
+      .vpn-hc-eyebrow{letter-spacing:0.18em !important;margin-bottom:0.45rem;}
+      .vpn-hc-scale{margin:0.6rem auto 0.65rem !important;}
+      .vpn-hc-lede{font-size:0.98rem !important;line-height:1.45;margin-bottom:0.9rem;}
+      #home-desktop-cols.vpn-hero-card .home-cta-row{gap:0.55rem;}
+      #home-desktop-cols.vpn-hero-card .home-cta{font-size:1rem;padding:0.65rem 1rem;min-height:46px;}
+      .home-cta-note{font-size:0.78rem;}
+    }
 
     /* body: logo | words */
     .vpn-hc-body{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2.2rem;padding:1.9rem 2.2rem 1.8rem;position:relative;}
@@ -7897,9 +7929,9 @@ document.addEventListener('keydown', function(e){
   <div class="vpn-hc-status" role="status">
     <span class="vpn-hc-online"><span class="hero-status-dot"></span>SYSTEM ONLINE</span>
     <span class="vpn-hc-chips">
-      <span class="vpn-hc-chip">RESEARCH ONLY</span>
-      <span class="vpn-hc-chip">ALWAYS FREE</span>
-      <span class="vpn-hc-chip">VERIFY EVERYTHING</span>
+      <span class="vpn-hc-chip">RESEARCH EVERYTHING</span><span class="vpn-hc-arrow" aria-hidden="true">›</span>
+      <span class="vpn-hc-chip">VERIFY EVERYTHING</span><span class="vpn-hc-arrow" aria-hidden="true">›</span>
+      <span class="vpn-hc-chip">KNOWLEDGE SHOULD ALWAYS BE FREE</span>
     </span>
   </div>
   <div class="vpn-hc-body">
@@ -7947,12 +7979,12 @@ document.addEventListener('keydown', function(e){
       </div>
       <!-- syringe-style scale: a nod to measuring carefully -->
       <div class="vpn-hc-scale" aria-hidden="true"></div>
-      <p class="vpn-hc-lede">Plain-language peptide guides, calculators, COA checks and blood-work know-how, free for everyone. Because knowledge should always be free.</p>
+      <p class="vpn-hc-lede">Plain-language peptide guides, calculators, COA checks and blood-work know-how, free for everyone.</p>
 
       <!-- MAIN ACTIONS — one primary, one secondary (warnings live in the 4 Rules + disclaimer gate) -->
       <div class="home-cta-row">
         <button type="button" class="home-cta home-cta-primary" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d){d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});}">▶ START HERE</button>
-        <button type="button" class="home-cta home-cta-secondary" onclick="showView('all-peptides')">🔬 BROWSE PEPTIDES</button>
+        <button type="button" class="home-cta home-cta-secondary" onclick="showView('all-peptides')">🔬 LEARN ABOUT YOUR PEPTIDE</button>
       </div>
       <div class="home-cta-note">Research only · Not medical advice · Verify everything</div>
     </div>
