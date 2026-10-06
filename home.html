@@ -21019,8 +21019,12 @@ function showViewInternal(name) {
 
   if (name === 'home') { document.body.classList.remove('vpn-nonhome'); }
   else { document.body.classList.add('vpn-nonhome'); }
+  // Open every view at its top. The page scrolls inside <body> (not the window),
+  // so reset body + html too. Done synchronously so links that then scroll to a
+  // specific card inside the view (scrollIntoView) still land on that card.
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
   window.scrollTo({ top: 0, behavior: 'instant' });
-  requestAnimationFrame(function() { window.scrollTo({ top: 0, behavior: 'instant' }); });
   var view = document.getElementById('view-' + name);
   view.style.opacity = '0';
   setTimeout(function(){ view.style.transition = 'opacity 0.25s'; view.style.opacity = '1'; }, 10);
