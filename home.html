@@ -4137,32 +4137,34 @@ document.addEventListener('keydown', function(e){
     color:rgba(0,245,255,0.55);white-space:nowrap;pointer-events:none;
   }
   @media(min-width:769px){.site-header{display:none;}}
+  /* Yellow manila file folders: body + a small raised tab on the top-left (::before) */
   .rtab {
-    font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;
-    padding:7px 12px 7px 10px;
-    border:1px solid rgba(0,245,255,0.3) !important;border-left:3px solid var(--rt,#00f5ff) !important;
-    border-radius:6px;
-    background:rgba(0,245,255,0.05) !important;
-    color:#d8f4ff !important;
+    font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.1em;
+    padding:8px 13px 7px 11px;margin-top:7px;
+    border:1px solid #c79a00 !important;
+    border-radius:0 6px 6px 6px;
+    background:linear-gradient(180deg,#ffe066 0%,#ffd21f 55%,#f2bb00 100%) !important;
+    color:#2b1d00 !important;
     cursor:pointer;white-space:nowrap;flex-shrink:0;
-    position:relative;transition:background 0.15s,color 0.15s,border-color 0.15s;
+    position:relative;transition:filter 0.15s,transform 0.15s;
     text-decoration:none;display:inline-flex;align-items:center;gap:6px;
     margin-bottom:0;
     clip-path:none !important;
     text-shadow:none;
-    box-shadow:none;
+    box-shadow:0 2px 0 #b38900,0 3px 8px rgba(0,0,0,0.45);
   }
-  .rtab::before,.rtab::after{content:none !important;}
-  .rtab:hover{
-    background:rgba(0,245,255,0.14) !important;
-    color:#ffffff !important;border-color:rgba(0,245,255,0.6) !important;
+  .rtab::after{content:none !important;}
+  .rtab::before{
+    content:'' !important;position:absolute;left:-1px;top:-8px;width:44%;max-width:56px;height:8px;
+    background:#ffe066;border:1px solid #c79a00;border-bottom:none;border-radius:5px 7px 0 0;
   }
+  .rtab:hover{filter:brightness(1.07);transform:translateY(-2px);color:#000 !important;}
   .rtab.rtab-active{
-    background:rgba(0,245,255,0.2) !important;
-    color:#00f5ff !important;border-color:#00f5ff !important;
+    background:linear-gradient(180deg,#fffbe6 0%,#fff2a8 60%,#ffe066 100%) !important;
+    color:#000 !important;border-color:#00c8d4 !important;
+    box-shadow:0 2px 0 #00a3ad,0 0 12px rgba(0,245,255,0.45);
   }
-  .rtab-pink{--rt:#ff2d78;} .rtab-cyan{--rt:#00f5ff;} .rtab-orange{--rt:#ff8c00;}
-  .rtab-yellow{--rt:#ffd000;} .rtab-green{--rt:#00ff64;} .rtab-purple{--rt:#b366ff;}
+  .rtab.rtab-active::before{background:#fffbe6;border-color:#00c8d4;}
   .rtab-pulse{animation:ogNavPulse 2.5s ease-in-out infinite;}
   @keyframes ogNavPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.18);}}
   .rtab-dropdown{position:relative;display:inline-block;}
@@ -26496,7 +26498,7 @@ window.addEventListener('appinstalled', function(){
   });
 })();
 </script>
-<script src="theme-toggle.js?v=24" defer></script>
+<script src="theme-toggle.js?v=25" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
    Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for

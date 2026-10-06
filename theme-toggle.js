@@ -150,6 +150,8 @@
     if(el.closest && el.closest('.sb-item')) return true;
     // home.html's sidebar LIGHT/DARK switch is styled by the stylesheet too
     if(el.closest && el.closest('#vpn-theme-toggle')) return true;
+    // home.html's tablet-nav yellow file-folder tabs read well in both themes
+    if(el.closest && el.closest('.rtab')) return true;
     // Any element that styles itself for both themes opts out with data-vt-skip
     if(el.closest && el.closest('[data-vt-skip]')) return true;
     return false;
@@ -497,6 +499,9 @@
       /* Decorative pseudo-element layers (neon gradient lines, glows, dark overlays) have no
          light-mode equivalent -- strip their fills. Text content in pseudo-elements is unaffected. */
       +'html[data-theme="light"] body *::before,html[data-theme="light"] body *::after{background-image:none!important;background-color:transparent!important;}'
+      /* ...except the file-folder tab on home.html's tablet nav buttons */
+      +'html[data-theme="light"] .rtab::before{background-color:#ffe066!important;}'
+      +'html[data-theme="light"] .rtab.rtab-active::before{background-color:#fffbe6!important;}'
       +'html[data-theme="light"] ::placeholder{color:#6b6460!important;opacity:1!important;-webkit-text-fill-color:#6b6460!important;}'
       /* Corner moon button in light mode: navy disc with a gold ring, fully visible */
       +'html[data-theme="light"] #vt-toggle-btn{background:#13294b;color:#f3d27a;border:2px solid #b08d3c;opacity:1;}'
