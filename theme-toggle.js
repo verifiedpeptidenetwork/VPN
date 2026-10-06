@@ -1,14 +1,11 @@
 /* VPN site-wide light/dark toggle — real color remap, not a page filter.
 
-   What it does in light mode:
-   - Lightens dark backgrounds (solid colors AND gradient stops) toward a
-     clean, near-opaque light tint — opaque on purpose, so it fully covers
-     whatever decorative texture/photo sits behind it instead of letting it
-     ghost through (which is what a translucent dark-turned-light overlay
-     would otherwise do).
-   - Darkens near-white text for contrast, and clears any text-shadow glow
-     on that text (a neon glow tuned for dark backgrounds turns into a muddy
-     smear once the text itself goes dark).
+   What it does in light mode (strict: light backgrounds, dark text only):
+   - Dark or saturated backgrounds (solid colors and gradients) become one
+     opaque cream tone; faint colored tints/glows are removed entirely.
+   - Every text color that isn't already dark becomes one near-black color,
+     including gradient-filled headline text. All text/box glows are removed.
+   - Neon borders become a dark version of their hue.
    - Hides large, dim, decoratively-positioned background photos/textures
      (absolute/fixed <img> at low opacity, or big url() backgrounds) —
      these exist purely as dark-mode atmosphere and have no clean light-mode
@@ -26,9 +23,10 @@
 */
 (function(){
   var KEY='vpn_theme';
-  var DARK_THRESHOLD=0.32;        // bg luminance below this = "dark", gets lightened
-  var LIGHT_TEXT_L=0.42;          // text HSL-lightness above this = "light", gets darkened
-  var TEXT_TARGET_L=0.24;         // darkened text is pulled down to at most this HSL-lightness
+  var LIGHT_BG_MIN=0.62;          // bg luminance below this (dark or saturated mid-tone) gets the cream fill
+  var TEXT_MAX_LUM=0.30;          // text luminance above this is "not dark enough" and becomes TEXT_DARK
+  var TEXT_DARK_STR='rgb(28,25,23)'; // the single near-black text color used everywhere in light mode
+  var TEXT_TARGET_L=0.24;         // darkened borders are pulled down to at most this HSL-lightness
   var TEXT_MIN_S=0.55;            // darkened text is boosted to at least this saturation (stays a real color, not gray-mud)
   var TEXT_MIN_ALPHA=0.92;        // darkened text is boosted to at least this opaque -- translucent "muted gray"
                                    // text read as faded-light against black, but the same low alpha reads as
@@ -97,31 +95,10 @@
   // reading as pale pink, others pale cyan, etc., which looked inconsistent; this
   // gives every panel across the whole site the same warm, neutral background.
   var LIGHT_BG=[253,246,230];
-  // Yellow and gray accent borders read poorly against the cream background --
-  // swapped for one consistent teal accent in light mode instead.
-  var BORDER_ACCENT=[14,124,134];
-  // Pink/magenta reads as a jarring, washed-out color choice in light mode --
-  // swapped for one consistent dark red accent instead, same as the yellow->teal rule.
-  var RED_ACCENT=[139,0,0];
-  function isYellowOrGray(rgb){
-    var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
-    if(hsl[1]<0.15) return true; // low saturation -- gray/neutral
-    var hueDeg=hsl[0]*360;
-    return hueDeg>=40 && hueDeg<=68; // yellow/gold band
-  }
-  // Yellow hue only (no gray) -- used for text, where gray/white should stay a
-  // clean neutral dark gray via darkenRGB rather than being pulled to teal.
-  function isYellowHue(hsl){
-    if(hsl[1]<0.15) return false;
-    var hueDeg=hsl[0]*360;
-    return hueDeg>=40 && hueDeg<=68;
-  }
-  // Pink/magenta/hot-pink band -- stops short of true red (350-360) and true
-  // purple/violet (<300) so it only catches colors that actually read as "pink".
-  function isPinkHue(hsl){
-    if(hsl[1]<0.15) return false;
-    var hueDeg=hsl[0]*360;
-    return hueDeg>=300 && hueDeg<=349;
+  // "Dark enough to keep" needs low perceived brightness AND a genuinely dark shade --
+  // vivid purple/blue/red pass the brightness test alone but still read as neon.
+  function isDarkText(rgb){
+    return luminance(rgb)<=TEXT_MAX_LUM && rgbToHsl(rgb.r,rgb.g,rgb.b)[2]<=0.36;
   }
   function lightenRGB(rgb){
     var a=(rgb.a===undefined?1:rgb.a);
@@ -148,41 +125,21 @@
     return a>=1 ? 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')' : 'rgba('+rgb.r+','+rgb.g+','+rgb.b+','+a+')';
   }
 
-  // True if this gradient has any solid-ish dark stop -- i.e. it's a decorative
-  // dark-mode vignette/panel background, not something to preserve as a gradient.
-  // These often pair a near-opaque dark middle with low-alpha (<MIN_ALPHA) tinted
-  // edges for mood -- remapping stop-by-stop would leave those edges nearly
-  // transparent (since they never individually cross MIN_ALPHA), letting whatever
-  // sits behind bleed through unevenly. Simpler and more reliable: once any stop
-  // says "this is a dark decorative background", collapse the WHOLE thing to one
-  // flat opaque cream fill instead of trying to keep a gradient shape.
-  function gradientHasDarkStop(str){
+  // 'light' = every visible stop is already a light, near-opaque color (keep it);
+  // 'panel' = has a solid-ish stop that is dark or saturated (replace with cream);
+  // 'glow'  = only faint translucent tints (decorative glow -- just remove it).
+  function classifyGradient(str){
     var stops=str.match(/rgba?\([^)]+\)/g) || [];
+    var anySolid=false, allLight=true;
     for(var i=0;i<stops.length;i++){
       var p=stops[i].replace(/rgba?\(|\)/g,'').split(',').map(function(s){return parseFloat(s);});
       var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
-      if(rgb.a>MIN_ALPHA && luminance(rgb)<DARK_THRESHOLD) return true;
+      if(rgb.a<=MIN_ALPHA) continue;
+      if(rgb.a>=0.6) anySolid=true;
+      if(rgb.a<0.85 || luminance(rgb)<LIGHT_BG_MIN) allLight=false;
     }
-    return false;
-  }
-  // For background-clip:text gradients (the gradient IS the visible text) --
-  // darken the light stops instead of lightening the dark ones.
-  function remapGradientText(str){
-    var any=false;
-    var out=str.replace(/rgba?\(([^)]+)\)/g, function(full, inner){
-      var p=inner.split(',').map(function(s){return parseFloat(s);});
-      var rgb={r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1};
-      if(rgb.a<=MIN_ALPHA) return full;
-      var hsl=rgbToHsl(rgb.r,rgb.g,rgb.b);
-      if(hsl[2]>LIGHT_TEXT_L){
-        any=true;
-        if(isPinkHue(hsl)) return rgbaStr({r:RED_ACCENT[0],g:RED_ACCENT[1],b:RED_ACCENT[2],a:Math.max(rgb.a,TEXT_MIN_ALPHA)});
-        if(isYellowHue(hsl)) return rgbaStr({r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:Math.max(rgb.a,TEXT_MIN_ALPHA)});
-        return rgbaStr(darkenRGB(rgb));
-      }
-      return full;
-    });
-    return any ? out : null;
+    if(allLight && anySolid) return 'light';
+    return anySolid ? 'panel' : 'glow';
   }
   function isTextClip(cs){
     var bc = cs.getPropertyValue('-webkit-background-clip') || cs.backgroundClip || '';
@@ -253,76 +210,73 @@
     var isRasterImage = bgImgVal && bgImgVal.indexOf('url(')!==-1;
     var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
     var isTextGradient = isGradient && isTextClip(cs);
-    var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||'', filter:el.style.filter||''};
+    var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||'', filter:el.style.filter||'', fill:el.style.getPropertyValue('-webkit-text-fill-color')||''};
     var changed=false;
 
+    // STRICT LIGHT MODE: light backgrounds + one dark text color. No neon, no tints.
     if(isTextGradient){
-      var remappedText=remapGradientText(bgImgVal);
-      if(remappedText){
-        el.style.setProperty('background-image', remappedText, 'important');
-        if(cs.textShadow && cs.textShadow!=='none') el.style.setProperty('text-shadow','none','important');
-        if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1) el.style.setProperty('filter','none','important');
-        changed=true;
-      }
+      // Gradient-filled headline text -> plain dark text
+      el.style.setProperty('background-image','none','important');
+      el.style.setProperty('-webkit-text-fill-color', TEXT_DARK_STR, 'important');
+      el.style.setProperty('color', TEXT_DARK_STR, 'important');
+      changed=true;
     } else if(isGradient){
-      if(gradientHasDarkStop(bgImgVal)){
+      var g=classifyGradient(bgImgVal);
+      if(g!=='light'){
         el.style.setProperty('background-image','none','important');
-        el.style.setProperty('background-color', rgbaStr({r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:OPAQUE_FLOOR}), 'important');
+        // a real panel/button gets the cream fill; a faint decorative glow just disappears
+        if(g==='panel') el.style.setProperty('background-color', rgbaStr({r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:1}), 'important');
         changed=true;
       }
     } else if(!isRasterImage){
       var bgRgb=toRGBA(cs.backgroundColor);
-      if(bgRgb && bgRgb.a>MIN_ALPHA && luminance(bgRgb)<DARK_THRESHOLD){
-        el.style.setProperty('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
-        changed=true;
+      if(bgRgb && bgRgb.a>MIN_ALPHA){
+        if(luminance(bgRgb)<LIGHT_BG_MIN){
+          // dark OR mid-tone colored fill (neon buttons, badges) -> cream
+          el.style.setProperty('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
+          changed=true;
+        } else if(bgRgb.a<0.6 && rgbToHsl(bgRgb.r,bgRgb.g,bgRgb.b)[1]>0.15){
+          // translucent colored tint -> reads as pastel pink/cyan on cream; drop it
+          el.style.setProperty('background-color','transparent','important');
+          changed=true;
+        }
       }
     }
 
     if(!isRasterImage){
       var colRgb=toRGBA(cs.color);
-      if(colRgb){
-        var colHsl=rgbToHsl(colRgb.r,colRgb.g,colRgb.b);
-        if(colHsl[2]>LIGHT_TEXT_L){
-          var newColor;
-          if(isPinkHue(colHsl)){
-            var pinkA=(colRgb.a===undefined?1:colRgb.a);
-            newColor={r:RED_ACCENT[0],g:RED_ACCENT[1],b:RED_ACCENT[2],a:pinkA>MIN_ALPHA?Math.max(pinkA,TEXT_MIN_ALPHA):pinkA};
-          } else if(isYellowHue(colHsl)){
-            var yellowA=(colRgb.a===undefined?1:colRgb.a);
-            newColor={r:BORDER_ACCENT[0],g:BORDER_ACCENT[1],b:BORDER_ACCENT[2],a:yellowA>MIN_ALPHA?Math.max(yellowA,TEXT_MIN_ALPHA):yellowA};
-          } else {
-            newColor=darkenRGB(colRgb);
-          }
-          el.style.setProperty('color', rgbaStr(newColor), 'important');
-          if(cs.textShadow && cs.textShadow!=='none'){
-            el.style.setProperty('text-shadow','none','important');
-          }
-          if(cs.filter && cs.filter!=='none' && cs.filter.indexOf('drop-shadow')!==-1){
-            el.style.setProperty('filter','none','important');
-          }
-          changed=true;
-        }
+      // Anything that isn't already dark becomes the one dark text color
+      if(colRgb && colRgb.a>MIN_ALPHA && !isDarkText(colRgb)){
+        el.style.setProperty('color', TEXT_DARK_STR, 'important');
+        changed=true;
+      }
+      var fill=cs.getPropertyValue('-webkit-text-fill-color');
+      var fillRgb=toRGBA(fill);
+      if(fillRgb && fillRgb.a>MIN_ALPHA && !isDarkText(fillRgb)){
+        el.style.setProperty('-webkit-text-fill-color', TEXT_DARK_STR, 'important');
+        changed=true;
       }
     }
 
-    // Yellow/gray borders -> one consistent teal accent; pink/magenta borders -> dark red.
-    // Same "no yellow, no pink" rule as text, applied to borders.
+    // Neon drop-shadow glows (filter) -> off. Images are skipped above, so logo art keeps its look.
+    if(cs.filter && cs.filter.indexOf('drop-shadow')!==-1){
+      el.style.setProperty('filter','none','important');
+      changed=true;
+    }
+
+    // Borders: neon/light borders -> a dark version of the same hue (gray stays neutral)
     var BORDER_SIDES=['borderTopColor','borderRightColor','borderBottomColor','borderLeftColor'];
     var BORDER_CSS_PROP={borderTopColor:'border-top-color',borderRightColor:'border-right-color',borderBottomColor:'border-bottom-color',borderLeftColor:'border-left-color'};
     for(var s=0;s<BORDER_SIDES.length;s++){
       var side=BORDER_SIDES[s];
       var borderRgb=toRGBA(cs[side]);
-      if(borderRgb && borderRgb.a>MIN_ALPHA){
-        var borderHsl=rgbToHsl(borderRgb.r,borderRgb.g,borderRgb.b);
-        var accent=null;
-        if(isYellowOrGray(borderRgb)) accent=BORDER_ACCENT;
-        else if(isPinkHue(borderHsl)) accent=RED_ACCENT;
-        if(accent){
-          if(!rec.border) rec.border={};
-          rec.border[side]=el.style[side]||'';
-          el.style.setProperty(BORDER_CSS_PROP[side], rgbaStr({r:accent[0],g:accent[1],b:accent[2],a:borderRgb.a}), 'important');
-          changed=true;
-        }
+      if(borderRgb && borderRgb.a>MIN_ALPHA && !isDarkText(borderRgb)){
+        var bh=rgbToHsl(borderRgb.r,borderRgb.g,borderRgb.b);
+        var nb = bh[1]<0.15 ? {r:0,g:0,b:0,a:0.18} : (function(){var d=darkenRGB(borderRgb); d.a=Math.max(borderRgb.a,0.55); return d;})();
+        if(!rec.border) rec.border={};
+        rec.border[side]=el.style[side]||'';
+        el.style.setProperty(BORDER_CSS_PROP[side], rgbaStr(nb), 'important');
+        changed=true;
       }
     }
     if(changed) touched.push(rec);
@@ -365,6 +319,7 @@
       if(rec.color) rec.el.style.setProperty('color', rec.color); else rec.el.style.removeProperty('color');
       if(rec.textShadow) rec.el.style.setProperty('text-shadow', rec.textShadow); else rec.el.style.removeProperty('text-shadow');
       if(rec.filter) rec.el.style.setProperty('filter', rec.filter); else rec.el.style.removeProperty('filter');
+      if(rec.fill) rec.el.style.setProperty('-webkit-text-fill-color', rec.fill); else rec.el.style.removeProperty('-webkit-text-fill-color');
       if(rec.border){
         for(var side in rec.border){
           if(rec.border[side]) rec.el.style[side]=rec.border[side]; else rec.el.style.removeProperty(side.replace(/([A-Z])/g,'-$1').toLowerCase());
@@ -401,7 +356,15 @@
       '#vt-toggle-btn{position:fixed;top:6rem;right:0.6rem;z-index:2147483647;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.5);background:rgba(10,0,26,0.55);color:rgba(0,245,255,0.75);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.55;}'
       +'#vt-toggle-btn:hover{opacity:1;transform:scale(1.12);box-shadow:0 0 18px rgba(0,245,255,0.6),0 0 34px rgba(0,245,255,0.25);border-color:#00f5ff;color:#00f5ff;}'
       +'#vt-toggle-btn:active{transform:scale(0.94);}'
-      +'@media print{#vt-toggle-btn{display:none!important;}}';
+      +'@media print{#vt-toggle-btn{display:none!important;}}'
+      /* Light mode, stylesheet half: these can't be handled per-element from JS
+         (pseudo-elements, every glow) and vanish automatically when data-theme is removed. */
+      +'html[data-theme="light"] body *:not(img):not(video):not(canvas){text-shadow:none!important;box-shadow:none!important;}'
+      +'html[data-theme="light"] body *::before,html[data-theme="light"] body *::after{text-shadow:none!important;box-shadow:none!important;}'
+      +'html[data-theme="light"] body::before,html[data-theme="light"] body::after{display:none!important;}'
+      +'html[data-theme="light"] #starfield,html[data-theme="light"] #scene-canvas,html[data-theme="light"] #petals-canvas,html[data-theme="light"] .scan-line,html[data-theme="light"] .bg-glow{display:none!important;}'
+      +'html[data-theme="light"] ::placeholder{color:#6b6460!important;opacity:1!important;-webkit-text-fill-color:#6b6460!important;}'
+      +'html[data-theme="light"] #vt-toggle-btn{background:#fff;color:#1c1917;border-color:rgba(0,0,0,0.25);opacity:0.85;}';
     var s=document.createElement('style');
     s.id='vt-toggle-style'; s.textContent=css;
     document.head.appendChild(s);
