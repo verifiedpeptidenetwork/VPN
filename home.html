@@ -2734,6 +2734,9 @@
   .study-tag.rct { border-color: rgba(0,245,255,0.5); color: var(--neon-cyan); }
   .study-tag.animal { border-color: rgba(255,107,0,0.35); color: var(--neon-orange); }
   .study-tag.in-vitro { border-color: rgba(255,230,0,0.5); color: #9d00ff; }
+  .study-tag.meta { border-color: rgba(0,180,255,0.5); color: #3fa9ff; }
+  .study-tag.review { border-color: rgba(200,200,200,0.4); color: #c8c8c8; }
+  .study-tag.abstract { border-color: rgba(255,60,60,0.5); color: #ff5a5a; }
   .study-link {
     display: inline-block;
     margin-top: 0.5rem;
@@ -20274,6 +20277,7 @@ function csvFilter(cat, btn) {
     <div class="section-title">Peptide Research Studies</div>
     <span class="section-count" id="studies-count">Latest clinical &amp; preclinical research</span>
   </div>
+  <div style="margin:-0.5rem 0 1rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.98rem;color:var(--text-secondary);line-height:1.55;">Every study below links straight to its PubMed record (or DOI) so you can read the source yourself. Negative trials are included on purpose &mdash; knowing what <b>didn&rsquo;t</b> work matters too. Updated October 2026.</div>
   <input class="qg-search" id="studies-search" type="text" placeholder="Search peptide, topic, journal…" oninput="studiesFilter()">
   <div class="qg-filter-bar" style="margin-bottom:1.5rem;" id="studies-filters">
     <button class="qg-filter qg-active" data-scat="all" onclick="studiesCat(this,'all')">All</button>
@@ -20284,6 +20288,8 @@ function csvFilter(cat, btn) {
     <button class="qg-filter" data-scat="immune" onclick="studiesCat(this,'immune')">Immune</button>
     <button class="qg-filter" data-scat="long" onclick="studiesCat(this,'long')">Longevity</button>
     <button class="qg-filter" data-scat="sex" onclick="studiesCat(this,'sex')">Sexual Health</button>
+    <button class="qg-filter" data-scat="skin" onclick="studiesCat(this,'skin')">Skin &amp; Hair</button>
+    <button class="qg-filter" data-scat="bio" onclick="studiesCat(this,'bio')">Bioregulators</button>
   </div>
   <div id="studies-content"></div>
 </div>
@@ -22289,159 +22295,491 @@ function qgCat(el, cat) {
 
 // ── STUDIES DATA ─────────────────────────────────────────────────────────────
 const STUDIES_DATA = [
+  // ═════════ FAT LOSS / METABOLIC ═════════
   {
-    peptide: 'Semaglutide', cat: 'fat',
+    peptide: "Retatrutide", cat: "fat",
     studies: [
-      { year:2024, title:'Long-term cardiovascular outcomes with semaglutide in obesity (SELECT trial)', journal:'New England Journal of Medicine', finding:'20% reduction in major adverse cardiovascular events (MACE) in non-diabetic patients with obesity over 34 months. 15.2% avg body weight reduction.', tags:['human','rct'], details:'n=17,604 · 34 months · Semaglutide 2.4mg SC weekly · Participants: non-diabetic adults with obesity + cardiovascular disease. Primary endpoint: MACE (CV death, non-fatal MI, non-fatal stroke). The SELECT trial is one of the largest cardiovascular outcome trials for a GLP-1 agonist ever conducted.' },
-      { year:2023, title:'Semaglutide 2.4 mg once weekly in adults with overweight or obesity (STEP 5 — 2-year outcomes)', journal:'Nature Medicine', finding:'Adults maintained 15.2% weight loss at 104 weeks; regain observed after discontinuation, confirming need for sustained therapy.', tags:['human','rct'], details:'n=304 · 104 weeks (2 years) · Semaglutide 2.4mg vs placebo SC weekly · Longest STEP trial to date. Key takeaway: weight loss is durable on drug but ~11.6% weight regain occurs within 1 year of stopping, supporting long-term maintenance therapy.' },
-      { year:2023, title:'Effects of semaglutide on non-alcoholic steatohepatitis (NASH)', journal:'NEJM Evidence', finding:'Significant histological improvement in NASH with semaglutide 2.4 mg vs placebo; NASH resolution in 62.9% of treated patients.', tags:['human','rct'], details:'n=800 · 72 weeks · Semaglutide 2.4mg SC weekly · Liver biopsy-confirmed NASH patients. First Phase 3 data showing a GLP-1 agonist can resolve liver inflammation at the histological level — no fibrosis worsening in treated group.' }
+      { year:2026, title:"Retatrutide, a Triple Hormone Receptor Agonist, for Treatment of Obesity (TRIUMPH-1)", journal:"New England Journal of Medicine", finding:"Phase 3: mean weight change at 104 weeks of -18.2% (4 mg), -26.9% (9 mg) and -29.5% (12 mg) vs -3.1% on placebo in the treatment-estimated analysis; hsCRP fell up to 62.6%.", tags:["human","rct"], details:"n=2,339 adults with obesity or overweight plus a cardiometabolic risk factor, no diabetes · mean BMI 40 · once-weekly 4, 9 or 12 mg vs placebo · 80 weeks + extension to 104 weeks · also improved knee-osteoarthritis pain (WOMAC) and sleep apnea (AHI). Funded by Eli Lilly.", doi:"10.1056/NEJMoa2604169" },
+      { year:2026, title:"Retatrutide in type 2 diabetes inadequately controlled with diet and exercise (TRANSCEND-T2D-1)", journal:"The Lancet", finding:"Phase 3: HbA1c fell 1.69-1.94 points (vs 0.81 placebo) and body weight fell 11.5-15.3% (vs 2.6%) over 40 weeks as monotherapy.", tags:["human","rct"], details:"40 weeks · 48 sites in the USA, Mexico and India · retatrutide 4, 9 or 12 mg weekly vs placebo · mostly mild-to-moderate GI side effects that subsided over time · no severe hypoglycaemia. Funded by Eli Lilly.", pmid:"42250575" },
+      { year:2024, title:"Triple hormone receptor agonist retatrutide for metabolic dysfunction-associated steatotic liver disease: a randomized phase 2a trial", journal:"Nature Medicine", finding:"Liver fat fell 81-82% at 24 weeks on 8-12 mg; 79-86% of those participants reached normal liver fat (<5%) vs 0% on placebo.", tags:["human","rct"], details:"Substudy of the phase 2 obesity trial · n=98 with MASLD and ≥10% liver fat · retatrutide 1-12 mg weekly vs placebo for 48 weeks.", pmid:"38858523" },
+      { year:2023, title:"Triple-Hormone-Receptor Agonist Retatrutide for Obesity — A Phase 2 Trial", journal:"New England Journal of Medicine", finding:"Weight fell 22.8% (8 mg) and 24.2% (12 mg) at 48 weeks vs 2.1% on placebo; 83% on 12 mg lost ≥15%.", tags:["human","rct"], details:"n=338 adults with obesity · 48 weeks · doses 1-12 mg weekly · GI events dose-related and mostly mild-moderate; heart rate rose, peaking at 24 weeks.", pmid:"37366315" },
+      { year:2023, title:"Retatrutide, a GIP, GLP-1 and glucagon receptor agonist, for people with type 2 diabetes: a phase 2 trial", journal:"The Lancet", finding:"Dose-dependent HbA1c and weight reductions; up to ~17% weight loss at 36 weeks, significantly more than dulaglutide 1.5 mg.", tags:["human","rct"], details:"Phase 2, USA · placebo- and dulaglutide-controlled · no severe hypoglycaemia or deaths · informed phase 3 doses.", pmid:"37385280" }
     ]
   },
   {
-    peptide: 'Tirzepatide', cat: 'fat',
+    peptide: "Tirzepatide", cat: "fat",
     studies: [
-      { year:2024, title:'Tirzepatide for metabolic dysfunction-associated steatohepatitis (NASH) — SYNERGY-NASH trial', journal:'New England Journal of Medicine', finding:'62.4% of tirzepatide-treated patients had MASH resolution vs 19.2% placebo; significant fibrosis improvement.', tags:['human','rct'], details:'n=966 · 52 weeks · Tirzepatide 10mg or 15mg vs placebo SC weekly · Dual GIP/GLP-1 receptor agonist. Biopsy-confirmed MASH. Fibrosis improvement seen in 55% of tirzepatide group. Landmark trial establishing dual agonism superiority in metabolic liver disease.' },
-      { year:2023, title:'Tirzepatide vs semaglutide for weight loss (SURMOUNT-5)', journal:'NEJM', finding:'Tirzepatide produced 20.2% weight loss vs 13.7% with semaglutide at 72 weeks in head-to-head trial.', tags:['human','rct'], details:'n=751 · 72 weeks · Tirzepatide 10–15mg vs Semaglutide 2.4mg · First direct head-to-head RCT between these two agents. Tirzepatide\'s dual GIP+GLP-1 mechanism produced significantly greater fat mass reduction and metabolic improvement.' },
-      { year:2022, title:'Tirzepatide Once Weekly for the Treatment of Obesity (SURMOUNT-1)', journal:'New England Journal of Medicine', finding:'Up to 22.5% mean body weight reduction at 72 weeks with 15 mg dose; superior to all prior approved obesity pharmacotherapy.', tags:['human','rct'], details:'n=2,539 · 72 weeks · Tirzepatide 5/10/15mg vs placebo · Adults with BMI ≥30 or ≥27 + comorbidity. At 15mg dose: 22.5% mean body weight loss — the highest ever recorded in a pharmaceutical obesity trial at the time of publication.' }
+      { year:2025, title:"Tirzepatide as Compared with Semaglutide for the Treatment of Obesity (SURMOUNT-5)", journal:"New England Journal of Medicine", finding:"Head-to-head: -20.2% weight with tirzepatide vs -13.7% with semaglutide at 72 weeks; waist -18.4 cm vs -13.0 cm.", tags:["human","rct"], details:"n=751 adults with obesity, no diabetes · maximum tolerated doses (tirzepatide 10-15 mg; semaglutide 1.7-2.4 mg) · open-label phase 3b.", pmid:"40353578" },
+      { year:2025, title:"Tirzepatide for Obesity Treatment and Diabetes Prevention (SURMOUNT-1, 3-year results)", journal:"New England Journal of Medicine", finding:"In people with prediabetes, 3 years of tirzepatide kept weight down 12.3-19.7% and cut progression to type 2 diabetes by ~93% (1.3% vs 13.3%).", tags:["human","rct"], details:"176 weeks of treatment + 17 weeks off drug · after stopping, 2.4% vs 13.7% had diabetes · no new safety signals.", pmid:"39536238" },
+      { year:2024, title:"Tirzepatide for Metabolic Dysfunction-Associated Steatohepatitis with Liver Fibrosis (SYNERGY-NASH)", journal:"New England Journal of Medicine", finding:"MASH resolved without worsening fibrosis in 44-62% on tirzepatide vs 10% on placebo at 52 weeks.", tags:["human","rct"], details:"Phase 2 · biopsy-confirmed MASH with F2-F3 fibrosis · 5, 10 or 15 mg weekly · ≥1-stage fibrosis improvement in 51-55% vs 30%.", pmid:"38856224" },
+      { year:2022, title:"Tirzepatide Once Weekly for the Treatment of Obesity (SURMOUNT-1)", journal:"New England Journal of Medicine", finding:"72-week weight loss of 15.0% (5 mg), 19.5% (10 mg) and 20.9% (15 mg) vs 3.1% on placebo.", tags:["human","rct"], details:"n=2,539 adults with obesity · phase 3 · 50-57% of the 10-15 mg groups lost ≥20% of body weight.", pmid:"35658024" }
     ]
   },
   {
-    peptide: 'Retatrutide', cat: 'fat',
+    peptide: "Semaglutide", cat: "fat",
     studies: [
-      { year:2023, title:'Retatrutide, a GIP, GLP-1 and glucagon receptor agonist, for people with type 2 diabetes (Phase 2)', journal:'The Lancet', finding:'Up to 24.2% weight loss at 48 weeks — the highest reported weight loss in a Phase 2 trial to date; dose-dependent glycemic improvement.', tags:['human','rct'], details:'n=338 · 48 weeks · Retatrutide 1–12mg SC weekly · Triple agonist: GIP + GLP-1 + Glucagon receptors. HbA1c reduced by up to 2.02%. At 12mg, 24.2% weight loss surpassed all prior pharmacotherapy in Phase 2. Phase 3 trials ongoing.' },
-      { year:2023, title:'Triple hormone receptor agonism in obesity — cardiovascular and metabolic effects', journal:'New England Journal of Medicine', finding:'17.5% mean body weight reduction in people with obesity (no diabetes) at 24 weeks; significant reductions in waist circumference and triglycerides.', tags:['human','rct'], details:'n=338 · 24 weeks · Retatrutide 4/8/12mg vs placebo · Non-diabetic adults with obesity. Waist circumference reduced 14cm at highest dose. Triglycerides down 37%. The glucagon receptor component appears to drive additional visceral fat loss beyond GLP-1 alone.' }
+      { year:2026, title:"Once-weekly semaglutide in patients with alcohol use disorder and comorbid obesity", journal:"The Lancet", finding:"Semaglutide reduced heavy drinking days significantly more than placebo (treatment difference -13.7 percentage points) over 26 weeks.", tags:["human","rct"], details:"n=108 treatment-seeking adults with alcohol use disorder + obesity · single-centre, double-blind phase 2 · GI side effects transient and mostly mild-moderate.", pmid:"42070571" },
+      { year:2026, title:"Oral semaglutide 14 mg in early-stage symptomatic Alzheimer's disease (evoke and evoke+)", journal:"The Lancet", finding:"Negative result: semaglutide did not slow clinical progression (CDR-SB) over 104 weeks vs placebo.", tags:["human","rct"], details:"Two phase 3 trials · n=3,808 · both discontinued for lack of efficacy · safety consistent with other indications. Important counter-evidence to the 'GLP-1s prevent dementia' claim.", pmid:"41865758" },
+      { year:2025, title:"Phase 3 Trial of Semaglutide in Metabolic Dysfunction-Associated Steatohepatitis (ESSENCE)", journal:"New England Journal of Medicine", finding:"MASH resolved without worsening fibrosis in 62.9% vs 34.3% on placebo; fibrosis improved in 36.8% vs 22.4%.", tags:["human","rct"], details:"n=1,197 with biopsy-defined MASH and F2-F3 fibrosis · semaglutide 2.4 mg weekly · planned 72-week interim analysis of a 240-week trial · weight -10.5% vs -2.0%.", pmid:"40305708" },
+      { year:2025, title:"Oral Semaglutide at a Dose of 25 mg in Adults with Overweight or Obesity (OASIS 4)", journal:"New England Journal of Medicine", finding:"Daily oral semaglutide 25 mg produced -13.6% weight loss at 64 weeks vs -2.2% on placebo.", tags:["human","rct"], details:"n=307 without diabetes · 71-week trial · GI adverse events 74% vs 42%.", pmid:"40934115" },
+      { year:2023, title:"Semaglutide and Cardiovascular Outcomes in Obesity without Diabetes (SELECT)", journal:"New England Journal of Medicine", finding:"20% reduction in major cardiovascular events (CV death, heart attack, stroke): 6.5% vs 8.0% on placebo.", tags:["human","rct"], details:"n=17,604 adults ≥45 with cardiovascular disease and overweight/obesity, no diabetes · semaglutide 2.4 mg weekly · mean follow-up 39.8 months · discontinuation for adverse events 16.6% vs 8.2%.", pmid:"37952131" },
+      { year:2022, title:"Two-year effects of semaglutide in adults with overweight or obesity: the STEP 5 trial", journal:"Nature Medicine", finding:"Weight loss of 15.2% maintained at 104 weeks vs 2.6% on placebo.", tags:["human","rct"], details:"n=304 · semaglutide 2.4 mg weekly + behavioral intervention · 77% vs 34% lost ≥5%.", pmid:"36216945" }
     ]
   },
   {
-    peptide: 'BPC-157', cat: 'heal',
+    peptide: "Cagrilintide (and CagriSema)", cat: "fat",
     studies: [
-      { year:2024, title:'BPC-157 accelerates rotator cuff tendon-to-bone healing in a rat model', journal:'Journal of Orthopaedic Research', finding:'SC BPC-157 significantly enhanced collagen fiber organization and tensile strength at 4- and 8-week timepoints; superior to vehicle control.', tags:['animal'], details:'Rat model · 8 weeks · SC injection protocol · BPC-157 (Body Protection Compound-157) is a 15 amino acid peptide derived from gastric juice. Mechanism: upregulation of growth hormone receptor expression, promotion of angiogenesis via VEGFR2/FAK/paxillin pathway. Note: no human RCTs published yet — preclinical data only.' },
-      { year:2023, title:'Gastrointestinal cytoprotective effects of BPC-157: update 2023', journal:'Current Pharmaceutical Design', finding:'Comprehensive review confirms BPC-157 promotes ulcer healing via NO and angiogenesis pathways; growing evidence for IBD and NSAID-induced gut injury.', tags:['animal'], details:'Review of 30+ preclinical studies · Multiple models (rat, mice) · Oral & SC BPC-157 · Mechanism: nitric oxide system modulation, prostaglandin pathway, EGF receptor activation. BPC-157 has shown consistent cytoprotective effects across stomach, intestine, and colon models. No formal human trials for GI indications to date.' },
-      { year:2022, title:'BPC-157 neuroprotection in traumatic brain injury rat model', journal:'Brain Research Bulletin', finding:'BPC-157 reduced neuroinflammation markers, improved motor function scores and hippocampal neuron survival vs control post-TBI.', tags:['animal'], details:'Rat TBI model · 4 weeks · IP & SC BPC-157 · Reduced IL-1β, TNF-α, and microglial activation. Hippocampal neuron survival significantly improved. Motor function assessed via rotarod test. Suggests potential applications in neurotrauma — entirely preclinical.' }
+      { year:2026, title:"Cagrilintide-semaglutide (CagriSema) versus semaglutide or cagrilintide in type 2 diabetes (REIMAGINE 2)", journal:"Lancet Diabetes & Endocrinology", finding:"CagriSema 2.4/2.4 mg lowered HbA1c more than semaglutide 2.4 mg alone (-1.91 vs -1.75 points) over 68 weeks.", tags:["human","rct"], details:"Phase 3 · 30 countries · people with T2D on metformin ± SGLT2 inhibitor · safety consistent with the GLP-1 class.", pmid:"42251859" },
+      { year:2025, title:"Coadministered Cagrilintide and Semaglutide in Adults with Overweight or Obesity (REDEFINE 1)", journal:"New England Journal of Medicine", finding:"CagriSema produced -20.4% body weight at 68 weeks vs -3.0% on placebo.", tags:["human","rct"], details:"n=3,417 without diabetes · phase 3a · GI adverse events 79.6% vs 39.9%, mostly transient and mild-moderate.", pmid:"40544433" },
+      { year:2021, title:"Once-weekly cagrilintide for weight management in people with overweight and obesity: a phase 2 trial", journal:"The Lancet", finding:"Cagrilintide alone (amylin analogue) cut weight 6.0-10.8% over 26 weeks vs 3.0% on placebo; 4.5 mg beat liraglutide 3.0 mg (10.8% vs 9.0%).", tags:["human","rct"], details:"n=706 on cagrilintide 0.3-4.5 mg · 57 sites, 10 countries · nausea 20-47% vs 18%.", pmid:"34798060" }
     ]
   },
   {
-    peptide: 'TB-500 (Thymosin Beta-4)', cat: 'heal',
+    peptide: "Survodutide", cat: "fat",
     studies: [
-      { year:2023, title:'Thymosin beta-4 promotes corneal epithelial wound healing in dry eye disease', journal:'Investigative Ophthalmology & Visual Science', finding:'Tβ4 eye drops accelerated corneal epithelial repair 2.1× faster than vehicle; reduced inflammatory cytokines significantly.', tags:['human','rct'], details:'n=72 · 12 weeks · Topical Tβ4 0.1% eye drops vs vehicle · Dry eye disease patients with corneal staining scores ≥2. Tβ4 promotes actin polymerization and cell migration. This is one of the few human RCTs involving TB-500 related peptides — majority of research remains preclinical.' },
-      { year:2022, title:'Thymosin beta-4 in cardiac repair post-myocardial infarction — systematic review', journal:'International Journal of Molecular Sciences', finding:'Multiple animal studies show Tβ4 reduces infarct size, promotes angiogenesis, and improves ejection fraction; no human cardiac trials yet.', tags:['animal'], details:'Systematic review of 18 preclinical studies · Rodent & porcine MI models · SC/IV Tβ4 · Mechanism: activation of Akt/PI3K survival pathway, epicardial progenitor cell activation, cardiomyocyte protection. Average infarct size reduction ~30%. Zero human cardiac RCTs exist — translation to humans unconfirmed.' }
+      { year:2026, title:"Survodutide Once Weekly for the Treatment of Adults with Obesity (SYNCHRONIZE-1)", journal:"New England Journal of Medicine", finding:"Phase 3: -12.2% (3.6 mg) and -13.0% (6.0 mg) body weight at 76 weeks vs -5.4% on placebo.", tags:["human","rct"], details:"n=725 adults with obesity, no diabetes · glucagon/GLP-1 dual agonist · GI events 81-90% vs 48% · no deaths. Funded by Boehringer Ingelheim.", pmid:"42253238" },
+      { year:2026, title:"Survodutide Once Weekly in Adults with Obesity and Type 2 Diabetes (SYNCHRONIZE-2)", journal:"New England Journal of Medicine", finding:"-8.2% to -9.8% weight at 76 weeks vs -3.9% on placebo; HbA1c fell about 0.8-0.9 points.", tags:["human","rct"], details:"Phase 3 · mean baseline BMI 36.5, HbA1c 7.4%.", pmid:"42820639" },
+      { year:2026, title:"Survodutide in adults with obesity and MASLD: SYNCHRONIZE-MASLD phase 3 trial", journal:"Nature Medicine", finding:"84.2% vs 24.3% achieved ≥30% liver-fat reduction at 48 weeks; weight -12.2% vs -1.0% (efficacy estimand).", tags:["human","rct"], details:"n=216 · survodutide 6.0 mg weekly vs placebo · USA and Spain.", pmid:"42252333" },
+      { year:2024, title:"A Phase 2 Randomized Trial of Survodutide in MASH and Fibrosis", journal:"New England Journal of Medicine", finding:"MASH improved without worsening fibrosis in up to 62% vs 14% on placebo at 48 weeks.", tags:["human","rct"], details:"n=293 with biopsy-confirmed MASH (F1-F3) · 2.4-6.0 mg weekly · nausea 66% vs 23%.", pmid:"38847460" },
+      { year:2024, title:"Survodutide for obesity: a randomised, double-blind, placebo-controlled, dose-finding phase 2 trial", journal:"Lancet Diabetes & Endocrinology", finding:"Dose-dependent weight loss up to -14.9% (4.8 mg) at 46 weeks vs -2.8% on placebo.", tags:["human","rct"], details:"n=387 · 43 centres in 12 countries · GI adverse events 75% vs 42%.", pmid:"38330987" }
     ]
   },
   {
-    peptide: 'GHK-Cu', cat: 'heal',
+    peptide: "Mazdutide", cat: "fat",
     studies: [
-      { year:2024, title:'GHK-Cu tripeptide reverses age-related gene expression changes in human skin', journal:'Scientific Reports', finding:'Transcriptomic analysis shows GHK-Cu reversed 59% of age-associated gene expression changes; upregulated collagen, antioxidant, and tissue repair pathways.', tags:['human','in-vitro'], details:'In vitro · Human skin fibroblasts from donors aged 20–80 · GHK-Cu 1–10nM · RNA sequencing of 5,000+ genes. GHK-Cu (Glycyl-L-Histidyl-L-Lysine copper complex) is a naturally occurring tripeptide. Upregulated: COL1A1, COL3A1, SOD2, FOXO3. Downregulated: inflammatory and apoptosis genes. Note: gene expression data from cell cultures does not directly translate to clinical outcomes in humans.' },
-      { year:2023, title:'Topical GHK-Cu in androgenetic alopecia — randomized controlled pilot', journal:'Journal of Cosmetic Dermatology', finding:'12-week topical GHK-Cu application improved hair density +18% and hair shaft diameter vs placebo in 44 subjects.', tags:['human','rct'], details:'n=44 · 12 weeks · Topical GHK-Cu 2% vs placebo (double-blind) · Male & female AGA patients. Hair density measured by trichoscopy. GHK-Cu mechanism in hair: stimulation of hair follicle stem cells, increased vascularization around follicle. Small pilot study — larger confirmatory trials needed.' }
+      { year:2026, title:"Mazdutide in predominantly Chinese adults with obesity and/or type 2 diabetes: systematic review and meta-analysis", journal:"Diabetes, Obesity and Metabolism", finding:"Across 9 RCTs (n=2,292), mazdutide 3-6 mg reduced weight 6.6-11.1% more than placebo and outperformed dulaglutide in T2D.", tags:["human","meta"], details:"GI events more frequent, but serious adverse events and discontinuations similar to comparators · longer multi-ethnic studies still needed.", pmid:"42410325" },
+      { year:2025, title:"Once-Weekly Mazdutide in Chinese Adults with Obesity or Overweight (GLORY-1)", journal:"New England Journal of Medicine", finding:"Phase 3: -11.0% (4 mg) and -14.0% (6 mg) body weight at 48 weeks vs +0.3% on placebo.", tags:["human","rct"], details:"GLP-1/glucagon dual agonist · 49.5% on 6 mg lost ≥15% · discontinuation for adverse events 0.5-1.5%. Funded by Innovent.", pmid:"40421736" }
     ]
   },
   {
-    peptide: 'CJC-1295 / Ipamorelin', cat: 'muscle',
+    peptide: "Orforglipron", cat: "fat",
     studies: [
-      { year:2023, title:'GHRH analogues and GHRPs in adult GH deficiency: current evidence and future perspectives', journal:'Reviews in Endocrine and Metabolic Disorders', finding:'Combination GHRH + GHRP therapy restores pulsatile GH secretion more physiologically than exogenous GH; lean mass and IGF-1 improvements in GHD adults.', tags:['human'], details:'Comprehensive narrative review · Multiple human studies · CJC-1295 (GHRH analogue) + Ipamorelin (GHRP) combination · Mechanism: CJC-1295 extends GHRH half-life; ipamorelin selectively stimulates pituitary GH release without cortisol/prolactin spikes. More physiological pulsatile pattern than exogenous GH injection.' },
-      { year:2022, title:'Ipamorelin reduces adiposity and improves metabolic parameters in older adults — open-label pilot', journal:'Growth Hormone & IGF Research', finding:'6-month ipamorelin + CJC-1295 improved IGF-1 by 32%, reduced trunk fat mass 8%, improved sleep quality scores vs baseline.', tags:['human'], details:'n=28 · 6 months · Ipamorelin 200mcg + CJC-1295 100mcg SC nightly · Adults 55–70 with age-related GH decline. No placebo arm (open-label) — results suggestive but require confirmation in RCT. IGF-1 normalization correlated with sleep architecture improvements measured by polysomnography.' }
+      { year:2026, title:"Orforglipron for maintenance of body weight reduction: the ATTAIN-MAINTAIN phase 3b trial", journal:"Nature Medicine", finding:"After switching off injectable tirzepatide or semaglutide, daily oral orforglipron kept 75-79% of the weight loss vs 38-49% on placebo at 52 weeks.", tags:["human","rct"], details:"n=376 previously treated in SURMOUNT-5 · non-peptide oral GLP-1 agonist.", pmid:"42120723" },
+      { year:2026, title:"Orforglipron for obesity in people with type 2 diabetes (ATTAIN-2)", journal:"The Lancet", finding:"Weight fell 5.1-9.6% at 72 weeks vs 2.5% on placebo, with HbA1c improvements.", tags:["human","rct"], details:"Phase 3 · 136 sites in 10 countries · discontinuation for adverse events 6-10% vs 4%.", pmid:"41275875" },
+      { year:2025, title:"Orforglipron, an Oral Small-Molecule GLP-1 Receptor Agonist for Obesity Treatment (ATTAIN-1)", journal:"New England Journal of Medicine", finding:"Once-daily oral pill: -11.2% weight at 72 weeks on 36 mg vs -2.1% on placebo.", tags:["human","rct"], details:"n=3,127 adults with obesity · 6, 12 or 36 mg · 18.4% on 36 mg lost ≥20%.", pmid:"40960239" },
+      { year:2025, title:"Orforglipron in Early Type 2 Diabetes (ACHIEVE-1)", journal:"New England Journal of Medicine", finding:"HbA1c fell 1.24-1.48 points over 40 weeks vs 0.41 on placebo; weight -4.5% to -7.6%.", tags:["human","rct"], details:"Phase 3 · no severe hypoglycaemia.", pmid:"40544435" }
     ]
   },
   {
-    peptide: 'Tesamorelin', cat: 'muscle',
+    peptide: "ATX-304 (O304)", cat: "fat",
     studies: [
-      { year:2024, title:'Tesamorelin reduces liver fat in HIV-associated NAFLD (SHIELD trial extension)', journal:'Journal of Hepatology', finding:'52-week tesamorelin reduced hepatic fat fraction by 37% vs placebo; significant improvement in liver stiffness scores in HIV+ adults.', tags:['human','rct'], details:'n=61 · 52 weeks · Tesamorelin 2mg SC daily · HIV+ adults with ARV-associated lipodystrophy & NAFLD. Tesamorelin is FDA-approved for HIV lipodystrophy. Liver fat measured by MRI-PDFF. Mechanism: GH restoration → enhanced lipolysis → reduced ectopic liver fat. First approved GHRH analogue.' },
-      { year:2022, title:'Cognitive effects of tesamorelin in older adults with mild cognitive impairment', journal:'JAMA Network Open', finding:'Tesamorelin improved verbal memory and executive function scores vs placebo over 20 weeks; associated with IGF-1 normalization.', tags:['human','rct'], details:'n=152 · 20 weeks · Tesamorelin 1mg SC daily · Adults 60+ with MCI (mild cognitive impairment). IGF-1 levels normalized correlated with improvements in Rey Auditory Verbal Learning Test scores. Mechanistic hypothesis: GH/IGF-1 axis supports hippocampal neuroplasticity and synaptic function.' }
+      { year:2025, title:"ATX-304 alone and combined with semaglutide in diet-induced obese mice (ENDO 2025 conference abstract)", journal:"ENDO 2025 — Endocrine Society annual meeting (abstract, not peer-reviewed)", finding:"ATX-304 alone cut body weight 21% in 28 days; with semaglutide, weight fell 27% in 15 days vs 14% on semaglutide alone — the loss was fat, with lean mass preserved, and it limited regain after semaglutide was stopped.", tags:["animal","abstract"], details:"Presented by the developer (Amplifier Therapeutics) · not yet published as a full peer-reviewed paper — treat as preliminary." },
+      { year:2025, title:"O304 is a mitochondrial uncoupler which extends C. elegans lifespan and induces vasorelaxation of rat mesenteric arteries", journal:"Chemico-Biological Interactions", finding:"Confirmed O304 is a mitochondrial uncoupler; it extended worm lifespan via AMPK-mTOR and autophagy and relaxed rat arteries.", tags:["animal","in-vitro"], details:"C. elegans, mouse embryonic fibroblasts and rat mesenteric arteries · independent lab (China Pharmaceutical University).", pmid:"41130350" },
+      { year:2025, title:"AMPK activator ATX-304 reduces oxidative stress and improves MASLD via metabolic switching", journal:"JCI Insight", finding:"In a progressive fatty-liver mouse model, ATX-304 reduced body fat, lowered cholesterol and mitigated liver steatosis and fibrosis.", tags:["animal"], details:"Shifted the liver toward fat burning (more fatty-acid oxidation, less lipid synthesis) · effects varied between liver regions.", pmid:"40197369" },
+      { year:2024, title:"The AMPK activator ATX-304 alters cellular metabolism to protect against cisplatin-induced acute kidney injury", journal:"Biomedicine & Pharmacotherapy", finding:"Pre-treatment protected mouse kidneys from chemotherapy (cisplatin) injury on creatinine, NGAL and histology.", tags:["animal","in-vitro"], details:"Protection was lost in AMPK-null cells, confirming the AMPK mechanism · raised basal oxygen consumption 38% in kidney cells.", pmid:"38749175" },
+      { year:2024, title:"O304 alleviates abdominal aortic aneurysm formation via AMPK/mTOR/MMP pathway activation", journal:"Frontiers in Pharmacology", finding:"Reduced aneurysm formation and blood pressure in mice by keeping vascular smooth-muscle cells in their healthy contractile state.", tags:["animal","in-vitro"], details:"Mouse AAA model + TGF-β cell model.", pmid:"39679375" },
+      { year:2023, title:"O304 ameliorates hyperglycemia in mice by dually promoting muscle glucose effectiveness and preserving β-cell function", journal:"Communications Biology", finding:"Increased insulin-independent glucose uptake in muscle and heart, reverted diabetic cardiomyopathy and preserved insulin-producing β-cells in db/db mice.", tags:["animal"], details:"Showed O304 acts as both an AMPK activator and a mild mitochondrial uncoupler.", pmid:"37626210" },
+      { year:2022, title:"AMPK Activator O304 Protects Against Kidney Aging Through Promoting Energy Metabolism and Autophagy", journal:"Frontiers in Pharmacology", finding:"Reduced cellular senescence and age-related fibrosis in naturally aged mouse kidneys.", tags:["animal","in-vitro"], details:"Restored energy metabolism, autophagy and mitochondrial homeostasis.", pmid:"35308246" },
+      { year:2022, title:"Analgesic effectiveness of a peripheral AMPK activator (O304) following lumbar disk puncture in the mouse", journal:"Anesthesia & Analgesia", finding:"Dose-dependently reduced pain hypersensitivity in a disc-herniation pain model (ED50 ~140 mg/kg).", tags:["animal"], details:"Lowered pain-signalling proteins (TRPA1, p-ERK) in dorsal root ganglia.", pmid:"36201356" },
+      { year:2021, title:"AMPK activator O304 improves metabolic and cardiac function, and exercise capacity in aged mice", journal:"Communications Biology", finding:"Prevented and reversed age-related insulin resistance and improved heart function and exercise capacity in old mice — an 'exercise mimetic'.", tags:["animal"], details:"Authors note O304 has been well tolerated in humans.", pmid:"34795407" },
+      { year:2021, title:"Pan-AMPK activator O304 prevents gene expression changes and remobilisation of histone marks in islets of diet-induced obese mice", journal:"Scientific Reports", finding:"Largely prevented high-fat-diet stress changes in insulin-producing islets and restored glucose control in already-obese mice.", tags:["animal"], details:"Genome-wide transcription and chromatin profiling of pancreatic islets.", pmid:"34949756" },
+      { year:2019, title:"AMPK activator drugs reduce mechanical allodynia in a mouse model of low back pain", journal:"Regional Anesthesia & Pain Medicine", finding:"O304 (and metformin) reduced pain hypersensitivity after lumbar disc puncture.", tags:["animal"], details:"Oral dosing for 7 days starting a week after injury.", pmid:"31541009" },
+      { year:2019, title:"Antihyperalgesia effect of AMPK activators in a mouse model of postoperative pain", journal:"Regional Anesthesia & Pain Medicine", finding:"O304 reduced post-surgical pain hypersensitivity and normalized the AMPK pathway in pain neurons.", tags:["animal"], details:"Plantar incision model · combination with metformin worked further.", pmid:"31229963" },
+      { year:2018, title:"PAN-AMPK activator O304 improves glucose homeostasis and microvascular perfusion in mice and type 2 diabetes patients", journal:"JCI Insight", finding:"The only human data so far: in a phase IIa proof-of-concept trial in T2D patients on metformin, O304 lowered fasting glucose and HOMA-IR, improved microvascular blood flow and reduced blood pressure.", tags:["human","animal"], details:"Also increased muscle and heart glucose uptake in obese mice without enlarging the heart · developed by Betagenon (several authors are shareholders).", pmid:"29925691" }
     ]
   },
   {
-    peptide: 'Semax', cat: 'cog',
+    peptide: "5-Amino-1MQ", cat: "fat",
     studies: [
-      { year:2023, title:'Semax intranasal in acute ischemic stroke — multicenter randomized trial', journal:'Cerebrovascular Diseases', finding:'Semax 0.1% intranasal accelerated neurological recovery and reduced infarct-associated disability vs standard therapy at 30 days.', tags:['human','rct'], details:'n=210 · 30 days · Semax 0.1% intranasal 2× daily · Acute ischemic stroke (within 6h of onset). Russian & Eastern European trial. Neurological outcomes measured by NIHSS and Barthel Index. Semax is a heptapeptide ACTH(4-7) analogue registered as a drug in Russia. Not approved by FDA/EMA.' },
-      { year:2022, title:'ACTH(4-7)PGP (Semax) increases BDNF and promotes synaptic plasticity in rodent hippocampus', journal:'Neuropeptides', finding:'Semax significantly upregulated hippocampal BDNF, CREB, and synaptophysin; improved spatial memory in Morris water maze.', tags:['animal'], details:'Rodent model · 14 days · IP Semax 50–100mcg/kg · Young and aged mice. Mechanism: Semax activates trkB receptor (BDNF receptor), increases CREB phosphorylation, promotes long-term potentiation. Spatial memory improvements persisted 7 days post-treatment. Entirely preclinical for cognitive applications.' }
+      { year:2024, title:"Nicotinamide N-methyltransferase inhibition mitigates obesity-related metabolic dysfunction", journal:"Diabetes, Obesity and Metabolism", finding:"In obese mice, 5A1MQ limited weight and fat gain, improved insulin sensitivity and reduced fatty liver over 28 days.", tags:["animal"], details:"Also characterised its pharmacokinetics — good exposure in fat, muscle and liver. No human trials yet.", pmid:"39161060" },
+      { year:2021, title:"Combined NNMT inhibition and reduced-calorie diet normalizes body composition and enhances metabolic benefits in obese mice", journal:"Scientific Reports", finding:"Adding the NNMT inhibitor to a lean diet accelerated fat loss and normalized body composition and liver fat vs diet alone.", tags:["animal"], details:"Diet-induced obese mice.", pmid:"33707534" },
+      { year:2018, title:"Selective and membrane-permeable small molecule inhibitors of NNMT reverse high fat diet-induced obesity in mice", journal:"Biochemical Pharmacology", finding:"The foundational study: methylquinolinium NNMT inhibitors (the 5-amino-1MQ class) reversed diet-induced obesity in mice.", tags:["animal","in-vitro"], details:"Cell and mouse studies.", pmid:"29155147" }
     ]
   },
   {
-    peptide: 'Selank', cat: 'cog',
+    peptide: "AOD-9604 / HGH Fragment 176-191", cat: "fat",
     studies: [
-      { year:2023, title:'Selank reduces anxiety and modulates serotonergic activity in patients with generalized anxiety disorder', journal:'Bulletin of Experimental Biology and Medicine', finding:'Randomized trial: Selank 0.1% intranasal 10-day course significantly reduced Hamilton Anxiety scores; GABAergic and serotonergic pathway modulation confirmed.', tags:['human','rct'], details:'n=62 · 10 days · Selank 0.1% intranasal vs placebo · GAD patients. Selank is a synthetic analogue of tuftsin (Thr-Lys-Pro-Arg) registered in Russia. Mechanism: enhances GABA-A receptor sensitivity, increases serotonin turnover, modulates enkephalins. Not approved outside Russia/CIS countries.' },
-      { year:2022, title:'Immunomodulatory effects of Selank in chronic fatigue syndrome', journal:'Neuroimmunomodulation', finding:'Selank normalized IL-6, TNF-α and NK-cell activity in CFS patients; improved fatigue scores and cognitive function over 21-day course.', tags:['human'], details:'n=40 · 21 days · Selank 0.1% intranasal · Open-label study (no placebo arm). CFS patients with confirmed immune dysregulation. Cognitive function measured by MoCA. Immune markers: NK-cell activity increased, pro-inflammatory cytokines normalised. Requires blinded replication.' }
+      { year:2015, title:"Effect of intra-articular injection of AOD9604 with or without hyaluronic acid in rabbit osteoarthritis model", journal:"Annals of Clinical & Laboratory Science", finding:"Joint injections improved cartilage regeneration in rabbits; AOD9604 + hyaluronic acid worked better than either alone.", tags:["animal"], details:"Collagenase-induced knee OA, n=32 rabbits.", pmid:"26275694" },
+      { year:2001, title:"Effects of human GH and its lipolytic fragment (AOD9604) on lipid metabolism following chronic treatment in obese mice", journal:"Endocrinology", finding:"AOD9604 reduced body weight and fat in obese mice and increased fat-burning (lipolysis) like full GH.", tags:["animal"], details:"14 days of treatment · effect required the beta-3 adrenergic pathway for chronic weight loss.", pmid:"11713213" },
+      { year:2000, title:"Metabolic studies of a synthetic lipolytic domain (AOD9604) of human growth hormone", journal:"Hormone Research", finding:"Oral AOD9604 cut weight gain by >50% in obese rats without the insulin resistance seen with full GH.", tags:["animal"], details:"19 days in obese Zucker rats. Note: human weight-loss trials were run but were never published in a peer-reviewed journal.", pmid:"11146367" }
     ]
   },
   {
-    peptide: 'Thymosin Alpha-1', cat: 'immune',
+    peptide: "SLU-PP-332", cat: "fat",
     studies: [
-      { year:2024, title:'Thymosin alpha-1 as adjuvant therapy in COVID-19 — meta-analysis of 12 RCTs', journal:'Frontiers in Immunology', finding:'Meta-analysis (n=1,847): Tα1 significantly reduced 28-day mortality (RR 0.61), ICU duration, and inflammatory markers vs standard care.', tags:['human','rct'], details:'Meta-analysis of 12 RCTs · n=1,847 total · Tα1 (Thymalfasin) 1.6mg SC daily · Severe/critical COVID-19 inpatients. Tα1 is a 28 amino acid thymic peptide. Mechanism: stimulates T-cell maturation, enhances dendritic cell function, modulates cytokine storm. Approved as Zadaxin® in 35+ countries for hepatitis B, hepatitis C, and immunodeficiency.' },
-      { year:2023, title:'Thymosin alpha-1 in hepatocellular carcinoma post-resection — long-term follow-up', journal:'Journal of Hepatocellular Carcinoma', finding:'5-year follow-up: Tα1 adjuvant therapy post-surgical resection improved disease-free survival and reduced HBV-related recurrence.', tags:['human','rct'], details:'n=124 · 5-year follow-up · Tα1 1.6mg SC 2× weekly × 6 months post-resection · HBV-related HCC patients. Disease-free survival improved by 18% at 5 years. HBV viral load suppression maintained in Tα1 group. Tα1 approved for HBV treatment in China and multiple Asian markets.' }
+      { year:2024, title:"A Synthetic ERR Agonist Alleviates Metabolic Syndrome", journal:"Journal of Pharmacology and Experimental Therapeutics", finding:"Mimicked exercise in obese mice — more energy expenditure and fat burning, less fat mass, better insulin sensitivity.", tags:["animal"], details:"Diet-induced obese and ob/ob mice. No human data.", pmid:"37739806" },
+      { year:2024, title:"Novel Pan-ERR Agonists Ameliorate Heart Failure Through Enhancing Cardiac Fatty Acid Metabolism and Mitochondrial Function", journal:"Circulation", finding:"Improved ejection fraction, reduced fibrosis and increased survival in a mouse heart-failure model.", tags:["animal","in-vitro"], details:"SLU-PP-332 and SLU-PP-915 · pressure-overload heart failure.", pmid:"37961903" },
+      { year:2023, title:"Synthetic ERRα/β/γ Agonist Induces an ERRα-Dependent Acute Aerobic Exercise Response and Enhances Exercise Capacity", journal:"ACS Chemical Biology", finding:"The original report: increased oxidative muscle fibres and endurance in mice.", tags:["animal","in-vitro"], details:"Identified as a pan-ERR agonist, most potent at ERRα.", pmid:"36988910" }
     ]
   },
   {
-    peptide: 'PT-141 (Bremelanotide)', cat: 'sex',
+    peptide: "L-Carnitine", cat: "fat",
     studies: [
-      { year:2023, title:'Bremelanotide for hypoactive sexual desire disorder (HSDD) — 52-week extension safety data', journal:'Journal of Sexual Medicine', finding:'52-week open-label extension confirmed sustained efficacy; FSFI desire domain scores maintained; no new safety signals vs 24-week pivotal trial.', tags:['human'], details:'n=684 · 52 weeks · Bremelanotide 1.75mg SC PRN (on demand) · Premenopausal women with HSDD. PT-141 (Bremelanotide) is FDA-approved as Vyleesi® for HSDD since 2019. Mechanism: melanocortin MC3R/MC4R agonism in CNS → central arousal pathway activation. Administered 45 minutes before activity.' },
-      { year:2022, title:'Bremelanotide SC in men with erectile dysfunction — Phase 2 dose-finding', journal:'Journal of Urology', finding:'Bremelanotide 1.75 mg produced significant improvements in IIEF erectile function domain vs placebo; non-inferior to PDE5i in non-responders.', tags:['human','rct'], details:'n=108 · 12 weeks · Bremelanotide 0.75/1.25/1.75mg SC PRN · Men with ED unresponsive to PDE5 inhibitors. IIEF-EF domain improvement significant at 1.75mg. Not FDA-approved for male ED (approved only for HSDD in women). Off-label use in men based on this and earlier Phase 2 data.' }
+      { year:2025, title:"The Effect of L-Carnitine Supplementation on Obesity Indices: An Umbrella Meta-Analysis", journal:"International Journal for Vitamin and Nutrition Research", finding:"Pooling 8 meta-analyses (16,352 people): modest reductions in weight (~1.1 kg), BMI and waist.", tags:["human","meta"], details:"Doses 150-4,000 mg/day for 8-30 weeks · high heterogeneity.", pmid:"40298161" },
+      { year:2020, title:"Effects of L-carnitine supplementation on weight loss and body composition: meta-analysis of 37 RCTs", journal:"Clinical Nutrition ESPEN", finding:"Average -1.2 kg body weight and -2.1 kg fat mass; benefit peaked around 2,000 mg/day.", tags:["human","meta"], details:"37 RCTs, 2,292 participants · no effect on waist or body-fat %.", pmid:"32359762" }
     ]
   },
   {
-    peptide: 'Epitalon', cat: 'long',
+    peptide: "Oxytocin", cat: "fat",
     studies: [
-      { year:2023, title:'Epithalon peptide extends lifespan and normalizes neuroendocrine function in aging rats', journal:'Biogerontology', finding:'Epitalon-treated rats showed 26% lifespan extension, restored melatonin rhythm, reduced oxidative stress markers, and improved immune parameters vs controls.', tags:['animal'], details:'Rat model (Wistar) · Lifetime treatment from 12 months · IP Epitalon 0.1mcg/kg · Epitalon (Epithalon) is a tetrapeptide (Ala-Glu-Asp-Gly) derived from the pineal gland extract epithalamin. Mechanism: telomerase activation, melatonin secretion restoration, antioxidant enzyme induction. Note: most human data from Russian scientists — independent replication limited.' },
-      { year:2022, title:'Long-term telomere length preservation with epithalamin/epitalon in elderly patients — 15-year follow-up cohort', journal:'Rejuvenation Research', finding:'Elderly patients receiving periodic Epitalon courses showed significantly slower telomere shortening rate over 15 years; reduced all-cause mortality trend.', tags:['human'], details:'n=266 · 15-year follow-up · SC Epitalon 10mg × 10 days every 6 months · Elderly Russian cohort (65–80 at baseline). Telomere length measured by Q-FISH. Mortality trend not statistically powered for significance — observational only. Foundational but should be interpreted cautiously without independent replication.' }
+      { year:2024, title:"Intranasal Oxytocin for Obesity", journal:"NEJM Evidence", finding:"Negative trial: 8 weeks of intranasal oxytocin did not reduce body weight, body fat or energy expenditure vs placebo.", tags:["human","rct"], details:"n=61 adults with obesity · 4 doses a day · did reduce calories eaten at one test meal · no serious adverse events.", pmid:"38815173" }
+    ]
+  },
+
+  // ═════════ GH / MUSCLE ═════════
+  {
+    peptide: "Tesamorelin", cat: "muscle",
+    studies: [
+      { year:2025, title:"Effects of Tesamorelin on Neurocognitive Impairment in Persons With HIV and Abdominal Obesity", journal:"Journal of Infectious Diseases", finding:"Reduced waist circumference but did not significantly improve cognition vs standard care over 6 months.", tags:["human","rct"], details:"Phase 2, open-label · n=73 · 2 mg daily · underpowered with no placebo arm.", pmid:"39813152" },
+      { year:2024, title:"Efficacy and safety of tesamorelin in people with HIV on integrase inhibitors", journal:"AIDS", finding:"Reduced visceral fat, liver fat and trunk fat over 12 months without worsening blood sugar.", tags:["human","rct"], details:"Analysis of n=38 on modern (INSTI) HIV regimens within a double-blind trial.", pmid:"38905488" },
+      { year:2019, title:"Effects of tesamorelin on non-alcoholic fatty liver disease in HIV: a randomised, double-blind, multicentre trial", journal:"Lancet HIV", finding:"37% relative reduction in liver fat at 12 months; 35% reached normal liver fat vs 4% on placebo.", tags:["human","rct"], details:"n=61 with HIV and NAFLD · 2 mg daily · glucose and HbA1c unchanged.", pmid:"31611038" },
+      { year:2007, title:"Metabolic effects of a growth hormone-releasing factor in patients with HIV", journal:"New England Journal of Medicine", finding:"The pivotal trial: visceral fat fell 15.2% vs a 5.0% rise on placebo over 26 weeks; triglycerides and IGF-1 improved.", tags:["human","rct"], details:"n=412 · basis for FDA approval for HIV-associated abdominal fat.", pmid:"18057338" }
     ]
   },
   {
-    peptide: 'MOTS-c', cat: 'long',
+    peptide: "CJC-1295", cat: "muscle",
     studies: [
-      { year:2024, title:'MOTS-c plasma levels inversely correlate with metabolic syndrome severity in human cohort study', journal:'Nature Metabolism', finding:'Cross-sectional analysis of 1,200 adults: low MOTS-c levels independently predicted insulin resistance, visceral adiposity, and cardiovascular risk.', tags:['human'], details:'n=1,200 · Cross-sectional observational · MOTS-c measured by ELISA · Adults 30–80, multi-ethnic cohort. MOTS-c (Mitochondrial Open reading frame of the Twelve S rRNA-c) is a 16 amino acid mitochondria-derived peptide. Circulating levels decline with age. Association study — does not prove supplementation benefit.' },
-      { year:2023, title:'MOTS-c administration improves insulin sensitivity and exercise capacity in aging mice', journal:'Cell Reports', finding:'Exogenous MOTS-c improved insulin-stimulated glucose uptake 2.3×, increased VO2max 18%, and reduced age-related skeletal muscle atrophy.', tags:['animal'], details:'Aging mouse model · 4 weeks · IP MOTS-c 15mg/kg · 18-month-old C57BL/6 mice. Mechanism: MOTS-c activates AMPK pathway, improves mitochondrial biogenesis, enhances glucose transport via GLUT4. No human clinical trials published yet — entirely preclinical stage for therapeutic use.' }
+      { year:2006, title:"Prolonged stimulation of GH and IGF-I secretion by CJC-1295, a long-acting analog of GH-releasing hormone, in healthy adults", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"One injection raised GH 2-10 fold for 6+ days and IGF-1 1.5-3 fold for 9-11 days; half-life 5.8-8.1 days.", tags:["human","rct"], details:"Two randomized, placebo-controlled dose-escalation trials · healthy adults 21-61 · no serious adverse reactions. This is the DAC version.", pmid:"16352683" }
     ]
   },
   {
-    peptide: 'SS-31 (Elamipretide)', cat: 'long',
+    peptide: "Ipamorelin", cat: "muscle",
     studies: [
-      { year:2024, title:'Elamipretide in heart failure with reduced ejection fraction (PROGRESS-HF) — Phase 2', journal:'JACC: Heart Failure', finding:'4-week elamipretide SC significantly improved 6-minute walk distance (+21m), NYHA class, and mitochondrial respiration markers vs placebo.', tags:['human','rct'], details:'n=71 · 4 weeks · Elamipretide 40mg SC daily · HFrEF patients (EF ≤40%). SS-31 (Szeto-Schiller peptide 31) is a cardiolipin-binding tetrapeptide targeting inner mitochondrial membrane. Mechanism: restores cristae architecture, improves electron transport chain efficiency. Sponsored by Stealth BioTherapeutics — Phase 3 trial results pending.' },
-      { year:2023, title:'SS-31 reverses age-related mitochondrial dysfunction in human skeletal muscle', journal:'Aging Cell', finding:'Ex vivo treatment of aged human muscle biopsies with SS-31 restored mitochondrial membrane potential, ATP production, and reduced ROS to young-muscle levels.', tags:['human','in-vitro'], details:'Ex vivo · Human muscle biopsies from donors aged 20–75 · SS-31 1μM in culture medium · Mitochondrial membrane potential measured by JC-1 fluorescence. ATP production via Seahorse assay. ROS levels by MitoSOX. Important caveat: ex vivo cell treatment ≠ in vivo systemic administration — clinical translation unconfirmed.' }
+      { year:2014, title:"Randomized, controlled, proof-of-concept study of the ghrelin mimetic ipamorelin for postoperative ileus", journal:"International Journal of Colorectal Disease", finding:"Well tolerated, but did not significantly speed recovery of gut function after bowel surgery (25.3 vs 32.6 h to first meal, p=0.15).", tags:["human","rct"], details:"Phase 2 · n=114 · IV 0.03 mg/kg twice daily for up to 7 days.", pmid:"25331030" },
+      { year:1998, title:"Ipamorelin, the first selective growth hormone secretagogue", journal:"European Journal of Endocrinology", finding:"Released GH as strongly as GHRP-6 without raising cortisol or ACTH — the reason it is called 'selective'.", tags:["animal","in-vitro"], details:"Rat pituitary cells, rats and swine.", pmid:"9849822" }
     ]
   },
   {
-    peptide: 'Kisspeptin-10', cat: 'sex',
+    peptide: "Sermorelin (GHRH 1-29)", cat: "muscle",
     studies: [
-      { year:2023, title:'Kisspeptin-10 stimulates LH pulsatility and testosterone in men with functional hypogonadotropic hypogonadism', journal:'Journal of Clinical Endocrinology & Metabolism', finding:'IV kisspeptin-10 restored LH pulse frequency and increased serum testosterone by 2.3-fold in men with hypothalamic hypogonadism; maintained HPG responsiveness.', tags:['human','rct'], details:'n=18 · 8-hour infusion protocol · IV kisspeptin-10 vs saline · Men with confirmed FHH (low LH, low testosterone, no structural hypothalamic lesion). Kisspeptin acts on GnRH neurons upstream in HPG axis. Mechanism: KISS1R activation → GnRH pulse → LH → testosterone. Suggests therapeutic role in hypogonadal men without pituitary damage.' },
-      { year:2022, title:'Kisspeptin infusion in women with hypothalamic amenorrhea — restoration of pulsatile GnRH secretion', journal:'Human Reproduction', finding:'Continuous SC kisspeptin-54 infusion restored menstrual cyclicity in 7/9 women with hypothalamic amenorrhea; LH pulsatility normalized within 72 hours.', tags:['human','rct'], details:'n=9 · 8-week SC infusion · Kisspeptin-54 (longer isoform) · Women with hypothalamic amenorrhea (exercise/stress/weight-loss induced). LH pulsatility monitored by 10-minute blood sampling. 7/9 restored normal menstrual cycling. First evidence that exogenous kisspeptin can reactivate the HPG axis in functional amenorrhea.' }
+      { year:2012, title:"Effects of growth hormone-releasing hormone on cognitive function in adults with mild cognitive impairment and healthy older adults", journal:"Archives of Neurology", finding:"20 weeks of GHRH improved executive function in both MCI and healthy older adults, raised IGF-1 117% and cut body fat 7.4%.", tags:["human","rct"], details:"Placebo-controlled (tesamorelin-type GHRH analogue) · adverse events mild.", pmid:"22869065" },
+      { year:1997, title:"Endocrine and metabolic effects of long-term administration of [Nle27]GHRH-(1-29)-NH2 in age-advanced men and women", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"Nightly GHRH for 4 months increased skin thickness in both sexes; lean mass, insulin sensitivity, well-being and libido improved in men only.", tags:["human","rct"], details:"Age-advanced adults · only side effect was transient high lipids.", pmid:"9141536" },
+      { year:1997, title:"Effects of [Nle27]GHRH(1-29)-NH2 administration on the immune system of aging men and women", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"Over 16 weeks, B-cells rose 30% and T-cell activity rose ~50% in older adults.", tags:["human","rct"], details:"Single-blind, placebo-controlled · no adverse effects reported.", pmid:"9360512" }
     ]
   },
   {
-    peptide: 'NAD+', cat: 'long',
+    peptide: "GHRP-2", cat: "muscle",
     studies: [
-      { year:2024, title:'Nicotinamide riboside supplementation and aging biomarkers — 24-week double-blind RCT', journal:'Nature Aging', finding:'NR 1000 mg/day increased NAD+ metabolome 40%, improved muscle mitochondrial function, and reduced senescence-associated secretory phenotype (SASP) markers.', tags:['human','rct'], details:'n=96 · 24 weeks · Nicotinamide Riboside 1000mg/day oral vs placebo · Adults 55–80. NAD+ measured in whole blood and muscle biopsy. SASP cytokine panel (IL-6, TNF-α, GDF15) reduced. NR is an NAD+ precursor (not strictly a peptide — included for longevity relevance). Clinical significance of SASP reduction at these levels unknown.' },
-      { year:2023, title:'IV NAD+ infusion pharmacokinetics and muscle NAD+ repletion in aging adults', journal:'Cell Metabolism', finding:'IV NAD+ produced 6.5× greater muscle NAD+ repletion vs oral supplementation; rapid normalization of NAD+/NADH ratio in elderly subjects.', tags:['human'], details:'n=24 · Single-dose PK study · IV NAD+ 500mg vs oral NR 1000mg · Healthy adults 60–75. Muscle biopsies at 2h and 24h post-dose. IV route bypasses intestinal absorption and first-pass metabolism. Important for understanding why IV NAD+ clinics report more acute effects than oral supplementation.' }
+      { year:2024, title:"Robust growth hormone responses to GH-releasing peptide 2 in adolescents", journal:"Journal of Pediatric Endocrinology & Metabolism", finding:"GHRP-2 triggered very large GH peaks (~90 ng/mL) in adolescents without organic GH deficiency.", tags:["human"], details:"Retrospective review, n=23 · used as a diagnostic GH stimulation test in Japan.", pmid:"38958228" },
+      { year:2005, title:"Growth hormone releasing peptide-2 (GHRP-2), like ghrelin, increases food intake in healthy men", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"Subjects ate 36% more at a buffet during GHRP-2 infusion — it raises appetite like ghrelin.", tags:["human"], details:"n=7 lean healthy men · GH rose >10-fold.", pmid:"15699539" }
     ]
   },
   {
-    peptide: 'Ipamorelin / CJC-1295', cat: 'muscle',
+    peptide: "GHRP-6", cat: "muscle",
     studies: [
-      { year:2024, title:'Growth hormone secretagogue receptor agonists — efficacy and safety in age-related GH decline: systematic review', journal:'Journal of Clinical Endocrinology & Metabolism', finding:'GHRPs including ipamorelin produced consistent GH pulse amplification with minimal cortisol or prolactin elevation; favorable safety profile vs exogenous HGH.', tags:['human'], details:'Systematic review of 14 trials · Adults 40–75 · SC GHRP protocols · Ipamorelin identified as the most selective GHRP with least off-target receptor activity. CJC-1295 DAC produced sustained elevated GH levels over 14 days. Combination of GHRH + GHRP produces synergistic GH release 2–10× that of either alone. All studies note no IGF-1 normalization comparable to pharmaceutical HGH.' },
-      { year:2023, title:'Sermorelin and ipamorelin combination in middle-aged adults — body composition and sleep outcomes', journal:'Growth Hormone & IGF Research', finding:'12-week GHRH/GHRP combination improved lean mass +2.1 kg, reduced visceral fat area 11%, and significantly improved sleep architecture (slow-wave sleep duration).', tags:['human'], details:'n=56 · 12 weeks · SC Sermorelin + Ipamorelin 2×/day · Adults 45–65 with documented low IGF-1. Sleep benefit attributed to GH pulse timing overnight. Lean mass preserved; fat mass reduced particularly in abdominal region. IGF-1 rose from 98 to 187 ng/mL mean. No adverse events.' }
+      { year:2026, title:"Phase III open-label randomized trial of EGF and GHRP-6 in acute ischemic stroke (COURAGE-2)", journal:"Journal of Clinical Neuroscience", finding:"No overall benefit on disability or survival; patients with severe strokes showed reduced disability at 6 months.", tags:["human","rct"], details:"n=188 · IV EGF + GHRP-6 twice daily for 7 days · no treatment-related serious adverse events.", pmid:"42462342" },
+      { year:2024, title:"GHRP-6 prevents doxorubicin-induced myocardial and extra-myocardial damages by activating prosurvival mechanisms", journal:"Frontiers in Pharmacology", finding:"Protected rat hearts and other organs from chemotherapy toxicity and reduced mortality.", tags:["animal"], details:"Preserved heart function, mitochondria and antioxidant defences.", pmid:"38873418" },
+      { year:2006, title:"Use of GHRP-6 for the prevention of multiple organ failure", journal:"Clinical Science", finding:"Cut liver and gut damage 50-85% in a rat ischaemia-reperfusion model; tripled gut-cell migration in vitro.", tags:["animal","in-vitro"], details:"Extra benefit when combined with EGF.", pmid:"16417467" }
     ]
   },
   {
-    peptide: 'Thymosin Alpha-1', cat: 'immune',
+    peptide: "Hexarelin", cat: "muscle",
     studies: [
-      { year:2024, title:'Thymosin alpha-1 in post-COVID immune dysregulation — randomized controlled pilot trial', journal:'Frontiers in Immunology', finding:'Thymosin Alpha-1 1.6mg SC twice weekly for 4 weeks significantly restored NK cell activity, T-cell subsets, and reduced inflammatory cytokines (IL-6, TNF-α) in long-COVID patients.', tags:['human','rct'], details:'n=48 · 4 weeks · Thymalfasin (Thymosin Alpha-1) 1.6mg SC 2×/week vs placebo · Long-COVID patients with persistent immune dysregulation >6 months. CD4/CD8 ratio normalized. NK cell cytotoxicity improved 40%. Approved in 40+ countries for HBV/HCV and cancer immunotherapy support. Well-established safety profile.' },
-      { year:2023, title:'Thymosin alpha-1 adjuvant therapy in hepatocellular carcinoma — systematic review and meta-analysis', journal:'Cancer Immunology and Immunotherapy', finding:'Meta-analysis of 18 RCTs shows Thymosin Alpha-1 as adjuvant to standard treatment significantly improved 1-year survival (OR 1.78) and immune response markers vs control.', tags:['human','rct'], details:'18 RCTs · n=2,847 · Thymalfasin 1.6mg SC 2×/week · HCC patients receiving TACE or other liver cancer treatments. Mechanism: upregulates MHC class I expression, enhances dendritic cell maturation, activates NK and T-cytotoxic cells. Approved in China and many Asian countries for this indication.' }
+      { year:2023, title:"Hexarelin alleviates apoptosis on ischemic acute kidney injury via MDM2/p53 pathway", journal:"European Journal of Medical Research", finding:"Pre-treatment protected rat kidneys from ischaemic injury and reduced cell death.", tags:["animal","in-vitro"], details:"100 µg/kg/day for 7 days before injury.", pmid:"37710348" },
+      { year:2014, title:"The cardiovascular action of hexarelin", journal:"Journal of Geriatric Cardiology", finding:"Review: hexarelin has direct heart-protective effects via its CD36 receptor, beyond GH release.", tags:["review"], details:"More chemically stable and potent than ghrelin.", pmid:"25278975" }
+    ]
+  },
+
+  // ═════════ HEALING & REPAIR ═════════
+  {
+    peptide: "BPC-157", cat: "heal",
+    studies: [
+      { year:2025, title:"Emerging Use of BPC-157 in Orthopaedic Sports Medicine: A Systematic Review", journal:"HSS Journal", finding:"36 studies (1993-2024): consistent healing benefits for muscle, tendon, ligament and bone in animals, but no clinical safety data in humans.", tags:["review"], details:"Authors warn about unregulated manufacturing/contamination and that BPC-157 is banned in professional sport.", pmid:"40756949" },
+      { year:2021, title:"Intra-Articular Injection of BPC 157 for Multiple Types of Knee Pain", journal:"Alternative Therapies in Health and Medicine", finding:"14 of 16 patients (87.5%) reported knee-pain relief after BPC-157 (± TB-4) injections.", tags:["human"], details:"Small retrospective case series, no control group — the only published human BPC-157 data on joints.", pmid:"34324435" }
     ]
   },
   {
-    peptide: 'PT-141 (Bremelanotide)', cat: 'sex',
+    peptide: "TB-500 (Thymosin Beta-4)", cat: "heal",
     studies: [
-      { year:2024, title:'Bremelanotide real-world outcomes in female hypoactive sexual desire disorder — post-marketing study', journal:'Journal of Sexual Medicine', finding:'Real-world use of 1.75mg SC bremelanotide showed meaningful improvement in sexual desire, arousal, and distress scores in 68% of HSDD patients; tolerable nausea profile with pre-treatment antiemetic.', tags:['human'], details:'n=412 · 6 months real-world observation · SC bremelanotide 1.75mg PRN · Women 18–55 with DSM-5 confirmed HSDD. FDA-approved since 2019 (Vyleesi). Nausea primary side effect — reduced significantly with ondansetron 4mg prophylaxis. Blood pressure transient rise of ~6 mmHg for ~12 hours noted.' },
-      { year:2022, title:'Melanocortin receptor agonism in male erectile dysfunction refractory to PDE5 inhibitors', journal:'International Journal of Impotence Research', finding:'PT-141 2mg SC produced clinically significant erectile responses in 57% of men who failed sildenafil/tadalafil; central mechanism complements peripheral PDE5 action.', tags:['human','rct'], details:'n=78 · PT-141 (Bremelanotide) 1.5–2mg SC vs placebo · Men with PDE5-refractory ED. Central mechanism: hypothalamic melanocortin-4 receptor (MC4R) activation drives arousal cascade independent of vascular NO pathway. Significant for neurogenic or psychogenic ED component. No cardiac contraindications unlike PDE5i.' }
+      { year:2025, title:"Recombinant human thymosin beta 4 improves ischemic cardiac dysfunction in mice and patients with acute STEMI after reperfusion", journal:"Cardiovascular Research", finding:"In a 96-patient RCT, infarct size was smaller when Tβ4 was given within 8 h of stenting; the overall difference was not significant.", tags:["human","rct","animal"], details:"Mouse work points to an ErbB2-dependent mechanism.", pmid:"41229390" },
+      { year:2015, title:"Thymosin beta 4 ophthalmic solution for dry eye: a randomized, placebo-controlled phase II trial", journal:"Clinical Ophthalmology", finding:"Primary endpoints missed, but discomfort fell 27% and corneal staining improved vs placebo; no adverse events.", tags:["human","rct"], details:"n=72 · 0.1% eye drops (RGN-259) for 28 days.", pmid:"26056426" },
+      { year:2010, title:"Treatment of chronic nonhealing neurotrophic corneal epithelial defects with thymosin beta4", journal:"Annals of the New York Academy of Sciences", finding:"6 of 9 patients with chronic non-healing corneal ulcers showed dramatic healing.", tags:["human"], details:"Compassionate-use case series · eye drops for 28-49 days.", pmid:"20536469" }
     ]
   },
   {
-    peptide: 'Sermorelin', cat: 'muscle',
+    peptide: "KPV", cat: "heal",
     studies: [
-      { year:2023, title:'Sermorelin therapy in adults with GH deficiency — 6-month double-blind study', journal:'Endocrine Practice', finding:'Sermorelin 0.3mg SC daily for 6 months increased IGF-1 by 47%, improved bone mineral density 2.1%, and produced meaningful improvements in body composition and quality-of-life measures.', tags:['human','rct'], details:'n=66 · 6 months · Sermorelin 0.3mg SC nightly vs placebo · Adults 40–65 with documented low IGF-1 (<150 ng/mL). Sermorelin acts on pituitary GHRH receptor; preserves pituitary feedback loops unlike exogenous HGH. FDA-approved for pediatric GHD; widely used off-label in adults. Lower cost than HGH with comparable benefit profile in many studies.' }
+      { year:2017, title:"Orally targeted delivery of tripeptide KPV via hyaluronic acid-functionalized nanoparticles efficiently alleviates ulcerative colitis", journal:"Molecular Therapy", finding:"Oral KPV nanoparticles sped mucosal healing and reduced inflammation (TNF-α) in mouse colitis.", tags:["animal","in-vitro"], details:"Targeted colon cells and macrophages · no human trials.", pmid:"28143741" },
+      { year:2010, title:"Drug-loaded nanoparticles targeted to the colon with polysaccharide hydrogel reduce colitis in a mouse model", journal:"Gastroenterology", finding:"KPV nanoparticles protected mice from colitis at a dose 12,000-fold lower than free KPV.", tags:["animal","in-vitro"], details:"DSS colitis model.", pmid:"19909746" }
     ]
   },
   {
-    peptide: 'FOXO4-DRI', cat: 'long',
+    peptide: "LL-37", cat: "heal",
     studies: [
-      { year:2023, title:'Targeted clearance of p21-high senescent cells with FOXO4-DRI restores physical function in aged mice', journal:'Nature Medicine', finding:'FOXO4-DRI treatment cleared p21-high senescent cells in aged mice, restoring renal function, physical fitness, and fur density; no toxicity to non-senescent cells observed.', tags:['animal'], details:'Aged BALB/c mice · 3-day pulsed protocol · IP FOXO4-DRI 5mg/kg · FOXO4-DRI is a modified FOXO4 peptide that disrupts FOXO4-p53 interaction in senescent cells, triggering apoptosis. Non-senescent cells unaffected. Physical function measured by treadmill exhaustion tests. No published human trials. Entirely preclinical — high excitement but zero human safety/efficacy data.' }
+      { year:2021, title:"Evaluation of LL-37 in healing of hard-to-heal venous leg ulcers (HEAL LL-37)", journal:"Wound Repair and Regeneration", finding:"Phase 2b: no significant healing benefit overall; a subgroup with large ulcers (≥10 cm²) improved.", tags:["human","rct"], details:"n=148 · topical 0.5 or 1.6 mg/mL + compression · safe and well tolerated.", pmid:"34687253" },
+      { year:2014, title:"Treatment with LL-37 is safe and effective in enhancing healing of hard-to-heal venous leg ulcers", journal:"Wound Repair and Regeneration", finding:"First-in-human: the two lower doses healed ulcers 3-6x faster than placebo (ulcer area -68% and -50%).", tags:["human","rct"], details:"n=34 · 4 weeks · the highest dose did not help.", pmid:"25041740" }
+    ]
+  },
+  {
+    peptide: "Abaloparatide", cat: "heal",
+    studies: [
+      { year:2018, title:"ACTIVExtend: 24 months of alendronate after 18 months of abaloparatide or placebo", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"Over 43 months, new vertebral fractures were 0.9% vs 5.6% — an 84% relative risk reduction.", tags:["human","rct"], details:"n=1,139 · BMD gains continued after switching to alendronate.", pmid:"29800372" },
+      { year:2016, title:"Effect of Abaloparatide vs Placebo on New Vertebral Fractures in Postmenopausal Women With Osteoporosis (ACTIVE)", journal:"JAMA", finding:"Reduced new vertebral and non-vertebral fractures over 18 months; less hypercalcemia than teriparatide (3.4% vs 6.4%).", tags:["human","rct"], details:"n=2,463 · phase 3 · daily 80 µg injection · basis for FDA approval.", pmid:"27533157" }
+    ]
+  },
+  {
+    peptide: "Teriparatide", cat: "heal",
+    studies: [
+      { year:2013, title:"Teriparatide and denosumab, alone or combined, in women with postmenopausal osteoporosis: the DATA study", journal:"The Lancet", finding:"The combination raised spine BMD 9.1% in 12 months — more than either drug alone (6.2% and 5.5%).", tags:["human","rct"], details:"n=94 completers.", pmid:"23683600" },
+      { year:2001, title:"Effect of parathyroid hormone (1-34) on fractures and bone mineral density in postmenopausal women with osteoporosis", journal:"New England Journal of Medicine", finding:"The landmark trial: vertebral fractures fell ~65% and non-vertebral fractures ~53%; spine BMD rose 9-13 points more than placebo.", tags:["human","rct"], details:"n=1,637 women with prior vertebral fractures · 20 or 40 µg daily.", pmid:"11346808" }
+    ]
+  },
+
+  // ═════════ SKIN & HAIR ═════════
+  {
+    peptide: "GHK-Cu", cat: "skin",
+    studies: [
+      { year:2025, title:"Topically applied GHK as an anti-wrinkle peptide: Advantages, problems and prospective", journal:"BioImpacts", finding:"GHK clearly works in cell studies, but there is a 'surprising absence' of clinical trials and skin penetration is a real hurdle.", tags:["review"], details:"Reviews delivery tricks (copper complexing, palmitoylation, microneedles) to improve absorption.", pmid:"39963574" },
+      { year:2018, title:"Regenerative and Protective Actions of the GHK-Cu Peptide in the Light of the New Gene Data", journal:"International Journal of Molecular Sciences", finding:"Review: GHK boosts collagen, elastin, blood-vessel and nerve growth and regulates many repair-related genes.", tags:["review"], details:"By Pickart, who discovered GHK · mostly cell and animal data.", pmid:"29986520" }
+    ]
+  },
+  {
+    peptide: "AHK-Cu", cat: "skin",
+    studies: [
+      { year:2007, title:"The effect of tripeptide-copper complex on human hair growth in vitro", journal:"Archives of Pharmacal Research", finding:"AHK-Cu lengthened human hair follicles in culture and boosted dermal papilla cell growth.", tags:["in-vitro"], details:"Isolated human follicles · no clinical trials published.", pmid:"17703734" }
+    ]
+  },
+  {
+    peptide: "Melanotan I (Afamelanotide)", cat: "skin",
+    studies: [
+      { year:2015, title:"Afamelanotide for Erythropoietic Protoporphyria", journal:"New England Journal of Medicine", finding:"Patients with severe sun-sensitivity got more pain-free time in sunlight and better quality of life.", tags:["human","rct"], details:"Two phase 3 trials (US and EU) · implant · basis for approval (Scenesse).", pmid:"26132941" },
+      { year:2015, title:"Afamelanotide and narrowband UV-B phototherapy for the treatment of vitiligo", journal:"JAMA Dermatology", finding:"Combination re-pigmented skin faster and more (48.6% vs 33.3% at day 168) than phototherapy alone.", tags:["human","rct"], details:"Best response in darker skin types (IV-VI).", pmid:"25230094" }
+    ]
+  },
+  {
+    peptide: "SNAP-8 / Argireline", cat: "skin",
+    studies: [
+      { year:2013, title:"The anti-wrinkle efficacy of Argireline", journal:"Journal of Cosmetic and Laser Therapy", finding:"Argireline (the hexapeptide SNAP-8 extends) improved skin structure and type I collagen in aged mice; earlier human work showed wrinkle reduction.", tags:["animal"], details:"No peer-reviewed trials of SNAP-8 itself were found — evidence is borrowed from Argireline.", pmid:"23464592" }
+    ]
+  },
+  {
+    peptide: "PP405", cat: "skin",
+    studies: [
+      { year:2017, title:"Lactate dehydrogenase activity drives hair follicle stem cell activation", journal:"Nature Cell Biology", finding:"The science behind PP405: raising lactate production in dormant hair-follicle stem cells switches on a new hair cycle in mice.", tags:["animal"], details:"PP405's own human results so far are company announcements, not peer-reviewed publications.", pmid:"28812580" }
+    ]
+  },
+
+  // ═════════ COGNITIVE ═════════
+  {
+    peptide: "Semax", cat: "cog",
+    studies: [
+      { year:2025, title:"Semax peptide targets the μ opioid receptor gene Oprm1 to promote recovery after spinal cord injury in female mice", journal:"British Journal of Pharmacology", finding:"Improved functional recovery after spinal-cord injury and reduced neuron death by lowering oxidative stress.", tags:["animal","in-vitro"], details:"Identified the µ-opioid receptor as a Semax target.", pmid:"40692165" },
+      { year:2018, title:"The efficacy of Semax in the treatment of patients at different stages of ischemic stroke", journal:"Zhurnal Nevrologii i Psikhiatrii", finding:"In 110 stroke patients, Semax raised blood BDNF and sped motor recovery and daily-function (Barthel) scores.", tags:["human"], details:"Russian clinical study · not double-blind placebo-controlled.", pmid:"29798983" }
+    ]
+  },
+  {
+    peptide: "Selank", cat: "cog",
+    studies: [
+      { year:2022, title:"Selank, a peptide analog of tuftsin, attenuates aversive signs of morphine withdrawal in rats", journal:"Bulletin of Experimental Biology and Medicine", finding:"Reduced morphine-withdrawal severity by ~40%, close to diazepam.", tags:["animal"], details:"Single 0.3 mg/kg dose.", pmid:"36322304" },
+      { year:2008, title:"Efficacy and mechanisms of the peptide anxiolytic Selank in generalized anxiety disorder and neurasthenia", journal:"Zhurnal Nevrologii i Psikhiatrii", finding:"Anti-anxiety effect similar to medazepam, with added anti-fatigue and stimulant effects.", tags:["human","rct"], details:"n=62 · comparison with medazepam (no placebo) · linked to enkephalin levels.", pmid:"18454096" }
+    ]
+  },
+  {
+    peptide: "Cerebrolysin", cat: "cog",
+    studies: [
+      { year:2026, title:"Cerebrolysin as an adjunct to mechanical thrombectomy in acute ischemic stroke: meta-analysis", journal:"Brain and Behavior", finding:"Pooled data suggest better recovery, less brain bleeding and lower mortality — but only 3 small observational studies.", tags:["human","meta"], details:"n=294 · authors call for randomized trials.", pmid:"41880098" },
+      { year:2017, title:"Cerebrolysin for acute ischaemic stroke (Cochrane review)", journal:"Cochrane Database of Systematic Reviews", finding:"6 RCTs (1,501 people) showed no clear benefit on death or dependence, and more non-fatal serious adverse events.", tags:["human","meta"], details:"Moderate-quality evidence.", pmid:"28430363" },
+      { year:2015, title:"Cerebrolysin in mild-to-moderate Alzheimer's disease: a meta-analysis of RCTs", journal:"Dementia and Geriatric Cognitive Disorders", finding:"Improved cognition at 4 weeks and global clinical change at 6 months vs placebo, with similar safety.", tags:["human","meta"], details:"6 double-blind RCTs · 30 mL/day.", pmid:"25832905" }
+    ]
+  },
+  {
+    peptide: "DSIP (Delta Sleep-Inducing Peptide)", cat: "cog",
+    studies: [
+      { year:2021, title:"Delta Sleep-Inducing Peptide Recovers Motor Function in SD Rats after Focal Stroke", journal:"Molecules", finding:"Intranasal DSIP sped motor recovery after stroke in rats (infarct size not significantly smaller).", tags:["animal"], details:"8 days of treatment.", pmid:"34500605" },
+      { year:2006, title:"Delta sleep-inducing peptide (DSIP): a still unresolved riddle", journal:"Journal of Neurochemistry", finding:"Review: despite its name, the link between DSIP and sleep is 'extremely poorly documented and still weak'; no gene or receptor has been found.", tags:["review"], details:"Useful reality check on DSIP claims.", pmid:"16539679" }
+    ]
+  },
+  {
+    peptide: "PE-22-28", cat: "cog",
+    studies: [
+      { year:2017, title:"Shortened Spadin Analogs Display Better TREK-1 Inhibition, In Vivo Stability and Antidepressant Activity", journal:"Frontiers in Pharmacology", finding:"PE 22-28 blocked the TREK-1 channel far more potently than spadin, worked as an antidepressant in mice within 4 days and lasted ~23 h.", tags:["animal","in-vitro"], details:"Also boosted neurogenesis and synapse formation · no human trials.", pmid:"28955242" }
+    ]
+  },
+  {
+    peptide: "Pinealon", cat: "cog",
+    studies: [
+      { year:2012, title:"Pinealon protects the rat offspring from prenatal hyperhomocysteinemia", journal:"International Journal of Clinical and Experimental Medicine", finding:"Pups of treated mothers learned better and their neurons resisted oxidative stress.", tags:["animal"], details:"Rat pregnancy model.", pmid:"22567179" },
+      { year:2011, title:"Pinealon increases cell viability by suppression of free radical levels and activating proliferative processes", journal:"Rejuvenation Research", finding:"Reduced free-radical build-up and cell death in nerve and immune cells.", tags:["in-vitro"], details:"Tripeptide Glu-Asp-Arg.", pmid:"21978084" }
+    ]
+  },
+
+  // ═════════ IMMUNE ═════════
+  {
+    peptide: "Thymosin Alpha-1", cat: "immune",
+    studies: [
+      { year:2025, title:"The efficacy and safety of thymosin α1 for sepsis (TESTS): multicentre, double-blinded, randomised, placebo-controlled phase 3 trial", journal:"BMJ", finding:"Negative trial: no reduction in 28-day mortality in sepsis (23.4% vs 24.1%).", tags:["human","rct"], details:"n=1,106 · 22 centres in China · possible benefit in older patients and diabetics needs testing.", pmid:"39814420" },
+      { year:2023, title:"The efficacy of thymosin alpha-1 therapy in moderate to critical COVID-19: systematic review and meta-analysis", journal:"Inflammopharmacology", finding:"Pooled data from 8 studies linked Tα1 to lower COVID-19 mortality (RR 0.59), with no difference in ventilation or hospital stay.", tags:["human","meta"], details:"Mostly observational, high heterogeneity — RCTs needed.", pmid:"37845598" },
+      { year:2022, title:"Immune enhancement in predicted severe acute necrotising pancreatitis: a multicentre double-blind RCT", journal:"Intensive Care Medicine", finding:"Did not reduce infected pancreatic necrosis (15.7% vs 18.1%).", tags:["human","rct"], details:"n=508 · 1.6 mg every 12 h for 7 days then daily.", pmid:"35713670" }
+    ]
+  },
+  {
+    peptide: "Thymulin", cat: "immune",
+    studies: [
+      { year:2026, title:"Thymulin restrains age-associated myeloid inflammation and enhances cancer immunotherapy", journal:"Nature Communications", finding:"Thymulin, which declines with age, suppressed age-related inflammation and improved tumour control and anti-PD-L1 response in older mice.", tags:["animal"], details:"Also found the inflammatory immune-cell pattern in aged humans.", pmid:"42481458" },
+      { year:2014, title:"Physiology and therapeutic potential of the thymic peptide thymulin", journal:"Current Pharmaceutical Design", finding:"Review of thymulin's anti-inflammatory, pain-relieving and neuroendocrine roles.", tags:["review"], details:"Includes gene-therapy approaches.", pmid:"24588820" }
+    ]
+  },
+  {
+    peptide: "VIP (Aviptadil)", cat: "immune",
+    studies: [
+      { year:2023, title:"Intravenous aviptadil and remdesivir for COVID-19 hypoxaemic respiratory failure (TESICO)", journal:"Lancet Respiratory Medicine", finding:"Negative NIH trial: aviptadil did not improve outcomes at day 90 (38% vs 36% died).", tags:["human","rct"], details:"n=461, mostly in ICU.", pmid:"37348524" },
+      { year:2022, title:"IV vasoactive intestinal peptide (aviptadil) in critical COVID-19 respiratory failure: 60-day RCT", journal:"Critical Care Medicine", finding:"Primary endpoint missed, but 60-day survival odds doubled (OR 2.0).", tags:["human","rct"], details:"Company-sponsored · conflicting result with the larger TESICO trial.", pmid:"36044317" },
+      { year:2008, title:"Vasoactive intestinal polypeptide/phentolamine for intracavernosal injection in erectile dysfunction", journal:"BJU International", finding:"VIP + phentolamine injection works in ≥80% of men with ED, with very little pain or priapism risk.", tags:["review"], details:"Marketed as Invicorp.", pmid:"18485029" }
+    ]
+  },
+  {
+    peptide: "Thymogen (Glu-Trp)", cat: "immune",
+    studies: [
+      { year:2000, title:"Immunomodulatory synthetic dipeptide L-Glu-L-Trp slows down aging and inhibits spontaneous carcinogenesis in rats", journal:"Biogerontology", finding:"Treated rats had longer maximum lifespan and 1.5x fewer tumours (3.4x fewer leukemias/lymphomas).", tags:["animal"], details:"n=76 female rats, 12 months of injections.", pmid:"11707921" }
+    ]
+  },
+  {
+    peptide: "PNC-27", cat: "immune",
+    studies: [
+      { year:2025, title:"HDM-2-Targeting Peptide PNC-27 Kills Cervical Cancer Cells but not Normal Cervical Cells", journal:"Annals of Clinical & Laboratory Science", finding:"Killed cervical cancer cells at low doses while sparing normal cervical cells.", tags:["in-vitro"], details:"Cell-culture only.", pmid:"40750238" },
+      { year:2010, title:"Anticancer peptide PNC-27 adopts an HDM-2-binding conformation and kills cancer cells by binding to HDM-2 in their membranes", journal:"PNAS", finding:"Explained the selectivity: cancer cells carry HDM-2 in their membranes; PNC-27 binds it and punches holes in the cell.", tags:["in-vitro"], details:"No human trials published.", pmid:"20080680" }
+    ]
+  },
+
+  // ═════════ LONGEVITY ═════════
+  {
+    peptide: "SS-31 (Elamipretide)", cat: "long",
+    studies: [
+      { year:2026, title:"Elamipretide: First Approval", journal:"Drugs", finding:"In September 2025 elamipretide (Forzinity) got US accelerated approval to improve muscle strength in Barth syndrome — the first approved SS-31 drug.", tags:["review"], details:"Patients ≥30 kg · phase 3 in dry AMD and mitochondrial myopathy.", pmid:"41335372" },
+      { year:2024, title:"Long-term efficacy and safety of elamipretide in Barth syndrome: 168-week TAZPOWER extension", journal:"Genetics in Medicine", finding:"6-minute walk improved by 96 m over 168 weeks; fatigue and heart function improved.", tags:["human"], details:"Open-label, n=10 · 40 mg daily · mainly injection-site reactions.", pmid:"38602181" },
+      { year:2023, title:"Efficacy and Safety of Elamipretide in Primary Mitochondrial Myopathy: The MMPOWER-3 RCT", journal:"Neurology", finding:"Negative phase 3: did not improve walking distance or fatigue at 24 weeks, though well tolerated.", tags:["human","rct"], details:"Class I evidence of no benefit in this population.", pmid:"37268435" }
+    ]
+  },
+  {
+    peptide: "MOTS-c", cat: "long",
+    studies: [
+      { year:2026, title:"MOTS-c improves intrinsic muscle mitochondrial bioenergetic health and efficiency in a PGC-1α/AMPK-dependent manner", journal:"Free Radical Biology and Medicine", finding:"Improved muscle mitochondrial efficiency and lowered oxidative stress in mice.", tags:["animal","human"], details:"Human exercise data suggested muscle may not be the source of circulating MOTS-c.", pmid:"41520850" },
+      { year:2024, title:"MOTS-c modulates skeletal muscle function by directly binding and activating CK2", journal:"iScience", finding:"Prevented muscle atrophy and boosted glucose uptake in mice; men carrying a weaker natural MOTS-c variant had higher sarcopenia and diabetes risk.", tags:["animal","human"], details:"Identified CK2 as MOTS-c's direct target.", pmid:"39559755" },
+      { year:2021, title:"MOTS-c is an exercise-induced mitochondrial-encoded regulator of age-dependent physical decline and muscle homeostasis", journal:"Nature Communications", finding:"Boosted physical performance in young, middle-aged and old mice; late-life dosing 3x/week improved healthspan.", tags:["animal","human"], details:"Exercise raises MOTS-c in human muscle and blood.", pmid:"33473109" },
+      { year:2015, title:"The mitochondrial-derived peptide MOTS-c promotes metabolic homeostasis and reduces obesity and insulin resistance", journal:"Cell Metabolism", finding:"The discovery paper: MOTS-c prevented diet-induced obesity and insulin resistance in mice via AMPK.", tags:["animal","in-vitro"], details:"16-amino-acid peptide encoded in mitochondrial DNA.", pmid:"25738459" }
+    ]
+  },
+  {
+    peptide: "Epitalon", cat: "long",
+    studies: [
+      { year:2025, title:"Epitalon increases telomere length in human cell lines through telomerase upregulation or ALT activity", journal:"Biogerontology", finding:"Lengthened telomeres in normal human cells by switching on telomerase.", tags:["in-vitro"], details:"In breast-cancer cell lines it used a different route (ALT) — a reason for caution.", pmid:"40908429" },
+      { year:2025, title:"Overview of Epitalon — Highly Bioactive Pineal Tetrapeptide with Promising Properties", journal:"International Journal of Molecular Sciences", finding:"25 years of research suggest antioxidant, neuroprotective and geroprotective effects, but mechanisms remain uncertain.", tags:["review"], details:"Most evidence is cell/animal work from one research group.", pmid:"40141333" }
+    ]
+  },
+  {
+    peptide: "NAD+ (and precursors)", cat: "long",
+    studies: [
+      { year:2026, title:"IV NAD+ versus IV nicotinamide riboside: a retrospective tolerability pilot study in a real-world setting", journal:"Frontiers in Aging", finding:"IV NAD+ often caused GI symptoms, faster heart rate and chest pressure, needing ~97-min infusions; IV NR took ~37 min with milder effects.", tags:["human"], details:"Short-term safety labs unchanged · effectiveness not established.", pmid:"41704678" },
+      { year:2026, title:"Nicotinamide riboside supplementation in older adults with amnestic mild cognitive impairment: phase-II pilot RCT", journal:"Alzheimer's & Dementia", finding:"Doubled blood NAD+ but did not improve cognition over 12 weeks.", tags:["human","rct"], details:"n=42.", pmid:"42478598" },
+      { year:2023, title:"Efficacy and safety of NMN supplementation in healthy middle-aged adults: a dose-dependent RCT", journal:"GeroScience", finding:"NMN raised blood NAD+ and walking distance; 600 mg/day performed best and up to 900 mg/day was safe.", tags:["human","rct"], details:"n=80 · 60 days.", pmid:"36482258" },
+      { year:2019, title:"Changes in the human plasma and urine NAD+ metabolome during a 6-hour intravenous NAD infusion", journal:"Frontiers in Aging Neuroscience", finding:"Infused NAD+ vanished from the blood for the first 2 hours — it is broken down quickly.", tags:["human"], details:"Small pilot pharmacokinetic study.", pmid:"31572171" }
+    ]
+  },
+  {
+    peptide: "FOXO4-DRI", cat: "long",
+    studies: [
+      { year:2025, title:"The disordered p53 transactivation domain is the target of FOXO4 and the senolytic compound FOXO4-DRI", journal:"Nature Communications", finding:"Solved how FOXO4-DRI grabs p53 to trigger death of senescent cells.", tags:["in-vitro"], details:"Structural (NMR) study.", pmid:"40593617" },
+      { year:2021, title:"Senolytic Peptide FOXO4-DRI Selectively Removes Senescent Cells From in vitro Expanded Human Chondrocytes", journal:"Frontiers in Bioengineering and Biotechnology", finding:"Removed over half of senescent human cartilage cells in culture.", tags:["in-vitro"], details:"Did not improve cartilage formation itself.", pmid:"33996787" },
+      { year:2017, title:"Targeted Apoptosis of Senescent Cells Restores Tissue Homeostasis in Response to Chemotoxicity and Aging", journal:"Cell", finding:"The original FOXO4-DRI paper: restored fitness, fur density and kidney function in fast-aging and naturally old mice.", tags:["animal","in-vitro"], details:"No human trials.", pmid:"28340339" }
+    ]
+  },
+  {
+    peptide: "Glutathione", cat: "long",
+    studies: [
+      { year:2026, title:"Formulation-dependent differences in systemic glutathione availability: orally dissolving film vs tablet", journal:"European Journal of Pharmaceutics and Biopharmaceutics", finding:"Both forms raised blood glutathione over 4 weeks; the dissolving film trended toward higher exposure.", tags:["human","rct"], details:"Healthy adults · no change in oxidative-stress markers.", pmid:"42392376" },
+      { year:2015, title:"Randomized controlled trial of oral glutathione supplementation on body stores of glutathione", journal:"European Journal of Nutrition", finding:"1,000 mg/day for 6 months raised glutathione 30-35% in blood cells and doubled natural-killer cell activity.", tags:["human","rct"], details:"n=54 · levels fell back after a 1-month washout.", pmid:"24791752" }
+    ]
+  },
+
+  // ═════════ SEXUAL HEALTH ═════════
+  {
+    peptide: "PT-141 (Bremelanotide)", cat: "sex",
+    studies: [
+      { year:2022, title:"Safety Profile of Bremelanotide Across the Clinical Development Program", journal:"Journal of Women's Health", finding:"Across 3,500 people: nausea 40%, flushing 20%, headache 11%; small transient blood-pressure rises.", tags:["human","rct"], details:"Darkened skin patches mainly with daily dosing beyond label.", pmid:"35147466" },
+      { year:2019, title:"Bremelanotide for the Treatment of Hypoactive Sexual Desire Disorder: Two Randomized Phase 3 Trials (RECONNECT)", journal:"Obstetrics & Gynecology", finding:"Significantly increased desire and reduced related distress in premenopausal women.", tags:["human","rct"], details:"n=1,267 · 1.75 mg as needed · basis for FDA approval (Vyleesi).", pmid:"31599840" }
+    ]
+  },
+  {
+    peptide: "Kisspeptin", cat: "sex",
+    studies: [
+      { year:2026, title:"Chronic subcutaneous kisspeptin-10 stimulates gonadotropin secretion for 12 days in healthy men", journal:"European Journal of Endocrinology", finding:"Daily 8-hour infusions kept LH and testosterone raised for 12 days; continuous infusion lost its LH effect.", tags:["human","rct"], details:"Small placebo-controlled study · n=15 men.", pmid:"42549827" },
+      { year:2017, title:"Kisspeptin modulates sexual and emotional brain processing in humans", journal:"Journal of Clinical Investigation", finding:"Boosted brain responses to sexual and bonding images and lifted mood in young men.", tags:["human","rct"], details:"n=29 · fMRI.", pmid:"28112678" },
+      { year:2015, title:"Efficacy of Kisspeptin-54 to trigger oocyte maturation in women at high risk of OHSS during IVF", journal:"Journal of Clinical Endocrinology & Metabolism", finding:"Matured eggs in 95% of women with no moderate/severe OHSS; live birth rate 45% per transfer.", tags:["human","rct"], details:"Phase 2 · n=60.", pmid:"26192876" }
+    ]
+  },
+  {
+    peptide: "Melanotan II", cat: "sex",
+    studies: [
+      { year:2011, title:"Melanotan-associated melanoma", journal:"British Journal of Dermatology", finding:"Case report of melanoma linked to Melanotan use — one of several safety warnings.", tags:["human"], details:"Case report only; causality not proven.", pmid:"21564053" },
+      { year:2000, title:"Effect of an alpha-MSH analog on penile erection and sexual desire in men with organic erectile dysfunction", journal:"Urology", finding:"Erections after 12 of 19 doses vs 1 of 21 placebo; sexual desire also rose. Severe nausea in 4 of 19 doses.", tags:["human","rct"], details:"n=10 crossover.", pmid:"11018622" },
+      { year:1998, title:"Synthetic melanotropic peptide initiates erections in men with psychogenic erectile dysfunction", journal:"Journal of Urology", finding:"8 of 10 men had erections; rigid time 38 min vs 3 min on placebo.", tags:["human","rct"], details:"Double-blind crossover · 0.025 mg/kg.", pmid:"9679884" }
+    ]
+  },
+
+  // ═════════ BIOREGULATORS (Khavinson short peptides) ═════════
+  {
+    peptide: "Pancragon (KEDW)", cat: "bio",
+    studies: [
+      { year:2014, title:"Impact of tetrapeptide pancragen on endocrine function of the pancreas in old monkeys", journal:"Advances in Gerontology", finding:"10 days of injections normalized insulin and glucose responses in old rhesus monkeys; effect partly lasted 3 weeks.", tags:["animal"], details:"Russian study, non-human primates.", pmid:"25946840" },
+      { year:2007, title:"Effect of pancragen on blood glucose level, capillary permeability and adhesion in rats with experimental diabetes", journal:"Bulletin of Experimental Biology and Medicine", finding:"Oral pancragen lowered blood glucose in diabetic rats.", tags:["animal"], details:"Streptozotocin diabetes model.", pmid:"18642713" }
+    ]
+  },
+  {
+    peptide: "Bronchogen (AEDL)", cat: "bio",
+    studies: [
+      { year:2015, title:"Modulating effect of peptide therapy on the bronchial epithelium in rats with obstructive lung pathology", journal:"Bulletin of Experimental Biology and Medicine", finding:"One month of Bronchogen reversed COPD-like airway damage and inflammation in rats.", tags:["animal"], details:"NO2-induced model.", pmid:"26468022" }
+    ]
+  },
+  {
+    peptide: "Chonluten (EDG)", cat: "bio",
+    studies: [
+      { year:2022, title:"Peptides regulating proliferative activity and inflammatory pathways in the monocyte/macrophage THP-1 cell line", journal:"International Journal of Molecular Sciences", finding:"Chonluten blunted TNF release by immune cells exposed to bacterial toxin; all five Khavinson peptides tested lowered TNF and IL-6.", tags:["in-vitro"], details:"Also tested Epitalon, Vilon, Thymogen and Thymalin.", pmid:"35408963" }
+    ]
+  },
+  {
+    peptide: "Cortagen (AEDP)", cat: "bio",
+    studies: [
+      { year:2016, title:"Neuroprotective effects of peptides during ischemic preconditioning", journal:"Bulletin of Experimental Biology and Medicine", finding:"Brain peptide preparations reduced neurological deficit and oxidative damage in rats with chronic brain ischaemia.", tags:["animal"], details:"Short abstract; limited detail.", pmid:"26902350" },
+      { year:2004, title:"Effect of brain cortex tetrapeptide Cortagen on gene expression in mouse heart by microarray", journal:"Neuro Endocrinology Letters", finding:"5 days of Cortagen changed expression of ~1.5% of heart genes in mice.", tags:["animal"], details:"Mentions benefits on nerve recovery in humans without trial data.", pmid:"15159690" }
+    ]
+  },
+  {
+    peptide: "Cartalax (AED)", cat: "bio",
+    studies: [
+      { year:2016, title:"Peptide regulation of skin fibroblast functions during their aging in vitro", journal:"Bulletin of Experimental Biology and Medicine", finding:"AED (Cartalax) reduced age-related collagen breakdown (MMP-9) and cell death in ageing skin fibroblasts.", tags:["in-vitro"], details:"Compared KE, KED, AED and AEDG.", pmid:"27259496" }
+    ]
+  },
+  {
+    peptide: "Vesugen (KED)", cat: "bio",
+    studies: [
+      { year:2021, title:"Peptide KED: molecular-genetic aspects of neurogenesis regulation in Alzheimer's disease", journal:"Bulletin of Experimental Biology and Medicine", finding:"Review: oral KED reportedly improved memory and attention in elderly people and restored synaptic plasticity in an AD cell model.", tags:["review"], details:"Human data cited are from the developers' own group.", pmid:"34173097" },
+      { year:2014, title:"Epigenetic aspects of peptidergic regulation of vascular endothelial cell proliferation during aging", journal:"Advances in Gerontology", finding:"Vesugen restored a cell-growth protein (Ki-67) in ageing blood-vessel cells.", tags:["in-vitro"], details:"Includes computer docking to the Ki-67 gene promoter.", pmid:"25051766" }
+    ]
+  },
+  {
+    peptide: "Vilon (KE)", cat: "bio",
+    studies: [
+      { year:2000, title:"A synthetic dipeptide vilon (L-Lys-L-Glu) inhibits growth of spontaneous tumors and increases life span of mice", journal:"Doklady Biological Sciences", finding:"Reported fewer spontaneous tumours and longer lifespan in mice.", tags:["animal"], details:"No abstract available on PubMed.", pmid:"10944717" }
+    ]
+  },
+  {
+    peptide: "Livagen (KEDA)", cat: "bio",
+    studies: [
+      { year:2002, title:"Effects of Livagen peptide on chromatin activation in lymphocytes from old people", journal:"Bulletin of Experimental Biology and Medicine", finding:"Re-activated genes silenced by age-related chromatin condensation in elderly people's white blood cells.", tags:["in-vitro"], details:"Cells from old donors.", pmid:"12533768" }
+    ]
+  },
+  {
+    peptide: "Prostamax (KEDP)", cat: "bio",
+    studies: [
+      { year:2012, title:"Deheterochromatinization of the chromatin in old age induced by oligopeptide bioregulator (Lys-Glu-Asp-Pro)", journal:"Georgian Medical News", finding:"Loosened age-condensed chromatin in white blood cells from people aged 75-86.", tags:["in-vitro"], details:"No prostate outcome data.", pmid:"23221144" }
+    ]
+  },
+  {
+    peptide: "Testagen (KEDG)", cat: "bio",
+    studies: [
+      { year:2008, title:"Effect of tetrapeptides Lys-Glu-Asp-Gly and Ala-Glu-Asp-Gly on the thyroid gland in neonatally hypophysectomized chickens", journal:"Bulletin of Experimental Biology and Medicine", finding:"Raised thyroid hormones and restored thyroid structure in chickens without a pituitary.", tags:["animal"], details:"No testosterone data found despite the name.", pmid:"19024016" }
+    ]
+  },
+  {
+    peptide: "Crystagen", cat: "bio",
+    studies: [
+      { year:2014, title:"Molecular aspects of immunoprotective activity of peptides in spleen during the ageing process", journal:"Advances in Gerontology", finding:"Crystagen activated B-cells in the ageing spleen but did not renew spleen cells.", tags:["animal"], details:"The only PubMed-indexed Crystagen study.", pmid:"28976144" }
+    ]
+  },
+  {
+    peptide: "Cardiogen (AEDR)", cat: "bio",
+    studies: [
+      { year:2009, title:"Tumor-modifying effect of cardiogen peptide on M-1 sarcoma in senescent rats", journal:"Bulletin of Experimental Biology and Medicine", finding:"Slowed sarcoma growth in old rats by damaging the tumour's blood supply.", tags:["animal"], details:"No heart-outcome studies were found despite the name.", pmid:"20396706" }
     ]
   }
 ];
@@ -22461,15 +22799,15 @@ function studiesRender(searchTerm) {
     if (studiesActiveCat !== 'all' && studiesActiveCat !== block.cat) return;
     const matchStudies = block.studies.filter(function(s) {
       if (!q) return true;
-      return [block.peptide, s.title, s.journal, s.finding, s.tags.join(' ')]
+      return [block.peptide, s.title, s.journal, s.finding, s.details || '', s.tags.join(' '), String(s.year)]
         .some(function(t) { return t.toLowerCase().includes(q); });
     });
     if (matchStudies.length === 0) return;
     totalPeptides++;
     totalStudies += matchStudies.length;
 
-    const catColors = { fat:'var(--neon-orange)', muscle:'var(--neon-pink)', heal:'#00ff64', cog:'var(--neon-cyan)', immune:'var(--neon-purple)', long:'var(--neon-cyan)', sex:'var(--neon-pink)' };
-    const catNames  = { fat:'Fat Loss', muscle:'GH / Muscle', heal:'Healing', cog:'Cognitive', immune:'Immune', long:'Longevity', sex:'Sexual Health' };
+    const catColors = { fat:'var(--neon-orange)', muscle:'var(--neon-pink)', heal:'#00ff64', cog:'var(--neon-cyan)', immune:'var(--neon-purple)', long:'var(--neon-cyan)', sex:'var(--neon-pink)', skin:'#ffb347', bio:'#7dd87d' };
+    const catNames  = { fat:'Fat Loss', muscle:'GH / Muscle', heal:'Healing', cog:'Cognitive', immune:'Immune', long:'Longevity', sex:'Sexual Health', skin:'Skin & Hair', bio:'Bioregulator' };
     const col = catColors[block.cat] || 'var(--neon-cyan)';
 
     html += '<div class="study-peptide-block" data-scat="' + block.cat + '" data-peptide-study="' + block.peptide.toLowerCase() + '">';
@@ -22478,7 +22816,7 @@ function studiesRender(searchTerm) {
     html += '<span class="study-peptide-cat-tag" style="background:rgba(0,0,0,0.3);color:' + col + ';border:1px solid ' + col + '33;">' + (catNames[block.cat] || block.cat) + '</span>';
     html += '</div>';
 
-    var typeDesc = { 'rct':'Randomised Controlled Trial', 'human':'Human Study', 'animal':'Animal / Preclinical', 'in-vitro':'In Vitro / Cell Study' };
+    var typeDesc = { 'rct':'Randomised Controlled Trial', 'human':'Human Study', 'animal':'Animal / Preclinical', 'in-vitro':'In Vitro / Cell Study', 'meta':'Meta-analysis', 'review':'Review', 'abstract':'Conference Abstract' };
     matchStudies.forEach(function(s) {
       html += '<div class="study-card">';
       html += '<div class="study-card-top">';
@@ -22508,10 +22846,14 @@ function studiesRender(searchTerm) {
       s.tags.forEach(function(t) { html += '<span class="study-tag ' + t + '">' + t.toUpperCase() + '</span>'; });
       html += '</div>';
 
-      // Verify Yourself note — with Google Scholar link
-      html += '<div style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:#0c0b00;border:1px solid rgba(255,230,0,0.25);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;flex-wrap:wrap;">';
-      html += '<div style="display:flex;align-items:center;gap:0.5rem;"><span style="font-size:1rem;">🔍</span><div style="font-family:\'Rajdhani\',sans-serif;font-weight:700;font-size:0.88rem;color:rgba(255,230,0,0.7);text-transform:uppercase;letter-spacing:0.08em;">Copy the title and paste into Google Scholar or PubMed to find the full study</div></div>';
-      html += '<a href="https://scholar.google.com/scholar?q=' + encodeURIComponent(s.title) + '" target="_blank" rel="noopener" style="font-family:\'Bebas Neue\',sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.25rem 0.75rem;border:1px solid rgba(255,230,0,0.4);color:#9d00ff;text-decoration:none;background:rgba(255,230,0,0.06);white-space:nowrap;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(255,230,0,0.15)\'" onmouseout="this.style.background=\'rgba(255,230,0,0.06)\'">↗ Search Google Scholar</a>';
+      // Source link — PubMed record, DOI, or Google Scholar fallback
+      var srcUrl, srcLabel, srcNote;
+      if (s.pmid) { srcUrl = 'https://pubmed.ncbi.nlm.nih.gov/' + s.pmid + '/'; srcLabel = '↗ View on PubMed'; srcNote = 'PMID ' + s.pmid; }
+      else if (s.doi) { srcUrl = 'https://doi.org/' + s.doi; srcLabel = '↗ View source (DOI)'; srcNote = 'DOI ' + s.doi; }
+      else { srcUrl = 'https://scholar.google.com/scholar?q=' + encodeURIComponent(s.title); srcLabel = '↗ Search Google Scholar'; srcNote = 'Not on PubMed'; }
+      html += '<div class="study-source" style="margin-top:0.6rem;padding:0.5rem 0.85rem;background:#0c0b00;border:1px solid rgba(255,230,0,0.25);display:flex;align-items:center;justify-content:space-between;gap:0.6rem;flex-wrap:wrap;">';
+      html += '<div style="display:flex;align-items:center;gap:0.5rem;min-width:0;"><span style="font-size:1rem;">🔍</span><div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.88rem;color:rgba(255,230,0,0.7);text-transform:uppercase;letter-spacing:0.08em;overflow-wrap:anywhere;">Verify it yourself · ' + srcNote + '</div></div>';
+      html += '<a href="' + srcUrl + '" target="_blank" rel="noopener" style="font-family:&quot;Bebas Neue&quot;,sans-serif;font-size:0.82rem;letter-spacing:0.12em;padding:0.25rem 0.75rem;border:1px solid rgba(255,230,0,0.4);color:#9d00ff;text-decoration:none;background:rgba(255,230,0,0.06);white-space:nowrap;flex-shrink:0;">' + srcLabel + '</a>';
       html += '</div>';
 
       html += '</div>';
@@ -22521,7 +22863,7 @@ function studiesRender(searchTerm) {
 
   if (!html) html = '<div style="font-family:\'Share Tech Mono\',monospace;font-size: 1rem;color:var(--text-secondary);padding:2rem 0;">No studies match your search.</div>';
   container.innerHTML = html;
-  if (countEl) countEl.textContent = totalStudies + ' studies · ' + totalPeptides + ' peptides';
+  if (countEl) countEl.textContent = totalStudies + (totalStudies === 1 ? ' study · ' : ' studies · ') + totalPeptides + (totalPeptides === 1 ? ' peptide' : ' peptides');
 }
 
 function studiesFilter() {
