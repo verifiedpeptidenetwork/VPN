@@ -7632,11 +7632,56 @@ document.addEventListener('keydown', function(e){
     .retro80-ticker .dot{padding-right:4rem;-webkit-text-fill-color:#9d00ff;background:none;}
     @media(max-width:600px){.retro80-ticker span{font-size:0.75rem;letter-spacing:0.18em;padding-right:2.5rem;}.retro80-ticker .dot{padding-right:2.5rem;}}
   </style>
-  <div class="retro80-ticker" aria-label="Site disclaimer">
-    <div class="retro80-ticker-inner">
-      <span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH PAPERS · ARTICLES · AND LITERATURE</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span><span>DO YOUR BLOOD WORK</span><span class="dot">·</span><span>VERIFY EVERYTHING WITH RESEARCH PAPERS · ARTICLES · AND LITERATURE</span><span class="dot">·</span><span>BE SAFE</span><span class="dot">·</span><span>WORK WITH YOUR DOCTOR</span><span class="dot">·</span>
+  <!-- THE 4 SAFETY RULES — replaces the old scrolling ticker -->
+  <style>
+    .vpn-rules{position:relative;z-index:10;margin-bottom:0.75rem;padding:0.85rem 0.9rem 0.95rem;background:rgba(4,0,15,0.94);border:1px solid rgba(0,245,255,0.3);border-radius:10px;}
+    .vpn-rules-head{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:0.75rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.22em;font-size:1rem;color:#fff;text-align:center;}
+    .vpn-rules-head .pulse{width:9px;height:9px;border-radius:50%;background:#ff2d78;box-shadow:0 0 0 0 rgba(255,45,120,0.7);animation:vpnRulePulse 1.8s infinite;flex-shrink:0;}
+    @keyframes vpnRulePulse{0%{box-shadow:0 0 0 0 rgba(255,45,120,0.7);}70%{box-shadow:0 0 0 10px rgba(255,45,120,0);}100%{box-shadow:0 0 0 0 rgba(255,45,120,0);}}
+    .vpn-rules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;}
+    .vpn-rule{position:relative;overflow:hidden;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:0.3rem;padding:0.75rem 0.85rem 0.8rem;border-radius:8px;border:1px solid var(--rc);border-top:4px solid var(--rc);background:linear-gradient(160deg,var(--rbg) 0%,rgba(4,0,15,0.95) 70%);font:inherit;color:inherit;transition:transform 0.15s,box-shadow 0.15s;}
+    .vpn-rule:hover{transform:translateY(-3px);box-shadow:0 6px 22px var(--rbg);}
+    .vpn-rule::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);animation:vpnRuleShine 6s ease-in-out infinite;animation-delay:var(--rd,0s);pointer-events:none;}
+    @keyframes vpnRuleShine{0%,70%{left:-60%;}100%{left:130%;}}
+    .vpn-rule-top{display:flex;align-items:center;gap:0.5rem;}
+    .vpn-rule-num{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.12em;color:#000;background:var(--rc);border-radius:3px;padding:1px 6px;}
+    .vpn-rule-ic{font-size:1.35rem;line-height:1;}
+    .vpn-rule-t{font-family:'Bebas Neue',sans-serif;font-size:1.12rem;letter-spacing:0.1em;color:var(--rc);line-height:1.1;}
+    .vpn-rule-d{font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(235,240,255,0.88);line-height:1.45;}
+    .vpn-rule-go{margin-top:auto;padding-top:0.2rem;font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--rc);opacity:0.85;}
+    @media(max-width:1100px){.vpn-rules-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:420px){.vpn-rule-d{font-size:0.82rem;}.vpn-rule-t{font-size:1rem;}}
+    @media(prefers-reduced-motion:reduce){.vpn-rule::after,.vpn-rules-head .pulse{animation:none;}}
+  </style>
+  <section class="vpn-rules" aria-label="The 4 safety rules">
+    <div class="vpn-rules-head"><span class="pulse"></span>THE 4 RULES BEFORE ANY RESEARCH<span class="pulse"></span></div>
+    <div class="vpn-rules-grid">
+      <button type="button" class="vpn-rule" style="--rc:#00f5ff;--rbg:rgba(0,245,255,0.14);--rd:0s;" onclick="showView('studies')">
+        <span class="vpn-rule-top"><span class="vpn-rule-num">01</span><span class="vpn-rule-ic">🔬</span></span>
+        <span class="vpn-rule-t">VERIFY EVERYTHING</span>
+        <span class="vpn-rule-d">Check every claim against research papers, articles and published literature — including what you read here.</span>
+        <span class="vpn-rule-go">RESEARCH STUDIES →</span>
+      </button>
+      <button type="button" class="vpn-rule" style="--rc:#00ff64;--rbg:rgba(0,255,100,0.12);--rd:1.5s;" onclick="showView('bloodwork')">
+        <span class="vpn-rule-top"><span class="vpn-rule-num">02</span><span class="vpn-rule-ic">🩺</span></span>
+        <span class="vpn-rule-t">WORK WITH YOUR DOCTOR</span>
+        <span class="vpn-rule-d">Be open about what you're researching — even if they disagree. Medications, conditions and dosing all interact.</span>
+        <span class="vpn-rule-go">WHAT TO ASK FOR →</span>
+      </button>
+      <button type="button" class="vpn-rule" style="--rc:#ff9a1f;--rbg:rgba(255,154,31,0.14);--rd:3s;" onclick="var d=document.getElementById('grayMarketDropdown');if(d){d.classList.add('open');d.scrollIntoView({behavior:'smooth',block:'center'});}">
+        <span class="vpn-rule-top"><span class="vpn-rule-num">03</span><span class="vpn-rule-ic">⚠️</span></span>
+        <span class="vpn-rule-t">KNOW THE GRAY MARKET RISKS</span>
+        <span class="vpn-rule-d">Unknown purity, wrong doses, contamination and fake COAs are real. Test independently — never trust a label alone.</span>
+        <span class="vpn-rule-go">SPOT FAKE COAS →</span>
+      </button>
+      <button type="button" class="vpn-rule" style="--rc:#ff2d78;--rbg:rgba(255,45,120,0.14);--rd:4.5s;" onclick="showView('bloodwork')">
+        <span class="vpn-rule-top"><span class="vpn-rule-num">04</span><span class="vpn-rule-ic">🩸</span></span>
+        <span class="vpn-rule-t">BLOOD WORK — BEFORE &amp; AFTER</span>
+        <span class="vpn-rule-d">Get a full panel before you start for a baseline, then retest every few months so you can see what's actually changing.</span>
+        <span class="vpn-rule-go">BLOOD WORK GUIDE →</span>
+      </button>
     </div>
-  </div>
+  </section>
 
   <!-- PRAYER BAR — static, no scroll -->
   <div style="width:100%;box-sizing:border-box;background:rgba(4,0,12,0.97);border-top:1px solid rgba(0,245,255,0.4);border-bottom:1px solid rgba(255,0,255,0.3);padding:0.5rem 1rem;position:relative;z-index:10;box-shadow:0 0 28px rgba(0,245,255,0.12),inset 0 0 40px rgba(157,0,255,0.04);">
