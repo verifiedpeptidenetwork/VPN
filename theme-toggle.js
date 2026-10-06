@@ -442,6 +442,20 @@
       +'#vt-toggle-btn:hover{opacity:1;transform:scale(1.12);box-shadow:0 0 18px rgba(0,245,255,0.6),0 0 34px rgba(0,245,255,0.25);border-color:#00f5ff;color:#00f5ff;}'
       +'#vt-toggle-btn:active{transform:scale(0.94);}'
       +'@media print{#vt-toggle-btn{display:none!important;}}'
+      /* Text size controls: stacked under the moon button. Sized in px so they
+         don't grow with the text they control. */
+      +'#vt-text-ctrl{position:fixed;top:calc(6rem + 46px);right:0.6rem;z-index:2147483647;display:flex;flex-direction:column;gap:6px;align-items:center;}'
+      +'#vt-text-ctrl button{width:38px;height:32px;border-radius:9px;border:1.5px solid rgba(0,245,255,0.6);background:rgba(10,0,26,0.88);color:#7ff7ff;font:700 14px/1 Rajdhani,Arial,sans-serif;letter-spacing:0;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,background 0.15s;}'
+      +'#vt-text-ctrl button:hover:not(:disabled){transform:scale(1.08);background:rgba(0,245,255,0.18);}'
+      +'#vt-text-ctrl button:disabled{opacity:0.35;cursor:default;}'
+      +'#vt-text-toast{position:absolute;right:46px;top:16px;white-space:nowrap;font:700 13px/1 Rajdhani,Arial,sans-serif;letter-spacing:0.08em;padding:6px 10px;border-radius:6px;background:rgba(10,0,26,0.92);color:#7ff7ff;border:1px solid rgba(0,245,255,0.5);opacity:0;pointer-events:none;transition:opacity 0.2s;}'
+      +'#vt-text-toast.show{opacity:1;}'
+      +'html[data-theme="light"] #vt-text-ctrl button{background:#13294b;color:#f3d27a;border:2px solid #b08d3c;}'
+      +'html[data-theme="light"] #vt-text-ctrl button:hover:not(:disabled){background:#1d3a66;}'
+      +'html[data-theme="light"] #vt-text-toast{background:#13294b;color:#f3d27a;border-color:#b08d3c;}'
+      +'@media print{#vt-text-ctrl{display:none!important;}}'
+      /* Phones: keep home.html's search bar clear of the corner controls */
+      +'@media(max-width:900px){#vpnSearchBar{padding-right:56px!important;box-sizing:border-box;}}'
       /* Light mode, stylesheet half: these can't be handled per-element from JS
          (pseudo-elements, every glow) and vanish automatically when data-theme is removed. */
       +'html[data-theme="light"] body *:not(img):not(video):not(canvas){text-shadow:none!important;box-shadow:none!important;}'
@@ -501,9 +515,67 @@
     if(current()==='light') applyLight();
   }
 
+  // ── TEXT SIZE (A− / A+) ─────────────────────────────────────────
+  // Nearly all text on the site is sized in rem, so scaling the root font size
+  // scales every word without zooming images or breaking the layout. Inline
+  // !important on <html>/<body> beats home.html's "font-size:16px !important".
+  var TEXT_KEY='vpn_text_scale';
+  var TEXT_STEPS=[0.9,1,1.1,1.25,1.4,1.6];
+  var baseHtmlPx=null, baseBodyPx=null, toastTimer=null;
+  function savedTextStep(){
+    var v=1; try{ v=parseFloat(localStorage.getItem(TEXT_KEY))||1; }catch(e){}
+    var i=TEXT_STEPS.indexOf(v); return i===-1 ? 1 : i;
+  }
+  function applyTextScale(step, announce){
+    var scale=TEXT_STEPS[step];
+    var root=document.documentElement, body=document.body;
+    if(baseHtmlPx===null){
+      baseHtmlPx=parseFloat(getComputedStyle(root).fontSize)||16;
+      baseBodyPx=parseFloat(getComputedStyle(body).fontSize)||baseHtmlPx;
+    }
+    if(scale===1){
+      root.style.removeProperty('font-size'); body.style.removeProperty('font-size');
+    } else {
+      root.style.setProperty('font-size',(baseHtmlPx*scale)+'px','important');
+      body.style.setProperty('font-size',(baseBodyPx*scale)+'px','important');
+    }
+    try{ localStorage.setItem(TEXT_KEY, String(scale)); }catch(e){}
+    var minus=document.getElementById('vt-text-minus'), plus=document.getElementById('vt-text-plus');
+    if(minus) minus.disabled = step===0;
+    if(plus)  plus.disabled  = step===TEXT_STEPS.length-1;
+    if(announce){
+      var t=document.getElementById('vt-text-toast');
+      if(t){
+        t.textContent='TEXT '+Math.round(scale*100)+'%';
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer=setTimeout(function(){ t.classList.remove('show'); },1200);
+      }
+    }
+  }
+  function injectTextControls(){
+    if(document.getElementById('vt-text-ctrl')) return;
+    var wrap=document.createElement('div');
+    wrap.id='vt-text-ctrl'; wrap.setAttribute('data-vt-skip','');
+    wrap.innerHTML=
+      '<button type="button" id="vt-text-plus" title="Bigger text" aria-label="Increase text size">A+</button>'+
+      '<button type="button" id="vt-text-minus" title="Smaller text" aria-label="Decrease text size">A−</button>'+
+      '<div id="vt-text-toast" role="status" aria-live="polite"></div>';
+    document.body.appendChild(wrap);
+    var step=savedTextStep();
+    document.getElementById('vt-text-plus').addEventListener('click',function(){
+      if(step<TEXT_STEPS.length-1){ step++; applyTextScale(step,true); }
+    });
+    document.getElementById('vt-text-minus').addEventListener('click',function(){
+      if(step>0){ step--; applyTextScale(step,true); }
+    });
+    applyTextScale(step,false);
+  }
+
   function init(){
     injectStyle();
     injectButton();
+    injectTextControls();
     if(current()==='light') applyLight();
     setTimeout(reapplyIfLight, 400);
   }
