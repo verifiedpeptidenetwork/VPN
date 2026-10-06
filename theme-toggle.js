@@ -97,7 +97,7 @@
   function jewelFor(rgb){
     var h=rgbToHsl(rgb.r,rgb.g,rgb.b)[0]*360;
     if(h>=330 || h<15)  return 'rgb(138,36,50)';   // red / pink / magenta -> wine
-    if(h<45)  return 'rgb(154,74,20)';             // orange -> burnt orange
+    if(h<40)  return 'rgb(154,74,20)';             // orange -> burnt orange (gold ~44deg stays gold)
     if(h<70)  return 'rgb(135,100,26)';            // yellow / gold -> antique gold
     if(h<165) return 'rgb(45,106,62)';             // green -> forest
     if(h<200) return 'rgb(14,103,115)';            // cyan -> deep teal
@@ -148,6 +148,10 @@
     if(el.id==='vt-toggle-btn') return true;
     // Sidebar nav buttons are styled by the light-mode stylesheet (navy buttons, white text)
     if(el.closest && el.closest('.sb-item')) return true;
+    // home.html's sidebar LIGHT/DARK switch is styled by the stylesheet too
+    if(el.closest && el.closest('#vpn-theme-toggle')) return true;
+    // Any element that styles itself for both themes opts out with data-vt-skip
+    if(el.closest && el.closest('[data-vt-skip]')) return true;
     return false;
   }
 
@@ -200,6 +204,56 @@
     hiddenBgUrls=[];
   }
 
+  function hexToRGB(str){
+    var m=(str||'').trim().match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+    if(!m) return toRGBA((str||'').trim());
+    var h=m[1].length===3 ? m[1].replace(/./g,'$&$&') : m[1];
+    return {r:parseInt(h.slice(0,2),16), g:parseInt(h.slice(2,4),16), b:parseInt(h.slice(4,6),16), a:1};
+  }
+  function tint(rgbStr, amt){ // mix a jewel tone with white
+    var c=toRGBA(rgbStr);
+    return 'rgb('+Math.round(c.r*amt+255*(1-amt))+','+Math.round(c.g*amt+255*(1-amt))+','+Math.round(c.b*amt+255*(1-amt))+')';
+  }
+  // Each page banner already defines its own two accent colors (--vh1/--vh2). In light
+  // mode the banner becomes a soft wash of those colors' jewel tones with a solid accent
+  // bar, and its title takes the deep accent color -- every page stays recognizable.
+  function styleHero(el, cs){
+    var a1=hexToRGB(cs.getPropertyValue('--vh1')) || {r:176,g:141,b:60};
+    var a2=hexToRGB(cs.getPropertyValue('--vh2')) || a1;
+    var j1=jewelFor(a1), j2=jewelFor(a2);
+    var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:'', filter:'', fill:'', border:{borderBottomColor:el.style.borderBottomColor||''}, extra:{'border-bottom-width':el.style.borderBottomWidth||'','border-bottom-style':el.style.borderBottomStyle||''}};
+    el.style.setProperty('background-image','linear-gradient(120deg,'+tint(j1,0.16)+' 0%,rgb(255,253,248) 55%,'+tint(j2,0.12)+' 100%)','important');
+    el.style.setProperty('background-color','rgb(255,253,248)','important');
+    el.style.setProperty('border-bottom-color', j1, 'important');
+    el.style.setProperty('border-bottom-width','4px','important');
+    el.style.setProperty('border-bottom-style','solid','important');
+    touched.push(rec); touchedSet.add(el);
+    el.setAttribute('data-vt-accent', j1);
+    // Titles inside the banner take the deep accent color
+    el.querySelectorAll('.vh-title,.ms-hero-title,.vh-eyebrow').forEach(function(t){
+      var trec={el:t, bg:t.style.backgroundColor||'', bgImg:t.style.backgroundImage||'', color:t.style.color||'', textShadow:'', filter:'', fill:t.style.getPropertyValue('-webkit-text-fill-color')||''};
+      var col = t.classList.contains('vh-eyebrow') ? j2 : j1;
+      t.style.setProperty('background-image','none','important');
+      t.style.setProperty('color', col, 'important');
+      t.style.setProperty('-webkit-text-fill-color', col, 'important');
+      touched.push(trec); touchedSet.add(t);
+    });
+    // Decorative dark layers inside the banner (logo backing disc, scanlines, glyphs)
+    el.querySelectorAll('.vh-logo-bg,.vh-logo-ring,.vh-stripe,.vh-scan,.ms-hero-scan,.ms-logo-glow').forEach(function(d){
+      var drec={el:d, bg:d.style.backgroundColor||'', bgImg:d.style.backgroundImage||'', color:'', textShadow:'', filter:'', fill:''};
+      if(d.classList.contains('vh-logo-bg')){
+        d.style.setProperty('background-image','none','important');
+        d.style.setProperty('background-color','#ffffff','important');
+      } else if(d.classList.contains('vh-logo-ring')){
+        d.style.setProperty('background-image','conic-gradient('+j1+','+j2+','+j1+')','important');
+      } else {
+        d.style.setProperty('background-image','none','important');
+        d.style.setProperty('background-color','transparent','important');
+      }
+      touched.push(drec); touchedSet.add(d);
+    });
+  }
+
   // Recolors one element. Shared by the initial full-DOM walk and the
   // MutationObserver (for content added/cloned after the initial pass --
   // e.g. ticker/marquee text that JS duplicates for a seamless loop).
@@ -210,7 +264,17 @@
     // light values as the "original" inline styles and break the switch back to dark.
     if(touchedSet.has(el)) return;
     var cs=getComputedStyle(el);
+    // Page banners get their own light treatment (tinted with the banner's accent colors)
+    if(el.classList && (el.classList.contains('view-hero') || el.classList.contains('ms-hero'))){
+      styleHero(el, cs);
+      return;
+    }
     var bgImgVal=cs.backgroundImage;
+    // On a page this size the computed value can come back stale ("none") right after a
+    // theme switch; an inline gradient on the element itself is the reliable source.
+    if((!bgImgVal || bgImgVal==='none') && el.style.backgroundImage && el.style.backgroundImage.indexOf('gradient(')!==-1){
+      bgImgVal=el.style.backgroundImage;
+    }
     var isRasterImage = bgImgVal && bgImgVal.indexOf('url(')!==-1;
     var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
     var isTextGradient = isGradient && isTextClip(cs);
@@ -332,6 +396,11 @@
       if(rec.textShadow) rec.el.style.setProperty('text-shadow', rec.textShadow); else rec.el.style.removeProperty('text-shadow');
       if(rec.filter) rec.el.style.setProperty('filter', rec.filter); else rec.el.style.removeProperty('filter');
       if(rec.fill) rec.el.style.setProperty('-webkit-text-fill-color', rec.fill); else rec.el.style.removeProperty('-webkit-text-fill-color');
+      if(rec.extra){
+        for(var prop in rec.extra){
+          if(rec.extra[prop]) rec.el.style.setProperty(prop, rec.extra[prop]); else rec.el.style.removeProperty(prop);
+        }
+      }
       if(rec.border){
         for(var side in rec.border){
           if(rec.border[side]) rec.el.style[side]=rec.border[side]; else rec.el.style.removeProperty(side.replace(/([A-Z])/g,'-$1').toLowerCase());
@@ -369,7 +438,7 @@
       /* Docked top-right, below the ticker + nav bar (~92px tall on mobile) so it
          never sits under scrolling ticker text, and clear of the bottom-corner
          clutter (mascot, music player, back-to-top). */
-      '#vt-toggle-btn{position:fixed;top:6rem;right:0.6rem;z-index:2147483647;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.5);background:rgba(10,0,26,0.55);color:rgba(0,245,255,0.75);font-size:1.05rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(0,245,255,0.25);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.55;}'
+      '#vt-toggle-btn{position:fixed;top:6rem;right:0.6rem;z-index:2147483647;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(0,245,255,0.6);background:rgba(10,0,26,0.88);color:rgba(0,245,255,0.9);font-size:1.15rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(0,245,255,0.3);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;padding:0;font-family:inherit;opacity:0.9;}'
       +'#vt-toggle-btn:hover{opacity:1;transform:scale(1.12);box-shadow:0 0 18px rgba(0,245,255,0.6),0 0 34px rgba(0,245,255,0.25);border-color:#00f5ff;color:#00f5ff;}'
       +'#vt-toggle-btn:active{transform:scale(0.94);}'
       +'@media print{#vt-toggle-btn{display:none!important;}}'
@@ -391,7 +460,15 @@
          light-mode equivalent -- strip their fills. Text content in pseudo-elements is unaffected. */
       +'html[data-theme="light"] body *::before,html[data-theme="light"] body *::after{background-image:none!important;background-color:transparent!important;}'
       +'html[data-theme="light"] ::placeholder{color:#6b6460!important;opacity:1!important;-webkit-text-fill-color:#6b6460!important;}'
-      +'html[data-theme="light"] #vt-toggle-btn{background:#fff;color:#0f1b2d;border-color:#b08d3c;opacity:0.9;}'
+      /* Corner moon button in light mode: navy disc with a gold ring, fully visible */
+      +'html[data-theme="light"] #vt-toggle-btn{background:#13294b;color:#f3d27a;border:2px solid #b08d3c;opacity:1;}'
+      +'html[data-theme="light"] #vt-toggle-btn:hover{background:#1d3a66;border-color:#d4ad55;transform:scale(1.1);}'
+      /* home.html sidebar LIGHT/DARK switch: navy bar, white label, gold track + thumb */
+      +'html[data-theme="light"] #vpn-theme-toggle{background:#13294b!important;color:#fffdf8!important;border-top:1px solid #b08d3c!important;-webkit-text-stroke:0!important;}'
+      +'html[data-theme="light"] #vpn-theme-toggle *{color:#fffdf8!important;-webkit-text-fill-color:#fffdf8!important;-webkit-text-stroke:0!important;}'
+      +'html[data-theme="light"] #vpn-theme-toggle:hover{background:#1d3a66!important;}'
+      +'html[data-theme="light"] #vpn-theme-toggle .tgl-track{background:rgba(176,141,60,0.35)!important;border:1px solid #b08d3c!important;}'
+      +'html[data-theme="light"] #vpn-theme-toggle .tgl-thumb{background:#f3d27a!important;}'
       /* Sidebar nav: navy buttons with white text and a gold edge; active/hover get a gold fill bar */
       +'html[data-theme="light"] #vpn-sidebar{border-right:1px solid rgba(15,27,45,0.12)!important;}'
       +'html[data-theme="light"] .sb-item{background:#13294b!important;background-image:none!important;color:#fffdf8!important;-webkit-text-fill-color:#fffdf8!important;border:1px solid #13294b!important;border-left:4px solid #b08d3c!important;-webkit-text-stroke:0!important;}'

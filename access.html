@@ -90,6 +90,14 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
 .head-badge::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
   background:var(--red2);animation:blink 1.2s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+/* Light/dark switch in the card header (drives theme-toggle.js) */
+.theme-pill{display:inline-flex;align-items:center;gap:0.4rem;cursor:pointer;
+  font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.16em;
+  padding:0.32rem 0.8rem;border-radius:999px;border:1.5px solid rgba(0,245,255,0.55);
+  background:rgba(0,245,255,0.08);color:#7ff7ff;transition:background 0.15s,transform 0.15s;}
+.theme-pill:hover{background:rgba(0,245,255,0.18);transform:translateY(-1px);}
+html[data-theme="light"] .theme-pill{background:#13294b;border-color:#b08d3c;color:#f3d27a;-webkit-text-stroke:0;}
+html[data-theme="light"] .theme-pill:hover{background:#1d3a66;}
 
 /* ── CARD: MAIN BODY (two columns) ── */
 .card-body{
@@ -392,6 +400,7 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text);font-fam
       <div class="brand-name">VERIFIED PEPTIDE NETWORK</div>
       <div class="brand-sub">RESTRICTED ACCESS · AUTHORIZED RESEARCHERS ONLY</div>
     </div>
+    <button type="button" class="theme-pill" id="access-theme-pill" data-vt-skip onclick="if(window.vpnThemeToggle)vpnThemeToggle();">☀️ LIGHT MODE</button>
     <div class="head-badge">RESTRICTED FILE #VPN-001</div>
   </div>
 
@@ -577,6 +586,19 @@ function unlockForm(){avUnlocked=true;
   function showSuccess(msg){document.getElementById('error-msg').classList.remove('show');var el=document.getElementById('success-msg');el.textContent=msg;el.classList.add('show');}
   function clearMsgs(){document.getElementById('error-msg').classList.remove('show');document.getElementById('success-msg').classList.remove('show');}
 </script>
-<script src="theme-toggle.js?v=19" defer></script>
+<script src="theme-toggle.js?v=21" defer></script>
+<script>
+/* Keep the header switch label in sync with the current theme */
+(function(){
+  function sync(){
+    var pill=document.getElementById('access-theme-pill');
+    if(!pill) return;
+    var light=document.documentElement.getAttribute('data-theme')==='light';
+    pill.textContent = light ? '🌙 DARK MODE' : '☀️ LIGHT MODE';
+  }
+  document.addEventListener('vpn-theme-change', sync);
+  sync();
+})();
+</script>
 </body>
 </html>
