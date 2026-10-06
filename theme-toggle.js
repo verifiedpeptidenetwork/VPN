@@ -454,8 +454,32 @@
       +'html[data-theme="light"] #vt-text-ctrl button:hover:not(:disabled){background:#1d3a66;}'
       +'html[data-theme="light"] #vt-text-toast{background:#13294b;color:#f3d27a;border-color:#b08d3c;}'
       +'@media print{#vt-text-ctrl{display:none!important;}}'
-      /* Phones: keep home.html's search bar clear of the corner controls */
-      +'@media(max-width:900px){#vpnSearchBar{padding-right:56px!important;box-sizing:border-box;}}'
+      /* Quick dock (portrait only): one ⚙ button + labeled menu replaces the corner clutter */
+      +'#vt-dock{display:none;}'
+      +'@media (orientation:portrait) and (max-width:1100px){'
+      +  '#vt-toggle-btn,#vt-text-ctrl,#vpn-mp-fab,#vpn-back-top{display:none!important;}'
+      +  '#vt-dock{display:flex;flex-direction:column;align-items:flex-end;gap:10px;position:fixed;right:14px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:2147483646;font:700 15px/1 Rajdhani,Arial,sans-serif;}'
+      +  '#gw-fab-home{width:58px!important;height:58px!important;}'
+      +'}'
+      /* above home.html's phone bottom nav bar */
+      +'@media (orientation:portrait) and (max-width:900px){body:has(#vpn-bottom-nav) #vt-dock{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px));}}'
+      +'#vt-dock-btn{width:52px;height:52px;border-radius:50%;border:2px solid rgba(0,245,255,0.7);background:rgba(8,0,24,0.94);color:#7ff7ff;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(0,245,255,0.35);padding:0;}'
+      +'#vt-dock-panel{display:none;flex-direction:column;gap:8px;padding:12px;min-width:200px;border-radius:14px;background:rgba(8,0,24,0.96);border:1.5px solid rgba(0,245,255,0.5);box-shadow:0 8px 30px rgba(0,0,0,0.6);}'
+      +'#vt-dock.open #vt-dock-panel{display:flex;}'
+      +'.vt-dock-item{display:flex;align-items:center;gap:8px;width:100%;padding:11px 14px;border-radius:9px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#d8f4ff;font:700 15px/1 Rajdhani,Arial,sans-serif;letter-spacing:0.04em;cursor:pointer;text-align:left;}'
+      +'.vt-dock-row{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 14px;border-radius:9px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#d8f4ff;}'
+      +'.vt-dock-lbl{flex:1;letter-spacing:0.08em;font-size:13px;opacity:0.8;}'
+      +'#vt-dock-pct{min-width:44px;text-align:center;font-size:14px;}'
+      +'.vt-dock-sm{width:40px;height:36px;border-radius:8px;border:1px solid rgba(0,245,255,0.5);background:rgba(0,245,255,0.1);color:#7ff7ff;font:700 15px/1 Rajdhani,Arial,sans-serif;cursor:pointer;padding:0;}'
+      +'.vt-dock-sm:disabled{opacity:0.35;cursor:default;}'
+      +'html[data-theme="light"] #vt-dock-btn{background:#13294b;color:#f3d27a;border-color:#b08d3c;}'
+      +'html[data-theme="light"] #vt-dock-panel{background:#fffdf8;border-color:#b08d3c;}'
+      +'html[data-theme="light"] .vt-dock-item,html[data-theme="light"] .vt-dock-row{background:#13294b;border-color:#13294b;color:#fffdf8;-webkit-text-stroke:0;}'
+      +'html[data-theme="light"] .vt-dock-sm{background:rgba(243,210,122,0.15);border-color:#b08d3c;color:#f3d27a;-webkit-text-stroke:0;}'
+      +'html[data-theme="light"] #vt-dock *{-webkit-text-stroke:0!important;}'
+      +'@media print{#vt-dock{display:none!important;}}'
+      /* Phones: keep home.html's search bar clear of the corner controls (landscape still shows them) */
+      +'@media(max-width:900px) and (orientation:landscape){#vpnSearchBar{padding-right:56px!important;box-sizing:border-box;}}'
       /* Light mode, stylesheet half: these can't be handled per-element from JS
          (pseudo-elements, every glow) and vanish automatically when data-theme is removed. */
       +'html[data-theme="light"] body *:not(img):not(video):not(canvas){text-shadow:none!important;box-shadow:none!important;}'
@@ -540,9 +564,9 @@
       body.style.setProperty('font-size',(baseBodyPx*scale)+'px','important');
     }
     try{ localStorage.setItem(TEXT_KEY, String(scale)); }catch(e){}
-    var minus=document.getElementById('vt-text-minus'), plus=document.getElementById('vt-text-plus');
-    if(minus) minus.disabled = step===0;
-    if(plus)  plus.disabled  = step===TEXT_STEPS.length-1;
+    ['vt-text-minus','vt-dock-minus'].forEach(function(id){ var b=document.getElementById(id); if(b) b.disabled = step===0; });
+    ['vt-text-plus','vt-dock-plus'].forEach(function(id){ var b=document.getElementById(id); if(b) b.disabled = step===TEXT_STEPS.length-1; });
+    var pct=document.getElementById('vt-dock-pct'); if(pct) pct.textContent=Math.round(scale*100)+'%';
     if(announce){
       var t=document.getElementById('vt-text-toast');
       if(t){
@@ -562,20 +586,57 @@
       '<button type="button" id="vt-text-minus" title="Smaller text" aria-label="Decrease text size">A−</button>'+
       '<div id="vt-text-toast" role="status" aria-live="polite"></div>';
     document.body.appendChild(wrap);
-    var step=savedTextStep();
-    document.getElementById('vt-text-plus').addEventListener('click',function(){
-      if(step<TEXT_STEPS.length-1){ step++; applyTextScale(step,true); }
-    });
-    document.getElementById('vt-text-minus').addEventListener('click',function(){
-      if(step>0){ step--; applyTextScale(step,true); }
-    });
-    applyTextScale(step,false);
+    textStep=savedTextStep();
+    document.getElementById('vt-text-plus').addEventListener('click',function(){ textBigger(true); });
+    document.getElementById('vt-text-minus').addEventListener('click',function(){ textSmaller(true); });
+    applyTextScale(textStep,false);
+  }
+  var textStep=1;
+  function textBigger(announce){ if(textStep<TEXT_STEPS.length-1){ textStep++; applyTextScale(textStep,announce); } }
+  function textSmaller(announce){ if(textStep>0){ textStep--; applyTextScale(textStep,announce); } }
+
+  // ── PORTRAIT QUICK DOCK ─────────────────────────────────────────
+  // On portrait phones/tablets the separate corner buttons (light/dark, A+/A-,
+  // music, back-to-top) become one ⚙ button that opens a labeled menu. Desktop
+  // and landscape keep the individual buttons. The page's own music player and
+  // back-to-top button are reused when present, so this works on every page.
+  function injectDock(){
+    if(document.getElementById('vt-dock')) return;
+    var dock=document.createElement('div');
+    dock.id='vt-dock'; dock.setAttribute('data-vt-skip','');
+    var hasMusic = !!(window.vpnMPExpand && document.getElementById('vpn-mp-fab'));
+    dock.innerHTML=
+      '<div id="vt-dock-panel" role="menu" aria-label="Quick settings">'+
+        '<button type="button" class="vt-dock-item" id="vt-dock-theme"></button>'+
+        '<div class="vt-dock-row"><span class="vt-dock-lbl">TEXT</span>'+
+          '<button type="button" class="vt-dock-sm" id="vt-dock-minus" aria-label="Smaller text">A−</button>'+
+          '<span id="vt-dock-pct">100%</span>'+
+          '<button type="button" class="vt-dock-sm" id="vt-dock-plus" aria-label="Bigger text">A+</button></div>'+
+        (hasMusic ? '<button type="button" class="vt-dock-item" id="vt-dock-music">🎵 Music player</button>' : '')+
+        '<button type="button" class="vt-dock-item" id="vt-dock-top">↑ Back to top</button>'+
+      '</div>'+
+      '<button type="button" id="vt-dock-btn" aria-label="Quick settings" aria-expanded="false">⚙</button>';
+    document.body.appendChild(dock);
+    var btn=document.getElementById('vt-dock-btn');
+    function setOpen(open){ dock.classList.toggle('open',open); btn.setAttribute('aria-expanded',open?'true':'false'); btn.textContent=open?'✕':'⚙'; }
+    function syncTheme(){ document.getElementById('vt-dock-theme').textContent = current()==='light' ? '🌙 Dark mode' : '☀️ Light mode'; }
+    btn.addEventListener('click',function(e){ e.stopPropagation(); setOpen(!dock.classList.contains('open')); });
+    document.getElementById('vt-dock-theme').addEventListener('click',function(){ apply(current()==='light' ? 'dark' : 'light'); });
+    document.getElementById('vt-dock-plus').addEventListener('click',function(){ textBigger(false); });
+    document.getElementById('vt-dock-minus').addEventListener('click',function(){ textSmaller(false); });
+    if(hasMusic) document.getElementById('vt-dock-music').addEventListener('click',function(){ setOpen(false); window.vpnMPExpand(); });
+    document.getElementById('vt-dock-top').addEventListener('click',function(){ setOpen(false); window.scrollTo({top:0,behavior:'smooth'}); });
+    document.addEventListener('click',function(e){ if(!dock.contains(e.target)) setOpen(false); });
+    document.addEventListener('vpn-theme-change', syncTheme);
+    syncTheme();
+    applyTextScale(textStep,false); // fill in the % readout + disabled states
   }
 
   function init(){
     injectStyle();
     injectButton();
     injectTextControls();
+    injectDock();
     if(current()==='light') applyLight();
     setTimeout(reapplyIfLight, 400);
   }
