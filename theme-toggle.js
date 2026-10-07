@@ -500,6 +500,12 @@
          light-mode equivalent -- strip their fills. Text content in pseudo-elements is unaffected. */
       +'html[data-theme="light"] body *::before,html[data-theme="light"] body *::after{background-image:none!important;background-color:transparent!important;}'
       /* ...except the file-folder tab on home.html's tablet nav buttons */
+      /* Hover in light mode: a darker navy + gold glow, and a pale-gold highlight so the dark text stays easy to read
+         (beats inline onmouseover dark backgrounds, which are not !important). Navy buttons keep their own hover. */
+      +'html[data-theme="light"] body :is(a,button,summary,[onclick],[role="button"],.qnav-card,.hbtn,.vpn-rule,.study-card,.qg-filter,.home-group-h,label):not(.sb-item):not(.rtab):not(.home-cta-primary):not(#vpn-theme-toggle):not(#vt-toggle-btn):not(.vt-dock-item):not(.vt-dock-row):not(.vt-dock-sm):not(#vt-dock-btn):not(#vt-text-ctrl button):not(#vpn-back-top):not(#cs-close-all-btn):hover{'
+      +'box-shadow:0 0 0 2px rgba(19,41,75,0.55),0 6px 16px -4px rgba(19,41,75,0.45),0 0 20px 2px rgba(176,141,60,0.55)!important;background-color:#fff4d6!important;color:#0f1b2d!important;-webkit-text-fill-color:currentColor;transition:box-shadow .15s,background-color .15s;}'
+      +'html[data-theme="light"] body :is(a,button,summary,[onclick],.qnav-card,.hbtn,.vpn-rule,.study-card):not(.sb-item):not(.rtab):not(.home-cta-primary):hover *:not(img):not(svg):not(svg *){color:#0f1b2d!important;-webkit-text-fill-color:#0f1b2d;}'
+      +'html[data-theme="light"] .home-cta-primary:hover,html[data-theme="light"] .sb-item:hover{box-shadow:0 0 0 2px #b08d3c,0 0 18px 2px rgba(176,141,60,0.6)!important;}'
       +'html[data-theme="light"] .rtab::before{background-color:#ffe066!important;}'
       +'html[data-theme="light"] .rtab.rtab-active::before{background-color:#fffbe6!important;}'
       +'html[data-theme="light"] ::placeholder{color:#6b6460!important;opacity:1!important;-webkit-text-fill-color:#6b6460!important;}'
