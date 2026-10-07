@@ -16043,6 +16043,7 @@ function csvFilter(cat, btn) {
   #vv-written-body{padding:0 0.8rem 0.8rem;}
   /* the old category bar, section list and jump-nav are replaced by the flat grid */
   body.vv-on #csv-filter-bar, body.vv-on #vault-sticky-nav{display:none !important;}
+  body.vv-on #cs-sticky-bar{display:none !important;}
   html[data-theme="light"] #vv-written{background:#fffdf8;}
 </style>
 <script>
@@ -29916,7 +29917,12 @@ window.addEventListener('appinstalled', function(){
   #vv-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; gap: 0.6rem !important; }
   #vv-topics .qg-filter { font-size: 0.78rem; padding: 0.35rem 0.6rem; }
   /* mascot button: smaller and tucked into the bottom-left corner above the tab bar so it stops covering text */
-  #gw-fab-home { width: 46px !important; height: 46px !important; border-width: 2px !important; bottom: 74px !important; left: 8px !important; opacity: 0.9; }
+  /* mascot button: peeks in from the left edge so it never sits on top of text; tap it to open */
+  #gw-fab-home { width: 44px !important; height: 44px !important; border-width: 2px !important; bottom: 74px !important; left: -16px !important; opacity: 0.85; }
+  #gw-fab-home:active, #gw-fab-home:focus-visible { left: 6px !important; opacity: 1; }
+  /* decorative glyph rows in page banners overlap the subtitle on narrow screens */
+  .vh-glyph { display: none !important; }
+  #vt-dock-btn { width: 44px !important; height: 44px !important; font-size: 20px !important; opacity: 0.9; }
   .vpn-rules-grid { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 380px) {
