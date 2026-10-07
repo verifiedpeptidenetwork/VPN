@@ -224,7 +224,7 @@
     var a2=hexToRGB(cs.getPropertyValue('--vh2')) || a1;
     var j1=jewelFor(a1), j2=jewelFor(a2);
     var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:'', filter:'', fill:'', border:{borderBottomColor:el.style.borderBottomColor||''}, extra:{'border-bottom-width':el.style.borderBottomWidth||'','border-bottom-style':el.style.borderBottomStyle||''}};
-    el.style.setProperty('background-image','linear-gradient(120deg,'+tint(j1,0.16)+' 0%,rgb(255,253,248) 55%,'+tint(j2,0.12)+' 100%)','important');
+    el.style.setProperty('background-image','linear-gradient(120deg,'+tint(j1,0.30)+' 0%,'+tint(j1,0.10)+' 45%,'+tint(j2,0.24)+' 100%)','important');
     el.style.setProperty('background-color','rgb(255,253,248)','important');
     el.style.setProperty('border-bottom-color', j1, 'important');
     el.style.setProperty('border-bottom-width','4px','important');

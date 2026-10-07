@@ -7984,9 +7984,33 @@ document.addEventListener('keydown', function(e){
       #home-desktop-cols.vpn-hero-card .home-cta{flex:1 1 100%;}
       .vpn-hc-path li{font-size:0.74rem;letter-spacing:0.08em;}
     }
+    /* LIGHT MODE hero: its own warm teal-to-rose wash with deep, readable colours (the card opts out of
+       theme-toggle.js recolouring via data-vt-skip, so every colour here is set on purpose) */
+    html[data-theme="light"] #home-desktop-cols.vpn-hero-card{
+      background:radial-gradient(80% 110% at 0% 0%,rgba(11,110,122,0.20),transparent 60%),radial-gradient(80% 110% at 100% 100%,rgba(155,29,74,0.16),transparent 60%),linear-gradient(135deg,#eef7f6,#fdf6e9 50%,#f9ecf1) !important;
+      border:1px solid rgba(15,27,45,0.18) !important;box-shadow:0 18px 40px -26px rgba(15,27,45,0.5) !important;}
+    html[data-theme="light"] #home-desktop-cols.vpn-hero-card::before{display:block !important;background:linear-gradient(90deg,#0b6e7a,#5b2a86 50%,#9b1d4a) !important;height:3px;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-eyebrow{color:#3a4658 !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-eyebrow b{color:#1f6b3a !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-live{background:#1f9a4f !important;box-shadow:0 0 0 3px rgba(31,154,79,0.2) !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-home-title span.t1{-webkit-text-fill-color:#0f1b2d !important;color:#0f1b2d !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-home-title span.t2{color:#9b1d4a !important;-webkit-text-stroke:0 !important;background:linear-gradient(90deg,#9b1d4a,#5b2a86) !important;-webkit-background-clip:text !important;background-clip:text !important;-webkit-text-fill-color:transparent !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-lede{color:#26324a !important;}
+    html[data-theme="light"] #home-desktop-cols .home-cta-primary{background:#13294b !important;border-color:#13294b !important;color:#fffdf8 !important;box-shadow:0 10px 22px -12px rgba(19,41,75,0.8) !important;}
+    html[data-theme="light"] #home-desktop-cols .home-cta-primary:hover{background:#1d3a66 !important;box-shadow:0 0 0 2px #b08d3c,0 0 18px 2px rgba(176,141,60,0.6) !important;}
+    html[data-theme="light"] #home-desktop-cols .home-cta-secondary{color:#0b5f6b !important;border:1.5px solid #0b6e7a !important;background:rgba(255,255,255,0.7) !important;}
+    html[data-theme="light"] #home-desktop-cols .home-cta-secondary:hover{background:#fff4d6 !important;color:#0f1b2d !important;box-shadow:0 0 0 2px rgba(19,41,75,0.55),0 0 20px 2px rgba(176,141,60,0.55) !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path{border-top-color:rgba(15,27,45,0.14) !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path li{color:#26324a !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path li:nth-of-type(1){--dot:#0b6e7a;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path li:nth-of-type(3){--dot:#1f6b3a;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path li:nth-of-type(5){--dot:#9b1d4a;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-path li::before{display:block !important;background-color:var(--dot) !important;}
+    html[data-theme="light"] #home-desktop-cols .vpn-hc-note{color:#5a6475 !important;}
+    html[data-theme="light"] #home-desktop-cols .retro80-card{border-color:#e0b400 !important;box-shadow:0 0 18px 4px rgba(230,180,0,0.55),0 0 40px 10px rgba(230,180,0,0.25) !important;}
   </style>
   <!-- HERO CARD: logo + words side by side (stacked on phones) -->
-  <div id="home-desktop-cols" class="vpn-hero-card">
+  <div id="home-desktop-cols" class="vpn-hero-card" data-vt-skip>
   <div class="vpn-hc-body">
   <div class="retro80-outer">
     <!-- rose petals fall over the logo area -->
@@ -27105,7 +27129,7 @@ window.addEventListener('appinstalled', function(){
   });
 })();
 </script>
-<script src="theme-toggle.js?v=26" defer></script>
+<script src="theme-toggle.js?v=27" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
    Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
