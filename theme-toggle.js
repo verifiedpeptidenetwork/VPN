@@ -165,36 +165,32 @@
     document.body.style.setProperty('background-image','none','important');
     document.body.style.setProperty('background-color',PAGE_BG,'important');
 
-    // Decorative <img> atmosphere: absolute/fixed + dim.
+    // Read pass first, write pass after -- interleaving getComputedStyle/getBoundingClientRect
+    // with style writes forced a full layout per element, which is what made phones stall.
+    var hideImgs=[], hideBg=[];
     var imgs=document.querySelectorAll('img');
     for(var i=0;i<imgs.length;i++){
-      var img=imgs[i];
-      var cs=getComputedStyle(img);
-      var op=parseFloat(cs.opacity);
-      if(isNaN(op)) op=1;
-      if((cs.position==='absolute'||cs.position==='fixed') && op<BACKDROP_OPACITY){
-        hiddenImgs.push({el:img, prev:img.style.visibility||''});
-        img.style.setProperty('visibility','hidden','important');
-      }
+      var cs=getComputedStyle(imgs[i]);
+      var op=parseFloat(cs.opacity); if(isNaN(op)) op=1;
+      if((cs.position==='absolute'||cs.position==='fixed') && op<BACKDROP_OPACITY) hideImgs.push(imgs[i]);
     }
-
-    // Decorative url() backgrounds: large area.
     var all=document.body.querySelectorAll('*');
     for(var j=0;j<all.length;j++){
       var el=all[j];
+      if(el.offsetParent===null) continue; // hidden (inactive views etc.) -- nothing to paint
       if(shouldSkip(el)) continue;
-      var bcs=getComputedStyle(el);
-      if(bcs.backgroundImage && bcs.backgroundImage.indexOf('url(')!==-1){
+      var bi=getComputedStyle(el).backgroundImage;
+      if(bi && bi.indexOf('url(')!==-1){
         var rect=el.getBoundingClientRect();
-        if(rect.width*rect.height>BACKDROP_AREA){
-          hiddenBgUrls.push({el:el, bgImg:el.style.backgroundImage||''});
-          el.style.setProperty('background-image','none','important');
-        }
+        if(rect.width*rect.height>BACKDROP_AREA) hideBg.push(el);
       }
     }
+    hideImgs.forEach(function(img){ hiddenImgs.push({el:img, prev:img.style.visibility||''}); img.style.setProperty('visibility','hidden','important'); });
+    hideBg.forEach(function(el){ hiddenBgUrls.push({el:el, bgImg:el.style.backgroundImage||''}); el.style.setProperty('background-image','none','important'); });
   }
 
-  function restoreBackdrops(){
+  function restoreBackdrops
+(){
     if(bodyRec){
       if(bodyRec.bg) document.body.style.setProperty('background-color',bodyRec.bg); else document.body.style.removeProperty('background-color');
       if(bodyRec.bgImg) document.body.style.setProperty('background-image',bodyRec.bgImg); else document.body.style.removeProperty('background-image');
@@ -360,12 +356,50 @@
     if(changed){ touched.push(rec); touchedSet.add(el); }
   }
 
-  function applyLight(){
-    neutralizeBackdrops();
-    var all=document.body.querySelectorAll('*');
-    for(var i=0;i<all.length;i++) processElement(all[i]);
-    startObserver();
+  // Recolouring every element of this very large page in one go froze phones for seconds.
+  // Now: what's on screen (page shell + the open view) is done first in ~10 ms slices so the
+  // tap stays responsive; hidden views follow in the background, and a view opened before
+  // its turn is done right away.
+  var lightJob=0;
+  function runSlices(list, job, done){
+    var i=0;
+    (function step(){
+      if(job!==lightJob) return;
+      var t0=performance.now();
+      while(i<list.length && performance.now()-t0<10){ processElement(list[i++]); }
+      if(i<list.length) setTimeout(step, 0); else if(done) done();
+    })();
   }
+  var idle = window.requestIdleCallback ? function(cb){ return window.requestIdleCallback(cb,{timeout:600}); } : function(cb){ return setTimeout(cb,60); };
+  function processView(v, job){
+    if(!v || v.__vtDone===job) return; v.__vtDone=job;
+    runSlices([v].concat(Array.prototype.slice.call(v.querySelectorAll('*'))), job);
+  }
+  function applyLight(){
+    var job=++lightJob;
+    neutralizeBackdrops();
+    startObserver();
+    var all=document.body.querySelectorAll('*'), first=[], views=[];
+    for(var i=0;i<all.length;i++){
+      var el=all[i];
+      if(el.classList && el.classList.contains('view')){ views.push(el); continue; }
+      var v=el.closest ? el.closest('.view') : null;
+      if(v && !v.classList.contains('active')) continue; // done per view later
+      first.push(el);
+    }
+    views.forEach(function(v){ if(v.classList.contains('active')){ first.push(v); v.__vtDone=job; } });
+    runSlices(first, job, function(){
+      (function next(k){
+        if(job!==lightJob || k>=views.length) return;
+        idle(function(){ processView(views[k], job); next(k+1); });
+      })(0);
+    });
+  }
+  // Opening a view that hasn't been recoloured yet: do it now
+  document.addEventListener('click', function(){
+    if(current()!=='light') return;
+    setTimeout(function(){ var v=document.querySelector('.view.active'); if(v) processView(v, lightJob); }, 30);
+  }, true);
 
   var observer=null;
   function startObserver(){
@@ -389,6 +423,7 @@
   }
 
   function revertLight(){
+    lightJob++;
     stopObserver();
     for(var i=0;i<touched.length;i++){
       var rec=touched[i];
@@ -418,7 +453,7 @@
   function apply(theme, isInit){
     if(theme==='light'){
       document.documentElement.setAttribute('data-theme','light');
-      applyLight();
+      if(isInit) applyLight(); else setTimeout(applyLight, 16);
     } else {
       document.documentElement.removeAttribute('data-theme');
       if(!isInit) revertLight();
