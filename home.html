@@ -28576,6 +28576,48 @@ window.addEventListener('appinstalled', function(){
   #vpn-mp-fab { bottom: 120px !important; } /* sits just above back-to-top (bottom 72px + 40px + gap) */
 }
 </style>
+<!-- COPY TEXT buttons on every information section -->
+<style>
+  .vpn-copy-btn{position:absolute;top:8px;right:8px;z-index:4;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;padding:3px 10px;border-radius:6px;border:1px solid rgba(0,245,255,0.55);background:rgba(0,10,25,0.85);color:#7ff7ff;cursor:pointer;}
+  .vpn-copy-btn:hover{background:#00f5ff;color:#001018;}
+  .vpn-copy-btn.ok{background:#00ff64;border-color:#00ff64;color:#001a08;}
+  html[data-theme="light"] .vpn-copy-btn{background:#13294b;color:#fffdf8;border-color:#b08d3c;}
+  .vpn-copy-host{position:relative;}
+  details > summary .vpn-copy-btn{position:static;margin-left:0.5rem;flex-shrink:0;}
+</style>
+<script>
+(function(){
+  var SEL='.glp-card, details.glp-drug, .tgk-card, .cx-card, #vpn-peptides-101, details.vpn-news-card, .breaking-banner, #view-vitamins details, #view-workouts [data-search], .study-card, #vv-written-body details.csv-section, .vpn-rule, .home-group-h ~ * [data-search] .glp-note';
+  function textOf(el){
+    var c=el.cloneNode(true);
+    c.querySelectorAll('.vpn-copy-btn, script, style, img, button').forEach(function(x){x.remove();});
+    return c.innerText ? c.innerText : c.textContent;
+  }
+  function copy(text, btn){
+    var done=function(){ btn.textContent='✓ COPIED'; btn.classList.add('ok'); setTimeout(function(){btn.textContent='📋 COPY TEXT';btn.classList.remove('ok');},1600); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,function(){fallback();}); } else fallback();
+    function fallback(){ var t=document.createElement('textarea'); t.value=text; t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select(); try{document.execCommand('copy');done();}catch(e){} t.remove(); }
+  }
+  function add(el){
+    if(el.__vpnCopy || el.closest('#vv-grid')) return;
+    if(el.matches('.vpn-rule')) return;
+    el.__vpnCopy=1;
+    var b=document.createElement('button'); b.type='button'; b.className='vpn-copy-btn'; b.textContent='📋 COPY TEXT';
+    b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation();
+      var src = el.tagName==='DETAILS' ? el : el;
+      var wasOpen = el.tagName==='DETAILS' ? el.open : null; if(wasOpen===false) el.open=true;
+      var t=textOf(src).replace(/\n{3,}/g,'\n\n').trim();
+      if(wasOpen===false) el.open=false;
+      copy(t+'\n\n— Verified Peptides Network (research & education only)', b);
+    });
+    if(el.tagName==='DETAILS'){ var s=el.querySelector('summary'); if(s){ s.appendChild(b); return; } }
+    el.classList.add('vpn-copy-host'); el.appendChild(b);
+  }
+  function run(){ document.querySelectorAll(SEL).forEach(add); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ setTimeout(run,400); }); else setTimeout(run,400);
+  window.addEventListener('vpn-theme-change',run);
+})();
+</script>
 </body>
 </html>
 
