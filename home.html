@@ -28820,6 +28820,43 @@ window.addEventListener('appinstalled', function(){
   window.addEventListener('vpn-theme-change',run);
 })();
 </script>
+<style>
+/* ═══ PHONE PORTRAIT POLISH — every page fits the screen, words wrap instead of spilling ═══ */
+@media (max-width: 600px) {
+  .view, .view * { max-width: 100%; box-sizing: border-box; }
+  .view img, .view video, .view iframe { height: auto; }
+  .view table, .view pre, .glp-table-wrap, .if-tabs { max-width: none; }
+  .view :is(p, li, span, div, a, strong, em, b) { overflow-wrap: break-word; }
+  /* headers + copy button: wrap onto a second line rather than run off-screen */
+  .view details > summary { flex-wrap: wrap; row-gap: 0.4rem; }
+  .vpn-copy-btn { font-size: 0.7rem; padding: 2px 8px; }
+  details > summary .vpn-copy-btn { margin-left: auto; }
+  .vpn-copy-host > .vpn-copy-btn { top: 6px; right: 6px; }
+  /* big link cards (supplies, videos, shops): tighter padding, text allowed to wrap */
+  .view a[style*="display:flex"], .view div[style*="display:flex"][style*="padding:0.75rem 1.75rem"] { gap: 0.6rem !important; padding-left: 0.9rem !important; padding-right: 0.9rem !important; flex-wrap: wrap; }
+  .view a[style*="display:flex"] span[style*="white-space:nowrap"], .view div[style*="justify-content:space-between"] > span[style*="white-space:nowrap"] { white-space: normal !important; }
+  /* nothing smaller than ~11px */
+  .vh-badge { font-size: 0.7rem !important; }
+  .vh-eyebrow, .ms-badge, .ms-stat-lbl, .if-stat-label { font-size: 0.7rem !important; }
+  #view-shops span, #view-ruqyah span { font-size: max(0.7rem, 1em); }
+  .vh-title { font-size: clamp(1.6rem, 8.5vw, 2.4rem) !important; line-height: 1.05; overflow-wrap: anywhere; }
+  .vh-sub { font-size: 0.95rem !important; line-height: 1.5; }
+  .section-title { overflow-wrap: anywhere; }
+  /* grids collapse to one or two columns */
+  .glp-two, #view-glp .glp-two, .tgk-grid, .cx-grid { grid-template-columns: 1fr !important; }
+  .glp-card, .tgk-card, .cx-card { padding: 0.85rem 0.85rem !important; }
+  #view-glp .glp-switch-imgs { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  #vv-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; gap: 0.6rem !important; }
+  #vv-topics .qg-filter { font-size: 0.78rem; padding: 0.35rem 0.6rem; }
+  /* mascot button: smaller and tucked into the bottom-left corner above the tab bar so it stops covering text */
+  #gw-fab-home { width: 46px !important; height: 46px !important; border-width: 2px !important; bottom: 74px !important; left: 8px !important; opacity: 0.9; }
+  .vpn-rules-grid { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 380px) {
+  #vv-grid { grid-template-columns: 1fr !important; }
+  .vpn-hc-feats { grid-template-columns: 1fr !important; }
+}
+</style>
 </body>
 </html>
 
