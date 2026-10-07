@@ -179,6 +179,7 @@
   /* === HEADER — offset right of sidebar on desktop === */
   @media(min-width:901px) {
     .vpn-top-banner { margin-left: 242px; width: calc(100% - 242px); }
+    #no-coa-banner  { margin-left: 242px; width: calc(100% - 242px); box-sizing: border-box; } /* was covering the sidebar title */
     .site-header    { margin-left: 242px; width: calc(100% - 242px); }
     #vpnSearchBar   { margin-left: 242px; width: calc(100% - 242px); }
     #vpn-global-results { left: 242px; width: calc(100% - 242px); }
@@ -4291,18 +4292,23 @@ document.addEventListener('keydown', function(e){
     animation: sbLogoBar 4s ease-in-out infinite;
     flex-shrink:0;
   }
-  .sb-logo-text { line-height: 1.2; }
-  .sb-logo-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.92rem; letter-spacing: 0.2em;
-    background: linear-gradient(90deg, #00f5ff, #ff2d78, #9d00ff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
+  .sb-logo-text { line-height: 1.1; min-width: 0; flex: 1 1 auto; }
+  /* Title: three solid-colour lines that always fit the sidebar (no clipped rainbow gradient) */
+  .sb-logo-title { display: flex; flex-direction: column; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.1em; }
+  .sb-logo-title span { display: block; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .sb-logo-title .sbt-a { font-size: 0.72rem; letter-spacing: 0.24em; color: #ffd45c; }
+  .sb-logo-title .sbt-b { font-size: 1.12rem; color: #ffffff; text-shadow: 0 0 10px rgba(0,245,255,0.35); }
+  .sb-logo-title .sbt-c { font-size: 1.12rem; color: #3ff3ff; text-shadow: 0 0 10px rgba(0,245,255,0.45); }
   .sb-logo-sub {
-    font-family: 'Rajdhani', sans-serif; font-size: 0.62rem; font-weight: 700;
-    letter-spacing: 0.14em; color: rgba(0,245,255,0.45); text-transform: uppercase;
-    margin-top:1px;
+    display: inline-block; margin-top: 0.35rem; padding: 0.12rem 0.45rem;
+    font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
+    color: #ffb3cf; border: 1px solid rgba(255,45,120,0.45); border-radius: 999px; background: rgba(255,45,120,0.08);
   }
+  html[data-theme="light"] .sb-logo-title .sbt-a { color: #8a6a14; }
+  html[data-theme="light"] .sb-logo-title .sbt-b { color: #0f1b2d; text-shadow: none; }
+  html[data-theme="light"] .sb-logo-title .sbt-c { color: #0b6e7a; text-shadow: none; }
+  html[data-theme="light"] .sb-logo-sub { color: #9b1d4a; border-color: rgba(155,29,74,0.4); background: rgba(155,29,74,0.06); }
 
   .sb-section {
     padding: 0.55rem 0.75rem 0.3rem;
@@ -4426,8 +4432,8 @@ document.addEventListener('keydown', function(e){
         </div>
         <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;z-index:4;">
       </div>
-      <div class="sb-logo-text">
-        <div class="sb-logo-title">Research &amp; Unfiltered<br>Information</div>
+      <div class="sb-logo-text" data-vt-skip>
+        <div class="sb-logo-title"><span class="sbt-a">Research &amp;</span><span class="sbt-b">Unfiltered</span><span class="sbt-c">Information</span></div>
         <div class="sb-logo-sub">Verified Peptide Network</div>
       </div>
     </div>
