@@ -8015,20 +8015,20 @@ document.addEventListener('keydown', function(e){
     html[data-theme="light"] #home-desktop-cols .vpn-hc-note{color:#5a6475 !important;}
     html[data-theme="light"] #home-desktop-cols .retro80-card{border-color:#e0b400 !important;box-shadow:0 0 18px 4px rgba(230,180,0,0.55),0 0 40px 10px rgba(230,180,0,0.25) !important;}
     /* ═══ HERO v3: big logo with a golden halo, gold title accent, "what's inside" tiles ═══ */
-    #home-desktop-cols.vpn-hero-card{--r80:270px;}
+    #home-desktop-cols.vpn-hero-card{--r80:330px;}
     #home-desktop-cols.vpn-hero-card .vpn-hc-body{gap:3.2rem;padding:2.6rem 2.6rem 2.3rem 3.4rem;}
     #home-desktop-cols.vpn-hero-card .retro80-outer{z-index:1;}
     #home-desktop-cols.vpn-hero-card .retro80-outer .retro80-card{z-index:3;border:3px solid #ffc400 !important;
-      box-shadow:0 0 0 5px rgba(255,170,0,0.28),0 0 26px 6px rgba(255,190,0,0.75),0 0 70px 18px rgba(255,120,0,0.45) !important;}
-    .vpn-halo{position:absolute;inset:-22px;border-radius:50%;z-index:1;pointer-events:none;}
+      box-shadow:0 0 0 3px rgba(255,170,0,0.35),0 0 12px 2px rgba(255,200,0,0.85),0 0 28px 4px rgba(255,130,0,0.45) !important;}
+    .vpn-halo{position:absolute;inset:-10px;border-radius:50%;z-index:1;pointer-events:none;}
     #home-desktop-cols .vpn-halo::before{content:'';position:absolute;inset:0;border-radius:50%;
       background:conic-gradient(from 0deg,#ffd400,#ff8a00,#ff4d00,#ffb300,#fff27a,#ffd400) !important;
       -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 7px),#000 calc(100% - 6px));mask:radial-gradient(farthest-side,transparent calc(100% - 7px),#000 calc(100% - 6px));
-      filter:drop-shadow(0 0 10px rgba(255,170,0,0.9));animation:vpnHaloSpin 7s linear infinite;}
-    #home-desktop-cols .vpn-halo::after{content:'';position:absolute;inset:-46px;border-radius:50%;z-index:-1;
+      filter:drop-shadow(0 0 5px rgba(255,170,0,0.9));animation:vpnHaloSpin 7s linear infinite;}
+    #home-desktop-cols .vpn-halo::after{content:'';position:absolute;inset:-18px;border-radius:50%;z-index:-1;
       background:radial-gradient(circle,rgba(255,214,0,0.55) 0%,rgba(255,140,0,0.32) 38%,rgba(255,80,0,0.10) 58%,transparent 70%) !important;
-      filter:blur(10px);animation:vpnHaloBreath 3.4s ease-in-out infinite;}
-    .vpn-halo i{position:absolute;inset:-60px;border-radius:50%;
+      filter:blur(6px);animation:vpnHaloBreath 3.4s ease-in-out infinite;}
+    .vpn-halo i{position:absolute;inset:-26px;border-radius:50%;
       background:repeating-conic-gradient(rgba(255,210,0,0.22) 0deg 4deg,transparent 4deg 15deg);
       -webkit-mask:radial-gradient(circle,transparent 48%,#000 56%,transparent 72%);mask:radial-gradient(circle,transparent 48%,#000 56%,transparent 72%);
       animation:vpnHaloSpin 40s linear infinite reverse;}
@@ -8046,21 +8046,23 @@ document.addEventListener('keydown', function(e){
     .vpn-hc-feat .fi{grid-row:1 / span 2;display:grid;place-items:center;width:36px;height:36px;border-radius:10px;font-size:1.15rem;
       background:color-mix(in srgb,var(--fc) 16%,transparent);border:1px solid color-mix(in srgb,var(--fc) 45%,transparent);color:var(--fc);}
     .vpn-hc-feat .ft{font-family:'Bebas Neue',sans-serif;font-size:1.02rem;letter-spacing:0.1em;color:var(--fc);line-height:1.1;}
-    .vpn-hc-feat .ft,.vpn-hc-feat .fd{min-width:0;overflow-wrap:anywhere;}
+    .vpn-hc-feat .ft,.vpn-hc-feat .fd{min-width:0;overflow-wrap:break-word;}
+    @container (max-width:600px){ .vpn-hc-feats{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @container (max-width:300px){ .vpn-hc-feats{grid-template-columns:1fr;} }
     .vpn-hc-feat .fd{font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(220,230,250,0.75);line-height:1.2;}
     .vpn-hc-feat:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--fc) 9%,transparent);box-shadow:0 0 0 1px var(--fc),0 8px 22px -8px var(--fc);}
-    @container vpnhc (max-width:820px){ #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:200px;gap:2.4rem;padding:2rem 1.8rem 2rem 2.6rem;} .vpn-hc-feats{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @container vpnhc (max-width:820px){ #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:240px;gap:2.4rem;padding:2rem 1.8rem 2rem 2.6rem;} .vpn-hc-feats{grid-template-columns:repeat(2,minmax(0,1fr));} }
     @media(max-width:900px){
-      #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:210px;padding:3rem 1.1rem 1.4rem;gap:2.6rem;}
+      #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:260px;padding:2.2rem 1.1rem 1.4rem;gap:2rem;}
       .vpn-hc-feats{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
-    @media(max-width:420px){ #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:180px;} .vpn-hc-feat{padding:0.55rem 0.6rem;} .vpn-hc-feat .fi{width:30px;height:30px;font-size:1rem;} .vpn-hc-feat .ft{font-size:0.92rem;} .vpn-hc-feat .fd{font-size:0.74rem;} }
+    @media(max-width:420px){ #home-desktop-cols.vpn-hero-card .vpn-hc-body{--r80:240px;} .vpn-hc-feat{padding:0.55rem 0.6rem;} .vpn-hc-feat .fi{width:30px;height:30px;font-size:1rem;} .vpn-hc-feat .ft{font-size:0.92rem;} .vpn-hc-feat .fd{font-size:0.74rem;} }
     @media(prefers-reduced-motion:reduce){ #home-desktop-cols .vpn-halo::before,#home-desktop-cols .vpn-halo::after,.vpn-halo i,#home-desktop-cols.vpn-hero-card .vpn-home-title span.t2{animation:none !important;} }
     /* light mode */
     html[data-theme="light"] #home-desktop-cols.vpn-hero-card .vpn-home-title span.t2{background:linear-gradient(90deg,#c25e00,#b8326a 60%,#c25e00) !important;background-size:220% 100% !important;-webkit-background-clip:text !important;background-clip:text !important;-webkit-text-fill-color:transparent !important;}
     html[data-theme="light"] #home-desktop-cols .vpn-halo::before{display:block !important;}
     html[data-theme="light"] #home-desktop-cols .vpn-halo::after{display:block !important;background:radial-gradient(circle,rgba(255,190,0,0.45) 0%,rgba(255,140,0,0.22) 40%,transparent 70%) !important;}
-    html[data-theme="light"] #home-desktop-cols.vpn-hero-card .retro80-outer .retro80-card{box-shadow:0 0 0 4px rgba(230,150,0,0.3),0 0 22px 5px rgba(240,170,0,0.6),0 0 50px 12px rgba(240,120,0,0.3) !important;}
+    html[data-theme="light"] #home-desktop-cols.vpn-hero-card .retro80-outer .retro80-card{box-shadow:0 0 0 3px rgba(230,150,0,0.35),0 0 12px 2px rgba(240,170,0,0.6),0 0 24px 4px rgba(240,120,0,0.3) !important;}
     html[data-theme="light"] .vpn-hc-feat{background:rgba(255,255,255,0.75) !important;border-color:color-mix(in srgb,var(--fc) 55%,#0f1b2d) !important;}
     html[data-theme="light"] .vpn-hc-feat .ft{color:color-mix(in srgb,var(--fc) 45%,#0f1b2d) !important;-webkit-text-stroke:0 !important;}
     html[data-theme="light"] .vpn-hc-feat .fd{color:#3a4658 !important;}
