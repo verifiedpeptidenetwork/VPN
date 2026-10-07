@@ -4365,6 +4365,10 @@ document.addEventListener('keydown', function(e){
   /* every sidebar item looks the same: links (<a>) and buttons, same weight, colour and font */
   #vpn-sidebar .sb-item, #vpn-sidebar a.sb-item, #vpn-sidebar button.sb-item{font-family:"Bebas Neue",sans-serif !important;font-weight:400 !important;color:#1a1200 !important;-webkit-text-fill-color:#1a1200;text-shadow:none !important;letter-spacing:0.1em;}
   html[data-theme="light"] #vpn-sidebar .sb-item{color:#fffdf8 !important;-webkit-text-fill-color:#fffdf8;}
+  /* highlighted (hover / tap / keyboard focus): dark tile with yellow text so the words stay readable */
+  #vpn-sidebar .sb-item:hover, #vpn-sidebar .sb-item:focus-visible, #vpn-sidebar .sb-item:active{background:#0d0b1a !important;color:#ffd400 !important;-webkit-text-fill-color:#ffd400 !important;filter:none !important;box-shadow:0 0 0 1px #ffd400, 0 0 14px rgba(255,212,0,0.45) !important;}
+  #vpn-sidebar .sb-item.sb-active:hover{background:linear-gradient(135deg,#fff0a0 0%,#ffe040 60%,#ffc800 100%) !important;color:#1a1200 !important;-webkit-text-fill-color:#1a1200 !important;}
+  html[data-theme="light"] #vpn-sidebar .sb-item:hover{background:#13294b !important;color:#ffd400 !important;-webkit-text-fill-color:#ffd400 !important;}
   body:has(#mobile-nav.open) #gw-fab-home{display:none !important;}
   .sb-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:34px;}
   .sb-item > :not(.sb-icon){overflow:hidden;text-overflow:ellipsis;}
@@ -26403,6 +26407,37 @@ function vpnSearch(q) {
   vpnBuildIndex();
   var ql = q.toLowerCase().trim();
   var terms = ql.split(/\s+/);
+  // Typo tolerance: a term with no exact hits is swapped for the closest real word in the index
+  if (!window._vpnWords) {
+    var wset = {};
+    _vpnIdx.forEach(function(it){ (it.kw.match(/[a-z0-9][a-z0-9+\-]{3,}/g) || []).forEach(function(w){ wset[w]=1; }); });
+    window._vpnWords = Object.keys(wset);
+  }
+  function _lev(a, b) {
+    if (Math.abs(a.length - b.length) > 3) return 99;
+    var p = [], i, j;
+    for (j = 0; j <= b.length; j++) p[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      var prev = p[0]; p[0] = i;
+      for (j = 1; j <= b.length; j++) {
+        var tmp = p[j];
+        p[j] = Math.min(p[j] + 1, p[j-1] + 1, prev + (a[i-1] === b[j-1] ? 0 : 1));
+        prev = tmp;
+      }
+    }
+    return p[b.length];
+  }
+  terms = terms.map(function(t) {
+    if (t.length < 4) return t;
+    var hit = _vpnIdx.some(function(it){ return it.kw.indexOf(t) !== -1; });
+    if (hit) return t;
+    var best = null, bd = 99, max = t.length <= 5 ? 1 : (t.length <= 8 ? 2 : 3);
+    window._vpnWords.forEach(function(w) {
+      var d = _lev(t, w.length > t.length + 3 ? w.slice(0, t.length + 1) : w);
+      if (d < bd) { bd = d; best = w; }
+    });
+    return (best && bd <= max) ? best : t;
+  });
   // Expand terms with peptide + sheet keyword synonyms
   var expanded = terms.slice();
   terms.forEach(function(t) {
@@ -27211,6 +27246,8 @@ function showToast(msg, color) {
   }
   .if-tab:hover{background:rgba(0,245,255,0.1);color:#00f5ff;border-color:rgba(0,245,255,0.5);}
   .if-tab.active{background:rgba(0,245,255,0.18);color:#00f5ff;border-color:#00f5ff;box-shadow:0 0 10px rgba(0,245,255,0.25);}
+  .if-tab-group{display:flex;flex-wrap:wrap;align-items:center;gap:0.35rem;margin:0 0 0.55rem;}
+  .if-tab-glabel{flex:0 0 100%;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.18em;color:rgba(0,245,255,0.6);margin-top:0.2rem;}
   #if-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
   #if-cache-note{font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;color:rgba(0,245,255,0.3);}
   #if-refresh-btn{
@@ -27351,33 +27388,70 @@ function showToast(msg, color) {
 <!-- CONTROLS -->
 <div id="if-controls">
   <div id="if-tab-row">
-    <button class="if-tab active" data-term="BPC-157" onclick="ifSetTab(this,'BPC-157')">BPC-157</button>
-    <button class="if-tab" data-term="TB-500 thymosin beta-4" onclick="ifSetTab(this,'TB-500 thymosin beta-4')">TB-500</button>
-    <button class="if-tab" data-term="sermorelin peptide" onclick="ifSetTab(this,'sermorelin peptide')">SERMORELIN</button>
-    <button class="if-tab" data-term="ipamorelin growth hormone" onclick="ifSetTab(this,'ipamorelin growth hormone')">IPAMORELIN</button>
-    <button class="if-tab" data-term="CJC-1295 peptide" onclick="ifSetTab(this,'CJC-1295 peptide')">CJC-1295</button>
-    <button class="if-tab" data-term="semaglutide GLP-1" onclick="ifSetTab(this,'semaglutide GLP-1')">SEMAGLUTIDE</button>
-    <button class="if-tab" data-term="tirzepatide peptide" onclick="ifSetTab(this,'tirzepatide peptide')">TIRZEPATIDE</button>
-    <button class="if-tab" data-term="retatrutide GLP-1 GIP glucagon" onclick="ifSetTab(this,'retatrutide GLP-1 GIP glucagon')">RETATRUTIDE</button>
-    <button class="if-tab" data-term="GHK-Cu peptide copper" onclick="ifSetTab(this,'GHK-Cu peptide copper')">GHK-CU</button>
-    <button class="if-tab" data-term="AOD-9604 peptide" onclick="ifSetTab(this,'AOD-9604 peptide')">AOD-9604</button>
-    <button class="if-tab" data-term="PT-141 bremelanotide" onclick="ifSetTab(this,'PT-141 bremelanotide')">PT-141</button>
-    <button class="if-tab" data-term="Epithalon peptide telomere" onclick="ifSetTab(this,'Epithalon peptide telomere')">EPITHALON</button>
-    <button class="if-tab" data-term="DSIP delta sleep inducing peptide" onclick="ifSetTab(this,'DSIP delta sleep inducing peptide')">DSIP</button>
-    <button class="if-tab" data-term="Thymosin Alpha-1 immune peptide" onclick="ifSetTab(this,'Thymosin Alpha-1 immune peptide')">THYMOSIN α1</button>
-    <button class="if-tab" data-term="Selank anxiolytic nootropic peptide" onclick="ifSetTab(this,'Selank anxiolytic nootropic peptide')">SELANK</button>
-    <button class="if-tab" data-term="Semax cognitive peptide nootropic" onclick="ifSetTab(this,'Semax cognitive peptide nootropic')">SEMAX</button>
-    <button class="if-tab" data-term="GHRP-6 growth hormone releasing hexapeptide" onclick="ifSetTab(this,'GHRP-6 growth hormone releasing hexapeptide')">GHRP-6</button>
-    <button class="if-tab" data-term="GHRP-2 growth hormone releasing peptide" onclick="ifSetTab(this,'GHRP-2 growth hormone releasing peptide')">GHRP-2</button>
-    <button class="if-tab" data-term="Hexarelin growth hormone secretagogue" onclick="ifSetTab(this,'Hexarelin growth hormone secretagogue')">HEXARELIN</button>
-    <button class="if-tab" data-term="Melanotan II melanocyte stimulating" onclick="ifSetTab(this,'Melanotan II melanocyte stimulating')">MELANOTAN II</button>
-    <button class="if-tab" data-term="follistatin peptide muscle" onclick="ifSetTab(this,'follistatin peptide muscle')">FOLLISTATIN</button>
-    <button class="if-tab" data-term="LL-37 cathelicidin antimicrobial peptide" onclick="ifSetTab(this,'LL-37 cathelicidin antimicrobial peptide')">LL-37</button>
-    <button class="if-tab" data-term="larazotide zonulin gut permeability peptide" onclick="ifSetTab(this,'larazotide zonulin gut permeability peptide')">LARAZOTIDE</button>
-    <button class="if-tab" data-term="kisspeptin reproductive hormone peptide" onclick="ifSetTab(this,'kisspeptin reproductive hormone peptide')">KISSPEPTIN</button>
-    <button class="if-tab" data-term="AMPK activator weight loss metabolic" onclick="ifSetTab(this,'AMPK activator weight loss metabolic')">ATX304 (AMPK)</button>
-    <button class="if-tab" data-term="OS01 senolytic skin peptide OneSkin" onclick="ifSetTab(this,'OS01 senolytic skin peptide OneSkin')">OS-01</button>
-    <button class="if-tab" data-term="CML AGE glycation collagen enzyme skin aging" onclick="ifSetTab(this,'CML AGE glycation collagen enzyme skin aging')">CML / CML ACE</button>
+    <input id="if-custom" class="qg-search" type="search" placeholder="Search PubMed for any peptide…" onkeydown="if(event.key==='Enter'&&this.value.trim()){ifSetTab(null,this.value.trim());}" style="width:100%;box-sizing:border-box;margin:0 0 0.7rem;">
+    <div class="if-tab-group"><span class="if-tab-glabel">💉 GLP-1 &amp; WEIGHT</span>
+    <button class="if-tab active" data-term="retatrutide[tiab]" onclick="ifSetTab(this,'retatrutide[tiab]')">RETATRUTIDE</button>
+    <button class="if-tab" data-term="tirzepatide[tiab]" onclick="ifSetTab(this,'tirzepatide[tiab]')">TIRZEPATIDE</button>
+    <button class="if-tab" data-term="semaglutide[tiab]" onclick="ifSetTab(this,'semaglutide[tiab]')">SEMAGLUTIDE</button>
+    <button class="if-tab" data-term="cagrilintide[tiab] OR cagrisema[tiab]" onclick="ifSetTab(this,'cagrilintide[tiab] OR cagrisema[tiab]')">CAGRILINTIDE</button>
+    <button class="if-tab" data-term="survodutide[tiab]" onclick="ifSetTab(this,'survodutide[tiab]')">SURVODUTIDE</button>
+    <button class="if-tab" data-term="eloralintide[tiab]" onclick="ifSetTab(this,'eloralintide[tiab]')">ELORALINTIDE</button>
+    <button class="if-tab" data-term="orforglipron[tiab]" onclick="ifSetTab(this,'orforglipron[tiab]')">ORFORGLIPRON</button>
+    <button class="if-tab" data-term="mazdutide[tiab]" onclick="ifSetTab(this,'mazdutide[tiab]')">MAZDUTIDE</button>
+    <button class="if-tab" data-term="ATX-304[tiab] OR O304[tiab]" onclick="ifSetTab(this,'ATX-304[tiab] OR O304[tiab]')">ATX-304</button>
+    <button class="if-tab" data-term="5-amino-1MQ[tiab] OR (NNMT[tiab] AND inhibitor[tiab] AND obesity)" onclick="ifSetTab(this,'5-amino-1MQ[tiab] OR (NNMT[tiab] AND inhibitor[tiab] AND obesity)')">5-AMINO-1MQ</button>
+    <button class="if-tab" data-term="AOD9604[tiab] OR AOD-9604[tiab]" onclick="ifSetTab(this,'AOD9604[tiab] OR AOD-9604[tiab]')">AOD-9604</button>
+    <button class="if-tab" data-term="SLU-PP-332[tiab] OR (ERR[tiab] AND agonist[tiab] AND exercise mimetic)" onclick="ifSetTab(this,'SLU-PP-332[tiab] OR (ERR[tiab] AND agonist[tiab] AND exercise mimetic)')">SLU-PP-332</button>
+    </div>
+    <div class="if-tab-group"><span class="if-tab-glabel">🩹 HEALING &amp; REPAIR</span>
+    <button class="if-tab" data-term="BPC-157" onclick="ifSetTab(this,'BPC-157')">BPC-157</button>
+    <button class="if-tab" data-term="thymosin beta-4[tiab] OR TB-500[tiab]" onclick="ifSetTab(this,'thymosin beta-4[tiab] OR TB-500[tiab]')">TB-500</button>
+    <button class="if-tab" data-term="GHK-Cu[tiab] OR copper tripeptide[tiab]" onclick="ifSetTab(this,'GHK-Cu[tiab] OR copper tripeptide[tiab]')">GHK-CU</button>
+    <button class="if-tab" data-term="KPV[tiab] AND (inflammation OR colitis)" onclick="ifSetTab(this,'KPV[tiab] AND (inflammation OR colitis)')">KPV</button>
+    <button class="if-tab" data-term="LL-37[tiab] OR cathelicidin[tiab]" onclick="ifSetTab(this,'LL-37[tiab] OR cathelicidin[tiab]')">LL-37</button>
+    <button class="if-tab" data-term="ARA-290[tiab] OR ARA290[tiab] OR cibinetide[tiab]" onclick="ifSetTab(this,'ARA-290[tiab] OR ARA290[tiab] OR cibinetide[tiab]')">ARA-290</button>
+    <button class="if-tab" data-term="larazotide[tiab]" onclick="ifSetTab(this,'larazotide[tiab]')">LARAZOTIDE</button>
+    <button class="if-tab" data-term="thymosin alpha 1[tiab] OR thymalfasin[tiab]" onclick="ifSetTab(this,'thymosin alpha 1[tiab] OR thymalfasin[tiab]')">THYMOSIN α1</button>
+    </div>
+    <div class="if-tab-group"><span class="if-tab-glabel">🧬 GH &amp; HORMONES</span>
+    <button class="if-tab" data-term="tesamorelin[tiab]" onclick="ifSetTab(this,'tesamorelin[tiab]')">TESAMORELIN</button>
+    <button class="if-tab" data-term="sermorelin[tiab] OR GHRH analog[tiab]" onclick="ifSetTab(this,'sermorelin[tiab] OR GHRH analog[tiab]')">SERMORELIN</button>
+    <button class="if-tab" data-term="CJC-1295[tiab]" onclick="ifSetTab(this,'CJC-1295[tiab]')">CJC-1295</button>
+    <button class="if-tab" data-term="ipamorelin[tiab]" onclick="ifSetTab(this,'ipamorelin[tiab]')">IPAMORELIN</button>
+    <button class="if-tab" data-term="GHRP-2[tiab] OR pralmorelin[tiab]" onclick="ifSetTab(this,'GHRP-2[tiab] OR pralmorelin[tiab]')">GHRP-2</button>
+    <button class="if-tab" data-term="GHRP-6[tiab]" onclick="ifSetTab(this,'GHRP-6[tiab]')">GHRP-6</button>
+    <button class="if-tab" data-term="hexarelin[tiab]" onclick="ifSetTab(this,'hexarelin[tiab]')">HEXARELIN</button>
+    <button class="if-tab" data-term="ibutamoren[tiab] OR MK-677[tiab]" onclick="ifSetTab(this,'ibutamoren[tiab] OR MK-677[tiab]')">MK-677</button>
+    <button class="if-tab" data-term="enclomiphene[tiab]" onclick="ifSetTab(this,'enclomiphene[tiab]')">ENCLOMIPHENE</button>
+    <button class="if-tab" data-term="kisspeptin[tiab] AND human" onclick="ifSetTab(this,'kisspeptin[tiab] AND human')">KISSPEPTIN</button>
+    <button class="if-tab" data-term="follistatin[tiab] AND muscle" onclick="ifSetTab(this,'follistatin[tiab] AND muscle')">FOLLISTATIN</button>
+    </div>
+    <div class="if-tab-group"><span class="if-tab-glabel">⚡ MITOCHONDRIA &amp; LONGEVITY</span>
+    <button class="if-tab" data-term="elamipretide[tiab] OR SS-31[tiab]" onclick="ifSetTab(this,'elamipretide[tiab] OR SS-31[tiab]')">SS-31</button>
+    <button class="if-tab" data-term="MOTS-c[tiab]" onclick="ifSetTab(this,'MOTS-c[tiab]')">MOTS-C</button>
+    <button class="if-tab" data-term="urolithin A[tiab]" onclick="ifSetTab(this,'urolithin A[tiab]')">UROLITHIN A</button>
+    <button class="if-tab" data-term="(NAD+[tiab] OR nicotinamide riboside[tiab] OR nicotinamide mononucleotide[tiab]) AND human" onclick="ifSetTab(this,'(NAD+[tiab] OR nicotinamide riboside[tiab] OR nicotinamide mononucleotide[tiab]) AND human')">NAD+</button>
+    <button class="if-tab" data-term="epitalon[tiab] OR epithalon[tiab] OR epithalamin[tiab]" onclick="ifSetTab(this,'epitalon[tiab] OR epithalon[tiab] OR epithalamin[tiab]')">EPITALON</button>
+    <button class="if-tab" data-term="FOXO4-DRI[tiab]" onclick="ifSetTab(this,'FOXO4-DRI[tiab]')">FOXO4-DRI</button>
+    <button class="if-tab" data-term="glutathione supplementation[tiab]" onclick="ifSetTab(this,'glutathione supplementation[tiab]')">GLUTATHIONE</button>
+    <button class="if-tab" data-term="thymulin[tiab]" onclick="ifSetTab(this,'thymulin[tiab]')">THYMULIN</button>
+    </div>
+    <div class="if-tab-group"><span class="if-tab-glabel">🧠 BRAIN &amp; SLEEP</span>
+    <button class="if-tab" data-term="semax[tiab]" onclick="ifSetTab(this,'semax[tiab]')">SEMAX</button>
+    <button class="if-tab" data-term="selank[tiab]" onclick="ifSetTab(this,'selank[tiab]')">SELANK</button>
+    <button class="if-tab" data-term="delta sleep-inducing peptide[tiab]" onclick="ifSetTab(this,'delta sleep-inducing peptide[tiab]')">DSIP</button>
+    <button class="if-tab" data-term="cerebrolysin[tiab]" onclick="ifSetTab(this,'cerebrolysin[tiab]')">CEREBROLYSIN</button>
+    <button class="if-tab" data-term="spadin[tiab] OR PE-22-28[tiab]" onclick="ifSetTab(this,'spadin[tiab] OR PE-22-28[tiab]')">PE-22-28</button>
+    <button class="if-tab" data-term="pinealon[tiab]" onclick="ifSetTab(this,'pinealon[tiab]')">PINEALON</button>
+    </div>
+    <div class="if-tab-group"><span class="if-tab-glabel">❤️ SEXUAL HEALTH &amp; OTHER</span>
+    <button class="if-tab" data-term="bremelanotide[tiab]" onclick="ifSetTab(this,'bremelanotide[tiab]')">PT-141</button>
+    <button class="if-tab" data-term="melanotan[tiab]" onclick="ifSetTab(this,'melanotan[tiab]')">MELANOTAN II</button>
+    <button class="if-tab" data-term="aviptadil[tiab] OR vasoactive intestinal peptide therapy" onclick="ifSetTab(this,'aviptadil[tiab] OR vasoactive intestinal peptide therapy')">VIP</button>
+    <button class="if-tab" data-term="PNC-27[tiab]" onclick="ifSetTab(this,'PNC-27[tiab]')">PNC-27</button>
+    <button class="if-tab" data-term="berberine[tiab] AND randomized" onclick="ifSetTab(this,'berberine[tiab] AND randomized')">BERBERINE</button>
+    <button class="if-tab" data-term="OS-01[tiab] senolytic skin" onclick="ifSetTab(this,'OS-01[tiab] senolytic skin')">OS-01</button>
+    </div>
   </div>
   <div id="if-meta-row">
     <span id="if-cache-note"></span>
@@ -27389,7 +27463,7 @@ function showToast(msg, color) {
 <div id="if-content">
 
   <!-- Pinned BPC-157 landmark studies -->
-  <div id="if-pinned-bpc">
+  <div id="if-pinned-bpc" style="display:none;">
     <div class="if-section-label" style="color:rgba(0,255,100,0.7);">&#128204; LANDMARK STUDIES &mdash; PINNED &mdash; BPC-157</div>
     <div class="if-grid">
 
@@ -27426,7 +27500,7 @@ function showToast(msg, color) {
       <div class="if-card if-card-red">
         <div class="if-card-top">
           <span class="if-card-badge" style="background:rgba(255,45,120,0.12);border:1px solid rgba(255,45,120,0.5);color:#ff2d78;">PINNED &middot; TUMOR SAFETY &middot; 2017</span>
-          <div class="if-card-title">BPC-157 Injected Directly Into Mouse Tumors Did NOT Promote Tumor Growth &mdash; Safety Confirmed</div>
+          <div class="if-card-title">BPC-157 &amp; Tumors &mdash; What Animal Studies Suggest (Not Proven in Humans)</div>
           <div class="if-card-meta">2017 &middot; J Physiol Pharmacol</div>
         </div>
         <div class="if-card-abstract">BPC-157 was injected directly into established tumors in mice. Results: tumor growth rates were not increased &mdash; and in several models, tumor markers trended lower in BPC-157 groups. Despite pro-healing and angiogenic effects in normal tissue, BPC-157 did not fuel malignant proliferation. Critical safety signal for research applications.</div>
@@ -27476,7 +27550,7 @@ function showToast(msg, color) {
 
   <!-- Live PubMed results -->
   <div id="if-live-section">
-    <div class="if-section-label" style="color:rgba(0,245,255,0.6);">&#9685; LIVE FROM PUBMED &mdash; <span id="if-live-term-label">BPC-157</span></div>
+    <div class="if-section-label" style="color:rgba(0,245,255,0.6);">&#9685; LIVE FROM PUBMED &mdash; <span id="if-live-term-label">RETATRUTIDE</span></div>
     <div id="if-results"><div class="if-loading">&#8505; INITIALIZING PUBMED FEED...</div></div>
   </div>
 
@@ -27484,21 +27558,21 @@ function showToast(msg, color) {
 
 <script>
 (function(){
-  var _ifCurrentTerm = 'BPC-157';
+  var _ifCurrentTerm = 'retatrutide[tiab]';
   var CACHE_TTL = 24 * 60 * 60 * 1000;
 
   function ifCacheKey(term){ return 'vpn_if_' + term.replace(/\s+/g,'_'); }
 
   function ifSetTab(el, term){
     document.querySelectorAll('.if-tab').forEach(function(t){ t.classList.remove('active'); });
-    el.classList.add('active');
+    if(el) el.classList.add('active');
     _ifCurrentTerm = term;
     var pinned = document.getElementById('if-pinned-bpc');
     if(pinned) pinned.style.display = (term === 'BPC-157') ? '' : 'none';
     var pinnedAtx = document.getElementById('if-pinned-atx');
-    if(pinnedAtx) pinnedAtx.style.display = (term === 'AMPK activator weight loss metabolic') ? '' : 'none';
+    if(pinnedAtx) pinnedAtx.style.display = (term.indexOf('ATX-304')===0) ? '' : 'none';
     var lbl = document.getElementById('if-live-term-label');
-    if(lbl) lbl.textContent = term.toUpperCase();
+    if(lbl) lbl.textContent = (el ? el.textContent : term).toUpperCase();
     ifFetch(false);
   }
   window.ifSetTab = ifSetTab;
