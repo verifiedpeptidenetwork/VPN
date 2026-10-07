@@ -29834,6 +29834,8 @@ window.addEventListener('appinstalled', function(){
   .vpn-copy-btn.ok{background:#00ff64;border-color:#00ff64;color:#001a08;}
   html[data-theme="light"] .vpn-copy-btn{background:#13294b;color:#fffdf8;border-color:#b08d3c;}
   .vpn-copy-host{position:relative;}
+  .vpn-copy-row{display:flex;justify-content:flex-end;padding:0.35rem 0.6rem 0.2rem;clear:both;}
+  .vpn-copy-row .vpn-copy-btn{position:static !important;margin:0 !important;}
   details > summary .vpn-copy-btn{position:static;margin-left:0.5rem;flex-shrink:0;}
 </style>
 <script>
@@ -29861,8 +29863,10 @@ window.addEventListener('appinstalled', function(){
       if(wasOpen===false) el.open=false;
       copy(t+'\n\n— Verified Peptides Network (research & education only)', b);
     });
-    if(el.tagName==='DETAILS'){ var s=el.querySelector('summary'); if(s){ s.appendChild(b); return; } }
-    el.classList.add('vpn-copy-host'); el.appendChild(b);
+    // Never squeeze headings: the button sits on its own row — just under the summary of a fold-out (visible once opened), or at the bottom of a card
+    var row=document.createElement('div'); row.className='vpn-copy-row'; row.appendChild(b);
+    if(el.tagName==='DETAILS'){ var s=el.querySelector('summary'); if(s){ s.insertAdjacentElement('afterend', row); return; } }
+    el.appendChild(row);
   }
   function run(){ document.querySelectorAll(SEL).forEach(add); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ setTimeout(run,400); }); else setTimeout(run,400);
@@ -29879,6 +29883,17 @@ window.addEventListener('appinstalled', function(){
   /* headers + copy button: wrap onto a second line rather than run off-screen */
   .view details > summary { flex-wrap: wrap; row-gap: 0.4rem; }
   .vpn-copy-btn { font-size: 0.7rem; padding: 2px 8px; }
+  /* fold-out headers: the title block keeps a readable width; small pills (TAP TO OPEN, badges) drop to the next line instead of crushing it */
+  .view details > summary > :is(span,div)[style*="flex:1"], #site-hero details > summary > :is(span,div)[style*="flex:1"] { flex: 1 1 200px !important; min-width: min(100%, 200px) !important; }
+  #site-hero details > summary, .view details > summary { flex-wrap: wrap; }
+  /* any flex row whose text block is "flex:1": let it keep ~180px and wrap the icons/badges/buttons around it */
+  .view [style*="display:flex"] > [style*="flex:1"], #site-hero [style*="display:flex"] > [style*="flex:1"] { min-width: min(100%, 180px) !important; }
+  .view [style*="display:flex"]:has(> [style*="flex:1"]), #site-hero [style*="display:flex"]:has(> [style*="flex:1"]) { flex-wrap: wrap; }
+  .csv-section > summary { flex-wrap: wrap; } .csv-sec-info { flex: 1 1 180px !important; min-width: min(100%, 180px) !important; }
+  /* two-column info grids collapse to one column */
+  .view [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  /* coloured header strips: let the right-hand label drop under the title */
+  .view [style*="display:flex"][style*="justify-content:space-between"] { flex-wrap: wrap; row-gap: 0.25rem; }
   details > summary .vpn-copy-btn { margin-left: auto; }
   .vpn-copy-host > .vpn-copy-btn { top: 6px; right: 6px; }
   /* big link cards (supplies, videos, shops): tighter padding, text allowed to wrap */
