@@ -441,10 +441,23 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
       </div>
     </div>
     <div class="masthead-center">
-      <div class="masthead-logo">
-        <div class="masthead-logo-ring"></div>
-        <img src="ruivpnlogo.png?v=1" alt="VPN Logo">
+      <div class="ln-logo" aria-label="VPN Dispatch">
+        <div class="ln-logo-rays" aria-hidden="true"></div>
+        <div class="ln-logo-ring" aria-hidden="true"></div>
+        <img src="VPNNEWLOGO.png" alt="Verified Peptides Network logo">
+        <span class="ln-logo-tag">📰 DISPATCH</span>
       </div>
+      <style>
+        .ln-logo{position:relative;width:168px;height:168px;margin:0.4rem auto 0.9rem;display:grid;place-items:center;}
+        .ln-logo img{position:relative;z-index:2;width:140px;height:140px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #1a0f00,0 0 26px rgba(255,170,0,0.75),0 0 60px rgba(255,120,0,0.45);}
+        .ln-logo-ring{position:absolute;inset:6px;border-radius:50%;z-index:1;background:conic-gradient(from 0deg,#ffd45c,#ff8a00,#ffe9a6,#ff6a00,#ffd45c);animation:lnSpin 9s linear infinite;}
+        .ln-logo-rays{position:absolute;inset:-18px;border-radius:50%;z-index:0;background:radial-gradient(circle,rgba(255,190,40,0.45),rgba(255,120,0,0.15) 45%,transparent 70%);animation:lnBreathe 3.6s ease-in-out infinite;}
+        .ln-logo-tag{position:absolute;z-index:3;bottom:-6px;left:50%;transform:translateX(-50%);white-space:nowrap;font:400 0.95rem 'Bebas Neue',sans-serif;letter-spacing:0.18em;padding:0.22rem 0.8rem;border-radius:999px;color:#1a0d00;background:linear-gradient(90deg,#ffd45c,#ff9a1f);box-shadow:0 4px 14px rgba(255,140,0,0.5);}
+        @keyframes lnSpin{to{transform:rotate(360deg);}}
+        @keyframes lnBreathe{0%,100%{opacity:0.75;transform:scale(0.97);}50%{opacity:1;transform:scale(1.04);}}
+        @media(max-width:600px){ .ln-logo{width:132px;height:132px;} .ln-logo img{width:110px;height:110px;} }
+        @media(prefers-reduced-motion:reduce){ .ln-logo-ring,.ln-logo-rays{animation:none;} }
+      </style>
       <div class="masthead-title-wrap" style="margin-top:0.5rem;">
         <span class="masthead-title">VPN DISPATCH</span>
         <span class="masthead-sub">VERIFIED PEPTIDE NETWORK · INTELLIGENCE BRIEF</span>
@@ -2257,7 +2270,7 @@ window.addEventListener('scroll',function(){
     document.querySelectorAll('.np-grid').forEach(function(g){ var vis=[].some.call(g.children,function(k){ return !k.classList.contains('ln-hide'); }); g.classList.toggle('ln-hide',!vis); var dv=g.previousElementSibling; if(dv && dv.classList.contains('np-divider')) dv.classList.toggle('ln-hide',!vis); });
     document.getElementById('ln-count').textContent = (q||c) ? (shown+' of '+all.length+' stories') : (all.length+' stories · newest first');
   }
-  function start(){ build(); setTimeout(function(){ addSimple(); filter(); }, 1000); }
+  function start(){ build(); setTimeout(function(){ addSimple(); filter(); var mc=document.querySelector('.masthead-count'); if(mc) mc.textContent=items().length+' INTEL ITEMS'; }, 1000); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
