@@ -25680,7 +25680,7 @@ function buildPeptideCard(item) {
         '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
       '</div>' +
       (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
-      '' +
+      '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button></div>' +
     '</div>' +
   '</div>';
 }
@@ -30782,6 +30782,25 @@ window.addEventListener('appinstalled', function(){
     el.appendChild(row);
   }
   function run(){ document.querySelectorAll(SEL).forEach(add); }
+  // Peptide Index cards are re-rendered on search, so their button is built into the card HTML and calls this
+  window.vpnCopyCard = function(btn){
+    var card = btn.closest('.pep-idx-card'); if(!card) return;
+    var name = (card.querySelector('.pep-idx-header span')||{}).textContent || '';
+    var p = (typeof PEPTIDE_DATA!=='undefined'?PEPTIDE_DATA:[]).filter(function(x){ return x.name===name.trim(); })[0];
+    var t;
+    if(p){
+      var e5 = (typeof PEPTIDE_ELI5!=='undefined'?PEPTIDE_ELI5:{})[p.name];
+      t = p.name.toUpperCase() + '\n' + p.use + '\n'
+        + (e5 ? '\nEXPLAIN IT LIKE I\'M 5:\n' + e5 + '\n' : '')
+        + (p.desc ? '\n' + String(p.desc).replace(/<[^>]+>/g,'') + '\n' : '')
+        + '\nDOSE: ' + (p.dose||'See protocol notes')
+        + '\nDURATION: ' + (p.duration||'Varies by goal')
+        + (p.protocol ? '\nNOTES: ' + p.protocol : '');
+    } else {
+      t = textOf(card).replace(/[▼▲]/g,'').trim();
+    }
+    copy(t+'\n\n— Verified Peptides Network (research & education only)', btn);
+  };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ setTimeout(run,400); }); else setTimeout(run,400);
   window.addEventListener('vpn-theme-change',run);
 })();
