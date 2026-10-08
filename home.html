@@ -7999,6 +7999,12 @@ document.addEventListener('keydown', function(e){
     </div>
   </section>
 
+  <!-- GET THE APP (bottom of home, above the flyers) -->
+  <button type="button" id="vpn-getapp" class="vpn-getapp" onclick="vpnInstallApp()">
+    <img src="icon-180.png" alt="" width="34" height="34">
+    <span class="ga-tx"><b>GET THE APP</b><small>Install to your home screen — free, no app store</small></span>
+    <span class="ga-ar">⬇</span>
+  </button>
   <!-- ══ FLYERS — downloadable, at the bottom of the home page ══ -->
   <details id="home-flyers" data-vt-skip data-search="flyer download share telegram qr ruivpndata glowklowcalc calculator">
     <summary><span class="hf-ic">📥</span><span class="hf-tx"><b>Download &amp; Share Our Flyers</b><small>Telegram community · GlowKlow Calc — tap to open</small></span><span class="hf-ar">▼</span></summary>
@@ -8331,12 +8337,6 @@ document.addEventListener('keydown', function(e){
         <button type="button" class="home-cta home-cta-primary" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d){d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});}">▶ START HERE</button>
         <button type="button" class="home-cta home-cta-secondary" onclick="showView('all-peptides')">🔬 LEARN ABOUT YOUR PEPTIDE</button>
       </div>
-      <!-- GET THE APP -->
-      <button type="button" id="vpn-getapp" class="vpn-getapp" onclick="vpnInstallApp()">
-        <img src="icon-180.png" alt="" width="34" height="34">
-        <span class="ga-tx"><b>GET THE APP</b><small>Install to your home screen — free, no app store</small></span>
-        <span class="ga-ar">⬇</span>
-      </button>
       <div id="vpn-install-help" class="vpn-install-help" hidden>
         <div class="ih-card">
           <button type="button" class="ih-x" onclick="document.getElementById('vpn-install-help').hidden=true" aria-label="Close">✕</button>
@@ -30225,8 +30225,9 @@ window.addEventListener('appinstalled', function(){
   html[data-theme="light"] .ta1-c{color:#26324a !important;} html[data-theme="light"] .ta1-c strong{color:#0f1b2d !important;} html[data-theme="light"] .ta1-c a{color:#8a5a00 !important;}
 </style>
 <style>
+  #site-hero > #vpn-getapp{order:98;margin:0.4rem auto 0.8rem !important;max-width:560px;}
   .vpn-getapp{display:flex;align-items:center;gap:0.75rem;width:100%;max-width:420px;margin:0.7rem 0 0;padding:0.55rem 0.9rem 0.55rem 0.6rem;border-radius:14px;cursor:pointer;text-align:left;
-    background:linear-gradient(120deg,rgba(0,245,255,0.12),rgba(157,59,255,0.14) 55%,rgba(255,45,149,0.12));border:1px solid rgba(157,59,255,0.55);box-shadow:0 10px 26px -16px rgba(157,59,255,0.9);transition:transform .15s,box-shadow .15s;}
+    background:linear-gradient(120deg,rgba(0,245,255,0.16),rgba(157,59,255,0.2) 55%,rgba(255,45,149,0.16)),#0d0826;border:1px solid rgba(157,59,255,0.65);box-shadow:0 10px 26px -16px rgba(157,59,255,0.9);transition:transform .15s,box-shadow .15s;}
   .vpn-getapp:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(255,45,149,0.9);}
   .vpn-getapp img{border-radius:9px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(255,255,255,0.15);}
   .vpn-getapp .ga-tx{display:flex;flex-direction:column;flex:1;min-width:0;}
