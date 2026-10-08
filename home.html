@@ -8676,30 +8676,89 @@ document.addEventListener('keydown', function(e){
 
   <!-- ALL PEPTIDES -->
   <div class="view" id="view-all-peptides">
-    <!-- Compact single-row header — replaces view-hero + section-header + studies bar -->
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;
-                padding:0.85rem 1.1rem;margin-bottom:0.85rem;
-                background:rgba(4,0,16,0.98);
-                border:1.5px solid rgba(204,68,255,0.28);border-left:4px solid #cc44ff;
-                border-radius:8px;box-shadow:0 0 24px rgba(204,68,255,0.1),inset 0 0 20px rgba(204,68,255,0.02);">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-size:1.6rem;filter:drop-shadow(0 0 8px rgba(204,68,255,0.6));">🔬</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.2em;color:#cc44ff;line-height:1;text-shadow:0 0 20px rgba(204,68,255,0.5);">PEPTIDE INDEX</div>
-          <div id="peptide-index-count" style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;color:rgba(204,68,255,0.45);letter-spacing:0.12em;text-transform:uppercase;margin-top:1px;"></div>
+    <!-- PEPTIDE INDEX HERO -->
+    <div id="pi-hero" data-vt-skip>
+      <div class="pi-glow" aria-hidden="true"></div>
+      <div class="pi-top">
+        <div class="pi-ic" aria-hidden="true">🔬</div>
+        <div class="pi-tt">
+          <div class="pi-eyebrow">VPN RESEARCH LIBRARY · A–Z</div>
+          <h2 class="pi-title">PEPTIDE <span>INDEX</span></h2>
+          <div id="peptide-index-count" class="pi-count"></div>
         </div>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-        <button onclick="showView('studies')" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.14em;padding:0.35rem 0.9rem;background:rgba(0,255,100,0.07);border:1px solid rgba(0,255,100,0.3);color:#00ff64;cursor:pointer;border-radius:4px;white-space:nowrap;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,255,100,0.15)'" onmouseout="this.style.background='rgba(0,255,100,0.07)'">🔬 RESEARCH STUDIES →</button>
-        <a href="https://t.me/ruivpndata" target="_blank" rel="noopener" style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.14em;padding:0.35rem 0.9rem;background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.35);color:#00b0ff;border-radius:4px;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:5px;" onmouseover="this.style.background='rgba(0,180,255,0.16)'" onmouseout="this.style.background='rgba(0,180,255,0.08)'">📲 TELEGRAM GROUP →</a>
+      <p class="pi-lede">Every compound on this site in one place — what it is, what it's researched for, typical research doses, cycle length, protocol notes and a 🧒 plain-English explanation. Tap any card to open it, or copy it in one tap.</p>
+      <div class="pi-stats">
+        <div class="pi-stat"><b id="pi-stat-n">100+</b><small>Compounds</small></div>
+        <div class="pi-stat"><b>163</b><small>PubMed-linked studies</small></div>
+        <div class="pi-stat"><b>🧒</b><small>ELI5 on every card</small></div>
+        <div class="pi-stat"><b>📋</b><small>Copy text</small></div>
+      </div>
+      <div class="pi-chips" role="group" aria-label="Quick filters">
+        <button type="button" data-k="" class="on" onclick="piQuick('')">All</button>
+        <button type="button" data-k="GLP" onclick="piQuick('GLP')">GLP / weight loss</button>
+        <button type="button" data-k="heal" onclick="piQuick('heal')">Healing</button>
+        <button type="button" data-k="GH" onclick="piQuick('GH')">Growth hormone</button>
+        <button type="button" data-k="brain" onclick="piQuick('brain')">Brain</button>
+        <button type="button" data-k="skin" onclick="piQuick('skin')">Skin &amp; hair</button>
+        <button type="button" data-k="mito" onclick="piQuick('mito')">Mitochondria</button>
+        <button type="button" data-k="immune" onclick="piQuick('immune')">Immune</button>
+        <button type="button" data-k="bio" onclick="piQuick('bio')">Bioregulators</button>
+      </div>
+      <div class="pi-btns">
+        <button type="button" class="pi-b1" onclick="showView('studies')">📊 Research Studies</button>
+        <button type="button" class="pi-b2" onclick="showView('calculator')">🧮 Dose Calculator</button>
+        <a class="pi-b3" href="peptide-suggestion.html">🧬 Peptide Suggest</a>
       </div>
     </div>
+    <style>
+      #pi-hero{position:relative;overflow:hidden;isolation:isolate;margin-bottom:0.9rem;padding:1.5rem 1.6rem 1.3rem;border-radius:18px;
+        background:radial-gradient(120% 140% at 0% 0%,rgba(204,68,255,0.22),transparent 55%),radial-gradient(90% 120% at 100% 100%,rgba(0,245,255,0.16),transparent 55%),linear-gradient(135deg,#0d0420,#04020d);
+        border:1px solid rgba(204,68,255,0.45);box-shadow:0 0 0 1px rgba(0,245,255,0.08) inset,0 24px 50px -28px rgba(204,68,255,0.7);}
+      #pi-hero .pi-glow{position:absolute;inset:-40% -10% auto auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(204,68,255,0.28),transparent 65%);z-index:-1;}
+      #pi-hero .pi-top{display:flex;align-items:center;gap:1rem;}
+      #pi-hero .pi-ic{flex-shrink:0;width:64px;height:64px;display:grid;place-items:center;font-size:2rem;border-radius:16px;background:linear-gradient(135deg,rgba(204,68,255,0.3),rgba(0,245,255,0.18));border:1px solid rgba(204,68,255,0.6);box-shadow:0 0 22px rgba(204,68,255,0.45);}
+      #pi-hero .pi-tt{min-width:0;}
+      #pi-hero .pi-eyebrow{font-family:'Share Tech Mono',monospace;font-size:0.72rem;letter-spacing:0.22em;color:#3ff3ff;}
+      #pi-hero .pi-title{margin:0.1rem 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2rem,6vw,3rem);letter-spacing:0.08em;line-height:1;color:#fff;text-shadow:0 0 22px rgba(204,68,255,0.55);}
+      #pi-hero .pi-title span{background:linear-gradient(90deg,#cc44ff,#ff2d78);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      #pi-hero .pi-count{margin-top:0.25rem;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#e2b6ff;}
+      #pi-hero .pi-lede{margin:0.9rem 0 1rem;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;line-height:1.55;color:rgba(230,225,245,0.9);max-width:62ch;}
+      #pi-hero .pi-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.55rem;margin-bottom:0.9rem;}
+      #pi-hero .pi-stat{padding:0.6rem 0.5rem;text-align:center;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);}
+      #pi-hero .pi-stat b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.6rem;letter-spacing:0.04em;color:#ffd45c;line-height:1.1;}
+      #pi-hero .pi-stat small{font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:rgba(220,220,240,0.75);}
+      #pi-hero .pi-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.9rem;}
+      #pi-hero .pi-chips button{font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:999px;cursor:pointer;color:#e9d6ff;background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.45);}
+      #pi-hero .pi-chips button:hover,#pi-hero .pi-chips button.on{background:#cc44ff;color:#fff;}
+      #pi-hero .pi-btns{display:flex;flex-wrap:wrap;gap:0.5rem;}
+      #pi-hero .pi-btns > *{flex:1 1 160px;text-align:center;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.6rem 0.9rem;border-radius:10px;cursor:pointer;}
+      #pi-hero .pi-b1{background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#00ff64;}
+      #pi-hero .pi-b2{background:rgba(255,179,0,0.1);border:1px solid rgba(255,179,0,0.5);color:#ffb300;}
+      #pi-hero .pi-b3{background:linear-gradient(90deg,#ff2d78,#cc44ff);border:1px solid transparent;color:#fff;}
+      @media(max-width:560px){ #pi-hero{padding:1.15rem 1rem 1rem;} #pi-hero .pi-ic{width:52px;height:52px;font-size:1.6rem;} #pi-hero .pi-stats{grid-template-columns:repeat(2,minmax(0,1fr));} #pi-hero .pi-lede{font-size:0.98rem;} }
+      html[data-theme="light"] #pi-hero{background:linear-gradient(135deg,#f6ecff,#e9fbff) !important;border-color:rgba(124,42,170,0.35) !important;}
+      html[data-theme="light"] #pi-hero .pi-title{color:#1a0f2e !important;text-shadow:none !important;}
+      html[data-theme="light"] #pi-hero .pi-eyebrow{color:#0b6e7a !important;} html[data-theme="light"] #pi-hero .pi-count{color:#6b2a9a !important;}
+      html[data-theme="light"] #pi-hero .pi-lede,html[data-theme="light"] #pi-hero .pi-stat small{color:#2a2440 !important;}
+      html[data-theme="light"] #pi-hero .pi-stat{background:#fff !important;border-color:rgba(124,42,170,0.2) !important;} html[data-theme="light"] #pi-hero .pi-stat b{color:#9a5b00 !important;}
+      html[data-theme="light"] #pi-hero .pi-chips button{color:#5b1f86 !important;background:#fff !important;}
+    </style>
+    <script>
+      function piQuick(k){
+        var C={GLP:/glp|amylin|weight|obes|appetite/i, heal:/heal|repair|tendon|wound|recover|tissue/i, GH:/growth hormone|GH|secretagog|GHRH|GHRP|IGF/, brain:/nootrop|brain|cognit|memory|neuro|focus/i, skin:/skin|hair|collagen|wrinkle|tann/i, mito:/mitochond|NAD|longevity|ageing|aging/i, immune:/immun|thym|antimicrob/i, bio:/bioregulator|khavinson/i};
+        window.piCat = C[k] || null;
+        var inp=document.getElementById('peptide-search'); if(inp) inp.value='';
+        if(typeof filterPeptideIndex==='function') filterPeptideIndex();
+        document.querySelectorAll('#pi-hero .pi-chips button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-k')===k); });
+      }
+    </script>
     <!-- Search bar -->
     <div style="margin-bottom:0.85rem;">
       <input id="peptide-search"
         type="text"
         placeholder="🔍  Search peptides by name or use…"
-        oninput="filterPeptideIndex()"
+        oninput="window.piCat=null;document.querySelectorAll('#pi-hero .pi-chips button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-k')==='');});filterPeptideIndex()"
         style="width:100%;box-sizing:border-box;background:#0a0616;border:1px solid rgba(0,245,255,0.25);border-left:3px solid var(--neon-cyan);color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.04em;padding:0.75rem 1rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;"
         onfocus="this.style.borderColor='var(--neon-cyan)';this.style.boxShadow='0 0 16px rgba(0,245,255,0.2)'"
         onblur="this.style.borderColor='rgba(0,245,255,0.25)';this.style.boxShadow='none'">
@@ -24378,7 +24437,31 @@ const PEPTIDE_DATA = [
   { name:"Neuroxelin Blend",       use:"Neural support blend — neuroprotection & cognitive enhancement",        dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Vendor-specific neuro blend; check peptide components" ,  desc:"Neuroxelin is a vendor-specific neuroprotective and neuroregenerative peptide blend. Typical components target BDNF upregulation, mitochondrial protection in neurons, and anti-excitotoxic pathways. May include combinations of Semax, BPC-157 (CNS variant), or similar neuroactive peptides. Always verify the exact composition with the vendor before use." },
   { name:"Tri-Heal Blend",         use:"Triple healing stack — tissue repair, inflammation & recovery",         dose:"Per blend formulation",       duration:"4–8 weeks",                           protocol:"Typically BPC-157 + TB-500 + KPV or similar; targeted injury protocol" ,  desc:"Tri-Heal is a comprehensive tissue repair blend typically combining three complementary healing peptides — most commonly BPC-157, TB-500, and KPV. BPC-157 targets tendon and gut healing via GH receptor upregulation; TB-500 drives angiogenesis and cell migration via actin modulation; KPV addresses the inflammatory component that slows tissue repair. Together they cover all three phases of wound healing: inflammation, proliferation, and remodeling. Popular for chronic injuries that have not responded to single-peptide protocols." },
   { name:"Tesa Blend",             use:"Tesamorelin blend — GH release & visceral fat reduction",               dose:"Per blend formulation",       duration:"12–26 weeks",                         protocol:"Tesamorelin-based; daily SC injection; monitor IGF-1 levels" ,  desc:"Tesa Blend is a tesamorelin-based vendor blend for GH axis stimulation and visceral fat reduction. May be combined with Ipamorelin or another GHRP to synergize GH pulse amplitude. Core mechanism is identical to pharmaceutical Tesamorelin — GHRH receptor agonism driving GH and downstream IGF-1 elevation with preferential visceral adipose reduction." },
-  { name:"Wolverine Stack",        use:"Comprehensive healing stack — rapid recovery & tissue repair",          dose:"Per blend formulation",       duration:"4–12 weeks",                          protocol:"Multi-peptide healing protocol; often BPC-157 + TB-500 + extras" ,  desc:"The Wolverine Stack is a comprehensive multi-peptide healing protocol designed for aggressive injury recovery. Typically includes BPC-157 (gut and tendon repair), TB-500 (angiogenesis and cell migration), and additional peptides such as GHK-Cu (tissue remodeling), KPV (inflammation), and sometimes AOD-9604 or GHRPs for metabolic support. Used by athletes with severe or chronic injuries who require faster recovery than single-peptide protocols can provide." }
+  { name:"Wolverine Stack",        use:"Comprehensive healing stack — rapid recovery & tissue repair",          dose:"Per blend formulation",       duration:"4–12 weeks",                          protocol:"Multi-peptide healing protocol; often BPC-157 + TB-500 + extras" ,  desc:"The Wolverine Stack is a comprehensive multi-peptide healing protocol designed for aggressive injury recovery. Typically includes BPC-157 (gut and tendon repair), TB-500 (angiogenesis and cell migration), and additional peptides such as GHK-Cu (tissue remodeling), KPV (inflammation), and sometimes AOD-9604 or GHRPs for metabolic support. Used by athletes with severe or chronic injuries who require faster recovery than single-peptide protocols can provide." },
+  { name:"ATX-304 (O304)",         use:"Oral AMPK activator & mild mitochondrial uncoupler — blood sugar, liver fat, 'exercise mimetic' (not a GLP-1)", dose:"Oral · no published human dose for weight loss — phase IIa used it in type 2 diabetes on metformin", duration:"Research only — studied as 28-day phase IIa in T2D", protocol:"Not a GLP-1. Discussed alongside tirzepatide for maintenance (theoretical). 13 PubMed-linked studies in Research Studies → search ATX-304.", desc:"ATX-304 (formerly O304; Betagenon / Amplifier Therapeutics) switches on AMPK, the cell's 'low fuel' sensor that exercise and calorie restriction also activate, and acts as a mild mitochondrial uncoupler. Phase IIa trial (JCI Insight 2018): in type 2 diabetes patients on metformin it lowered fasting glucose and HOMA-IR, improved microvascular perfusion and lowered blood pressure. Mouse studies: reduced body fat, cholesterol, liver steatosis and fibrosis (JCI Insight 2025); reversed age-related insulin resistance and improved heart function and exercise capacity in old mice (Commun Biol 2021); protected kidneys from cisplatin injury (2024)." },
+  { name:"Eloralintide",           use:"Selective amylin agonist (Eli Lilly) — weight loss without GLP-1 activity", dose:"1–9 mg SC weekly in phase 2", duration:"48 weeks (phase 2)", protocol:"Phase 3 underway. Option discussed for people who cannot use GLP-1 drugs (MEN2/MTC history).", desc:"Eloralintide copies amylin, the pancreas hormone that signals fullness, and prefers the amylin receptor about 12:1 over the calcitonin receptor. Phase 2 (Lancet 2025, n=263): weight fell 9% (1 mg), 12% (3 mg), 18% (6 mg) and 20% (9 mg) at 48 weeks vs 0.4% on placebo; most common side effects were nausea and fatigue. Being studied together with tirzepatide." },
+  { name:"VK2735",                 use:"Dual GLP-1 + GIP agonist (Viking Therapeutics) — weekly injection & daily pill", dose:"2.5–15 mg SC weekly (VENTURE phase 2)", duration:"13 weeks (phase 2); phase 3 underway", protocol:"Same two receptors as tirzepatide. Investigational — not approved.", desc:"VK2735 activates the same two 'I'm full' receptors as tirzepatide (GLP-1 and GIP). Phase 2 VENTURE (injection, 13 weeks): weight fell 9.1% (2.5 mg) up to 14.7% (15 mg) vs 1.7% on placebo; 93% of treated people lost at least 5%. Side effects were mainly nausea and other GI effects. An oral version reported up to ~12% weight loss in 13 weeks with notable GI dropouts." },
+  { name:"Liraglutide",            use:"Daily GLP-1 agonist — Victoza (diabetes) / Saxenda (weight)", dose:"0.6 mg SC daily, +0.6 mg weekly to 1.8 mg (Victoza) or 3 mg (Saxenda)", duration:"Long-term; SCALE trial 56 weeks", protocol:"Daily injection. Generic versions now available. Same boxed thyroid C-cell warning as other GLP-1s.", desc:"Liraglutide was the first once-daily GLP-1 approved for weight management. In the SCALE Obesity trial (NEJM 2015), 3 mg daily gave 8.0% average weight loss vs 2.6% on placebo at 56 weeks. LEADER trial showed fewer cardiovascular deaths in type 2 diabetes. Weaker than weekly semaglutide or tirzepatide." },
+  { name:"Exenatide",              use:"The first GLP-1 drug — from Gila monster saliva (Byetta / Bydureon)", dose:"5–10 mcg SC twice daily (Byetta) or 2 mg weekly (Bydureon)", duration:"Long-term (type 2 diabetes)", protocol:"Byetta taken within 60 min before morning and evening meals.", desc:"Exenatide is a synthetic version of exendin-4, found in Gila monster saliva, and was the first GLP-1 receptor agonist approved (2005). It lowers blood sugar and modestly lowers weight. It is also being studied in Parkinson's disease, where a phase 3 trial (Lancet 2025) did not slow progression." },
+  { name:"Pramlintide",            use:"Amylin analogue (Symlin) — mealtime blood sugar & fullness for insulin users", dose:"Type 1: 15–60 mcg SC before meals · Type 2: 60–120 mcg before meals", duration:"Long-term", protocol:"Used with mealtime insulin; insulin dose is usually reduced to avoid low blood sugar.", desc:"Pramlintide was the first amylin analogue (approved 2005). It slows stomach emptying, lowers glucagon after meals and increases fullness. It is the older relative of cagrilintide and eloralintide, but must be injected before every meal." },
+  { name:"Setmelanotide",          use:"MC4R agonist (Imcivree) — hunger in rare genetic obesity", dose:"2–3 mg SC daily (label)", duration:"Long-term", protocol:"Approved for POMC, PCSK1 or LEPR deficiency and Bardet-Biedl syndrome. Common effect: skin darkening.", desc:"Setmelanotide turns on the MC4 receptor in the brain's appetite centre — the step that is broken in several rare genetic forms of obesity. In those conditions it produced large drops in hunger and weight. It is not used for common obesity." },
+  { name:"Teduglutide",            use:"GLP-2 analogue (Gattex) — gut growth in short bowel syndrome", dose:"0.05 mg/kg SC daily (label)", duration:"Long-term", protocol:"Requires colonoscopy monitoring (it grows gut lining, including polyps).", desc:"Teduglutide copies GLP-2, a gut hormone that makes the intestinal lining grow and absorb better. In short bowel syndrome it reduced the need for IV nutrition. Because it promotes intestinal growth, regular colonoscopy is required." },
+  { name:"Larazotide",             use:"Zonulin blocker — tightens 'leaky gut' junctions (celiac, long-COVID research)", dose:"0.5 mg oral three times daily before meals (celiac trials)", duration:"Trials 12 weeks", protocol:"Investigational. Celiac phase 3 was stopped in 2022 for lack of benefit; being explored for long COVID / MIS-C.", desc:"Larazotide acetate is an 8-amino-acid peptide that blocks zonulin signalling, helping keep the tight junctions between gut cells closed. It reduced symptoms in some earlier celiac trials, but the phase 3 CedLara trial was discontinued in 2022. Researchers are studying it for long COVID and MIS-C, where viral particles may leak from the gut into the blood." },
+  { name:"ARA-290 (Cibinetide)",   use:"EPO-derived repair peptide — nerve pain & small-fibre neuropathy", dose:"4 mg SC daily (28-day trials)", duration:"28 days in trials", protocol:"Activates the 'innate repair receptor' without raising red blood cells like EPO does.", desc:"ARA-290 (cibinetide) is an 11-amino-acid peptide based on part of erythropoietin. It activates the tissue-protective innate repair receptor without stimulating red blood cell production. Small human trials in sarcoidosis-related and diabetic small-fibre neuropathy reported improved neuropathic symptoms and corneal nerve fibre density." },
+  { name:"B7-33",                  use:"Relaxin-2 analogue — anti-fibrosis (heart, lung, kidney) research", dose:"No human dosing established", duration:"Research only", protocol:"Animal and cell studies only.", desc:"B7-33 is a single-chain version of the relaxin-2 hormone designed to keep its anti-scarring (anti-fibrotic) effects. In animal models it reduced fibrosis in the heart, lungs and kidneys. No human trials have been published." },
+  { name:"Dihexa",                 use:"Angiotensin IV analogue — memory & synapse formation (animal research)", dose:"No human dosing established", duration:"Research only", protocol:"Animal studies only; long-term safety unknown.", desc:"Dihexa is a small peptide derived from angiotensin IV that boosts hepatocyte growth factor (HGF/c-Met) signalling. In rodents it improved learning and memory and increased new synapse formation. There are no published human trials." },
+  { name:"P21 (P021)",             use:"CNTF-derived peptide — neurogenesis & memory (animal research)", dose:"No human dosing established", duration:"Research only", protocol:"Mouse studies only.", desc:"P21 is a small peptide modelled on ciliary neurotrophic factor (CNTF). In mice it increased the birth of new neurons in the hippocampus and improved memory, including in Alzheimer's models. No human trials." },
+  { name:"Humanin",                use:"Mitochondrial-derived peptide — cell protection & longevity research", dose:"No human dosing established", duration:"Research only", protocol:"Same family as MOTS-c (encoded in mitochondrial DNA).", desc:"Humanin is a 24-amino-acid peptide encoded in mitochondrial DNA, discovered in 2001 in brain tissue that survived Alzheimer's damage. Animal and cell studies show protection of neurons, heart and pancreas cells from stress. Blood levels fall with age. Human treatment data are lacking." },
+  { name:"Gonadorelin",            use:"Synthetic GnRH — signals LH & FSH (testicular function on TRT)", dose:"Commonly reported 100 mcg SC 2–3× weekly (off-label)", duration:"Alongside TRT", protocol:"Very short half-life. Used off-label to help keep natural signalling on TRT; evidence is limited.", desc:"Gonadorelin is identical to natural gonadotropin-releasing hormone (GnRH), the brain signal that tells the pituitary to release LH and FSH. Clinically it is used to test pituitary function. Some clinics use it in TRT protocols to support testicular size and function, though human evidence for that use is limited." },
+  { name:"Triptorelin",            use:"GnRH agonist — single low dose used in HPTA 'restart' research", dose:"Reported single 100 mcg SC dose (restart); repeated dosing suppresses hormones", duration:"Single dose (restart)", protocol:"Important: continuous dosing SHUTS DOWN testosterone (used in prostate cancer). Doctor supervision essential.", desc:"Triptorelin is a long-acting GnRH agonist. Given repeatedly it switches off the reproductive axis, which is why it is used in prostate cancer and central precocious puberty. A single small dose briefly stimulates LH and testosterone, and small case series have used this to restart natural production after steroid use." },
+  { name:"IGF-1 LR3",              use:"Long-acting IGF-1 analogue — muscle growth research", dose:"Commonly reported 20–50 mcg SC daily", duration:"Short cycles (often 4 weeks)", protocol:"Can cause low blood sugar. IGF-1 is a growth signal — avoid with any cancer history.", desc:"IGF-1 LR3 is a modified insulin-like growth factor-1 with a longer half-life because it binds poorly to IGF binding proteins. It drives muscle cell growth in lab studies. It has no human clinical trials; risks include hypoglycaemia and stimulating growth of existing tumours." },
+  { name:"PEG-MGF",                use:"Pegylated mechano growth factor — muscle repair research", dose:"Commonly reported 200 mcg SC 2–3× weekly", duration:"4–6 weeks", protocol:"Animal data only.", desc:"Mechano growth factor (MGF) is a splice variant of IGF-1 produced in muscle after damage, activating satellite (repair) cells. PEG-MGF is a pegylated form designed to last longer. Evidence is from animal and cell studies; no human trials." },
+  { name:"Follistatin-344",        use:"Myostatin-binding protein — muscle growth research", dose:"Commonly reported 100 mcg daily for 10–20 days", duration:"Short cycles", protocol:"Large protein — research-market purity and activity are hard to verify; test it.", desc:"Follistatin binds and neutralises myostatin and activin, the body's brakes on muscle growth. Gene-therapy studies in animals and early muscular dystrophy patients increased muscle. Injectable follistatin peptides sold for research have little human data." },
+  { name:"Thymalin",               use:"Thymus peptide complex (Khavinson) — immune support & ageing research", dose:"10 mg IM daily for 10 days (Russian protocols)", duration:"10-day courses, repeated 1–2× yearly", protocol:"Bioregulator used clinically in Russia.", desc:"Thymalin is a peptide extract from calf thymus developed in the USSR. Russian studies report restored immune markers in older adults and lower mortality in long-term follow-up of elderly patients given it with epitalon. Most data are from one research group and have not been replicated in Western trials." },
+  { name:"Noopept",                use:"Dipeptide-derived nootropic — memory & focus", dose:"10–30 mg oral daily", duration:"1–2 months, then a break", protocol:"Sold as a medicine in Russia; a supplement elsewhere.", desc:"Noopept (N-phenylacetyl-L-prolylglycine ethyl ester) is a small dipeptide-like compound developed in Russia. It raises BDNF and NGF in animal brains. A Russian clinical study in mild cognitive impairment reported improved cognition. Western clinical data are limited." },
+  { name:"Argireline",             use:"Topical acetyl hexapeptide — softens expression lines ('Botox-like' cream)", dose:"Topical 5–10% cream/serum", duration:"Daily; results ~4 weeks", protocol:"Topical only.", desc:"Argireline (acetyl hexapeptide-3/-8) mimics part of the SNAP-25 protein and reduces the nerve signal that makes facial muscles contract. Small studies showed reduced wrinkle depth with daily topical use. It is weaker than injected botulinum toxin. Related to SNAP-8." },
+  { name:"Matrixyl",               use:"Topical palmitoyl pentapeptide-4 — collagen & wrinkle repair", dose:"Topical serum (typically 3–8%)", duration:"Daily; results 8–12 weeks", protocol:"Topical only; pairs with GHK-Cu skincare.", desc:"Matrixyl (palmitoyl pentapeptide-4) is a fragment of collagen that signals skin cells to make more collagen. A 12-week study reported reduced wrinkle depth and roughness with twice-daily use." }
+
 ];
 
 // "Explain it like I'm 5" — one simple sentence or two for every peptide in the index
@@ -24462,7 +24545,30 @@ var PEPTIDE_ELI5 = {
 "Neuroxelin Blend":"A vendor brain-support peptide blend. The blend itself hasn't been studied.",
 "Tri-Heal Blend":"A three-peptide healing mix (typically BPC-157, TB-500 and GHK-Cu). The blend hasn't been studied as a whole.",
 "Tesa Blend":"Tesamorelin mixed with another GH-releasing peptide for a bigger growth-hormone pulse. The combo hasn't been studied.",
-"Wolverine Stack":"BPC-157 + TB-500 together — a 'fast healing' combo named after the superhero. Animal evidence only."
+"Wolverine Stack":"BPC-157 + TB-500 together — a 'fast healing' combo named after the superhero. Animal evidence only.",
+"ATX-304 (O304)":"Your cells have a 'low fuel' alarm (AMPK) that exercise switches on. ATX-304 is a pill that switches it on too. In a small test in people with diabetes it lowered blood sugar; in mice it lowered body fat and liver fat and helped old mice run better.",
+"Eloralintide":"Your pancreas sends a 'stop eating' message called amylin. Eloralintide copies it. In a 48-week test people lost up to 20% of their weight. It doesn't use the GLP-1 switch at all.",
+"VK2735":"VK2735 copies the same two 'I'm full' messages as tirzepatide. In a 13-week test people lost up to about 15% of their weight. There's a shot and a pill version being tested.",
+"Liraglutide":"Liraglutide is an older 'I'm full' (GLP-1) shot you take every day instead of once a week. In a big test people lost about 8% of their weight.",
+"Exenatide":"Exenatide was the very first GLP-1 drug, copied from the spit of a Gila monster lizard. It helps lower blood sugar after meals.",
+"Pramlintide":"Pramlintide copies the pancreas's 'stop eating' message (amylin). People with diabetes take it before meals together with insulin.",
+"Setmelanotide":"Some people are born with a broken 'I'm full' switch in their brain. Setmelanotide turns that switch on. It's only for those rare genetic conditions.",
+"Teduglutide":"Teduglutide copies a gut hormone (GLP-2) that makes the inside of your intestine grow and soak up food better. It helps people who had part of their gut removed.",
+"Larazotide":"Your gut wall has gates between its cells. Larazotide keeps those gates shut so less leaks into the blood. It's being studied for celiac disease and long COVID.",
+"ARA-290 (Cibinetide)":"ARA-290 is a small piece of the hormone EPO. It switches on a 'repair' signal for nerves without making extra red blood cells. Small tests helped nerve pain.",
+"B7-33":"B7-33 copies a hormone (relaxin) that stops scar tissue from building up. It worked in animals' hearts, lungs and kidneys. It hasn't been tested in people.",
+"Dihexa":"Dihexa helped brain cells make new connections in rats and mice, which improved their memory. It hasn't been tested in people.",
+"P21 (P021)":"P21 helped mice grow new brain cells in their memory centre. It hasn't been tested in people.",
+"Humanin":"Humanin is a tiny message made by your cells' batteries (mitochondria). In animals and cells it protects brain and heart cells from damage. Levels go down as we age.",
+"Gonadorelin":"Gonadorelin is a copy of the brain's message that tells the testicles to keep working. Some clinics use it with TRT to keep them active.",
+"Triptorelin":"One tiny dose of triptorelin gives the hormone system a short kick-start. But taken over and over it does the opposite and shuts hormones down — so it's used carefully.",
+"IGF-1 LR3":"IGF-1 is a 'grow!' message for muscle. LR3 is a version that lasts longer. It can drop your blood sugar, and it's never been tested in people.",
+"PEG-MGF":"When muscle gets hurt, it makes MGF to wake up its repair cells. PEG-MGF is a longer-lasting version. Only tested in animals.",
+"Follistatin-344":"Your body has a brake on muscle growth called myostatin. Follistatin grabs that brake. In animals it built more muscle.",
+"Thymalin":"Thymalin is a mix of tiny proteins from the thymus — the 'school' where immune cells learn. Russian studies say it helped older people's immune systems.",
+"Noopept":"Noopept is a pill from Russia that raises brain-growth signals in animals. A Russian study said it helped memory in people with mild memory problems.",
+"Argireline":"Argireline is a cream that turns down the signal telling face muscles to scrunch, so lines from frowning and smiling look softer.",
+"Matrixyl":"Matrixyl is a cream with a tiny piece of collagen that tells your skin, 'make more collagen,' so wrinkles look smaller over a few months."
 };
 
 const PEPTIDES = PEPTIDE_DATA.map(p => p.name);
@@ -25846,7 +25952,7 @@ function renderPeptideIndex() {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   });
   var grid = document.getElementById('peptide-index-grid');
-  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' peptides — A to Z';
+  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' compounds — A to Z'; var piN=document.getElementById('pi-stat-n'); if(piN) piN.textContent = PEPTIDE_DATA.length;
   grid.innerHTML = sorted.map(buildPeptideCard).join('');
 }
 
@@ -25856,8 +25962,9 @@ function filterPeptideIndex() {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   });
   var filtered = q ? sorted.filter(function(item) {
-    return item.name.toLowerCase().includes(q) || item.use.toLowerCase().includes(q);
+    return item.name.toLowerCase().includes(q) || item.use.toLowerCase().includes(q) || String(item.desc||'').toLowerCase().includes(q);
   }) : sorted;
+  if (window.piCat) filtered = filtered.filter(function(item){ return window.piCat.test(item.name + ' ' + item.use + ' ' + (item.desc||'')); });
   var grid = document.getElementById('peptide-index-grid');
   var countEl = document.getElementById('peptide-search-count');
   if (q) {
@@ -26662,8 +26769,8 @@ function e5plain(t){
     [/\bcytokines\b/i,'inflammation messengers (cytokines)'],
     [/\bangiogenesis\b/i,'new blood-vessel growth (angiogenesis)'],
     [/\binsulin sensitivity\b/i,'how well the body responds to insulin'],
-    [/\bmonotherapy\b/gi,'on its own'],
-    [/\bn\s*=\s*([\d,]+)/gi,'$1 participants'],
+    [/\b(as )?monotherapy\b/gi,'used on its own'],
+    [/\bn\s*=\s*([\d,]+)\s*/gi,'$1 participants: '],
     [/\bAHI\b/,'AHI (sleep-apnea score)'],
     [/\bWOMAC\b/,'WOMAC (knee pain score)']
   ];
