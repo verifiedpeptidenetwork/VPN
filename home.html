@@ -24072,7 +24072,7 @@ function csvFilter(cat, btn) {
           </div>
         </div>
 
-    <div class="section-header" data-vt-skip><div class="section-title">🖼 Picture guides</div><span class="section-count">Every gray-market guide on the site · tap to zoom</span></div>
+    <div class="section-header gm-gal-tog" data-vt-skip role="button" tabindex="0" aria-expanded="false" aria-controls="gm-gallery" onclick="var g=document.getElementById('gm-gallery'),o=g.classList.toggle('open');this.setAttribute('aria-expanded',o);this.querySelector('.gm-gal-ar').textContent=o?'▲ CLOSE':'▼ OPEN';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="section-title">🖼 Picture guides</div><span class="section-count"><span class="gm-gal-ar">▼ OPEN</span> · every gray-market guide on the site</span></div>
     <div id="gm-gallery" class="gm-gal"></div>
 
     <div class="section-header" data-vt-skip><div class="section-title">📐 VPN original guides</div><span class="section-count">Our own write-ups + drawings · inspired by Stairway to Gray</span></div>
@@ -24532,6 +24532,9 @@ function csvFilter(cat, btn) {
       #view-graymarket .gm-card{padding:1rem 1.1rem;border-radius:14px;border:1px solid rgba(255,0,128,0.35);background:linear-gradient(135deg,#0d0012,#05000b);margin-bottom:1.4rem;text-align:left;font-family:'Rajdhani',sans-serif;font-weight:600;line-height:1.65;color:rgba(240,230,240,0.92);}
       #view-graymarket .gm-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.85rem;margin-bottom:1.4rem;align-items:start;}
       #view-graymarket .gm-gal > *{margin:0 !important;}
+      #view-graymarket .gm-gal:not(.open){display:none;}
+      #view-graymarket .gm-gal-tog{cursor:pointer;user-select:none;}
+      #view-graymarket .gm-gal-tog:hover{filter:brightness(1.2);}
       #view-graymarket .stg-in{padding:0 1rem 0.8rem;}
       #view-graymarket .stg-in h4{margin:0.8rem 0 0.3rem;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.1rem;letter-spacing:0.1em;color:#ff7ab8;}
       #view-graymarket .stg-in p,#view-graymarket .stg-in li{font-size:0.95rem;line-height:1.6;}
