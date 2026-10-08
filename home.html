@@ -3297,6 +3297,40 @@
       </div>
     </div>
 
+    <!-- SECOND OPTION: skip the video by acknowledging the risks -->
+    <div id="dg-skip">
+      <button type="button" id="dg-skip-btn" onclick="dgSkipOpen()">⏭ SKIP THE VIDEO · ACKNOWLEDGE THE RISKS INSTEAD</button>
+      <div id="dg-skip-box" hidden>
+        <div class="dgs-t">⚠️ Skipping the video? Read &amp; acknowledge:</div>
+        <ul>
+          <li><b>Gray-market peptides carry real risk.</b> "Research use only" products are not FDA-approved or regulated for human use and may have unknown purity, wrong dosing, contamination, endotoxins, or be counterfeit.</li>
+          <li><b>Testing is on you.</b> Vendor COAs can be faked or reused. Only independent third-party testing (e.g. Janoshik) verifies what is in a vial.</li>
+          <li><b>Not medical advice.</b> This website is an educational reference only. Consult a licensed physician before using anything.</li>
+          <li><b>Serious health risks exist</b>, including allergic reactions, infection from non-sterile handling, hormone and blood-sugar changes, and GLP-1 warnings (thyroid C-cell tumors/MEN2, pancreatitis, pregnancy).</li>
+          <li><b>Laws vary</b> by country and state. You are responsible for following yours.</li>
+          <li><b>No liability.</b> VPN, its creators and contributors are not responsible for any decision or outcome based on this website.</li>
+        </ul>
+        <label id="dg-skip-wrap" for="dg-skip-check">
+          <input type="checkbox" id="dg-skip-check" onchange="dgSkipChange()">
+          <span>I acknowledge the risks of gray-market peptides and everything above. I choose to skip the video and accept full responsibility for my own decisions.</span>
+        </label>
+      </div>
+    </div>
+    <style>
+      #dg-skip{margin:0.4rem 0 0.9rem;}
+      #dg-skip-btn{width:100%;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;padding:0.65rem 0.8rem;border-radius:8px;border:1.5px dashed rgba(255,45,120,0.7);background:rgba(255,45,120,0.08);color:#ff6fa0;cursor:pointer;line-height:1.25;}
+      #dg-skip-btn:hover{background:rgba(255,45,120,0.18);color:#fff;}
+      #dg-skip-box{margin-top:0.6rem;padding:0.8rem 0.9rem;border:1px solid rgba(255,45,120,0.5);border-left:4px solid #ff2d78;border-radius:8px;background:rgba(20,0,10,0.9);text-align:left;}
+      #dg-skip-box[hidden]{display:none;}
+      #dg-skip-box .dgs-t{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#ff6fa0;margin-bottom:0.35rem;}
+      #dg-skip-box ul{margin:0 0 0.7rem;padding-left:1.05rem;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:#d8d2dc;line-height:1.4;}
+      #dg-skip-box li{margin-bottom:0.3rem;} #dg-skip-box b{color:#fff;}
+      #dg-skip-wrap{display:flex;gap:0.6rem;align-items:flex-start;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:#ffd45c;line-height:1.4;padding:0.55rem 0.65rem;border:1px dashed rgba(255,212,92,0.5);border-radius:6px;background:rgba(255,212,92,0.05);}
+      #dg-skip-wrap input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:#ff2d78;}
+      html[data-theme="light"] #dg-skip-box{background:#fff6f9 !important;}
+      html[data-theme="light"] #dg-skip-box ul{color:#2a2232 !important;} html[data-theme="light"] #dg-skip-box b{color:#0f1b2d !important;}
+      html[data-theme="light"] #dg-skip-wrap{color:#6b4e00 !important;}
+    </style>
     <div id="dg-divider"></div>
 
     <!-- Checkbox -->
@@ -3340,6 +3374,14 @@ var dgVidUnlocked = false;
     document.getElementById('dg-vid-ready').style.display = 'block';
   });
 })();
+function dgSkipOpen(){ var b=document.getElementById('dg-skip-box'); b.hidden=!b.hidden; if(!b.hidden){ try{document.getElementById('dg-vid').pause();}catch(e){} b.scrollIntoView({behavior:'smooth',block:'nearest'}); } }
+function dgSkipChange(){
+  var on=document.getElementById('dg-skip-check').checked;
+  if(on){ dgVidUnlocked=true; try{localStorage.setItem('vpn_risk_ack',new Date().toISOString());}catch(e){}
+    document.getElementById('dg-vid-status').style.display='none';
+    var r=document.getElementById('dg-vid-ready'); r.style.display='block'; r.textContent='✓ RISKS ACKNOWLEDGED — VIDEO SKIPPED';
+    var c=document.getElementById('dg-check'); if(c){ c.scrollIntoView({behavior:'smooth',block:'center'}); } }
+}
 function dgCheckChange(){
   var btn = document.getElementById('dg-btn');
   var chk = document.getElementById('dg-check');
@@ -3357,9 +3399,9 @@ function dgEnter(){
   var btn = document.getElementById('dg-btn');
   if(!dgVidUnlocked){
     btn.classList.add('shake');
-    btn.textContent = '⚠ Watch the video first';
+    btn.textContent = '⚠ Watch the video or tap Skip the Video';
     setTimeout(function(){ btn.classList.remove('shake'); btn.textContent = chk.checked ? 'I UNDERSTAND — ENTER SITE' : 'CHECK THE BOX ABOVE TO ENTER'; }, 2200);
-    document.getElementById('dg-vid').scrollIntoView({behavior:'smooth',block:'center'});
+    var sk=document.getElementById('dg-skip-btn'); if(sk){ sk.scrollIntoView({behavior:'smooth',block:'center'}); } else document.getElementById('dg-vid').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   if(!chk.checked){
