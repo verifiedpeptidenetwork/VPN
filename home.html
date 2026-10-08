@@ -31418,6 +31418,243 @@ window.addEventListener('appinstalled', function(){
   place(); if(mq.addEventListener) mq.addEventListener("change",place); else mq.addListener(place);
 })();
 </script>
+<!-- ═══ SECTION HERO CARDS v2 — every .view-hero becomes a card like the Peptide Index hero ═══ -->
+<style>
+  .view-hero.vh2{border:1px solid color-mix(in srgb,var(--vh1,#cc44ff) 50%,transparent) !important;border-radius:18px;margin-bottom:1rem !important;min-height:0 !important;
+    background:radial-gradient(120% 140% at 0% 0%,color-mix(in srgb,var(--vh1,#cc44ff) 24%,transparent),transparent 55%),radial-gradient(90% 120% at 100% 100%,color-mix(in srgb,var(--vh2,#00f5ff) 16%,transparent),transparent 55%),linear-gradient(135deg,#0b0420,#04020d) !important;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.04) inset,0 24px 50px -28px var(--vh1,#cc44ff) !important;}
+  .view-hero.vh2::before{opacity:0.35;border-radius:18px;}
+  .view-hero.vh2 .vh-scan,.view-hero.vh2 .vh-glyph,.view-hero.vh2 .vh-logo-wrap,.view-hero.vh2 > .vh-accent-line{display:none !important;}
+  .view-hero.vh2 .vh-inner{display:block !important;padding:1.4rem 1.5rem 1.25rem !important;}
+  .vh2 .vh2-top{display:flex;align-items:center;gap:1rem;}
+  .vh2 .vh2-ic{flex-shrink:0;width:64px;height:64px;display:grid;place-items:center;font-size:2rem;border-radius:16px;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--vh1,#cc44ff) 32%,transparent),color-mix(in srgb,var(--vh2,#00f5ff) 18%,transparent));
+    border:1px solid color-mix(in srgb,var(--vh1,#cc44ff) 65%,transparent);box-shadow:0 0 22px color-mix(in srgb,var(--vh1,#cc44ff) 45%,transparent);}
+  .vh2 .vh-content{min-width:0;flex:1;}
+  .vh2 .vh-eyebrow{opacity:1 !important;font-size:0.72rem !important;letter-spacing:0.2em !important;color:var(--vh2,#3ff3ff) !important;margin-bottom:0.15rem;}
+  .vh2 .vh-title{font-size:clamp(1.9rem,5.5vw,2.9rem) !important;letter-spacing:0.08em !important;margin:0 !important;text-shadow:0 0 22px color-mix(in srgb,var(--vh1,#cc44ff) 60%,transparent) !important;}
+  .vh2 .vh-sub{margin:0.85rem 0 0.95rem !important;font-size:1.05rem !important;line-height:1.55 !important;color:rgba(232,228,245,0.9) !important;max-width:66ch !important;}
+  .vh2 .vh2-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:0.55rem;margin-bottom:0.9rem;}
+  .vh2 .vh2-stat{padding:0.55rem 0.5rem;text-align:center;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);}
+  .vh2 .vh2-stat b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.55rem;letter-spacing:0.04em;color:#ffd45c;line-height:1.1;}
+  .vh2 .vh2-stat small{font-family:'Rajdhani',sans-serif;font-size:0.76rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:rgba(220,220,240,0.75);}
+  .vh2 .vh2-jl{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.16em;color:rgba(230,225,245,0.7);margin:0 0 0.4rem;}
+  .vh2 .vh-badges{display:flex !important;flex-wrap:wrap;gap:0.4rem !important;}
+  .vh2 .vh-badge{font-family:'Rajdhani',sans-serif !important;font-size:0.88rem !important;font-weight:700;letter-spacing:0.02em !important;text-transform:none;padding:0.3rem 0.8rem !important;border-radius:999px !important;
+    color:#f1e6ff !important;background:color-mix(in srgb,var(--vh1,#cc44ff) 12%,transparent) !important;border:1px solid color-mix(in srgb,var(--vh1,#cc44ff) 50%,transparent) !important;}
+  .vh2 .vh-badge.vh2-go{cursor:pointer;}
+  .vh2 .vh-badge.vh2-go:hover{background:var(--vh1,#cc44ff) !important;color:#04020d !important;}
+  .view-hero.vh2 + .section-header{display:none !important;}
+  .vh2 .vh2-top .vh-badges{display:none !important;}
+  .view-hero.vh2, .view-hero.vh2 .vh-inner{text-align:left !important;}
+  .vh2 .vh2-top .vh-content{text-align:left !important;}
+  @media(max-width:560px){ .view-hero.vh2 .vh-inner{padding:1.1rem 1rem 1rem !important;} .vh2 .vh2-ic{width:52px;height:52px;font-size:1.6rem;} .vh2 .vh2-stats{grid-template-columns:repeat(2,minmax(0,1fr));} .vh2 .vh-sub{font-size:0.98rem !important;} }
+  html[data-theme="light"] .view-hero.vh2{background:linear-gradient(135deg,color-mix(in srgb,var(--vh1,#cc44ff) 12%,#fff),color-mix(in srgb,var(--vh2,#00f5ff) 10%,#fff)) !important;border-color:color-mix(in srgb,var(--vh1,#cc44ff) 40%,#0f1b2d) !important;}
+  html[data-theme="light"] .vh2 .vh-title{color:#120a24 !important;text-shadow:none !important;}
+  html[data-theme="light"] .vh2 .vh-eyebrow{color:color-mix(in srgb,var(--vh2,#00f5ff) 40%,#0f1b2d) !important;}
+  html[data-theme="light"] .vh2 .vh-sub,html[data-theme="light"] .vh2 .vh2-stat small,html[data-theme="light"] .vh2 .vh2-jl{color:#26324a !important;}
+  html[data-theme="light"] .vh2 .vh2-stat{background:#fff !important;border-color:rgba(15,27,45,0.15) !important;} html[data-theme="light"] .vh2 .vh2-stat b{color:#9a5b00 !important;}
+  html[data-theme="light"] .vh2 .vh-badge{color:color-mix(in srgb,var(--vh1,#cc44ff) 40%,#0f1b2d) !important;background:#fff !important;}
+</style>
+<script>
+(function(){
+  var SKIP={'view-home':1,'view-all-peptides':1,'view-glp':1,'view-winter':1,'view-intel-feed':1,'view-shops':1};
+  function txt(el){ return (el&&el.textContent||'').replace(/\s+/g,' ').trim(); }
+  function targets(view){ return [].slice.call(view.querySelectorAll('summary, .section-title, .csv-sec-title, h2, h3, .cx-h, .tgk-h, .bw-divider span')).filter(function(e){ return !e.closest('.view-hero') && !e.closest('.eli5'); }); }
+  function findTarget(view, label){
+    var l=label.toLowerCase().replace(/[^a-z0-9 ]+/g,' ').trim(); if(!l) return null;
+    var ts=targets(view), words=l.split(' ').filter(function(w){ return w.length>=4; });
+    for(var i=0;i<ts.length;i++){ if(txt(ts[i]).toLowerCase().indexOf(l)!==-1) return ts[i]; }
+    for(var j=0;j<words.length;j++){ for(var k=0;k<ts.length;k++){ if(txt(ts[k]).toLowerCase().indexOf(words[j])!==-1) return ts[k]; } }
+    return null;
+  }
+  // is this heading reachable inside its section (not hidden, not inside a closed fold-out)?
+  function shown(t,view){ var e=t; while(e && e!==view){ if(getComputedStyle(e).display==='none') return false; var p=e.parentElement; if(p && p.tagName==='DETAILS' && !p.open && e.tagName!=='SUMMARY') return false; e=p; } return true; }
+  function go(t){
+    var d=t.closest('details'); if(d && !d.open && t.tagName==='SUMMARY') d.open=true;
+    var p=t.parentElement; while(p){ if(p.tagName==='DETAILS' && !p.open && p!==d) p.open=true; p=p.parentElement; }
+    setTimeout(function(){ t.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(function(){ if(t.getBoundingClientRect().top>200) t.scrollIntoView(); },500); },30);
+  }
+  function upgrade(hero){
+    if(hero.classList.contains('vh2')) return;
+    var view=hero.closest('.view'); if(!view || SKIP[view.id]) return;
+    var inner=hero.querySelector('.vh-inner'), title=hero.querySelector('.vh-title'), sub=hero.querySelector('.vh-sub');
+    if(!inner || !title) return;
+    hero.classList.add('vh2'); hero.setAttribute('data-vt-skip','');
+    var iconEl=hero.querySelector('.vh-icon'), icon=iconEl?txt(iconEl):'🔬';
+    var content=hero.querySelector('.vh-content');
+    if(!content){ content=document.createElement('div'); content.className='vh-content'; content.appendChild(title); }
+    var eb=content.querySelector('.vh-eyebrow');
+    if(!eb){ eb=document.createElement('div'); eb.className='vh-eyebrow'; eb.textContent='VERIFIED PEPTIDES NETWORK'; content.insertBefore(eb,title); }
+    eb.textContent=eb.textContent.replace(/^\/\/\s*/,'');
+    var top=document.createElement('div'); top.className='vh2-top';
+    var ic=document.createElement('div'); ic.className='vh2-ic'; ic.setAttribute('aria-hidden','true'); ic.textContent=icon||'🔬';
+    top.appendChild(ic); top.appendChild(content);
+    var badges; if(sub) sub.remove();
+    var extras=document.createElement('div'); extras.className='vh2-extras';
+    [].slice.call(inner.childNodes).forEach(function(c){ if(c===iconEl || (c.classList && c.classList.contains('vh-logo-wrap'))) { c.remove(); return; } if(c.nodeType===1 && (c.textContent.trim() || c.querySelector('a,button,img'))) extras.appendChild(c); else c.remove(); });
+    inner.appendChild(top);
+    if(sub) inner.appendChild(sub);
+    // stat tiles counted from this section's own content
+    var topics=view.querySelectorAll('details:not(.eli5)').length, imgs=view.querySelectorAll('img').length,
+        vids=view.querySelectorAll('iframe, video, [onclick*="youtube"], a[href*="youtu"]').length,
+        e5=view.querySelectorAll('.eli5').length, cp=view.querySelectorAll('.vpn-copy-btn, [class*="copy"]').length;
+    var st=[]; if(topics) st.push([topics,'Topics']);
+    if(view.id==='view-studies' && typeof STUDIES_DATA!=='undefined'){ var ns=0; STUDIES_DATA.forEach(function(b){ ns+=(b.studies||[]).length; }); st.push([ns,'PubMed-linked studies']); st.push([STUDIES_DATA.length,'Compounds']); } if(vids) st.push([vids,'Videos']); if(imgs) st.push([imgs,'Guides & images']);
+    st.push(['🧒', e5? 'ELI5 explainers' : 'Plain-English']); if(cp) st.push(['📋','Copy text']);
+    var sd=document.createElement('div'); sd.className='vh2-stats';
+    sd.innerHTML=st.slice(0,4).map(function(s){ return '<div class="vh2-stat"><b>'+s[0]+'</b><small>'+s[1]+'</small></div>'; }).join('');
+    inner.appendChild(sd);
+    // jump chips: the section's own badges (when they match a heading) + its visible headings
+    var labels=[].map.call(hero.querySelectorAll('.vh-badge'),txt);
+    [].forEach.call(hero.querySelectorAll('.vh-badges'),function(x){ x.remove(); });
+    var chips=[], seen={};
+    function add(label,t){ var k=label.toLowerCase(); if(seen[k]||chips.length>=10) return; seen[k]=1; chips.push([label,t]); }
+    labels.forEach(function(l){ var t=findTarget(view,l); if(t) add(l,t); });
+    targets(view).forEach(function(t){
+      if(!shown(t,view)) return;
+      var s=txt(t).replace(/[▼▲⧉]|📋|COPY TEXT|COPY/g,'').replace(/^[^A-Za-z0-9]+/,'').replace(/^ask your doctor to add:s*/i,'').replace(/s*·s*tap to (see|open).*$/i,'').trim();
+      if(s.length<3 || s.length>48 || /explain it like|tap one to open|tap to open/i.test(s)) return;
+      add(s,t);
+    });
+    badges=document.createElement('div'); badges.className='vh-badges vh2-chips';
+    chips.forEach(function(c){
+      var b=document.createElement('span'); b.className='vh-badge vh2-go'; b.textContent=c[0]; b.setAttribute('role','button'); b.tabIndex=0;
+      b.addEventListener('click',function(){ go(c[1]); });
+      b.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); go(c[1]); } });
+      badges.appendChild(b);
+    });
+    if(chips.length){ var jl=document.createElement('div'); jl.className='vh2-jl'; jl.textContent='JUMP TO ↓'; inner.appendChild(jl); inner.appendChild(badges); }
+    if(extras.children.length){ extras.style.marginTop='0.9rem'; inner.appendChild(extras); }
+  }
+  function run(){ [].forEach.call(document.querySelectorAll('.view .view-hero'), upgrade); }
+  window.vpnHeroV2 = run;
+  function later(){ setTimeout(run, 150); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', later); else later();
+  window.addEventListener('load', function(){ setTimeout(run, 150); });
+})();
+</script>
+<!-- ═══ ELI5 FROM THE SOURCE — every sub-section gets an ELI5 built only from its own text ═══ -->
+<script>
+(function(){
+  var RULES = [
+    [/\bvs\.?\s/gi,'compared with '],
+    [/\bplacebo\b/i,'a dummy treatment (placebo)'],
+    [/\bHbA1c\b/i,'HbA1c (3-month average blood sugar)'],
+    [/\bhs-?CRP\b/i,'hsCRP (a blood marker of inflammation)'],
+    [/\bvisceral fat\b/i,'deep belly fat around the organs (visceral fat)'],
+    [/\bMASLD\b/i,'fatty liver disease (MASLD)'],
+    [/\bin vitro\b/gi,'in a lab dish'],
+    [/\bdose[- ]dependent(ly)?\b/i,'bigger doses gave bigger effects —'],
+    [/\brandomi[sz]ed\b/i,'randomly assigned'],
+    [/\bsignificantly\b/gi,'clearly'],
+    [/\bapoptosis\b/i,'cell self-destruct (apoptosis)'],
+    [/\bproliferat(ion|e|ing)\b/gi,'multiplying'],
+    [/\bupregulat(ed|es|ion)\b/gi,'increased'],
+    [/\bdownregulat(ed|es|ion)\b/gi,'decreased'],
+    [/\boxidative stress\b/i,'cell "rust" damage (oxidative stress)'],
+    [/\bIGF-1\b/,'IGF-1 (a growth signal)'],
+    [/\bhypoglyc(a)?emia\b/gi,'low blood sugar'],
+    [/\badverse events\b/gi,'side effects'],
+    [/\bGI\b/g,'stomach/gut'],
+    [/\befficacy\b/gi,'how well it works'],
+    [/\bcytokines\b/i,'inflammation messengers (cytokines)'],
+    [/\bangiogenesis\b/i,'new blood-vessel growth (angiogenesis)'],
+    [/\bagonist\b/i,'switch-on copy (agonist)'],
+    [/\bsubcutaneous(ly)?\b|\bSC\b/g,'under the skin'],
+    [/\bmonotherapy\b/gi,'on its own'],
+    [/\bretrospective\b/i,'looking back at old records (retrospective)'],
+    [/\bmeta-analysis\b/i,'a combined look at many studies (meta-analysis)']
+  ];
+  function plain(t){ RULES.forEach(function(r){ t=t.replace(r[0],r[1]); }); return t; }
+  var HEAD='.tgk-h, .glp-h, .wi-h, .cx-h';
+  var DROP='.eli5, .vpn-copy-row, button, script, style, img, svg, iframe, video, .wi-debate, .glp-img, .tgk-img';
+
+  // text of a set of nodes → list of sentence-sized pieces, in order
+  function pieces(nodes){
+    var box=document.createElement('div');
+    nodes.forEach(function(n){ box.appendChild(n.cloneNode(true)); });
+    box.querySelectorAll(DROP).forEach(function(x){ x.remove(); });
+    box.querySelectorAll('li, p, div, tr, h3, h4, summary, br').forEach(function(x){ x.appendChild(document.createTextNode(' § ')); });
+    var raw=box.textContent.replace(/\s+/g,' ');
+    var out=[];
+    raw.split('§').forEach(function(seg){
+      seg=seg.trim(); if(!seg) return;
+      seg.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/).forEach(function(s){ s=s.trim(); if(s.length>=25 && !/^(PubMed|DOI|PMID|Source|Watch|Read more|Copy)/i.test(s)) out.push(s); });
+    });
+    return out;
+  }
+  function summary(list, max){
+    var pick=[], len=0;
+    for(var i=0;i<list.length && pick.length<(max||3);i++){ var s=list[i]; if(len+s.length>520 && pick.length) break; if(!/[.!?)]$/.test(s)) s+='.'; pick.push(s); len+=s.length; }
+    return plain(pick.join(' '));
+  }
+  function box(html, src){
+    var d=document.createElement('details'); d.className='eli5'; d.setAttribute('data-e5src', src||'1');
+    d.innerHTML='<summary><span class="e5-ic">🧒</span> Explain it like I\'m 5</summary><div class="e5-b">'+html+'</div>';
+    return d;
+  }
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  // 1) every heading inside hub cards: ELI5 of the content up to the next heading
+  function unitNodes(h){ var n=[], e=h.nextElementSibling; while(e && !e.matches(HEAD)){ if(!e.classList.contains('eli5')) n.push(e); e=e.nextElementSibling; } return n; }
+  function doHeadings(view){
+    view.querySelectorAll(HEAD).forEach(function(h){
+      var nx=h.nextElementSibling;
+      if(nx && nx.classList.contains('eli5')){ if(nx.getAttribute('data-e5src')) return; nx.remove(); } // replace old hand-written card ELI5
+      var nodes=unitNodes(h), list=pieces(nodes); if(!list.length) return;
+      var hasDebate=nodes.some(function(n){ return n.matches && (n.matches('.wi-debate') || n.querySelector('.wi-debate')); });
+      var html='<b>What this part says:</b> '+esc(summary(list,3));
+      if(hasDebate) html+='<br><b>Both sides:</b> this part also lays out the reasons on each side in the box below.';
+      h.insertAdjacentElement('afterend', box(html,'card'));
+    });
+  }
+  // 2) fold-out sections (details) without an ELI5: built from their own body, when first opened
+  function doDetails(d){
+    if(d.classList.contains('eli5') || d.closest('.eli5') || d.__e5s) return;
+    d.__e5s=1;
+    var s=d.querySelector(':scope > summary'); if(!s) return;
+    if(d.querySelector(':scope > .eli5, :scope > div > .eli5, :scope > .bw-body > .eli5')) return;
+    var nodes=[].slice.call(d.children).filter(function(c){ return c!==s; });
+    var list=pieces(nodes); if(list.join(' ').length<80) return;
+    var b=box('<b>What this section says:</b> '+esc(summary(list,3)),'details');
+    var body=s.nextElementSibling;
+    if(body && body.tagName==='DIV' && !body.classList.contains('vpn-copy-row')) body.insertBefore(b, body.firstChild); else s.insertAdjacentElement('afterend', b);
+  }
+  // 3) the page-level ELI5 at the top of each hub: section-by-section, from the page itself
+  function doHub(view){
+    var top=view.querySelector('.eli5 .e5-b'); if(!top || top.getAttribute('data-e5hub')) return;
+    if(!/This whole page in kid words/i.test(top.textContent)) return;
+    var rows=[];
+    view.querySelectorAll('.section-title, '+HEAD).forEach(function(h){
+      var t=h.textContent.replace(/\s+/g,' ').trim();
+      if(h.classList.contains('section-title')){ if(t && !h.closest('.view-hero')) rows.push('<br><b style="letter-spacing:0.06em;">'+esc(t.toUpperCase())+'</b>'); return; }
+      var list=pieces(unitNodes(h)); if(!t || !list.length) return;
+      rows.push('<b>'+esc(t)+':</b> '+esc(summary(list,1)));
+    });
+    if(rows.length<2) return;
+    top.setAttribute('data-e5hub','1');
+    top.innerHTML='<b>What this page covers, section by section:</b><br>'+rows.slice(0,26).join('<br>');
+  }
+  function runView(view){ if(!view || view.__e5v) return; view.__e5v=1; doHub(view); doHeadings(view); }
+  function runActive(){ document.querySelectorAll('.view.active').forEach(runView); }
+  // news banners / any page without views
+  function doBanners(){
+    document.querySelectorAll('.breaking-banner').forEach(function(bb){
+      var body=bb.querySelector('.bb-body'); if(!body || body.querySelector(':scope > .eli5')) return;
+      var list=pieces([].slice.call(body.children)); if(list.join(' ').length<80) return;
+      body.insertBefore(box('<b>What the article says:</b> '+esc(summary(list,3)),'banner'), body.firstChild);
+    });
+  }
+  function runPage(){ doBanners(); if(!document.querySelector('.view')) { doHub(document.body); doHeadings(document.body); } }
+  document.addEventListener('toggle', function(e){ var d=e.target; if(d && d.tagName==='DETAILS' && d.open) doDetails(d); }, true);
+  document.addEventListener('click', function(){ setTimeout(runActive, 80); }, true);
+  window.addEventListener('hashchange', function(){ setTimeout(runActive, 80); });
+  function start(){ setTimeout(function(){ runActive(); runPage(); document.querySelectorAll('details[open]').forEach(doDetails); }, 700); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
+  window.vpnEli5Source = { runView: runView, doDetails: doDetails };
+})();
+</script>
 </body>
 </html>
 
