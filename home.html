@@ -22499,22 +22499,92 @@ function csvFilter(cat, btn) {
     html[data-theme="light"] #view-glp .glp-card,html[data-theme="light"] #view-glp details.glp-drug{background:#fffdf8;}
   </style>
 
-  <div class="view-hero" style="--vh1:#ff9a1f;--vh2:#00f5ff;background:linear-gradient(135deg,rgba(255,154,31,0.08) 0%,rgba(4,0,13,0.98) 50%,rgba(0,245,255,0.05) 100%);">
-    <div class="vh-inner">
-      <div class="vh-icon">💉</div>
-      <div>
-        <div class="vh-title">GLP HUB</div>
-        <div class="vh-sub">Retatrutide · Tirzepatide · Cagrilintide · Survodutide · Eloralintide — what each one is, the latest published trials, coming off, switching, and the non-GLP-1 options for people with MEN2 or past pancreatitis.</div>
-        <div class="vh-badges"><span class="vh-badge">LATEST TRIALS</span><span class="vh-badge">PUBMED LINKED</span><span class="vh-badge">SWITCHING</span><span class="vh-badge">MEN2 / PANCREATITIS</span></div>
+  <!-- ═══ GLP HUB HERO ═══ -->
+  <section id="glp-hero" data-vt-skip>
+    <div class="gh-orb gh-orb1"></div><div class="gh-orb gh-orb2"></div><div class="gh-orb gh-orb3"></div>
+    <div class="gh-top">
+      <div class="gh-copy">
+        <div class="gh-eyebrow"><span class="gh-dot"></span>UPDATED OCTOBER 2026 · PUBMED-LINKED</div>
+        <h1 class="gh-title">GLP <span>HUB</span></h1>
+        <p class="gh-sub">Every major weight-loss peptide in one place — what each one does, the latest published trials, how to switch or come off, protecting your muscle, and non-GLP-1 options for people with MEN2 or past pancreatitis.</p>
+        <div class="gh-jumps">
+          <button type="button" onclick="glpJump('glp-compare')">📊 Compare</button>
+          <button type="button" onclick="glpJump('glp-switching')">🔁 Switching</button>
+          <button type="button" onclick="glpJump('glp-muscle')">💪 Save muscle</button>
+          <button type="button" onclick="glpJump('glp-men2')">🧬 MEN2</button>
+          <button type="button" onclick="glpJump('glp-naion')">👁 Eye stroke</button>
+          <button type="button" onclick="glpJump('glp-studies')">📚 Studies</button>
+        </div>
+      </div>
+      <div class="gh-stats">
+        <div class="gh-stat" style="--sc:#ff2d95;"><b>−29.5%</b><span>Retatrutide 12 mg</span><small>TRIUMPH-1 · 104 wk</small></div>
+        <div class="gh-stat" style="--sc:#3b9dff;"><b>−20.9%</b><span>Tirzepatide 15 mg</span><small>SURMOUNT-1 · 72 wk</small></div>
+        <div class="gh-stat" style="--sc:#cc44ff;"><b>−20.4%</b><span>CagriSema</span><small>REDEFINE 1 · 68 wk</small></div>
+        <div class="gh-stat" style="--sc:#ffb300;"><b>−20%</b><span>Eloralintide 9 mg</span><small>Phase 2 · 48 wk</small></div>
       </div>
     </div>
-    <div class="vh-accent-line"></div>
-  </div>
+    <div class="gh-chips">
+      <span style="--cc:#ff2d95;"><i></i>Retatrutide <em>GLP-1 · GIP · Glucagon</em></span>
+      <span style="--cc:#3b9dff;"><i></i>Tirzepatide <em>GLP-1 · GIP</em></span>
+      <span style="--cc:#00ff64;"><i></i>Survodutide <em>GLP-1 · Glucagon</em></span>
+      <span style="--cc:#cc44ff;"><i></i>Cagrilintide <em>Amylin</em></span>
+      <span style="--cc:#ffb300;"><i></i>Eloralintide <em>Amylin</em></span>
+    </div>
+  </section>
+  <script>
+    function glpJump(id){ var e=document.getElementById(id); if(!e) return; if(e.tagName==='DETAILS') e.open=true; e.scrollIntoView({behavior:'smooth',block:'start'}); }
+  </script>
+  <style>
+    #glp-hero{position:relative;overflow:hidden;isolation:isolate;margin:0 0 1rem;padding:1.8rem 1.8rem 1.3rem;border-radius:22px;
+      background:linear-gradient(135deg,#0b0726 0%,#120a33 45%,#070417 100%);border:1px solid rgba(157,59,255,0.45);
+      box-shadow:0 24px 60px -34px rgba(157,59,255,0.9),inset 0 1px 0 rgba(255,255,255,0.06);}
+    #glp-hero::before{content:'';position:absolute;inset:0;z-index:-1;opacity:0.5;background-image:linear-gradient(rgba(0,245,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.06) 1px,transparent 1px);background-size:32px 32px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 90%);mask-image:linear-gradient(180deg,#000,transparent 90%);}
+    #glp-hero::after{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#00f5ff,#3b9dff,#cc44ff,#ff2d95,#ffb300);}
+    #glp-hero .gh-orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(40px);opacity:0.55;}
+    #glp-hero .gh-orb1{width:260px;height:260px;left:-80px;top:-90px;background:#00c8ff;}
+    #glp-hero .gh-orb2{width:300px;height:300px;right:-90px;bottom:-140px;background:#ff2d95;opacity:0.4;}
+    #glp-hero .gh-orb3{width:200px;height:200px;right:30%;top:-120px;background:#9d3bff;opacity:0.35;}
+    #glp-hero .gh-top{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:1.6rem;align-items:center;}
+    #glp-hero .gh-eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.18em;color:rgba(220,232,255,0.8);}
+    #glp-hero .gh-dot{width:8px;height:8px;border-radius:50%;background:#00ff64;box-shadow:0 0 0 3px rgba(0,255,100,0.2);}
+    #glp-hero .gh-title{margin:0.35rem 0 0.4rem;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3rem,7vw,5rem);line-height:0.9;letter-spacing:0.06em;color:#fff;}
+    #glp-hero .gh-title span{background:linear-gradient(90deg,#00f5ff,#cc44ff 55%,#ff2d95);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+    #glp-hero .gh-sub{margin:0 0 1rem;max-width:58ch;font-family:'Rajdhani',sans-serif;font-size:1.06rem;font-weight:600;line-height:1.55;color:rgba(228,236,252,0.9);}
+    #glp-hero .gh-jumps{display:flex;flex-wrap:wrap;gap:0.45rem;}
+    #glp-hero .gh-jumps button{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;padding:0.45rem 0.85rem;border-radius:999px;cursor:pointer;color:#fff;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.22);transition:background .15s,transform .15s,border-color .15s;}
+    #glp-hero .gh-jumps button:hover{background:rgba(0,245,255,0.14);border-color:#00f5ff;transform:translateY(-1px);}
+    #glp-hero .gh-stats{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+    #glp-hero .gh-stat{display:flex;flex-direction:column;gap:0.1rem;padding:0.8rem 0.9rem;border-radius:14px;background:rgba(255,255,255,0.045);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent);box-shadow:inset 0 0 22px -12px var(--sc);}
+    #glp-hero .gh-stat b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2rem;line-height:1;color:var(--sc);}
+    #glp-hero .gh-stat span{font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;}
+    #glp-hero .gh-stat small{font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(210,222,245,0.7);}
+    #glp-hero .gh-chips{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08);}
+    #glp-hero .gh-chips span{display:inline-flex;align-items:center;gap:0.4rem;padding:0.32rem 0.7rem;border-radius:999px;font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.08em;color:#fff;background:color-mix(in srgb,var(--cc) 12%,transparent);border:1px solid color-mix(in srgb,var(--cc) 45%,transparent);}
+    #glp-hero .gh-chips i{width:8px;height:8px;border-radius:50%;background:var(--cc);box-shadow:0 0 8px var(--cc);}
+    #glp-hero .gh-chips em{font-style:normal;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.02em;color:rgba(220,230,250,0.75);}
+    /* light mode */
+    html[data-theme="light"] #glp-hero{background:linear-gradient(135deg,#eef7ff 0%,#f6efff 50%,#fff1f6 100%);border-color:rgba(15,27,45,0.16);box-shadow:0 20px 44px -30px rgba(15,27,45,0.5);}
+    html[data-theme="light"] #glp-hero .gh-orb{opacity:0.25;}
+    html[data-theme="light"] #glp-hero .gh-title{color:#0f1b2d;} html[data-theme="light"] #glp-hero .gh-title span{background:linear-gradient(90deg,#0b6e7a,#5b2a86 55%,#9b1d4a);-webkit-background-clip:text;background-clip:text;}
+    html[data-theme="light"] #glp-hero .gh-eyebrow{color:#3a4658;} html[data-theme="light"] #glp-hero .gh-sub{color:#26324a;}
+    html[data-theme="light"] #glp-hero .gh-jumps button{color:#13294b;background:#fff;border-color:rgba(19,41,75,0.3);}
+    html[data-theme="light"] #glp-hero .gh-jumps button:hover{background:#fff4d6;border-color:#b08d3c;}
+    html[data-theme="light"] #glp-hero .gh-stat{background:#fffdf8;}
+    html[data-theme="light"] #glp-hero .gh-stat b{color:color-mix(in srgb,var(--sc) 55%,#0f1b2d);} html[data-theme="light"] #glp-hero .gh-stat span{color:#0f1b2d;} html[data-theme="light"] #glp-hero .gh-stat small{color:#5a6475;}
+    html[data-theme="light"] #glp-hero .gh-chips{border-top-color:rgba(15,27,45,0.12);} html[data-theme="light"] #glp-hero .gh-chips span{color:#0f1b2d;background:#fff;} html[data-theme="light"] #glp-hero .gh-chips em{color:#5a6475;}
+    @media(max-width:760px){
+      #glp-hero{padding:1.3rem 1rem 1rem;border-radius:18px;}
+      #glp-hero .gh-top{grid-template-columns:1fr;gap:1.1rem;}
+      #glp-hero .gh-sub{font-size:0.98rem;}
+      #glp-hero .gh-stat b{font-size:1.65rem;}
+      #glp-hero .gh-jumps button{font-size:0.85rem;padding:0.4rem 0.7rem;}
+    }
+  </style>
 
   <div class="glp-note">⚠ Research and education only — not medical advice. Retatrutide, survodutide, cagrilintide and eloralintide are <strong>not FDA-approved</strong> (as of October 2026). Every number below comes from a published trial you can open and check. Make dosing, switching and stopping decisions with your doctor.</div>
 
   <!-- QUICK COMPARE -->
-  <div class="section-header" data-vt-skip style="margin-bottom:0.9rem;"><div class="section-title">At a glance</div><span class="section-count">Receptors · status · best published result</span></div>
+  <div class="section-header" id="glp-compare" data-vt-skip style="margin-bottom:0.9rem;"><div class="section-title">At a glance</div><span class="section-count">Receptors · status · best published result</span></div>
   <div class="glp-table-wrap">
     <table class="glp-table">
       <thead><tr><th>Compound</th><th>What it activates</th><th>Status (Oct 2026)</th><th>Best published weight result</th><th>GLP-1 agonist?</th></tr></thead>
@@ -22627,7 +22697,7 @@ function csvFilter(cat, btn) {
   </div>
 
   <!-- COMING OFF + SWITCHING -->
-  <div class="glp-two">
+  <div class="glp-two" id="glp-switching">
     <div class="glp-card" style="--gc:#00ff64;margin-bottom:1rem;">
       <div class="glp-h">⬇ Coming off — what the trials show</div>
       <ul class="glp-list">
@@ -22661,7 +22731,7 @@ function csvFilter(cat, btn) {
   </div>
 
 
-  <div class="b3-gal" style="--bc:#ffd400;">
+  <div id="glp-muscle"></div><div class="b3-gal" style="--bc:#ffd400;">
     <div class="b3-h">💪 How to save your muscle on GLP-1 drugs</div>
     <div class="b3-grid">
       <div class="b3-img" onclick="openLightbox('cheatsheet/apitegromab.webp','Apitegromab — Myostatin Inhibitor')"><img loading="lazy" src="cheatsheet/apitegromab.webp" alt="Apitegromab — Myostatin Inhibitor" onerror="this.parentNode.style.display='none'"><span style="color:#ffd400">Apitegromab — Myostatin Inhibitor</span></div>
@@ -22684,7 +22754,7 @@ function csvFilter(cat, btn) {
     <div class="b3-txt">Both are AMPK/NAD-pathway compounds with animal data only. Neither is approved for weight loss.</div>
   </div>
   <!-- PER-COMPOUND LATEST STUDIES -->
-  <div class="section-header" data-vt-skip style="margin-bottom:0.9rem;"><div class="section-title">Latest studies by compound</div><span class="section-count">Tap a compound · every study links to PubMed</span></div>
+  <div class="section-header" id="glp-studies" data-vt-skip style="margin-bottom:0.9rem;"><div class="section-title">Latest studies by compound</div><span class="section-count">Tap a compound · every study links to PubMed</span></div>
 
   <details class="glp-drug" style="--gc:#ff2d78;" open>
     <summary><span class="glp-dn">Retatrutide</span><span class="glp-ds">GLP-1 + GIP + glucagon · Eli Lilly</span><span class="glp-arrow">▼</span></summary>
