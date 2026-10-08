@@ -514,6 +514,14 @@
       +'html[data-theme="light"] .vt-dock-item,html[data-theme="light"] .vt-dock-row{background:#13294b;border-color:#13294b;color:#fffdf8;-webkit-text-stroke:0;}'
       +'html[data-theme="light"] .vt-dock-sm{background:rgba(243,210,122,0.15);border-color:#b08d3c;color:#f3d27a;-webkit-text-stroke:0;}'
       +'html[data-theme="light"] #vt-dock *{-webkit-text-stroke:0!important;}'
+      +'#vt-top-btn{position:fixed;right:1.4rem;bottom:calc(1.4rem + env(safe-area-inset-bottom,0px));z-index:2147483646;width:50px;height:50px;border-radius:50%;border:2px solid #00f5ff;background:rgba(0,8,28,0.96);color:#00f5ff;font:700 24px/1 Rajdhani,Arial,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,245,255,0.5);}'
+      +'#vt-top-btn:active{transform:scale(0.92);}'
+      +'body:has(#vpn-back-top) #vt-top-btn{display:none;}'
+      +'html[data-theme="light"] #vt-top-btn{background:#13294b;color:#f3d27a;border-color:#b08d3c;box-shadow:0 4px 14px rgba(19,41,75,0.35);}'
+      +'@media print{#vt-top-btn{display:none!important;}}'
+      +'@media (orientation:portrait) and (max-width:1100px){body #vt-top-btn{display:flex!important;right:78px;bottom:calc(19px + env(safe-area-inset-bottom,0px));}}'
+      +'@media (orientation:portrait) and (max-width:900px){body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 15px + env(safe-area-inset-bottom,0px));}}'
+      +'body:has(#dg:not(.hidden)) #vt-top-btn{display:none!important;}'
       +'@media print{#vt-dock{display:none!important;}}'
       /* Phones: keep home.html's search bar clear of the corner controls (landscape still shows them) */
       +'@media(max-width:900px) and (orientation:landscape){#vpnSearchBar{padding-right:56px!important;box-sizing:border-box;}}'
@@ -671,11 +679,37 @@
     document.getElementById('vt-dock-plus').addEventListener('click',function(){ textBigger(false); });
     document.getElementById('vt-dock-minus').addEventListener('click',function(){ textSmaller(false); });
     if(hasMusic) document.getElementById('vt-dock-music').addEventListener('click',function(){ setOpen(false); window.vpnMPExpand(); });
-    document.getElementById('vt-dock-top').addEventListener('click',function(){ setOpen(false); window.scrollTo({top:0,behavior:'smooth'}); });
+    document.getElementById('vt-dock-top').addEventListener('click',function(){ setOpen(false); scrollAllTop(); });
     document.addEventListener('click',function(e){ if(!dock.contains(e.target)) setOpen(false); });
     document.addEventListener('vpn-theme-change', syncTheme);
     syncTheme();
     applyTextScale(textStep,false); // fill in the % readout + disabled states
+  }
+
+  // Back to top: some pages scroll the window, home.html scrolls <body>, and a few
+  // scroll an inner panel — reset every one that is scrolled.
+  function scrollAllTop(){
+    try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); }
+    var els=[document.scrollingElement, document.documentElement, document.body];
+    document.querySelectorAll('main,[class*="content"],[id*="content"],.view.active,.page-wrap').forEach(function(el){ els.push(el); });
+    els = els.filter(function(el){ return el && el.scrollTop>0; });
+    els.forEach(function(el){ try{ el.scrollTo({top:0,behavior:'smooth'}); }catch(e){} });
+    // smooth scrolling is ignored on some scroll containers — make sure we land at the top
+    setTimeout(function(){ els.forEach(function(el){ if(el.scrollTop>0) el.scrollTop=0; }); if(window.pageYOffset>0) window.scrollTo(0,0); }, 450);
+  }
+  window.vpnScrollTop = scrollAllTop;
+
+  // A visible ↑ button on every page: desktop uses the page's own #vpn-back-top when it
+  // has one; portrait phones/tablets always get this one, next to the ⚙ dock.
+  function injectTopButton(){
+    var own=document.getElementById('vpn-back-top');
+    if(own) own.onclick=function(e){ e.preventDefault(); scrollAllTop(); };
+    if(document.getElementById('vt-top-btn')) return;
+    var b=document.createElement('button');
+    b.type='button'; b.id='vt-top-btn'; b.setAttribute('data-vt-skip',''); b.setAttribute('aria-label','Back to top'); b.title='Back to top';
+    b.textContent='↑';
+    b.addEventListener('click',scrollAllTop);
+    document.body.appendChild(b);
   }
 
   function init(){
@@ -683,6 +717,7 @@
     injectButton();
     injectTextControls();
     injectDock();
+    injectTopButton();
     if(current()==='light') applyLight();
     setTimeout(reapplyIfLight, 400);
   }
