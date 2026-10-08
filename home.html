@@ -25653,7 +25653,7 @@ function buildPeptideCard(item) {
       '<span class="pa" style="color:var(--neon-pink);flex-shrink:0;font-size:0.75rem;margin-top:0.15rem;">▼</span>' +
     '</div>' +
     '<div id="' + id + '" class="pep-idx-body">' +
-      (PEPTIDE_ELI5[p] ? '<div class="eli5-inline"><span class="e5-ic">🧒</span><div><b>Like I\'m 5:</b> ' + PEPTIDE_ELI5[p] + '</div></div>' : '') +
+      (PEPTIDE_ELI5[p] ? '<details class="eli5" open><summary><span class="e5-ic">🧒</span> Explain it like I\'m 5</summary><div class="e5-b">' + PEPTIDE_ELI5[p] + '</div></details>' : '') +
       (desc ? '<div style="background:rgba(0,245,255,0.04);border-left:3px solid rgba(0,245,255,0.35);padding:0.65rem 0.85rem;margin-bottom:0.75rem;border-radius:0 4px 4px 0;"><p style="font-family:\'Rajdhani\',sans-serif;font-size:0.93rem;font-weight:600;color:rgba(220,230,255,0.88);line-height:1.75;margin:0;">' + desc + '</p></div>' : '') +
       '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
         '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--neon-cyan);flex-shrink:0;margin-top:0.1rem;min-width:58px;">DOSE</span>' +
@@ -26506,6 +26506,17 @@ function studiesRender(searchTerm) {
 
       // Key finding
       html += '<div class="study-finding">' + s.finding + '</div>';
+
+      // Explain it like I'm 5 — built from what kind of study it was
+      var e5who = s.tags.indexOf('rct') !== -1 ? 'in <b>real people</b>, split by coin-flip into "gets it" and "gets a fake" so the test is fair'
+        : s.tags.indexOf('meta') !== -1 ? 'by <b>adding up many studies</b> in people to see the big picture'
+        : s.tags.indexOf('human') !== -1 ? 'in <b>real people</b> (but without a coin-flip comparison group, so it\'s a weaker test)'
+        : s.tags.indexOf('animal') !== -1 ? 'in <b>animals like mice or rats</b> — a clue, not proof it works in people'
+        : s.tags.indexOf('in-vitro') !== -1 ? 'on <b>cells in a plastic dish</b> — an early clue, not proof it works in a body'
+        : s.tags.indexOf('review') !== -1 ? 'by <b>reading and summarizing</b> other studies'
+        : s.tags.indexOf('abstract') !== -1 ? 'as an early <b>conference report</b> that hasn\'t been fully checked by other scientists yet'
+        : 'in a research study';
+      html += '<details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I\'m 5</summary><div class="e5-b">Scientists tested <b>' + block.peptide + '</b> ' + e5who + '. <b>What they found:</b> ' + s.finding + '</div></details>';
 
       // Extra details if present
       if (s.details) {
@@ -30924,6 +30935,116 @@ window.addEventListener('appinstalled', function(){
   html[data-theme="light"] .wi-debate .wd-pro .wd-h{color:#1f6b3a !important;} html[data-theme="light"] .wi-debate .wd-con .wd-h{color:#0b4f8a !important;}
   html[data-theme="light"] .wi-debate ul, html[data-theme="light"] .wi-debate .wd-foot{color:#1f2a3d !important;} html[data-theme="light"] .wi-debate strong{color:#0f1b2d !important;}
 </style>
+<!-- ═══ EXPLAIN IT LIKE I'M 5 — added to sections across the site ═══ -->
+<script>
+(function(){
+  // [match (lower-case text found in the section title), ELI5 text]
+  var E = [
+    // ── Vitamins & supplements ──
+    ['benfotiamine','Vitamin B1 is a spark plug that helps your body burn sugar for energy. When you eat much less on a GLP-1, you can run low. Benfotiamine is a form of B1 that soaks into your body better — like a bigger gas can for the spark plugs.'],
+    ['zinc & its types','Zinc is a tiny metal your immune cells, skin and taste buds need. It comes stuck to different "carriers" (gluconate, picolinate, carnosine…). The carrier changes how well it absorbs and how gentle it is on your stomach.'],
+    ['thyroid support','Your thyroid is the body\'s speed dial. If it\'s set too low you feel tired, cold and gain weight. Selenium, iodine (only if low), zinc and vitamin D are the "parts" it needs to make its hormone.'],
+    ['pcos','PCOS is when hormones get out of balance — often because insulin is too high, which tells the ovaries to make extra testosterone. Inositol and berberine help insulin work better, which can calm the whole chain.'],
+    ['inflammation','Inflammation is your body\'s fire alarm. A short alarm helps you heal; an alarm that never stops slowly damages things. Omega-3s, curcumin and good sleep help turn the volume down.'],
+    ['resistant starch','Resistant starch is a carb your stomach can\'t digest, so it travels to your gut bugs instead. They eat it and make signals that tell your body "I\'m full" — the same GLP-1 signal the medicines copy, just much weaker.'],
+    ['lactoferrin','Lactoferrin is a protein from milk that grabs iron so germs can\'t use it, and helps your body handle iron better. It\'s like locking the pantry so bad guests can\'t eat.'],
+    ['tudca','Bile is your body\'s dish soap for fat. When you lose weight fast, bile can get thick and form gallstones. TUDCA is a bile helper that keeps it flowing.'],
+    ['simple stack summary','This is a short shopping list — the few supplements that do the most for most people, so you don\'t buy ten things you don\'t need.'],
+    ['acid reflux','Your stomach makes acid to digest food. Reflux is when it splashes up into your food pipe and burns. GLP-1s slow your stomach, so food sits longer and splashes more — smaller meals and not lying down after eating help a lot.'],
+    ['protein & muscle','When you eat less, your body can eat its own muscle for fuel. Enough protein plus lifting tells your body "keep the muscle, burn the fat."'],
+    ['wired','Some people feel jittery or anxious on certain peptides. Magnesium, L-theanine and glycine are calm-down helpers for your nervous system — like turning the dimmer switch down.'],
+    ['sleep & calm','Glycine cools your body so it\'s ready to sleep, L-theanine quiets busy thoughts, and magnesium relaxes muscles and nerves. Together they help you wind down.'],
+    // ── Blood work / workouts ──
+    ['how to work with your doctor','Your doctor is your co-pilot. Tell them exactly what you\'re taking so they can watch the right blood tests and catch problems early.'],
+    ['why blood work matters','Blood work is a report card for the inside of your body. A "before" and "after" picture shows whether what you\'re doing is helping or hurting.'],
+    // ── News ──
+    ['vk2735','VK2735 copies two "I\'m full" messages from your gut, like tirzepatide does. In a short 13-week test, people lost a lot of weight fast. It\'s still being tested and isn\'t approved yet.'],
+    ['thymosin alpha-1','Your thymus is a "school" where immune cells learn. Thymosin alpha-1 is a helper message from that school. One small study looked good, but bigger studies didn\'t find it saved lives from COVID or sepsis.'],
+    ['albumin-bound','Albumin is a protein that floats in your blood like a bus. Sticking a drug to it makes the drug ride around longer — so you might need fewer shots. But this "new" version hasn\'t been tested in published studies.'],
+    ['food reward','When you eat, your gut sends a GLP-1 note to your brain that says "that was enough, you can stop wanting more." In mice, this quieted the brain\'s "yum, more!" signal.'],
+    ['urolithin a & b','Scientists put urolithins (made by gut bugs from pomegranates and walnuts) on leukemia cells in a plastic dish. The cancer cells slowed down. It was only a dish — not people.'],
+    ['triumph-1','In a big 2-year test, retatrutide helped people lose up to about 30% of their body weight — more than any shot before it. It also calmed body-wide inflammation. Still waiting on approval.'],
+    ['motsc','MOTS-c is a message your cell batteries send to your muscles saying "burn fuel better." SS-31 patches the battery walls. People use them together to help tired mitochondria.'],
+    ['tesamorelin','Tesamorelin tells your brain to release more of your own growth hormone, which shrinks deep belly fat. The liquid can turn gel-like if stored wrong — keep it cold and don\'t shake it.'],
+    ['autoimmune / rheumatic','In autoimmune disease, your immune system attacks your own body by mistake. GLP-1 drugs may calm some of that inflammation, but they aren\'t a replacement for your rheumatologist\'s medicines.'],
+    ['hashimoto','Hashimoto\'s is when your immune system slowly attacks your thyroid. You can\'t always "undo" it, but you can protect the thyroid and replace the hormone it\'s missing.'],
+    ['peptides cause cancer','Some peptides make cells grow or help blood vessels grow. That sounds scary, but "can help growth" isn\'t the same as "causes cancer." For most peptides, nobody has tested this in people for long enough.'],
+    ['dmso','DMSO is a liquid that soaks through skin and carries other things with it. People research it for pain and inflammation. It\'s strong stuff — it can carry anything on your skin into your body too.'],
+    ['magnesium l-threonate','This is a kind of magnesium that gets into the brain better. It may help deep sleep and memory. Normal magnesium mostly works in the body, not the brain.'],
+    ['peptide therapy miami','This is a clinic that offers peptides with a doctor watching over you, instead of doing it alone.'],
+    ['survodutide','Survodutide flips two switches: "I\'m full" and "burn stored fuel." It\'s especially good at clearing fat out of the liver. Still in testing.'],
+    ['82-page','A big free book that puts all the peptide basics in one place — like a manual for beginners.'],
+    ['6 out of 7','Some peptides people buy online are being approved as real medicines. Once approved, doctors can prescribe the tested version instead of a mystery vial.'],
+    ['cml ace','Scientists used AI to design an enzyme that cleans up "sugar-stuck" damage in skin collagen. In the lab it made old skin look younger. It\'s early research.'],
+    ['kpv has a self','KPV is a tiny "calm down" message. It slips into irritated gut cells by itself and turns down inflammation from the inside. Tested in mice.'],
+    ['eloralintide + tirzepatide','Eloralintide copies a "stop eating" hormone from the pancreas; tirzepatide copies gut "I\'m full" signals. Together, in a study, weight loss came close to what surgery achieves.'],
+    ['switching guide','Switching between tirzepatide and retatrutide is like changing lanes — take the new one on your normal shot day, start lower, and don\'t take both the same week.'],
+    ['atx304','ATX-304 turns on your cells\' "low fuel" switch (AMPK), which helps burn sugar and fat. People are curious about pairing it with tirzepatide, but that\'s only an idea so far.'],
+    ['myostatin','Myostatin is your body\'s "stop growing muscle" brake. Blocking it keeps more muscle while a GLP-1 helps you lose fat.'],
+    ['blindness','A rare eye problem (an "eye stroke") has been linked to GLP-1 drugs in some studies. It\'s very rare — but sudden vision loss means go to the doctor right away.'],
+    ['crackdown','Officials are cracking down on unapproved retatrutide being sold online. Products bought this way aren\'t checked for safety or what\'s actually inside.'],
+    ['long-covid','One idea is that long COVID happens when bits of virus leak out of a "leaky" gut into the blood. Larazotide is a peptide that tightens the gut wall, being studied for this.'],
+    ['peptides bible','A book that explains peptides in one place.'],
+    ['crypto','A step-by-step guide to paying with cryptocurrency, which some research-peptide shops require.'],
+    ['zinc ionophore','Zinc can stop viruses from copying — but it can\'t get into cells alone. Ionophores are little doormen that carry zinc inside. It works in lab dishes; big human trials haven\'t proven it.'],
+    ['larazotide','Your gut wall is like a tight fence. If gaps open ("leaky gut"), things slip into your blood. Larazotide helps close the gaps.'],
+    ['fenbendazole','Fenbendazole and mebendazole are worm medicines. Some people research them for cancer because of lab results, but they haven\'t been proven to treat cancer in people.'],
+    ['spike protein','The spike protein is the virus\'s key for getting into your cells. Some people think leftover spike causes long-COVID symptoms; scientists are still studying it.'],
+    ['ivermectin paste','This is an archive of research and stories people shared. Old or animal products (like paste for horses) aren\'t made or dosed for people.'],
+    ['cancer research','A list of research about cancer. Remember: a result in a dish or a mouse is a clue, not a cure.'],
+    ['guardian','A deep dive on gut healing — how the gut wall works and how larazotide tries to tighten it.'],
+    ['zelenko','Dr. Zelenko\'s plan was to start zinc + a "doorman" (ionophore) + vitamins very early in a virus. The idea works in the lab; big trials of some parts didn\'t show it worked in people.'],
+    ['stop taking medical advice','An opinion piece. Opinions can make you think — but check the facts and talk to a doctor you trust.'],
+    // ── GLP Hub compounds / cancer / tgk ──
+    ['retatrutide','Retatrutide flips three switches at once — "I\'m full", "help insulin" and "burn stored fuel" — so people lose a lot of weight. Still being tested.'],
+    ['tirzepatide','Tirzepatide copies two "I\'ve eaten enough" messages, so you feel full sooner and your blood sugar stays calmer. It\'s approved.'],
+    ['cagrilintide','Cagrilintide copies the pancreas\'s own "stop eating" message (amylin) — it doesn\'t use GLP-1 at all.'],
+    ['eloralintide','Eloralintide is a newer copy of the pancreas\'s "stop eating" message (amylin). It doesn\'t use GLP-1, which matters for people who can\'t take GLP-1 drugs.'],
+    ['pe2-288','A new compound sold online that claims to work like the "stop eating" hormone amylin. Nobody has published any studies on it yet.']
+  ];
+  function find(t){ t=(t||'').toLowerCase(); for(var i=0;i<E.length;i++){ if(t.indexOf(E[i][0])!==-1) return E[i][1]; } return null; }
+  function box(txt){ var d=document.createElement('details'); d.className='eli5'; d.innerHTML='<summary><span class="e5-ic">🧒</span> Explain it like I\'m 5</summary><div class="e5-b">'+txt+'</div>'; return d; }
+  function addAfterSummary(det, txt){
+    if(!det || det.__e5 || det.querySelector(':scope > .eli5, :scope > div > .eli5:first-child')) return;
+    det.__e5=1; var s=det.querySelector(':scope > summary'); if(!s) return;
+    var b=box(txt);
+    var body=s.nextElementSibling;
+    if(body && body.tagName==='DIV' && !body.classList.contains('vpn-copy-row')) body.insertBefore(b, body.firstChild); else s.insertAdjacentElement('afterend', b);
+  }
+  function run(){
+    // 1) fold-out sections anywhere (vitamins, blood work, workouts, GLP drug panels, news cards, vault written guides)
+    document.querySelectorAll('details').forEach(function(d){
+      if(d.classList.contains('eli5') || d.closest('.eli5') || d.closest('#vv-grid')) return;
+      var s=d.querySelector(':scope > summary'); if(!s) return;
+      var t=find(s.textContent); if(t) addAfterSummary(d,t);
+    });
+    // 2) news banners on this page + cards in hubs (tgk / cancer)
+    document.querySelectorAll('#view-cancer .cx-card, #view-tgk .tgk-card').forEach(function(c){
+      if(c.__e5) return; var h=c.querySelector('.cx-h,.tgk-h'); var t=h && find(h.textContent);
+      if(!t){ var k=(h?h.textContent:'').toLowerCase();
+        if(k.indexOf('bpc-157')!==-1) t='BPC-157 is a small piece of a stomach protein that helps animals heal faster. Some worry it might help tumors grow blood vessels — but nobody has shown it causes cancer, and nobody has shown it fights cancer in people either.';
+        else if(k.indexOf('berberine')!==-1) t='Berberine is a plant medicine that helps blood sugar. It kills cancer cells in a dish, but very little gets into your blood — except in your gut, where it lowered colon polyps in a real study.';
+        else if(k.indexOf('tesamorelin, cjc')!==-1) t='These peptides turn up growth hormone, which also turns up growth signals in the body. If you have or had cancer, growth signals are something to avoid until your doctor says it\'s OK.';
+        else if(k.indexOf('glp-1 drugs & thyroid')!==-1) t='In rats, GLP-1 drugs caused a rare thyroid tumor. In people it hasn\'t been clearly shown, but if your family has that tumor (MEN2/MTC), you shouldn\'t take them.';
+        else if(k.indexOf('epitalon')!==-1) t='Epitalon helps cells keep the tips of their chromosomes long. That sounds good for aging — but cancer cells also love long tips, so it\'s a double-edged sword.';
+        else if(k.indexOf('pnc-27')!==-1) t='These are lab and mouse ideas. They look exciting in a dish, but none has been tested to treat cancer in people.';
+        else if(k.indexOf('thymosin alpha-1')!==-1) t='Thymosin alpha-1 helps train immune cells. It\'s used alongside cancer care in some countries, but on its own it hasn\'t been shown to save lives.';
+        else if(k.indexOf('insulin resistance & cancer')!==-1) t='When insulin stays high all the time, it acts like fertilizer for some cells. Lowering it (less belly fat, more movement) lowers the risk of some cancers.';
+        else if(k.indexOf('p53')!==-1) t='P53 is a guard inside every cell that stops broken cells from multiplying. Elephants have lots of these guards, which may be why they rarely get cancer.';
+        else if(k.indexOf('3 questions')!==-1) t='Before you believe "X kills cancer", ask: was it tested in people, at a dose a person can actually take, in a real trial? If not, it\'s just a clue.';
+      }
+      if(t){ c.__e5=1; var b=box(t); if(h) h.insertAdjacentElement('afterend', b); else c.insertBefore(b,c.firstChild); }
+    });
+    // 3) breaking-news banners (latest-news page)
+    document.querySelectorAll('.breaking-banner').forEach(function(bb){
+      if(bb.__e5) return; var hd=bb.querySelector('.bb-headline'); var t=hd && find(hd.textContent);
+      if(t){ bb.__e5=1; var b=box(t); var body=bb.querySelector('.bb-body'); if(body) body.insertBefore(b, body.firstChild); }
+    });
+  }
+  window.vpnEli5Run = run;
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ setTimeout(run,300); }); else setTimeout(run,300);
+})();
+</script>
 </body>
 </html>
 
