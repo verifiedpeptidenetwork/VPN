@@ -2149,5 +2149,117 @@ window.addEventListener('scroll',function(){
   window.vpnEli5Source = { runView: runView, doDetails: doDetails };
 })();
 </script>
+<!-- ═══ CLEAN NEWSROOM LAYOUT — top-stories grid, search + filters, plain-words preview on every story ═══ -->
+<style>
+  :root{ --ln-max:1180px; }
+  /* toolbar */
+  #ln-tools{max-width:var(--ln-max);margin:1.2rem auto 0.4rem;padding:0 1rem;display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;position:relative;z-index:2;}
+  #ln-q{flex:1 1 260px;min-width:0;padding:0.7rem 0.95rem;border-radius:12px;border:1px solid rgba(0,245,255,0.35);background:rgba(4,8,22,0.92);color:#fff;font:600 1rem 'Rajdhani',sans-serif;outline:none;}
+  #ln-q:focus{border-color:#00f5ff;box-shadow:0 0 0 3px rgba(0,245,255,0.15);}
+  #ln-chips{display:flex;flex-wrap:wrap;gap:0.4rem;}
+  #ln-chips button{font:700 0.88rem 'Rajdhani',sans-serif;padding:0.4rem 0.85rem;border-radius:999px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);color:#dfe8f5;cursor:pointer;}
+  #ln-chips button.on{background:#00f5ff;color:#03111a;border-color:#00f5ff;}
+  #ln-count{width:100%;font:600 0.85rem 'Rajdhani',sans-serif;color:rgba(200,215,240,0.6);}
+  /* top stories */
+  #ln-top{max-width:var(--ln-max);margin:0.6rem auto 1.4rem;padding:0 1rem;position:relative;z-index:2;}
+  .ln-h{display:flex;align-items:center;gap:0.7rem;margin:0.4rem 0 0.8rem;font:400 1.35rem 'Bebas Neue',sans-serif;letter-spacing:0.14em;color:#fff;}
+  .ln-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,245,255,0.5),transparent);}
+  #ln-top-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9rem;}
+  #ln-top-grid > .breaking-banner:first-child{grid-column:1 / -1;}
+  #ln-top .breaking-banner{--lc:#3b9dff;margin:0 !important;border:1px solid rgba(255,255,255,0.1) !important;border-top:3px solid var(--lc) !important;border-radius:14px !important;overflow:hidden;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--lc) 9%,#070b18),#060914) !important;box-shadow:0 14px 34px -22px var(--lc) !important;animation:none !important;}
+  #ln-top .breaking-banner::before,#ln-top .breaking-banner::after,#ln-top .bb-stripe{display:none !important;}
+  #ln-top .bb-inner{padding:1.05rem 1.15rem 1rem !important;}
+  #ln-top .bb-head{display:flex;flex-wrap:wrap;gap:0.4rem 0.6rem;align-items:center;margin-bottom:0.55rem !important;}
+  #ln-top .bb-badge{font-size:0.78rem !important;padding:0.2rem 0.55rem !important;border-radius:6px !important;}
+  #ln-top .bb-category{font-size:0.7rem !important;opacity:0.7;letter-spacing:0.12em !important;}
+  #ln-top .bb-live{margin-left:auto;font-size:0.7rem !important;animation:none !important;}
+  #ln-top .bb-headline{font-size:clamp(1.3rem,2.4vw,1.75rem) !important;line-height:1.15 !important;letter-spacing:0.05em !important;color:#fff !important;text-shadow:none !important;margin-bottom:0.45rem !important;}
+  #ln-top .breaking-banner:first-child .bb-headline{font-size:clamp(1.5rem,3vw,2.2rem) !important;}
+  #ln-top .bb-deck{font-size:1rem !important;line-height:1.55 !important;color:rgba(225,232,245,0.85) !important;max-width:none !important;margin-bottom:0.6rem !important;}
+  #ln-top .bb-toggle{border-radius:9px !important;}
+  /* plain-words preview line (from the article's own ELI5) */
+  .ln-simple{display:flex;gap:0.55rem;align-items:flex-start;margin:0.2rem 0 0.75rem;padding:0.6rem 0.75rem;border-radius:10px;background:rgba(255,212,92,0.07);border:1px solid rgba(255,212,92,0.28);font:600 0.95rem/1.5 'Rajdhani',sans-serif;color:#ffeab0;}
+  .ln-simple b{color:#ffd45c;font-weight:700;}
+  .ln-simple .ic{flex-shrink:0;}
+  /* older stories: calmer cards */
+  .np-section{max-width:var(--ln-max);margin-left:auto !important;margin-right:auto !important;}
+  .np-grid{gap:0.75rem !important;align-items:start !important;}
+  .vpn-news-card{border-radius:12px !important;border:1px solid rgba(255,255,255,0.1) !important;border-left:4px solid var(--nt,#00f5ff) !important;background:linear-gradient(180deg,color-mix(in srgb,var(--nt,#00f5ff) 6%,#070a16),#05070f) !important;box-shadow:none !important;}
+  .vpn-news-summary{flex-wrap:wrap;row-gap:0.35rem;}
+  .vpn-news-title{color:#f1f5fb !important;text-shadow:none !important;letter-spacing:0.04em !important;}
+  .vpn-news-badge{border-radius:6px !important;}
+  .vpn-news-card > summary .ln-simple{flex-basis:100%;margin:0.35rem 0 0;font-size:0.9rem;text-transform:none;letter-spacing:0;}
+  .ln-hide{display:none !important;}
+  @media(max-width:760px){ #ln-top-grid{grid-template-columns:1fr;} #ln-top .bb-live{margin-left:0;} }
+  html[data-theme="light"] #ln-q{background:#fff !important;color:#0f1b2d !important;}
+  html[data-theme="light"] #ln-chips button{color:#13294b !important;background:#fff !important;border-color:rgba(19,41,75,0.25) !important;}
+  html[data-theme="light"] #ln-chips button.on{background:#13294b !important;color:#fff !important;}
+  html[data-theme="light"] #ln-top .breaking-banner{background:#fff !important;border-color:rgba(15,27,45,0.15) !important;}
+  html[data-theme="light"] #ln-top .bb-headline,html[data-theme="light"] .ln-h,html[data-theme="light"] .vpn-news-title{color:#0f1b2d !important;}
+  html[data-theme="light"] #ln-top .bb-deck{color:#26324a !important;}
+  html[data-theme="light"] .ln-simple{background:#fff8e1 !important;color:#4a3800 !important;} html[data-theme="light"] .ln-simple b{color:#8a5a00 !important;}
+  html[data-theme="light"] .vpn-news-card{background:#fff !important;}
+</style>
+<script>
+(function(){
+  function txt(e){ return (e&&e.textContent||'').replace(/\s+/g,' ').trim(); }
+  function firstSentences(s,n){ var p=s.split(/(?<=[.!?])\s+/); return p.slice(0,n).join(' '); }
+  // the article's own ELI5 (keyword one or the one built from its text) → one plain line
+  function simpleFrom(container){
+    var e=container.querySelector('.eli5 .e5-b'); if(!e) return '';
+    var t=txt(e).replace(/^What (the article|this section|this part|this panel) says:\s*/i,'');
+    return firstSentences(t,2);
+  }
+  function line(t){ var d=document.createElement('div'); d.className='ln-simple'; d.innerHTML='<span class="ic">🧒</span><span><b>In simple words:</b> '+t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>'; return d; }
+  var CAT=[['trial',/phase|trial|nejm|lancet|results|study/i],['claims',/claims check|unverified|myth/i],['lab',/cell study|mouse|lab dish|in vitro|preclinical/i],['legal',/legal|crackdown|fda|approved|regulat/i],['guide',/guide|protocol|how to|book|pdf|calculator/i]];
+  function cats(t){ var c=[]; CAT.forEach(function(x){ if(x[1].test(t)) c.push(x[0]); }); return c; }
+  function build(){
+    if(document.getElementById('ln-top')) return;
+    var banners=[].slice.call(document.querySelectorAll('body > .breaking-banner')); if(!banners.length) return;
+    var top=document.createElement('section'); top.id='ln-top';
+    top.innerHTML='<div class="ln-h">📰 TOP STORIES</div><div id="ln-top-grid"></div>';
+    banners[0].parentNode.insertBefore(top, banners[0]);
+    var grid=top.querySelector('#ln-top-grid');
+    var COL={'bb-blue':'#3b9dff','bb-purple':'#b061ff'};
+    banners.forEach(function(b){
+      var badge=b.querySelector('.bb-badge'); var bg=badge?getComputedStyle(badge).backgroundColor:'';
+      var c=/claims/i.test(txt(badge))?'#ff5a5a':(/pinned|breaking/i.test(txt(badge))?'#ff2d78':(/phase 3/i.test(txt(badge))?'#00e58a':(bg&&bg!=='rgba(0, 0, 0, 0)'?bg:(COL[[].filter.call(b.classList,function(x){return COL[x];})[0]]||'#3b9dff'))));
+      b.style.setProperty('--lc',c);
+      grid.appendChild(b);
+    });
+    // tools
+    var tools=document.createElement('div'); tools.id='ln-tools';
+    tools.innerHTML='<input id="ln-q" type="search" placeholder="🔍  Search the news — peptide, study, topic…" aria-label="Search news">'+
+      '<div id="ln-chips" role="group" aria-label="Filter news">'+
+      [['','All'],['trial','🔬 Trials & studies'],['claims','⚠ Claims checks'],['lab','🧪 Lab / animal'],['legal','⚖ Legal & FDA'],['guide','📘 Guides']].map(function(x,i){ return '<button type="button" data-c="'+x[0]+'"'+(i?'':' class="on"')+'>'+x[1]+'</button>'; }).join('')+
+      '</div><div id="ln-count"></div>';
+    top.parentNode.insertBefore(tools, top);
+    tools.querySelector('#ln-q').addEventListener('input', filter);
+    [].forEach.call(tools.querySelectorAll('#ln-chips button'),function(btn){ btn.addEventListener('click',function(){ [].forEach.call(tools.querySelectorAll('#ln-chips button'),function(x){ x.classList.toggle('on',x===btn); }); filter(); }); });
+  }
+  function items(){ return [].slice.call(document.querySelectorAll('#ln-top .breaking-banner, .np-grid > .vpn-news-card, .np-grid > details, details.np-standalone')); }
+  function addSimple(){
+    // make sure every older story has its ELI5 built (from its own text) so the preview can show
+    if(window.vpnEli5Source) document.querySelectorAll('.vpn-news-card, details.np-standalone').forEach(function(d){ window.vpnEli5Source.doDetails(d); });
+    items().forEach(function(it){
+      if(it.__lns) return;
+      var t=simpleFrom(it); if(!t) return; it.__lns=1;
+      if(it.classList.contains('breaking-banner')){ var deck=it.querySelector('.bb-deck'); if(deck) deck.insertAdjacentElement('afterend', line(t)); }
+      else { var s=it.querySelector(':scope > summary'); if(s) s.appendChild(line(t)); }
+    });
+  }
+  function filter(){
+    var q=(document.getElementById('ln-q').value||'').trim().toLowerCase();
+    var on=document.querySelector('#ln-chips button.on'); var c=on?on.getAttribute('data-c'):'';
+    var shown=0, all=items();
+    all.forEach(function(it){ var t=txt(it); var ok=(!q || t.toLowerCase().indexOf(q)!==-1) && (!c || cats(t).indexOf(c)!==-1); it.classList.toggle('ln-hide',!ok); if(ok) shown++; });
+    document.querySelectorAll('.np-grid').forEach(function(g){ var vis=[].some.call(g.children,function(k){ return !k.classList.contains('ln-hide'); }); g.classList.toggle('ln-hide',!vis); var dv=g.previousElementSibling; if(dv && dv.classList.contains('np-divider')) dv.classList.toggle('ln-hide',!vis); });
+    document.getElementById('ln-count').textContent = (q||c) ? (shown+' of '+all.length+' stories') : (all.length+' stories · newest first');
+  }
+  function start(){ build(); setTimeout(function(){ addSimple(); filter(); }, 1000); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
 </body>
 </html>
