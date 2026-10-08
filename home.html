@@ -8371,6 +8371,7 @@ document.addEventListener('keydown', function(e){
       <!-- WHAT'S INSIDE: one tap to every main section -->
       <div class="vpn-hc-feats" role="list">
         <a role="listitem" class="vpn-hc-feat vpn-hc-feat-news" href="latest-news.html" style="--fc:#ff9a1f;text-decoration:none;"><span class="fi">📰</span><span class="ft">Latest News</span><span class="fd">Retatrutide TRIUMPH-1 results · Urolithin A + B study · new trials</span></a>
+        <a role="listitem" class="vpn-hc-feat vpn-hc-feat-news" href="peptide-suggestion.html" style="--fc:#ff2d78;text-decoration:none;"><span class="fi">🧬</span><span class="ft">Peptide Suggest</span><span class="fd">Answer a few questions · get research peptides matched to your goals</span></a>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#00f5ff" onclick="showView('all-peptides')"><span class="fi">🔬</span><span class="ft">Peptide Index</span><span class="fd">80+ peptides, A&ndash;Z</span></button>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#ffb300" onclick="showView('calculator')"><span class="fi">🧮</span><span class="ft">Calculators</span><span class="fd">Mix &amp; dose exactly</span></button>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#00ff64" onclick="showView('studies')"><span class="fi">📊</span><span class="ft">Research Studies</span><span class="fd">163 PubMed-linked</span></button>
@@ -10428,6 +10429,24 @@ document.addEventListener('keydown', function(e){
     <!-- ADD-ON PANELS (tap to open) -->
     <div class="bw-divider"><span>🧪 ADD THESE PANELS · TAP ONE TO OPEN</span></div>
     <div class="bw-panels">
+
+    <!-- COPY & PASTE DOCTOR LETTERS -->
+    <details class="bw-panel bw-letter" open style="border:1px solid rgba(0,245,255,0.5);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
+        <span style="font-size:1.8rem;">📝</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--neon-cyan);">Copy &amp; Paste Letter for Your Doctor</div>
+        <span class="bw-ar">&#9660;</span>
+      </summary>
+      <div class="bw-body">
+        <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">This is a ready-made note for your doctor. You don't have to type anything: tap the button, paste it into an email or patient-portal message, put your name at the bottom, and send. It politely asks for the tests that find the hidden reasons people feel tired or can't lose weight.</div></details>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.6;margin-bottom:0.8rem;">No more extracting text from images. Pick your letter, tap <strong style="color:var(--neon-cyan);">Copy</strong>, paste it into your patient portal or an email, and add your name. Each letter has every test from the image <em>plus</em> the commonly missed extras (ApoB, Lp(a), kidney, uric acid, IGF-1, PSA).</div>
+        <div class="bw-letters">
+          <div class="bw-lt"><div class="bw-lt-h" style="color:#cc44ff;">&#9792; For a Woman</div><pre id="bw-letter-woman"></pre><button class="btn-secondary" onclick="bwCopy('woman',this)">📋 Copy Woman's Letter</button></div>
+          <div class="bw-lt"><div class="bw-lt-h" style="color:var(--neon-cyan);">&#9794; For a Man</div><pre id="bw-letter-man"></pre><button class="btn-secondary" onclick="bwCopy('man',this)">📋 Copy Man's Letter</button></div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:#9aa6b8;margin-top:0.7rem;">Tip: ask for a <strong>fasting, early-morning</strong> draw (before 10am) so testosterone, insulin and glucose are accurate. Your doctor decides which tests are right for you.</div>
+      </div>
+    </details>
     <!-- THYROID PANEL ADD-ON -->
     <details class="bw-panel" style="border:1px solid rgba(255,107,0,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
       <summary class="bw-sum">
@@ -10556,8 +10575,72 @@ document.addEventListener('keydown', function(e){
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">📋 Copy Liver Panel for My Doctor</button>
       </div>
     </details>
+
+    <details class="bw-panel" style="border:1px solid #ff3b3b;background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
+        <span style="font-size:1.8rem;">❤️</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#ff3b3b;">Ask Your Doctor to Add: Heart &amp; Cholesterol (Advanced)</div>
+        <span class="bw-ar">&#9660;</span>
+      </summary>
+      <div class="bw-body">
+        <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">A normal cholesterol test counts the <b>cargo</b>. ApoB counts the <b>trucks</b> carrying it, and the number of trucks is what clogs the road (your arteries). Lp(a) is a sticky truck you inherit from your parents; you only need to check it once.</div></details>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">A standard lipid panel can look "fine" while risk is high. These markers give a much clearer picture of heart and artery risk, especially if you use GLP-1s, testosterone or growth-hormone peptides:</div>
+      <div style="margin-top:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#ff3b3b;line-height:1.8;">&bull; ApoB (Apolipoprotein B)<br>&bull; Lipoprotein(a) &mdash; once in your lifetime<br>&bull; Fasting lipid panel incl. triglycerides, HDL, LDL<br>&bull; Triglyceride/HDL ratio (insulin-resistance clue)<br>&bull; Homocysteine<br>&bull; hs-CRP (if not already ordered)</div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="bwCopy('heart',this)">📋 Copy for My Doctor</button>
+      </div>
+    </details>
+
+    <details class="bw-panel" style="border:1px solid #3b9dff;background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
+        <span style="font-size:1.8rem;">🫘</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#3b9dff;">Ask Your Doctor to Add: Kidney Panel</div>
+        <span class="bw-ar">&#9660;</span>
+      </summary>
+      <div class="bw-body">
+        <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">Your kidneys are the body's <b>coffee filter</b>. Creatinine and eGFR show how well the filter works. Cystatin C is a better check if you have lots of muscle or eat lots of protein, because muscle can make creatinine look falsely bad.</div></details>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">High-protein diets, creatine, NSAIDs, dehydration on GLP-1s and blood-pressure issues all affect the kidneys. Ask for:</div>
+      <div style="margin-top:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#3b9dff;line-height:1.8;">&bull; Creatinine &amp; eGFR<br>&bull; Cystatin C (more accurate if muscular / high protein)<br>&bull; BUN<br>&bull; Urine albumin-to-creatinine ratio (early kidney damage)<br>&bull; Uric acid (gout &amp; metabolic risk)<br>&bull; Electrolytes: sodium, potassium</div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="bwCopy('kidney',this)">📋 Copy for My Doctor</button>
+      </div>
+    </details>
+
+    <details class="bw-panel" style="border:1px solid #ffe600;background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
+        <span style="font-size:1.8rem;">🌞</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#ffe600;">Ask Your Doctor to Add: Vitamins &amp; Minerals</div>
+        <span class="bw-ar">&#9660;</span>
+      </summary>
+      <div class="bw-body">
+        <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">Vitamins and minerals are the <b>spark plugs</b>. Even a great engine sputters if a few are missing. These tests find the empty ones so you only take what you actually need.</div></details>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">Low levels are common and can cause fatigue, low mood, hair loss, poor sleep and slow recovery. Ask for:</div>
+      <div style="margin-top:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#ffe600;line-height:1.8;">&bull; Vitamin D (25-OH)<br>&bull; Vitamin B12 &amp; folate<br>&bull; Ferritin + full iron panel<br>&bull; RBC magnesium (more accurate than serum)<br>&bull; Zinc &amp; copper<br>&bull; Omega-3 index (optional)</div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="bwCopy('vitamins',this)">📋 Copy for My Doctor</button>
+      </div>
+    </details>
+
+    <details class="bw-panel" style="border:1px solid #00f5ff;background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
+        <span style="font-size:1.8rem;">🧬</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#00f5ff;">Ask Your Doctor to Add: Peptide / GH User Safety</div>
+        <span class="bw-ar">&#9660;</span>
+      </summary>
+      <div class="bw-body">
+        <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">If you use something that turns up growth hormone, it's like pressing the <b>gas pedal</b>. These tests make sure the engine isn't overheating: blood sugar, thick blood, and growth signals.</div></details>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">If you use GH secretagogues (tesamorelin, CJC/ipamorelin, MK-677), testosterone or GLP-1s, track these at baseline and every 3&ndash;6 months:</div>
+      <div style="margin-top:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#00f5ff;line-height:1.8;">&bull; IGF-1<br>&bull; Fasting glucose, fasting insulin &amp; A1C<br>&bull; CBC &mdash; hematocrit &amp; hemoglobin (thick blood)<br>&bull; PSA (men 40+ or on testosterone)<br>&bull; Estradiol (sensitive assay)<br>&bull; Lipase (on GLP-1s, if symptoms)</div>
+      <button class="btn-secondary" style="margin-top:0.8rem;" onclick="bwCopy('peptide',this)">📋 Copy for My Doctor</button>
+      </div>
+    </details>
     </div>
     <style>
+
+      .bw-letters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0.8rem;}
+      .bw-lt{border:1px solid rgba(255,255,255,0.12);border-radius:10px;background:rgba(255,255,255,0.03);padding:0.8rem;display:flex;flex-direction:column;gap:0.6rem;min-width:0;}
+      .bw-lt-h{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.1em;}
+      .bw-lt pre{margin:0;text-align:left;white-space:pre-wrap;word-break:break-word;font-family:'Rajdhani',sans-serif;font-size:0.98rem;font-weight:600;color:#e6ecf5;line-height:1.45;max-height:340px;overflow:auto;background:rgba(0,0,0,0.35);border-radius:8px;padding:0.7rem 0.8rem;}
+      .bw-lt .btn-secondary{white-space:normal;}
+      html[data-theme="light"] .bw-lt pre{background:#f4f1ea !important;color:#1a2230 !important;}
+      @media(max-width:480px){ .bw-lt pre{font-size:0.92rem;max-height:280px;} }
       .bw-divider{display:flex;align-items:center;gap:1rem;margin:0.4rem 0 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.16em;color:var(--neon-cyan);}
       .bw-divider::before,.bw-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.45),transparent);}
       .bw-panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0.8rem;align-items:start;margin-bottom:1.8rem;}
@@ -10571,6 +10654,28 @@ document.addEventListener('keydown', function(e){
       .bw-body{padding:0 1.25rem 1.1rem;}
       html[data-theme="light"] .bw-panel{background:#fffdf8 !important;}
     </style>
+
+    <script>
+    (function(){
+      var L={
+        woman:"Dear Doctor,\n\nI am writing to request a comprehensive medical evaluation to help determine the reason I am struggling to lose weight despite proper diet, portion control, regular exercise, and maintaining adequate protein intake. I would like to rule out insulin resistance, metabolic syndrome, inflammation, thyroid dysfunction, hormone imbalance, nutrient deficiencies, and other possible causes of weight loss resistance.\n\nPlease consider the following evaluation and lab work:\n- Comprehensive metabolic panel (CMP)\n- CBC with differential\n- Fasting glucose and fasting insulin, with HOMA-IR calculation if appropriate\n- Hemoglobin A1C\n- Fasting lipid panel: triglycerides, HDL, LDL, total cholesterol, VLDL\n- High-sensitivity C-reactive protein (hs-CRP) and ESR\n- Thyroid panel: TSH, free T4, free T3, thyroid antibodies (TPO/TgAb) if clinically appropriate\n- Hormone panel if appropriate: estradiol, progesterone, LH, FSH, prolactin, DHEA-S, cortisol, total and free testosterone, SHBG\n- Vitamin and mineral testing: vitamin D (25-OH), vitamin B12, folate, iron panel, ferritin, magnesium, zinc, copper\n- Additional evaluation if indicated: sleep apnea, fatty liver risk (ALT, AST, GGT), and other metabolic concerns\n\nIf appropriate, I would also appreciate:\n- ApoB and lipoprotein(a)\n- Kidney function: eGFR, cystatin C, urine albumin-to-creatinine ratio\n- Uric acid\n\nThank you for reviewing this request. My goal is to identify any underlying issue and create a safe, medically supervised plan to improve my health and ability to lose weight.\n\nSincerely,\n[Your Name]\n[Date of Birth]",
+        man:"Dear Doctor,\n\nI am writing to request a comprehensive medical evaluation for possible low testosterone, insulin resistance, metabolic syndrome, and related hormonal or metabolic issues. Despite efforts with diet and exercise, I would like to better understand whether these factors may be affecting my weight, energy, body composition, libido, recovery, and overall health.\n\nPlease consider the following evaluation and lab work:\n- Total testosterone, free testosterone, SHBG, LH, FSH, estradiol (sensitive assay), prolactin\n- Thyroid panel: TSH, free T4, free T3\n- Fasting glucose and fasting insulin, with HOMA-IR calculation if appropriate\n- Hemoglobin A1C\n- Fasting lipid panel: triglycerides, HDL, LDL, total cholesterol, VLDL\n- CBC with differential (including hematocrit) and comprehensive metabolic panel (CMP)\n- High-sensitivity C-reactive protein (hs-CRP) and ESR\n- Vitamin D (25-OH), vitamin B12, folate, ferritin, iron panel, magnesium, zinc\n- If indicated: morning cortisol, sleep apnea evaluation, liver and kidney review\n\nIf appropriate, I would also appreciate:\n- ApoB and lipoprotein(a)\n- PSA (age 40+ or before any testosterone therapy)\n- IGF-1\n- Kidney function: eGFR, cystatin C, urine albumin-to-creatinine ratio\n- Uric acid and GGT\n\nI would like testosterone drawn fasting in the early morning (before 10am).\n\nThank you for reviewing this request. My goal is to identify the cause of these concerns and create a safe, medically supervised plan to improve hormone and metabolic health.\n\nSincerely,\n[Your Name]\n[Date of Birth]",
+        heart:"Please also add these heart and cholesterol markers:\n- ApoB (Apolipoprotein B)\n- Lipoprotein(a)\n- Fasting lipid panel incl. triglycerides, HDL, LDL\n- Homocysteine\n- hs-CRP",
+        kidney:"Please also add a kidney panel:\n- Creatinine and eGFR\n- Cystatin C\n- BUN\n- Urine albumin-to-creatinine ratio\n- Uric acid\n- Electrolytes (sodium, potassium)",
+        vitamins:"Please also add vitamin and mineral testing:\n- Vitamin D (25-OH)\n- Vitamin B12 and folate\n- Ferritin and full iron panel\n- RBC magnesium\n- Zinc and copper\n- Omega-3 index (optional)",
+        peptide:"Please also add these safety markers:\n- IGF-1\n- Fasting glucose, fasting insulin and A1C\n- CBC (hematocrit and hemoglobin)\n- PSA (men 40+ or on testosterone)\n- Estradiol (sensitive assay)\n- Lipase (if GI symptoms on a GLP-1)"
+      };
+      window.BW_LETTERS=L;
+      ['woman','man'].forEach(function(k){ var p=document.getElementById('bw-letter-'+k); if(p) p.textContent=L[k]; });
+      window.bwCopy=function(k,btn){
+        var t=L[k]; if(!t) return;
+        function done(){ var o=btn.textContent; btn.textContent='✅ Copied! Paste into an email or patient portal'; setTimeout(function(){btn.textContent=o;},2200); }
+        function fb(){ var a=document.createElement('textarea'); a.value=t; a.style.position='fixed'; a.style.opacity='0'; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); done(); }
+        if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,fb); } else fb();
+      };
+    })();
+    </script>
+
 
     <div class="bw-divider"><span>🔎 WHAT STANDARD PANELS MISS</span></div>
   <div class="b3-gal" style="--bc:#ff2d95;">
