@@ -324,6 +324,28 @@ html[data-theme="light"] .theme-pill:hover{background:#1d3a66;}
   .footer-note{font-size:0.6rem;color:rgba(212,160,23,0.3);}
   .ticker-inner{font-size:0.7rem;}
 }
+
+/* skip video + acknowledgment */
+.vid-skip{flex-shrink:0;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;padding:0.3rem 0.7rem;border-radius:4px;border:1px solid rgba(255,45,120,0.6);background:rgba(255,45,120,0.1);color:#ff6fa0;cursor:pointer;white-space:nowrap;}
+.vid-skip:hover{background:rgba(255,45,120,0.22);color:#fff;}
+.skip-ack{margin:0.8rem 1rem;padding:1rem 1.1rem;border:1px solid rgba(255,45,120,0.55);border-left:4px solid #ff2d78;border-radius:8px;background:rgba(20,0,10,0.92);text-align:left;}
+.skip-ack[hidden]{display:none;}
+.sa-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff6fa0;margin-bottom:0.4rem;}
+.sa-lede{font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:#e8dfe6;margin:0 0 0.5rem;line-height:1.4;}
+.sa-list{margin:0 0 0.8rem;padding-left:1.1rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:#d8d2dc;line-height:1.45;}
+.sa-list li{margin-bottom:0.35rem;}
+.sa-list strong{color:#fff;}
+.sa-check{display:flex;gap:0.6rem;align-items:flex-start;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:#ffd45c;line-height:1.4;cursor:pointer;padding:0.6rem 0.7rem;border:1px dashed rgba(255,212,92,0.5);border-radius:6px;background:rgba(255,212,92,0.05);}
+.sa-check input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:#ff2d78;}
+.sa-btns{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.8rem;}
+.sa-go{flex:1 1 220px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.65rem 1rem;border-radius:6px;border:none;background:linear-gradient(90deg,#ff2d78,#cc44ff);color:#fff;cursor:pointer;}
+.sa-go:disabled{opacity:0.35;cursor:not-allowed;}
+.sa-back{flex:1 1 180px;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;padding:0.6rem 1rem;border-radius:6px;border:1px solid rgba(0,245,255,0.5);background:transparent;color:#00f5ff;cursor:pointer;}
+html[data-theme="light"] .skip-ack{background:#fff6f9 !important;}
+html[data-theme="light"] .sa-lede,html[data-theme="light"] .sa-list{color:#2a2232 !important;}
+html[data-theme="light"] .sa-list strong{color:#0f1b2d !important;}
+html[data-theme="light"] .sa-check{color:#6b4e00 !important;}
+@media(max-width:480px){ .vid-controls{flex-wrap:wrap;} .vid-skip{margin-left:auto;} .skip-ack{margin:0.7rem 0.6rem;padding:0.9rem 0.8rem;} }
 </style>
 </head>
 <body>
@@ -433,6 +455,7 @@ html[data-theme="light"] .theme-pill:hover{background:#1d3a66;}
           <div class="vid-fill" id="vid-prog-fill"></div>
         </div>
         <span class="vid-time" id="vid-time-disp">0:00 / 0:00</span>
+        <button type="button" class="vid-skip" id="vid-skip-btn" onclick="vpnSkipOpen()">SKIP VIDEO ⏭</button>
       </div>
 
       <div class="vid-status">
@@ -440,6 +463,26 @@ html[data-theme="light"] .theme-pill:hover{background:#1d3a66;}
         <span id="av-ready">✓ BRIEFING COMPLETE — ACCESS UNLOCKED</span>
       </div>
 
+
+      <!-- SKIP VIDEO: acknowledge the risks instead of watching -->
+      <div class="skip-ack" id="skip-ack" hidden>
+        <div class="sa-title">⚠️ SKIP THE BRIEFING · READ &amp; ACKNOWLEDGE</div>
+        <p class="sa-lede">The video explains the risks below. To skip it, you must confirm you understand and accept them:</p>
+        <ul class="sa-list">
+          <li><strong>Gray-market peptides carry real risk.</strong> Products sold "for research use only" are not FDA-approved, are not regulated for human use, and may have unknown purity, wrong dosing, contamination, endotoxins, or be counterfeit.</li>
+          <li><strong>Testing is on you.</strong> A vendor COA can be faked or reused. Independent third-party testing (e.g. Janoshik) is the only way to verify what is in a vial.</li>
+          <li><strong>Not medical advice.</strong> This website is an educational research reference. Nothing here is a diagnosis, treatment plan, or recommendation to use any compound. Talk to a licensed physician before using anything.</li>
+          <li><strong>Serious health risks exist</strong>, including allergic reactions, infections from non-sterile handling, hormone and blood-sugar changes, and specific warnings for GLP-1 drugs (thyroid C-cell tumors/MEN2, pancreatitis, pregnancy).</li>
+          <li><strong>Legal status varies</strong> by country and state. You are responsible for following the laws where you live.</li>
+          <li><strong>No liability.</strong> VPN, its creators and contributors are not responsible for any decision you make or any outcome based on information found on this website.</li>
+          <li>I am <strong>21 or older</strong>.</li>
+        </ul>
+        <label class="sa-check"><input type="checkbox" id="skip-ack-cb" onchange="document.getElementById('skip-ack-go').disabled=!this.checked"> I have read and understand these risks. I acknowledge that I use this information at my own risk and accept full responsibility.</label>
+        <div class="sa-btns">
+          <button type="button" class="sa-go" id="skip-ack-go" disabled onclick="vpnSkipConfirm()">I ACKNOWLEDGE · UNLOCK ACCESS →</button>
+          <button type="button" class="sa-back" onclick="vpnSkipClose()">← WATCH THE VIDEO INSTEAD</button>
+        </div>
+      </div>
       <div class="col-video-spacer"></div>
 
       <!-- DISCLAIMERS IN 2-COL GRID -->
@@ -535,6 +578,14 @@ var avUnlocked=false;
     document.addEventListener('click',u,{once:true});document.addEventListener('touchstart',u,{once:true,passive:true});});
   document.addEventListener('touchstart',function(){vid.play().catch(function(){});},{once:true,passive:true});
 })();
+
+window.vpnSkipOpen=function(){var b=document.getElementById('skip-ack');b.hidden=false;try{document.getElementById('av-vid').pause();}catch(e){}b.scrollIntoView({behavior:'smooth',block:'center'});};
+window.vpnSkipClose=function(){document.getElementById('skip-ack').hidden=true;};
+window.vpnSkipConfirm=function(){if(!document.getElementById('skip-ack-cb').checked)return;
+  try{localStorage.setItem('vpn_risk_ack',new Date().toISOString());}catch(e){}
+  document.getElementById('skip-ack').hidden=true;document.getElementById('vid-skip-btn').style.display='none';
+  unlockForm();document.getElementById('av-ready').textContent='✓ RISKS ACKNOWLEDGED — ACCESS UNLOCKED';
+  var p=document.getElementById('panel');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});};
 function unlockForm(){avUnlocked=true;
   document.getElementById('av-status').style.display='none';
   document.getElementById('av-ready').style.display='inline';

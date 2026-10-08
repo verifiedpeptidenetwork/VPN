@@ -4052,8 +4052,8 @@ document.addEventListener('keydown', function(e){
         <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;object-fit:cover;z-index:3;">
       </div>
       <div class="logo-text">
-        <div class="logo-title">Research &amp; Unfiltered Information</div>
-        <div class="logo-sub">Verified Peptide Network</div>
+        <div class="logo-title">Research Unfiltered Information</div>
+        <div class="logo-sub">Verified Peptides Network</div>
       </div>
     </div>
     <nav id="desktop-nav" style="display:none;"></nav>
@@ -4313,6 +4313,11 @@ document.addEventListener('keydown', function(e){
     letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
     color: #ffb3cf; border: 1px solid rgba(255,45,120,0.45); border-radius: 999px; background: rgba(255,45,120,0.08);
   }
+  /* fit: sizes scale with the text column, never clip */
+  .sb-logo-text { container-type: inline-size; overflow: hidden; margin-left: 0.55rem; }
+  .sb-logo-title .sbt-a { font-size: min(11px, 8.5cqw) !important; letter-spacing: 0.3em; }
+  .sb-logo-title .sbt-b, .sb-logo-title .sbt-c { font-size: min(18px, 13.5cqw) !important; letter-spacing: 0.06em; }
+  .sb-logo-sub { display: block !important; width: max-content; max-width: 100%; box-sizing: border-box; white-space: normal !important; text-align: center; line-height: 1.2; font-size: min(9.5px, 7.2cqw) !important; letter-spacing: 0.08em !important; padding: 0.15rem 0.4rem !important; }
   html[data-theme="light"] .sb-logo-title .sbt-a { color: #8a6a14; }
   html[data-theme="light"] .sb-logo-title .sbt-b { color: #0f1b2d; text-shadow: none; }
   html[data-theme="light"] .sb-logo-title .sbt-c { color: #0b6e7a; text-shadow: none; }
@@ -4452,8 +4457,8 @@ document.addEventListener('keydown', function(e){
         <img src="VPNNEWLOGO.png?v=1" alt="VPN" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;z-index:4;">
       </div>
       <div class="sb-logo-text" data-vt-skip>
-        <div class="sb-logo-title"><span class="sbt-a">Research &amp;</span><span class="sbt-b">Unfiltered</span><span class="sbt-c">Information</span></div>
-        <div class="sb-logo-sub">Verified Peptide Network</div>
+        <div class="sb-logo-title"><span class="sbt-a">Research</span><span class="sbt-b">Unfiltered</span><span class="sbt-c">Information</span></div>
+        <div class="sb-logo-sub">Verified Peptides Network</div>
       </div>
     </div>
     <div class="sb-logo-bar"></div>
@@ -8078,6 +8083,8 @@ document.addEventListener('keydown', function(e){
     #vpn-watch-first { order:2 !important; }
     .vpn-rules       { order:3 !important; }
     #home-prayer     { order:4 !important; }
+    #view-home:not(:has(*)){ display:none !important; }
+    @media(max-width:768px) and (orientation:portrait){ #home-prayer{ order:0 !important; margin:0 0 0.8rem !important; } }
     #qnav-wrap       { order:5 !important; }
     #grp-learn       { order:10 !important; }
     #home-why        { order:11 !important; }
@@ -8259,6 +8266,7 @@ document.addEventListener('keydown', function(e){
     /* ═══ HERO v3: big logo with a golden halo, gold title accent, "what's inside" tiles ═══ */
     #home-desktop-cols.vpn-hero-card{--r80:330px;}
     #home-desktop-cols.vpn-hero-card .vpn-hc-body{gap:3.2rem;padding:2.6rem 2.6rem 2.3rem 3.4rem;}
+    @media(min-width:901px){ #home-desktop-cols.vpn-hero-card .vpn-hc-body > .retro80-outer{align-self:start !important;margin-top:1.4rem !important;} }
     #home-desktop-cols.vpn-hero-card .retro80-outer{z-index:1;}
     #home-desktop-cols.vpn-hero-card .retro80-outer .retro80-card{z-index:3;border:3px solid #ffc400 !important;
       box-shadow:0 0 0 3px rgba(255,170,0,0.35),0 0 12px 2px rgba(255,200,0,0.85),0 0 28px 4px rgba(255,130,0,0.45) !important;}
@@ -31183,6 +31191,15 @@ window.addEventListener('appinstalled', function(){
   }
   window.vpnEli5Run = run;
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ setTimeout(run,300); }); else setTimeout(run,300);
+})();
+</script>
+<script>
+/* Phone portrait: show the Quran 26:80 prayer banner above the hero card */
+(function(){
+  var p=document.getElementById("home-prayer"), h=document.getElementById("home-desktop-cols"); if(!p||!h) return;
+  var home=p.parentNode, next=p.nextSibling, mq=matchMedia("(max-width:768px) and (orientation:portrait)");
+  function place(){ if(mq.matches){ if(p.nextSibling!==h) h.parentNode.insertBefore(p,h); p.style.order="0"; } else if(p.parentNode!==home){ home.insertBefore(p,next); p.style.order=""; } }
+  place(); if(mq.addEventListener) mq.addEventListener("change",place); else mq.addListener(place);
 })();
 </script>
 </body>
