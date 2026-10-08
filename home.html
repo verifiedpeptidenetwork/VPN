@@ -4336,6 +4336,15 @@ document.addEventListener('keydown', function(e){
     background: linear-gradient(180deg,rgba(0,20,30,0.7) 0%,rgba(4,0,16,0.95) 100%);
   }
   .sb-logo-inner { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem 0.7rem; }
+  /* keep the logo's rings/glow underneath the title text instead of painting over it */
+  .sb-logo-inner > div:first-child { isolation:isolate; z-index:0; }
+  .sb-logo-inner > div:first-child > div:first-child { animation-name: sbLogoGlowSoft, sbRingRotate !important; }
+  .sb-logo-text { position:relative; z-index:1; }
+  @keyframes sbLogoGlowSoft {
+    0%,100% { box-shadow: 0 0 8px rgba(0,255,65,0.5); border-color: rgba(0,255,65,0.9); }
+    33%     { box-shadow: 0 0 8px rgba(0,245,255,0.5); border-color: rgba(0,245,255,0.9); }
+    66%     { box-shadow: 0 0 8px rgba(255,45,120,0.5); border-color: rgba(255,45,120,0.9); }
+  }
   .sb-logo-bar {
     height:2px;
     background: linear-gradient(90deg,#00ff41,#00f5ff,#ff2d78,#9d00ff,#00ff41);
@@ -24017,7 +24026,7 @@ function csvFilter(cat, btn) {
                     <strong style="color:#00ff64;">Green flags of a trustworthy vendor:</strong> Publicly posted CoA links from named third-party labs · Active community reputation spanning 2 or more years · Responsive customer service before you pay · Clear return or reship policy · No pressure tactics · Transparent pricing including shipping shown at checkout.
                   </div>
                   <!-- Cheat Sheet Images -->
-                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-top:0.85rem;">
+                  <div class="gm-cheats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-top:0.85rem;align-items:start;">
                     <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/upload/1000090735.png','Vendor Scam Red Flags — How To Spot A Fake Vendor')" title="Click to zoom">
                       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff2d78;margin-bottom:4px;">🚨 VENDOR SCAM RED FLAGS</div>
                       <img loading="lazy" src="cheatsheet/upload/1000090735.png" alt="Vendor Scam Red Flags" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,45,120,0.4);">
@@ -24026,7 +24035,7 @@ function csvFilter(cat, btn) {
                       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#9d00ff;margin-bottom:4px;">🔍 HOW TO SPOT A FAKE COA</div>
                       <img loading="lazy" src="cheatsheet/upload/1000090737.png" alt="How To Spot A Fake COA" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,230,0,0.4);">
                     </div>
-                    <div style="cursor:zoom-in;grid-column:1/-1;" onclick="openLightbox('cheatsheet/fakecoasnew.jpg','Fake COA Examples — What To Look For')" title="Click to zoom">
+                    <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/fakecoasnew.jpg','Fake COA Examples — What To Look For')" title="Click to zoom">
                       <div style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:#ff2d78;margin-bottom:4px;">🚨 FAKE COA EXAMPLES — NEW</div>
                       <img loading="lazy" src="cheatsheet/fakecoasnew.jpg" alt="Fake COA Examples" style="width:100%;display:block;border-radius:5px;border:1px solid rgba(255,45,120,0.5);">
                     </div>
@@ -24533,6 +24542,15 @@ function csvFilter(cat, btn) {
       #view-graymarket .gm-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0.85rem;margin-bottom:1.4rem;align-items:start;}
       #view-graymarket .gm-gal > *{margin:0 !important;}
       #view-graymarket .gm-gal:not(.open){display:none;}
+      #view-graymarket .gm-cheats img{height:300px;object-fit:contain;background:#05000b;}
+      /* Picture cards (cheat sheet + gray-market gallery): big picture on top, title + small save underneath */
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])){display:flex !important;flex-direction:column;border-radius:12px !important;overflow:hidden;border-top-width:1px !important;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > .vv-topic{display:none !important;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > div:has(> img){order:1;background:#05000b;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > div:has(> img) > img{max-height:none !important;height:auto !important;width:100% !important;object-fit:contain;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > div:not(:has(img)){order:2;border-bottom:0 !important;padding:0.55rem 0.75rem !important;gap:0.6rem;align-items:center !important;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > div:not(:has(img)) > div{font-family:'Rajdhani',sans-serif !important;font-weight:700 !important;font-size:0.95rem !important;letter-spacing:0 !important;line-height:1.3;}
+      :is(#view-cheatsheets,#gm-gallery) [data-search]:has(> div > img):not(:has([data-search])) > div:not(:has(img)) > a{flex-shrink:0;font-size:0.7rem !important;padding:0.15rem 0.5rem !important;border-radius:6px;white-space:nowrap;}
       #view-graymarket .gm-gal-tog{cursor:pointer;user-select:none;}
       #view-graymarket .gm-gal-tog:hover{filter:brightness(1.2);}
       #view-graymarket .stg-in{padding:0 1rem 0.8rem;}
@@ -31490,6 +31508,15 @@ window.addEventListener('appinstalled', function(){
     fab.style.right='';fab.style.bottom='';
   }
   setFab(fabX,fabY);
+  /* until the user drags it, keep re-homing it: if the page loaded in a tiny/hidden window the start
+     position clamped to the top-left corner and sat on top of the sidebar logo */
+  var userMoved=false;
+  function homeFab(){
+    if(userMoved) return;
+    setFab(window.innerWidth>900?242+60:60, window.innerHeight-160);
+  }
+  window.addEventListener('resize',homeFab);
+  window.addEventListener('load',homeFab);
 
   function positionMenu(){
     var mw=190,mh=250;
@@ -31509,7 +31536,7 @@ window.addEventListener('appinstalled', function(){
     if(!dragging)return;
     var p=e.touches?e.touches[0]:e;
     var dx=p.clientX-startX,dy=p.clientY-startY;
-    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
+    if(Math.abs(dx)>4||Math.abs(dy)>4){moved=true;userMoved=true;}
     setFab(startFabX+dx,startFabY+dy);
     e.preventDefault();
   }
