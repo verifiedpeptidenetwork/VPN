@@ -8331,6 +8331,20 @@ document.addEventListener('keydown', function(e){
         <button type="button" class="home-cta home-cta-primary" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d){d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});}">▶ START HERE</button>
         <button type="button" class="home-cta home-cta-secondary" onclick="showView('all-peptides')">🔬 LEARN ABOUT YOUR PEPTIDE</button>
       </div>
+      <!-- GET THE APP -->
+      <button type="button" id="vpn-getapp" class="vpn-getapp" onclick="vpnInstallApp()">
+        <img src="icon-180.png" alt="" width="34" height="34">
+        <span class="ga-tx"><b>GET THE APP</b><small>Install to your home screen — free, no app store</small></span>
+        <span class="ga-ar">⬇</span>
+      </button>
+      <div id="vpn-install-help" class="vpn-install-help" hidden>
+        <div class="ih-card">
+          <button type="button" class="ih-x" onclick="document.getElementById('vpn-install-help').hidden=true" aria-label="Close">✕</button>
+          <img src="icon-180.png" alt="" width="64" height="64">
+          <div class="ih-t">Install VPN Research</div>
+          <div class="ih-steps" id="vpn-install-steps"></div>
+        </div>
+      </div>
 
       <!-- WHAT'S INSIDE: one tap to every main section -->
       <div class="vpn-hc-feats" role="list">
@@ -10388,12 +10402,17 @@ document.addEventListener('keydown', function(e){
 
     </div>
 
+    <!-- ADD-ON PANELS (tap to open) -->
+    <div class="bw-divider"><span>🧪 ADD THESE PANELS · TAP ONE TO OPEN</span></div>
+    <div class="bw-panels">
     <!-- THYROID PANEL ADD-ON -->
-    <div style="border:1px solid rgba(255,107,0,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+    <details class="bw-panel" style="border:1px solid rgba(255,107,0,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
         <span style="font-size:1.8rem;">🦋</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--neon-orange);">Ask Your Doctor to Add: Thyroid Panel</div>
-      </div>
+        <span class="bw-ar">▼</span>
+      </summary>
+      <div class="bw-body">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
         Thyroid issues (hypo/hyperthyroidism) can mimic or worsen symptoms people often blame on peptides — fatigue, weight changes, mood, heart rate. If it's not already included in your panel, ask your doctor to add:
       </div>
@@ -10404,22 +10423,17 @@ document.addEventListener('keydown', function(e){
         • Thyroid Antibodies (TPO/TgAb) — if family history of thyroid disease
       </div>
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add a Thyroid Panel:\n- TSH (Thyroid Stimulating Hormone)\n- Free T3\n- Free T4\n- Thyroid Antibodies (TPO/TgAb)')">📋 Copy Thyroid Panel for My Doctor</button>
-    </div>
-
-    <!-- INSULIN RESISTANCE — MOUSE PROTOCOL GRAPHIC -->
-    <div data-search="reversal of insulin resistance mouse protocol mots-c ss-31 dihydroberberine inositol retatrutide tudca carbohydrate timing" style="margin:0.9rem 0;padding:0.85rem 1rem;border:1px solid rgba(204,68,255,0.35);border-left:4px solid #cc44ff;border-radius:0 8px 8px 0;background:rgba(20,4,30,0.6);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#d48cff;margin-bottom:0.5rem;">🐭 Reversing Insulin Resistance — Mouse Protocol Graphic</div>
-      <div style="cursor:zoom-in;max-width:460px;margin:0 auto 0.6rem;" onclick="openLightbox('cheatsheet/insulin-resistance-mouse-protocol.webp','Reversal of Insulin Resistance — Mouse Model')"><img loading="lazy" src="cheatsheet/insulin-resistance-mouse-protocol.webp" alt="Insulin resistance reversal mouse protocol" style="width:100%;display:block;border-radius:6px;" onerror="this.parentNode.style.display='none'"></div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(240,230,255,0.88);line-height:1.6;">
-        <strong style="color:#ffd45c;">Read with caution:</strong> this protocol is promoted by a peptide vendor and is <strong style="color:#fff;">not published in a peer-reviewed journal</strong> — we could not find it on PubMed. It was done in obese mice; mouse doses don't translate to people. The parts with real human evidence for insulin resistance are the basics: a modest calorie deficit, higher protein, resistance training, and (with your doctor) proven medications. Check fasting glucose, fasting insulin, HOMA-IR and HbA1c before and after any change.
       </div>
-    </div>
+    </details>
+
     <!-- INSULIN RESISTANCE PANEL ADD-ON -->
-    <div style="border:1px solid rgba(204,68,255,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+    <details class="bw-panel" style="border:1px solid rgba(204,68,255,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
         <span style="font-size:1.8rem;">🍬</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#cc44ff;">Ask Your Doctor to Add: Insulin Resistance Panel</div>
-      </div>
+        <span class="bw-ar">▼</span>
+      </summary>
+      <div class="bw-body">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
         Insulin resistance can drive fat gain, cravings, and energy crashes — and it's often missed on a standard panel because fasting glucose alone can look "normal." If it's not already included, ask your doctor to add:
       </div>
@@ -10430,14 +10444,26 @@ document.addEventListener('keydown', function(e){
         • HOMA-IR (calculated from fasting glucose + insulin)
       </div>
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add an Insulin Resistance Panel:\n- Fasting Insulin\n- Fasting Glucose\n- HbA1c\n- HOMA-IR')">📋 Copy Insulin Resistance Panel for My Doctor</button>
+    <!-- INSULIN RESISTANCE — MOUSE PROTOCOL GRAPHIC -->
+    <div data-search="reversal of insulin resistance mouse protocol mots-c ss-31 dihydroberberine inositol retatrutide tudca carbohydrate timing" style="margin:0.9rem 0 0;padding:0.85rem 1rem;border:1px solid rgba(204,68,255,0.35);border-left:4px solid #cc44ff;border-radius:0 8px 8px 0;background:rgba(20,4,30,0.6);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;color:#d48cff;margin-bottom:0.5rem;">🐭 Reversing Insulin Resistance — Mouse Protocol Graphic</div>
+      <div style="cursor:zoom-in;max-width:460px;margin:0 auto 0.6rem;" onclick="openLightbox('cheatsheet/insulin-resistance-mouse-protocol.webp','Reversal of Insulin Resistance — Mouse Model')"><img loading="lazy" src="cheatsheet/insulin-resistance-mouse-protocol.webp" alt="Insulin resistance reversal mouse protocol" style="width:100%;display:block;border-radius:6px;" onerror="this.parentNode.style.display='none'"></div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(240,230,255,0.88);line-height:1.6;">
+        <strong style="color:#ffd45c;">Read with caution:</strong> this protocol is promoted by a peptide vendor and is <strong style="color:#fff;">not published in a peer-reviewed journal</strong> — we could not find it on PubMed. It was done in obese mice; mouse doses don't translate to people. The parts with real human evidence for insulin resistance are the basics: a modest calorie deficit, higher protein, resistance training, and (with your doctor) proven medications. Check fasting glucose, fasting insulin, HOMA-IR and HbA1c before and after any change.
+      </div>
     </div>
 
+      </div>
+    </details>
+
     <!-- INFLAMMATION PANEL ADD-ON -->
-    <div style="border:1px solid rgba(255,45,120,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+    <details class="bw-panel" style="border:1px solid rgba(255,45,120,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
         <span style="font-size:1.8rem;">🔥</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--neon-pink);">Ask Your Doctor to Add: Inflammation Panel</div>
-      </div>
+        <span class="bw-ar">▼</span>
+      </summary>
+      <div class="bw-body">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
         Chronic inflammation can affect recovery, gut health, joints, and how well your body responds to peptides. If it's not already included, ask your doctor to add:
       </div>
@@ -10447,14 +10473,17 @@ document.addEventListener('keydown', function(e){
         • Homocysteine
       </div>
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add an Inflammation Panel:\n- hs-CRP (high-sensitivity C-Reactive Protein)\n- ESR (Erythrocyte Sedimentation Rate)\n- Homocysteine')">📋 Copy Inflammation Panel for My Doctor</button>
-    </div>
+      </div>
+    </details>
 
     <!-- TESTOSTERONE PANEL ADD-ON -->
-    <div style="border:1px solid rgba(255,230,0,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+    <details class="bw-panel" style="border:1px solid rgba(255,230,0,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
         <span style="font-size:1.8rem;">⚡</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#9d00ff;">Ask Your Doctor to Add: Testosterone & Hormone Panel</div>
-      </div>
+        <span class="bw-ar">▼</span>
+      </summary>
+      <div class="bw-body">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
         Low testosterone is one of the most overlooked drivers of muscle loss, fatigue, low libido, poor recovery, brain fog, and mood changes — in both men and women. A standard panel often skips this entirely. Ask your doctor to add:
       </div>
@@ -10473,14 +10502,17 @@ document.addEventListener('keydown', function(e){
         <strong style="color:#9d00ff;">Optimal ranges (women):</strong> Total T 15–70 ng/dL · Free T 1–5 pg/mL · E2 varies by cycle phase
       </div>
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please add a Testosterone & Hormone Panel:\n- Total Testosterone\n- Free Testosterone\n- SHBG (Sex Hormone Binding Globulin)\n- LH (Luteinizing Hormone)\n- FSH (Follicle Stimulating Hormone)\n- Estradiol (E2)\n- DHEA-S\n- Prolactin')">📋 Copy Testosterone Panel for My Doctor</button>
-    </div>
+      </div>
+    </details>
 
     <!-- LIVER PANEL ADD-ON -->
-    <div style="border:1px solid rgba(0,255,100,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+    <details class="bw-panel" style="border:1px solid rgba(0,255,100,0.4);background:#0e0e0a;padding:1.25rem 1.5rem;">
+      <summary class="bw-sum">
         <span style="font-size:1.8rem;">🟢</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:#00ff64;">Ask Your Doctor to Add: Liver Panel</div>
-      </div>
+        <span class="bw-ar">▼</span>
+      </summary>
+      <div class="bw-body">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:600;color:#ffffff;line-height:1.75;">
         Many peptides (and underlying issues like fatty liver) are processed through the liver, so a baseline liver panel helps your doctor catch problems early and track changes over time. If not already included, ask for:
       </div>
@@ -10494,8 +10526,25 @@ document.addEventListener('keydown', function(e){
         • Total Protein
       </div>
       <button class="btn-secondary" style="margin-top:0.8rem;" onclick="copyToClipboard('Please also add a Liver Panel:\n- ALT (Alanine Aminotransferase)\n- AST (Aspartate Aminotransferase)\n- ALP (Alkaline Phosphatase)\n- GGT (Gamma-Glutamyl Transferase)\n- Total &amp; Direct Bilirubin\n- Albumin\n- Total Protein')">📋 Copy Liver Panel for My Doctor</button>
+      </div>
+    </details>
     </div>
+    <style>
+      .bw-divider{display:flex;align-items:center;gap:1rem;margin:0.4rem 0 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.16em;color:var(--neon-cyan);}
+      .bw-divider::before,.bw-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.45),transparent);}
+      .bw-panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0.8rem;align-items:start;margin-bottom:1.8rem;}
+      .bw-panel{padding:0 !important;border-radius:12px;overflow:hidden;}
+      .bw-panel > .bw-sum{list-style:none;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.9rem 1.1rem;}
+      .bw-panel > .bw-sum::-webkit-details-marker{display:none;}
+      .bw-panel > .bw-sum > div{flex:1;min-width:0;}
+      .bw-panel .bw-ar{margin-left:auto;color:var(--neon-cyan);transition:transform .2s;}
+      .bw-panel[open] .bw-ar{transform:rotate(180deg);}
+      .bw-panel[open]{grid-column:1 / -1;}
+      .bw-body{padding:0 1.25rem 1.1rem;}
+      html[data-theme="light"] .bw-panel{background:#fffdf8 !important;}
+    </style>
 
+    <div class="bw-divider"><span>🔎 WHAT STANDARD PANELS MISS</span></div>
   <div class="b3-gal" style="--bc:#ff2d95;">
     <div class="b3-h">🩸 Your bloodwork came back "normal"? Here's what they didn't test</div>
     <div class="b3-grid">
@@ -10511,6 +10560,7 @@ document.addEventListener('keydown', function(e){
     </div>
   </div>
 
+    <div class="bw-divider"><span>▶ LEARN &amp; GET TESTED</span></div>
     <!-- FEATURED VIDEO -->
     <div style="margin-bottom:1.75rem;border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);background:#050f1a;overflow:hidden;">
       <div style="padding:1rem 1.4rem;border-bottom:1px solid rgba(0,245,255,0.2);">
@@ -29696,10 +29746,10 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
-var _vpnDeferredInstall = null;
+window._vpnDeferredInstall = null; var _vpnDeferredInstall = null;
 window.addEventListener('beforeinstallprompt', function(e){
   e.preventDefault();
-  _vpnDeferredInstall = e;
+  _vpnDeferredInstall = e; window._vpnDeferredInstall = e;
   var w = document.getElementById('vpn-install-wrap');
   if(w) w.style.display = 'block';
 });
@@ -29707,7 +29757,7 @@ function vpnInstallApp(){
   if(!_vpnDeferredInstall) return;
   _vpnDeferredInstall.prompt();
   _vpnDeferredInstall.userChoice.then(function(){
-    _vpnDeferredInstall = null;
+    _vpnDeferredInstall = null; window._vpnDeferredInstall = null;
     var w = document.getElementById('vpn-install-wrap');
     if(w) w.style.display = 'none';
   });
@@ -30072,6 +30122,45 @@ window.addEventListener('appinstalled', function(){
   .ta1-h{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#ff6b6b;margin:0.2rem 0 0.5rem;}
   html[data-theme="light"] .ta1-c{color:#26324a !important;} html[data-theme="light"] .ta1-c strong{color:#0f1b2d !important;} html[data-theme="light"] .ta1-c a{color:#8a5a00 !important;}
 </style>
+<style>
+  .vpn-getapp{display:flex;align-items:center;gap:0.75rem;width:100%;max-width:420px;margin:0.7rem 0 0;padding:0.55rem 0.9rem 0.55rem 0.6rem;border-radius:14px;cursor:pointer;text-align:left;
+    background:linear-gradient(120deg,rgba(0,245,255,0.12),rgba(157,59,255,0.14) 55%,rgba(255,45,149,0.12));border:1px solid rgba(157,59,255,0.55);box-shadow:0 10px 26px -16px rgba(157,59,255,0.9);transition:transform .15s,box-shadow .15s;}
+  .vpn-getapp:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(255,45,149,0.9);}
+  .vpn-getapp img{border-radius:9px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(255,255,255,0.15);}
+  .vpn-getapp .ga-tx{display:flex;flex-direction:column;flex:1;min-width:0;}
+  .vpn-getapp b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.15rem;letter-spacing:0.14em;color:#fff;line-height:1.1;}
+  .vpn-getapp small{font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(220,230,250,0.75);}
+  .vpn-getapp .ga-ar{font-size:1.1rem;color:#ff7ab8;}
+  @media(display-mode:standalone){ .vpn-getapp{display:none !important;} }
+  @media(max-width:900px){ .vpn-getapp{margin-left:auto;margin-right:auto;} }
+  .vpn-install-help{position:fixed;inset:0;z-index:2147483646;background:rgba(2,0,10,0.75);display:flex;align-items:flex-end;justify-content:center;padding:1rem;}
+  .vpn-install-help[hidden]{display:none;}
+  .ih-card{position:relative;width:100%;max-width:420px;background:#0d0826;border:1px solid rgba(157,59,255,0.6);border-radius:18px;padding:1.3rem 1.2rem 1.2rem;text-align:center;box-shadow:0 20px 60px -20px #9d3bff;}
+  .ih-card img{border-radius:14px;}
+  .ih-x{position:absolute;top:0.6rem;right:0.7rem;background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;}
+  .ih-t{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.1em;color:#fff;margin:0.5rem 0 0.6rem;}
+  .ih-steps{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:rgba(230,236,252,0.92);line-height:1.7;text-align:left;}
+  .ih-steps b{color:#ffd45c;}
+  html[data-theme="light"] .vpn-getapp{background:linear-gradient(120deg,#e9f7ff,#f3ecff 55%,#ffeef6);border-color:rgba(91,42,134,0.45);}
+  html[data-theme="light"] .vpn-getapp b{color:#0f1b2d;} html[data-theme="light"] .vpn-getapp small{color:#3a4658;} html[data-theme="light"] .vpn-getapp .ga-ar{color:#9b1d4a;}
+</style>
+<script>
+(function(){
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if(isStandalone){ var b=document.getElementById('vpn-getapp'); if(b) b.style.display='none'; }
+  var origInstall = window.vpnInstallApp;
+  window.vpnInstallApp = function(){
+    if(window._vpnDeferredInstall){ return origInstall ? origInstall() : null; }
+    var ua=navigator.userAgent||'', ios=/iphone|ipad|ipod/i.test(ua) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+    var steps = ios
+      ? '1. Tap the <b>Share</b> button <b>⬆</b> at the bottom of Safari.<br>2. Scroll and tap <b>Add to Home Screen</b>.<br>3. Tap <b>Add</b> — the VPN icon appears on your home screen.'
+      : '1. Tap the browser menu <b>⋮</b> (top-right in Chrome).<br>2. Tap <b>Install app</b> or <b>Add to Home screen</b>.<br>3. Confirm — the VPN icon appears on your home screen.<br><small style="opacity:.7">On a computer: click the install icon <b>⊕</b> at the right of the address bar.</small>';
+    document.getElementById('vpn-install-steps').innerHTML = steps;
+    document.getElementById('vpn-install-help').hidden = false;
+  };
+  window.addEventListener('appinstalled', function(){ var b=document.getElementById('vpn-getapp'); if(b) b.style.display='none'; });
+})();
+</script>
 </body>
 </html>
 
