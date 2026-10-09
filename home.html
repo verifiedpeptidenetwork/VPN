@@ -13164,7 +13164,7 @@ document.addEventListener('keydown', function(e){
         <label class="lbl-copies">Copies <input id="lbl-copies" type="number" min="1" max="40" value="4"></label>
         <button type="button" onclick="lblPrint()">🖨️ Print labels</button>
       </div>
-      <p class="lbl-tip">Prints 2" × 1" labels — use sticker/label paper, or plain paper and clear tape. Always label every vial you mix.</p>
+      <p class="lbl-tip">Makes 40 × 20 mm labels automatically from your recon result — one label per page for label printers (40×20 roll), or print to sticker paper. Always label every vial you mix.</p>
     </div>
     <style>
       #lbl-maker{max-width:500px;margin:1.25rem auto 0;padding:1.1rem 1.15rem;background:#0a0a1e;border:1px solid rgba(255,212,92,0.4);border-top:3px solid #ffd45c;text-align:left;}
@@ -13177,12 +13177,12 @@ document.addEventListener('keydown', function(e){
       #lbl-maker .lbl-wide{grid-column:1/-1;}
       #lbl-maker input{width:100%;box-sizing:border-box;padding:0.45rem 0.55rem;background:#05030f;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;border-radius:4px;color-scheme:dark;}
       #lbl-maker .lbl-prev-wrap{display:flex;justify-content:center;margin:1rem 0 0.8rem;}
-      .lbl-card{width:2in;height:1in;box-sizing:border-box;padding:0.06in 0.08in;background:#fff;color:#000;border:1px solid #000;border-radius:0.06in;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
-      .lbl-card .l-n{font-size:11pt;font-weight:800;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1.5px solid #000;padding-bottom:1px;}
-      .lbl-card .l-r{display:flex;justify-content:space-between;font-size:6.6pt;line-height:1.25;}
+      .lbl-card{width:40mm;height:20mm;box-sizing:border-box;padding:1mm 1.4mm;background:#fff;color:#000;border:1px solid #000;border-radius:1.2mm;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
+      .lbl-card .l-n{font-size:8pt;font-weight:800;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #000;padding-bottom:1px;}
+      .lbl-card .l-r{display:flex;justify-content:space-between;font-size:4.9pt;line-height:1.2;}
       .lbl-card .l-r b{font-weight:800;}
-      .lbl-card .l-d{font-size:7.6pt;font-weight:800;text-align:center;background:#000;color:#fff;border-radius:2px;padding:0 2px;}
-      #lbl-maker .lbl-prev-wrap .lbl-card{transform:scale(1.6);transform-origin:center;margin:0.35in 0;box-shadow:0 0 0 3px rgba(255,212,92,0.5);}
+      .lbl-card .l-d{font-size:5.8pt;font-weight:800;text-align:center;background:#000;color:#fff;border-radius:2px;padding:0 2px;}
+      #lbl-maker .lbl-prev-wrap .lbl-card{transform:scale(2.4);transform-origin:center;margin:16mm 0;box-shadow:0 0 0 3px rgba(255,212,92,0.5);}
       #lbl-maker .lbl-btns{display:flex;align-items:flex-end;justify-content:center;gap:0.8rem;flex-wrap:wrap;}
       #lbl-maker .lbl-copies{display:flex;flex-direction:column;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:var(--neon-cyan);width:90px;}
       #lbl-maker .lbl-btns button{padding:0.6rem 1.2rem;border:none;border-radius:8px;background:#ffd45c;color:#111;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;cursor:pointer;}
@@ -13226,7 +13226,7 @@ document.addEventListener('keydown', function(e){
           var f=document.createElement('iframe'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
           document.body.appendChild(f);
           var d=f.contentWindow.document;
-          d.open(); d.write('<!doctype html><html><head><meta charset="utf-8"><title>Vial labels</title><style>'+css+'@page{margin:0.3in}body{margin:0;display:flex;flex-wrap:wrap;gap:0.12in;}.lbl-card{break-inside:avoid;}</style></head><body>'+all+'</body></html>'); d.close();
+          d.open(); d.write('<!doctype html><html><head><meta charset="utf-8"><title>Vial labels</title><style>'+css+'@page{size:40mm 20mm;margin:0}html,body{margin:0;padding:0;}.lbl-card{break-after:page;page-break-after:always;border:0;border-radius:0;}.lbl-card:last-child{break-after:auto;page-break-after:auto;}</style></head><body>'+all+'</body></html>'); d.close();
           setTimeout(function(){ f.contentWindow.focus(); f.contentWindow.print(); setTimeout(function(){ f.remove(); },1500); },250);
         };
         function init(){ if(v('lbl-date') && !v('lbl-date').value) v('lbl-date').value=today(); lblDraw(); }
