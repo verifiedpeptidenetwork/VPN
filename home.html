@@ -3436,18 +3436,26 @@ function dgEnter(){
 
 <style>
   @keyframes bannerScan{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  /* Retro synthwave ticker: deep purple + scanlines, sunset-gradient text, neon pink/cyan edges */
   #no-coa-banner{position:relative;z-index:100000;overflow:hidden;height:2rem;display:flex;align-items:center;
-    background:linear-gradient(270deg,#1a0006,#2a000e,#0d0002,#1a0006);
-    background-size:400% 400%;animation:bannerScan 6s ease infinite;
-    border-bottom:1px solid rgba(255,45,120,0.5);
+    background:
+      repeating-linear-gradient(0deg,rgba(255,255,255,0.035) 0 1px,transparent 1px 3px),
+      linear-gradient(270deg,#1b0638,#2d0b4e,#12032a,#1b0638);
+    background-size:auto,400% 400%;animation:bannerScan 8s ease infinite;
+    border-top:1px solid rgba(0,245,255,0.55);
+    border-bottom:2px solid #ff2d95;
+    box-shadow:0 0 14px rgba(255,45,149,0.45),inset 0 -6px 12px -8px rgba(255,140,0,0.6);
   }
+  #no-coa-banner::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;pointer-events:none;
+    background:linear-gradient(90deg,#ffe14d,#ff8a00,#ff2d95,#b026ff,#00f5ff,#b026ff,#ff2d95,#ff8a00,#ffe14d);}
   #no-coa-banner-track{display:flex;white-space:nowrap;animation:noCoaMarquee 28s linear infinite;}
   #no-coa-banner-track:hover{animation-play-state:paused;}
   .no-coa-seg{
     font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.28em;
-    background:linear-gradient(90deg,#00f5ff,#ffffff,#ff0080,#ffffff,#00f5ff);
+    background:linear-gradient(90deg,#ffe14d,#ff8a00,#ff2d95,#b026ff,#00f5ff,#b026ff,#ff2d95,#ff8a00,#ffe14d);
     background-size:200% auto;
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    filter:drop-shadow(0 0 4px rgba(255,45,149,0.65));
     padding-right:5rem;flex-shrink:0;
   }
   @keyframes noCoaMarquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
@@ -12979,91 +12987,6 @@ document.addEventListener('keydown', function(e){
     </div>
 
 <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">Your peptide comes as dry powder. You add <b>bacteriostatic water</b> to turn it into a liquid. The calculator tells you how much liquid to pull into the syringe to get your dose. <b>Units on an insulin syringe are a size of liquid, not an amount of medicine</b> — 10 units is always 0.1 mL — so how much peptide is in those 10 units depends on how much water you mixed in. That's why you always calculate.</div></details>
-    <!-- GLOWKLOWCALC.COM — the full online calculators -->
-    <a href="https://glowklowcalc.com" target="_blank" rel="noopener" data-search="glowklowcalc glow klow calculator peptide pen calculator reconstitution" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:1rem 1.2rem;border-radius:14px;text-decoration:none;background:linear-gradient(120deg,rgba(255,212,0,0.12),rgba(0,245,255,0.08));border:2px solid #ffd400;box-shadow:0 0 22px rgba(255,212,0,0.25);">
-      <span style="font-size:2rem;">🧮</span>
-      <span style="flex:1;min-width:220px;">
-        <span style="display:block;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;color:#ffd45c;">GLOWKLOWCALC.COM — OUR FULL CALCULATOR SITE</span>
-        <span style="display:block;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(235,240,255,0.9);line-height:1.5;">💉 <strong style="color:#fff;">Peptide pen calculator</strong> · ⚗️ <strong style="color:#fff;">GLOW &amp; KLOW blend calculator</strong> · 🧪 <strong style="color:#fff;">Regular peptide reconstitution calculator</strong></span>
-      </span>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.55rem 1.1rem;border-radius:8px;background:#ffd400;color:#111;white-space:nowrap;">OPEN GLOWKLOWCALC.COM ↗</span>
-    </a>
-
-
-
-    <!-- KLOW / GLOW BLEND SHORTCUT -->
-    <div onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});"
-      style="cursor:pointer;margin-bottom:1.5rem;padding:0.85rem 1.1rem;background:linear-gradient(90deg,rgba(204,68,255,0.1),rgba(255,20,80,0.06));border:1.5px solid rgba(204,68,255,0.45);border-left:4px solid #cc44ff;border-radius:8px;display:flex;align-items:center;gap:0.85rem;transition:box-shadow 0.2s;"
-      onmouseover="this.style.boxShadow='0 0 20px rgba(204,68,255,0.35)'" onmouseout="this.style.boxShadow='none'">
-      <span style="font-size:1.5rem;">⚗️</span>
-      <div style="flex:1;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.16em;color:#cc44ff;line-height:1.1;">KLOW &amp; GLOW BLEND CALCULATOR</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(204,68,255,0.6);margin-top:0.1rem;">Specifically for KLOW (80mg) and GLOW (70mg) blend reconstitution math — tap to open</div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:rgba(204,68,255,0.7);">↗</span>
-    </div>
-
-    <!-- ── REFERENCE / DISCLAIMER BLOCK ── -->
-    <div style="margin-bottom:1.75rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
-
-      <!-- Card 1: Why VPN does not advocate for use -->
-      <div style="background:#000;border:1.5px solid rgba(255,45,120,0.3);border-top:3px solid #ff2d78;border-radius:8px;padding:1.1rem 1.25rem;box-shadow:0 0 24px rgba(255,45,120,0.07);">
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-          <span style="font-size:1.3rem;">⚠️</span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#ff2d78;">WHY WE DO NOT ADVOCATE FOR USE</div>
-        </div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.82);line-height:1.75;letter-spacing:0.03em;">
-          Peptides are <strong style="color:#fff;">investigational compounds</strong>. The majority have not been approved by the FDA or any regulatory body for human use outside of controlled clinical trials. We cannot and do not recommend that anyone self-administer, purchase, or use these substances.<br><br>
-          Providing a calculator is not an endorsement. It is the same reason a chemistry textbook includes measurement tables — <strong style="color:#fff;">knowledge is not permission.</strong> Every individual is solely responsible for their own decisions, and those decisions should be made with a licensed physician.
-        </div>
-        <div style="margin-top:0.85rem;padding:0.55rem 0.75rem;background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(255,45,120,0.85);letter-spacing:0.08em;text-transform:uppercase;">
-          For educational &amp; research reference only · Not medical advice
-        </div>
-      </div>
-
-      <!-- Card 2: Why labs need this tool -->
-      <div style="background:#000;border:1.5px solid rgba(0,245,255,0.3);border-top:3px solid #00f5ff;border-radius:8px;padding:1.1rem 1.25rem;box-shadow:0 0 24px rgba(0,245,255,0.07);">
-        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
-          <span style="font-size:1.3rem;">🧪</span>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#00f5ff;">WHY LABS NEED THIS TOOL</div>
-        </div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.82);line-height:1.75;letter-spacing:0.03em;">
-          Research laboratories working with lyophilized peptides face a precise reconstitution problem every time they open a new vial. Getting the <strong style="color:#fff;">BAC water volume wrong by even a small margin</strong> shifts every downstream concentration and dose — corrupting entire experimental runs and wasting expensive compounds.<br><br>
-          Labs use calculators like this to:<br>
-          <span style="color:#00f5ff;">▸</span> Confirm the correct solvent volume per vial weight (mg)<br>
-          <span style="color:#00f5ff;">▸</span> Calculate concentration in mcg/unit or mg/mL for precise pipetting<br>
-          <span style="color:#00f5ff;">▸</span> Standardize dosing across multiple vials or batches<br>
-          <span style="color:#00f5ff;">▸</span> Cross-check manual math before running in-vivo or in-vitro protocols
-        </div>
-        <div style="margin-top:0.85rem;padding:0.55rem 0.75rem;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.18);border-radius:5px;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(0,245,255,0.75);letter-spacing:0.08em;text-transform:uppercase;">
-          Precision reconstitution is the foundation of reproducible research
-        </div>
-      </div>
-
-    </div>
-    <!-- ── END REFERENCE BLOCK ── -->
-
-    <!-- Glowrilla Recon Video -->
-    <div style="max-width:700px;margin:0 auto 1.75rem;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);background:#0d0212;overflow:hidden;box-shadow:0 0 32px rgba(255,45,120,0.15);">
-      <div style="padding:0.75rem 1.25rem;border-bottom:1px solid rgba(255,45,120,0.25);display:flex;align-items:center;gap:0.75rem;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.5);color:var(--neon-pink);">🔴 MUST WATCH</span>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#fff;">🧪 Glowrilla's Full Reconstitution Guide — Watch Before You Calculate</div>
-      </div>
-      <video src="peptide-tutorial.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:420px;object-fit:contain;background:#000;"></video>
-    </div>
-
-    <!-- Research Guide Video -->
-    <div style="max-width:700px;margin:0 auto 2.5rem;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:var(--neon-cyan);margin-bottom:0.75rem;text-align:center;">▶ RESEARCH GUIDE</div>
-      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#0a0a1e;border:2px solid rgba(0,245,255,0.25);overflow:hidden;">
-        <iframe src="https://drive.google.com/file/d/1EqQH2D8qRmCIFtAXDOrV8jsVbJXUo3s5/preview"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-          allow="autoplay"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-
     <!-- Reconstitution Calculator Reference Image + How To Use (collapsible) -->
     <div style="max-width:700px;margin:0 auto 2.5rem;">
       <details style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;">
@@ -13219,9 +13142,97 @@ document.addEventListener('keydown', function(e){
     document.getElementById('c-desc').textContent      = vial + 'mg vial  ·  ' + water + ' mL BAC water  →  ' + (vial/water).toFixed(2) + ' mg/mL concentration  ·  draw ' + drawML.toFixed(3) + ' mL for ' + dose + ' mg';
     res.style.display = 'block';
     emp.style.display = 'none';
+    if (window.lblFromCalc) lblFromCalc(water, dose, vial);
   }
 </script>
 
+
+    <!-- ══ VIAL LABEL MAKER — fills in from the recon calculator above ══ -->
+    <div id="lbl-maker" data-vt-skip data-search="label maker vial label print reconstitution date concentration">
+      <div class="lbl-h"><span>🏷️</span><div><b>VIAL LABEL MAKER</b><small>Recon done? Make a label for the vial — it fills in from the calculator above.</small></div></div>
+      <div class="lbl-grid">
+        <label>Peptide name<input id="lbl-name" type="text" placeholder="e.g. Tirzepatide" oninput="lblDraw()"></label>
+        <label>Vial (mg)<input id="lbl-mg" type="number" step="any" min="0" oninput="lblDraw()"></label>
+        <label>BAC water (mL)<input id="lbl-ml" type="number" step="any" min="0" oninput="lblDraw()"></label>
+        <label>Dose (mg)<input id="lbl-dose" type="number" step="any" min="0" oninput="lblDraw()"></label>
+        <label>Mixed on<input id="lbl-date" type="date" oninput="lblDraw()"></label>
+        <label>Use within (days)<input id="lbl-days" type="number" min="1" value="28" oninput="lblDraw()"></label>
+        <label class="lbl-wide">Note (optional)<input id="lbl-note" type="text" maxlength="40" placeholder="e.g. Batch #, fridge only" oninput="lblDraw()"></label>
+      </div>
+      <div class="lbl-prev-wrap"><div id="lbl-prev" class="lbl-card"></div></div>
+      <div class="lbl-btns">
+        <label class="lbl-copies">Copies <input id="lbl-copies" type="number" min="1" max="40" value="4"></label>
+        <button type="button" onclick="lblPrint()">🖨️ Print labels</button>
+      </div>
+      <p class="lbl-tip">Prints 2" × 1" labels — use sticker/label paper, or plain paper and clear tape. Always label every vial you mix.</p>
+    </div>
+    <style>
+      #lbl-maker{max-width:500px;margin:1.25rem auto 0;padding:1.1rem 1.15rem;background:#0a0a1e;border:1px solid rgba(255,212,92,0.4);border-top:3px solid #ffd45c;text-align:left;}
+      #lbl-maker .lbl-h{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.85rem;}
+      #lbl-maker .lbl-h > span{font-size:1.8rem;}
+      #lbl-maker .lbl-h b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.3rem;letter-spacing:0.14em;color:#ffd45c;}
+      #lbl-maker .lbl-h small{font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:rgba(235,230,250,0.8);}
+      #lbl-maker .lbl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.55rem 0.7rem;}
+      #lbl-maker .lbl-grid label{display:flex;flex-direction:column;gap:0.2rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:var(--neon-cyan);}
+      #lbl-maker .lbl-wide{grid-column:1/-1;}
+      #lbl-maker input{width:100%;box-sizing:border-box;padding:0.45rem 0.55rem;background:#05030f;border:1px solid rgba(0,245,255,0.3);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;border-radius:4px;color-scheme:dark;}
+      #lbl-maker .lbl-prev-wrap{display:flex;justify-content:center;margin:1rem 0 0.8rem;}
+      .lbl-card{width:2in;height:1in;box-sizing:border-box;padding:0.06in 0.08in;background:#fff;color:#000;border:1px solid #000;border-radius:0.06in;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
+      .lbl-card .l-n{font-size:11pt;font-weight:800;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1.5px solid #000;padding-bottom:1px;}
+      .lbl-card .l-r{display:flex;justify-content:space-between;font-size:6.6pt;line-height:1.25;}
+      .lbl-card .l-r b{font-weight:800;}
+      .lbl-card .l-d{font-size:7.6pt;font-weight:800;text-align:center;background:#000;color:#fff;border-radius:2px;padding:0 2px;}
+      #lbl-maker .lbl-prev-wrap .lbl-card{transform:scale(1.6);transform-origin:center;margin:0.35in 0;box-shadow:0 0 0 3px rgba(255,212,92,0.5);}
+      #lbl-maker .lbl-btns{display:flex;align-items:flex-end;justify-content:center;gap:0.8rem;flex-wrap:wrap;}
+      #lbl-maker .lbl-copies{display:flex;flex-direction:column;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:var(--neon-cyan);width:90px;}
+      #lbl-maker .lbl-btns button{padding:0.6rem 1.2rem;border:none;border-radius:8px;background:#ffd45c;color:#111;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;cursor:pointer;}
+      #lbl-maker .lbl-tip{margin:0.7rem 0 0;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(220,215,235,0.65);text-align:center;}
+      html[data-theme="light"] #lbl-maker{background:#fffdf3 !important;}
+      html[data-theme="light"] #lbl-maker .lbl-h small,html[data-theme="light"] #lbl-maker .lbl-tip{color:#3a3450 !important;}
+      html[data-theme="light"] #lbl-maker input{background:#fff !important;color:#111 !important;color-scheme:light;}
+      html[data-theme="light"] #lbl-maker .lbl-h b{color:#8a5a00 !important;}
+    </style>
+    <script>
+      (function(){
+        function v(id){ return document.getElementById(id); }
+        function num(x){ var n=parseFloat(x); return isFinite(n)&&n>0?n:0; }
+        function fmt(n){ return (Math.round(n*100)/100).toString(); }
+        function today(){ var d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+        function nice(iso){ if(!iso) return '—'; var p=iso.split('-'); return p[1]+'/'+p[2]+'/'+p[0].slice(2); }
+        function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+        function labelHTML(){
+          var mg=num(v('lbl-mg').value), ml=num(v('lbl-ml').value), dose=num(v('lbl-dose').value);
+          var conc = mg&&ml ? mg/ml : 0, units = conc&&dose ? dose/conc*100 : 0;
+          var mixed=v('lbl-date').value, days=parseInt(v('lbl-days').value,10)||28, exp='';
+          if(mixed){ var e=new Date(mixed+'T12:00:00'); e.setDate(e.getDate()+days); exp=e.toISOString().slice(0,10); }
+          return '<div class="l-n">'+(esc(v('lbl-name').value)||'PEPTIDE')+'</div>'+
+            '<div class="l-r"><span><b>'+(mg?fmt(mg)+' mg':'— mg')+'</b> + <b>'+(ml?fmt(ml)+' mL':'— mL')+'</b> BAC</span><span><b>'+(conc?fmt(conc)+' mg/mL':'')+'</b></span></div>'+
+            '<div class="l-d">'+(units?fmt(dose)+' mg = '+fmt(units)+' units':'DOSE: ____ units')+'</div>'+
+            '<div class="l-r"><span>Mixed <b>'+nice(mixed)+'</b></span><span>Use by <b>'+nice(exp)+'</b></span></div>'+
+            (v('lbl-note').value ? '<div class="l-r"><span>'+esc(v('lbl-note').value)+'</span><span>Refrigerate</span></div>' : '<div class="l-r"><span>Keep refrigerated</span><span>Research use</span></div>');
+        }
+        window.lblDraw = function(){ var p=v('lbl-prev'); if(p) p.innerHTML=labelHTML(); };
+        // called by the recon calculator whenever it has a full result
+        window.lblFromCalc = function(water, dose, vial){
+          if(!v('lbl-mg')) return;
+          v('lbl-mg').value=vial; v('lbl-ml').value=water; v('lbl-dose').value=dose;
+          if(!v('lbl-date').value) v('lbl-date').value=today();
+          lblDraw();
+        };
+        window.lblPrint = function(){
+          var n=Math.max(1,Math.min(40,parseInt(v('lbl-copies').value,10)||1)), one='<div class="lbl-card">'+labelHTML()+'</div>', all='';
+          for(var i=0;i<n;i++) all+=one;
+          var css=[].map.call(document.querySelectorAll('style'),function(s){ return s.textContent.indexOf('.lbl-card{')!==-1 ? s.textContent : ''; }).join('');
+          var f=document.createElement('iframe'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+          document.body.appendChild(f);
+          var d=f.contentWindow.document;
+          d.open(); d.write('<!doctype html><html><head><meta charset="utf-8"><title>Vial labels</title><style>'+css+'@page{margin:0.3in}body{margin:0;display:flex;flex-wrap:wrap;gap:0.12in;}.lbl-card{break-inside:avoid;}</style></head><body>'+all+'</body></html>'); d.close();
+          setTimeout(function(){ f.contentWindow.focus(); f.contentWindow.print(); setTimeout(function(){ f.remove(); },1500); },250);
+        };
+        function init(){ if(v('lbl-date') && !v('lbl-date').value) v('lbl-date').value=today(); lblDraw(); }
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+      })();
+    </script>
     <!-- Divider -->
     <div style="max-width:500px;margin:3rem auto 2rem;display:flex;align-items:center;gap:1rem;">
       <div style="flex:1;height:1px;background:rgba(0,245,255,0.25);"></div>
@@ -13336,6 +13347,223 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Rajdhani',sans-serif;font-size: 0.96rem;font-weight:700;color:var(--neon-orange);text-transform:uppercase;letter-spacing:0.08em;">⚠ Research reference only — not medical advice</div>
       </div>
     </div>
+
+    <!-- ══ KLOW & GLOW BLEND CALCULATOR (merged in from its own page) ══ -->
+    <div id="calc-klowglow" style="max-width:720px;margin:3rem auto 0;padding:0 0.5rem;scroll-margin-top:90px;">
+    <div class="section-header" data-vt-skip style="margin-bottom:1.1rem;">
+      <div class="section-title">⚗️ KLOW &amp; GLOW Blend Calculator</div>
+      <span class="section-count">KLOW (80 mg) · GLOW (70 mg) · per-compound dose per unit</span>
+    </div>
+    <!-- GLOWCAL EXTERNAL TOOL -->
+    <a href="https://glowcal.psik1435.workers.dev/" target="_blank" rel="noopener"
+       style="display:flex;align-items:center;gap:0.85rem;margin-bottom:1.25rem;padding:0.85rem 1.1rem;background:linear-gradient(135deg,rgba(204,68,255,0.12),rgba(255,20,80,0.08));border:2px solid rgba(204,68,255,0.55);border-left:5px solid #cc44ff;border-radius:10px;text-decoration:none;box-shadow:0 0 22px rgba(204,68,255,0.18);transition:box-shadow 0.2s,transform 0.15s;"
+       onmouseover="this.style.boxShadow='0 0 40px rgba(204,68,255,0.45)';this.style.transform='scale(1.01)'"
+       onmouseout="this.style.boxShadow='0 0 22px rgba(204,68,255,0.18)';this.style.transform='scale(1)'">
+      <span style="font-size:2rem;flex-shrink:0;">⚗️</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.18em;color:#cc44ff;line-height:1.1;margin-bottom:0.2rem;">OPEN FULL GLOW CALCULATOR ↗</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(232,224,240,0.6);line-height:1.4;">glowcal.psik1435.workers.dev — advanced blend reconstitution tool</div>
+      </div>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.12em;color:rgba(204,68,255,0.6);flex-shrink:0;padding:0.2rem 0.5rem;border:1px solid rgba(204,68,255,0.3);border-radius:4px;">OPEN ↗</span>
+    </a>
+
+    <!-- HOW TO USE GUIDE -->
+    <div style="margin-bottom:1.5rem;background:#07050f;border:1.5px solid rgba(204,68,255,0.22);border-radius:8px;overflow:hidden;">
+      <div style="padding:0.55rem 1rem;background:rgba(204,68,255,0.09);border-bottom:1px solid rgba(204,68,255,0.15);display:flex;align-items:center;gap:0.5rem;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.24em;color:#cc44ff;">📖 HOW TO USE THIS CALCULATOR</span>
+      </div>
+      <div style="padding:0.9rem 1rem;display:flex;flex-direction:column;gap:0.55rem;">
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">1</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Pick your blend</strong> — tap <em>KLOW</em> or <em>GLOW</em> above. The composition and total mg loads automatically.</span>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">2</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Enter your BAC water volume in mL</strong> — this is how much bacteriostatic water you're adding to the vial when you reconstitute.</span>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">3</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Enter how many units (IU) you want to draw</strong> on your insulin syringe. The table instantly shows you the exact dose (mcg) you'll be getting of each individual peptide in that draw.</span>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;width:1.4rem;text-align:center;">💡</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Standard starting point:</strong> 2 mL BAC water is a common reconstitution volume. Drawing 10 units on a U-100 syringe = 0.1 mL = 5% of the total vial per injection.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div style="margin-bottom:1.5rem;padding:0.75rem 1rem;background:rgba(255,20,80,0.05);border:1px solid rgba(255,20,80,0.25);border-left:3px solid #ff1450;border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.8);line-height:1.6;">
+      ⚠️ <strong style="color:#fff;">For research reference only.</strong> These blends are specific formulations — work with your physician before any protocol. This calculator provides concentration math only — not dosing advice.
+    </div>
+
+    <!-- Blend tabs -->
+    <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem;">
+      <button id="kg-tab-klow" onclick="kgSelectBlend('klow')"
+        style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;padding:0.65rem 0;border-radius:6px;border:2px solid #cc44ff;background:rgba(204,68,255,0.18);color:#cc44ff;cursor:pointer;transition:all 0.2s;">
+        ⚗️ KLOW
+      </button>
+      <button id="kg-tab-glow" onclick="kgSelectBlend('glow')"
+        style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;padding:0.65rem 0;border-radius:6px;border:2px solid rgba(255,20,80,0.35);background:transparent;color:rgba(255,20,80,0.55);cursor:pointer;transition:all 0.2s;">
+        ✨ GLOW
+      </button>
+    </div>
+
+    <!-- Blend composition card -->
+    <div id="kg-composition" style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(204,68,255,0.3);border-top:3px solid #cc44ff;border-radius:8px;overflow:hidden;">
+      <div style="padding:0.6rem 1rem;background:rgba(204,68,255,0.07);border-bottom:1px solid rgba(204,68,255,0.15);">
+        <span id="kg-blend-label" style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.18em;color:#cc44ff;">KLOW BLEND COMPOSITION — 80mg TOTAL VIAL</span>
+      </div>
+      <div id="kg-comp-rows" style="padding:0.6rem 1rem;display:grid;grid-template-columns:1fr auto auto;gap:0.35rem 1rem;align-items:center;">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- BAC water input -->
+    <div style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(0,245,255,0.25);border-top:3px solid #00f5ff;border-radius:8px;padding:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#00f5ff;display:block;margin-bottom:0.6rem;">BAC WATER ADDED (mL)</label>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <input id="kg-bac" type="number" min="0.5" max="10" step="0.1" value="2"
+          oninput="kgCalculate()"
+          style="flex:1;font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#00f5ff;background:rgba(0,245,255,0.05);border:1.5px solid rgba(0,245,255,0.3);border-radius:6px;padding:0.5rem 0.75rem;width:100%;box-sizing:border-box;outline:none;">
+        <span style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(0,245,255,0.6);white-space:nowrap;">mL BAC water</span>
+      </div>
+      <div style="display:flex;gap:0.4rem;margin-top:0.55rem;flex-wrap:wrap;">
+        <button onclick="document.getElementById('kg-bac').value=1;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">1 mL</button>
+        <button onclick="document.getElementById('kg-bac').value=2;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">2 mL</button>
+        <button onclick="document.getElementById('kg-bac').value=3;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">3 mL</button>
+        <button onclick="document.getElementById('kg-bac').value=5;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">5 mL</button>
+      </div>
+    </div>
+
+    <!-- Concentration results -->
+    <div style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(0,255,65,0.25);border-top:3px solid #00ff41;border-radius:8px;overflow:hidden;">
+      <div style="padding:0.6rem 1rem;background:rgba(0,255,65,0.05);border-bottom:1px solid rgba(0,255,65,0.12);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#00ff41;">CONCENTRATION PER COMPONENT (per mL)</span>
+      </div>
+      <div id="kg-conc-rows" style="padding:0.5rem 1rem;"></div>
+    </div>
+
+    <!-- Per-unit dose calc -->
+    <div style="background:#000;border:1.5px solid rgba(255,20,80,0.25);border-top:3px solid #ff1450;border-radius:8px;padding:1rem;">
+      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#ff1450;display:block;margin-bottom:0.6rem;">UNITS TO DRAW (U-100 INSULIN SYRINGE)</label>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+        <input id="kg-units" type="number" min="1" max="100" step="1" value="10"
+          oninput="kgCalculate()"
+          style="flex:1;font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#ff1450;background:rgba(255,20,80,0.05);border:1.5px solid rgba(255,20,80,0.3);border-radius:6px;padding:0.5rem 0.75rem;width:100%;box-sizing:border-box;outline:none;">
+        <span style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,20,80,0.6);white-space:nowrap;">units = <span id="kg-vol-ml" style="color:#ff1450;">0.10</span> mL</span>
+      </div>
+      <div style="display:flex;gap:0.4rem;margin-bottom:0.85rem;flex-wrap:wrap;">
+        <button onclick="document.getElementById('kg-units').value=5;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">5u</button>
+        <button onclick="document.getElementById('kg-units').value=10;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">10u</button>
+        <button onclick="document.getElementById('kg-units').value=20;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">20u</button>
+        <button onclick="document.getElementById('kg-units').value=25;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">25u</button>
+        <button onclick="document.getElementById('kg-units').value=50;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">50u</button>
+      </div>
+      <div id="kg-dose-rows" style="display:grid;gap:0.45rem;"></div>
+    </div>
+
+    <!-- How to use note -->
+    <div style="margin-top:1.25rem;padding:0.7rem 1rem;background:rgba(204,68,255,0.04);border:1px solid rgba(204,68,255,0.18);border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(204,68,255,0.7);line-height:1.65;">
+      <strong style="color:#cc44ff;">How to use:</strong> Add your BAC water volume → the calculator shows concentration per mL for each component. Then enter how many units you plan to draw on a U-100 syringe — it shows exactly how many mcg/mg of each compound per injection.
+    </div>
+    </div>
+
+    <!-- GLOWKLOWCALC.COM — the full online calculators -->
+    <a href="https://glowklowcalc.com" target="_blank" rel="noopener" data-search="glowklowcalc glow klow calculator peptide pen calculator reconstitution" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:1rem 1.2rem;border-radius:14px;text-decoration:none;background:linear-gradient(120deg,rgba(255,212,0,0.12),rgba(0,245,255,0.08));border:2px solid #ffd400;box-shadow:0 0 22px rgba(255,212,0,0.25);">
+      <span style="font-size:2rem;">🧮</span>
+      <span style="flex:1;min-width:220px;">
+        <span style="display:block;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;color:#ffd45c;">GLOWKLOWCALC.COM — OUR FULL CALCULATOR SITE</span>
+        <span style="display:block;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(235,240,255,0.9);line-height:1.5;">💉 <strong style="color:#fff;">Peptide pen calculator</strong> · ⚗️ <strong style="color:#fff;">GLOW &amp; KLOW blend calculator</strong> · 🧪 <strong style="color:#fff;">Regular peptide reconstitution calculator</strong></span>
+      </span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:0.55rem 1.1rem;border-radius:8px;background:#ffd400;color:#111;white-space:nowrap;">OPEN GLOWKLOWCALC.COM ↗</span>
+    </a>
+
+    <!-- ══ VIDEOS — closed dropdown, advertised ══ -->
+    <details id="calc-videos" data-vt-skip data-search="reconstitution video glowrilla tutorial research guide watch">
+      <summary>
+        <span class="cv-play">▶</span>
+        <span class="cv-t"><b>🎬 WATCH: HOW TO RECONSTITUTE — STEP BY STEP</b><small>Glowrilla's full recon walkthrough + the VPN research guide · 2 videos · tap to watch</small></span>
+        <span class="cv-ar">▼</span>
+      </summary>
+      <div class="cv-body">
+    <!-- Glowrilla Recon Video -->
+    <div style="max-width:700px;margin:0 auto 1.75rem;border:2px solid var(--neon-pink);border-top:4px solid var(--neon-pink);background:#0d0212;overflow:hidden;box-shadow:0 0 32px rgba(255,45,120,0.15);">
+      <div style="padding:0.75rem 1.25rem;border-bottom:1px solid rgba(255,45,120,0.25);display:flex;align-items:center;gap:0.75rem;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.5);color:var(--neon-pink);">🔴 MUST WATCH</span>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#fff;">🧪 Glowrilla's Full Reconstitution Guide — Watch Before You Calculate</div>
+      </div>
+      <video src="peptide-tutorial.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:420px;object-fit:contain;background:#000;"></video>
+    </div>
+    <!-- Research Guide Video -->
+    <div style="max-width:700px;margin:0 auto 2.5rem;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.2em;color:var(--neon-cyan);margin-bottom:0.75rem;text-align:center;">▶ RESEARCH GUIDE</div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;background:#0a0a1e;border:2px solid rgba(0,245,255,0.25);overflow:hidden;">
+        <iframe src="https://drive.google.com/file/d/1EqQH2D8qRmCIFtAXDOrV8jsVbJXUo3s5/preview"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+          allow="autoplay"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+      </div>
+    </details>
+    <style>
+      #calc-videos{max-width:700px;margin:2.5rem auto 2rem;border-radius:14px;overflow:hidden;border:2px solid #ff2d78;background:linear-gradient(135deg,#1a0418,#07020f);box-shadow:0 0 28px rgba(255,45,120,0.3);}
+      #calc-videos > summary{display:flex;align-items:center;gap:0.85rem;padding:0.95rem 1.1rem;cursor:pointer;list-style:none;text-align:left;}
+      #calc-videos > summary::-webkit-details-marker{display:none;}
+      #calc-videos .cv-play{flex-shrink:0;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:#ff2d78;color:#fff;font-size:1.4rem;box-shadow:0 0 0 6px rgba(255,45,120,0.25);animation:cvPulse 2s ease-in-out infinite;}
+      @keyframes cvPulse{50%{box-shadow:0 0 0 11px rgba(255,45,120,0.08);}}
+      #calc-videos .cv-t{flex:1;display:flex;flex-direction:column;}
+      #calc-videos .cv-t b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.25rem;letter-spacing:0.1em;color:#fff;}
+      #calc-videos .cv-t small{font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;color:#ff9ccc;}
+      #calc-videos .cv-ar{color:#ff2d78;} #calc-videos[open] .cv-ar{transform:rotate(180deg);}
+      #calc-videos .cv-body{padding:0 0.9rem 0.9rem;}
+      #calc-videos .cv-body > div{margin-bottom:1rem !important;}
+      @media (prefers-reduced-motion: reduce){ #calc-videos .cv-play{animation:none;} }
+      html[data-theme="light"] #calc-videos{background:#fff4f9 !important;}
+      html[data-theme="light"] #calc-videos .cv-t b{color:#1a0f2e !important;} html[data-theme="light"] #calc-videos .cv-t small{color:#9b1d4a !important;}
+    </style>
+
+    <!-- ── REFERENCE / DISCLAIMER BLOCK ── -->
+    <div style="margin-bottom:1.75rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+
+      <!-- Card 1: Why VPN does not advocate for use -->
+      <div style="background:#000;border:1.5px solid rgba(255,45,120,0.3);border-top:3px solid #ff2d78;border-radius:8px;padding:1.1rem 1.25rem;box-shadow:0 0 24px rgba(255,45,120,0.07);">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+          <span style="font-size:1.3rem;">⚠️</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#ff2d78;">WHY WE DO NOT ADVOCATE FOR USE</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.82);line-height:1.75;letter-spacing:0.03em;">
+          Peptides are <strong style="color:#fff;">investigational compounds</strong>. The majority have not been approved by the FDA or any regulatory body for human use outside of controlled clinical trials. We cannot and do not recommend that anyone self-administer, purchase, or use these substances.<br><br>
+          Providing a calculator is not an endorsement. It is the same reason a chemistry textbook includes measurement tables — <strong style="color:#fff;">knowledge is not permission.</strong> Every individual is solely responsible for their own decisions, and those decisions should be made with a licensed physician.
+        </div>
+        <div style="margin-top:0.85rem;padding:0.55rem 0.75rem;background:rgba(255,45,120,0.05);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(255,45,120,0.85);letter-spacing:0.08em;text-transform:uppercase;">
+          For educational &amp; research reference only · Not medical advice
+        </div>
+      </div>
+
+      <!-- Card 2: Why labs need this tool -->
+      <div style="background:#000;border:1.5px solid rgba(0,245,255,0.3);border-top:3px solid #00f5ff;border-radius:8px;padding:1.1rem 1.25rem;box-shadow:0 0 24px rgba(0,245,255,0.07);">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+          <span style="font-size:1.3rem;">🧪</span>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.2em;color:#00f5ff;">WHY LABS NEED THIS TOOL</div>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.82);line-height:1.75;letter-spacing:0.03em;">
+          Research laboratories working with lyophilized peptides face a precise reconstitution problem every time they open a new vial. Getting the <strong style="color:#fff;">BAC water volume wrong by even a small margin</strong> shifts every downstream concentration and dose — corrupting entire experimental runs and wasting expensive compounds.<br><br>
+          Labs use calculators like this to:<br>
+          <span style="color:#00f5ff;">▸</span> Confirm the correct solvent volume per vial weight (mg)<br>
+          <span style="color:#00f5ff;">▸</span> Calculate concentration in mcg/unit or mg/mL for precise pipetting<br>
+          <span style="color:#00f5ff;">▸</span> Standardize dosing across multiple vials or batches<br>
+          <span style="color:#00f5ff;">▸</span> Cross-check manual math before running in-vivo or in-vitro protocols
+        </div>
+        <div style="margin-top:0.85rem;padding:0.55rem 0.75rem;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.18);border-radius:5px;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:700;color:rgba(0,245,255,0.75);letter-spacing:0.08em;text-transform:uppercase;">
+          Precision reconstitution is the foundation of reproducible research
+        </div>
+      </div>
+
+    </div>
+    <!-- ── END REFERENCE BLOCK ── -->
 
 <script>
   var ALT_SYRINGE_ML = 1;
@@ -13466,151 +13694,8 @@ document.addEventListener('keydown', function(e){
 </div>
 </div>
 
-<div class="view" id="view-klow-glow">
-  <div class="view-hero" style="--vh1:#cc44ff;--vh2:#ff1450;background:linear-gradient(135deg,rgba(204,68,255,0.07) 0%,rgba(4,0,13,0.98) 50%,rgba(255,20,80,0.05) 100%);">
-    <div class="vh-inner">
-      <div class="vh-icon">⚗️</div>
-      <div>
-        <div class="vh-title">KLOW &amp; GLOW BLEND CALCULATOR</div>
-        <div class="vh-sub">Reconstitution math specifically for the KLOW and GLOW peptide blends. Enter your BAC water volume — get exact concentrations and per-unit doses for every component.</div>
-        <div class="vh-badges"><span class="vh-badge">KLOW BLEND</span><span class="vh-badge">GLOW BLEND</span><span class="vh-badge">BAC WATER</span><span class="vh-badge">PER-UNIT DOSE</span></div>
-      </div>
-    </div>
-    <div class="vh-accent-line"></div>
-  </div>
-
-  <div style="max-width:720px;margin:0 auto;padding:0 0.5rem 3rem;">
-
-    <!-- GLOWCAL EXTERNAL TOOL -->
-    <a href="https://glowcal.psik1435.workers.dev/" target="_blank" rel="noopener"
-       style="display:flex;align-items:center;gap:0.85rem;margin-bottom:1.25rem;padding:0.85rem 1.1rem;background:linear-gradient(135deg,rgba(204,68,255,0.12),rgba(255,20,80,0.08));border:2px solid rgba(204,68,255,0.55);border-left:5px solid #cc44ff;border-radius:10px;text-decoration:none;box-shadow:0 0 22px rgba(204,68,255,0.18);transition:box-shadow 0.2s,transform 0.15s;"
-       onmouseover="this.style.boxShadow='0 0 40px rgba(204,68,255,0.45)';this.style.transform='scale(1.01)'"
-       onmouseout="this.style.boxShadow='0 0 22px rgba(204,68,255,0.18)';this.style.transform='scale(1)'">
-      <span style="font-size:2rem;flex-shrink:0;">⚗️</span>
-      <div style="flex:1;min-width:0;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.18em;color:#cc44ff;line-height:1.1;margin-bottom:0.2rem;">OPEN FULL GLOW CALCULATOR ↗</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(232,224,240,0.6);line-height:1.4;">glowcal.psik1435.workers.dev — advanced blend reconstitution tool</div>
-      </div>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;letter-spacing:0.12em;color:rgba(204,68,255,0.6);flex-shrink:0;padding:0.2rem 0.5rem;border:1px solid rgba(204,68,255,0.3);border-radius:4px;">OPEN ↗</span>
-    </a>
-
-    <!-- HOW TO USE GUIDE -->
-    <div style="margin-bottom:1.5rem;background:#07050f;border:1.5px solid rgba(204,68,255,0.22);border-radius:8px;overflow:hidden;">
-      <div style="padding:0.55rem 1rem;background:rgba(204,68,255,0.09);border-bottom:1px solid rgba(204,68,255,0.15);display:flex;align-items:center;gap:0.5rem;">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.24em;color:#cc44ff;">📖 HOW TO USE THIS CALCULATOR</span>
-      </div>
-      <div style="padding:0.9rem 1rem;display:flex;flex-direction:column;gap:0.55rem;">
-        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">1</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Pick your blend</strong> — tap <em>KLOW</em> or <em>GLOW</em> above. The composition and total mg loads automatically.</span>
-        </div>
-        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">2</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Enter your BAC water volume in mL</strong> — this is how much bacteriostatic water you're adding to the vial when you reconstitute.</span>
-        </div>
-        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#cc44ff;flex-shrink:0;width:1.4rem;text-align:center;">3</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Enter how many units (IU) you want to draw</strong> on your insulin syringe. The table instantly shows you the exact dose (mcg) you'll be getting of each individual peptide in that draw.</span>
-        </div>
-        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#ff1450;flex-shrink:0;width:1.4rem;text-align:center;">💡</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:600;color:rgba(232,224,240,0.75);line-height:1.55;"><strong style="color:#e8e0f0;">Standard starting point:</strong> 2 mL BAC water is a common reconstitution volume. Drawing 10 units on a U-100 syringe = 0.1 mL = 5% of the total vial per injection.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Disclaimer -->
-    <div style="margin-bottom:1.5rem;padding:0.75rem 1rem;background:rgba(255,20,80,0.05);border:1px solid rgba(255,20,80,0.25);border-left:3px solid #ff1450;border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(255,200,210,0.8);line-height:1.6;">
-      ⚠️ <strong style="color:#fff;">For research reference only.</strong> These blends are specific formulations — work with your physician before any protocol. This calculator provides concentration math only — not dosing advice.
-    </div>
-
-    <!-- Blend tabs -->
-    <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem;">
-      <button id="kg-tab-klow" onclick="kgSelectBlend('klow')"
-        style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;padding:0.65rem 0;border-radius:6px;border:2px solid #cc44ff;background:rgba(204,68,255,0.18);color:#cc44ff;cursor:pointer;transition:all 0.2s;">
-        ⚗️ KLOW
-      </button>
-      <button id="kg-tab-glow" onclick="kgSelectBlend('glow')"
-        style="flex:1;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;padding:0.65rem 0;border-radius:6px;border:2px solid rgba(255,20,80,0.35);background:transparent;color:rgba(255,20,80,0.55);cursor:pointer;transition:all 0.2s;">
-        ✨ GLOW
-      </button>
-    </div>
-
-    <!-- Blend composition card -->
-    <div id="kg-composition" style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(204,68,255,0.3);border-top:3px solid #cc44ff;border-radius:8px;overflow:hidden;">
-      <div style="padding:0.6rem 1rem;background:rgba(204,68,255,0.07);border-bottom:1px solid rgba(204,68,255,0.15);">
-        <span id="kg-blend-label" style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.18em;color:#cc44ff;">KLOW BLEND COMPOSITION — 80mg TOTAL VIAL</span>
-      </div>
-      <div id="kg-comp-rows" style="padding:0.6rem 1rem;display:grid;grid-template-columns:1fr auto auto;gap:0.35rem 1rem;align-items:center;">
-        <!-- filled by JS -->
-      </div>
-    </div>
-
-    <!-- BAC water input -->
-    <div style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(0,245,255,0.25);border-top:3px solid #00f5ff;border-radius:8px;padding:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#00f5ff;display:block;margin-bottom:0.6rem;">BAC WATER ADDED (mL)</label>
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <input id="kg-bac" type="number" min="0.5" max="10" step="0.1" value="2"
-          oninput="kgCalculate()"
-          style="flex:1;font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#00f5ff;background:rgba(0,245,255,0.05);border:1.5px solid rgba(0,245,255,0.3);border-radius:6px;padding:0.5rem 0.75rem;width:100%;box-sizing:border-box;outline:none;">
-        <span style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(0,245,255,0.6);white-space:nowrap;">mL BAC water</span>
-      </div>
-      <div style="display:flex;gap:0.4rem;margin-top:0.55rem;flex-wrap:wrap;">
-        <button onclick="document.getElementById('kg-bac').value=1;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">1 mL</button>
-        <button onclick="document.getElementById('kg-bac').value=2;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">2 mL</button>
-        <button onclick="document.getElementById('kg-bac').value=3;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">3 mL</button>
-        <button onclick="document.getElementById('kg-bac').value=5;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(0,245,255,0.3);background:rgba(0,245,255,0.06);color:#00f5ff;cursor:pointer;">5 mL</button>
-      </div>
-    </div>
-
-    <!-- Concentration results -->
-    <div style="margin-bottom:1.25rem;background:#000;border:1.5px solid rgba(0,255,65,0.25);border-top:3px solid #00ff41;border-radius:8px;overflow:hidden;">
-      <div style="padding:0.6rem 1rem;background:rgba(0,255,65,0.05);border-bottom:1px solid rgba(0,255,65,0.12);">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#00ff41;">CONCENTRATION PER COMPONENT (per mL)</span>
-      </div>
-      <div id="kg-conc-rows" style="padding:0.5rem 1rem;"></div>
-    </div>
-
-    <!-- Per-unit dose calc -->
-    <div style="background:#000;border:1.5px solid rgba(255,20,80,0.25);border-top:3px solid #ff1450;border-radius:8px;padding:1rem;">
-      <label style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.15em;color:#ff1450;display:block;margin-bottom:0.6rem;">UNITS TO DRAW (U-100 INSULIN SYRINGE)</label>
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
-        <input id="kg-units" type="number" min="1" max="100" step="1" value="10"
-          oninput="kgCalculate()"
-          style="flex:1;font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#ff1450;background:rgba(255,20,80,0.05);border:1.5px solid rgba(255,20,80,0.3);border-radius:6px;padding:0.5rem 0.75rem;width:100%;box-sizing:border-box;outline:none;">
-        <span style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:rgba(255,20,80,0.6);white-space:nowrap;">units = <span id="kg-vol-ml" style="color:#ff1450;">0.10</span> mL</span>
-      </div>
-      <div style="display:flex;gap:0.4rem;margin-bottom:0.85rem;flex-wrap:wrap;">
-        <button onclick="document.getElementById('kg-units').value=5;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">5u</button>
-        <button onclick="document.getElementById('kg-units').value=10;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">10u</button>
-        <button onclick="document.getElementById('kg-units').value=20;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">20u</button>
-        <button onclick="document.getElementById('kg-units').value=25;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">25u</button>
-        <button onclick="document.getElementById('kg-units').value=50;kgCalculate()" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:3px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.06);color:#ff1450;cursor:pointer;">50u</button>
-      </div>
-      <div id="kg-dose-rows" style="display:grid;gap:0.45rem;"></div>
-    </div>
-
-    <!-- How to use note -->
-    <div style="margin-top:1.25rem;padding:0.7rem 1rem;background:rgba(204,68,255,0.04);border:1px solid rgba(204,68,255,0.18);border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(204,68,255,0.7);line-height:1.65;">
-      <strong style="color:#cc44ff;">How to use:</strong> Add your BAC water volume → the calculator shows concentration per mL for each component. Then enter how many units you plan to draw on a U-100 syringe — it shows exactly how many mcg/mg of each compound per injection.
-    </div>
-
-    <!-- Glowrilla Reconstitution Video -->
-    <div style="margin-top:1.5rem;border:2px solid rgba(0,255,100,0.5);border-top:4px solid #00ff64;background:linear-gradient(135deg,#000e05,#04000c);border-radius:10px;overflow:hidden;box-shadow:0 0 30px rgba(0,255,100,0.15);">
-      <div style="padding:0.65rem 1rem;background:rgba(0,255,100,0.07);border-bottom:1px solid rgba(0,255,100,0.15);display:flex;align-items:center;gap:0.6rem;">
-        <span style="font-size:1.2rem;">🦍</span>
-        <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.15em;color:#00ff64;">RESEARCHER GLOWRILLA'S PEPTIDE LAB</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;color:rgba(0,255,100,0.5);letter-spacing:0.1em;">HOW TO RECONSTITUTE A PEPTIDE VIAL · RESEARCH ONLY</div>
-        </div>
-      </div>
-      <video controls preload="metadata" style="width:100%;display:block;max-height:380px;background:#000;" playsinline>
-        <source src="peptide-tutorial.mp4" type="video/mp4">
-      </video>
-    </div>
-
-  </div>
-</div>
+<!-- KLOW & GLOW now lives inside the calculator page (#calc-klowglow); this empty view keeps old links working -->
+<div class="view" id="view-klow-glow"></div>
 
 <script>
 (function(){
@@ -25345,6 +25430,12 @@ function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => alert('Copied! Paste this into an email to your doctor.'));
 }
 function showViewInternal(name) {
+  // KLOW & GLOW calculator now lives inside the calculator page
+  if (name === 'klow-glow') {
+    showViewInternal('calculator');
+    setTimeout(function(){ var k = document.getElementById('calc-klowglow'); if (k) k.scrollIntoView({ behavior:'smooth', block:'start' }); }, 400);
+    return;
+  }
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   var el = document.getElementById('view-' + name);
   if (!el) { el = document.getElementById('view-home'); name = 'home'; }
