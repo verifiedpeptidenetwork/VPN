@@ -10884,8 +10884,12 @@ document.addEventListener('keydown', function(e){
     <div class="az-head">
       <div><div class="az-tag">🛒 OUR AMAZON LIST</div><div class="az-title">GLP, Vitamins &amp; Immune Support</div>
       <p>The supplements and tools the community uses most — what each one is for, and why it's on the list. Buy only what fits <em>your</em> goals and labs.</p></div>
-      <a class="az-btn" href="https://www.amazon.com/hz/wishlist/ls/KN8BA3J2ZKTG" target="_blank" rel="noopener sponsored">OPEN THE LIST ON AMAZON ↗</a>
+      <div class="az-btns">
+        <a class="az-btn" href="https://www.amazon.com/hz/wishlist/ls/KN8BA3J2ZKTG" target="_blank" rel="noopener sponsored">OPEN THE LIST ON AMAZON ↗</a>
+        <a class="az-btn az-btn2" href="https://www.amazon.com/hz/wishlist/ls/36T02Z4D17TRL/ref=nav_wishlist_lists_1" target="_blank" rel="noopener sponsored">📦 SUPPLY LIST ON AMAZON ↗</a>
+      </div>
     </div>
+    <details class="az-fold"><summary>▼ SEE WHAT'S ON THE LIST &amp; WHY</summary>
     <div class="az-grid">
       <div class="az-item" style="--ac:#00ff64;"><div class="az-n">Zinc Gluconate 50 mg <small>NOW</small></div><div class="az-why"><b>Why:</b> zinc keeps immune cells working; lozenges started at the first sign of a cold may shorten it ~2 days (Cochrane 2024). <b>Note:</b> 50 mg is above the 40 mg/day long-term limit — use short-term or every other day, and don't combine with other zinc without a plan.</div></div>
       <div class="az-item" style="--ac:#ff9a1f;"><div class="az-n">Zinc Carnosine 86 mg <small>Nutricost</small></div><div class="az-why"><b>Why:</b> a gut-friendly zinc studied for protecting the stomach and gut lining — useful for stomach irritation or reflux while on GLP-1 meds. Contains ~16 mg zinc, so count it toward your daily total.</div></div>
@@ -10896,6 +10900,7 @@ document.addEventListener('keydown', function(e){
       <div class="az-item" style="--ac:#ff2d78;"><div class="az-n">Infrared Heat Lamp 275 W <small>QAIHOE · stand + timer</small></div><div class="az-why"><b>Why:</b> warm infrared heat for sore muscles and stiff joints — handy for rheumatic flares in winter. Keep your distance and use the timer to avoid burns.</div></div>
       <div class="az-item" style="--ac:#8a96a8;"><div class="az-n">Flexible Desk Lamp <small>Newhouse Lighting</small></div><div class="az-why"><b>Why:</b> an adjustable lamp to aim the red-light bulb exactly where you need it.</div></div>
     </div>
+    </details>
 
   <div class="b3-gal" style="--bc:#ff2d78;">
     <div class="b3-h">🔴 Red light therapy — which bulb does what?</div>
@@ -10917,6 +10922,13 @@ document.addEventListener('keydown', function(e){
     #vit-amazon .az-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,3.5vw,2.2rem);letter-spacing:0.06em;color:#fff;margin:0.35rem 0 0.2rem;}
     #vit-amazon p{margin:0;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:rgba(225,236,252,0.88);line-height:1.5;}
     #vit-amazon .az-btn{flex:0 0 auto;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:0.12em;padding:0.7rem 1.2rem;border-radius:10px;background:#ff9900;color:#111;text-decoration:none;box-shadow:0 10px 24px -12px #ff9900;}
+    #vit-amazon .az-btns{display:flex;flex-direction:column;gap:0.5rem;flex:0 0 auto;}
+    #vit-amazon .az-btns .az-btn{text-align:center;}
+    #vit-amazon .az-btn2{background:#1a1030;color:#ffb35c;border:2px solid #ff9900;box-shadow:none;}
+    #vit-amazon .az-fold > summary{cursor:pointer;list-style:none;display:inline-block;margin:0 0 0.8rem;padding:0.5rem 1rem;border-radius:10px;border:1.5px solid #ff9900;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ff9900;}
+    #vit-amazon .az-fold > summary::-webkit-details-marker{display:none;}
+    #vit-amazon .az-fold[open] > summary{font-size:0;}
+    #vit-amazon .az-fold[open] > summary::after{content:'▲ HIDE THE LIST';font-size:1rem;}
     #vit-amazon .az-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.7rem;}
     #vit-amazon .az-item{background:rgba(0,0,0,0.35);border:1px solid color-mix(in srgb,var(--ac) 45%,transparent);border-top:3px solid var(--ac);border-radius:10px;padding:0.75rem 0.85rem;}
     #vit-amazon .az-n{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.06em;color:var(--ac);line-height:1.15;margin-bottom:0.35rem;}
@@ -12961,12 +12973,6 @@ document.addEventListener('keydown', function(e){
     </a>
 
 
-  <div class="b3-gal" style="--bc:#ff9a1f;">
-    
-    <div class="b3-grid">
-      <div class="b3-img" onclick="openLightbox('cheatsheet/pokenochio-lies-and-units.webp','Pokenochio — Lies and Units')"><img loading="lazy" src="cheatsheet/pokenochio-lies-and-units.webp" alt="Pokenochio — Lies and Units" onerror="this.parentNode.style.display='none'"><span style="color:#ff9a1f">Pokenochio — Lies and Units</span><p class="b3-cap">"Units" on an insulin syringe are a volume, not a dose — 10 units is always 0.1 mL, but the mg in it depends on how much water you mixed in. Work out your units from your own mix with the calculator every time.</p></div>
-    </div>
-  </div>
 
     <!-- KLOW / GLOW BLEND SHORTCUT -->
     <div onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});"
