@@ -26514,6 +26514,123 @@ function renderVendors() {
   }).join('');
 }
 
+// What each compound is usually stacked with (community practice, not medical advice).
+// Matches the Quick Guide "pairs with" where the site already has one.
+var PEPTIDE_STACKS = {
+  'PP405': 'Usually run alone (topical hair-loss research compound); sometimes alongside GHK-Cu scalp serum',
+  'Retatrutide': 'BPC-157, Ipamorelin/CJC, MOTS-c',
+  'Tirzepatide': 'BPC-157, Ipamorelin/CJC, 5-Amino-1MQ',
+  'Semaglutide': 'BPC-157 (gut), Ipamorelin/CJC (muscle preservation)',
+  'Semax': 'Selank (synergistic), Cerebrolysin',
+  'Na Semax': 'Selank / Na Selank (synergistic)',
+  'Selank': 'Semax (gold synergy)',
+  'Na Selank': 'Semax / Na Semax (synergistic)',
+  'Cagrilintide': 'Semaglutide (CagriSema combination)',
+  'Mazdutide': 'Usually run alone (dual GLP-1/glucagon agonist); ATX-304 or GH peptides for muscle',
+  'Survodutide': 'Usually run alone (dual GLP-1/glucagon agonist); ATX-304 or GH peptides for muscle',
+  '5-Amino-1MQ': 'Tirzepatide/Semaglutide, MOTS-c, NAD+',
+  'VIP': 'Thymosin Alpha-1, BPC-157',
+  'BPC-157': 'TB-500 (Wolverine Stack), KPV (gut), Thymosin Alpha-1',
+  'TB-500': 'BPC-157 (Wolverine Stack — gold synergy), GHK-Cu',
+  'Abaloparatide': 'Usually run alone (prescription bone drug); calcium + vitamin D',
+  'Testagen': 'Other Khavinson bioregulators (e.g. Epitalon); often run in 10-day courses',
+  'Teriparatide': 'Usually run alone (prescription bone drug); calcium + vitamin D',
+  'AOD-9604': 'CJC-1295/Ipamorelin, Tesofensine, GLP-1s',
+  'Hexarelin': 'CJC No DAC (short cycles only)',
+  'HGH Fragment 176-191': 'CJC-1295/Ipamorelin, GLP-1s',
+  'PT-141': 'Standalone (best used alone for clarity)',
+  'PE-22-28': 'Semax, Selank',
+  'Kisspeptin': 'Gonadorelin or Enclomiphene (hormone axis protocols)',
+  'Epitalon': 'NAD+, MOTS-c, GHK-Cu',
+  'Na Epitalon': 'NAD+, MOTS-c, Pinealon',
+  'Melanotan I': 'Usually run alone',
+  'Melanotan II': 'Standalone',
+  'CJC-1295 DAC': 'Ipamorelin',
+  'CJC-1295 No DAC': 'Ipamorelin (gold-standard pair), GHK-Cu',
+  'CJC/Ipamorelin 5/5': 'Already a pair (CJC + Ipamorelin); often added to BPC-157 or a GLP-1',
+  'CJC/Ipamorelin 6/11': 'Already a pair (CJC + Ipamorelin); often added to BPC-157 or a GLP-1',
+  'CJC/Ipamorelin 10/10': 'Already a pair (CJC + Ipamorelin); often added to BPC-157 or a GLP-1',
+  'GHRP-2': 'CJC-1295 No DAC (GHRH)',
+  'GHRP-6': 'CJC No DAC (cycled)',
+  'Tesamorelin': 'Ipamorelin (cycled)',
+  'MOTS-C': 'SS-31, NAD+, 5-Amino-1MQ',
+  'SS-31': 'MOTS-c, NAD+, Humanin',
+  'Ipamorelin': 'CJC-1295 (No DAC or DAC) — best pairing',
+  'Thymosin Alpha-1': 'LL-37, BPC-157, KPV',
+  'Thymulin': 'Thymosin Alpha-1 (immune stack)',
+  'Adamax': 'Semax or Selank',
+  'IllumiNeuro Blend': 'Already a blend; usually run alone',
+  'FOXO4-DRI': 'Epitalon (cycled separately)',
+  'Oxytocin': 'Usually run alone; sometimes with PT-141',
+  'SNAP-8': 'GHK-Cu, Argireline, Matrixyl (topical skincare)',
+  'DSIP': 'Epitalon, Selank, Sermorelin',
+  'GHK-Cu': 'TB-500, BPC-157, Sermorelin',
+  'GHK-Cu/KPV': 'TB-500, BPC-157, Sermorelin',
+  'NAD+': 'MOTS-c, SS-31, Epitalon',
+  'GLOW Blend': 'Already a blend (GHK-Cu + BPC-157 + TB-500); usually run alone',
+  'KLOW Blend': 'Already a blend (GLOW + KPV); usually run alone',
+  'Glutathione': 'NAD+, vitamin C',
+  'Prostamax': 'Other Khavinson bioregulators; 10-day courses',
+  'Pinealon': 'Epitalon (gold synergy), DSIP',
+  'Ovagen': 'NAD+ (liver support)',
+  'Vesugen': 'Other Khavinson bioregulators (e.g. Cardiogen)',
+  'Bronchogen': 'Thymosin Alpha-1, other Khavinson bioregulators',
+  'Vilon': 'Thymogen, Epitalon (longevity bioregulator stacks)',
+  'Cartalax': 'BPC-157 / TB-500 (joints)',
+  'Chonluten': 'Bronchogen (lung support)',
+  'Livagen': 'Ovagen, Epitalon',
+  'Cardiogen': 'Vesugen (heart and blood vessels)',
+  'Cortagen': 'Semax / Selank (cognition)',
+  'Pancragon': 'Other Khavinson bioregulators; 10-day courses',
+  'Thymogen': 'Vilon, Thymosin Alpha-1',
+  'Crystagen': 'Thymogen, Thymosin Alpha-1',
+  'AHK-Cu': 'GHK-Cu (hair and skin)',
+  'Sermorelin': 'Ipamorelin, GHK-Cu',
+  'SLU-PP-332': 'MOTS-c, 5-Amino-1MQ',
+  'Orforglipron': 'Usually run alone (oral GLP-1)',
+  'KPV': 'BPC-157 (gut), LL-37',
+  'LL-37': 'Thymosin Alpha-1, KPV',
+  'L-Carnitine': 'GLP-1s, MOTS-c',
+  'PNC-27': 'Usually run alone (experimental)',
+  'Cerebrolysin': 'Semax, NAD+, Dihexa',
+  'Neuroxelin Blend': 'Already a blend; usually run alone',
+  'Tri-Heal Blend': 'Already a blend; usually run alone',
+  'Tesa Blend': 'Already a blend; usually run alone',
+  'Wolverine Stack': 'GHK-Cu, KPV (gut focus), Thymosin Alpha-1, Ipamorelin/CJC',
+  'ATX-304 (O304)': 'Tirzepatide or Retatrutide (muscle preservation)',
+  'Eloralintide': 'Usually run alone (amylin analog)',
+  'VK2735': 'Usually run alone (GLP-1/GIP agonist)',
+  'Liraglutide': 'Usually run alone (prescription GLP-1)',
+  'Exenatide': 'Usually run alone (prescription GLP-1)',
+  'Pramlintide': 'Mealtime insulin (prescription use)',
+  'Setmelanotide': 'Usually run alone (prescription)',
+  'Teduglutide': 'Usually run alone (prescription)',
+  'Larazotide': 'BPC-157, KPV (gut)',
+  'ARA-290 (Cibinetide)': 'Usually run alone',
+  'B7-33': 'BPC-157, TB-500',
+  'Dihexa': 'Semax, Cerebrolysin',
+  'P21 (P021)': 'Semax, Cerebrolysin',
+  'Humanin': 'MOTS-c, SS-31',
+  'Gonadorelin': 'Enclomiphene or Kisspeptin (hormone axis protocols)',
+  'Triptorelin': 'Usually run alone (single-dose hormone axis restart)',
+  'IGF-1 LR3': 'CJC/Ipa post-workout, BPC-157',
+  'PEG-MGF': 'IGF-1 LR3, CJC/Ipamorelin',
+  'Follistatin-344': 'IGF-1 LR3',
+  'Thymalin': 'Thymogen, Thymosin Alpha-1',
+  'Noopept': 'Semax, Selank',
+  'Argireline': 'GHK-Cu, Matrixyl (topical skincare)',
+  'Matrixyl': 'GHK-Cu (skincare)',
+  'Urolithin A': 'MOTS-c / SS-31',
+  'PE2-288': 'Usually run alone',
+  'MK-677 (Ibutamoren)': 'BPC-157, GHK-Cu',
+  'Apitegromab': 'Tirzepatide (muscle protection research)',
+  'BG-104': 'Retatrutide (theoretical only)',
+  'ACE-031': 'Usually run alone',
+  'FLGR-242': 'Usually run alone',
+  'AICAR': 'MOTS-c, SLU-PP-332',
+  'P140 (Lupuzor)': 'Usually run alone',
+  'Enclomiphene': 'Gonadorelin or Kisspeptin'
+};
 // Render peptide index
 function buildPeptideCard(item) {
   var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'', desc = item.desc||'';
@@ -26537,6 +26654,10 @@ function buildPeptideCard(item) {
         '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#9d00ff;flex-shrink:0;margin-top:0.1rem;min-width:58px;">DURATION</span>' +
         '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
       '</div>' +
+      (PEPTIDE_STACKS[p] ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#ffb300;flex-shrink:0;margin-top:0.1rem;min-width:58px;">STACKED WITH</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + PEPTIDE_STACKS[p] + '</span>' +
+      '</div>' : '') +
       (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
       '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button></div>' +
     '</div>' +
@@ -31712,6 +31833,7 @@ window.addEventListener('appinstalled', function(){
         + (p.desc ? '\n' + String(p.desc).replace(/<[^>]+>/g,'') + '\n' : '')
         + '\nDOSE: ' + (p.dose||'See protocol notes')
         + '\nDURATION: ' + (p.duration||'Varies by goal')
+        + ((typeof PEPTIDE_STACKS!=='undefined' && PEPTIDE_STACKS[p.name]) ? '\nOFTEN STACKED WITH: ' + PEPTIDE_STACKS[p.name] : '')
         + (p.protocol ? '\nNOTES: ' + p.protocol : '');
     } else {
       t = textOf(card).replace(/[▼▲]/g,'').trim();
