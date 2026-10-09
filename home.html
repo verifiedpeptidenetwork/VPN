@@ -13037,6 +13037,15 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(200,200,220,0.6);margin-top:0.5rem;line-height:1.4;">Enter how much BAC water you added to your vial below — the calculator will tell you exactly how many units to draw for your desired dose.</div>
       </div>
 
+      <!-- INPUT 0: PEPTIDE NAME (optional — goes on the auto vial label) -->
+      <div style="margin-bottom:1rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ffd45c;margin-bottom:0.4rem;">🏷️ Peptide Name <span style="font-size:0.8rem;opacity:0.7;">(optional — for your vial label)</span></div>
+        <input id="c-name" type="text" maxlength="28" placeholder="e.g. Tirzepatide" list="c-name-list"
+          style="width:100%;box-sizing:border-box;background:#0a0a1e;border:2px solid rgba(255,212,92,0.35);padding:0.7rem 1rem;font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;outline:none;"
+          oninput="calcSimple()">
+        <datalist id="c-name-list"></datalist>
+      </div>
+
       <!-- INPUT 1: BAC WATER -->
       <div style="margin-bottom:1rem;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--neon-cyan);margin-bottom:0.4rem;">💧 Bacteriostatic Water Added</div>
@@ -13131,6 +13140,7 @@ document.addEventListener('keydown', function(e){
     if (!water || !dose || !vial || water <= 0 || dose <= 0 || vial <= 0) {
       res.style.display = 'none';
       emp.style.display = 'block';
+      if (window.lblHide) lblHide();
       return;
     }
     // concentration mg/mL = vial / water
@@ -13148,9 +13158,9 @@ document.addEventListener('keydown', function(e){
 
 
     <!-- ══ VIAL LABEL MAKER — fills in from the recon calculator above ══ -->
-    <div id="lbl-maker" data-vt-skip data-search="label maker vial label print reconstitution date concentration">
-      <div class="lbl-h"><span>🏷️</span><div><b>VIAL LABEL MAKER</b><small>Recon done? Make a label for the vial — it fills in from the calculator above.</small></div></div>
-      <div class="lbl-grid">
+    <div id="lbl-maker" data-vt-skip data-search="label maker vial label print reconstitution date concentration" style="display:none;">
+      <div class="lbl-h"><span>🏷️</span><div><b>YOUR VIAL LABEL — READY</b><small>Made automatically from your calculator inputs. Just print it.</small></div></div>
+      <div class="lbl-grid" style="display:none;">
         <label>Peptide name<input id="lbl-name" type="text" placeholder="e.g. Tirzepatide" oninput="lblDraw()"></label>
         <label>Vial (mg)<input id="lbl-mg" type="number" step="any" min="0" oninput="lblDraw()"></label>
         <label>BAC water (mL)<input id="lbl-ml" type="number" step="any" min="0" oninput="lblDraw()"></label>
@@ -13216,9 +13226,12 @@ document.addEventListener('keydown', function(e){
         window.lblFromCalc = function(water, dose, vial){
           if(!v('lbl-mg')) return;
           v('lbl-mg').value=vial; v('lbl-ml').value=water; v('lbl-dose').value=dose;
+          v('lbl-name').value = v('c-name') ? v('c-name').value.trim() : '';
           if(!v('lbl-date').value) v('lbl-date').value=today();
           lblDraw();
+          v('lbl-maker').style.display='block';
         };
+        window.lblHide = function(){ if(v('lbl-maker')) v('lbl-maker').style.display='none'; };
         window.lblPrint = function(){
           var n=Math.max(1,Math.min(40,parseInt(v('lbl-copies').value,10)||1)), one='<div class="lbl-card">'+labelHTML()+'</div>', all='';
           for(var i=0;i<n;i++) all+=one;
@@ -13229,7 +13242,12 @@ document.addEventListener('keydown', function(e){
           d.open(); d.write('<!doctype html><html><head><meta charset="utf-8"><title>Vial labels</title><style>'+css+'@page{size:40mm 20mm;margin:0}html,body{margin:0;padding:0;}.lbl-card{break-after:page;page-break-after:always;border:0;border-radius:0;}.lbl-card:last-child{break-after:auto;page-break-after:auto;}</style></head><body>'+all+'</body></html>'); d.close();
           setTimeout(function(){ f.contentWindow.focus(); f.contentWindow.print(); setTimeout(function(){ f.remove(); },1500); },250);
         };
-        function init(){ if(v('lbl-date') && !v('lbl-date').value) v('lbl-date').value=today(); lblDraw(); }
+        function init(){
+          if(v('lbl-date') && !v('lbl-date').value) v('lbl-date').value=today();
+          lblDraw();
+          // name suggestions from the peptide index
+          var dl=v('c-name-list'); try { if(dl && !dl.children.length) dl.innerHTML = PEPTIDE_DATA.map(function(p){ return '<option value="'+esc(p.name).replace(/"/g,'&quot;')+'">'; }).join(''); } catch(e) {}
+        }
         if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
       })();
     </script>
