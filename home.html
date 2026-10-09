@@ -8706,60 +8706,7 @@ document.addEventListener('keydown', function(e){
         onblur="this.style.borderColor='rgba(0,245,255,0.25)';this.style.boxShadow='none'">
       <div id="peptide-search-count" style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(0,245,255,0.45);margin-top:0.35rem;letter-spacing:0.06em;"></div>
     </div>
-    <div id="peptide-index-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.85rem;align-items:start;"></div>
-    <style>
-      /* Peptide Index cards: category eyebrow, name, ELI5, tags, research-range boxes, evidence + studies footer */
-      #peptide-index-grid .pc-sec{grid-column:1/-1;display:flex;align-items:center;gap:0.65rem;margin:1.1rem 0 0.1rem;}
-      #peptide-index-grid .pc-sec:first-child{margin-top:0.2rem;}
-      #peptide-index-grid .pc-sec-ic{width:40px;height:40px;display:grid;place-items:center;font-size:1.15rem;border-radius:10px;background:rgba(255,45,120,0.12);border:1px solid rgba(255,45,120,0.45);}
-      #peptide-index-grid .pc-sec b{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;}
-      #peptide-index-grid .pc-sec small{font-family:'Share Tech Mono',monospace;font-size:0.9rem;color:rgba(220,210,240,0.55);}
-      #peptide-index-grid .pc-sec i{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,45,120,0.5),transparent);}
-      #peptide-index-grid .pc{background:linear-gradient(180deg,#140a26,#0d0619) !important;border:1px solid rgba(255,45,120,0.5) !important;border-top:3px solid #ff2d78 !important;border-radius:16px;padding:1.1rem 1.15rem 0.9rem;box-shadow:0 18px 40px -26px rgba(255,45,120,0.8);font-family:'Rajdhani',sans-serif;text-align:left;}
-      #peptide-index-grid .pc .vpn-copy-row{justify-content:flex-start;text-align:left;}
-      #peptide-index-grid .pc:hover{background:linear-gradient(180deg,#190c2e,#10071e) !important;border-color:rgba(255,45,120,0.8) !important;}
-      #peptide-index-grid .pc-eb{font-family:'Share Tech Mono',monospace;font-size:0.74rem;letter-spacing:0.14em;text-transform:uppercase;color:#ff4d8d;}
-      #peptide-index-grid .pc-n{margin:0.3rem 0 0.25rem;font-family:'Rajdhani',sans-serif;font-size:1.55rem;font-weight:700;line-height:1.15;color:#fff;}
-      #peptide-index-grid .pc-use{margin:0 0 0.7rem;font-size:1rem;font-weight:600;line-height:1.5;color:rgba(225,220,240,0.85);}
-      #peptide-index-grid .pc-e5{margin:0 0 0.7rem;padding:0.6rem 0.75rem;border-radius:10px;background:rgba(255,212,92,0.07);border:1px solid rgba(255,212,92,0.35);font-size:0.97rem;font-weight:600;line-height:1.5;color:rgba(255,240,205,0.95);}
-      #peptide-index-grid .pc-e5 .pc-lbl{color:#ffd45c;}
-      #peptide-index-grid .pc-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0 0 0.75rem;}
-      #peptide-index-grid .pc-tags span{padding:0.22rem 0.65rem;border-radius:999px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);font-size:0.86rem;font-weight:600;color:rgba(230,225,245,0.88);}
-      #peptide-index-grid .pc-box{margin:0 0 0.6rem;padding:0.65rem 0.8rem;border-radius:12px;border:1px solid rgba(255,45,120,0.45);background:rgba(255,45,120,0.04);font-size:0.98rem;font-weight:600;line-height:1.45;color:rgba(235,230,248,0.9);box-shadow:0 0 18px -10px rgba(255,45,120,0.7);}
-      #peptide-index-grid .pc-lbl{margin-bottom:0.2rem;font-family:'Share Tech Mono',monospace;font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;color:#3ff3ff;}
-      #peptide-index-grid .pc-sub{margin-top:0.2rem;font-size:0.88rem;color:rgba(210,205,230,0.7);}
-      #peptide-index-grid .pc-more{margin:0 0 0.6rem;}
-      #peptide-index-grid .pc-more > summary,#peptide-index-grid .pc-studies > summary{cursor:pointer;list-style:none;}
-      #peptide-index-grid .pc-more > summary::-webkit-details-marker,#peptide-index-grid .pc-studies > summary::-webkit-details-marker{display:none;}
-      #peptide-index-grid .pc-more > summary{font-size:0.95rem;font-weight:700;color:#e2b6ff;}
-      #peptide-index-grid .pc-more > div{margin-top:0.45rem;padding:0.6rem 0.75rem;border-left:3px solid rgba(0,245,255,0.35);background:rgba(0,245,255,0.04);border-radius:0 8px 8px 0;font-size:0.93rem;font-weight:500;line-height:1.6;color:rgba(220,225,240,0.85);}
-      #peptide-index-grid details[open] > summary i{display:inline-block;transform:rotate(180deg);}
-      #peptide-index-grid .pc-studies{margin:0.2rem 0 0.4rem;border-radius:12px;border:1px solid rgba(0,255,170,0.35);background:rgba(0,255,170,0.03);}
-      #peptide-index-grid .pc-studies > summary,#peptide-index-grid .pc-none{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0.5rem 0.65rem;}
-      #peptide-index-grid .pc-none{border-color:rgba(255,255,255,0.12);}
-      #peptide-index-grid .pc-ev{padding:0.25rem 0.65rem;border-radius:999px;font-size:0.88rem;font-weight:700;}
-      #peptide-index-grid .pc-ev-h{color:#3dffb0;background:rgba(0,255,170,0.1);border:1px solid rgba(0,255,170,0.45);}
-      #peptide-index-grid .pc-ev-a{color:#ffd45c;background:rgba(255,212,92,0.1);border:1px solid rgba(255,212,92,0.45);}
-      #peptide-index-grid .pc-ev-l{color:#7fd8ff;background:rgba(0,180,255,0.1);border:1px solid rgba(0,180,255,0.45);}
-      #peptide-index-grid .pc-ev-n{color:rgba(220,215,235,0.6);border:1px solid rgba(255,255,255,0.15);}
-      #peptide-index-grid .pc-sn{font-size:0.95rem;font-weight:700;color:rgba(235,235,245,0.85);white-space:nowrap;}
-      #peptide-index-grid .pc-studies ul{list-style:none;margin:0;padding:0 0.65rem 0.6rem;}
-      #peptide-index-grid .pc-studies li{padding:0.55rem 0;border-top:1px solid rgba(255,255,255,0.08);font-size:0.9rem;line-height:1.45;color:rgba(225,225,240,0.85);}
-      #peptide-index-grid .pc-studies li b{display:block;font-family:'Share Tech Mono',monospace;font-size:0.74rem;font-weight:400;letter-spacing:0.06em;color:#3dffb0;}
-      #peptide-index-grid .pc-st{display:block;font-weight:700;color:#fff;}
-      #peptide-index-grid .pc-sf{display:block;margin-top:0.15rem;}
-      #peptide-index-grid .pc-studies a{display:inline-block;margin-top:0.2rem;font-weight:700;color:#3ff3ff;}
-      #peptide-index-grid .pc .vpn-copy-row{margin-top:0.4rem;}
-      html[data-theme="light"] #peptide-index-grid .pc{background:#fff !important;border-color:rgba(190,20,90,0.35) !important;box-shadow:0 10px 26px -18px rgba(190,20,90,0.5);}
-      html[data-theme="light"] #peptide-index-grid .pc-n,html[data-theme="light"] #peptide-index-grid .pc-sec b,html[data-theme="light"] #peptide-index-grid .pc-st{color:#141026 !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-use,html[data-theme="light"] #peptide-index-grid .pc-box,html[data-theme="light"] #peptide-index-grid .pc-more > div,html[data-theme="light"] #peptide-index-grid .pc-studies li,html[data-theme="light"] #peptide-index-grid .pc-tags span{color:#2a2440 !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-e5{color:#4a3500 !important;background:#fff8e3 !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-e5 .pc-lbl{color:#8a5a00 !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-lbl{color:#0b6e7a !important;} html[data-theme="light"] #peptide-index-grid .pc-eb{color:#b0124f !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-ev-h,html[data-theme="light"] #peptide-index-grid .pc-studies li b{color:#06734d !important;}
-      html[data-theme="light"] #peptide-index-grid .pc-studies a{color:#0b6e7a !important;} html[data-theme="light"] #peptide-index-grid .pc-more > summary{color:#6b2a9a !important;}
-      @media(max-width:560px){ #peptide-index-grid .pc-n{font-size:1.35rem;} #peptide-index-grid .pc-sec b{font-size:1.25rem;} }
-    </style>
+    <div id="peptide-index-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.85rem;"></div>
   </div>
 
   <!-- VIDEOS -->
@@ -26568,95 +26515,32 @@ function renderVendors() {
 }
 
 // Render peptide index
-// Category, tag and study helpers for the card layout
-var PI_CATS = [
-  { k:'fat',    label:'Weight Loss / GLP-1',      tag:'Weight loss',   ic:'⚖️', re:/glp|amylin|weight|obes|appetite|fat loss|lipoly/i },
-  { k:'muscle', label:'Growth Hormone & Muscle',  tag:'GH / muscle',   ic:'💪', re:/growth hormone|\bGH\b|secretagog|GHRH|GHRP|IGF|muscle/ },
-  { k:'heal',   label:'Healing & Recovery',       tag:'Healing',       ic:'🩹', re:/heal|repair|tendon|wound|recover|tissue|injur/i },
-  { k:'cog',    label:'Brain, Mood & Sleep',      tag:'Brain',         ic:'🧠', re:/nootrop|brain|cognit|memory|neuro|focus|anxi|mood|sleep/i },
-  { k:'skin',   label:'Skin & Hair',              tag:'Skin & hair',   ic:'✨', re:/skin|hair|collagen|wrinkle|tann|melan/i },
-  { k:'long',   label:'Longevity & Mitochondria', tag:'Longevity',     ic:'🔋', re:/mitochond|NAD|longevity|ageing|aging|telomer/i },
-  { k:'immune', label:'Immune',                   tag:'Immune',        ic:'🛡️', re:/immun|thym|antimicrob|infect/i },
-  { k:'sex',    label:'Sexual Health',            tag:'Sexual health', ic:'❤️', re:/libido|sexual|erectile|arousal/i },
-  { k:'bio',    label:'Bioregulators',            tag:'Bioregulator',  ic:'🧬', re:/bioregulator|khavinson/i }
-];
-var PI_OTHER = { k:'other', label:'Other Compounds', tag:'', ic:'🔬' };
-var PI_ORDER = ['fat','muscle','heal','cog','skin','long','immune','sex','bio','other'];
-var PI_FALLBACK = ['bio','fat','sex','muscle','heal','cog','skin','long','immune'];
-function piCatByK(k){ for(var i=0;i<PI_CATS.length;i++) if(PI_CATS[i].k===k) return PI_CATS[i]; return PI_OTHER; }
-function piAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function piKey(s){ return String(s).toLowerCase().replace(/[^a-z0-9]/g,''); }
-function piAliases(n){ return String(n).split(/[()\/]|\band\b/i).map(piKey).filter(function(x){ return x.length>1; }); }
-var _piStudyMap = null;
-function piStudyFor(name){
-  if(!_piStudyMap){
-    var sd; try { sd = STUDIES_DATA; } catch(e) { return null; }
-    _piStudyMap = {};
-    sd.forEach(function(s){ piAliases(s.peptide).forEach(function(k){ if(!_piStudyMap[k]) _piStudyMap[k] = s; }); });
-  }
-  var a = piAliases(name);
-  for(var i=0;i<a.length;i++){ if(_piStudyMap[a[i]]) return _piStudyMap[a[i]]; }
-  return null;
-}
-function piCatOf(item){
-  var s = piStudyFor(item.name); if(s){ var c = piCatByK(s.cat); if(c!==PI_OTHER) return c; }
-  var head = item.name + ' ' + item.use, full = head + ' ' + String(item.desc||'');
-  var i;
-  for(i=0;i<PI_FALLBACK.length;i++){ if(piCatByK(PI_FALLBACK[i]).re.test(head)) return piCatByK(PI_FALLBACK[i]); }
-  for(i=0;i<PI_FALLBACK.length;i++){ if(piCatByK(PI_FALLBACK[i]).re.test(full)) return piCatByK(PI_FALLBACK[i]); }
-  return PI_OTHER;
-}
-function piEvidence(s){
-  if(!s || !s.studies || !s.studies.length) return null;
-  var t = {}; s.studies.forEach(function(x){ (x.tags||[]).forEach(function(g){ t[g]=1; }); });
-  if(t.human || t.rct || t.meta) return { lbl:'Human clinical trials', cls:'h', ic:'🧪' };
-  if(t.animal) return { lbl:'Animal studies', cls:'a', ic:'🐭' };
-  return { lbl:'Lab studies', cls:'l', ic:'🔬' };
-}
-
 function buildPeptideCard(item) {
-  var p = item.name, use = item.use || '', dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'', desc = item.desc||'';
-  var cat = piCatOf(item);
-  var tags = [];
-  if(cat.tag) tags.push(cat.tag);
-  PI_CATS.forEach(function(c){ if(tags.length<4 && c.tag && tags.indexOf(c.tag)===-1 && c.re.test(p + ' ' + use)) tags.push(c.tag); });
-  var st = piStudyFor(p), ev = piEvidence(st), e5 = PEPTIDE_ELI5[p];
-  var studies = '';
-  if(ev){
-    studies = '<details class="pc-studies"><summary><span class="pc-ev pc-ev-' + ev.cls + '">' + ev.ic + ' ' + ev.lbl + '</span><span class="pc-sn">' + st.studies.length + ' stud' + (st.studies.length===1?'y':'ies') + ' <i>▾</i></span></summary><ul>' +
-      st.studies.map(function(s){
-        return '<li><b>' + (s.year||'') + ' · ' + (s.journal||'') + '</b><span class="pc-st">' + (s.title||'') + '</span>' +
-          (s.finding ? '<span class="pc-sf">' + s.finding + '</span>' : '') +
-          (s.doi ? '<a href="https://doi.org/' + piAttr(s.doi) + '" target="_blank" rel="noopener">Read the study ↗</a>' : '') + '</li>';
-      }).join('') + '</ul></details>';
-  } else {
-    studies = '<div class="pc-studies pc-none"><span class="pc-ev pc-ev-n">📭 No linked studies yet</span></div>';
-  }
-  return '<div class="pep-idx-card pc" data-name="' + piAttr(p) + '">' +
-    '<div class="pc-eb">' + cat.label + '</div>' +
-    '<h3 class="pc-n">' + p + '</h3>' +
-    '<p class="pc-use">' + use + '</p>' +
-    (e5 ? '<div class="pc-e5"><div class="pc-lbl">🧒 Explain it like I\'m 5</div>' + e5 + '</div>' : '') +
-    (tags.length ? '<div class="pc-tags">' + tags.map(function(t){ return '<span>' + t + '</span>'; }).join('') + '</div>' : '') +
-    '<div class="pc-box"><div class="pc-lbl">Typical research range</div>' + dose + '<div class="pc-sub">Cycle: ' + duration + '</div></div>' +
-    (protocol ? '<div class="pc-box"><div class="pc-lbl">' + (/stack/i.test(protocol) ? 'Often stacked with / protocol' : 'Protocol notes') + '</div>' + protocol + '</div>' : '') +
-    (desc ? '<details class="pc-more"><summary>📖 The science <i>▾</i></summary><div>' + desc + '</div></details>' : '') +
-    studies +
-    '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button></div>' +
+  var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'', desc = item.desc||'';
+  var id = 'pep-' + p.replace(/[^a-z0-9]/gi,'');
+  return '<div class="pep-idx-card">' +
+    '<div class="pep-idx-header" onclick="var d=document.getElementById(\'' + id + '\');var open=getComputedStyle(d).display!==\'none\';d.style.display=open?\'none\':\'block\';this.querySelector(\'.pa\').textContent=open?\'▼\':\'▲\';">' +
+      '<div style="display:flex;flex-direction:column;gap:0.2rem;flex:1;min-width:0;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:1.05rem;letter-spacing:0.05em;color:var(--text-primary);">' + p + '</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(200,190,230,0.75);line-height:1.35;">' + use + '</span>' +
+      '</div>' +
+      '<span class="pa" style="color:var(--neon-pink);flex-shrink:0;font-size:0.75rem;margin-top:0.15rem;">▼</span>' +
+    '</div>' +
+    '<div id="' + id + '" class="pep-idx-body">' +
+      (PEPTIDE_ELI5[p] ? '<details class="eli5" open><summary><span class="e5-ic">🧒</span> Explain it like I\'m 5</summary><div class="e5-b">' + PEPTIDE_ELI5[p] + '</div></details>' : '') +
+      (desc ? '<div style="background:rgba(0,245,255,0.04);border-left:3px solid rgba(0,245,255,0.35);padding:0.65rem 0.85rem;margin-bottom:0.75rem;border-radius:0 4px 4px 0;"><p style="font-family:\'Rajdhani\',sans-serif;font-size:0.93rem;font-weight:600;color:rgba(220,230,255,0.88);line-height:1.75;margin:0;">' + desc + '</p></div>' : '') +
+      '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--neon-cyan);flex-shrink:0;margin-top:0.1rem;min-width:58px;">DOSE</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + dose + '</span>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.3rem;">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#9d00ff;flex-shrink:0;margin-top:0.1rem;min-width:58px;">DURATION</span>' +
+        '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + duration + '</span>' +
+      '</div>' +
+      (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
+      '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button></div>' +
+    '</div>' +
   '</div>';
-}
-
-// grouped = category sections with headers (default view); flat = search results
-function piRender(list, grouped) {
-  var grid = document.getElementById('peptide-index-grid');
-  if(!grouped){ grid.innerHTML = list.map(buildPeptideCard).join(''); return; }
-  var by = {};
-  list.forEach(function(it){ var c = piCatOf(it); (by[c.k] = by[c.k] || { c:c, items:[] }).items.push(it); });
-  grid.innerHTML = PI_ORDER.filter(function(k){ return by[k]; }).map(function(k){
-    var g = by[k];
-    return '<div class="pc-sec"><span class="pc-sec-ic">' + g.c.ic + '</span><b>' + g.c.label + '</b><small>' + g.items.length + '</small><i></i></div>' +
-      g.items.map(buildPeptideCard).join('');
-  }).join('');
 }
 
 function renderPeptideIndex() {
@@ -26666,7 +26550,7 @@ function renderPeptideIndex() {
   });
   var grid = document.getElementById('peptide-index-grid');
   document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' compounds — A to Z'; var piN=document.getElementById('pi-stat-n'); if(piN) piN.textContent = PEPTIDE_DATA.length;
-  piRender(sorted, true);
+  grid.innerHTML = sorted.map(buildPeptideCard).join('');
 }
 
 function filterPeptideIndex() {
@@ -26689,7 +26573,7 @@ function filterPeptideIndex() {
   if (filtered.length === 0) {
     grid.innerHTML = '<div style="grid-column:1/-1;padding:2rem;text-align:center;font-family:\'Bebas Neue\',sans-serif;font-size:1.2rem;letter-spacing:0.15em;color:rgba(255,45,120,0.6);">No peptides found for "' + q + '"</div>';
   } else {
-    piRender(filtered, !q);
+    grid.innerHTML = filtered.map(buildPeptideCard).join('');
   }
 }
 
@@ -31818,7 +31702,7 @@ window.addEventListener('appinstalled', function(){
   // Peptide Index cards are re-rendered on search, so their button is built into the card HTML and calls this
   window.vpnCopyCard = function(btn){
     var card = btn.closest('.pep-idx-card'); if(!card) return;
-    var name = card.getAttribute('data-name') || (card.querySelector('.pep-idx-header span')||{}).textContent || '';
+    var name = (card.querySelector('.pep-idx-header span')||{}).textContent || '';
     var p = (typeof PEPTIDE_DATA!=='undefined'?PEPTIDE_DATA:[]).filter(function(x){ return x.name===name.trim(); })[0];
     var t;
     if(p){
