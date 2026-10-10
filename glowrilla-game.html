@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Glowrilla vs Big Pharma</title>
+<meta name="description" content="Glowrilla the blue lab-coat gorilla is on the run from Big Pharma. Grab GHK-Cu to power up, unlock perks and take down the Pharma CEO.">
+<meta name="theme-color" content="#0b0524">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07020f;--cyan:#3ff3ff;--pink:#ff2d95;--cu:#ff9a4d;--gold:#ffd45c;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--bg);color:#fff;overflow:hidden;font-family:'Rajdhani',system-ui,sans-serif;font-weight:700;touch-action:none;user-select:none;-webkit-user-select:none;}
+  #game{position:fixed;inset:0;width:100%;height:100%;display:block;}
+  .ovl{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));background:radial-gradient(120% 90% at 50% 0%,rgba(80,20,140,0.55),rgba(5,1,12,0.92));z-index:5;overflow-y:auto;}
+  .ovl[hidden]{display:none;}
+  .card{width:100%;max-width:520px;text-align:center;padding:1.3rem 1.2rem;border-radius:18px;background:rgba(12,5,28,0.92);border:1px solid rgba(63,243,255,0.4);box-shadow:0 0 40px rgba(255,45,149,0.25);}
+  .card h1{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.2rem,9vw,3.4rem);letter-spacing:0.06em;line-height:0.95;background:linear-gradient(90deg,#3ff3ff,#7aa8ff,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .card h2{margin:0.2rem 0 0.8rem;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.25rem;letter-spacing:0.18em;color:var(--cu);}
+  .card p{margin:0 0 0.7rem;font-size:1.02rem;line-height:1.45;color:rgba(235,230,250,0.9);}
+  .how{display:grid;grid-template-columns:1fr 1fr;gap:0.45rem;margin:0.8rem 0 1rem;text-align:left;font-size:0.92rem;}
+  .how div{padding:0.45rem 0.6rem;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);}
+  .how b{color:var(--gold);}
+  .btn{display:inline-block;margin:0.3rem;padding:0.75rem 1.6rem;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.12em;cursor:pointer;color:#111;background:linear-gradient(90deg,#3ff3ff,#ff2d95);text-decoration:none;}
+  .btn.alt{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.25);font-size:1.1rem;}
+  .best{margin-top:0.6rem;font-size:0.95rem;color:rgba(220,215,240,0.75);}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin:0.6rem 0 1rem;}
+  .stats div{padding:0.5rem;border-radius:10px;background:rgba(255,255,255,0.05);}
+  .stats b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.7rem;color:var(--cyan);}
+  .stats small{font-size:0.78rem;color:rgba(220,215,240,0.7);text-transform:uppercase;letter-spacing:0.08em;}
+  #toast{position:fixed;left:50%;top:18%;transform:translate(-50%,-10px);z-index:4;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;text-align:center;padding:0.6rem 1.1rem;border-radius:14px;background:rgba(10,4,24,0.88);border:1px solid var(--cu);box-shadow:0 0 24px rgba(255,154,77,0.5);max-width:90vw;}
+  #toast.on{opacity:1;transform:translate(-50%,0);}
+  #toast b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.6rem;letter-spacing:0.08em;color:var(--cu);}
+  #toast span{font-size:0.98rem;color:#fff;}
+  #ui{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));z-index:3;display:flex;gap:10px;align-items:flex-end;}
+  #ui[hidden]{display:none;}
+  .rb{width:74px;height:74px;border-radius:50%;border:2px solid var(--cu);background:rgba(255,154,77,0.15);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.06em;line-height:1;display:grid;place-items:center;touch-action:none;}
+  .rb.off{opacity:0.35;filter:grayscale(1);}
+  .sm{width:46px;height:46px;font-size:1.2rem;border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.08);}
+  #topbtns{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));z-index:3;display:flex;gap:8px;}
+  #topbtns[hidden]{display:none;}
+  .rb.hgh{position:relative;overflow:hidden;border-color:#3dff8a;background:rgba(61,255,138,0.12);--fill:0%;}
+  .rb.hgh::before{content:'';position:absolute;left:0;right:0;bottom:0;height:var(--fill);background:linear-gradient(0deg,rgba(61,255,138,0.55),rgba(255,225,77,0.45));transition:height .2s;}
+  .rb.hgh span{position:relative;font-size:1rem;}
+  .rb.hgh small{font-family:'Rajdhani',sans-serif;font-size:0.75rem;}
+  .rb.hgh.ready{opacity:1;filter:none;animation:hghPulse 0.9s ease-in-out infinite;}
+  @keyframes hghPulse{50%{box-shadow:0 0 22px #3dff8a;transform:scale(1.06);}}
+  @media (pointer:fine){ #pound{display:none;} .rb.hgh{width:64px;height:64px;} }
+</style>
+</head>
+<body>
+<canvas id="game" aria-label="Glowrilla vs Big Pharma game"></canvas>
+
+<div id="toast"><b></b><span></span></div>
+
+<div id="topbtns" hidden>
+  <button class="rb sm" id="btnPause" aria-label="Pause">⏸</button>
+  <button class="rb sm" id="btnMute" aria-label="Sound on or off">🔊</button>
+</div>
+<div id="ui" hidden>
+  <button class="rb hgh off" id="hgh" aria-label="Inject HGH"><span>💉 HGH<br><small id="hghPct">0%</small></span></button>
+  <button class="rb off" id="pound" aria-label="Ground pound">GROUND<br>POUND</button>
+</div>
+
+<div class="ovl" id="scrTitle">
+  <div class="card">
+    <h1>GLOWRILLA<br>VS BIG PHARMA</h1>
+    <h2>A VPN ORIGINAL GAME</h2>
+    <p>Glowrilla took <b style="color:var(--cu)">way</b> too much GHK-Cu. Now he's glowing blue, he's guarding the lab's last <b style="color:var(--gold)">case of Retatrutide</b>, and Big Pharma wants it. Grab copper, power up, and take down the Pharma CEO.</p>
+    <div class="how">
+      <div><b>Move:</b> drag anywhere (phone) · WASD / arrows (desktop)</div>
+      <div><b>Attack:</b> automatic copper pulses at the nearest goon</div>
+      <div><b>💉 Reta case:</b> your doses = your lives</div>
+      <div><b>🏃 Thieves:</b> goons that grab a dose run — catch them to get it back</div>
+      <div><b>🔵 GHK-Cu:</b> every few vials unlocks a new perk</div>
+      <div><b>⚡ Combo:</b> quick takedowns multiply your score</div>
+      <div><b>🟢 BPC-157:</b> +1 dose · <b>🟡 TB-500:</b> speed</div>
+      <div><b>Ground Pound:</b> perk 4 · button / Space</div>
+    </div>
+    <button class="btn" id="btnStart">PLAY</button>
+    <div><a class="btn alt" href="home.html">← Back to VPN</a></div>
+    <div class="best" id="bestTitle"></div>
+  </div>
+</div>
+
+<div class="ovl" id="scrPause" hidden>
+  <div class="card"><h1>PAUSED</h1><h2 id="pausePerks"></h2><button class="btn" id="btnResume">RESUME</button><div><button class="btn alt" id="btnQuit">QUIT TO MENU</button></div></div>
+</div>
+
+<div class="ovl" id="scrEnd" hidden>
+  <div class="card">
+    <h1 id="endTitle">CAUGHT!</h1>
+    <h2 id="endSub">Big Pharma got Glowrilla</h2>
+    <div class="stats"><div><b id="stScore">0</b><small>Score</small></div><div><b id="stWave">1</b><small>Wave</small></div><div><b id="stCu">0</b><small>GHK-Cu</small></div></div>
+    <p id="endMsg"></p>
+    <button class="btn" id="btnAgain">PLAY AGAIN</button>
+    <div><button class="btn alt" id="btnEndless" hidden>KEEP GOING — ENDLESS</button><a class="btn alt" href="home.html">← Back to VPN</a></div>
+    <div class="best" id="bestEnd"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const cv=document.getElementById('game'), ctx=cv.getContext('2d');
+const $=id=>document.getElementById(id);
+let W=0,H=0,DPR=1,S=1; // S = size scale so phones and desktops feel the same
+function resize(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  W=window.innerWidth; H=window.innerHeight;
+  cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  S=Math.max(0.62,Math.min(1.25,Math.min(W,H)/620));
+  if(G&&G.p){ G.p.x=clamp(G.p.x,20,W-20); G.p.y=clamp(G.p.y,20,H-20); }
+}
+window.addEventListener('resize',resize);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+
+/* ---------- storage (best score) ---------- */
+function getBest(){ try{ return JSON.parse(localStorage.getItem('glowrilla-best')||'{"score":0,"wins":0}'); }catch(e){ return {score:0,wins:0}; } }
+function setBest(b){ try{ localStorage.setItem('glowrilla-best',JSON.stringify(b)); }catch(e){} }
+
+/* ---------- tiny sound ---------- */
+let AC=null, muted=false;
+try{ muted = localStorage.getItem('glowrilla-mute')==='1'; }catch(e){}
+function beep(f,d,type,vol){
+  if(muted) return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type=type||'square'; o.frequency.value=f; g.gain.value=vol||0.04;
+    o.connect(g); g.connect(AC.destination);
+    const t=AC.currentTime; g.gain.exponentialRampToValueAtTime(0.0001,t+(d||0.1));
+    o.start(t); o.stop(t+(d||0.1));
+  }catch(e){}
+}
+const sfx={
+  cu:()=>{beep(880,0.08,'triangle',0.05);setTimeout(()=>beep(1320,0.1,'triangle',0.05),60);},
+  hit:()=>beep(110,0.25,'sawtooth',0.06),
+  zap:()=>beep(1500,0.04,'square',0.015),
+  pop:()=>beep(320,0.08,'square',0.04),
+  perk:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.12,'triangle',0.05),i*80));},
+  pound:()=>{beep(70,0.35,'sawtooth',0.08);},
+  boss:()=>{[220,196,174].forEach((f,i)=>setTimeout(()=>beep(f,0.25,'sawtooth',0.06),i*180));}
+};
+
+/* ---------- perks (unlocked by GHK-Cu count) ---------- */
+const PERKS=[
+  {at:3,  name:'COPPER COAT',   txt:'+20% move speed'},
+  {at:7,  name:'RAPID PULSE',   txt:'Copper pulses fire 40% faster'},
+  {at:12, name:'VIAL MAGNET',   txt:'Pickups fly to you'},
+  {at:18, name:'GROUND POUND',  txt:'Tap POUND / Space: stun + damage nearby'},
+  {at:25, name:'TWIN PULSE',    txt:'Hit two goons at once'},
+  {at:33, name:'FUR SHIELD',    txt:'Blocks one hit, recharges every 15 s'},
+  {at:42, name:'MAX GLOW',      txt:'Double pulse damage + faster pound'}
+];
+
+/* ---------- speech lines (generic "Big Pharma" satire — no real companies) ---------- */
+const LINES={
+  start:["You're making it harder for us to access Reta, Pharma!","This case of Reta stays with ME.","Back off, suits. I've got copper in my veins."],
+  hit:["Hey! That's MY Reta!","Get your own case!","You can't patent my lunch!","Ow! I've been lawyered!","Put that dose back!"],
+  cu:["More GHK-Cu! I'm glowing!","Shiny fur, don't care.","Copper me up!","My fur is bluer than my lab coat now.","Is this too much copper? Nah."],
+  perk:["I feel UNSTOPPABLE!","Upgrade unlocked, Pharma!","Too much copper? Never heard of it."],
+  boss:["Oh great, management showed up.","Nice suit. Shame about the price tags.","You're making it harder for us to access Reta, Pharma!"],
+  recover:["Got my Reta back!","Finders keepers... wait, that's mine!","Nobody steals from Glowrilla."],
+  streak:["Combo! Big Pharma, small results!","Who's the side effect now?","Prior authorization: DENIED."],
+  low:["Last dose in the case! Protect it!","They're not getting the last one!"]
+};
+const PHARMA=["Hand over the Reta!","That's OUR patent!","Have you tried the brand-name price?","Side effects may include savings!","Cease and desist!","Please hold for billing...","Ask your doctor about paying more!","That gorilla needs a prescription!","Prior authorization required!"];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ---------- waves ---------- */
+// tuned "somewhat hard": quick spawns, tougher goons later, boss pile-ups at the end
+const WAVES=[
+  {name:'WAVE 1 — THE REPS',          dur:30, rate:1.15,types:['agent','agent','lobby']},
+  {name:'WAVE 2 — LEGAL DEPARTMENT',  dur:38, rate:0.95,types:['agent','lawyer','lawyer','lobby']},
+  {name:'WAVE 3 — REGIONAL VP',       dur:30, rate:0.95,types:['agent','lawyer','lobby'], boss:'vp'},
+  {name:'WAVE 4 — LOBBYIST SWARM',    dur:40, rate:0.6, types:['agent','lobby','lobby','lawyer'], boss:'vp2'},
+  {name:'WAVE 5 — THE PHARMA CEO',    dur:30, rate:0.8, types:['agent','lawyer','lobby'], boss:'ceo'}
+];
+
+let G=null, keys={}, touch=null, last=0, raf=0;
+function newGame(){
+  G={
+    t:0, score:0, wave:0, waveT:0, spawnT:0, endless:false, over:false, paused:false, won:false,
+    p:{x:W/2,y:H/2,r:20,vx:0,vy:0,hp:3,maxHp:3,inv:0,cu:0,perks:0,fireT:0,poundT:0,shieldOn:false,shieldT:0,tbT:0,face:1,bob:0,hgh:0,giantT:0,gs:1,stompT:0,hghReadyShown:false},
+    en:[], shots:[], bullets:[], items:[], fx:[], texts:[], shake:0, bossAlive:false, itemT:2, kills:0,
+    say:null, quipT:3, combo:0, comboT:0, bestCombo:0
+  };
+  announce(WAVES[0].name,'Big Pharma sent its reps to grab your Reta. Grab the blue vials!');
+  setTimeout(()=>say(LINES.start[0]),700);
+}
+function say(txt){ if(G) G.say={txt,t:2.6}; }
+function sayLine(key,chance){ if(G && (chance==null||Math.random()<chance) && !(G.say&&G.say.t>1.2)) say(pick(LINES[key])); }
+
+/* ---------- spawning ---------- */
+function edgePoint(){
+  const side=Math.floor(Math.random()*4), m=30*S;
+  if(side===0) return {x:rnd(0,W),y:-m};
+  if(side===1) return {x:W+m,y:rnd(0,H)};
+  if(side===2) return {x:rnd(0,W),y:H+m};
+  return {x:-m,y:rnd(0,H)};
+}
+function spawnEnemy(type){
+  const e=edgePoint(), lvl=G.endless?1.6+G.t/80:1+G.wave*0.15;
+  const base={agent:{r:17,hp:2,sp:70,col:'#7d8597',pts:100},lawyer:{r:17,hp:2,sp:55,col:'#273b7a',pts:150},lobby:{r:13,hp:1,sp:125,col:'#4c9a5b',pts:120}}[type];
+  const hp=Math.ceil(base.hp*(G.endless?lvl:1+G.wave*0.25));
+  G.en.push({type,x:e.x,y:e.y,r:base.r,hp,maxHp:hp,sp:base.sp*Math.min(1.6,lvl),col:base.col,pts:base.pts,stun:0,throwT:rnd(1.2,2.4),hitT:0,ph:Math.random()*6});
+}
+function spawnBoss(kind,x){
+  if(kind==='vp2'){ spawnBoss('vp',W*0.25); spawnBoss('vp',W*0.75); return; }
+  const ceo=kind==='ceo', e={x:x??W/2,y:-60*S};
+  G.en.push({type:'boss',kind,x:e.x,y:e.y,r:ceo?44:36,hp:ceo?170:80,maxHp:ceo?170:80,sp:ceo?46:54,col:ceo?'#111':'#3a3f52',pts:ceo?5000:2000,stun:0,throwT:2,summonT:6,hitT:0,ph:0,called:false,name:ceo?'BIG PHARMA CEO':'REGIONAL VP'});
+  G.bossAlive=true; sfx.boss(); setTimeout(()=>sayLine('boss'),1200);
+  announce(ceo?'THE CEO HAS ENTERED':'BOSS: REGIONAL VP', ceo?'Take down Big Pharma for good!':'He brought a briefcase full of pills.');
+}
+function spawnItem(kind,x,y){
+  const r=Math.random();
+  kind=kind||(r<0.72?'cu':r<0.86?'bpc':r<0.97?'tb':'coa');
+  G.items.push({kind,x:x??rnd(40,W-40),y:y??rnd(70,H-40),r:12,t:0,life:kind==='cu'?14:10});
+}
+
+/* ---------- helpers ---------- */
+let toastT=0;
+function announce(title,text){ const t=$('toast'); t.querySelector('b').textContent=title; t.querySelector('span').textContent=text||''; t.classList.add('on'); toastT=2.6; }
+function floatText(x,y,txt,col){ G.texts.push({x,y,txt,col:col||'#fff',t:0}); }
+function burst(x,y,col,n,sp){ for(let i=0;i<(n||10);i++){ const a=Math.random()*Math.PI*2, v=rnd(40,sp||180); G.fx.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,life:rnd(0.3,0.7),col}); } }
+const has=n=>G.p.perks>=n;
+
+function hurtPlayer(src){
+  const p=G.p; if(p.inv>0||p.giantT>0) return;
+  if(p.shieldOn){ p.shieldOn=false; p.shieldT=15; p.inv=0.8; burst(p.x,p.y,'#3ff3ff',16); floatText(p.x,p.y-30,'SHIELD!','#3ff3ff'); sfx.pop(); return; }
+  p.hp--; p.inv=1.3; G.shake=12; sfx.hit(); burst(p.x,p.y,'#ff2d95',14);
+  // a goon that touches the case grabs a dose and runs for the exit
+  if(src && src.type && src.type!=='boss' && !src.thief){ src.thief=true; src.sp*=1.4; src.stun=0; src.say={txt:pick(["Got one! Ha!","This dose is ours now!","Billing department, here I come!"]),t:2}; floatText(p.x,p.y-34,'A RETA DOSE WAS STOLEN!','#ff2d95'); }
+  if(p.hp<=0){ endGame(false); return; }
+  sayLine(p.hp===1?'low':'hit');
+}
+function damage(e,d){
+  e.hp-=d; e.hitT=0.12;
+  if(e.hp<=0){
+    G.combo = G.comboT>0 ? G.combo+1 : 1; G.comboT=2.6; G.bestCombo=Math.max(G.bestCombo,G.combo);
+    const mult=Math.min(5,1+Math.floor((G.combo-1)/3));
+    const pts=e.pts*(has(7)?2:1)*mult;
+    G.score+=pts; G.kills++;
+    G.p.hgh=Math.min(100,G.p.hgh+(e.type==='boss'?30:2.2));
+    if(G.combo===6||G.combo===12) sayLine('streak');
+    if(e.thief){ G.p.hp=Math.min(G.p.maxHp,G.p.hp+1); floatText(e.x,e.y-36,'RETA RECOVERED!','#3dff8a'); sayLine('recover'); }
+    burst(e.x,e.y,e.type==='boss'?'#ffd45c':'#9aa4ff',e.type==='boss'?50:12,e.type==='boss'?320:200);
+    floatText(e.x,e.y-20,'+'+pts+(mult>1?' x'+mult:''),'#ffd45c'); sfx.pop();
+    if(e.type==='boss'){
+      G.bossAlive=G.en.some(o=>o!==e&&o.type==='boss'&&o.hp>0);
+      if(G.bossAlive && !(e.kind==='ceo'&&!G.endless)){ for(let i=0;i<3;i++) spawnItem(i<2?'cu':'bpc',e.x+rnd(-50,50),e.y+rnd(-50,50)); return true; }
+      for(let i=0;i<6;i++) spawnItem(i<4?'cu':'bpc',e.x+rnd(-60,60),e.y+rnd(-60,60));
+      if(e.kind==='ceo' && !G.endless){ G.en=[];G.bullets=[]; setTimeout(()=>endGame(true),900); }
+      else nextWave();
+    } else if(Math.random()<0.35) spawnItem(Math.random()<0.8?'cu':'bpc',e.x,e.y);
+    return true;
+  }
+  return false;
+}
+function nextWave(){
+  if(G.endless) return;
+  G.wave++; G.waveT=0;
+  if(G.wave>=WAVES.length) return;
+  announce(WAVES[G.wave].name, ['','Lawyers throw Cease & Desist letters — dodge them.','The Regional VP is coming. Keep moving!','Lobbyists are fast. Pound them!','Last wave. Defeat the CEO!'][G.wave]);
+}
+function gainCu(){
+  const p=G.p; p.cu++; G.score+=50; sfx.cu();
+  const next=PERKS[p.perks];
+  if(!(next && p.cu>=next.at)) sayLine('cu',0.22);
+  if(next && p.cu>=next.at){
+    p.perks++; sfx.perk(); announce('PERK: '+next.name,next.txt); sayLine('perk');
+    burst(p.x,p.y,'#ff9a4d',30,260);
+    if(p.perks===4) $('pound').classList.remove('off');
+    if(p.perks===6) p.shieldOn=true;
+  } else if(!next && p.cu%10===0){ p.maxHp=Math.min(8,p.maxHp+1); p.hp=Math.min(p.maxHp,p.hp+1); announce('OVERGLOW','+1 max heart'); sfx.perk(); }
+}
+// HGH: 10 s of giant mode — invincible, flattens goons on contact, crushes bosses
+function injectHGH(){
+  const p=G&&G.p; if(!p||G.paused||G.over||p.hgh<100||p.giantT>0) return;
+  p.hgh=0; p.giantT=10; p.hghReadyShown=false; G.shake=14; sfx.perk(); sfx.pound();
+  announce('💉 HGH MODE — 10 SECONDS','Glowrilla is HUGE. Stomp the goons, crush the bosses!');
+  say(pick(["Time to grow, Pharma!","Who's the big pharma now?","HGH! Size matters, suits!","You're gonna need a bigger lawsuit."]));
+  burst(p.x,p.y,'#3dff8a',40,320);
+}
+function pound(){
+  const p=G.p; if(!G||!has(4)||p.poundT>0||G.paused||G.over) return;
+  p.poundT=has(7)?4:8; G.shake=10; sfx.pound();
+  G.fx.push({ring:true,x:p.x,y:p.y,t:0,life:0.45,R:150*S});
+  G.en.slice().forEach(e=>{ if(dist(e,p)<150*S+e.r*S){ e.stun=2.2; if(damage(e,e.type==='boss'?6:3)) G.en.splice(G.en.indexOf(e),1); } });
+  G.bullets=G.bullets.filter(b=>dist(b,p)>150*S);
+}
+
+/* ---------- update ---------- */
+function update(dt){
+  const p=G.p; G.t+=dt; G.waveT+=dt;
+  if(toastT>0){ toastT-=dt; if(toastT<=0) $('toast').classList.remove('on'); }
+
+  // movement
+  let ix=0,iy=0;
+  if(keys.ArrowLeft||keys.a||keys.A) ix--; if(keys.ArrowRight||keys.d||keys.D) ix++;
+  if(keys.ArrowUp||keys.w||keys.W) iy--; if(keys.ArrowDown||keys.s||keys.S) iy++;
+  if(touch){ const dx=touch.x-touch.sx, dy=touch.y-touch.sy, l=Math.hypot(dx,dy), dz=8; if(l>dz){ const k=Math.min(1,(l-dz)/55); ix=dx/l*k; iy=dy/l*k; } }
+  const il=Math.hypot(ix,iy); if(il>1){ix/=il;iy/=il;}
+  const sp=200*S*(has(1)?1.2:1)*(p.tbT>0?1.55:1);
+  p.vx+=(ix*sp-p.vx)*Math.min(1,dt*12); p.vy+=(iy*sp-p.vy)*Math.min(1,dt*12);
+  p.x=clamp(p.x+p.vx*dt,p.r*S,W-p.r*S); p.y=clamp(p.y+p.vy*dt,p.r*S,H-p.r*S);
+  if(Math.abs(p.vx)>5) p.face=p.vx>0?1:-1;
+  p.bob+=dt*(il>0.1?12:3);
+  p.inv=Math.max(0,p.inv-dt); p.poundT=Math.max(0,p.poundT-dt); p.tbT=Math.max(0,p.tbT-dt);
+  if(has(6)&&!p.shieldOn){ p.shieldT-=dt; if(p.shieldT<=0){ p.shieldOn=true; floatText(p.x,p.y-30,'SHIELD READY','#3ff3ff'); } }
+  const pb=$('pound'); if(has(4)) pb.classList.toggle('off',p.poundT>0);
+
+  // HGH meter: slow trickle, faster when the screen is swarmed
+  if(p.giantT>0){ p.giantT-=dt; if(p.giantT<=0){ p.giantT=0; p.inv=1; announce('HGH WORE OFF','Back to normal size — keep fighting!'); } }
+  else { const swarm=G.en.length>=12?2.2:G.en.length>=8?1:0; p.hgh=Math.min(100,p.hgh+dt*(0.55+swarm)+(G.en.some(e=>e.type==='boss')?dt*0.6:0)); }
+  p.gs+=((p.giantT>0?1.9:1)-p.gs)*Math.min(1,dt*6);
+  if(p.hgh>=100 && !p.hghReadyShown && p.giantT<=0){ p.hghReadyShown=true; announce('💉 HGH READY','Press H or tap HGH when it gets overwhelming!'); sfx.cu(); }
+  const hb=$('hgh'); hb.style.setProperty('--fill',(p.giantT>0?p.giantT*10:p.hgh)+'%'); $('hghPct').textContent=p.giantT>0?Math.ceil(p.giantT)+'s':Math.floor(p.hgh)+'%';
+  hb.classList.toggle('ready',p.hgh>=100&&p.giantT<=0); hb.classList.toggle('off',p.hgh<100&&p.giantT<=0);
+
+  // waves & spawns
+  const wv=G.endless?{rate:Math.max(0.35,0.9-G.t/400),types:['agent','lawyer','lobby','lobby','agent']}:WAVES[Math.min(G.wave,WAVES.length-1)];
+  if(!G.endless && wv.boss && !G.bossAlive && G.waveT>=wv.dur && !G.en.some(e=>e.type==='boss')) spawnBoss(wv.boss);
+  else if(!G.endless && !wv.boss && G.waveT>=wv.dur) nextWave();
+  if(G.endless && Math.floor(G.t/75)>Math.floor((G.t-dt)/75)) spawnBoss(Math.random()<0.5?'vp':'ceo');
+  G.spawnT-=dt;
+  const cap=G.bossAlive?6:Math.round(10+G.wave*3+(G.endless?G.t/20:0));
+  if(G.spawnT<=0 && G.en.length<cap){ spawnEnemy(wv.types[Math.floor(Math.random()*wv.types.length)]); G.spawnT=wv.rate*rnd(0.7,1.2)*(G.bossAlive?1.8:1); }
+  G.itemT-=dt; if(G.itemT<=0){ spawnItem(); G.itemT=rnd(1.6,3.2); }
+
+  // auto-fire copper pulses
+  p.fireT-=dt;
+  if(p.fireT<=0 && G.en.length){
+    const targets=G.en.filter(e=>e.x>-10&&e.x<W+10&&e.y>-10&&e.y<H+10).sort((a,b)=>dist(a,p)-dist(b,p)).slice(0,has(5)?2:1);
+    targets.forEach(t=>{ const a=Math.atan2(t.y-p.y,t.x-p.x), v=480*S; G.shots.push({x:p.x,y:p.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,dmg:has(7)?2:1}); });
+    if(targets.length){ p.fireT=has(2)?0.32:0.52; sfx.zap(); }
+  }
+  G.shots.forEach(s=>{ s.x+=s.vx*dt; s.y+=s.vy*dt; s.t+=dt; });
+  G.shots=G.shots.filter(s=>{
+    if(s.t>1.6) return false;
+    for(const e of G.en){ if(Math.hypot(e.x-s.x,e.y-s.y)<e.r*S+5){ if(damage(e,s.dmg)) G.en.splice(G.en.indexOf(e),1); burst(s.x,s.y,'#ff9a4d',4,90); return false; } }
+    return true;
+  });
+
+  // speech, quips, combo
+  if(G.say){ G.say.t-=dt; if(G.say.t<=0) G.say=null; }
+  G.comboT=Math.max(0,G.comboT-dt); if(G.comboT<=0) G.combo=0;
+  G.quipT-=dt;
+  if(G.quipT<=0){ G.quipT=rnd(3.5,6); const vis=G.en.filter(e=>!e.thief&&e.x>30&&e.x<W-30&&e.y>60&&e.y<H-30); if(vis.length){ const q=pick(vis); q.say={txt:q.type==='boss'?pick(["Your Reta is now a subscription!","Security, take that case!","Quarterly profits demand it!"]):pick(PHARMA),t:2.2}; } }
+  G.en.forEach(e=>{ if(e.say){ e.say.t-=dt; if(e.say.t<=0) e.say=null; } });
+
+  // thieves run for the nearest edge with a stolen dose
+  G.en.forEach(e=>{
+    if(!e.thief || e.stun>0) return;
+    const ex = e.x < W/2 ? -60*S : W+60*S, ey = e.y < H/2 ? -60*S : H+60*S;
+    const tx = Math.min(e.x, W-e.x) < Math.min(e.y, H-e.y) ? ex : e.x, ty = tx===e.x ? ey : e.y;
+    const a=Math.atan2(ty-e.y,tx-e.x); e.x+=Math.cos(a)*e.sp*S*dt; e.y+=Math.sin(a)*e.sp*S*dt; e.ph+=dt*12;
+  });
+  G.en=G.en.filter(e=>{ if(e.thief && (e.x<-50*S||e.x>W+50*S||e.y<-50*S||e.y>H+50*S)){ announce('THEY GOT AWAY','A goon escaped with a Reta dose. Catch the next one!'); return false; } return true; });
+
+  // enemies
+  G.en.forEach(e=>{
+    e.ph+=dt*8; e.hitT=Math.max(0,e.hitT-dt);
+    if(e.thief) return;
+    if(e.stun>0){ e.stun-=dt; return; }
+    const a=Math.atan2(p.y-e.y,p.x-e.x), d=dist(e,p);
+    let mv=1;
+    if(e.type==='lawyer' && d<230*S) mv=-0.4;
+    if(e.type==='boss'){ mv=d>140*S?1:0.2; }
+    e.x+=Math.cos(a)*e.sp*S*mv*dt; e.y+=Math.sin(a)*e.sp*S*mv*dt;
+    if(e.type==='lawyer'){ e.throwT-=dt; if(e.throwT<=0 && d<520*S){ e.throwT=rnd(2.2,3.2); const v=200*S; G.bullets.push({x:e.x,y:e.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:9,kind:'cd',t:0}); } }
+    if(e.type==='boss'){
+      e.throwT-=dt; e.summonT-=dt;
+      if(e.kind==='ceo' && !e.called && e.hp<e.maxHp/2){ e.called=true; spawnBoss('vp'); e.say={txt:'Get me my Regional VP!',t:2.4}; }
+      if(e.throwT<=0){ e.throwT=e.kind==='ceo'?1.6:2.1; const n=e.kind==='ceo'?9:6, v=170*S; for(let i=0;i<n;i++){ const b=a+(i-(n-1)/2)*0.22; G.bullets.push({x:e.x,y:e.y,vx:Math.cos(b)*v,vy:Math.sin(b)*v,r:7,kind:'pill',t:0}); } }
+      if(e.summonT<=0){ e.summonT=e.kind==='ceo'?6:8; for(let i=0;i<(e.kind==='ceo'?3:2);i++) spawnEnemy(i%2?'lobby':'agent'); }
+    }
+    if(d<(e.r+p.r*p.gs)*S*0.85){
+      if(p.giantT>0){
+        if(e.type==='boss'){ e.stompT=(e.stompT||0)-dt; if(e.stompT<=0){ e.stompT=0.4; G.shake=8; burst(e.x,e.y,'#3dff8a',10); e.dead=damage(e,12); } }
+        else { e.dead=damage(e,999); G.shake=5; }
+      } else hurtPlayer(e);
+    }
+  });
+  G.en=G.en.filter(e=>!e.dead);
+  if(p.giantT>0) G.bullets=G.bullets.filter(b=>Math.hypot(b.x-p.x,b.y-p.y)>(p.r*p.gs+8)*S);
+  // keep goons from stacking
+  for(let i=0;i<G.en.length;i++) for(let j=i+1;j<G.en.length;j++){ const a=G.en[i],b=G.en[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1,m=(a.r+b.r)*S; if(d<m){ const k=(m-d)/2/d; a.x-=dx*k;a.y-=dy*k;b.x+=dx*k;b.y+=dy*k; } }
+
+  // enemy bullets
+  G.bullets.forEach(b=>{ b.x+=b.vx*dt; b.y+=b.vy*dt; b.t+=dt; });
+  G.bullets=G.bullets.filter(b=>{ if(b.t>5||b.x<-40||b.x>W+40||b.y<-40||b.y>H+40) return false; if(Math.hypot(b.x-p.x,b.y-p.y)<(b.r+p.r*0.8)*S){ hurtPlayer(); return false; } return true; });
+
+  // items
+  G.items.forEach(it=>{ it.t+=dt; if(has(3)){ const d=dist(it,p); if(d<170*S){ const a=Math.atan2(p.y-it.y,p.x-it.x); it.x+=Math.cos(a)*340*S*dt; it.y+=Math.sin(a)*340*S*dt; } } });
+  G.items=G.items.filter(it=>{
+    if(it.t>it.life) return false;
+    if(dist(it,p)<(it.r+p.r)*S){
+      if(it.kind==='cu') gainCu();
+      else if(it.kind==='bpc'){ p.hp=Math.min(p.maxHp,p.hp+1); floatText(p.x,p.y-30,'+1 ❤ BPC-157','#3dff8a'); sfx.cu(); }
+      else if(it.kind==='tb'){ p.tbT=6; floatText(p.x,p.y-30,'TB-500 SPEED!','#ffe14d'); sfx.cu(); }
+      else if(it.kind==='coa'){ G.en.filter(e=>e.type!=='boss').forEach(e=>{ G.score+=e.pts; burst(e.x,e.y,'#ffd45c',8); }); G.en=G.en.filter(e=>e.type==='boss'); G.en=G.en.filter(e=>!damage(e,10)); G.bullets=[]; announce('VERIFIED COA!','The truth came out — every goon ran away.'); sfx.perk(); }
+      return false;
+    }
+    return true;
+  });
+
+  // fx
+  G.fx.forEach(f=>{ f.t+=dt; if(!f.ring){ f.x+=f.vx*dt; f.y+=f.vy*dt; f.vx*=0.94; f.vy*=0.94; } });
+  G.fx=G.fx.filter(f=>f.t<f.life);
+  G.texts.forEach(t=>{ t.t+=dt; t.y-=40*dt; }); G.texts=G.texts.filter(t=>t.t<1);
+  G.shake=Math.max(0,G.shake-dt*40);
+  G.score+=dt*10*(has(7)?2:1);
+}
+
+/* ---------- drawing ---------- */
+/* ---------- lab background (built once per resize, flasks bubble live) ---------- */
+let bgC=null, flasks=[];
+function buildLab(){
+  bgC=document.createElement('canvas'); bgC.width=Math.round(W*DPR); bgC.height=Math.round(H*DPR);
+  const b=bgC.getContext('2d'); b.setTransform(DPR,0,0,DPR,0,0);
+  // tiled lab floor
+  const t=Math.round(46*S);
+  for(let y=0;y<H;y+=t) for(let x=0;x<W;x+=t){ b.fillStyle=((x/t+y/t)&1)?'#150b2c':'#110824'; b.fillRect(x,y,t,t); }
+  b.strokeStyle='rgba(63,243,255,0.06)'; b.lineWidth=1; b.beginPath();
+  for(let x=0;x<W;x+=t){ b.moveTo(x+0.5,0); b.lineTo(x+0.5,H); } for(let y=0;y<H;y+=t){ b.moveTo(0,y+0.5); b.lineTo(W,y+0.5); } b.stroke();
+  // back wall + shelf of vials
+  const wh=Math.round((H>520?96:66)*S);
+  const wg=b.createLinearGradient(0,0,0,wh); wg.addColorStop(0,'#1d0f3c'); wg.addColorStop(1,'#130829'); b.fillStyle=wg; b.fillRect(0,0,W,wh);
+  b.fillStyle='#3a2a63'; b.fillRect(0,wh-6*S,W,6*S); b.fillStyle='#2a1d4a'; b.fillRect(0,wh*0.55,W,4*S);
+  const cols=['#2f9bff','#3dff8a','#ffe14d','#ff2d95','#ff9a4d','#b026ff'];
+  for(let x=10*S,i=0;x<W-10*S;x+=rnd(16,26)*S,i++){ const h=rnd(12,22)*S, w=rnd(7,11)*S, y=wh*0.55-h; b.fillStyle='rgba(230,245,255,0.18)'; b.fillRect(x,y,w,h); b.fillStyle=cols[i%cols.length]; b.globalAlpha=0.55; b.fillRect(x+1,y+h*0.45,w-2,h*0.55-1); b.globalAlpha=1; }
+  // neon "VPN LAB" sign
+  b.font='400 '+Math.round(22*S)+'px "Bebas Neue",sans-serif'; b.textAlign='center'; b.textBaseline='middle';
+  b.shadowColor='#ff2d95'; b.shadowBlur=14; b.fillStyle='#ff6ab5'; b.fillText(W<560?'VPN LAB':'VPN LAB · AUTHORIZED APES ONLY',W<560?W*0.72:W/2,wh*0.78); b.shadowBlur=0;
+  // lab benches in the bottom corners
+  const bw=Math.min(180*S,W*0.28), bh=26*S;
+  [[8*S,H-bh-8*S],[W-bw-8*S,H-bh-8*S]].forEach(([x,y])=>{ b.fillStyle='rgba(58,42,99,0.7)'; b.fillRect(x,y,bw,bh); b.fillStyle='rgba(120,100,170,0.5)'; b.fillRect(x,y,bw,4*S); });
+  // hazard stripe along the wall base
+  for(let x=0;x<W;x+=20*S){ b.fillStyle=(x/(20*S))&1?'rgba(255,212,92,0.25)':'rgba(0,0,0,0.25)'; b.fillRect(x,wh,20*S,4*S); }
+  // flasks that bubble
+  flasks=[]; const fy=H-bh-8*S;
+  [[8*S+bw*0.25,'#3dff8a'],[8*S+bw*0.7,'#2f9bff'],[W-bw-8*S+bw*0.3,'#ff2d95'],[W-bw-8*S+bw*0.75,'#ffe14d']].forEach(([x,c])=>{ flasks.push({x,y:fy,c}); b.fillStyle='rgba(230,245,255,0.25)'; b.beginPath(); b.moveTo(x-4*S,fy-26*S); b.lineTo(x+4*S,fy-26*S); b.lineTo(x+4*S,fy-16*S); b.lineTo(x+12*S,fy); b.lineTo(x-12*S,fy); b.lineTo(x-4*S,fy-16*S); b.closePath(); b.fill(); b.fillStyle=c; b.globalAlpha=0.6; b.beginPath(); b.moveTo(x-8*S,fy-7*S); b.lineTo(x+8*S,fy-7*S); b.lineTo(x+12*S,fy); b.lineTo(x-12*S,fy); b.closePath(); b.fill(); b.globalAlpha=1; });
+}
+function drawBg(){
+  if(!bgC||bgC.width!==Math.round(W*DPR)||bgC.height!==Math.round(H*DPR)) buildLab();
+  ctx.drawImage(bgC,0,0,W,H);
+  const tt=G?G.t:performance.now()/1000;
+  flasks.forEach((f,i)=>{ for(let k=0;k<3;k++){ const ph=(tt*0.8+k/3+i*0.17)%1; ctx.globalAlpha=0.7*(1-ph); ctx.fillStyle=f.c; ctx.beginPath(); ctx.arc(f.x+Math.sin(ph*9+k)*3*S,f.y-26*S-ph*30*S,(2+k)*S,0,Math.PI*2); ctx.fill(); } });
+  ctx.globalAlpha=1;
+}
+function drawGlowrilla(p){
+  const s=S*(p.gs||1), glow=0.25+Math.min(1,p.cu/42)*0.75, bob=Math.sin(p.bob)*2*s, sw=Math.sin(p.bob)*0.12;
+  const FUR='#2d6bff', FUR_D='#1a3fae', SKIN='#18204a', SKIN_D='#0b1030', COAT='#f4f7ff';
+  ctx.save(); ctx.translate(p.x,p.y+bob);
+  if(p.inv>0 && Math.floor(p.inv*14)%2===0) ctx.globalAlpha=0.45;
+  // copper glow aura — grows with every GHK-Cu
+  const ar=(p.r+14+p.cu*0.5)*s, ag=ctx.createRadialGradient(0,0,p.r*s*0.4,0,0,ar);
+  ag.addColorStop(0,'rgba(63,160,255,'+(0.35*glow)+')'); ag.addColorStop(1,'rgba(63,160,255,0)');
+  ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(0,0,ar,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(0,25*s,24*s,5*s,0,0,Math.PI*2); ctx.fill();
+  ctx.scale(p.face*s,s);
+  // short bowed legs + dark feet
+  ctx.fillStyle=FUR_D; ctx.beginPath(); ctx.ellipse(-9,17,6,7,0.2,0,Math.PI*2); ctx.ellipse(9,17,6,7,-0.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=SKIN_D; ctx.beginPath(); ctx.ellipse(-10,23,7,3,0,0,Math.PI*2); ctx.ellipse(10,23,7,3,0,0,Math.PI*2); ctx.fill();
+  // back arm: long, knuckle-walking
+  ctx.save(); ctx.rotate(sw);
+  ctx.fillStyle=COAT; ctx.beginPath(); ctx.moveTo(-20,-8); ctx.quadraticCurveTo(-34,2,-30,16); ctx.lineTo(-22,17); ctx.quadraticCurveTo(-24,4,-12,-2); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=FUR; ctx.beginPath(); ctx.ellipse(-27,19,6,5,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=SKIN; ctx.fillRect(-31,21,8,3);
+  ctx.restore();
+  // big barrel torso in a lab coat — broad shoulders, narrower hips
+  ctx.fillStyle=COAT; ctx.beginPath(); ctx.moveTo(-24,-10); ctx.quadraticCurveTo(0,-20,24,-10); ctx.lineTo(19,15); ctx.quadraticCurveTo(0,19,-19,15); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=FUR; ctx.beginPath(); ctx.moveTo(-8,-12); ctx.lineTo(8,-12); ctx.lineTo(3,8); ctx.lineTo(-3,8); ctx.closePath(); ctx.fill(); // furry chest
+  ctx.fillStyle=SKIN; ctx.beginPath(); ctx.ellipse(-3,-4,3.2,4,0,0,Math.PI*2); ctx.ellipse(3,-4,3.2,4,0,0,Math.PI*2); ctx.fill(); // pecs
+  ctx.strokeStyle='#c9d4ee'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(-8,-12); ctx.lineTo(-3,8); ctx.lineTo(-3,16); ctx.moveTo(8,-12); ctx.lineTo(3,8); ctx.stroke();
+  ctx.fillStyle='#ff9a4d'; ctx.fillRect(-17,0,6,4); // copper pen
+  ctx.fillStyle='#3ff3ff'; ctx.fillRect(9,-1,8,6); ctx.fillStyle='#0b1a4a'; ctx.font='bold 4px sans-serif'; ctx.textAlign='center'; ctx.fillText('VPN',13,3.5); // ID badge
+  // front arm reaching to the Reta case handle
+  ctx.save(); ctx.rotate(-sw*0.6);
+  ctx.fillStyle=COAT; ctx.beginPath(); ctx.moveTo(18,-10); ctx.quadraticCurveTo(32,-4,30,8); ctx.lineTo(22,9); ctx.quadraticCurveTo(22,0,12,-4); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=FUR; ctx.beginPath(); ctx.ellipse(27,10,6,5,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  // head: low and forward between the shoulders
+  ctx.fillStyle=FUR; ctx.beginPath(); ctx.ellipse(2,-21,13,12,0,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(1,-31,7,5,0,0,Math.PI*2); ctx.fill(); // sagittal crest
+  ctx.fillStyle=SKIN; ctx.beginPath(); ctx.arc(-10,-22,3,0,Math.PI*2); ctx.fill(); // small ear
+  // gorilla face: dark skin mask, heavy brow, wide nostrils, big jaw
+  ctx.fillStyle=SKIN; ctx.beginPath(); ctx.ellipse(5,-18,9,9,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=SKIN_D; ctx.beginPath(); ctx.ellipse(5,-24,11,3.6,0,0,Math.PI*2); ctx.fill(); // brow ridge
+  ctx.fillStyle='rgba(63,243,255,'+(0.7+glow*0.3)+')'; ctx.beginPath(); ctx.arc(2,-20.5,1.7,0,Math.PI*2); ctx.arc(9,-20.5,1.7,0,Math.PI*2); ctx.fill(); // glowing eyes
+  ctx.fillStyle='#2a3566'; ctx.beginPath(); ctx.ellipse(7,-12,8,5.5,0,0,Math.PI*2); ctx.fill(); // muzzle/jaw
+  ctx.fillStyle='#05091f'; ctx.beginPath(); ctx.ellipse(5,-15,1.8,1.3,0.3,0,Math.PI*2); ctx.ellipse(10,-15,1.8,1.3,-0.3,0,Math.PI*2); ctx.fill(); // nostrils
+  ctx.strokeStyle='#05091f'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(3,-10); ctx.quadraticCurveTo(8,-8,13,-11); ctx.stroke(); // smirk
+  ctx.restore();
+
+  // the Retatrutide case (drawn un-mirrored so the label reads correctly)
+  ctx.save(); ctx.translate(p.x+p.face*29*s,p.y+bob+15*s); ctx.scale(s,s);
+  if(p.inv>0 && Math.floor(p.inv*14)%2===0) ctx.globalAlpha=0.45;
+  ctx.strokeStyle='#9aa4b8'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(-4,-8); ctx.lineTo(-4,-11); ctx.lineTo(4,-11); ctx.lineTo(4,-8); ctx.stroke(); // handle
+  const cg=ctx.createLinearGradient(0,-8,0,8); cg.addColorStop(0,'#e3e8f2'); cg.addColorStop(1,'#8a93a8'); ctx.fillStyle=cg; ctx.fillRect(-12,-8,24,16);
+  ctx.fillStyle='#ff9a4d'; ctx.fillRect(-12,-2,24,4);
+  ctx.fillStyle='#1a0f2e'; ctx.font='bold 5.5px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('RETA',0,0.3);
+  for(let i=0;i<p.maxHp;i++){ ctx.fillStyle=i<p.hp?'#ff2d95':'rgba(0,0,0,0.25)'; ctx.fillRect(-10+i*(20/Math.max(1,p.maxHp)),4,Math.max(1.5,18/p.maxHp-1),2.5); } // dose dots
+  ctx.restore();
+
+  if(p.shieldOn){ ctx.strokeStyle='rgba(63,243,255,0.75)'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(p.x,p.y,(p.r+16)*s,0,Math.PI*2); ctx.stroke(); }
+  if(p.tbT>0){ ctx.fillStyle='rgba(255,225,77,0.6)'; for(let i=0;i<3;i++){ ctx.fillRect(p.x-p.face*(30+i*8)*s,p.y-8*s+i*7*s,10*s,2*s); } }
+}
+// speech bubble (rounded, wraps, stays on screen)
+function bubble(x,y,txt,col){
+  ctx.save();
+  const fs=Math.round(13*Math.max(0.85,S)); ctx.font='700 '+fs+'px Rajdhani,sans-serif';
+  const maxW=Math.min(240,W*0.62), words=txt.split(' '), lines=[]; let ln='';
+  words.forEach(w=>{ const t=ln?ln+' '+w:w; if(ctx.measureText(t).width>maxW&&ln){ lines.push(ln); ln=w; } else ln=t; }); if(ln) lines.push(ln);
+  const lh=fs*1.15, w=Math.max(...lines.map(l=>ctx.measureText(l).width))+16, h=lines.length*lh+10;
+  let bx=clamp(x-w/2,6,W-w-6), by=y-h-16, down=false; if(by<6){ by=y+34*S; down=true; }
+  ctx.fillStyle='rgba(255,255,255,0.96)'; ctx.strokeStyle=col; ctx.lineWidth=2;
+  const r=8; ctx.beginPath(); ctx.moveTo(bx+r,by); ctx.arcTo(bx+w,by,bx+w,by+h,r); ctx.arcTo(bx+w,by+h,bx,by+h,r); ctx.arcTo(bx,by+h,bx,by,r); ctx.arcTo(bx,by,bx+w,by,r); ctx.closePath(); ctx.fill(); ctx.stroke();
+  const tx=clamp(x,bx+12,bx+w-12); ctx.beginPath();
+  if(down){ ctx.moveTo(tx-6,by); ctx.lineTo(tx,by-9); ctx.lineTo(tx+6,by); } else { ctx.moveTo(tx-6,by+h); ctx.lineTo(tx,by+h+9); ctx.lineTo(tx+6,by+h); }
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#14102a'; ctx.textAlign='left'; ctx.textBaseline='top'; lines.forEach((l,i)=>ctx.fillText(l,bx+8,by+5+i*lh));
+  ctx.restore();
+}
+function drawEnemy(e){
+  const s=S*(e.type==='boss'?e.r/17:e.r/17); const flash=e.hitT>0;
+  ctx.save(); ctx.translate(e.x,e.y+Math.sin(e.ph)*1.5); ctx.scale(s,s);
+  if(e.stun>0){ ctx.globalAlpha=0.7; }
+  // suit
+  ctx.fillStyle=flash?'#fff':e.col; ctx.beginPath(); ctx.moveTo(-13,-2); ctx.lineTo(13,-2); ctx.lineTo(15,16); ctx.lineTo(-15,16); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(-4,-2); ctx.lineTo(4,-2); ctx.lineTo(0,7); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=e.type==='lawyer'?'#d62839':e.type==='lobby'?'#ffd45c':e.type==='boss'?'#ffd45c':'#111'; ctx.fillRect(-1.5,-1,3,10); // tie
+  // head
+  ctx.fillStyle=flash?'#fff':'#f1c6a3'; ctx.beginPath(); ctx.arc(0,-11,9,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#2b2b2b'; ctx.beginPath(); ctx.arc(0,-14,9,Math.PI,0); ctx.fill(); // hair
+  ctx.fillStyle='#111'; ctx.fillRect(-7,-12,14,3.5); // shades
+  // briefcase with $
+  ctx.fillStyle='#5a3a1e'; ctx.fillRect(10,6,11,8); ctx.fillStyle='#ffd45c'; ctx.font='bold 7px sans-serif'; ctx.textAlign='center'; ctx.fillText('$',15.5,12.5);
+  if(e.type==='boss'){ ctx.fillStyle='#ffd45c'; ctx.beginPath(); ctx.moveTo(-8,-21); ctx.lineTo(-4,-27); ctx.lineTo(0,-22); ctx.lineTo(4,-27); ctx.lineTo(8,-21); ctx.closePath(); ctx.fill(); }
+  if(e.stun>0){ ctx.fillStyle='#ffe14d'; ctx.font='bold 9px sans-serif'; ctx.fillText('✦ ✦',0,-24); }
+  if(e.thief){ // carrying a stolen Reta dose over his head
+    ctx.fillStyle='rgba(230,245,255,0.95)'; ctx.fillRect(-3.5,-34,7,11); ctx.fillStyle='#ff2d95'; ctx.fillRect(-3,-29,6,5.5); ctx.fillStyle='#ff9a4d'; ctx.fillRect(-4,-36,8,3);
+    ctx.strokeStyle='#f1c6a3'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(-8,-4); ctx.lineTo(-4,-24); ctx.moveTo(8,-4); ctx.lineTo(4,-24); ctx.stroke();
+  }
+  ctx.restore();
+  if(e.type!=='boss' && e.hp<e.maxHp){ ctx.fillStyle='rgba(0,0,0,0.6)'; ctx.fillRect(e.x-12*S,e.y-e.r*S-12*S,24*S,3*S); ctx.fillStyle='#ff2d95'; ctx.fillRect(e.x-12*S,e.y-e.r*S-12*S,24*S*Math.max(0,e.hp/e.maxHp),3*S); }
+}
+function drawItem(it){
+  const s=S, pulse=1+Math.sin(it.t*6)*0.08, fade=it.life-it.t<2?(Math.floor(it.t*8)%2?0.35:1):1;
+  const col={cu:'#2f9bff',bpc:'#3dff8a',tb:'#ffe14d',coa:'#ffd45c'}[it.kind];
+  ctx.save(); ctx.globalAlpha=fade; ctx.translate(it.x,it.y); ctx.scale(s*pulse,s*pulse);
+  const g=ctx.createRadialGradient(0,0,2,0,0,22); g.addColorStop(0,col+'88'); g.addColorStop(1,col+'00'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.fill();
+  if(it.kind==='coa'){ ctx.fillStyle='#fffdf2'; ctx.fillRect(-8,-10,16,20); ctx.fillStyle='#1a7a3a'; ctx.font='bold 6px sans-serif'; ctx.textAlign='center'; ctx.fillText('COA',0,-2); ctx.fillText('✔',0,6); }
+  else {
+    ctx.fillStyle='rgba(230,245,255,0.9)'; ctx.fillRect(-6,-9,12,18);
+    ctx.fillStyle=col; ctx.fillRect(-5,-2,10,10);
+    ctx.fillStyle=it.kind==='cu'?'#ff9a4d':'#c9d4ee'; ctx.fillRect(-6,-13,12,5);
+    ctx.fillStyle='#0b1a4a'; ctx.font='bold 5px sans-serif'; ctx.textAlign='center'; ctx.fillText(it.kind==='cu'?'Cu':it.kind==='bpc'?'BPC':'TB',0,5);
+  }
+  ctx.restore();
+}
+function drawHud(){
+  const p=G.p, pad=14, top=12;
+  ctx.save(); ctx.textBaseline='top'; ctx.textAlign='left';
+  // Reta doses left in the case (= lives)
+  const k=Math.max(0.85,S);
+  for(let i=0;i<p.maxHp;i++){ const x=pad+i*16*k, on=i<p.hp; ctx.fillStyle=on?'rgba(230,245,255,0.95)':'rgba(255,255,255,0.15)'; ctx.fillRect(x,top+3*k,10*k,16*k); ctx.fillStyle=on?'#ff2d95':'rgba(255,255,255,0.1)'; ctx.fillRect(x+1*k,top+10*k,8*k,8*k); ctx.fillStyle=on?'#ff9a4d':'rgba(255,255,255,0.15)'; ctx.fillRect(x-1*k,top,12*k,4*k); }
+  ctx.fillStyle='rgba(255,200,225,0.85)'; ctx.font='700 '+(11*k)+'px Rajdhani,sans-serif'; ctx.fillText('RETA CASE',pad+p.maxHp*16*k+6,top+6*k);
+  // combo + HGH meter (top centre)
+  if(G.combo>=3){ ctx.textAlign='center'; ctx.fillStyle='#ffe14d'; ctx.font='400 '+(24*k)+'px "Bebas Neue",sans-serif'; ctx.fillText('⚡ COMBO '+G.combo+'  ·  x'+Math.min(5,1+Math.floor((G.combo-1)/3)),W/2,top+2); ctx.textAlign='left'; }
+  // score + wave
+  ctx.font='400 '+(26*Math.max(0.8,S))+'px "Bebas Neue",sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(String(Math.floor(G.score)).padStart(6,'0'),pad,top+26*Math.max(0.85,S));
+  ctx.fillStyle='#3ff3ff'; ctx.font='400 '+(16*Math.max(0.8,S))+'px "Bebas Neue",sans-serif';
+  ctx.fillText(G.endless?'ENDLESS · '+Math.floor(G.t)+'s':'WAVE '+(Math.min(G.wave,4)+1)+' / 5',pad,top+52*Math.max(0.85,S));
+  // copper meter
+  const next=PERKS[p.perks], prev=p.perks?PERKS[p.perks-1].at:0, mw=Math.min(220,W*0.42), mx=pad, my=top+72*Math.max(0.85,S);
+  ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.fillRect(mx,my,mw,8);
+  ctx.fillStyle='#ff9a4d'; ctx.fillRect(mx,my,mw*(next?(p.cu-prev)/(next.at-prev):1),8);
+  ctx.fillStyle='rgba(255,230,210,0.9)'; ctx.font='700 '+(12*Math.max(0.85,S))+'px Rajdhani,sans-serif';
+  ctx.fillText('GHK-Cu '+p.cu+(next?'  ·  next perk: '+next.name+' @ '+next.at:'  ·  MAX GLOW'),mx,my+11);
+  // boss bar
+  const b=G.en.find(e=>e.type==='boss');
+  if(b){ const bw=Math.min(420,W*0.6), bx=(W-bw)/2, by=H-34-Math.max(0,(window.innerHeight-H)); ctx.fillStyle='rgba(0,0,0,0.6)'; ctx.fillRect(bx-2,by-2,bw+4,14); ctx.fillStyle='#ffd45c'; ctx.fillRect(bx,by,bw*Math.max(0,b.hp/b.maxHp),10); ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='400 18px "Bebas Neue",sans-serif'; ctx.fillText(b.name,W/2,by-20); }
+  ctx.restore();
+}
+function draw(){
+  ctx.save();
+  if(G&&G.shake>0) ctx.translate(rnd(-G.shake,G.shake)*0.4,rnd(-G.shake,G.shake)*0.4);
+  drawBg();
+  if(G){
+    G.items.forEach(drawItem);
+    G.fx.forEach(f=>{ if(f.ring){ ctx.strokeStyle='rgba(255,154,77,'+(1-f.t/f.life)+')'; ctx.lineWidth=6*S; ctx.beginPath(); ctx.arc(f.x,f.y,f.R*(f.t/f.life),0,Math.PI*2); ctx.stroke(); } else { ctx.globalAlpha=1-f.t/f.life; ctx.fillStyle=f.col; ctx.fillRect(f.x-2,f.y-2,4,4); ctx.globalAlpha=1; } });
+    G.shots.forEach(s=>{ ctx.fillStyle='#ff9a4d'; ctx.shadowColor='#ff9a4d'; ctx.shadowBlur=10; ctx.beginPath(); ctx.arc(s.x,s.y,4.5*S,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0; });
+    G.bullets.forEach(b=>{ if(b.kind==='cd'){ ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.t*5); ctx.fillStyle='#fff'; ctx.fillRect(-7*S,-5*S,14*S,10*S); ctx.fillStyle='#d62839'; ctx.font='bold '+(5*S)+'px sans-serif'; ctx.textAlign='center'; ctx.fillText('C&D',0,2*S); ctx.restore(); } else { ctx.fillStyle='#ff4d6d'; ctx.beginPath(); ctx.ellipse(b.x,b.y,b.r*S,b.r*S*0.55,b.t*4,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.ellipse(b.x,b.y,b.r*S*0.5,b.r*S*0.5,b.t*4,0,Math.PI); ctx.fill(); } });
+    G.en.forEach(drawEnemy);
+    drawGlowrilla(G.p);
+    G.en.forEach(e=>{ if(e.say) bubble(e.x,e.y-e.r*S*(e.type==='boss'?e.r/17:1)-6*S,e.say.txt,e.type==='boss'?'#ffd45c':'#ff4d6d'); });
+    if(G.say) bubble(G.p.x,G.p.y-(34*G.p.gs)*S,G.say.txt,'#3ff3ff');
+    G.texts.forEach(t=>{ ctx.globalAlpha=1-t.t; ctx.fillStyle=t.col; ctx.font='400 '+(18*Math.max(0.85,S))+'px "Bebas Neue",sans-serif'; ctx.textAlign='center'; ctx.fillText(t.txt,t.x,t.y); ctx.globalAlpha=1; });
+    if(touch){ ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(touch.sx,touch.sy,55,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(63,243,255,0.35)'; const dx=touch.x-touch.sx, dy=touch.y-touch.sy, l=Math.min(55,Math.hypot(dx,dy)), a=Math.atan2(dy,dx); ctx.beginPath(); ctx.arc(touch.sx+Math.cos(a)*l,touch.sy+Math.sin(a)*l,20,0,Math.PI*2); ctx.fill(); }
+    drawHud();
+  }
+  ctx.restore();
+}
+
+/* ---------- loop & states ---------- */
+function loop(ts){
+  const dt=Math.min(0.033,(ts-last)/1000||0); last=ts;
+  if(G && !G.paused && !G.over) update(dt);
+  draw();
+  raf=requestAnimationFrame(loop);
+}
+function show(id,on){ $(id).hidden=!on; }
+function start(endless){
+  if(!endless) newGame(); else { G.over=false; G.endless=true; G.won=true; G.t=0; G.p.hp=G.p.maxHp; announce('ENDLESS MODE','Big Pharma keeps hiring. How long can you last?'); }
+  show('scrTitle',false); show('scrEnd',false); show('scrPause',false); show('ui',true); show('topbtns',true);
+  $('pound').classList.toggle('off',!has(4));
+  try{ AC&&AC.resume&&AC.resume(); }catch(e){}
+}
+function endGame(won){
+  if(G.over) return;
+  G.over=true; G.won=G.won||won;
+  const best=getBest(), sc=Math.floor(G.score);
+  if(sc>best.score) best.score=sc; if(won) best.wins=(best.wins||0)+1; setBest(best);
+  $('endTitle').textContent=won?'BIG PHARMA DEFEATED!':'THE CASE IS EMPTY!';
+  $('endSub').textContent=won?'Glowrilla kept the Reta and took down the CEO':'Big Pharma took every last Reta dose';
+  $('stScore').textContent=sc; $('stWave').textContent=G.endless?'∞':Math.min(G.wave+1,5); $('stCu').textContent=G.p.cu;
+  $('endMsg').textContent=won?'"You made it harder to access Reta, Pharma — so I made it harder to be Pharma." Best combo: '+G.bestCombo+'.':pick(['Tip: catch the goons running off with a dose — you get it back.','Tip: save HGH for when the screen fills up or a boss shows up.','Tip: grab blue GHK-Cu — perk 4 unlocks the Ground Pound.','Tip: chain quick takedowns for up to x5 combo points.']);
+  $('btnEndless').hidden=!won||G.endless;
+  $('bestEnd').textContent='Best score: '+best.score+(best.wins?'  ·  CEO defeated '+best.wins+'×':'');
+  show('ui',false); show('topbtns',false); show('scrEnd',true);
+}
+function pause(on){ if(!G||G.over) return; G.paused=on; $('pausePerks').textContent=G.p.perks?'PERKS: '+PERKS.slice(0,G.p.perks).map(x=>x.name).join(' · '):'NO PERKS YET — GRAB GHK-Cu'; show('scrPause',on); }
+
+$('btnStart').onclick=()=>start(false);
+$('btnAgain').onclick=()=>start(false);
+$('btnEndless').onclick=()=>start(true);
+$('btnResume').onclick=()=>pause(false);
+$('btnQuit').onclick=()=>{ G=null; show('scrPause',false); show('ui',false); show('topbtns',false); refreshBest(); show('scrTitle',true); };
+$('btnPause').onclick=()=>pause(true);
+function setMute(m){ muted=m; $('btnMute').textContent=m?'🔇':'🔊'; try{ localStorage.setItem('glowrilla-mute',m?'1':'0'); }catch(e){} }
+$('btnMute').onclick=()=>setMute(!muted); setMute(muted);
+$('pound').addEventListener('pointerdown',e=>{ e.preventDefault(); e.stopPropagation(); pound(); });
+$('hgh').addEventListener('pointerdown',e=>{ e.preventDefault(); e.stopPropagation(); injectHGH(); });
+
+window.addEventListener('keydown',e=>{
+  keys[e.key]=true;
+  if(e.key===' '){ e.preventDefault(); pound(); }
+  if(e.key==='h'||e.key==='H'){ injectHGH(); }
+  if(e.key==='Escape'||e.key==='p'||e.key==='P'){ if(G&&!G.over) pause(!G.paused); }
+  if(e.key==='Enter' && !$('scrTitle').hidden) start(false);
+});
+window.addEventListener('keyup',e=>{ keys[e.key]=false; });
+window.addEventListener('blur',()=>{ keys={}; touch=null; if(G&&!G.over&&!G.paused) pause(true); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&G&&!G.over&&!G.paused) pause(true); });
+
+// drag-anywhere virtual joystick
+cv.addEventListener('pointerdown',e=>{ if(!G||G.paused||G.over) return; touch={id:e.pointerId,sx:e.clientX,sy:e.clientY,x:e.clientX,y:e.clientY}; try{cv.setPointerCapture(e.pointerId);}catch(_){} });
+cv.addEventListener('pointermove',e=>{ if(touch&&e.pointerId===touch.id){ touch.x=e.clientX; touch.y=e.clientY; } });
+['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,e=>{ if(touch&&e.pointerId===touch.id) touch=null; }));
+
+function refreshBest(){ const b=getBest(); $('bestTitle').textContent=b.score?'Best score: '+b.score+(b.wins?'  ·  CEO defeated '+b.wins+'×':''):''; }
+if(/[?&]dev=1/.test(location.search)) window.__glow=()=>G; // testing hook only
+resize(); refreshBest();
+raf=requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
