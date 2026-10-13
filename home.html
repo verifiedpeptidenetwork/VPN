@@ -32525,6 +32525,63 @@ window.addEventListener('appinstalled', function(){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(fill,400); }); else setTimeout(fill,400);
 })();
 </script>
+<!-- ══ SETTINGS GEAR: one button instead of five floating ones (music, text size, theme, back-to-top, Glowrilla hub) ══ -->
+<style>
+  #vpn-back-top,#vpn-mp-fab,#gw-fab-home,#vt-toggle-btn,#vt-text-ctrl{display:none !important;}
+  #vpn-gear{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:9995;width:54px;height:54px;border-radius:50%;border:2px solid rgba(63,243,255,0.7);background:radial-gradient(circle at 35% 30%,#1d1440,#07031a);color:#fff;font-size:1.6rem;cursor:pointer;box-shadow:0 0 18px rgba(63,243,255,0.45);transition:transform .2s;}
+  #vpn-gear[aria-expanded="true"]{transform:rotate(90deg);}
+  #vpn-gear-panel{position:fixed;right:16px;bottom:calc(82px + env(safe-area-inset-bottom,0px));z-index:9995;width:min(290px,calc(100vw - 32px));max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);overflow-y:auto;overscroll-behavior:contain;padding:0.7rem;border-radius:16px;background:rgba(10,6,28,0.97);border:1px solid rgba(63,243,255,0.5);box-shadow:0 18px 40px -16px rgba(0,0,0,0.8);font-family:'Rajdhani',sans-serif;}
+  #vpn-gear-panel[hidden]{display:none;}
+  #vpn-gear-panel .gt{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.14em;color:#3ff3ff;margin:0.1rem 0.2rem 0.5rem;}
+  #vpn-gear-panel .gr{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;}
+  #vpn-gear-panel button,#vpn-gear-panel a{display:flex;align-items:center;justify-content:center;gap:0.35rem;padding:0.6rem 0.4rem;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.05);color:#fff;font:700 0.95rem 'Rajdhani',sans-serif;text-decoration:none;cursor:pointer;}
+  #vpn-gear-panel button:hover,#vpn-gear-panel a:hover{border-color:#3ff3ff;background:rgba(63,243,255,0.1);}
+  #vpn-gear-panel .full{grid-column:1/-1;}
+  #vpn-gear-panel .gs{margin:0.7rem 0.2rem 0.35rem;font-size:0.78rem;letter-spacing:0.12em;color:rgba(220,215,240,0.6);text-transform:uppercase;}
+  @media(max-width:900px){ #vpn-gear{bottom:calc(76px + env(safe-area-inset-bottom,0px));} #vpn-gear-panel{bottom:calc(140px + env(safe-area-inset-bottom,0px));max-height:calc(100vh - 160px);max-height:calc(100dvh - 160px);} }
+  @media(max-height:480px){ #vpn-gear-panel .gr{grid-template-columns:1fr 1fr 1fr;} #vpn-gear-panel .full{grid-column:auto;} #vpn-gear-panel button,#vpn-gear-panel a{padding:0.45rem 0.3rem;font-size:0.88rem;} }
+  html[data-theme="light"] #vpn-gear{background:#fff;color:#14102a;border-color:rgba(11,110,122,0.6);}
+  html[data-theme="light"] #vpn-gear-panel{background:#fffdf8;border-color:rgba(11,110,122,0.4);}
+  html[data-theme="light"] #vpn-gear-panel button,html[data-theme="light"] #vpn-gear-panel a{color:#14102a;border-color:rgba(20,16,42,0.2);background:#fff;}
+  html[data-theme="light"] #vpn-gear-panel .gt{color:#0b6e7a;}
+</style>
+<button id="vpn-gear" type="button" aria-label="Settings" aria-expanded="false" aria-controls="vpn-gear-panel">⚙️</button>
+<div id="vpn-gear-panel" role="menu" hidden>
+  <div class="gt">⚙️ SETTINGS</div>
+  <div class="gr">
+    <button type="button" data-g="theme" class="full">🌗 <span id="vpn-gear-theme">Light mode</span></button>
+    <button type="button" data-g="aplus">A+ Bigger text</button>
+    <button type="button" data-g="aminus">A− Smaller text</button>
+    <button type="button" data-g="music" class="full">🎵 Music player</button>
+    <button type="button" data-g="top" class="full">↑ Back to top</button>
+  </div>
+  <div class="gs">🦍 Glowrilla hub</div>
+  <div class="gr" id="vpn-gear-hub"></div>
+</div>
+<script>
+(function(){
+  var gear=document.getElementById('vpn-gear'), panel=document.getElementById('vpn-gear-panel');
+  function open(o){ panel.hidden=!o; gear.setAttribute('aria-expanded',o?'true':'false'); if(o) syncTheme(); }
+  function syncTheme(){ var l=document.documentElement.getAttribute('data-theme')==='light'; document.getElementById('vpn-gear-theme').textContent=l?'Dark mode':'Light mode'; }
+  gear.addEventListener('click',function(e){ e.stopPropagation(); open(panel.hidden); });
+  // close on an outside tap — but ignore the hidden originals we click on the user's behalf
+  document.addEventListener('click',function(e){ if(!panel.hidden && !panel.contains(e.target) && e.target!==gear && !(e.target.closest && e.target.closest('#vt-text-ctrl,#vpn-mp-fab'))) open(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !panel.hidden){ open(false); gear.focus(); } });
+  function textBtn(plus){ var c=document.getElementById('vt-text-ctrl'); if(!c) return; var bs=c.querySelectorAll('button'); var b=[].filter.call(bs,function(x){ return /\+/.test(x.textContent)===plus; })[0]||bs[plus?0:1]; if(b) b.click(); }
+  panel.addEventListener('click',function(e){
+    var b=e.target.closest('[data-g]'); if(!b) return; var g=b.getAttribute('data-g');
+    if(g==='theme'){ if(window.vpnThemeToggle) window.vpnThemeToggle(); setTimeout(syncTheme,50); return; }
+    if(g==='aplus') return textBtn(true);
+    if(g==='aminus') return textBtn(false);
+    if(g==='music'){ var m=document.getElementById('vpn-mp-fab'); if(m) m.click(); open(false); return; }
+    if(g==='top'){ window.scrollTo({top:0,behavior:'smooth'}); open(false); }
+  });
+  function fillHub(){ var src=document.getElementById('gw-menu-home'), dst=document.getElementById('vpn-gear-hub'); if(!src||!dst||dst.children.length) return;
+    [].forEach.call(src.querySelectorAll('a'),function(a){ var c=a.cloneNode(true); c.addEventListener('click',function(){ open(false); }); dst.appendChild(c); }); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fillHub); else fillHub();
+  document.addEventListener('vpn-theme-change',syncTheme);
+})();
+</script>
 </body>
 </html>
 
