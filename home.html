@@ -4829,23 +4829,30 @@ document.addEventListener('keydown', function(e){
     <!-- WELCOME VIDEO + BEFORE YOU RESEARCH CARD -->
     <style>
       #site-hero > #gw-arcade{order:1;}
-      #gw-arcade{position:relative;display:flex;align-items:center;gap:0.9rem;width:100%;box-sizing:border-box;margin:0 0 0.9rem;padding:1.4rem 1rem 0.9rem;border-radius:16px;text-decoration:none;color:#fff;overflow:hidden;
-        background:repeating-linear-gradient(0deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 3px),linear-gradient(135deg,#0d1a4a,#1b0638 55%,#2a0626);
-        border:2px solid #3ff3ff;box-shadow:0 0 0 2px rgba(255,45,149,0.6),0 0 26px rgba(63,243,255,0.35);transition:transform .15s;}
-      #gw-arcade:hover{transform:translateY(-2px);}
-      #gw-arcade .ga-marq{position:absolute;top:0;left:50%;transform:translateX(-50%);padding:0.1rem 0.9rem;border-radius:0 0 10px 10px;background:linear-gradient(90deg,#ffe14d,#ff8a00,#ff2d95);color:#1a0626;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.22em;white-space:nowrap;}
-      #gw-arcade .ga-screen{flex-shrink:0;width:72px;height:72px;display:grid;place-items:center;border-radius:12px;background:#05010c;border:2px solid rgba(63,243,255,0.5);box-shadow:inset 0 0 14px rgba(63,160,255,0.45);}
-      #gw-arcade .ga-screen svg{animation:gaBob 1.4s ease-in-out infinite;}
-      @keyframes gaBob{50%{transform:translateY(-3px);}}
+      #gw-arcade{position:relative;display:flex;align-items:center;gap:1rem;width:100%;box-sizing:border-box;margin:0 0 0.9rem;padding:1.5rem 1rem 1rem;border-radius:18px;color:#fff;overflow:hidden;
+        background:radial-gradient(120% 140% at 0% 0%,rgba(255,45,149,0.22),transparent 55%),radial-gradient(120% 140% at 100% 100%,rgba(63,243,255,0.18),transparent 55%),linear-gradient(135deg,#120530,#07021a);
+        border:1px solid rgba(63,243,255,0.55);box-shadow:0 0 0 1px rgba(255,45,149,0.35) inset,0 18px 40px -22px rgba(63,243,255,0.7);}
+      #gw-arcade .ga-marq{position:absolute;top:0;left:50%;transform:translateX(-50%);padding:0.12rem 1rem;border-radius:0 0 10px 10px;background:linear-gradient(90deg,#3ff3ff,#b026ff,#ff2d95);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.24em;white-space:nowrap;}
+      #gw-arcade .ga-icon{position:relative;flex-shrink:0;width:92px;height:92px;border-radius:50%;padding:4px;background:conic-gradient(#3ff3ff,#b026ff,#ff2d95,#ff9a4d,#3ff3ff);box-shadow:0 0 22px rgba(176,38,255,0.55);}
+      #gw-arcade .ga-icon img{width:84px;height:84px;border-radius:50%;display:block;object-fit:cover;background:#05010c;}
+      #gw-arcade .ga-joy{position:absolute;right:-4px;bottom:-2px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#ffd45c;font-size:1.1rem;box-shadow:0 0 12px rgba(255,212,92,0.8);}
       #gw-arcade .ga-txt{flex:1;min-width:0;display:flex;flex-direction:column;text-align:left;}
-      #gw-arcade .ga-txt b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.55rem;letter-spacing:0.08em;line-height:1;background:linear-gradient(90deg,#3ff3ff,#8fc2ff,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;}
-      #gw-arcade .ga-txt b i{font-style:normal;color:#ff9a4d;-webkit-text-fill-color:#ff9a4d;}
-      #gw-arcade .ga-txt small{margin-top:0.2rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;line-height:1.35;color:rgba(230,235,255,0.88);}
-      #gw-arcade .ga-coin{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0.55rem 0.9rem;border-radius:12px;background:#ff2d95;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;line-height:1;box-shadow:0 0 18px rgba(255,45,149,0.7);animation:gaPulse 1.8s ease-in-out infinite;}
+      #gw-arcade .ga-txt b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2rem;letter-spacing:0.08em;line-height:1;background:linear-gradient(90deg,#3ff3ff,#8fc2ff 50%,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      #gw-arcade .ga-txt b i{font-style:normal;}
+      #gw-arcade .ga-txt small{margin-top:0.25rem;font-family:'Rajdhani',sans-serif;font-size:0.98rem;font-weight:600;line-height:1.4;color:rgba(232,236,255,0.9);}
+      #gw-arcade .ga-txt small u{text-decoration:none;color:#ffd45c;}
+      #gw-arcade .ga-tags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.5rem;}
+      #gw-arcade .ga-tags span{padding:0.1rem 0.55rem;border-radius:999px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:#e9e4ff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);}
+      #gw-arcade .ga-btns{flex-shrink:0;display:flex;flex-direction:column;gap:0.45rem;align-items:stretch;}
+      #gw-arcade .ga-coin{display:flex;flex-direction:column;align-items:center;padding:0.6rem 1.1rem;border-radius:12px;text-decoration:none;color:#fff;background:linear-gradient(90deg,#ff2d95,#b026ff);font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;line-height:1;box-shadow:0 0 18px rgba(255,45,149,0.6);}
       #gw-arcade .ga-coin em{font-style:normal;margin-top:0.2rem;font-size:0.62rem;letter-spacing:0.14em;opacity:0.9;}
-      @keyframes gaPulse{50%{box-shadow:0 0 30px rgba(255,45,149,1);}}
-      @media(max-width:520px){ #gw-arcade{flex-wrap:wrap;} #gw-arcade .ga-txt{flex-basis:calc(100% - 90px);} #gw-arcade .ga-coin{width:100%;flex-direction:row;justify-content:center;gap:0.6rem;} #gw-arcade .ga-coin em{margin:0;} }
-      @media (prefers-reduced-motion: reduce){ #gw-arcade .ga-screen svg,#gw-arcade .ga-coin{animation:none;} }
+      #gw-arcade .ga-alt{text-align:center;padding:0.45rem 0.9rem;border-radius:10px;text-decoration:none;color:#3ff3ff;border:1px solid rgba(63,243,255,0.55);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;}
+      #gw-arcade .ga-coin:hover,#gw-arcade .ga-alt:hover{filter:brightness(1.15);}
+      @media(max-width:640px){ #gw-arcade{flex-wrap:wrap;} #gw-arcade .ga-icon{width:72px;height:72px;} #gw-arcade .ga-icon img{width:64px;height:64px;} #gw-arcade .ga-txt{flex-basis:calc(100% - 92px);} #gw-arcade .ga-txt b{font-size:1.6rem;} #gw-arcade .ga-btns{width:100%;flex-direction:row;} #gw-arcade .ga-btns > a{flex:1;} }
+      html[data-theme="light"] #gw-arcade{background:linear-gradient(135deg,#f3ecff,#e9fbff) !important;border-color:rgba(91,42,134,0.4) !important;}
+      html[data-theme="light"] #gw-arcade .ga-txt small{color:#26324a !important;} html[data-theme="light"] #gw-arcade .ga-txt small u{color:#8a5a00 !important;}
+      html[data-theme="light"] #gw-arcade .ga-tags span{color:#3a2a63 !important;background:#fff !important;border-color:rgba(91,42,134,0.25) !important;}
+      html[data-theme="light"] #gw-arcade .ga-alt{color:#0b6e7a !important;border-color:rgba(11,110,122,0.5) !important;}
     </style>
 
     <div id="vpn-watch-first" style="margin:0 0 0.9rem;width:100%;box-sizing:border-box;">
@@ -4878,28 +4885,16 @@ document.addEventListener('keydown', function(e){
         </details>
         <!-- Play the peptide game (Glowrilla) -->
         <div style="padding:0.75rem 0.9rem 0.2rem;background:#000;border-top:1px solid rgba(255,20,80,0.2);">
-    <a id="gw-arcade" href="glowrilla-game.html" data-vt-skip data-search="game glowrilla vs big pharma arcade play ghk-cu">
-      <span class="ga-marq">★ PLAY THE PEPTIDE GAME ★</span>
-      <span class="ga-screen">
-        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
-          <circle cx="32" cy="34" r="27" fill="rgba(63,160,255,0.25)"/>
-          <rect x="18" y="31" width="28" height="20" rx="3" fill="#f4f7ff"/>
-          <path d="M27 31 L37 31 L32 42 Z" fill="#2d6bff"/>
-          <ellipse cx="15" cy="40" rx="5" ry="8" fill="#f4f7ff"/><ellipse cx="49" cy="40" rx="5" ry="8" fill="#f4f7ff"/>
-          <circle cx="32" cy="22" r="12" fill="#2d6bff"/>
-          <circle cx="21" cy="18" r="4" fill="#2d6bff"/><circle cx="43" cy="18" r="4" fill="#2d6bff"/>
-          <ellipse cx="33" cy="26" rx="8" ry="6" fill="#8fc2ff"/>
-          <circle cx="28" cy="19" r="3.5" fill="#3ff3ff" stroke="#e9f6ff"/><circle cx="37" cy="19" r="3.5" fill="#3ff3ff" stroke="#e9f6ff"/>
-          <path d="M29 28 Q33 31 37 28" stroke="#0b1a4a" stroke-width="1.4" fill="none"/>
-          <rect x="40" y="36" width="5" height="3" fill="#ff9a4d"/>
-        </svg>
-      </span>
+    <div id="gw-arcade" data-vt-skip data-search="game peptide arcade glowrilla play learn eli5 quiz retatrutide tirzepatide mots-c thymosin ghk-cu urolithin">
+      <span class="ga-marq">★ LEARN BY PLAYING ★</span>
+      <span class="ga-icon"><img src="game-icon-192.png" alt="" width="84" height="84" loading="lazy" decoding="async"><span class="ga-joy" aria-hidden="true">🎮</span></span>
       <span class="ga-txt">
-        <b>GLOWRILLA <i>VS</i> BIG PHARMA</b>
-        <small>Learn peptides the fun way — 🧒 ELI5 Codex cards and Lab Quizzes while you fight Big Pharma.</small>
+        <b>PEPTIDE <i>ARCADE</i></b>
+        <small>Mini-games where <u>the way you play is what each peptide does in the body</u> — with 🧒 plain-English explanations as you go. Plus the full <em>Glowrilla vs Big Pharma</em> game.</small>
+        <span class="ga-tags"><span>⚡ Reta</span><span>🍽️ Tirz</span><span>🔋 MOTS-c</span><span>🛡️ Tα1</span><span>🧵 GHK-Cu</span><span>♻️ Urolithin A</span></span>
       </span>
-      <span class="ga-coin">▶ PLAY<em>FREE · PHONE &amp; PC</em></span>
-    </a>
+      <span class="ga-btns"><a class="ga-coin" href="peptide-arcade.html">▶ PLAY ARCADE<em>FREE · PHONE &amp; PC</em></a><a class="ga-alt" href="glowrilla-game.html">🦍 GLOWRILLA GAME</a></span>
+    </div>
         </div>
         <!-- Before You Research info -->
         <div style="background:#000;border-top:1px solid rgba(255,20,80,0.2);">

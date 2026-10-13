@@ -106,7 +106,7 @@
   <button class="rb sm" id="btnMute" aria-label="Sound effects on or off">🔊</button>
 </div>
 <div id="ui" hidden>
-  <button class="rb bomb" id="bomb" aria-label="Copper storm bomb"><span>⚡ BOMB<br><small id="bombN">1</small></span></button>
+  <button class="rb bomb" id="bomb" aria-label="Copper Storm blast"><span>⚡ STORM<br><small id="bombN">1</small></span></button>
   <button class="rb hgh off" id="hgh" aria-label="Inject HGH"><span>💉 HGH<br><small id="hghPct">0%</small></span></button>
   <button class="rb off" id="pound" aria-label="Ground pound">GROUND<br>POUND</button>
 </div>
@@ -126,7 +126,7 @@
       <div><b>🟢 BPC-157:</b> +1 dose · <b>🟡 TB-500:</b> speed</div>
       <div><b>Ground Pound:</b> perk 4 · button / Space</div>
       <div><b>P</b> power up (spread to 5-way) · <b>M</b> MOTS-c homing missiles</div>
-      <div><b>D</b> Mini-Rilla drone · <b>B</b> Copper Storm bomb (B key / button)</div>
+      <div><b>D</b> Mini-Rilla drone · <b>B</b> Copper Storm blast (B key / STORM button)</div>
       <div style="grid-column:1/-1"><b>💉 HGH (H key / button):</b> 10 s giant mode — invincible stomps + the <b style="color:var(--cu)">GHK-Cu NOVA</b> ring blast. Charges faster when swarmed.</div>
     </div>
     <button class="btn" id="btnStart">PLAY</button>
@@ -433,7 +433,7 @@ function gainCu(){
   else { if(Math.random()<0.5) sayLine('cu',0.22); else sayLine('gray',0.14); if(!next && p.cu%10===0){ p.maxHp=Math.min(9,p.maxHp+1); p.hp=Math.min(p.maxHp,p.hp+1); announce('OVERGLOW','+1 max health'); sfx.perk(); } }
   checkAch();
 }
-// COPPER STORM bomb: wipes enemy bullets, hits every goon on screen, chunks bosses
+// COPPER STORM blast: wipes enemy bullets, hits every goon on screen, chunks bosses
 function bomb(){
   const p=G&&G.p; if(!p||G.paused||G.over||p.bombs<=0) return;
   p.bombs--; updBomb(); G.shake=18; sfx.boss(); sfx.pound();
@@ -493,7 +493,7 @@ const ACH={
   smallres:{ic:'⚡', name:'Big Pharma, Small Results',  how:'Hit a 30x combo'},
   giant:   {ic:'💉', name:'Size Matters',               how:'Flatten 25 goons in one HGH'},
   recover: {ic:'🏃', name:'Finders Keepers',            how:'Get back 3 stolen doses in one run'},
-  bomber:  {ic:'💣', name:'Recall Notice',              how:'Hit 10+ goons with one Copper Storm'},
+  bomber:  {ic:'⚡', name:'Recall Notice',              how:'Hit 10+ goons with one Copper Storm'},
   quiz:    {ic:'🧪', name:'Lab Rat Genius',             how:'Answer 4 Lab Quiz questions right in one run'},
   codex:   {ic:'📖', name:'Walking Encyclopedia',       how:'Unlock every Peptide Codex entry'},
   daily:   {ic:'📅', name:'Daily Dose',                 how:'Finish a Daily Challenge'}
@@ -837,29 +837,76 @@ let bgC=null, flasks=[];
 function buildLab(){
   bgC=document.createElement('canvas'); bgC.width=Math.round(W*DPR); bgC.height=Math.round(H*DPR);
   const b=bgC.getContext('2d'); b.setTransform(DPR,0,0,DPR,0,0);
-  // tiled lab floor
-  const t=Math.round(46*S);
-  for(let y=0;y<H;y+=t) for(let x=0;x<W;x+=t){ b.fillStyle=((x/t+y/t)&1)?'#150b2c':'#110824'; b.fillRect(x,y,t,t); }
-  b.strokeStyle='rgba(63,243,255,0.06)'; b.lineWidth=1; b.beginPath();
-  for(let x=0;x<W;x+=t){ b.moveTo(x+0.5,0); b.lineTo(x+0.5,H); } for(let y=0;y<H;y+=t){ b.moveTo(0,y+0.5); b.lineTo(W,y+0.5); } b.stroke();
-  // back wall + shelf of vials
-  const wh=Math.round((H>520?96:66)*S);
-  const wg=b.createLinearGradient(0,0,0,wh); wg.addColorStop(0,'#1d0f3c'); wg.addColorStop(1,'#130829'); b.fillStyle=wg; b.fillRect(0,0,W,wh);
-  b.fillStyle='#3a2a63'; b.fillRect(0,wh-6*S,W,6*S); b.fillStyle='#2a1d4a'; b.fillRect(0,wh*0.55,W,4*S);
-  const cols=['#2f9bff','#3dff8a','#ffe14d','#ff2d95','#ff9a4d','#b026ff'];
-  for(let x=10*S,i=0;x<W-10*S;x+=rnd(16,26)*S,i++){ const h=rnd(12,22)*S, w=rnd(7,11)*S, y=wh*0.55-h; b.fillStyle='rgba(230,245,255,0.18)'; b.fillRect(x,y,w,h); b.fillStyle=cols[i%cols.length]; b.globalAlpha=0.55; b.fillRect(x+1,y+h*0.45,w-2,h*0.55-1); b.globalAlpha=1; }
-  // neon "VPN LAB" sign
-  b.font='400 '+Math.round(22*S)+'px "Bebas Neue",sans-serif'; b.textAlign='center'; b.textBaseline='middle';
-  b.shadowColor='#ff2d95'; b.shadowBlur=14; b.fillStyle='#ff6ab5'; b.fillText(W<560?'VPN LAB':'VPN LAB · AUTHORIZED APES ONLY',W<560?W*0.72:W/2,wh*0.78); b.shadowBlur=0;
-  // lab benches in the bottom corners
-  const bw=Math.min(180*S,W*0.28), bh=26*S;
-  [[8*S,H-bh-8*S],[W-bw-8*S,H-bh-8*S]].forEach(([x,y])=>{ b.fillStyle='rgba(58,42,99,0.7)'; b.fillRect(x,y,bw,bh); b.fillStyle='rgba(120,100,170,0.5)'; b.fillRect(x,y,bw,4*S); });
-  // hazard stripe along the wall base
-  for(let x=0;x<W;x+=20*S){ b.fillStyle=(x/(20*S))&1?'rgba(255,212,92,0.25)':'rgba(0,0,0,0.25)'; b.fillRect(x,wh,20*S,4*S); }
-  // flasks that bubble
-  flasks=[]; const fy=H-bh-8*S;
-  [[8*S+bw*0.25,'#3dff8a'],[8*S+bw*0.7,'#2f9bff'],[W-bw-8*S+bw*0.3,'#ff2d95'],[W-bw-8*S+bw*0.75,'#ffe14d']].forEach(([x,c])=>{ flasks.push({x,y:fy,c}); b.fillStyle='rgba(230,245,255,0.25)'; b.beginPath(); b.moveTo(x-4*S,fy-26*S); b.lineTo(x+4*S,fy-26*S); b.lineTo(x+4*S,fy-16*S); b.lineTo(x+12*S,fy); b.lineTo(x-12*S,fy); b.lineTo(x-4*S,fy-16*S); b.closePath(); b.fill(); b.fillStyle=c; b.globalAlpha=0.6; b.beginPath(); b.moveTo(x-8*S,fy-7*S); b.lineTo(x+8*S,fy-7*S); b.lineTo(x+12*S,fy); b.lineTo(x-12*S,fy); b.closePath(); b.fill(); b.globalAlpha=1; });
+  const wh=Math.round((H>520?118:82)*S); // back-wall height
+  // --- back wall: painted lab wall with soft overhead light falloff
+  const wall=b.createLinearGradient(0,0,0,wh); wall.addColorStop(0,'#1c2233'); wall.addColorStop(1,'#2a3247'); b.fillStyle=wall; b.fillRect(0,0,W,wh);
+  // wall cabinets: brushed steel frames with glass doors and reagent bottles
+  const cabW=Math.max(90*S,Math.min(150*S,W/6)), cabH=wh*0.58, cabY=wh*0.08, rnd2=seededLab(7);
+  for(let x=8*S;x<W-cabW*0.5;x+=cabW+10*S){
+    const steel=b.createLinearGradient(x,0,x+cabW,0); steel.addColorStop(0,'#5d6678'); steel.addColorStop(0.5,'#8d96a8'); steel.addColorStop(1,'#545c6d');
+    b.fillStyle=steel; b.fillRect(x,cabY,cabW,cabH);
+    b.fillStyle='rgba(16,22,34,0.88)'; b.fillRect(x+4*S,cabY+4*S,cabW/2-6*S,cabH-8*S); b.fillRect(x+cabW/2+2*S,cabY+4*S,cabW/2-6*S,cabH-8*S);
+    // shelves + bottles behind glass
+    for(let s=1;s<=2;s++){ const sy=cabY+cabH*s/2.15; b.fillStyle='rgba(180,190,210,0.35)'; b.fillRect(x+4*S,sy,cabW-8*S,1.5*S);
+      for(let bx=x+8*S;bx<x+cabW-10*S;bx+=rnd2(9,14)*S){ const bh=rnd2(10,cabH/2.6), bw=rnd2(5,8)*S; const tint=['#7fb6ff','#c8a96a','#d9e3f0','#8fd3a8','#c97a5a','#a8a0ff'][Math.floor(rnd2(0,6))];
+        b.fillStyle=tint; b.globalAlpha=0.55; b.fillRect(bx,sy-bh,bw,bh); b.globalAlpha=0.9; b.fillStyle='#e6ebf2'; b.fillRect(bx+bw*0.2,sy-bh-3*S,bw*0.6,3*S); b.globalAlpha=0.25; b.fillStyle='#fff'; b.fillRect(bx+1,sy-bh+2,1.2*S,bh-4); b.globalAlpha=1; } }
+    // glass reflection + handles
+    b.fillStyle='rgba(255,255,255,0.06)'; b.beginPath(); b.moveTo(x+6*S,cabY+cabH-8*S); b.lineTo(x+cabW*0.3,cabY+6*S); b.lineTo(x+cabW*0.38,cabY+6*S); b.lineTo(x+14*S,cabY+cabH-8*S); b.fill();
+    b.fillStyle='#c9d1df'; b.fillRect(x+cabW/2-5*S,cabY+cabH*0.45,2*S,cabH*0.12); b.fillRect(x+cabW/2+3*S,cabY+cabH*0.45,2*S,cabH*0.12);
+  }
+  // fume hood in the middle of the wall (glass sash + amber light)
+  const hw=Math.min(240*S,W*0.34), hx=W/2-hw/2, hy=wh*0.05, hh=wh*0.82;
+  b.fillStyle='#3b4357'; b.fillRect(hx-6*S,hy-4*S,hw+12*S,hh+8*S);
+  const glow=b.createLinearGradient(0,hy,0,hy+hh); glow.addColorStop(0,'rgba(255,214,150,0.35)'); glow.addColorStop(1,'rgba(40,46,66,0.95)'); b.fillStyle=glow; b.fillRect(hx,hy,hw,hh);
+  b.fillStyle='rgba(255,255,255,0.08)'; b.fillRect(hx,hy+hh*0.45,hw,3*S);
+  b.fillStyle='#ffcf8a'; b.fillRect(hx+hw*0.08,hy+3*S,hw*0.84,3*S);
+  b.font='700 '+Math.round(9*S)+'px Rajdhani,sans-serif'; b.textAlign='center'; b.textBaseline='middle'; b.fillStyle='rgba(255,230,190,0.85)'; b.fillText('FUME HOOD · SASH BELOW LINE',W/2,hy+hh-8*S);
+  // small lab sign
+  b.fillStyle='#e9ecf2'; b.fillRect(W/2-46*S,hy+hh*0.18,92*S,20*S); b.fillStyle='#14304f'; b.font='700 '+Math.round(10*S)+'px Rajdhani,sans-serif'; b.fillText('VPN RESEARCH LAB',W/2,hy+hh*0.18+10*S);
+  // baseboard where wall meets floor
+  b.fillStyle='#0f131d'; b.fillRect(0,wh-5*S,W,5*S);
+  // --- floor: sealed vinyl lab tiles in perspective with a glossy reflection
+  const fl=b.createLinearGradient(0,wh,0,H); fl.addColorStop(0,'#3a4052'); fl.addColorStop(0.35,'#2b3040'); fl.addColorStop(1,'#1a1e29'); b.fillStyle=fl; b.fillRect(0,wh,W,H-wh);
+  b.strokeStyle='rgba(0,0,0,0.35)'; b.lineWidth=1;
+  const vp={x:W/2,y:wh-H*0.9}; // vanishing point above the wall gives gentle perspective
+  for(let i=-14;i<=14;i++){ const xb=W/2+i*W/9; b.beginPath(); b.moveTo(vp.x+(xb-vp.x)*((wh-vp.y)/(H-vp.y)),wh); b.lineTo(xb,H); b.stroke(); }
+  for(let r=0,y=wh;y<H;r++){ const gap=(10+r*r*1.9)*S; y+=gap; b.beginPath(); b.moveTo(0,y); b.lineTo(W,y); b.stroke(); }
+  // speckled vinyl texture
+  for(let i=0;i<Math.min(2400,W*H/260);i++){ b.fillStyle=rnd2(0,1)<0.5?'rgba(255,255,255,0.035)':'rgba(0,0,0,0.08)'; b.fillRect(rnd2(0,W),rnd2(wh,H),1.2,1.2); }
+  // ceiling-light reflections on the glossy floor
+  for(let i=0;i<3;i++){ const lx=W*(0.2+i*0.3); const rg=b.createRadialGradient(lx,wh+H*0.12,0,lx,wh+H*0.12,H*0.35); rg.addColorStop(0,'rgba(220,235,255,0.10)'); rg.addColorStop(1,'rgba(220,235,255,0)'); b.fillStyle=rg; b.fillRect(0,wh,W,H-wh); }
+  // yellow safety line along the wall
+  b.fillStyle='rgba(255,205,60,0.55)'; b.fillRect(0,wh+6*S,W,3*S);
+  // --- lab benches (black epoxy tops, grey cabinets) in the bottom corners
+  const bw=Math.min(190*S,W*0.3), bh=34*S;
+  flasks=[];
+  [[6*S,'L'],[W-bw-6*S,'R']].forEach(([x,side])=>{
+    const y=H-bh-6*S;
+    b.fillStyle='rgba(0,0,0,0.4)'; b.fillRect(x+6*S,y+8*S,bw,bh); // shadow
+    b.fillStyle='#4a5163'; b.fillRect(x,y+8*S,bw,bh-8*S);
+    b.strokeStyle='rgba(0,0,0,0.5)'; for(let d=1;d<3;d++){ b.beginPath(); b.moveTo(x+bw*d/3,y+8*S); b.lineTo(x+bw*d/3,y+bh); b.stroke(); }
+    b.fillStyle='#0e1016'; b.fillRect(x-3*S,y,bw+6*S,9*S); b.fillStyle='rgba(255,255,255,0.12)'; b.fillRect(x-3*S,y,bw+6*S,1.5*S);
+    if(side==='L'){ // microscope
+      const mx=x+bw*0.72; b.fillStyle='#d8dde6'; b.fillRect(mx-12*S,y-4*S,24*S,4*S); b.fillRect(mx-3*S,y-30*S,6*S,26*S); b.save(); b.translate(mx,y-30*S); b.rotate(-0.5); b.fillStyle='#e9edf3'; b.fillRect(-3*S,-16*S,7*S,18*S); b.fillStyle='#222'; b.fillRect(-2*S,-20*S,5*S,4*S); b.restore(); b.fillStyle='#333a46'; b.fillRect(mx-9*S,y-14*S,18*S,3*S);
+    } else { // centrifuge
+      const cx=x+bw*0.28; b.fillStyle='#cfd5df'; b.beginPath(); b.ellipse(cx,y-9*S,20*S,10*S,0,0,Math.PI*2); b.fill(); b.fillStyle='#8c95a6'; b.beginPath(); b.ellipse(cx,y-12*S,14*S,5*S,0,0,Math.PI*2); b.fill(); b.fillStyle='#3dff8a'; b.fillRect(cx+10*S,y-6*S,4*S,2*S);
+    }
+    // glass flasks that bubble (drawn live)
+    const fx=side==='L'?x+bw*0.25:x+bw*0.7, c=side==='L'?'#3dff8a':'#2f9bff';
+    flasks.push({x:fx,y,c});
+    b.fillStyle='rgba(230,240,255,0.22)'; b.strokeStyle='rgba(230,240,255,0.55)'; b.lineWidth=1.2;
+    b.beginPath(); b.moveTo(fx-4*S,y-28*S); b.lineTo(fx+4*S,y-28*S); b.lineTo(fx+4*S,y-17*S); b.lineTo(fx+13*S,y); b.lineTo(fx-13*S,y); b.lineTo(fx-4*S,y-17*S); b.closePath(); b.fill(); b.stroke();
+    b.fillStyle=c; b.globalAlpha=0.55; b.beginPath(); b.moveTo(fx-9*S,y-7*S); b.lineTo(fx+9*S,y-7*S); b.lineTo(fx+13*S,y); b.lineTo(fx-13*S,y); b.closePath(); b.fill(); b.globalAlpha=1;
+    // beaker
+    const bx2=fx+(side==='L'?24*S:-26*S); b.fillStyle='rgba(230,240,255,0.18)'; b.fillRect(bx2-7*S,y-18*S,14*S,18*S); b.strokeStyle='rgba(230,240,255,0.5)'; b.strokeRect(bx2-7*S,y-18*S,14*S,18*S); b.fillStyle='rgba(255,154,77,0.5)'; b.fillRect(bx2-6*S,y-8*S,12*S,7*S);
+  });
+  // --- soft vignette so the play area stays readable
+  const vg=b.createRadialGradient(W/2,H*0.55,Math.min(W,H)*0.3,W/2,H*0.55,Math.max(W,H)*0.8); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.55)'); b.fillStyle=vg; b.fillRect(0,0,W,H);
+  // slight dim over the floor so characters pop
+  b.fillStyle='rgba(6,4,16,0.28)'; b.fillRect(0,wh,W,H-wh);
 }
+// deterministic randomness so the lab doesn't change between resizes or affect the daily seed
+function seededLab(seed){ let a=seed>>>0; return (lo,hi)=>{ a=(a+0x6D2B79F5)|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return lo+((t^t>>>14)>>>0)/4294967296*(hi-lo); }; }
 function drawBg(){
   if(!bgC||bgC.width!==Math.round(W*DPR)||bgC.height!==Math.round(H*DPR)) buildLab();
   ctx.drawImage(bgC,0,0,W,H);

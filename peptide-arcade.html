@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Peptide Arcade</title>
+<meta name="description" content="Peptide Arcade by VPN: quick mini-games where how you play is what each peptide does in the body — with plain-English ELI5 cards and honest evidence labels.">
+<meta name="theme-color" content="#060318">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#060318;--panel:#0d0826;--cyan:#3ff3ff;--pink:#ff2d95;--cu:#ff9a4d;--gold:#ffd45c;--green:#3dff8a;--violet:#b026ff;--text:#ece8ff;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  [hidden]{display:none !important;}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',system-ui,sans-serif;font-weight:700;}
+  body{background:radial-gradient(120% 70% at 50% -10%,#2a0f5c 0%,transparent 60%),radial-gradient(80% 60% at 100% 100%,rgba(0,140,255,0.18),transparent 60%),var(--bg);}
+  a{color:var(--cyan);}
+  button{font-family:inherit;}
+  /* ---------- hub ---------- */
+  #hub{max-width:1100px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px 40px;}
+  .top{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+  .top a.back{font-size:0.95rem;text-decoration:none;padding:0.35rem 0.7rem;border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;}
+  .top .sp{flex:1;}
+  .iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.06);color:#fff;font-size:1.15rem;cursor:pointer;}
+  h1.logo{margin:0.4rem 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.6rem,10vw,5rem);letter-spacing:0.06em;line-height:0.9;background:linear-gradient(90deg,#3ff3ff,#7aa8ff 45%,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(63,243,255,0.35));}
+  .sub{margin:0.4rem 0 1rem;font-size:1.1rem;color:rgba(230,225,250,0.85);max-width:62ch;line-height:1.45;}
+  .prog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem;margin-bottom:1.1rem;}
+  .prog div{padding:0.6rem;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);text-align:center;}
+  .prog b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.9rem;color:var(--gold);line-height:1;}
+  .prog small{font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(220,215,240,0.75);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.9rem;}
+  .gcard{position:relative;display:flex;flex-direction:column;text-align:left;padding:1rem;border-radius:18px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,#0d0826),#08041a 70%);color:#fff;cursor:pointer;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 2px var(--c),0 18px 40px -18px var(--c);outline:none;}
+  .gcard .gi{font-size:2.3rem;line-height:1;}
+  .gcard .gp{margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.16em;color:var(--c);}
+  .gcard .gn{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.7rem;letter-spacing:0.05em;line-height:1;}
+  .gcard .gt{margin-top:0.35rem;font-size:0.98rem;line-height:1.35;color:rgba(235,230,250,0.85);flex:1;}
+  .gcard .gf{display:flex;align-items:center;justify-content:space-between;margin-top:0.7rem;}
+  .gcard .stars{font-size:1.1rem;letter-spacing:0.05em;color:var(--gold);}
+  .gcard .play{padding:0.35rem 0.9rem;border-radius:999px;background:var(--c);color:#0a0520;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;}
+  .gcard .best{font-size:0.82rem;color:rgba(220,215,240,0.7);}
+  .gcard.glow{--c:#3ff3ff;}
+  .ev{display:inline-block;padding:0.12rem 0.55rem;border-radius:999px;font-size:0.75rem;font-weight:700;color:#14102a;background:var(--gold);}
+  .note{margin-top:1.4rem;font-size:0.9rem;color:rgba(220,215,240,0.7);line-height:1.5;}
+  /* ---------- game screen ---------- */
+  #play{position:fixed;inset:0;z-index:10;background:var(--bg);touch-action:none;user-select:none;-webkit-user-select:none;}
+  #cv{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:0.6rem;padding:max(8px,env(safe-area-inset-top)) 10px 6px;z-index:2;pointer-events:none;}
+  #hud > *{pointer-events:auto;}
+  #hud .hn{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#fff;}
+  #hud .hs{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);min-width:4ch;text-align:right;}
+  #hud .ht{font-family:'Share Tech Mono',monospace;font-size:1.1rem;padding:0.15rem 0.5rem;border-radius:8px;background:rgba(255,255,255,0.08);}
+  .ovl{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,2,15,0.82);overflow-y:auto;}
+  .card{width:100%;max-width:540px;padding:1.2rem 1.2rem 1rem;border-radius:20px;background:linear-gradient(160deg,color-mix(in srgb,var(--c,#3ff3ff) 16%,#0d0826),#0a0620);border:1px solid color-mix(in srgb,var(--c,#3ff3ff) 60%,transparent);box-shadow:0 0 50px -10px var(--c,#3ff3ff);text-align:center;}
+  .card .ci{font-size:2.6rem;}
+  .card h2{margin:0.1rem 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2rem,8vw,2.8rem);letter-spacing:0.05em;line-height:1;color:#fff;}
+  .card h3{margin:0.2rem 0 0.7rem;font-family:'Share Tech Mono',monospace;font-weight:400;font-size:0.85rem;letter-spacing:0.16em;color:var(--c,#3ff3ff);}
+  .box{text-align:left;margin:0 0 0.6rem;padding:0.65rem 0.8rem;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:1rem;line-height:1.45;}
+  .box b.l{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.05rem;letter-spacing:0.1em;color:var(--c,#3ff3ff);margin-bottom:0.15rem;}
+  .box.eli{background:rgba(255,212,92,0.07);border-color:rgba(255,212,92,0.35);}
+  .box.eli b.l{color:var(--gold);}
+  .btn{display:inline-block;margin:0.35rem 0.2rem 0;padding:0.7rem 1.5rem;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;cursor:pointer;color:#0a0520;background:var(--c,#3ff3ff);box-shadow:0 0 20px -4px var(--c,#3ff3ff);}
+  .btn.alt{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.25);box-shadow:none;font-size:1.1rem;}
+  .big{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;line-height:1;color:var(--gold);}
+  .bigstars{font-size:2.2rem;letter-spacing:0.15em;color:var(--gold);margin:0.2rem 0 0.5rem;}
+  .small{font-size:0.85rem;color:rgba(220,215,240,0.7);margin-top:0.6rem;}
+  @media (prefers-reduced-motion: reduce){ .gcard{transition:none;} }
+</style>
+</head>
+<body>
+<main id="hub">
+  <div class="top">
+    <a class="back" href="home.html">← VPN home</a>
+    <span class="sp"></span>
+    <button class="iconbtn" id="sndBtn" aria-label="Sound on or off">🔊</button>
+  </div>
+  <h1 class="logo">PEPTIDE ARCADE</h1>
+  <p class="sub">Quick mini-games where <b>the way you play is what the peptide does in your body</b>. Every game starts with a 🧒 plain-English explanation and ends with what the science really says — including how strong the evidence is.</p>
+  <div class="prog"><div><b id="pXP">0</b><small>Total XP</small></div><div><b id="pStars">0</b><small>Stars</small></div><div><b id="pDone">0</b><small>Games cleared</small></div></div>
+  <div class="grid" id="grid"></div>
+  <p class="note">Educational games, not medical advice. The game numbers (glucose, energy, etc.) are simplified to teach the idea — they don't predict what happens in a real person. Evidence labels: <span class="ev">Established human evidence</span> = approved/well-proven in people · <span class="ev">Human clinical research</span> = real trials, still being studied · <span class="ev">Animal / lab research</span> = mostly mice, rats or cells so far. Full write-ups live in the <a href="home.html#all-peptides">VPN Peptide Index</a>. <button class="btn alt" id="resetBtn" style="font-size:0.85rem;padding:0.3rem 0.7rem;margin-left:0.3rem;">Reset progress</button></p>
+</main>
+
+<section id="play" hidden>
+  <canvas id="cv"></canvas>
+  <div id="hud"><button class="iconbtn" id="quitBtn" aria-label="Back to arcade">✕</button><span class="hn" id="hName"></span><span class="ht" id="hTime"></span><span class="hs" id="hScore">0</span></div>
+  <div class="ovl" id="intro"><div class="card"><div class="ci" id="iIcon"></div><h2 id="iName"></h2><h3 id="iPep"></h3>
+    <div class="box eli"><b class="l">🧒 Explain it like I'm 5</b><span id="iEli"></span></div>
+    <div class="box"><b class="l">🎮 How to play</b><span id="iHow"></span></div>
+    <div><span class="ev" id="iEv"></span></div>
+    <button class="btn" id="goBtn">START ▶</button></div></div>
+  <div class="ovl" id="end" hidden><div class="card"><div class="ci" id="eIcon"></div><h2 id="eTitle"></h2>
+    <div class="big" id="eScore">0</div><div class="bigstars" id="eStars"></div>
+    <div class="box eli"><b class="l">🧪 What the science says</b><span id="eTake"></span></div>
+    <div class="box"><b class="l">💡 Did you know?</b><span id="eFact"></span></div>
+    <div><span class="ev" id="eEv"></span></div>
+    <button class="btn" id="againBtn">PLAY AGAIN</button><button class="btn alt" id="hubBtn">ALL GAMES</button>
+    <p class="small"><a href="home.html#all-peptides" target="_blank" rel="noopener">Read the full write-up in the Peptide Index ↗</a> · Educational only, not medical advice.</p></div></div>
+</section>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const cv=$('cv'), ctx=cv.getContext('2d');
+let W=0,H=0,DPR=1,S=1, TOP=56;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
+const dist=(a,b,c,d)=>Math.hypot(a-c,b-d);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- save data (this device only) ---------- */
+let SAVE={}; try{ SAVE=JSON.parse(localStorage.getItem('pep-arcade')||'{}'); }catch(e){}
+SAVE.games=SAVE.games||{};
+function save(){ try{ localStorage.setItem('pep-arcade',JSON.stringify(SAVE)); }catch(e){} }
+
+/* ---------- sound ---------- */
+let AC=null, muted=!!SAVE.muted;
+function beep(f,d,type,vol,slide){ if(muted) return; try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime; o.type=type||'square'; o.frequency.setValueAtTime(f,t); if(slide) o.frequency.exponentialRampToValueAtTime(slide,t+(d||0.1)); g.gain.setValueAtTime(vol||0.05,t); g.gain.exponentialRampToValueAtTime(0.0001,t+(d||0.1)); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+(d||0.1)+0.02); }catch(e){} }
+const sfx={
+  good:()=>{beep(660,0.07,'triangle',0.06);setTimeout(()=>beep(990,0.09,'triangle',0.05),50);},
+  great:()=>{[660,880,1320].forEach((f,i)=>setTimeout(()=>beep(f,0.09,'triangle',0.05),i*45));},
+  bad:()=>beep(160,0.22,'sawtooth',0.06,90),
+  tick:()=>beep(1200,0.03,'square',0.02),
+  power:()=>beep(300,0.35,'sawtooth',0.05,1200),
+  win:()=>{[523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>beep(f,0.14,'triangle',0.06),i*90));}
+};
+function setMute(m){ muted=m; SAVE.muted=m; save(); $('sndBtn').textContent=m?'🔇':'🔊'; }
+$('sndBtn').onclick=()=>setMute(!muted); setMute(muted);
+
+/* ---------- shared fx ---------- */
+let FX=[], TXT=[];
+function burst(x,y,col,n,sp){ if(RM) n=Math.min(n||10,4); for(let i=0;i<(n||10);i++){ const a=Math.random()*Math.PI*2, v=rnd(40,sp||200)*S; FX.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,life:rnd(0.35,0.8),col,r:rnd(1.5,3.5)*S}); } }
+function pop(x,y,txt,col,size){ TXT.push({x,y,txt,col:col||'#fff',t:0,size:size||20}); }
+function stepFx(dt){ FX.forEach(f=>{ f.t+=dt; f.x+=f.vx*dt; f.y+=f.vy*dt; f.vx*=0.93; f.vy*=0.93; }); FX=FX.filter(f=>f.t<f.life); TXT.forEach(t=>{ t.t+=dt; t.y-=45*S*dt; }); TXT=TXT.filter(t=>t.t<1.1); }
+function drawFx(){
+  FX.forEach(f=>{ ctx.globalAlpha=1-f.t/f.life; ctx.fillStyle=f.col; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fill(); });
+  ctx.globalAlpha=1; ctx.textAlign='center'; ctx.textBaseline='middle';
+  TXT.forEach(t=>{ ctx.globalAlpha=Math.max(0,1-t.t/1.1); ctx.font='400 '+Math.round(t.size*S)+'px "Bebas Neue",sans-serif'; ctx.lineWidth=4; ctx.strokeStyle='rgba(0,0,0,0.6)'; ctx.strokeText(t.txt,t.x,t.y); ctx.fillStyle=t.col; ctx.fillText(t.txt,t.x,t.y); });
+  ctx.globalAlpha=1;
+}
+function glowCircle(x,y,r,col,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.globalAlpha=a==null?1:a; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
+function rr(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function label(txt,x,y,size,col,align,font){ ctx.font=(font||'400 '+Math.round(size*S)+'px "Bebas Neue",sans-serif'); ctx.textAlign=align||'center'; ctx.textBaseline='middle'; ctx.fillStyle=col||'#fff'; ctx.fillText(txt,x,y); }
+// ambient floating particles for every background
+let AMB=[];
+function initAmb(col){ AMB=[]; for(let i=0;i<(RM?10:36);i++) AMB.push({x:Math.random()*W,y:Math.random()*H,r:rnd(1,3)*S,v:rnd(6,22)*S,c:col}); }
+function drawBg(c1,c2,col){
+  const g=ctx.createRadialGradient(W/2,H*0.45,0,W/2,H*0.45,Math.max(W,H)*0.75); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  AMB.forEach(p=>{ p.y-=p.v*0.016; if(p.y<-5){ p.y=H+5; p.x=Math.random()*W; } ctx.globalAlpha=0.35; ctx.fillStyle=col||p.c; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); ctx.globalAlpha=1;
+}
+
+/* =====================================================================
+   GAMES — each one: the way you play = what the peptide does
+   ===================================================================== */
+const GAMES=[];
+
+/* ---------- 1. RETATRUTIDE: TRIPLE SWITCH (rhythm across 3 receptors) ---------- */
+GAMES.push({
+  id:'reta', icon:'⚡', name:'Triple Switch', pep:'RETATRUTIDE', col:'#ff2d95', dur:60, stars:[3000,7000,12000],
+  tag:'Hit three hormone switches in rhythm — GLP-1, GIP and glucagon each do a different job.',
+  ev:'Human clinical research · investigational drug',
+  eli:'Your body has "switches" called receptors. Retatrutide flips <b>three</b> of them: <b>GLP-1</b> says "I\'m full", <b>GIP</b> helps release insulin after you eat, and <b>glucagon</b> tells the body to burn stored fuel. Most older drugs flip only one or two.',
+  how:'Signals fall down 3 lanes. Tap the lane (or press <b>1 / 2 / 3</b>) when a signal reaches its receptor ring. Perfect timing = more points. Gold <b>RETA</b> molecules light up all three switches for a big bonus. Don\'t miss — misses break your combo.',
+  take:'Retatrutide is a weekly injection that activates GLP-1, GIP and glucagon receptors. In clinical trials it produced large average weight loss. It is still investigational — check the VPN GLP Hub for its current status. This game does not predict anyone\'s results.',
+  facts:['GLP-1 also slows how fast your stomach empties, which is part of why you feel full longer.','Glucagon is usually known for raising blood sugar — combined with GLP-1 and GIP, it is studied for helping the body burn more energy.','Tirzepatide flips two of these switches (GLP-1 + GIP); semaglutide flips one (GLP-1).'],
+  LANES:[{n:'GLP-1',d:'"I\'m full"',c:'#3ff3ff'},{n:'GIP',d:'insulin helper',c:'#3dff8a'},{n:'GLUCAGON',d:'burn fuel',c:'#ff9a4d'}],
+  init(g){ g.orbs=[]; g.spawn=0.8; g.hitFlash=[0,0,0]; g.speed=0.3; },
+  zoneY(){ return H*0.8; },
+  laneX(i){ return W*(i+0.5)/3; },
+  update(g,dt){
+    const prog=g.t/this.dur; g.speed=0.28+prog*0.32; g.spawn-=dt;
+    if(g.spawn<=0){ g.spawn=Math.max(0.36,0.85-prog*0.5)*rnd(0.75,1.2); const gold=Math.random()<0.08; const lane=Math.floor(Math.random()*3); g.orbs.push({lane,y:TOP+10,gold}); if(prog>0.45&&Math.random()<0.25){ g.orbs.push({lane:(lane+1+Math.floor(Math.random()*2))%3,y:TOP+10,gold:false}); } }
+    g.orbs.forEach(o=>o.y+=H*g.speed*dt);
+    const zy=this.zoneY(), win=H*0.075;
+    g.orbs=g.orbs.filter(o=>{ if(o.y>zy+win){ g.combo=0; g.miss++; pop(this.laneX(o.lane),zy-30*S,'MISS','#ff4d6d'); sfx.bad(); return false; } return true; });
+    g.hitFlash=g.hitFlash.map(v=>Math.max(0,v-dt*3));
+  },
+  press(g,lane){
+    const zy=this.zoneY(), win=H*0.075; let best=null,bd=1e9;
+    g.orbs.forEach(o=>{ if(o.lane===lane||o.gold){ const d=Math.abs(o.y-zy); if(d<win&&d<bd&&(o.lane===lane||o.gold)){ bd=d; best=o; } } });
+    if(!best){ g.combo=0; g.hitFlash[lane]=0.4; pop(this.laneX(lane),zy-30*S,'EARLY!','#ff4d6d',16); sfx.bad(); return; }
+    g.orbs.splice(g.orbs.indexOf(best),1);
+    const perfect=bd<win*0.35; g.combo++;
+    const mult=1+Math.floor(g.combo/8);
+    if(best.gold){ g.score+=300*mult; [0,1,2].forEach(i=>{ g.hitFlash[i]=1; burst(this.laneX(i),zy,this.LANES[i].c,14,260); }); pop(W/2,zy-60*S,'TRIPLE SWITCH! +'+300*mult,'#ffd45c',28); sfx.great(); }
+    else { const pts=(perfect?100:50)*mult; g.score+=pts; g.hitFlash[lane]=1; burst(this.laneX(lane),zy,this.LANES[lane].c,perfect?14:7,perfect?240:150); pop(this.laneX(lane),zy-34*S,(perfect?'PERFECT ':'GOOD ')+'+'+pts,perfect?'#ffd45c':'#fff'); perfect?sfx.great():sfx.good(); }
+  },
+  down(g,x,y){ this.press(g,clamp(Math.floor(x/(W/3)),0,2)); },
+  key(g,k){ const m={'1':0,'2':1,'3':2,a:0,s:1,d:2,A:0,S:1,D:2,ArrowLeft:0,ArrowDown:1,ArrowRight:2}; if(k in m) this.press(g,m[k]); },
+  draw(g){
+    drawBg('#1c0838','#05020f');
+    const zy=this.zoneY();
+    this.LANES.forEach((L,i)=>{
+      const x=this.laneX(i), lw=W/3;
+      ctx.fillStyle='rgba(255,255,255,'+(0.03+g.hitFlash[i]*0.1)+')'; ctx.fillRect(x-lw/2+3,TOP,lw-6,H-TOP);
+      ctx.strokeStyle=L.c; ctx.globalAlpha=0.25; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,TOP); ctx.lineTo(x,zy); ctx.stroke(); ctx.globalAlpha=1;
+      // receptor ring
+      glowCircle(x,zy,46*S*(1+g.hitFlash[i]*0.4),L.c,0.35+g.hitFlash[i]*0.5);
+      ctx.strokeStyle=L.c; ctx.lineWidth=4*S; ctx.beginPath(); ctx.arc(x,zy,30*S,0,Math.PI*2); ctx.stroke();
+      // receptor "Y" shape inside
+      ctx.lineWidth=3*S; ctx.beginPath(); ctx.moveTo(x,zy+16*S); ctx.lineTo(x,zy); ctx.lineTo(x-10*S,zy-12*S); ctx.moveTo(x,zy); ctx.lineTo(x+10*S,zy-12*S); ctx.stroke();
+      label(L.n,x,zy+52*S,22,L.c); label(L.d,x,zy+72*S,13,'rgba(235,230,250,0.8)','center','700 '+Math.round(13*S)+'px Rajdhani,sans-serif');
+      label(String(i+1),x,H-14*S,14,'rgba(255,255,255,0.35)');
+    });
+    g.orbs.forEach(o=>{
+      const x=this.laneX(o.lane), L=this.LANES[o.lane];
+      if(o.gold){ glowCircle(x,o.y,34*S,'rgba(255,212,92,0.9)'); ctx.fillStyle='#ffd45c'; ctx.beginPath(); for(let k=0;k<6;k++){ const a=k/6*Math.PI*2+g.t*3; ctx.lineTo(x+Math.cos(a)*20*S,o.y+Math.sin(a)*20*S); } ctx.closePath(); ctx.fill(); label('RETA',x,o.y,15,'#3a1a00'); }
+      else { glowCircle(x,o.y,26*S,L.c,0.7); ctx.fillStyle=L.c; ctx.beginPath(); ctx.arc(x,o.y,15*S,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.beginPath(); ctx.arc(x-5*S,o.y-5*S,4*S,0,Math.PI*2); ctx.fill(); label(L.n==='GLUCAGON'?'GCG':L.n,x,o.y+27*S,13,L.c); }
+    });
+    if(g.combo>=4) label('COMBO x'+g.combo+(g.combo>=8?'  ·  '+(1+Math.floor(g.combo/8))+'x POINTS':''),W/2,TOP+30*S,24,'#ffd45c');
+  }
+});
+
+/* ---------- 2. TIRZEPATIDE: GLUCOSE SURFER ---------- */
+GAMES.push({
+  id:'tirz', icon:'🍽️', name:'Glucose Surfer', pep:'TIRZEPATIDE', col:'#3dff8a', dur:60, stars:[2500,4500,6500],
+  tag:'Ride out meal spikes — your insulin boost only works when blood sugar is actually high.',
+  ev:'Established human evidence · FDA-approved (Mounjaro, Zepbound)',
+  eli:'After you eat, your gut sends "you just ate" messages called <b>GLP-1</b> and <b>GIP</b>. Tirzepatide copies both. They tell the pancreas to release extra insulin — but <b>only when blood sugar is high</b>. That is called <b>glucose-dependent</b>. GLP-1 also slows your stomach, so sugar trickles in instead of spiking.',
+  how:'Meals push the glucose line up. Tap anywhere (or <b>Space</b>) to send an insulin pulse. Pulses only work above the dashed line — that is the glucose-dependent rule! Keep the line in the green zone. Grab floating <b>GLP-1</b> capsules to slow the next meals and <b>GIP</b> capsules for stronger pulses.',
+  take:'Tirzepatide is a once-weekly GIP and GLP-1 receptor agonist, FDA-approved for type 2 diabetes (Mounjaro) and for chronic weight management (Zepbound). Its insulin boost is glucose-dependent, which is a big reason it rarely causes low blood sugar on its own. The numbers in this game are made up to teach the idea — they are not medical predictions.',
+  facts:['On its own, tirzepatide rarely causes low blood sugar — the risk rises when it is combined with insulin or sulfonylureas.','Slower stomach emptying is also why nausea is a common early side effect of GLP-1 drugs.','Doses of tirzepatide start low and are raised slowly to help the stomach adjust.'],
+  init(g){ g.glu=100; g.hist=[]; g.meals=[]; g.mealT=2; g.cool=0; g.caps=[]; g.capT=6; g.slowT=0; g.boostT=0; g.inBand=0; g.ht=0; },
+  update(g,dt){
+    const prog=g.t/this.dur;
+    g.mealT-=dt;
+    if(g.mealT<=0){ g.mealT=rnd(3.6,5.4)-prog*1.4; const size=rnd(55,85)+prog*35; const food=pick(['🍝','🍔','🍩','🍕','🥞','🍚','🍰']); g.meals.push({left:size,rate:size/(g.slowT>0?6:2.6),food,x:W*0.92,y:TOP+40*S}); pop(W*0.85,TOP+60*S,food+' MEAL!','#fff',18); }
+    g.meals.forEach(m=>{ const d=Math.min(m.left,m.rate*dt); m.left-=d; g.glu+=d; });
+    g.meals=g.meals.filter(m=>m.left>0.1);
+    g.glu+=(95-g.glu)*0.015*dt*10*0.06; // slow drift toward baseline
+    g.glu=clamp(g.glu,55,320);
+    g.cool=Math.max(0,g.cool-dt); g.slowT=Math.max(0,g.slowT-dt); g.boostT=Math.max(0,g.boostT-dt);
+    g.capT-=dt; if(g.capT<=0){ g.capT=rnd(5,8); g.caps.push({k:Math.random()<0.5?'GLP-1':'GIP',x:rnd(W*0.15,W*0.85),y:rnd(TOP+80*S,H*0.55),t:0}); }
+    g.caps.forEach(c=>c.t+=dt); g.caps=g.caps.filter(c=>c.t<6);
+    const inBand=g.glu>=80&&g.glu<=140;
+    if(inBand){ g.score+=dt*55; g.inBand+=dt; } else if(g.glu>180){ g.score=Math.max(0,g.score-dt*20); }
+    g.ht+=dt; if(g.ht>0.1){ g.ht=0; g.hist.push(g.glu); if(g.hist.length>140) g.hist.shift(); }
+  },
+  pulse(g){
+    if(g.cool>0) return; g.cool=0.45;
+    const px=W*0.5, py=H*0.86;
+    if(g.glu>110){ const amt=(g.boostT>0?30:20); g.glu-=amt; burst(px,py,'#3dff8a',12,220); pop(px,py-50*S,'INSULIN −'+amt,'#3dff8a'); sfx.good(); g.score+=15; }
+    else { burst(px,py,'#7a7a9a',5,90); pop(px,py-50*S,'GLUCOSE-DEPENDENT: NO EFFECT','#b8b8d0',15); beep(220,0.08,'triangle',0.04); }
+  },
+  down(g,x,y){ const c=g.caps.find(c=>dist(x,y,c.x,c.y)<36*S); if(c){ g.caps.splice(g.caps.indexOf(c),1); if(c.k==='GLP-1'){ g.slowT=10; pop(c.x,c.y,'GLP-1: STOMACH SLOWS!','#3ff3ff',20); } else { g.boostT=10; pop(c.x,c.y,'GIP: STRONGER PULSES!','#ffd45c',20); } sfx.power(); burst(c.x,c.y,'#fff',16); return; } this.pulse(g); },
+  key(g,k){ if(k===' '||k==='Enter') this.pulse(g); },
+  draw(g){
+    drawBg('#06231a','#020a08');
+    const gx=24*S, gw=W-48*S, gy=TOP+20*S, gh=H*0.6-gy;
+    const yOf=v=>gy+gh-(clamp(v,50,300)-50)/250*gh;
+    // zones
+    ctx.fillStyle='rgba(61,255,138,0.12)'; ctx.fillRect(gx,yOf(140),gw,yOf(80)-yOf(140));
+    ctx.fillStyle='rgba(255,77,109,0.08)'; ctx.fillRect(gx,gy,gw,yOf(180)-gy);
+    ctx.setLineDash([6*S,6*S]); ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(gx,yOf(110)); ctx.lineTo(gx+gw,yOf(110)); ctx.stroke(); ctx.setLineDash([]);
+    label('GREEN ZONE',gx+8*S,yOf(110)-((yOf(110)-yOf(140))/2),14,'rgba(61,255,138,0.8)','left');
+    label('insulin works above this line ↑',gx+gw-6*S,yOf(110)+12*S,12,'rgba(255,255,255,0.6)','right','700 '+Math.round(12*S)+'px Rajdhani,sans-serif');
+    label('TOO HIGH',gx+8*S,gy+12*S,14,'rgba(255,120,140,0.8)','left');
+    // line
+    ctx.strokeStyle='#fff'; ctx.lineWidth=3*S; ctx.beginPath();
+    g.hist.forEach((v,i)=>{ const x=gx+gw*(i/139); i?ctx.lineTo(x,yOf(v)):ctx.moveTo(x,yOf(v)); }); ctx.stroke();
+    const lx=gx+gw*((g.hist.length-1)/139), ly=yOf(g.glu), col=g.glu>180?'#ff4d6d':g.glu>=80&&g.glu<=140?'#3dff8a':'#ffd45c';
+    glowCircle(lx,ly,20*S,col,0.8); ctx.fillStyle=col; ctx.beginPath(); ctx.arc(lx,ly,6*S,0,Math.PI*2); ctx.fill();
+    label(Math.round(g.glu)+' (game units)',W/2,gy+gh+18*S,18,col);
+    // pancreas button
+    const px=W*0.5, py=H*0.86, ready=g.cool<=0;
+    glowCircle(px,py,70*S,g.boostT>0?'rgba(255,212,92,0.7)':'rgba(61,255,138,0.55)',ready?1:0.4);
+    ctx.fillStyle=ready?'#ffb3a8':'#7a5a60'; ctx.beginPath(); ctx.ellipse(px,py,58*S,26*S,-0.15,0,Math.PI*2); ctx.fill();
+    label('PANCREAS · TAP = INSULIN',px,py,16,'#3a0a14');
+    if(g.slowT>0) label('🐢 GLP-1 SLOW STOMACH '+Math.ceil(g.slowT)+'s',W*0.27,H*0.7,16,'#3ff3ff');
+    if(g.boostT>0) label('💪 GIP BOOST '+Math.ceil(g.boostT)+'s',W*0.73,H*0.7,16,'#ffd45c');
+    g.meals.forEach((m,i)=>label(m.food,W-30*S-i*34*S,TOP+16*S,26));
+    g.caps.forEach(c=>{ const a=c.t>4.5?(Math.floor(c.t*8)%2?0.4:1):1; ctx.globalAlpha=a; const cc=c.k==='GLP-1'?'#3ff3ff':'#ffd45c'; glowCircle(c.x,c.y,34*S,cc,0.6); ctx.fillStyle=cc; rr(c.x-24*S,c.y-12*S,48*S,24*S,12*S); ctx.fill(); label(c.k,c.x,c.y,15,'#0a0520'); ctx.globalAlpha=1; });
+  }
+});
+
+/* ---------- 3. GHK-Cu: COLLAGEN WEAVER ---------- */
+GAMES.push({
+  id:'ghk', icon:'🧵', name:'Collagen Weaver', pep:'GHK-Cu', col:'#2f9bff', dur:75, stars:[2500,5000,8000],
+  tag:'Drag copper to fibroblast cells so they weave collagen over the wound. Zap free radicals.',
+  ev:'Lab & animal research · some cosmetic skin studies',
+  eli:'GHK is a tiny peptide your body already makes, and it loves to grab <b>copper</b> (Cu). Scientists think copper-GHK can wake up <b>fibroblasts</b> — the skin\'s builder cells that spin <b>collagen</b>, the stretchy rope that holds skin together. Your body makes less GHK as you get older.',
+  how:'Drag blue <b>Cu</b> copper ions onto a <b>fibroblast</b> (the purple builder cells). Each delivery weaves collagen across nearby gaps in the wound. Red <b>free radicals</b> sneak in and break collagen — tap them to zap them. Close the whole wound for a big bonus, then a new one opens.',
+  take:'GHK-Cu is a naturally occurring copper-binding peptide. In lab and animal studies it influences fibroblasts, collagen and other skin-repair signals, and it is widely used in cosmetic skin products. Large human trials for wound healing are lacking, so the repair shown here is the proposed idea — not a guaranteed result.',
+  facts:['"Cu" is the chemical symbol for copper — from the Latin word cuprum.','Collagen is the most common protein in your body.','Free radicals are unstable molecules; antioxidants help keep them in check.'],
+  init(g){ g.cols=12; g.rows=6; this.newWound(g); g.ions=[]; g.ionT=0.5; g.rads=[]; g.radT=3; g.drag=null; g.strands=[]; g.wounds=0; },
+  newWound(g){ g.cells=[]; for(let r=0;r<g.rows;r++) for(let c=0;c<g.cols;c++) g.cells.push({c,r,f:0}); const k=g.wounds||0; g.cells.forEach(cl=>{ if(Math.random()<Math.max(0.05,0.3-k*0.06)) cl.f=1; }); },
+  geom(){ const ww=Math.min(W*0.82,620*S), wh=Math.min(H*0.34,260*S), wx=(W-ww)/2, wy=TOP+(H-TOP)*0.32; return {wx,wy,ww,wh}; },
+  fibros(){ const {wx,wy,ww,wh}=this.geom(); return [[wx-10*S,wy-40*S],[wx+ww+10*S,wy-40*S],[wx-10*S,wy+wh+40*S],[wx+ww+10*S,wy+wh+40*S],[wx+ww/2,wy-48*S],[wx+ww/2,wy+wh+48*S]].map(([x,y],i)=>({x,y,i})); },
+  update(g,dt){
+    const prog=g.t/this.dur, {wx,wy,ww,wh}=this.geom();
+    g.ionT-=dt; if(g.ionT<=0 && g.ions.length<5){ g.ionT=rnd(0.8,1.6); const side=Math.random()<0.5; g.ions.push({x:side?rnd(20*S,W*0.25):rnd(W*0.75,W-20*S),y:rnd(H*0.72,H-40*S),vx:rnd(-20,20)*S,vy:rnd(-15,15)*S,t:0}); }
+    g.ions.forEach(o=>{ if(o===g.drag) return; o.t+=dt; o.x+=o.vx*dt; o.y+=o.vy*dt; if(o.x<15*S||o.x>W-15*S) o.vx*=-1; if(o.y<H*0.66||o.y>H-15*S) o.vy*=-1; });
+    g.radT-=dt; if(g.radT<=0){ g.radT=Math.max(0.9,2.6-prog*1.6)*rnd(0.7,1.2); const e=Math.random()<0.5; g.rads.push({x:e?-10:W+10,y:rnd(wy,wy+wh),t:0,tx:0,ty:0}); }
+    g.rads.forEach(r=>{ r.t+=dt; const tgt=g.cells.filter(c=>c.f>=1); let tx=wx+ww/2, ty=wy+wh/2; if(tgt.length){ if(!r.tgt||r.tgt.f<1) r.tgt=pick(tgt); tx=wx+(r.tgt.c+0.5)*ww/g.cols; ty=wy+(r.tgt.r+0.5)*wh/g.rows; } const a=Math.atan2(ty-r.y,tx-r.x), sp=(55+prog*45)*S; r.x+=Math.cos(a)*sp*dt+Math.sin(r.t*9)*0.6; r.y+=Math.sin(a)*sp*dt+Math.cos(r.t*7)*0.6;
+      if(r.tgt && dist(r.x,r.y,tx,ty)<10*S && r.tgt.f>=1){ r.tgt.f=0; r.tgt=null; pop(r.x,r.y,'COLLAGEN BROKEN','#ff4d6d',14); sfx.bad(); r.hits=(r.hits||0)+1; } });
+    g.rads=g.rads.filter(r=>(r.hits||0)<3);
+    g.cells.forEach(c=>{ if(c.f>0&&c.f<1) c.f=Math.min(1,c.f+dt*2.2); });
+    g.strands.forEach(s=>s.t+=dt); g.strands=g.strands.filter(s=>s.t<0.6);
+    if(g.cells.every(c=>c.f>=1)){ g.wounds++; g.score+=800; pop(W/2,wy+wh/2,'WOUND CLOSED! +800','#ffd45c',30); sfx.win(); burst(W/2,wy+wh/2,'#ffd45c',40,320); this.newWound(g); }
+  },
+  down(g,x,y){
+    const r=g.rads.find(r=>dist(x,y,r.x,r.y)<30*S); if(r){ g.rads.splice(g.rads.indexOf(r),1); g.score+=40; burst(r.x,r.y,'#ff4d6d',12,200); pop(r.x,r.y,'ZAPPED +40','#ffd45c',16); sfx.good(); return; }
+    const o=g.ions.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(o&&dist(x,y,o.x,o.y)<44*S){ g.drag=o; o.ox=x-o.x; o.oy=y-o.y; }
+  },
+  move(g,x,y){ if(g.drag){ g.drag.x=x-g.drag.ox; g.drag.y=y-g.drag.oy; } },
+  up(g,x,y){
+    if(!g.drag) return; const o=g.drag; g.drag=null;
+    const f=this.fibros().find(f=>dist(o.x,o.y,f.x,f.y)<46*S); if(!f) return;
+    g.ions.splice(g.ions.indexOf(o),1);
+    const {wx,wy,ww,wh}=this.geom();
+    const empty=g.cells.filter(c=>c.f<=0).sort((a,b)=>dist(f.x,f.y,wx+(a.c+0.5)*ww/g.cols,wy+(a.r+0.5)*wh/g.rows)-dist(f.x,f.y,wx+(b.c+0.5)*ww/g.cols,wy+(b.r+0.5)*wh/g.rows)).slice(0,5);
+    empty.forEach(c=>{ c.f=0.01; g.strands.push({x1:f.x,y1:f.y,x2:wx+(c.c+0.5)*ww/g.cols,y2:wy+(c.r+0.5)*wh/g.rows,t:0}); });
+    g.score+=empty.length*30; burst(f.x,f.y,'#2f9bff',16,220); pop(f.x,f.y-30*S,'+COLLAGEN x'+empty.length,'#7fd0ff',18); sfx.great();
+  },
+  draw(g){
+    drawBg('#1a0b2e','#07030f','#ff9ccc');
+    const {wx,wy,ww,wh}=this.geom(), cw=ww/g.cols, ch=wh/g.rows;
+    // skin layers
+    ctx.fillStyle='rgba(255,170,190,0.12)'; ctx.fillRect(0,wy-70*S,W,wh+140*S);
+    label('DERMIS (deeper skin)',W/2,wy+wh+86*S,14,'rgba(255,200,215,0.6)');
+    // wound cells
+    g.cells.forEach(c=>{ const x=wx+c.c*cw, y=wy+c.r*ch;
+      ctx.fillStyle='rgba(120,10,30,0.55)'; ctx.fillRect(x+1,y+1,cw-2,ch-2);
+      if(c.f>0){ ctx.globalAlpha=c.f; ctx.strokeStyle='#ffe2ea'; ctx.lineWidth=2*S; for(let k=0;k<3;k++){ ctx.beginPath(); ctx.moveTo(x+2,y+ch*(k+1)/4); ctx.bezierCurveTo(x+cw*0.33,y+ch*(k+1)/4-4*S,x+cw*0.66,y+ch*(k+1)/4+4*S,x+cw-2,y+ch*(k+1)/4); ctx.stroke(); } ctx.globalAlpha=1; }
+    });
+    ctx.strokeStyle='rgba(255,90,120,0.7)'; ctx.lineWidth=2; ctx.strokeRect(wx,wy,ww,wh);
+    const pct=Math.round(g.cells.filter(c=>c.f>=1).length/g.cells.length*100);
+    label('WOUND CLOSED: '+pct+'%   ·   WOUNDS HEALED: '+g.wounds,W/2,wy-82*S,18,'#ffd45c');
+    // strands
+    g.strands.forEach(s=>{ ctx.globalAlpha=1-s.t/0.6; ctx.strokeStyle='#bfe6ff'; ctx.lineWidth=2.5*S; ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x1+(s.x2-s.x1)*Math.min(1,s.t*3),s.y1+(s.y2-s.y1)*Math.min(1,s.t*3)); ctx.stroke(); }); ctx.globalAlpha=1;
+    // fibroblasts
+    this.fibros().forEach(f=>{ const wob=Math.sin(g.t*3+f.i)*3*S; glowCircle(f.x,f.y,40*S,'rgba(176,38,255,0.5)'); ctx.fillStyle='#9b4dff'; ctx.beginPath(); ctx.ellipse(f.x,f.y,26*S+wob,16*S-wob*0.5,f.i,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e9d6ff'; ctx.beginPath(); ctx.arc(f.x,f.y,6*S,0,Math.PI*2); ctx.fill(); });
+    label('FIBROBLAST',this.fibros()[0].x+8*S,this.fibros()[0].y-26*S,12,'#d9b8ff');
+    // ions
+    g.ions.forEach(o=>{ glowCircle(o.x,o.y,30*S,'rgba(47,155,255,0.7)'); ctx.fillStyle='#2f9bff'; ctx.beginPath(); ctx.arc(o.x,o.y,15*S,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#ff9a4d'; ctx.lineWidth=2*S; ctx.stroke(); label('Cu',o.x,o.y+1,16,'#fff'); });
+    label('⬇ copper ions — drag me to a fibroblast',W/2,H*0.68,13,'rgba(170,215,255,0.7)','center','700 '+Math.round(13*S)+'px Rajdhani,sans-serif');
+    // free radicals
+    g.rads.forEach(r=>{ glowCircle(r.x,r.y,24*S,'rgba(255,60,90,0.8)'); ctx.fillStyle='#ff3c5a'; ctx.beginPath(); for(let k=0;k<10;k++){ const a=k/10*Math.PI*2+r.t*6, rad=(k%2?6:13)*S; ctx.lineTo(r.x+Math.cos(a)*rad,r.y+Math.sin(a)*rad); } ctx.closePath(); ctx.fill(); });
+  }
+});
+
+/* ---------- 4. UROLITHIN A: MITO CLEANUP (mitophagy sorting) ---------- */
+GAMES.push({
+  id:'uro', icon:'♻️', name:'Mito Cleanup', pep:'UROLITHIN A', col:'#ffd45c', dur:60, stars:[2500,5000,8000],
+  tag:'Drag broken mitochondria into the recycler — but don\'t trash the healthy ones.',
+  ev:'Small human trials + animal & cell research',
+  eli:'<b>Mitochondria</b> are the batteries inside your cells. Old, broken batteries leak and waste energy. Your cells have a recycling program called <b>mitophagy</b> that eats broken mitochondria so new ones can be built. <b>Urolithin A</b> — made by gut bacteria from foods like pomegranate — is studied for switching that recycling up.',
+  how:'<b>Drag</b> broken mitochondria (dim, cracked, flickering red) into the <b>♻️ recycler</b>. Each one you recycle lets a fresh healthy one be built. Recycling a healthy (bright green) one costs points. Too many broken ones drain the cell\'s energy. Tap the gold <b>UA</b> capsule for a scanner that highlights hidden damage.',
+  take:'Urolithin A is a compound gut bacteria make from ellagitannins (found in pomegranates, berries and walnuts). In cell and animal studies it boosts mitophagy, and small human trials have reported changes in mitochondrial markers and some muscle measures. Many people\'s gut bacteria make little of it. The effects in this game are a simplified model, not a promise.',
+  facts:['Only some people\'s gut bacteria can turn pomegranate compounds into Urolithin A.','"Mitophagy" comes from "mito" (mitochondria) + "phagy" (eating).','Building new mitochondria is called mitochondrial biogenesis — exercise is one of the strongest triggers.'],
+  init(g){ g.mitos=[]; for(let i=0;i<7;i++) this.spawn(g,false); g.energy=100; g.drag=null; g.decayT=2; g.ua=null; g.uaT=8; g.scanT=0; },
+  cell(){ return {cx:W/2,cy:TOP+(H-TOP)*0.43,rx:Math.min(W*0.44,440*S),ry:Math.min((H-TOP)*0.33,300*S)}; },
+  bin(){ return {x:W/2,y:H-62*S,r:48*S}; },
+  spawn(g,bad,subtle){ const C=this.cell(); const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*0.75; g.mitos.push({x:C.cx+Math.cos(a)*C.rx*d,y:C.cy+Math.sin(a)*C.ry*d,rot:Math.random()*3,vx:rnd(-12,12)*S,vy:rnd(-10,10)*S,bad:!!bad,subtle:!!subtle,t:Math.random()*5}); },
+  update(g,dt){
+    const prog=g.t/this.dur, C=this.cell();
+    g.decayT-=dt; if(g.decayT<=0){ g.decayT=Math.max(0.7,1.8-prog*1.1)*rnd(0.7,1.2); const ok=g.mitos.filter(m=>!m.bad); if(ok.length){ const m=pick(ok); m.bad=true; m.subtle=prog>0.35&&Math.random()<0.5; } else this.spawn(g,true,prog>0.35); if(g.mitos.length<6) this.spawn(g,false); }
+    g.mitos.forEach(m=>{ if(m===g.drag) return; m.t+=dt; m.x+=m.vx*dt; m.y+=m.vy*dt; m.rot+=dt*0.3; const nx=(m.x-C.cx)/C.rx, ny=(m.y-C.cy)/C.ry; if(nx*nx+ny*ny>0.75){ m.vx=-m.vx; m.vy=-m.vy; m.x-=nx*4; m.y-=ny*4; } });
+    const bad=g.mitos.filter(m=>m.bad).length;
+    g.energy=clamp(g.energy-(bad*bad*0.55-1.5)*dt*1.2,0,100);
+    if(g.energy<=0){ g.endEarly='The cell ran out of energy — too many broken batteries!'; }
+    g.score+=dt*g.energy*0.12;
+    g.uaT-=dt; if(g.uaT<=0&&!g.ua){ g.ua={x:rnd(W*0.2,W*0.8),y:rnd(C.cy-C.ry*0.5,C.cy+C.ry*0.5),t:0}; g.uaT=rnd(9,13); }
+    if(g.ua){ g.ua.t+=dt; if(g.ua.t>5) g.ua=null; }
+    g.scanT=Math.max(0,g.scanT-dt);
+  },
+  down(g,x,y){
+    if(g.ua&&dist(x,y,g.ua.x,g.ua.y)<34*S){ g.scanT=7; pop(g.ua.x,g.ua.y,'UROLITHIN A: SCANNER ON','#ffd45c',20); sfx.power(); g.ua=null; return; }
+    const m=g.mitos.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(m&&dist(x,y,m.x,m.y)<40*S){ g.drag=m; m.ox=x-m.x; m.oy=y-m.y; }
+  },
+  move(g,x,y){ if(g.drag){ g.drag.x=x-g.drag.ox; g.drag.y=y-g.drag.oy; } },
+  up(g,x,y){
+    if(!g.drag) return; const m=g.drag; g.drag=null; const B=this.bin();
+    if(dist(m.x,m.y,B.x,B.y)<B.r+18*S){
+      g.mitos.splice(g.mitos.indexOf(m),1);
+      if(m.bad){ g.combo++; const pts=100+(m.subtle?60:0)+g.combo*10; g.score+=pts; g.energy=Math.min(100,g.energy+6); pop(B.x,B.y-60*S,(m.subtle?'HIDDEN DAMAGE! ':'RECYCLED! ')+'+'+pts,'#ffd45c',20); burst(B.x,B.y,'#ffd45c',18,220); sfx.great(); setTimeout(()=>{ if(G&&G.game===this) { this.spawn(g,false); pop(W/2,TOP+70*S,'✨ NEW MITOCHONDRION BUILT','#3dff8a',16); } },500); }
+      else { g.combo=0; g.score=Math.max(0,g.score-120); g.energy=Math.max(0,g.energy-10); pop(B.x,B.y-60*S,'THAT ONE WAS WORKING! −120','#ff4d6d',20); sfx.bad(); }
+    }
+  },
+  drawMito(m,g){
+    const w=34*S, h=16*S, flick=m.bad&&!m.subtle&&Math.floor(m.t*6)%3===0;
+    const show=m.bad&&(!m.subtle||g.scanT>0);
+    ctx.save(); ctx.translate(m.x,m.y); ctx.rotate(m.rot);
+    glowCircle(0,0,34*S,show?'rgba(255,90,60,0.55)':'rgba(61,255,138,0.45)',flick?0.3:1);
+    ctx.fillStyle=show?(flick?'#7a3020':'#c8553a'):(m.bad?'#5fd98a':'#3dff8a'); rr(-w,-h,w*2,h*2,h); ctx.fill();
+    ctx.strokeStyle=show?'#ffb199':'#0b5a2c'; ctx.lineWidth=2*S; ctx.beginPath(); for(let k=-3;k<=3;k++){ ctx.moveTo(k*8*S,-h*0.7); ctx.lineTo(k*8*S+4*S,0); ctx.lineTo(k*8*S,h*0.7); } ctx.stroke();
+    if(show){ ctx.strokeStyle='#1a0505'; ctx.lineWidth=2.5*S; ctx.beginPath(); ctx.moveTo(-8*S,-h); ctx.lineTo(-2*S,-2*S); ctx.lineTo(-10*S,6*S); ctx.stroke(); }
+    if(g.scanT>0&&m.bad){ ctx.strokeStyle='#ffd45c'; ctx.lineWidth=2*S; ctx.setLineDash([4*S,3*S]); rr(-w-6*S,-h-6*S,w*2+12*S,h*2+12*S,h+6*S); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.restore();
+  },
+  draw(g){
+    drawBg('#1e1505','#060402','#ffd45c');
+    const C=this.cell(), B=this.bin();
+    glowCircle(C.cx,C.cy,Math.max(C.rx,C.ry)*1.15,'rgba(255,212,92,0.12)');
+    ctx.fillStyle='rgba(255,240,200,0.05)'; ctx.strokeStyle='rgba(255,212,92,0.5)'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.ellipse(C.cx,C.cy,C.rx,C.ry,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(120,90,200,0.35)'; ctx.beginPath(); ctx.ellipse(C.cx+C.rx*0.55,C.cy-C.ry*0.45,40*S,30*S,0.4,0,Math.PI*2); ctx.fill(); label('NUCLEUS',C.cx+C.rx*0.55,C.cy-C.ry*0.45,12,'rgba(220,210,255,0.7)');
+    g.mitos.forEach(m=>this.drawMito(m,g));
+    // recycler
+    glowCircle(B.x,B.y,B.r*1.6,'rgba(255,212,92,0.5)'); ctx.fillStyle='#2a1f05'; ctx.strokeStyle='#ffd45c'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    label('♻️',B.x,B.y-6*S,30); label('MITOPHAGY',B.x,B.y+24*S,13,'#ffd45c');
+    // energy bar
+    const bw=Math.min(W*0.6,360*S), bx=(W-bw)/2, by=TOP+12*S;
+    ctx.fillStyle='rgba(255,255,255,0.1)'; rr(bx,by,bw,14*S,7*S); ctx.fill();
+    ctx.fillStyle=g.energy>50?'#3dff8a':g.energy>25?'#ffd45c':'#ff4d6d'; rr(bx,by,bw*g.energy/100,14*S,7*S); ctx.fill();
+    label('CELL ENERGY',W/2,by+28*S,14,'rgba(255,255,255,0.75)');
+    if(g.scanT>0) label('🔍 SCANNER '+Math.ceil(g.scanT)+'s — hidden damage outlined',W/2,by+48*S,15,'#ffd45c');
+    if(g.ua){ glowCircle(g.ua.x,g.ua.y,40*S,'rgba(255,212,92,0.8)'); ctx.fillStyle='#ffd45c'; rr(g.ua.x-26*S,g.ua.y-13*S,52*S,26*S,13*S); ctx.fill(); label('UA',g.ua.x,g.ua.y+1,18,'#2a1f05'); }
+  }
+});
+
+/* ---------- 5. THYMOSIN ALPHA-1: T-CELL BOOTCAMP ---------- */
+GAMES.push({
+  id:'ta1', icon:'🛡️', name:'T-Cell Bootcamp', pep:'THYMOSIN ALPHA-1', col:'#b026ff', dur:60, stars:[3000,6000,9500],
+  tag:'Tap viruses, bacteria and infected cells — but never your own healthy cells.',
+  ev:'Human clinical research · approved in some countries, not FDA-approved',
+  eli:'Your <b>T-cells</b> are immune soldiers trained in a gland called the <b>thymus</b>. Their hardest job is telling <b>invaders</b> (viruses, bacteria, infected cells) apart from <b>your own healthy cells</b>. Thymosin alpha-1 is a peptide originally found in the thymus that is studied for helping T-cells develop and work.',
+  how:'Cells pop up everywhere. <b>Tap</b> invaders: spiky viruses, bacteria rods, and your cells with red spots (infected). <b>Don\'t tap</b> healthy cells with the green "SELF" badge — attacking yourself is autoimmunity! Invaders that escape hurt your health. Grab the <b>Tα1</b> badge for training mode: targets get outlined.',
+  take:'Thymosin alpha-1 (thymalfasin) is a peptide first isolated from the thymus. It is approved in some countries for certain conditions (such as as an add-on in hepatitis B), but it is not FDA-approved. Research suggests it can affect T-cell maturation and immune signaling, but it is not proven to prevent or cure infections or cancer — and a stronger immune response is not automatically better.',
+  facts:['The "T" in T-cell stands for thymus, where they mature.','Your thymus shrinks with age — by older adulthood much of it has turned to fat.','Autoimmune diseases happen when the immune system attacks the body\'s own cells.'],
+  init(g){ g.cells=[]; g.spawnT=0.4; g.hp=100; g.trainT=0; g.badge=null; g.badgeT=10; },
+  update(g,dt){
+    const prog=g.t/this.dur;
+    g.spawnT-=dt;
+    if(g.spawnT<=0){ g.spawnT=Math.max(0.32,0.85-prog*0.5)*rnd(0.7,1.2); const r=Math.random(); const k=r<0.36?'self':r<0.58?'virus':r<0.78?'bact':'infected'; let x,y,tries=0; do{ x=rnd(50*S,W-50*S); y=rnd(TOP+50*S,H-50*S); tries++; }while(tries<12&&g.cells.some(c=>dist(x,y,c.x,c.y)<70*S)); g.cells.push({k,x,y,t:0,life:Math.max(0.95,1.9-prog*0.85)*rnd(0.85,1.15),rot:Math.random()*6}); }
+    g.cells.forEach(c=>{ c.t+=dt; c.rot+=dt; });
+    g.cells=g.cells.filter(c=>{ if(c.t>c.life){ if(c.k!=='self'){ g.hp=Math.max(0,g.hp-9); g.combo=0; pop(c.x,c.y,'ESCAPED! −HEALTH','#ff4d6d',16); sfx.bad(); } return false; } return true; });
+    if(g.hp<=0) g.endEarly='The infection overwhelmed your immune system!';
+    g.trainT=Math.max(0,g.trainT-dt); g.badgeT-=dt;
+    if(g.badgeT<=0&&!g.badge){ g.badge={x:rnd(W*0.2,W*0.8),y:rnd(TOP+80*S,H*0.8),t:0}; g.badgeT=rnd(11,15); }
+    if(g.badge){ g.badge.t+=dt; if(g.badge.t>4.5) g.badge=null; }
+  },
+  down(g,x,y){
+    if(g.badge&&dist(x,y,g.badge.x,g.badge.y)<36*S){ g.trainT=7; pop(g.badge.x,g.badge.y,'Tα1 TRAINING MODE!','#e2b6ff',22); sfx.power(); g.badge=null; return; }
+    const c=g.cells.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
+    if(!c||dist(x,y,c.x,c.y)>40*S) return;
+    g.cells.splice(g.cells.indexOf(c),1);
+    if(c.k==='self'){ g.combo=0; g.score=Math.max(0,g.score-150); g.hp=Math.max(0,g.hp-6); pop(c.x,c.y,'AUTOIMMUNE OOPS! −150','#ff4d6d',20); sfx.bad(); burst(c.x,c.y,'#ff4d6d',10); }
+    else { g.combo++; const pts=(c.k==='infected'?140:100)+Math.min(10,g.combo)*10; g.score+=pts; pop(c.x,c.y,(c.k==='infected'?'INFECTED CELL CLEARED ':'+')+pts,c.k==='infected'?'#ffd45c':'#e2b6ff',c.k==='infected'?17:20); burst(c.x,c.y,'#b026ff',14,230); c.k==='infected'?sfx.great():sfx.good(); }
+  },
+  drawCell(c,g){
+    const k=c.k, grow=Math.min(1,c.t/0.15), fade=c.t>c.life-0.3?(Math.floor(c.t*14)%2?0.45:1):1, r=26*S*grow;
+    ctx.globalAlpha=fade;
+    if(g.trainT>0&&k!=='self'){ ctx.strokeStyle='#ffd45c'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(c.x,c.y,r+10*S,0,Math.PI*2); ctx.stroke(); }
+    if(k==='self'||k==='infected'){
+      glowCircle(c.x,c.y,r*1.6,k==='self'?'rgba(255,180,200,0.4)':'rgba(255,80,80,0.5)');
+      ctx.fillStyle='#ffc2d1'; ctx.beginPath(); ctx.arc(c.x,c.y,r,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#b05a78'; ctx.beginPath(); ctx.arc(c.x+4*S,c.y-3*S,r*0.35,0,Math.PI*2); ctx.fill();
+      if(k==='self'){ ctx.fillStyle='#3dff8a'; rr(c.x-18*S,c.y+r-6*S,36*S,13*S,6*S); ctx.fill(); label('SELF',c.x,c.y+r+0.5*S,11,'#063a1a'); }
+      else { ctx.fillStyle='#e0132f'; [[-10,-10],[9,8],[-6,10],[12,-9]].forEach(([a,b])=>{ ctx.beginPath(); ctx.arc(c.x+a*S,c.y+b*S,4*S,0,Math.PI*2); ctx.fill(); }); }
+    } else if(k==='virus'){
+      glowCircle(c.x,c.y,r*1.7,'rgba(176,38,255,0.6)'); ctx.fillStyle='#9b2cff';
+      ctx.beginPath(); ctx.arc(c.x,c.y,r*0.7,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#d9a8ff'; ctx.lineWidth=3*S;
+      for(let i=0;i<10;i++){ const a=i/10*Math.PI*2+c.rot; ctx.beginPath(); ctx.moveTo(c.x+Math.cos(a)*r*0.7,c.y+Math.sin(a)*r*0.7); ctx.lineTo(c.x+Math.cos(a)*r*1.1,c.y+Math.sin(a)*r*1.1); ctx.stroke(); ctx.fillStyle='#ff4dd8'; ctx.beginPath(); ctx.arc(c.x+Math.cos(a)*r*1.15,c.y+Math.sin(a)*r*1.15,3*S,0,Math.PI*2); ctx.fill(); }
+    } else {
+      glowCircle(c.x,c.y,r*1.6,'rgba(61,255,138,0.5)'); ctx.save(); ctx.translate(c.x,c.y); ctx.rotate(c.rot*0.6); ctx.fillStyle='#2ec46a'; rr(-r,-r*0.45,r*2,r*0.9,r*0.45); ctx.fill(); ctx.strokeStyle='#a8ffcb'; ctx.lineWidth=2*S; for(let i=-1;i<=1;i++){ ctx.beginPath(); ctx.moveTo(r*0.9,i*6*S); ctx.quadraticCurveTo(r*1.3,i*6*S+6*S,r*1.6,i*6*S); ctx.stroke(); } ctx.restore();
+    }
+    ctx.globalAlpha=1;
+  },
+  draw(g){
+    drawBg('#160830','#04020c','#b026ff');
+    g.cells.forEach(c=>this.drawCell(c,g));
+    if(g.badge){ glowCircle(g.badge.x,g.badge.y,40*S,'rgba(226,182,255,0.8)'); ctx.fillStyle='#e2b6ff'; ctx.beginPath(); for(let i=0;i<6;i++){ const a=i/6*Math.PI*2-Math.PI/2; ctx.lineTo(g.badge.x+Math.cos(a)*24*S,g.badge.y+Math.sin(a)*24*S); } ctx.closePath(); ctx.fill(); label('Tα1',g.badge.x,g.badge.y+1,18,'#2a0a4a'); }
+    const bw=Math.min(W*0.6,360*S), bx=(W-bw)/2, by=TOP+12*S;
+    ctx.fillStyle='rgba(255,255,255,0.1)'; rr(bx,by,bw,14*S,7*S); ctx.fill(); ctx.fillStyle=g.hp>50?'#3dff8a':g.hp>25?'#ffd45c':'#ff4d6d'; rr(bx,by,bw*g.hp/100,14*S,7*S); ctx.fill();
+    label('BODY HEALTH',W/2,by+28*S,14,'rgba(255,255,255,0.75)');
+    if(g.trainT>0) label('🎯 TRAINING MODE '+Math.ceil(g.trainT)+'s',W/2,by+48*S,16,'#ffd45c');
+    if(g.combo>=5) label('COMBO x'+g.combo,W/2,H-24*S,22,'#e2b6ff');
+  }
+});
+
+/* ---------- 6. MOTS-c: POWER GRID ---------- */
+GAMES.push({
+  id:'mots', icon:'🔋', name:'Power Grid', pep:'MOTS-c', col:'#ff9a4d', dur:70, stars:[3000,6000,9000],
+  tag:'Keep five hard-working muscle cells powered — trigger the MOTS-c signal when it gets hectic.',
+  ev:'Animal research + early human studies',
+  eli:'<b>MOTS-c</b> is a tiny message made by your <b>mitochondria</b> — the batteries in your cells. When you exercise, levels can rise. In mice, MOTS-c helped muscles take in sugar and use energy better, a bit like an "exercise signal". Scientists are only starting to study it in people.',
+  how:'Five muscle cells burn energy at different speeds. <b>Tap a cell</b> to send it a glucose fuel pack from the bank (it refills over time). Don\'t let any cell hit zero — that is a fatigue strike (3 strikes and you\'re out). When the <b>MOTS-c</b> meter is full, tap it (or <b>Space</b>): for 6 seconds every fuel pack gives double energy and cells drain slower.',
+  take:'MOTS-c is a peptide encoded in mitochondrial DNA. In mice it has been linked to better glucose handling and exercise capacity, partly through a cell energy sensor called AMPK. Human research is early and small, so these "exercise-mimic" effects are not established in people. The game is a simplified model.',
+  facts:['Most of your DNA is in the cell nucleus — but mitochondria carry a tiny loop of their own.','AMPK is like a cell\'s fuel gauge: it switches on when energy runs low.','Regular exercise is one of the best-proven ways to build more and better mitochondria.'],
+  init(g){ g.cells=[0,1,2,3,4].map(i=>({e:80,rate:rnd(5,8),flash:0,i})); g.bank=4; g.bankT=0; g.mots=0; g.motsT=0; g.strikes=0; g.flow=[]; },
+  pos(i){ const cx=W/2, cy=TOP+(H-TOP)*0.45, R=Math.min(W*0.36,(H-TOP)*0.33); const a=-Math.PI/2+i/5*Math.PI*2; return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}; },
+  center(){ return {x:W/2,y:TOP+(H-TOP)*0.45}; },
+  update(g,dt){
+    const prog=g.t/this.dur, boost=g.motsT>0;
+    g.cells.forEach(c=>{ c.e-=c.rate*(1+prog*1.1)*(boost?0.5:1)*dt; c.flash=Math.max(0,c.flash-dt*2); if(c.e<=0){ c.e=45; g.strikes++; g.combo=0; const p=this.pos(c.i); pop(p.x,p.y,'FATIGUE STRIKE '+g.strikes+'/3','#ff4d6d',20); sfx.bad(); burst(p.x,p.y,'#ff4d6d',16); if(Math.random()<0.5) c.rate=rnd(5,9); } });
+    if(g.strikes>=3) g.endEarly='Three fatigue strikes — the muscles gave out!';
+    g.bankT+=dt; const rate=boost?0.45:0.62; if(g.bankT>=rate){ g.bankT=0; if(g.bank<8) g.bank++; }
+    if(!boost) g.mots=Math.min(100,g.mots+dt*7); g.motsT=Math.max(0,g.motsT-dt);
+    g.flow.forEach(f=>f.t+=dt*2.5); g.flow=g.flow.filter(f=>f.t<1);
+    const avg=g.cells.reduce((s,c)=>s+c.e,0)/5; g.score+=dt*avg*0.9;
+  },
+  feed(g,c){
+    if(g.bank<=0){ pop(W/2,this.center().y+70*S,'FUEL BANK EMPTY!','#ff4d6d',16); beep(200,0.06,'triangle',0.04); return; }
+    g.bank--; const gain=g.motsT>0?40:22; c.e=Math.min(100,c.e+gain); c.flash=1; g.combo++; const p=this.pos(c.i), C=this.center();
+    g.flow.push({x1:C.x,y1:C.y,x2:p.x,y2:p.y,t:0}); g.score+=10; burst(p.x,p.y,g.motsT>0?'#ffd45c':'#ff9a4d',8,160); pop(p.x,p.y-46*S,'+'+gain+' ENERGY',g.motsT>0?'#ffd45c':'#ffcf9a',15); sfx.good();
+  },
+  mots(g){ if(g.mots<100||g.motsT>0) return; g.mots=0; g.motsT=6; sfx.power(); pop(W/2,TOP+60*S,'MOTS-c SIGNAL! AMPK ON','#ffd45c',26); burst(this.center().x,this.center().y,'#ffd45c',30,300); },
+  down(g,x,y){
+    const C=this.center(); if(dist(x,y,C.x,C.y)<54*S){ this.mots(g); return; }
+    const c=g.cells.slice().sort((a,b)=>dist(x,y,this.pos(a.i).x,this.pos(a.i).y)-dist(x,y,this.pos(b.i).x,this.pos(b.i).y))[0]; const p=this.pos(c.i);
+    if(dist(x,y,p.x,p.y)<70*S) this.feed(g,c);
+  },
+  key(g,k){ if(k===' ') this.mots(g); const n=parseInt(k,10); if(n>=1&&n<=5) this.feed(g,g.cells[n-1]); },
+  draw(g){
+    drawBg(g.motsT>0?'#2a1600':'#180c02','#050200','#ff9a4d');
+    const C=this.center(), boost=g.motsT>0;
+    g.flow.forEach(f=>{ const x=f.x1+(f.x2-f.x1)*f.t, y=f.y1+(f.y2-f.y1)*f.t; glowCircle(x,y,16*S,boost?'#ffd45c':'#ff9a4d'); });
+    g.cells.forEach(c=>{ const p=this.pos(c.i), e=c.e/100, col=e>0.5?'#3dff8a':e>0.25?'#ffd45c':'#ff4d6d';
+      ctx.strokeStyle='rgba(255,154,77,0.2)'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.moveTo(C.x,C.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+      glowCircle(p.x,p.y,62*S,col,0.25+c.flash*0.4);
+      // muscle cell: striped capsule
+      ctx.save(); ctx.translate(p.x,p.y); ctx.fillStyle='#5a1a24'; rr(-44*S,-26*S,88*S,52*S,26*S); ctx.fill(); ctx.strokeStyle='#ff8a9a'; ctx.lineWidth=2*S; for(let k=-3;k<=3;k++){ ctx.beginPath(); ctx.moveTo(k*11*S,-22*S); ctx.lineTo(k*11*S,22*S); ctx.stroke(); }
+      ctx.fillStyle='rgba(0,0,0,0.5)'; rr(-36*S,30*S,72*S,9*S,4*S); ctx.fill(); ctx.fillStyle=col; rr(-36*S,30*S,72*S*e,9*S,4*S); ctx.fill(); ctx.restore();
+      label(String(c.i+1),p.x,p.y,20,'#fff');
+      if(e<0.25&&Math.floor(g.t*6)%2) label('⚠ LOW',p.x,p.y-40*S,14,'#ff4d6d');
+    });
+    // centre: mitochondria hub with MOTS-c meter
+    glowCircle(C.x,C.y,80*S,boost?'rgba(255,212,92,0.7)':'rgba(255,154,77,0.4)');
+    ctx.fillStyle=boost?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.ellipse(C.x,C.y,48*S,30*S,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#5a2a00'; ctx.lineWidth=2.5*S; ctx.beginPath(); for(let k=-3;k<=3;k++){ ctx.moveTo(C.x+k*11*S,C.y-20*S); ctx.lineTo(C.x+k*11*S+5*S,C.y); ctx.lineTo(C.x+k*11*S,C.y+20*S); } ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=6*S; ctx.beginPath(); ctx.arc(C.x,C.y,58*S,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle=g.mots>=100?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.arc(C.x,C.y,58*S,-Math.PI/2,-Math.PI/2+Math.PI*2*(boost?g.motsT/6:g.mots/100)); ctx.stroke();
+    label(boost?'AMPK ON '+Math.ceil(g.motsT)+'s':g.mots>=100?'TAP: MOTS-c!':'MOTS-c '+Math.floor(g.mots)+'%',C.x,C.y+76*S,16,g.mots>=100||boost?'#ffd45c':'#ffcf9a');
+    // fuel bank
+    label('GLUCOSE BANK',W/2,H-46*S,14,'rgba(255,255,255,0.7)');
+    for(let i=0;i<8;i++){ ctx.fillStyle=i<g.bank?'#ffcf9a':'rgba(255,255,255,0.12)'; ctx.beginPath(); ctx.arc(W/2+(i-3.5)*22*S,H-22*S,8*S,0,Math.PI*2); ctx.fill(); }
+    label('STRIKES '+'✖'.repeat(g.strikes)+'·'.repeat(3-g.strikes),18*S,TOP+18*S,18,'#ff4d6d','left');
+  }
+});
+
+/* =====================================================================
+   ENGINE
+   ===================================================================== */
+let G=null, last=0, raf=0, held=null;
+function resize(){
+  DPR=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
+  cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); ctx.setTransform(DPR,0,0,DPR,0,0);
+  S=clamp(Math.min(W,H)/560,0.7,1.4); TOP=Math.max(52,$('hud').offsetHeight||52);
+}
+window.addEventListener('resize',resize);
+
+function starsFor(game,score){ return game.stars.filter(s=>score>=s).length; }
+function renderHub(){
+  const grid=$('grid'); grid.innerHTML='';
+  let xp=0, stars=0, done=0;
+  GAMES.forEach(gm=>{ const s=SAVE.games[gm.id]||{}; xp+=s.xp||0; stars+=s.stars||0; if(s.stars) done++;
+    const b=document.createElement('button'); b.className='gcard'; b.style.setProperty('--c',gm.col);
+    b.innerHTML='<span class="gi">'+gm.icon+'</span><span class="gp">'+gm.pep+'</span><span class="gn">'+gm.name+'</span><span class="gt">'+gm.tag+'</span><span class="ev" style="margin-top:0.5rem;align-self:flex-start">'+gm.ev.split(' · ')[0]+'</span><span class="gf"><span><span class="stars">'+'★'.repeat(s.stars||0)+'<span style="opacity:.25">'+'★'.repeat(3-(s.stars||0))+'</span></span><br><span class="best">'+(s.best?'Best: '+s.best:'Not played yet')+'</span></span><span class="play">PLAY ▶</span></span>';
+    b.onclick=()=>openGame(gm); grid.appendChild(b); });
+  const gl=document.createElement('a'); gl.className='gcard glow'; gl.href='glowrilla-game.html'; gl.style.textDecoration='none';
+  gl.innerHTML='<span class="gi">🦍</span><span class="gp">BONUS · FULL ARCADE GAME</span><span class="gn">Glowrilla vs Big Pharma</span><span class="gt">Protect the Reta case from Big Pharma goons, unlock the Peptide Codex and take down the CEO.</span><span class="gf"><span class="best">Separate game</span><span class="play">PLAY ▶</span></span>';
+  grid.appendChild(gl);
+  $('pXP').textContent=xp; $('pStars').textContent=stars+' / '+GAMES.length*3; $('pDone').textContent=done+' / '+GAMES.length;
+}
+function openGame(gm){
+  G={game:gm, score:0, combo:0, miss:0, t:0, running:false, over:false};
+  document.documentElement.style.setProperty('--c',gm.col);
+  $('hub').hidden=true; $('play').hidden=false; resize();
+  ['iIcon','eIcon'].forEach(i=>$(i).textContent=gm.icon);
+  $('iName').textContent=gm.name; $('iPep').textContent=gm.pep; $('iEli').innerHTML=gm.eli; $('iHow').innerHTML=gm.how; $('iEv').textContent='Evidence: '+gm.ev;
+  $('hName').textContent=gm.icon+' '+gm.name; $('hScore').textContent='0'; $('hTime').textContent=gm.dur+'s';
+  document.querySelectorAll('#play .card').forEach(c=>c.style.setProperty('--c',gm.col));
+  $('intro').hidden=false; $('end').hidden=true; FX=[]; TXT=[];
+  initAmb(gm.col); gm.init(G); window.scrollTo(0,0); $('goBtn').focus();
+}
+function startGame(){ const gm=G.game; Object.assign(G,{score:0,combo:0,miss:0,t:0,running:true,over:false,endEarly:null}); gm.init(G); FX=[]; TXT=[]; $('intro').hidden=true; $('end').hidden=true; try{ AC&&AC.resume&&AC.resume(); }catch(e){} sfx.tick(); }
+function finish(){
+  const gm=G.game; G.running=false; G.over=true; const sc=Math.floor(G.score), st=starsFor(gm,sc);
+  const s=SAVE.games[gm.id]=SAVE.games[gm.id]||{}; const firstStars=st>(s.stars||0);
+  s.best=Math.max(s.best||0,sc); s.stars=Math.max(s.stars||0,st); s.xp=(s.xp||0)+Math.floor(sc/10)+st*50; s.plays=(s.plays||0)+1; save();
+  $('eTitle').textContent=G.endEarly?'GAME OVER':st>=3?'LEGENDARY!':st===2?'GREAT JOB!':st===1?'NICE WORK!':'KEEP PRACTICING!';
+  $('eScore').textContent=sc; $('eStars').innerHTML='★'.repeat(st)+'<span style="opacity:.25">'+'★'.repeat(3-st)+'</span>';
+  $('eTake').innerHTML=(G.endEarly?'<b>'+G.endEarly+'</b><br>':'')+gm.take;
+  $('eFact').textContent=pick(gm.facts); $('eEv').textContent='Evidence: '+gm.ev;
+  $('end').hidden=false; st?sfx.win():sfx.bad(); if(firstStars) burst(W/2,H/2,gm.col,40,360);
+  $('againBtn').focus();
+}
+function backToHub(){ G=null; $('play').hidden=true; $('hub').hidden=false; renderHub(); }
+$('goBtn').onclick=startGame; $('againBtn').onclick=startGame; $('hubBtn').onclick=backToHub; $('quitBtn').onclick=backToHub;
+$('resetBtn').onclick=()=>{ if(confirm('Reset all Peptide Arcade scores and stars on this device?')){ SAVE={games:{},muted}; save(); renderHub(); } };
+
+function loop(ts){
+  const dt=Math.min(0.033,(ts-last)/1000||0); last=ts;
+  if(G){
+    const gm=G.game;
+    if(G.running){ G.t+=dt; gm.update(G,dt); stepFx(dt); const left=Math.max(0,gm.dur-G.t); $('hTime').textContent=Math.ceil(left)+'s'; $('hScore').textContent=Math.floor(G.score); if(left<=0||G.endEarly) finish(); }
+    else stepFx(dt);
+    ctx.clearRect(0,0,W,H); gm.draw(G); drawFx();
+  }
+  raf=requestAnimationFrame(loop);
+}
+function pt(e){ const r=cv.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; }
+cv.addEventListener('pointerdown',e=>{ if(!G||!G.running) return; e.preventDefault(); held=e.pointerId; try{cv.setPointerCapture(e.pointerId);}catch(_){} const [x,y]=pt(e); G.game.down&&G.game.down(G,x,y); });
+cv.addEventListener('pointermove',e=>{ if(!G||!G.running||held!==e.pointerId) return; const [x,y]=pt(e); G.game.move&&G.game.move(G,x,y); });
+['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,e=>{ if(!G||held!==e.pointerId) return; held=null; const [x,y]=pt(e); G.running&&G.game.up&&G.game.up(G,x,y); }));
+window.addEventListener('keydown',e=>{
+  if(!G) return;
+  if(e.key==='Escape'){ backToHub(); return; }
+  if(!G.running){ if(e.key==='Enter'&&!$('intro').hidden){ e.preventDefault(); startGame(); } return; }
+  if(e.key===' ') e.preventDefault();
+  G.game.key&&G.game.key(G,e.key);
+});
+document.addEventListener('visibilitychange',()=>{ /* timers are frame-based; a hidden tab simply pauses */ });
+
+resize(); renderHub(); raf=requestAnimationFrame(loop);
+if(/[?&]dev=1/.test(location.search)) window.__arc={G:()=>G,GAMES,openGame,startGame};
+// deep link: peptide-arcade.html#reta opens that game
+const deep=location.hash.slice(1); const dg=GAMES.find(g=>g.id===deep); if(dg) openGame(dg);
+})();
+</script>
+</body>
+</html>

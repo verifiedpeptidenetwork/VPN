@@ -277,6 +277,7 @@
     var isGradient = bgImgVal && bgImgVal.indexOf('gradient(')!==-1;
     var isTextGradient = isGradient && isTextClip(cs);
     var rec={el:el, bg:el.style.backgroundColor||'', bgImg:el.style.backgroundImage||'', color:el.style.color||'', textShadow:el.style.textShadow||'', filter:el.style.filter||'', fill:el.style.getPropertyValue('-webkit-text-fill-color')||''};
+    var ops=[]; function set(p,v,i){ ops.push([p,v,i]); }  // collect writes; applied in a batch after all reads (no layout thrash)
     var changed=false;
 
     // STRICT LIGHT MODE: light backgrounds + one dark text color. No neon, no tints.
@@ -285,32 +286,32 @@
       var stops=(bgImgVal.match(/rgba?\([^)]+\)/g)||[]).map(toRGBA).filter(function(c){return c && c.a>MIN_ALPHA;});
       var lead=stops.filter(function(c){return rgbToHsl(c.r,c.g,c.b)[1]>0.35;})[0];
       var headCol=lead ? jewelFor(lead) : TEXT_DARK_STR;
-      el.style.setProperty('background-image','none','important');
-      el.style.setProperty('-webkit-text-fill-color', headCol, 'important');
-      el.style.setProperty('color', headCol, 'important');
+      set('background-image','none','important');
+      set('-webkit-text-fill-color', headCol, 'important');
+      set('color', headCol, 'important');
       changed=true;
     } else if(isGradient){
       var g=classifyGradient(bgImgVal);
       if(g!=='light'){
-        el.style.setProperty('background-image','none','important');
+        set('background-image','none','important');
         // a real panel/button gets the cream fill; a faint decorative glow just disappears
-        if(g==='panel') el.style.setProperty('background-color', rgbaStr({r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:1}), 'important');
+        if(g==='panel') set('background-color', rgbaStr({r:LIGHT_BG[0],g:LIGHT_BG[1],b:LIGHT_BG[2],a:1}), 'important');
         changed=true;
       }
     } else if(!isRasterImage){
       var bgRgb=toRGBA(cs.backgroundColor);
       if(bgRgb && bgRgb.a>0 && bgRgb.a<=MIN_ALPHA && isSaturated(bgRgb)){
         // even a very faint colored wash reads as a pink/cyan tint on the off-white page
-        el.style.setProperty('background-color','transparent','important');
+        set('background-color','transparent','important');
         changed=true;
       } else if(bgRgb && bgRgb.a>MIN_ALPHA){
         if(luminance(bgRgb)<LIGHT_BG_MIN || (bgRgb.a>=0.6 && isSaturated(bgRgb))){
           // dark, mid-tone, or bright colored fill (neon buttons, yellow nav buttons, badges) -> white card
-          el.style.setProperty('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
+          set('background-color', rgbaStr(lightenRGB(bgRgb)), 'important');
           changed=true;
         } else if(bgRgb.a<0.6 && rgbToHsl(bgRgb.r,bgRgb.g,bgRgb.b)[1]>0.15){
           // translucent colored tint -> reads as pastel pink/cyan on cream; drop it
-          el.style.setProperty('background-color','transparent','important');
+          set('background-color','transparent','important');
           changed=true;
         }
       }
@@ -320,20 +321,20 @@
       var colRgb=toRGBA(cs.color);
       // Anything that isn't already a neutral dark becomes navy or its jewel tone
       if(colRgb && colRgb.a>MIN_ALPHA && !isNeutralDark(colRgb)){
-        el.style.setProperty('color', lightTextFor(colRgb), 'important');
+        set('color', lightTextFor(colRgb), 'important');
         changed=true;
       }
       var fill=cs.getPropertyValue('-webkit-text-fill-color');
       var fillRgb=toRGBA(fill);
       if(fillRgb && fillRgb.a>MIN_ALPHA && !isNeutralDark(fillRgb)){
-        el.style.setProperty('-webkit-text-fill-color', lightTextFor(fillRgb), 'important');
+        set('-webkit-text-fill-color', lightTextFor(fillRgb), 'important');
         changed=true;
       }
     }
 
     // Neon drop-shadow glows (filter) -> off. Images are skipped above, so logo art keeps its look.
     if(cs.filter && cs.filter.indexOf('drop-shadow')!==-1){
-      el.style.setProperty('filter','none','important');
+      set('filter','none','important');
       changed=true;
     }
 
@@ -349,11 +350,12 @@
         rec.border[side]=el.style[side]||'';
         // thick accent bars keep their color family as a jewel tone (gold if neutral); thin lines -> hairline
         var thick=parseFloat(cs[BORDER_WIDTH[side]])>=2;
-        el.style.setProperty(BORDER_CSS_PROP[side], thick ? (isSaturated(borderRgb) ? jewelFor(borderRgb) : GOLD) : HAIRLINE, 'important');
+        set(BORDER_CSS_PROP[side], thick ? (isSaturated(borderRgb) ? jewelFor(borderRgb) : GOLD) : HAIRLINE, 'important');
         changed=true;
       }
     }
-    if(changed){ touched.push(rec); touchedSet.add(el); }
+    if(changed){ touchedSet.add(el); return {rec:rec,ops:ops}; }
+    return null;
   }
 
   // Recolouring every element of this very large page in one go froze phones for seconds.
@@ -361,12 +363,15 @@
   // tap stays responsive; hidden views follow in the background, and a view opened before
   // its turn is done right away.
   var lightJob=0;
+  function applyPlan(p){ if(!p) return; var st=p.rec.el.style; for(var i=0;i<p.ops.length;i++) st.setProperty(p.ops[i][0],p.ops[i][1],p.ops[i][2]); touched.push(p.rec); }
   function runSlices(list, job, done){
     var i=0;
     (function step(){
       if(job!==lightJob) return;
       var t0=performance.now();
-      while(i<list.length && performance.now()-t0<10){ processElement(list[i++]); }
+      var plans=[];
+      while(i<list.length && performance.now()-t0<8){ var p=processElement(list[i++]); if(p) plans.push(p); }
+      for(var q=0;q<plans.length;q++) applyPlan(plans[q]);
       if(i<list.length) setTimeout(step, 0); else if(done) done();
     })();
   }
@@ -410,9 +415,10 @@
         for(var j=0;j<added.length;j++){
           var node=added[j];
           if(node.nodeType!==1) continue;
-          processElement(node);
+          var plans=[processElement(node)];
           var descendants=node.querySelectorAll ? node.querySelectorAll('*') : [];
-          for(var k=0;k<descendants.length;k++) processElement(descendants[k]);
+          for(var k=0;k<descendants.length;k++) plans.push(processElement(descendants[k]));
+          for(var q=0;q<plans.length;q++) applyPlan(plans[q]);
         }
       }
     });
