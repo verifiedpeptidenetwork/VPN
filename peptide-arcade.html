@@ -51,6 +51,7 @@
   #cv{position:absolute;inset:0;width:100%;height:100%;display:block;}
   #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:0.6rem;padding:max(8px,env(safe-area-inset-top)) 10px 2px;z-index:2;pointer-events:none;}
   #hud > *{pointer-events:auto;}
+  .gamesbtn{flex-shrink:0;padding:0.45rem 0.8rem;border-radius:999px;border:1px solid var(--c,#3ff3ff);background:rgba(255,255,255,0.08);color:#fff;font-family:"Bebas Neue",sans-serif;font-size:1.05rem;letter-spacing:0.1em;cursor:pointer;}
   #hud .hn{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   #hud .hs{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);min-width:4ch;text-align:right;}
   #hud .ht{font-family:'Share Tech Mono',monospace;font-size:1.1rem;padding:0.15rem 0.5rem;border-radius:8px;background:rgba(255,255,255,0.08);}
@@ -119,14 +120,14 @@
 
 <section id="play" hidden>
   <canvas id="cv"></canvas>
-  <div id="hud"><button class="iconbtn" id="quitBtn" aria-label="Back to arcade">✕</button><span class="hn" id="hName"></span><span class="ht" id="hTime"></span><span class="hs" id="hScore">0</span></div>
+  <div id="hud"><button class="gamesbtn" id="quitBtn" aria-label="Back to all games">◀ GAMES</button><span class="hn" id="hName"></span><span class="ht" id="hTime"></span><span class="hs" id="hScore">0</span></div>
   <div id="goal"><b>GOAL</b><span id="goalTxt"></span></div>
   <div id="tipbar"><span class="ti">📡</span><span class="tt" id="tipTxt">What's happening will show up here as you play.</span></div>
   <div class="ovl" id="intro"><div class="card"><div class="ci" id="iIcon"></div><h2 id="iName"></h2><h3 id="iPep"></h3>
     <div class="box eli"><b class="l">🧒 Explain it like I'm 5</b><span id="iEli"></span></div>
     <div class="box"><b class="l">🎮 How to play</b><span id="iHow"></span></div>
     <div><span class="ev" id="iEv"></span></div>
-    <button class="btn" id="goBtn">START — SHOW ME HOW ▶</button></div></div>
+    <button class="btn" id="goBtn">START — SHOW ME HOW ▶</button><br><button class="btn alt sm" id="introBack">◀ CHOOSE A DIFFERENT GAME</button></div></div>
   <div class="ovl" id="end" hidden><div class="card"><div class="ci" id="eIcon"></div><h2 id="eTitle"></h2>
     <div class="big" id="eScore">0</div><div class="bigstars" id="eStars"></div>
     <div class="box eli"><b class="l">🧪 What the science says</b><span id="eTake"></span></div>
@@ -1074,7 +1075,7 @@ function finish(){
   $('end').hidden=false; st?sfx.win():sfx.bad(); $('againBtn').focus();
 }
 function backToHub(){ G=null; $('play').hidden=true; $('hub').hidden=false; renderHub(); window.scrollTo(0,0); }
-$('goBtn').onclick=startGame; $('againBtn').onclick=startGame; $('hubBtn').onclick=backToHub; $('quitBtn').onclick=backToHub;
+$('goBtn').onclick=startGame; $('introBack').onclick=backToHub; $('againBtn').onclick=startGame; $('hubBtn').onclick=backToHub; $('quitBtn').onclick=backToHub;
 $('resetBtn').onclick=()=>{ if(confirm('Reset all Peptide Arcade scores, stars and cards on this device?')){ SAVE={games:{},muted}; save(); renderHub(); } };
 
 function loop(ts){
