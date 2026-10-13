@@ -4,33 +4,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Peptide Arcade</title>
-<meta name="description" content="Peptide Arcade by VPN: quick mini-games where how you play is what each peptide does in the body — with plain-English ELI5 cards and honest evidence labels.">
+<meta name="description" content="Peptide Arcade by VPN: quick mini-games where how you play is what each peptide does in the body — guided step by step, with plain-English ELI5 explanations, honest evidence labels and printable learning cards.">
 <meta name="theme-color" content="#060318">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#060318;--panel:#0d0826;--cyan:#3ff3ff;--pink:#ff2d95;--cu:#ff9a4d;--gold:#ffd45c;--green:#3dff8a;--violet:#b026ff;--text:#ece8ff;}
+  :root{--bg:#060318;--cyan:#3ff3ff;--pink:#ff2d95;--cu:#ff9a4d;--gold:#ffd45c;--green:#3dff8a;--violet:#b026ff;--text:#ece8ff;}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   [hidden]{display:none !important;}
   html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',system-ui,sans-serif;font-weight:700;}
   body{background:radial-gradient(120% 70% at 50% -10%,#2a0f5c 0%,transparent 60%),radial-gradient(80% 60% at 100% 100%,rgba(0,140,255,0.18),transparent 60%),var(--bg);}
   a{color:var(--cyan);}
   button{font-family:inherit;}
-  /* ---------- hub ---------- */
-  #hub{max-width:1100px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px 40px;}
-  .top{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+  #hub{max-width:1150px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px 40px;}
+  .top{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.6rem;}
   .top a.back{font-size:0.95rem;text-decoration:none;padding:0.35rem 0.7rem;border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:#fff;}
   .top .sp{flex:1;}
+  .pill{padding:0.45rem 0.9rem;border-radius:999px;border:1px solid rgba(255,212,92,0.6);background:rgba(255,212,92,0.1);color:var(--gold);font-size:1rem;cursor:pointer;}
   .iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.06);color:#fff;font-size:1.15rem;cursor:pointer;}
   h1.logo{margin:0.4rem 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.6rem,10vw,5rem);letter-spacing:0.06em;line-height:0.9;background:linear-gradient(90deg,#3ff3ff,#7aa8ff 45%,#ff2d95);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(63,243,255,0.35));}
-  .sub{margin:0.4rem 0 1rem;font-size:1.1rem;color:rgba(230,225,250,0.85);max-width:62ch;line-height:1.45;}
-  .prog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem;margin-bottom:1.1rem;}
+  .sub{margin:0.4rem 0 1rem;font-size:1.1rem;color:rgba(230,225,250,0.88);max-width:66ch;line-height:1.45;}
+  .how3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.5rem;margin-bottom:1rem;}
+  .how3 div{padding:0.6rem 0.75rem;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);font-size:0.95rem;line-height:1.35;}
+  .how3 b{color:var(--gold);}
+  .prog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.5rem;margin-bottom:1.1rem;}
   .prog div{padding:0.6rem;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);text-align:center;}
   .prog b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.9rem;color:var(--gold);line-height:1;}
-  .prog small{font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(220,215,240,0.75);}
+  .prog small{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(220,215,240,0.75);}
+  .sec{margin:1.2rem 0 0.5rem;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:0.1em;color:#fff;}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.9rem;}
-  .gcard{position:relative;display:flex;flex-direction:column;text-align:left;padding:1rem;border-radius:18px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,#0d0826),#08041a 70%);color:#fff;cursor:pointer;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+  .gcard{position:relative;display:flex;flex-direction:column;text-align:left;padding:1rem;border-radius:18px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,#0d0826),#08041a 70%);color:#fff;cursor:pointer;overflow:hidden;transition:transform .15s,box-shadow .15s;text-decoration:none;}
   .gcard:hover,.gcard:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 2px var(--c),0 18px 40px -18px var(--c);outline:none;}
   .gcard .gi{font-size:2.3rem;line-height:1;}
   .gcard .gp{margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:0.16em;color:var(--c);}
@@ -40,19 +44,26 @@
   .gcard .stars{font-size:1.1rem;letter-spacing:0.05em;color:var(--gold);}
   .gcard .play{padding:0.35rem 0.9rem;border-radius:999px;background:var(--c);color:#0a0520;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;}
   .gcard .best{font-size:0.82rem;color:rgba(220,215,240,0.7);}
-  .gcard.glow{--c:#3ff3ff;}
+  .gcard .got{position:absolute;top:10px;right:10px;font-size:0.75rem;padding:0.1rem 0.5rem;border-radius:999px;background:rgba(255,212,92,0.15);color:var(--gold);border:1px solid rgba(255,212,92,0.5);}
   .ev{display:inline-block;padding:0.12rem 0.55rem;border-radius:999px;font-size:0.75rem;font-weight:700;color:#14102a;background:var(--gold);}
   .note{margin-top:1.4rem;font-size:0.9rem;color:rgba(220,215,240,0.7);line-height:1.5;}
-  /* ---------- game screen ---------- */
   #play{position:fixed;inset:0;z-index:10;background:var(--bg);touch-action:none;user-select:none;-webkit-user-select:none;}
   #cv{position:absolute;inset:0;width:100%;height:100%;display:block;}
-  #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:0.6rem;padding:max(8px,env(safe-area-inset-top)) 10px 6px;z-index:2;pointer-events:none;}
+  #hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:0.6rem;padding:max(8px,env(safe-area-inset-top)) 10px 2px;z-index:2;pointer-events:none;}
   #hud > *{pointer-events:auto;}
-  #hud .hn{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#fff;}
+  #hud .hn{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.08em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   #hud .hs{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);min-width:4ch;text-align:right;}
   #hud .ht{font-family:'Share Tech Mono',monospace;font-size:1.1rem;padding:0.15rem 0.5rem;border-radius:8px;background:rgba(255,255,255,0.08);}
-  .ovl{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,2,15,0.82);overflow-y:auto;}
-  .card{width:100%;max-width:540px;padding:1.2rem 1.2rem 1rem;border-radius:20px;background:linear-gradient(160deg,color-mix(in srgb,var(--c,#3ff3ff) 16%,#0d0826),#0a0620);border:1px solid color-mix(in srgb,var(--c,#3ff3ff) 60%,transparent);box-shadow:0 0 50px -10px var(--c,#3ff3ff);text-align:center;}
+  #goal{position:absolute;left:0;right:0;z-index:2;padding:2px 12px 6px;text-align:center;font-size:0.95rem;color:#fff;pointer-events:none;}
+  #goal b{color:var(--c,#3ff3ff);font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:0.1em;font-size:1.05rem;margin-right:0.3rem;}
+  #tipbar{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:center;gap:0.6rem;min-height:64px;padding:0.4rem 0.9rem max(0.45rem,env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(6,3,20,0.97),rgba(6,3,20,0.88));border-top:2px solid var(--tc,#3ff3ff);pointer-events:none;}
+  #tipbar .ti{flex-shrink:0;font-size:1.5rem;}
+  #tipbar .tt{font-size:0.98rem;line-height:1.3;color:#fff;}
+  #tipbar .tt b{color:var(--tc,#3ff3ff);}
+  #tipbar.flash{animation:tipFlash .6s ease-out;}
+  @keyframes tipFlash{0%{background:color-mix(in srgb,var(--tc,#3ff3ff) 35%,#060314);}100%{}}
+  .ovl{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,2,15,0.84);overflow-y:auto;}
+  .card{width:100%;max-width:560px;margin:auto;padding:1.2rem 1.2rem 1rem;border-radius:20px;background:linear-gradient(160deg,color-mix(in srgb,var(--c,#3ff3ff) 16%,#0d0826),#0a0620);border:1px solid color-mix(in srgb,var(--c,#3ff3ff) 60%,transparent);box-shadow:0 0 50px -10px var(--c,#3ff3ff);text-align:center;}
   .card .ci{font-size:2.6rem;}
   .card h2{margin:0.1rem 0 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2rem,8vw,2.8rem);letter-spacing:0.05em;line-height:1;color:#fff;}
   .card h3{margin:0.2rem 0 0.7rem;font-family:'Share Tech Mono',monospace;font-weight:400;font-size:0.85rem;letter-spacing:0.16em;color:var(--c,#3ff3ff);}
@@ -60,12 +71,20 @@
   .box b.l{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.05rem;letter-spacing:0.1em;color:var(--c,#3ff3ff);margin-bottom:0.15rem;}
   .box.eli{background:rgba(255,212,92,0.07);border-color:rgba(255,212,92,0.35);}
   .box.eli b.l{color:var(--gold);}
-  .btn{display:inline-block;margin:0.35rem 0.2rem 0;padding:0.7rem 1.5rem;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;cursor:pointer;color:#0a0520;background:var(--c,#3ff3ff);box-shadow:0 0 20px -4px var(--c,#3ff3ff);}
+  .btn{display:inline-block;margin:0.35rem 0.2rem 0;padding:0.7rem 1.5rem;border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.12em;cursor:pointer;color:#0a0520;background:var(--c,#3ff3ff);box-shadow:0 0 20px -4px var(--c,#3ff3ff);text-decoration:none;}
   .btn.alt{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.25);box-shadow:none;font-size:1.1rem;}
+  .btn.sm{font-size:1rem;padding:0.5rem 0.9rem;}
   .big{font-family:'Bebas Neue',sans-serif;font-size:3.6rem;line-height:1;color:var(--gold);}
   .bigstars{font-size:2.2rem;letter-spacing:0.15em;color:var(--gold);margin:0.2rem 0 0.5rem;}
   .small{font-size:0.85rem;color:rgba(220,215,240,0.7);margin-top:0.6rem;}
-  @media (prefers-reduced-motion: reduce){ .gcard{transition:none;} }
+  .lcard{display:flex;gap:0.8rem;align-items:center;justify-content:center;flex-wrap:wrap;margin:0.4rem 0 0.6rem;}
+  .lcard img{width:140px;border-radius:12px;border:1px solid rgba(255,255,255,0.25);box-shadow:0 10px 30px -12px var(--c,#3ff3ff);}
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.7rem;text-align:center;}
+  .cgrid img{width:100%;border-radius:10px;border:1px solid rgba(255,255,255,0.2);}
+  .cgrid .lock{aspect-ratio:4/5;display:grid;place-items:center;border-radius:10px;border:1px dashed rgba(255,255,255,0.25);color:rgba(220,215,240,0.6);font-size:0.9rem;padding:0.5rem;}
+  .cgrid .cb{display:flex;gap:0.3rem;justify-content:center;margin-top:0.3rem;}
+  .cgrid .cb button{flex:1;padding:0.3rem;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.06);color:#fff;font-size:0.85rem;cursor:pointer;}
+  @media (prefers-reduced-motion: reduce){ .gcard{transition:none;} #tipbar.flash{animation:none;} }
 </style>
 </head>
 <body>
@@ -73,28 +92,46 @@
   <div class="top">
     <a class="back" href="home.html">← VPN home</a>
     <span class="sp"></span>
+    <button class="pill" id="cardsBtn">📇 My learning cards</button>
     <button class="iconbtn" id="sndBtn" aria-label="Sound on or off">🔊</button>
   </div>
   <h1 class="logo">PEPTIDE ARCADE</h1>
-  <p class="sub">Quick mini-games where <b>the way you play is what the peptide does in your body</b>. Every game starts with a 🧒 plain-English explanation and ends with what the science really says — including how strong the evidence is.</p>
-  <div class="prog"><div><b id="pXP">0</b><small>Total XP</small></div><div><b id="pStars">0</b><small>Stars</small></div><div><b id="pDone">0</b><small>Games cleared</small></div></div>
-  <div class="grid" id="grid"></div>
-  <p class="note">Educational games, not medical advice. The game numbers (glucose, energy, etc.) are simplified to teach the idea — they don't predict what happens in a real person. Evidence labels: <span class="ev">Established human evidence</span> = approved/well-proven in people · <span class="ev">Human clinical research</span> = real trials, still being studied · <span class="ev">Animal / lab research</span> = mostly mice, rats or cells so far. Full write-ups live in the <a href="home.html#all-peptides">VPN Peptide Index</a>. <button class="btn alt" id="resetBtn" style="font-size:0.85rem;padding:0.3rem 0.7rem;margin-left:0.3rem;">Reset progress</button></p>
+  <p class="sub">Quick games where <b>the way you play is what the peptide does in your body</b>. Each one walks you through it step by step, explains what's happening while you play, and gives you a learning card you can save or print.</p>
+  <div class="how3">
+    <div><b>🎓 1. Quick coach</b><br>Arrows show you what everything on screen is and what to tap.</div>
+    <div><b>📡 2. Learn while you play</b><br>The bottom bar explains each thing as it happens, in plain English.</div>
+    <div><b>📇 3. Collect the card</b><br>Finish a game to unlock its learning card — save it or print it.</div>
+  </div>
+  <div class="prog"><div><b id="pXP">0</b><small>Total XP</small></div><div><b id="pStars">0</b><small>Stars</small></div><div><b id="pDone">0</b><small>Games cleared</small></div><div><b id="pCards">0</b><small>Cards</small></div></div>
+  <div class="sec">⚡ GLP-1 &amp; METABOLISM</div><div class="grid" id="grid-metab"></div>
+  <div class="sec">🔋 MITOCHONDRIA &amp; ENERGY</div><div class="grid" id="grid-mito"></div>
+  <div class="sec">🩹 REPAIR, SKIN &amp; IMMUNE</div><div class="grid" id="grid-repair"></div>
+  <div class="sec">🦍 BONUS</div><div class="grid" id="grid-bonus"></div>
+  <p class="note">Educational games, not medical advice — no doses, no treatment advice. Game numbers (glucose, energy, etc.) are simplified to teach the idea and don't predict what happens in a real person. Evidence labels: <span class="ev">Established human evidence</span> = approved / well-proven in people · <span class="ev">Human clinical research</span> = real trials, still being studied · <span class="ev">Animal / lab research</span> = mostly mice, rats or cells so far. Full write-ups live in the <a href="home.html#all-peptides">VPN Peptide Index</a>. <button class="btn alt sm" id="resetBtn" style="margin-left:0.3rem;">Reset progress</button></p>
 </main>
+
+<div class="ovl" id="cardsOvl" hidden style="position:fixed;z-index:20;">
+  <div class="card" style="max-width:860px;--c:#ffd45c;"><h2>📇 MY LEARNING CARDS</h2><h3 id="cardsSub"></h3>
+    <div class="cgrid" id="cardsGrid"></div>
+    <button class="btn" id="printAllBtn">🖨️ PRINT ALL MY CARDS</button><button class="btn alt" id="cardsClose">CLOSE</button>
+    <p class="small">Cards unlock when you finish a game. Printed cards fit 4 to a page.</p></div>
+</div>
 
 <section id="play" hidden>
   <canvas id="cv"></canvas>
   <div id="hud"><button class="iconbtn" id="quitBtn" aria-label="Back to arcade">✕</button><span class="hn" id="hName"></span><span class="ht" id="hTime"></span><span class="hs" id="hScore">0</span></div>
+  <div id="goal"><b>GOAL</b><span id="goalTxt"></span></div>
+  <div id="tipbar"><span class="ti">📡</span><span class="tt" id="tipTxt">What's happening will show up here as you play.</span></div>
   <div class="ovl" id="intro"><div class="card"><div class="ci" id="iIcon"></div><h2 id="iName"></h2><h3 id="iPep"></h3>
     <div class="box eli"><b class="l">🧒 Explain it like I'm 5</b><span id="iEli"></span></div>
     <div class="box"><b class="l">🎮 How to play</b><span id="iHow"></span></div>
     <div><span class="ev" id="iEv"></span></div>
-    <button class="btn" id="goBtn">START ▶</button></div></div>
+    <button class="btn" id="goBtn">START — SHOW ME HOW ▶</button></div></div>
   <div class="ovl" id="end" hidden><div class="card"><div class="ci" id="eIcon"></div><h2 id="eTitle"></h2>
     <div class="big" id="eScore">0</div><div class="bigstars" id="eStars"></div>
     <div class="box eli"><b class="l">🧪 What the science says</b><span id="eTake"></span></div>
-    <div class="box"><b class="l">💡 Did you know?</b><span id="eFact"></span></div>
-    <div><span class="ev" id="eEv"></span></div>
+    <div class="box"><b class="l">🧠 What you just learned</b><span id="eLearn"></span></div>
+    <div class="lcard"><img id="eCard" alt="Your learning card"><div><div class="ev" id="eEv" style="margin-bottom:0.4rem"></div><br><button class="btn sm" id="dlCard">⬇ SAVE CARD</button><button class="btn alt sm" id="prCard">🖨️ PRINT</button></div></div>
     <button class="btn" id="againBtn">PLAY AGAIN</button><button class="btn alt" id="hubBtn">ALL GAMES</button>
     <p class="small"><a href="home.html#all-peptides" target="_blank" rel="noopener">Read the full write-up in the Peptide Index ↗</a> · Educational only, not medical advice.</p></div></div>
 </section>
@@ -104,17 +141,17 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const cv=$('cv'), ctx=cv.getContext('2d');
-let W=0,H=0,DPR=1,S=1, TOP=56;
+let W=0,H=0,DPR=1,S=1, TOP=80, B=600;
+const PH=()=>B-TOP;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
 const dist=(a,b,c,d)=>Math.hypot(a-c,b-d);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const strip=h=>String(h).replace(/<[^>]+>/g,'');
 
-/* ---------- save data (this device only) ---------- */
 let SAVE={}; try{ SAVE=JSON.parse(localStorage.getItem('pep-arcade')||'{}'); }catch(e){}
 SAVE.games=SAVE.games||{};
 function save(){ try{ localStorage.setItem('pep-arcade',JSON.stringify(SAVE)); }catch(e){} }
 
-/* ---------- sound ---------- */
 let AC=null, muted=!!SAVE.muted;
 function beep(f,d,type,vol,slide){ if(muted) return; try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime; o.type=type||'square'; o.frequency.setValueAtTime(f,t); if(slide) o.frequency.exponentialRampToValueAtTime(slide,t+(d||0.1)); g.gain.setValueAtTime(vol||0.05,t); g.gain.exponentialRampToValueAtTime(0.0001,t+(d||0.1)); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+(d||0.1)+0.02); }catch(e){} }
 const sfx={
@@ -123,12 +160,12 @@ const sfx={
   bad:()=>beep(160,0.22,'sawtooth',0.06,90),
   tick:()=>beep(1200,0.03,'square',0.02),
   power:()=>beep(300,0.35,'sawtooth',0.05,1200),
+  info:()=>beep(880,0.05,'sine',0.04),
   win:()=>{[523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>beep(f,0.14,'triangle',0.06),i*90));}
 };
 function setMute(m){ muted=m; SAVE.muted=m; save(); $('sndBtn').textContent=m?'🔇':'🔊'; }
 $('sndBtn').onclick=()=>setMute(!muted); setMute(muted);
 
-/* ---------- shared fx ---------- */
 let FX=[], TXT=[];
 function burst(x,y,col,n,sp){ if(RM) n=Math.min(n||10,4); for(let i=0;i<(n||10);i++){ const a=Math.random()*Math.PI*2, v=rnd(40,sp||200)*S; FX.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,life:rnd(0.35,0.8),col,r:rnd(1.5,3.5)*S}); } }
 function pop(x,y,txt,col,size){ TXT.push({x,y,txt,col:col||'#fff',t:0,size:size||20}); }
@@ -139,248 +176,503 @@ function drawFx(){
   TXT.forEach(t=>{ ctx.globalAlpha=Math.max(0,1-t.t/1.1); ctx.font='400 '+Math.round(t.size*S)+'px "Bebas Neue",sans-serif'; ctx.lineWidth=4; ctx.strokeStyle='rgba(0,0,0,0.6)'; ctx.strokeText(t.txt,t.x,t.y); ctx.fillStyle=t.col; ctx.fillText(t.txt,t.x,t.y); });
   ctx.globalAlpha=1;
 }
-function glowCircle(x,y,r,col,a){ const g=ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.globalAlpha=a==null?1:a; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
+function glowCircle(x,y,r,col,a){ const g=ctx.createRadialGradient(x,y,0,x,y,Math.max(1,r)); g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.globalAlpha=a==null?1:a; ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,Math.max(1,r),0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
 function rr(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function label(txt,x,y,size,col,align,font){ ctx.font=(font||'400 '+Math.round(size*S)+'px "Bebas Neue",sans-serif'); ctx.textAlign=align||'center'; ctx.textBaseline='middle'; ctx.fillStyle=col||'#fff'; ctx.fillText(txt,x,y); }
-// ambient floating particles for every background
+function small(txt,x,y,size,col,align){ label(txt,x,y,size,col,align,'700 '+Math.round(size*S)+'px Rajdhani,sans-serif'); }
+function bar(x,y,w,h,f,col,name){ ctx.fillStyle='rgba(255,255,255,0.1)'; rr(x,y,w,h,h/2); ctx.fill(); ctx.fillStyle=col; rr(x,y,Math.max(h,w*clamp(f,0,1)),h,h/2); ctx.fill(); if(name) small(name,x+w/2,y+h+11*S,12,'rgba(255,255,255,0.78)'); }
 let AMB=[];
 function initAmb(col){ AMB=[]; for(let i=0;i<(RM?10:36);i++) AMB.push({x:Math.random()*W,y:Math.random()*H,r:rnd(1,3)*S,v:rnd(6,22)*S,c:col}); }
 function drawBg(c1,c2,col){
-  const g=ctx.createRadialGradient(W/2,H*0.45,0,W/2,H*0.45,Math.max(W,H)*0.75); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W/2,(TOP+B)/2,0,W/2,(TOP+B)/2,Math.max(W,H)*0.75); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
   AMB.forEach(p=>{ p.y-=p.v*0.016; if(p.y<-5){ p.y=H+5; p.x=Math.random()*W; } ctx.globalAlpha=0.35; ctx.fillStyle=col||p.c; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); ctx.globalAlpha=1;
 }
 
-/* =====================================================================
-   GAMES — each one: the way you play = what the peptide does
-   ===================================================================== */
+let tipT=0, lastTip=0, tipIdx=0;
+function tip(html,col){ const tb=$('tipbar'); $('tipTxt').innerHTML=html; tb.style.setProperty('--tc',col||(G&&G.game.col)||'#3ff3ff'); tb.classList.remove('flash'); void tb.offsetWidth; tb.classList.add('flash'); tipT=4.5; if(G) lastTip=G.t; sfx.info(); }
+function explain(g,key,html,col){ if(!g||!g.running||g.said[key]) return; g.said[key]=1; g.learned.push(strip(html)); tip(html,col); }
+
 const GAMES=[];
 
-/* ---------- 1. RETATRUTIDE: TRIPLE SWITCH (rhythm across 3 receptors) ---------- */
 GAMES.push({
-  id:'reta', icon:'⚡', name:'Triple Switch', pep:'RETATRUTIDE', col:'#ff2d95', dur:60, stars:[3000,7000,12000],
+  id:'reta', cat:'metab', icon:'⚡', name:'Triple Switch', pep:'RETATRUTIDE', col:'#ff2d95', dur:60, stars:[2500,6000,10000],
   tag:'Hit three hormone switches in rhythm — GLP-1, GIP and glucagon each do a different job.',
   ev:'Human clinical research · investigational drug',
-  eli:'Your body has "switches" called receptors. Retatrutide flips <b>three</b> of them: <b>GLP-1</b> says "I\'m full", <b>GIP</b> helps release insulin after you eat, and <b>glucagon</b> tells the body to burn stored fuel. Most older drugs flip only one or two.',
-  how:'Signals fall down 3 lanes. Tap the lane (or press <b>1 / 2 / 3</b>) when a signal reaches its receptor ring. Perfect timing = more points. Gold <b>RETA</b> molecules light up all three switches for a big bonus. Don\'t miss — misses break your combo.',
-  take:'Retatrutide is a weekly injection that activates GLP-1, GIP and glucagon receptors. In clinical trials it produced large average weight loss. It is still investigational — check the VPN GLP Hub for its current status. This game does not predict anyone\'s results.',
-  facts:['GLP-1 also slows how fast your stomach empties, which is part of why you feel full longer.','Glucagon is usually known for raising blood sugar — combined with GLP-1 and GIP, it is studied for helping the body burn more energy.','Tirzepatide flips two of these switches (GLP-1 + GIP); semaglutide flips one (GLP-1).'],
-  LANES:[{n:'GLP-1',d:'"I\'m full"',c:'#3ff3ff'},{n:'GIP',d:'insulin helper',c:'#3dff8a'},{n:'GLUCAGON',d:'burn fuel',c:'#ff9a4d'}],
-  init(g){ g.orbs=[]; g.spawn=0.8; g.hitFlash=[0,0,0]; g.speed=0.3; },
-  zoneY(){ return H*0.8; },
-  laneX(i){ return W*(i+0.5)/3; },
+  eli:'Your body has "switches" called <b>receptors</b>. Retatrutide flips <b>three</b>: <b>GLP-1</b> says "I\'m full", <b>GIP</b> helps release insulin after you eat, and <b>glucagon</b> tells the body to burn stored fuel. Older drugs flip only one or two.',
+  how:'Signals fall down 3 lanes. Tap a lane (or press <b>1 / 2 / 3</b>) when a signal touches its ring. Gold <b>RETA</b> molecules flip all three switches at once.',
+  goal:'Tap each lane when its signal reaches the ring',
+  take:'Retatrutide is a weekly injection that activates GLP-1, GIP and glucagon receptors. Clinical trials showed large average weight loss. It is still investigational — check the VPN GLP Hub for its status. This game does not predict anyone\'s results.',
+  learn:['Retatrutide = "triple agonist": GLP-1 + GIP + glucagon','GLP-1 → fullness · GIP → insulin help · glucagon → burn stored fuel','Investigational: still in clinical trials'],
+  tips:['<b>Receptor</b> = a switch on a cell. A hormone fits it like a key.','<b>Tirzepatide</b> flips 2 of these switches (GLP-1 + GIP). <b>Semaglutide</b> flips 1 (GLP-1).','<b>Glucagon</b> usually raises blood sugar — combined with GLP-1 and GIP it is studied for burning more energy.'],
+  LANES:[{n:'GLP-1',d:'"I\'m full"',c:'#3ff3ff'},{n:'GIP',d:'insulin helper',c:'#3dff8a'},{n:'GLUCAGON',d:'burn stored fuel',c:'#ff9a4d'}],
+  zoneY(){ return B-PH()*0.24; }, laneX(i){ return W*(i+0.5)/3; },
+  coach(g){ return [
+    {t:'Each lane is a different <b>receptor switch</b> in your body. Signals (hormones) fall toward them.'},
+    {t:'This ring is the <b>GLP-1 receptor</b>. When a signal touches it, TAP that lane. GLP-1 tells your brain "I\'m full".', at:()=>[this.laneX(0),this.zoneY()]},
+    {t:'<b>GIP</b> helps your pancreas release insulin. <b>Glucagon</b> tells your body to burn stored fuel.', at:()=>[this.laneX(2),this.zoneY()]},
+    {t:'Gold <b>RETA</b> molecules hit all 3 switches at once — that\'s what makes retatrutide special. Ready?'} ]; },
+  init(g){ g.orbs=[]; g.spawn=1.2; g.hitFlash=[0,0,0]; g.speed=0.3; },
   update(g,dt){
-    const prog=g.t/this.dur; g.speed=0.28+prog*0.32; g.spawn-=dt;
-    if(g.spawn<=0){ g.spawn=Math.max(0.36,0.85-prog*0.5)*rnd(0.75,1.2); const gold=Math.random()<0.08; const lane=Math.floor(Math.random()*3); g.orbs.push({lane,y:TOP+10,gold}); if(prog>0.45&&Math.random()<0.25){ g.orbs.push({lane:(lane+1+Math.floor(Math.random()*2))%3,y:TOP+10,gold:false}); } }
-    g.orbs.forEach(o=>o.y+=H*g.speed*dt);
-    const zy=this.zoneY(), win=H*0.075;
-    g.orbs=g.orbs.filter(o=>{ if(o.y>zy+win){ g.combo=0; g.miss++; pop(this.laneX(o.lane),zy-30*S,'MISS','#ff4d6d'); sfx.bad(); return false; } return true; });
+    const prog=g.t/this.dur; g.speed=0.24+prog*0.3; g.spawn-=dt;
+    if(g.spawn<=0){ g.spawn=Math.max(0.42,0.95-prog*0.5)*rnd(0.75,1.2); const gold=g.t>6&&Math.random()<0.08; const lane=Math.floor(Math.random()*3); g.orbs.push({lane,y:TOP+10,gold}); if(prog>0.5&&Math.random()<0.22) g.orbs.push({lane:(lane+1+Math.floor(Math.random()*2))%3,y:TOP+10,gold:false}); }
+    g.orbs.forEach(o=>o.y+=PH()*g.speed*dt);
+    const zy=this.zoneY(), win=PH()*0.085;
+    g.orbs=g.orbs.filter(o=>{ if(o.y>zy+win){ g.combo=0; pop(this.laneX(o.lane),zy-30*S,'MISS','#ff4d6d'); sfx.bad(); explain(g,'miss','<b>Missed!</b> Tap when the signal is <b>inside</b> the ring. In your body, a hormone only works when it actually docks on its receptor.','#ff4d6d'); return false; } return true; });
     g.hitFlash=g.hitFlash.map(v=>Math.max(0,v-dt*3));
   },
   press(g,lane){
-    const zy=this.zoneY(), win=H*0.075; let best=null,bd=1e9;
-    g.orbs.forEach(o=>{ if(o.lane===lane||o.gold){ const d=Math.abs(o.y-zy); if(d<win&&d<bd&&(o.lane===lane||o.gold)){ bd=d; best=o; } } });
-    if(!best){ g.combo=0; g.hitFlash[lane]=0.4; pop(this.laneX(lane),zy-30*S,'EARLY!','#ff4d6d',16); sfx.bad(); return; }
+    const zy=this.zoneY(), win=PH()*0.085; let best=null,bd=1e9;
+    g.orbs.forEach(o=>{ if(o.lane===lane||o.gold){ const d=Math.abs(o.y-zy); if(d<win&&d<bd){ bd=d; best=o; } } });
+    if(!best){ g.combo=0; g.hitFlash[lane]=0.4; pop(this.laneX(lane),zy-30*S,'TOO EARLY','#ff4d6d',16); sfx.bad(); explain(g,'early','<b>Too early!</b> Wait until the falling signal touches the ring, then tap.','#ff4d6d'); return; }
     g.orbs.splice(g.orbs.indexOf(best),1);
-    const perfect=bd<win*0.35; g.combo++;
-    const mult=1+Math.floor(g.combo/8);
-    if(best.gold){ g.score+=300*mult; [0,1,2].forEach(i=>{ g.hitFlash[i]=1; burst(this.laneX(i),zy,this.LANES[i].c,14,260); }); pop(W/2,zy-60*S,'TRIPLE SWITCH! +'+300*mult,'#ffd45c',28); sfx.great(); }
-    else { const pts=(perfect?100:50)*mult; g.score+=pts; g.hitFlash[lane]=1; burst(this.laneX(lane),zy,this.LANES[lane].c,perfect?14:7,perfect?240:150); pop(this.laneX(lane),zy-34*S,(perfect?'PERFECT ':'GOOD ')+'+'+pts,perfect?'#ffd45c':'#fff'); perfect?sfx.great():sfx.good(); }
+    const perfect=bd<win*0.4; g.combo++; const mult=1+Math.floor(g.combo/8);
+    if(best.gold){ g.score+=300*mult; [0,1,2].forEach(i=>{ g.hitFlash[i]=1; burst(this.laneX(i),zy,this.LANES[i].c,14,260); }); pop(W/2,zy-60*S,'TRIPLE SWITCH! +'+300*mult,'#ffd45c',28); sfx.great(); explain(g,'gold','<b>Triple switch!</b> One retatrutide molecule activates GLP-1, GIP <b>and</b> glucagon receptors — a "triple agonist".','#ffd45c'); }
+    else { const pts=(perfect?100:50)*mult; g.score+=pts; g.hitFlash[lane]=1; burst(this.laneX(lane),zy,this.LANES[lane].c,perfect?14:7,perfect?240:150); pop(this.laneX(lane),zy-34*S,(perfect?'PERFECT ':'GOOD ')+'+'+pts,perfect?'#ffd45c':'#fff'); perfect?sfx.great():sfx.good();
+      explain(g,'lane'+lane,['<b>GLP-1 switch on!</b> In your body this slows your stomach and tells your brain you\'re full.','<b>GIP switch on!</b> GIP helps your pancreas release insulin after a meal.','<b>Glucagon switch on!</b> This tells your liver and fat to release stored fuel so it can be burned.'][lane],this.LANES[lane].c); }
+    if(g.combo===8) explain(g,'combo','<b>Combo x2!</b> Every 8 hits in a row multiplies your points.');
   },
-  down(g,x,y){ this.press(g,clamp(Math.floor(x/(W/3)),0,2)); },
-  key(g,k){ const m={'1':0,'2':1,'3':2,a:0,s:1,d:2,A:0,S:1,D:2,ArrowLeft:0,ArrowDown:1,ArrowRight:2}; if(k in m) this.press(g,m[k]); },
+  down(g,x){ this.press(g,clamp(Math.floor(x/(W/3)),0,2)); },
+  key(g,k){ const m={'1':0,'2':1,'3':2,ArrowLeft:0,ArrowDown:1,ArrowRight:2}; if(k in m) this.press(g,m[k]); },
   draw(g){
     drawBg('#1c0838','#05020f');
     const zy=this.zoneY();
     this.LANES.forEach((L,i)=>{
       const x=this.laneX(i), lw=W/3;
-      ctx.fillStyle='rgba(255,255,255,'+(0.03+g.hitFlash[i]*0.1)+')'; ctx.fillRect(x-lw/2+3,TOP,lw-6,H-TOP);
+      ctx.fillStyle='rgba(255,255,255,'+(0.03+g.hitFlash[i]*0.1)+')'; ctx.fillRect(x-lw/2+3,TOP,lw-6,B-TOP);
       ctx.strokeStyle=L.c; ctx.globalAlpha=0.25; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,TOP); ctx.lineTo(x,zy); ctx.stroke(); ctx.globalAlpha=1;
-      // receptor ring
       glowCircle(x,zy,46*S*(1+g.hitFlash[i]*0.4),L.c,0.35+g.hitFlash[i]*0.5);
       ctx.strokeStyle=L.c; ctx.lineWidth=4*S; ctx.beginPath(); ctx.arc(x,zy,30*S,0,Math.PI*2); ctx.stroke();
-      // receptor "Y" shape inside
       ctx.lineWidth=3*S; ctx.beginPath(); ctx.moveTo(x,zy+16*S); ctx.lineTo(x,zy); ctx.lineTo(x-10*S,zy-12*S); ctx.moveTo(x,zy); ctx.lineTo(x+10*S,zy-12*S); ctx.stroke();
-      label(L.n,x,zy+52*S,22,L.c); label(L.d,x,zy+72*S,13,'rgba(235,230,250,0.8)','center','700 '+Math.round(13*S)+'px Rajdhani,sans-serif');
-      label(String(i+1),x,H-14*S,14,'rgba(255,255,255,0.35)');
+      label(L.n,x,zy+50*S,21,L.c); small(L.d,x,zy+70*S,13,'rgba(235,230,250,0.85)');
     });
-    g.orbs.forEach(o=>{
-      const x=this.laneX(o.lane), L=this.LANES[o.lane];
+    g.orbs.forEach(o=>{ const x=this.laneX(o.lane), L=this.LANES[o.lane];
       if(o.gold){ glowCircle(x,o.y,34*S,'rgba(255,212,92,0.9)'); ctx.fillStyle='#ffd45c'; ctx.beginPath(); for(let k=0;k<6;k++){ const a=k/6*Math.PI*2+g.t*3; ctx.lineTo(x+Math.cos(a)*20*S,o.y+Math.sin(a)*20*S); } ctx.closePath(); ctx.fill(); label('RETA',x,o.y,15,'#3a1a00'); }
-      else { glowCircle(x,o.y,26*S,L.c,0.7); ctx.fillStyle=L.c; ctx.beginPath(); ctx.arc(x,o.y,15*S,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.beginPath(); ctx.arc(x-5*S,o.y-5*S,4*S,0,Math.PI*2); ctx.fill(); label(L.n==='GLUCAGON'?'GCG':L.n,x,o.y+27*S,13,L.c); }
-    });
-    if(g.combo>=4) label('COMBO x'+g.combo+(g.combo>=8?'  ·  '+(1+Math.floor(g.combo/8))+'x POINTS':''),W/2,TOP+30*S,24,'#ffd45c');
+      else { glowCircle(x,o.y,26*S,L.c,0.7); ctx.fillStyle=L.c; ctx.beginPath(); ctx.arc(x,o.y,15*S,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.beginPath(); ctx.arc(x-5*S,o.y-5*S,4*S,0,Math.PI*2); ctx.fill(); } });
+    if(g.combo>=4) label('COMBO x'+g.combo+(g.combo>=8?'  ·  '+(1+Math.floor(g.combo/8))+'x POINTS':''),W/2,TOP+24*S,24,'#ffd45c');
   }
 });
 
-/* ---------- 2. TIRZEPATIDE: GLUCOSE SURFER ---------- */
 GAMES.push({
-  id:'tirz', icon:'🍽️', name:'Glucose Surfer', pep:'TIRZEPATIDE', col:'#3dff8a', dur:60, stars:[2500,4500,6500],
-  tag:'Ride out meal spikes — your insulin boost only works when blood sugar is actually high.',
+  id:'tirz', cat:'metab', icon:'🍽️', name:'Glucose Surfer', pep:'TIRZEPATIDE', col:'#3dff8a', dur:60, stars:[2200,4200,6200],
+  tag:'Ride out meal spikes — the insulin boost only works when blood sugar is actually high.',
   ev:'Established human evidence · FDA-approved (Mounjaro, Zepbound)',
-  eli:'After you eat, your gut sends "you just ate" messages called <b>GLP-1</b> and <b>GIP</b>. Tirzepatide copies both. They tell the pancreas to release extra insulin — but <b>only when blood sugar is high</b>. That is called <b>glucose-dependent</b>. GLP-1 also slows your stomach, so sugar trickles in instead of spiking.',
-  how:'Meals push the glucose line up. Tap anywhere (or <b>Space</b>) to send an insulin pulse. Pulses only work above the dashed line — that is the glucose-dependent rule! Keep the line in the green zone. Grab floating <b>GLP-1</b> capsules to slow the next meals and <b>GIP</b> capsules for stronger pulses.',
-  take:'Tirzepatide is a once-weekly GIP and GLP-1 receptor agonist, FDA-approved for type 2 diabetes (Mounjaro) and for chronic weight management (Zepbound). Its insulin boost is glucose-dependent, which is a big reason it rarely causes low blood sugar on its own. The numbers in this game are made up to teach the idea — they are not medical predictions.',
-  facts:['On its own, tirzepatide rarely causes low blood sugar — the risk rises when it is combined with insulin or sulfonylureas.','Slower stomach emptying is also why nausea is a common early side effect of GLP-1 drugs.','Doses of tirzepatide start low and are raised slowly to help the stomach adjust.'],
-  init(g){ g.glu=100; g.hist=[]; g.meals=[]; g.mealT=2; g.cool=0; g.caps=[]; g.capT=6; g.slowT=0; g.boostT=0; g.inBand=0; g.ht=0; },
+  eli:'After you eat, your gut sends "you just ate" messages called <b>GLP-1</b> and <b>GIP</b>. Tirzepatide copies both. They tell the pancreas to release extra insulin — <b>only when blood sugar is high</b>. That is called <b>glucose-dependent</b>. GLP-1 also slows your stomach, so sugar trickles in instead of spiking.',
+  how:'Meals push the blood-sugar line up. Tap the <b>pancreas</b> (or press <b>Space</b>) to release insulin. It only works above the dashed line! Keep the line in the green zone. Tap floating <b>GLP-1</b> and <b>GIP</b> capsules for boosts.',
+  goal:'Keep the white line inside the GREEN zone',
+  take:'Tirzepatide is a once-weekly GIP and GLP-1 receptor agonist, FDA-approved for type 2 diabetes (Mounjaro) and chronic weight management (Zepbound). Its insulin boost is glucose-dependent, one reason it rarely causes low blood sugar on its own. The game\'s numbers are made up to teach the idea — they are not medical predictions.',
+  learn:['Tirzepatide copies 2 gut hormones: GLP-1 + GIP','Insulin boost is glucose-dependent (works when sugar is high)','GLP-1 slows the stomach → smaller sugar spikes'],
+  tips:['On its own, tirzepatide rarely causes low blood sugar — the risk rises with insulin or sulfonylureas.','Slower stomach emptying is also why nausea is a common early side effect of GLP-1 drugs.','The green zone here is a game zone, not a medical target.'],
+  coach(g){ return [
+    {t:'This white line is your <b>blood sugar</b>. Your job: keep it in the <b>green zone</b>.', at:()=>[W*0.5,this.yOf(110)]},
+    {t:'This is your <b>pancreas</b>. TAP it to release insulin, which pulls sugar out of the blood.', at:()=>[W*0.5,this.panY()]},
+    {t:'The catch: insulin from tirzepatide only kicks in <b>above the dashed line</b>. That is called <b>glucose-dependent</b> — it keeps sugar from dropping too low.', at:()=>[W*0.2,this.yOf(110)]},
+    {t:'Meals will spike the line. Tap <b>GLP-1</b> capsules to slow your stomach and <b>GIP</b> capsules for stronger insulin. Go!'} ]; },
+  gx(){ return 24*S; }, gw(){ return W-48*S; }, gy(){ return TOP+18*S; }, gh(){ return PH()*0.55; },
+  yOf(v){ return this.gy()+this.gh()-(clamp(v,50,300)-50)/250*this.gh(); },
+  panY(){ return B-PH()*0.16; },
+  init(g){ g.glu=100; g.hist=[]; g.meals=[]; g.mealT=2.5; g.cool=0; g.caps=[]; g.capT=7; g.slowT=0; g.boostT=0; g.ht=0; },
   update(g,dt){
     const prog=g.t/this.dur;
     g.mealT-=dt;
-    if(g.mealT<=0){ g.mealT=rnd(3.6,5.4)-prog*1.4; const size=rnd(55,85)+prog*35; const food=pick(['🍝','🍔','🍩','🍕','🥞','🍚','🍰']); g.meals.push({left:size,rate:size/(g.slowT>0?6:2.6),food,x:W*0.92,y:TOP+40*S}); pop(W*0.85,TOP+60*S,food+' MEAL!','#fff',18); }
-    g.meals.forEach(m=>{ const d=Math.min(m.left,m.rate*dt); m.left-=d; g.glu+=d; });
-    g.meals=g.meals.filter(m=>m.left>0.1);
-    g.glu+=(95-g.glu)*0.015*dt*10*0.06; // slow drift toward baseline
-    g.glu=clamp(g.glu,55,320);
+    if(g.mealT<=0){ g.mealT=rnd(3.8,5.6)-prog*1.4; const size=rnd(55,80)+prog*35; const food=pick(['🍝','🍔','🍩','🍕','🥞','🍚','🍰']); g.meals.push({left:size,rate:size/(g.slowT>0?6:2.6),food}); pop(W*0.8,TOP+50*S,food+' MEAL!','#fff',18); explain(g,'meal','<b>Meal!</b> Carbs from food become sugar in your blood, so the line climbs. Tap the pancreas once it is above the dashed line.'); }
+    g.meals.forEach(m=>{ const d=Math.min(m.left,m.rate*dt); m.left-=d; g.glu+=d; }); g.meals=g.meals.filter(m=>m.left>0.1);
+    g.glu+=(95-g.glu)*0.004*dt*10; g.glu=clamp(g.glu,55,320);
     g.cool=Math.max(0,g.cool-dt); g.slowT=Math.max(0,g.slowT-dt); g.boostT=Math.max(0,g.boostT-dt);
-    g.capT-=dt; if(g.capT<=0){ g.capT=rnd(5,8); g.caps.push({k:Math.random()<0.5?'GLP-1':'GIP',x:rnd(W*0.15,W*0.85),y:rnd(TOP+80*S,H*0.55),t:0}); }
+    g.capT-=dt; if(g.capT<=0){ g.capT=rnd(5,8); g.caps.push({k:Math.random()<0.5?'GLP-1':'GIP',x:rnd(W*0.15,W*0.85),y:rnd(this.yOf(200),this.yOf(90)),t:0}); }
     g.caps.forEach(c=>c.t+=dt); g.caps=g.caps.filter(c=>c.t<6);
-    const inBand=g.glu>=80&&g.glu<=140;
-    if(inBand){ g.score+=dt*55; g.inBand+=dt; } else if(g.glu>180){ g.score=Math.max(0,g.score-dt*20); }
+    if(g.glu>=80&&g.glu<=140){ g.score+=dt*55; } else if(g.glu>180){ g.score=Math.max(0,g.score-dt*20); explain(g,'high','<b>Too high!</b> When blood sugar stays high, the body is under strain. Keep tapping the pancreas to bring it down.','#ff4d6d'); }
     g.ht+=dt; if(g.ht>0.1){ g.ht=0; g.hist.push(g.glu); if(g.hist.length>140) g.hist.shift(); }
   },
   pulse(g){
     if(g.cool>0) return; g.cool=0.45;
-    const px=W*0.5, py=H*0.86;
-    if(g.glu>110){ const amt=(g.boostT>0?30:20); g.glu-=amt; burst(px,py,'#3dff8a',12,220); pop(px,py-50*S,'INSULIN −'+amt,'#3dff8a'); sfx.good(); g.score+=15; }
-    else { burst(px,py,'#7a7a9a',5,90); pop(px,py-50*S,'GLUCOSE-DEPENDENT: NO EFFECT','#b8b8d0',15); beep(220,0.08,'triangle',0.04); }
+    const px=W*0.5, py=this.panY();
+    if(g.glu>110){ const amt=(g.boostT>0?30:20); g.glu-=amt; burst(px,py,'#3dff8a',12,220); pop(px,py-50*S,'INSULIN −'+amt,'#3dff8a'); sfx.good(); g.score+=15; explain(g,'pulse','<b>Insulin released!</b> Insulin unlocks your cells so sugar moves out of the blood and into them.','#3dff8a'); }
+    else { burst(px,py,'#7a7a9a',5,90); pop(px,py-50*S,'NO EFFECT','#b8b8d0',18); beep(220,0.08,'triangle',0.04); explain(g,'fizzle','<b>No effect — that\'s on purpose!</b> Blood sugar is already low, and GLP-1/GIP only boost insulin when sugar is <b>high</b>. That "glucose-dependent" rule protects you from going too low.','#b8b8d0'); }
   },
-  down(g,x,y){ const c=g.caps.find(c=>dist(x,y,c.x,c.y)<36*S); if(c){ g.caps.splice(g.caps.indexOf(c),1); if(c.k==='GLP-1'){ g.slowT=10; pop(c.x,c.y,'GLP-1: STOMACH SLOWS!','#3ff3ff',20); } else { g.boostT=10; pop(c.x,c.y,'GIP: STRONGER PULSES!','#ffd45c',20); } sfx.power(); burst(c.x,c.y,'#fff',16); return; } this.pulse(g); },
+  down(g,x,y){ const c=g.caps.find(c=>dist(x,y,c.x,c.y)<38*S); if(c){ g.caps.splice(g.caps.indexOf(c),1); if(c.k==='GLP-1'){ g.slowT=10; pop(c.x,c.y,'STOMACH SLOWS!','#3ff3ff',20); explain(g,'glp','<b>GLP-1 boost:</b> your stomach empties slower, so the next meals raise blood sugar more gently.','#3ff3ff'); } else { g.boostT=10; pop(c.x,c.y,'STRONGER INSULIN!','#ffd45c',20); explain(g,'gip','<b>GIP boost:</b> GIP helps the pancreas release more insulin when sugar is high — your taps now pull it down further.','#ffd45c'); } sfx.power(); burst(c.x,c.y,'#fff',16); return; } this.pulse(g); },
   key(g,k){ if(k===' '||k==='Enter') this.pulse(g); },
   draw(g){
     drawBg('#06231a','#020a08');
-    const gx=24*S, gw=W-48*S, gy=TOP+20*S, gh=H*0.6-gy;
-    const yOf=v=>gy+gh-(clamp(v,50,300)-50)/250*gh;
-    // zones
-    ctx.fillStyle='rgba(61,255,138,0.12)'; ctx.fillRect(gx,yOf(140),gw,yOf(80)-yOf(140));
-    ctx.fillStyle='rgba(255,77,109,0.08)'; ctx.fillRect(gx,gy,gw,yOf(180)-gy);
-    ctx.setLineDash([6*S,6*S]); ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(gx,yOf(110)); ctx.lineTo(gx+gw,yOf(110)); ctx.stroke(); ctx.setLineDash([]);
-    label('GREEN ZONE',gx+8*S,yOf(110)-((yOf(110)-yOf(140))/2),14,'rgba(61,255,138,0.8)','left');
-    label('insulin works above this line ↑',gx+gw-6*S,yOf(110)+12*S,12,'rgba(255,255,255,0.6)','right','700 '+Math.round(12*S)+'px Rajdhani,sans-serif');
-    label('TOO HIGH',gx+8*S,gy+12*S,14,'rgba(255,120,140,0.8)','left');
-    // line
-    ctx.strokeStyle='#fff'; ctx.lineWidth=3*S; ctx.beginPath();
-    g.hist.forEach((v,i)=>{ const x=gx+gw*(i/139); i?ctx.lineTo(x,yOf(v)):ctx.moveTo(x,yOf(v)); }); ctx.stroke();
-    const lx=gx+gw*((g.hist.length-1)/139), ly=yOf(g.glu), col=g.glu>180?'#ff4d6d':g.glu>=80&&g.glu<=140?'#3dff8a':'#ffd45c';
+    const gx=this.gx(), gw=this.gw(), gy=this.gy(), gh=this.gh(), yOf=v=>this.yOf(v);
+    ctx.fillStyle='rgba(61,255,138,0.13)'; ctx.fillRect(gx,yOf(140),gw,yOf(80)-yOf(140));
+    ctx.fillStyle='rgba(255,77,109,0.09)'; ctx.fillRect(gx,gy,gw,yOf(180)-gy);
+    ctx.setLineDash([6*S,6*S]); ctx.strokeStyle='rgba(255,255,255,0.45)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(gx,yOf(110)); ctx.lineTo(gx+gw,yOf(110)); ctx.stroke(); ctx.setLineDash([]);
+    label('GREEN ZONE',gx+8*S,(yOf(140)+yOf(110))/2,14,'rgba(61,255,138,0.85)','left');
+    small('insulin works above this line ↑',gx+gw-6*S,yOf(110)+12*S,12,'rgba(255,255,255,0.65)','right');
+    label('TOO HIGH',gx+8*S,gy+12*S,14,'rgba(255,120,140,0.85)','left');
+    ctx.strokeStyle='#fff'; ctx.lineWidth=3*S; ctx.beginPath(); g.hist.forEach((v,i)=>{ const x=gx+gw*(i/139); i?ctx.lineTo(x,yOf(v)):ctx.moveTo(x,yOf(v)); }); ctx.stroke();
+    const lx=gx+gw*(Math.max(0,g.hist.length-1)/139), ly=yOf(g.glu), col=g.glu>180?'#ff4d6d':g.glu>=80&&g.glu<=140?'#3dff8a':'#ffd45c';
     glowCircle(lx,ly,20*S,col,0.8); ctx.fillStyle=col; ctx.beginPath(); ctx.arc(lx,ly,6*S,0,Math.PI*2); ctx.fill();
-    label(Math.round(g.glu)+' (game units)',W/2,gy+gh+18*S,18,col);
-    // pancreas button
-    const px=W*0.5, py=H*0.86, ready=g.cool<=0;
+    small('blood sugar: '+Math.round(g.glu)+' (game units)',W/2,gy+gh+16*S,15,col);
+    const px=W*0.5, py=this.panY(), ready=g.cool<=0;
     glowCircle(px,py,70*S,g.boostT>0?'rgba(255,212,92,0.7)':'rgba(61,255,138,0.55)',ready?1:0.4);
-    ctx.fillStyle=ready?'#ffb3a8':'#7a5a60'; ctx.beginPath(); ctx.ellipse(px,py,58*S,26*S,-0.15,0,Math.PI*2); ctx.fill();
-    label('PANCREAS · TAP = INSULIN',px,py,16,'#3a0a14');
-    if(g.slowT>0) label('🐢 GLP-1 SLOW STOMACH '+Math.ceil(g.slowT)+'s',W*0.27,H*0.7,16,'#3ff3ff');
-    if(g.boostT>0) label('💪 GIP BOOST '+Math.ceil(g.boostT)+'s',W*0.73,H*0.7,16,'#ffd45c');
-    g.meals.forEach((m,i)=>label(m.food,W-30*S-i*34*S,TOP+16*S,26));
-    g.caps.forEach(c=>{ const a=c.t>4.5?(Math.floor(c.t*8)%2?0.4:1):1; ctx.globalAlpha=a; const cc=c.k==='GLP-1'?'#3ff3ff':'#ffd45c'; glowCircle(c.x,c.y,34*S,cc,0.6); ctx.fillStyle=cc; rr(c.x-24*S,c.y-12*S,48*S,24*S,12*S); ctx.fill(); label(c.k,c.x,c.y,15,'#0a0520'); ctx.globalAlpha=1; });
+    ctx.fillStyle=ready?'#ffb3a8':'#7a5a60'; ctx.beginPath(); ctx.ellipse(px,py,62*S,26*S,-0.12,0,Math.PI*2); ctx.fill();
+    label('PANCREAS — TAP',px,py,17,'#3a0a14');
+    if(g.slowT>0) small('🐢 slow stomach '+Math.ceil(g.slowT)+'s',W*0.18,py,15,'#3ff3ff');
+    if(g.boostT>0) small('💪 GIP boost '+Math.ceil(g.boostT)+'s',W*0.82,py,15,'#ffd45c');
+    g.meals.forEach((m,i)=>label(m.food,W-26*S-i*32*S,TOP+14*S,24));
+    g.caps.forEach(c=>{ ctx.globalAlpha=c.t>4.5?(Math.floor(c.t*8)%2?0.4:1):1; const cc=c.k==='GLP-1'?'#3ff3ff':'#ffd45c'; glowCircle(c.x,c.y,34*S,cc,0.6); ctx.fillStyle=cc; rr(c.x-26*S,c.y-13*S,52*S,26*S,13*S); ctx.fill(); label(c.k,c.x,c.y,15,'#0a0520'); ctx.globalAlpha=1; });
   }
 });
 
-/* ---------- 3. GHK-Cu: COLLAGEN WEAVER ---------- */
 GAMES.push({
-  id:'ghk', icon:'🧵', name:'Collagen Weaver', pep:'GHK-Cu', col:'#2f9bff', dur:75, stars:[2500,5000,8000],
-  tag:'Drag copper to fibroblast cells so they weave collagen over the wound. Zap free radicals.',
-  ev:'Lab & animal research · some cosmetic skin studies',
-  eli:'GHK is a tiny peptide your body already makes, and it loves to grab <b>copper</b> (Cu). Scientists think copper-GHK can wake up <b>fibroblasts</b> — the skin\'s builder cells that spin <b>collagen</b>, the stretchy rope that holds skin together. Your body makes less GHK as you get older.',
-  how:'Drag blue <b>Cu</b> copper ions onto a <b>fibroblast</b> (the purple builder cells). Each delivery weaves collagen across nearby gaps in the wound. Red <b>free radicals</b> sneak in and break collagen — tap them to zap them. Close the whole wound for a big bonus, then a new one opens.',
-  take:'GHK-Cu is a naturally occurring copper-binding peptide. In lab and animal studies it influences fibroblasts, collagen and other skin-repair signals, and it is widely used in cosmetic skin products. Large human trials for wound healing are lacking, so the repair shown here is the proposed idea — not a guaranteed result.',
-  facts:['"Cu" is the chemical symbol for copper — from the Latin word cuprum.','Collagen is the most common protein in your body.','Free radicals are unstable molecules; antioxidants help keep them in check.'],
-  init(g){ g.cols=12; g.rows=6; this.newWound(g); g.ions=[]; g.ionT=0.5; g.rads=[]; g.radT=3; g.drag=null; g.strands=[]; g.wounds=0; },
-  newWound(g){ g.cells=[]; for(let r=0;r<g.rows;r++) for(let c=0;c<g.cols;c++) g.cells.push({c,r,f:0}); const k=g.wounds||0; g.cells.forEach(cl=>{ if(Math.random()<Math.max(0.05,0.3-k*0.06)) cl.f=1; }); },
-  geom(){ const ww=Math.min(W*0.82,620*S), wh=Math.min(H*0.34,260*S), wx=(W-ww)/2, wy=TOP+(H-TOP)*0.32; return {wx,wy,ww,wh}; },
-  fibros(){ const {wx,wy,ww,wh}=this.geom(); return [[wx-10*S,wy-40*S],[wx+ww+10*S,wy-40*S],[wx-10*S,wy+wh+40*S],[wx+ww+10*S,wy+wh+40*S],[wx+ww/2,wy-48*S],[wx+ww/2,wy+wh+48*S]].map(([x,y],i)=>({x,y,i})); },
+  id:'sema', cat:'metab', icon:'🧠', name:'Fullness Signal', pep:'SEMAGLUTIDE', col:'#3ff3ff', dur:60, stars:[2500,5000,8000],
+  tag:'Send "I\'m full" signals from your gut to your brain and fight off food cravings.',
+  ev:'Established human evidence · FDA-approved (Ozempic, Wegovy)',
+  eli:'<b>GLP-1</b> is a hormone your gut releases after you eat. It travels to your <b>brain</b> and says "I\'m full," and it slows your stomach down. <b>Semaglutide</b> is a long-lasting copy of GLP-1, so the "full" message keeps going all week instead of fading in minutes.',
+  how:'Blue <b>GLP-1</b> bubbles float up from your gut — <b>tap them</b> to deliver the "I\'m full" signal and fill the brain\'s meter. <b>Food cravings</b> fly at the brain — <b>tap them</b> to say no. The fuller the brain, the fewer cravings show up.',
+  goal:'Keep the brain\'s FULLNESS meter up — tap GLP-1 bubbles and cravings',
+  take:'Semaglutide is a once-weekly GLP-1 receptor agonist, FDA-approved for type 2 diabetes (Ozempic) and for weight management (Wegovy). In the STEP 1 trial, average weight loss was about 15% at 68 weeks, and the SELECT trial found fewer major heart events in people with heart disease and excess weight. Real-world results vary a lot from person to person.',
+  learn:['GLP-1 = gut-to-brain "I\'m full" signal','Semaglutide = long-lasting GLP-1 copy (1 GLP-1 switch)','Less appetite + slower stomach → eating less'],
+  tips:['Natural GLP-1 lasts only a few minutes in the blood — semaglutide lasts about a week.','Appetite is controlled in a brain area called the hypothalamus.','Semaglutide works on one switch (GLP-1); tirzepatide on two; retatrutide on three.'],
+  brain(){ return {x:W/2,y:TOP+PH()*0.2}; }, gut(){ return {x:W/2,y:B-PH()*0.13}; },
+  coach(g){ return [
+    {t:'This is your <b>brain</b>. Its meter shows how <b>full</b> you feel. Keep it up!', at:()=>[this.brain().x,this.brain().y]},
+    {t:'This is your <b>gut</b>. After a meal it releases <b>GLP-1</b> bubbles. TAP them to send the "I\'m full" message up to the brain.', at:()=>[this.gut().x,this.gut().y]},
+    {t:'<b>Cravings</b> (🍩🍕🍟) fly at the brain. TAP them to say no. A fuller brain = fewer cravings — that\'s how GLP-1 cuts appetite.'} ]; },
+  init(g){ g.full=60; g.bubs=[]; g.bT=0.6; g.crav=[]; g.cT=1.5; },
   update(g,dt){
-    const prog=g.t/this.dur, {wx,wy,ww,wh}=this.geom();
-    g.ionT-=dt; if(g.ionT<=0 && g.ions.length<5){ g.ionT=rnd(0.8,1.6); const side=Math.random()<0.5; g.ions.push({x:side?rnd(20*S,W*0.25):rnd(W*0.75,W-20*S),y:rnd(H*0.72,H-40*S),vx:rnd(-20,20)*S,vy:rnd(-15,15)*S,t:0}); }
-    g.ions.forEach(o=>{ if(o===g.drag) return; o.t+=dt; o.x+=o.vx*dt; o.y+=o.vy*dt; if(o.x<15*S||o.x>W-15*S) o.vx*=-1; if(o.y<H*0.66||o.y>H-15*S) o.vy*=-1; });
-    g.radT-=dt; if(g.radT<=0){ g.radT=Math.max(0.9,2.6-prog*1.6)*rnd(0.7,1.2); const e=Math.random()<0.5; g.rads.push({x:e?-10:W+10,y:rnd(wy,wy+wh),t:0,tx:0,ty:0}); }
-    g.rads.forEach(r=>{ r.t+=dt; const tgt=g.cells.filter(c=>c.f>=1); let tx=wx+ww/2, ty=wy+wh/2; if(tgt.length){ if(!r.tgt||r.tgt.f<1) r.tgt=pick(tgt); tx=wx+(r.tgt.c+0.5)*ww/g.cols; ty=wy+(r.tgt.r+0.5)*wh/g.rows; } const a=Math.atan2(ty-r.y,tx-r.x), sp=(55+prog*45)*S; r.x+=Math.cos(a)*sp*dt+Math.sin(r.t*9)*0.6; r.y+=Math.sin(a)*sp*dt+Math.cos(r.t*7)*0.6;
-      if(r.tgt && dist(r.x,r.y,tx,ty)<10*S && r.tgt.f>=1){ r.tgt.f=0; r.tgt=null; pop(r.x,r.y,'COLLAGEN BROKEN','#ff4d6d',14); sfx.bad(); r.hits=(r.hits||0)+1; } });
-    g.rads=g.rads.filter(r=>(r.hits||0)<3);
-    g.cells.forEach(c=>{ if(c.f>0&&c.f<1) c.f=Math.min(1,c.f+dt*2.2); });
-    g.strands.forEach(s=>s.t+=dt); g.strands=g.strands.filter(s=>s.t<0.6);
-    if(g.cells.every(c=>c.f>=1)){ g.wounds++; g.score+=800; pop(W/2,wy+wh/2,'WOUND CLOSED! +800','#ffd45c',30); sfx.win(); burst(W/2,wy+wh/2,'#ffd45c',40,320); this.newWound(g); }
+    const prog=g.t/this.dur, br=this.brain(), gu=this.gut();
+    g.full=clamp(g.full-dt*(4.5+prog*3.5),0,100);
+    g.bT-=dt; if(g.bT<=0){ g.bT=rnd(0.7,1.2); g.bubs.push({x:gu.x+rnd(-W*0.3,W*0.3),y:gu.y,t:0,vx:rnd(-12,12)*S}); }
+    g.bubs.forEach(b=>{ b.t+=dt; b.y-=(60+prog*30)*S*dt; b.x+=b.vx*dt; }); g.bubs=g.bubs.filter(b=>b.y>TOP+10);
+    g.cT-=dt; const fullFactor=1+g.full/60;
+    if(g.cT<=0){ g.cT=rnd(0.7,1.3)*fullFactor/(1+prog*0.8); const side=Math.random()<0.5; g.crav.push({x:side?-20:W+20,y:rnd(TOP+PH()*0.35,B-PH()*0.3),f:pick(['🍩','🍕','🍟','🍪','🧁','🍫','🍔']),t:0}); }
+    g.crav.forEach(c=>{ c.t+=dt; const a=Math.atan2(br.y-c.y,br.x-c.x), sp=(70+prog*60)*S; c.x+=Math.cos(a)*sp*dt; c.y+=Math.sin(a)*sp*dt; });
+    g.crav=g.crav.filter(c=>{ if(dist(c.x,c.y,br.x,br.y)<40*S){ g.full=Math.max(0,g.full-14); g.combo=0; pop(br.x,br.y+50*S,'CRAVING WON −14','#ff4d6d',18); sfx.bad(); explain(g,'craved','<b>A craving got through.</b> When the "full" signal is weak, the brain keeps pushing you to eat. Keep the meter high to make cravings rarer.','#ff4d6d'); return false; } return true; });
+    if(g.full<=0) g.endEarly='Hunger won — the brain never got the "I\'m full" message.';
+    g.score+=dt*g.full*0.6;
+    if(g.full>80) explain(g,'veryfull','<b>Very full!</b> Notice cravings now show up less often — that\'s how GLP-1 drugs reduce appetite.','#3ff3ff');
   },
   down(g,x,y){
-    const r=g.rads.find(r=>dist(x,y,r.x,r.y)<30*S); if(r){ g.rads.splice(g.rads.indexOf(r),1); g.score+=40; burst(r.x,r.y,'#ff4d6d',12,200); pop(r.x,r.y,'ZAPPED +40','#ffd45c',16); sfx.good(); return; }
-    const o=g.ions.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(o&&dist(x,y,o.x,o.y)<44*S){ g.drag=o; o.ox=x-o.x; o.oy=y-o.y; }
-  },
-  move(g,x,y){ if(g.drag){ g.drag.x=x-g.drag.ox; g.drag.y=y-g.drag.oy; } },
-  up(g,x,y){
-    if(!g.drag) return; const o=g.drag; g.drag=null;
-    const f=this.fibros().find(f=>dist(o.x,o.y,f.x,f.y)<46*S); if(!f) return;
-    g.ions.splice(g.ions.indexOf(o),1);
-    const {wx,wy,ww,wh}=this.geom();
-    const empty=g.cells.filter(c=>c.f<=0).sort((a,b)=>dist(f.x,f.y,wx+(a.c+0.5)*ww/g.cols,wy+(a.r+0.5)*wh/g.rows)-dist(f.x,f.y,wx+(b.c+0.5)*ww/g.cols,wy+(b.r+0.5)*wh/g.rows)).slice(0,5);
-    empty.forEach(c=>{ c.f=0.01; g.strands.push({x1:f.x,y1:f.y,x2:wx+(c.c+0.5)*ww/g.cols,y2:wy+(c.r+0.5)*wh/g.rows,t:0}); });
-    g.score+=empty.length*30; burst(f.x,f.y,'#2f9bff',16,220); pop(f.x,f.y-30*S,'+COLLAGEN x'+empty.length,'#7fd0ff',18); sfx.great();
+    const c=g.crav.find(c=>dist(x,y,c.x,c.y)<36*S); if(c){ g.crav.splice(g.crav.indexOf(c),1); g.combo++; g.score+=40+g.combo*5; pop(c.x,c.y,'NO THANKS!','#ffd45c',18); burst(c.x,c.y,'#ffd45c',10); sfx.good(); explain(g,'resist','<b>Craving resisted!</b> GLP-1 signals help quiet "food noise" — the constant urge to snack.','#ffd45c'); return; }
+    const b=g.bubs.find(b=>dist(x,y,b.x,b.y)<36*S); if(b){ g.bubs.splice(g.bubs.indexOf(b),1); g.full=Math.min(100,g.full+9); g.score+=30; burst(b.x,b.y,'#3ff3ff',12,220); pop(b.x,b.y,'"I\'M FULL" +9','#3ff3ff',18); sfx.great(); explain(g,'glp','<b>GLP-1 delivered!</b> It travels to the brain\'s appetite center and turns hunger down. Semaglutide keeps this signal going all week.','#3ff3ff'); }
   },
   draw(g){
-    drawBg('#1a0b2e','#07030f','#ff9ccc');
-    const {wx,wy,ww,wh}=this.geom(), cw=ww/g.cols, ch=wh/g.rows;
-    // skin layers
-    ctx.fillStyle='rgba(255,170,190,0.12)'; ctx.fillRect(0,wy-70*S,W,wh+140*S);
-    label('DERMIS (deeper skin)',W/2,wy+wh+86*S,14,'rgba(255,200,215,0.6)');
-    // wound cells
-    g.cells.forEach(c=>{ const x=wx+c.c*cw, y=wy+c.r*ch;
-      ctx.fillStyle='rgba(120,10,30,0.55)'; ctx.fillRect(x+1,y+1,cw-2,ch-2);
-      if(c.f>0){ ctx.globalAlpha=c.f; ctx.strokeStyle='#ffe2ea'; ctx.lineWidth=2*S; for(let k=0;k<3;k++){ ctx.beginPath(); ctx.moveTo(x+2,y+ch*(k+1)/4); ctx.bezierCurveTo(x+cw*0.33,y+ch*(k+1)/4-4*S,x+cw*0.66,y+ch*(k+1)/4+4*S,x+cw-2,y+ch*(k+1)/4); ctx.stroke(); } ctx.globalAlpha=1; }
-    });
-    ctx.strokeStyle='rgba(255,90,120,0.7)'; ctx.lineWidth=2; ctx.strokeRect(wx,wy,ww,wh);
-    const pct=Math.round(g.cells.filter(c=>c.f>=1).length/g.cells.length*100);
-    label('WOUND CLOSED: '+pct+'%   ·   WOUNDS HEALED: '+g.wounds,W/2,wy-82*S,18,'#ffd45c');
-    // strands
-    g.strands.forEach(s=>{ ctx.globalAlpha=1-s.t/0.6; ctx.strokeStyle='#bfe6ff'; ctx.lineWidth=2.5*S; ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x1+(s.x2-s.x1)*Math.min(1,s.t*3),s.y1+(s.y2-s.y1)*Math.min(1,s.t*3)); ctx.stroke(); }); ctx.globalAlpha=1;
-    // fibroblasts
-    this.fibros().forEach(f=>{ const wob=Math.sin(g.t*3+f.i)*3*S; glowCircle(f.x,f.y,40*S,'rgba(176,38,255,0.5)'); ctx.fillStyle='#9b4dff'; ctx.beginPath(); ctx.ellipse(f.x,f.y,26*S+wob,16*S-wob*0.5,f.i,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e9d6ff'; ctx.beginPath(); ctx.arc(f.x,f.y,6*S,0,Math.PI*2); ctx.fill(); });
-    label('FIBROBLAST',this.fibros()[0].x+8*S,this.fibros()[0].y-26*S,12,'#d9b8ff');
-    // ions
-    g.ions.forEach(o=>{ glowCircle(o.x,o.y,30*S,'rgba(47,155,255,0.7)'); ctx.fillStyle='#2f9bff'; ctx.beginPath(); ctx.arc(o.x,o.y,15*S,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#ff9a4d'; ctx.lineWidth=2*S; ctx.stroke(); label('Cu',o.x,o.y+1,16,'#fff'); });
-    label('⬇ copper ions — drag me to a fibroblast',W/2,H*0.68,13,'rgba(170,215,255,0.7)','center','700 '+Math.round(13*S)+'px Rajdhani,sans-serif');
-    // free radicals
-    g.rads.forEach(r=>{ glowCircle(r.x,r.y,24*S,'rgba(255,60,90,0.8)'); ctx.fillStyle='#ff3c5a'; ctx.beginPath(); for(let k=0;k<10;k++){ const a=k/10*Math.PI*2+r.t*6, rad=(k%2?6:13)*S; ctx.lineTo(r.x+Math.cos(a)*rad,r.y+Math.sin(a)*rad); } ctx.closePath(); ctx.fill(); });
+    drawBg('#06213a','#020812','#3ff3ff');
+    const br=this.brain(), gu=this.gut();
+    ctx.strokeStyle='rgba(63,243,255,0.15)'; ctx.lineWidth=18*S; ctx.beginPath(); ctx.moveTo(gu.x,gu.y); ctx.lineTo(br.x,br.y); ctx.stroke();
+    glowCircle(br.x,br.y,80*S,'rgba(255,150,200,0.35)'); ctx.fillStyle='#ff9ec4';
+    ctx.beginPath(); ctx.ellipse(br.x-14*S,br.y,30*S,24*S,0,0,Math.PI*2); ctx.ellipse(br.x+14*S,br.y,30*S,24*S,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#c46890'; ctx.lineWidth=2*S; ctx.beginPath(); ctx.moveTo(br.x,br.y-22*S); ctx.lineTo(br.x,br.y+22*S); for(let k=-1;k<=1;k++){ ctx.moveTo(br.x-34*S,br.y+k*9*S); ctx.quadraticCurveTo(br.x-20*S,br.y+k*9*S-7*S,br.x-6*S,br.y+k*9*S); ctx.moveTo(br.x+6*S,br.y+k*9*S); ctx.quadraticCurveTo(br.x+20*S,br.y+k*9*S+7*S,br.x+34*S,br.y+k*9*S); } ctx.stroke();
+    bar(br.x-90*S,br.y+38*S,180*S,12*S,g.full/100,g.full>60?'#3dff8a':g.full>30?'#ffd45c':'#ff4d6d','FULLNESS');
+    glowCircle(gu.x,gu.y,70*S,'rgba(255,180,120,0.3)'); ctx.fillStyle='#e8a07a'; ctx.beginPath(); ctx.ellipse(gu.x,gu.y,58*S,26*S,0.2,0,Math.PI*2); ctx.fill(); label('GUT',gu.x,gu.y,18,'#4a1a08');
+    g.bubs.forEach(b=>{ glowCircle(b.x,b.y,26*S,'rgba(63,243,255,0.75)'); ctx.fillStyle='#3ff3ff'; ctx.beginPath(); ctx.arc(b.x,b.y,15*S,0,Math.PI*2); ctx.fill(); label('GLP-1',b.x,b.y+0.5,11,'#03303a'); });
+    g.crav.forEach(c=>{ glowCircle(c.x,c.y,30*S,'rgba(255,77,109,0.5)'); label(c.f,c.x,c.y,32); });
   }
 });
 
-/* ---------- 4. UROLITHIN A: MITO CLEANUP (mitophagy sorting) ---------- */
 GAMES.push({
-  id:'uro', icon:'♻️', name:'Mito Cleanup', pep:'UROLITHIN A', col:'#ffd45c', dur:60, stars:[2500,5000,8000],
-  tag:'Drag broken mitochondria into the recycler — but don\'t trash the healthy ones.',
-  ev:'Small human trials + animal & cell research',
-  eli:'<b>Mitochondria</b> are the batteries inside your cells. Old, broken batteries leak and waste energy. Your cells have a recycling program called <b>mitophagy</b> that eats broken mitochondria so new ones can be built. <b>Urolithin A</b> — made by gut bacteria from foods like pomegranate — is studied for switching that recycling up.',
-  how:'<b>Drag</b> broken mitochondria (dim, cracked, flickering red) into the <b>♻️ recycler</b>. Each one you recycle lets a fresh healthy one be built. Recycling a healthy (bright green) one costs points. Too many broken ones drain the cell\'s energy. Tap the gold <b>UA</b> capsule for a scanner that highlights hidden damage.',
-  take:'Urolithin A is a compound gut bacteria make from ellagitannins (found in pomegranates, berries and walnuts). In cell and animal studies it boosts mitophagy, and small human trials have reported changes in mitochondrial markers and some muscle measures. Many people\'s gut bacteria make little of it. The effects in this game are a simplified model, not a promise.',
-  facts:['Only some people\'s gut bacteria can turn pomegranate compounds into Urolithin A.','"Mitophagy" comes from "mito" (mitochondria) + "phagy" (eating).','Building new mitochondria is called mitochondrial biogenesis — exercise is one of the strongest triggers.'],
-  init(g){ g.mitos=[]; for(let i=0;i<7;i++) this.spawn(g,false); g.energy=100; g.drag=null; g.decayT=2; g.ua=null; g.uaT=8; g.scanT=0; },
-  cell(){ return {cx:W/2,cy:TOP+(H-TOP)*0.43,rx:Math.min(W*0.44,440*S),ry:Math.min((H-TOP)*0.33,300*S)}; },
-  bin(){ return {x:W/2,y:H-62*S,r:48*S}; },
-  spawn(g,bad,subtle){ const C=this.cell(); const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*0.75; g.mitos.push({x:C.cx+Math.cos(a)*C.rx*d,y:C.cy+Math.sin(a)*C.ry*d,rot:Math.random()*3,vx:rnd(-12,12)*S,vy:rnd(-10,10)*S,bad:!!bad,subtle:!!subtle,t:Math.random()*5}); },
+  id:'cagri', cat:'metab', icon:'🤝', name:'Satiety Duo', pep:'CAGRILINTIDE (+ SEMAGLUTIDE)', col:'#cc44ff', dur:60, stars:[3000,6500,10000],
+  tag:'Sort two different "full" signals — amylin and GLP-1 — to their own receptors. Fill both for a combo.',
+  ev:'Human clinical research · investigational (CagriSema)',
+  eli:'Your pancreas makes <b>amylin</b> together with insulin. Amylin is a <b>second, different</b> "I\'m full" signal from GLP-1, and it uses its <b>own receptor</b>. <b>Cagrilintide</b> is a long-lasting copy of amylin. Paired with semaglutide (GLP-1), the combo is called <b>CagriSema</b> — two separate fullness switches at once.',
+  how:'Signals drop down the middle. Send each one to its <b>own receptor</b>: tap the <b>LEFT</b> side for <b>AMYLIN</b> (purple) or the <b>RIGHT</b> side for <b>GLP-1</b> (cyan). Arrow keys work too. Keep <b>both</b> meters high for a CagriSema combo bonus.',
+  goal:'Send purple AMYLIN left and cyan GLP-1 right — keep both meters high',
+  take:'Cagrilintide is a long-acting amylin analogue being studied in combination with semaglutide (CagriSema). In the REDEFINE 1 trial, CagriSema led to about 20% average weight loss at 68 weeks, more than either drug alone. It is still investigational. This game simplifies how the two signals add together.',
+  learn:['Amylin = 2nd fullness hormone, made with insulin','Amylin and GLP-1 use DIFFERENT receptors','CagriSema = cagrilintide + semaglutide (investigational)'],
+  tips:['Amylin also slows stomach emptying, like GLP-1 — but through its own receptor.','Combining two different pathways can add up to a bigger effect than one alone.','Pramlintide is an older, short-acting amylin copy used with mealtime insulin.'],
+  coach(g){ return [
+    {t:'Two fullness signals fall here. <b>Purple = AMYLIN</b>, <b>cyan = GLP-1</b>.', at:()=>[W/2,TOP+PH()*0.3]},
+    {t:'Tap the <b>LEFT</b> side to send a signal to the <b>AMYLIN receptor</b>.', at:()=>[W*0.18,this.recY()]},
+    {t:'Tap the <b>RIGHT</b> side to send it to the <b>GLP-1 receptor</b>. Each signal only fits its own receptor — like a key in its own lock.', at:()=>[W*0.82,this.recY()]} ]; },
+  recY(){ return B-PH()*0.2; },
+  init(g){ g.q=[]; g.sT=0.5; g.amy=50; g.glp=50; g.fly=[]; g.duo=0; },
+  update(g,dt){
+    const prog=g.t/this.dur;
+    g.sT-=dt; if(g.sT<=0&&g.q.length<6){ g.sT=Math.max(0.5,1.15-prog*0.6); g.q.push({k:Math.random()<0.5?'A':'G',y:TOP+10*S}); }
+    const sp=(PH()*0.22)*(1+prog*0.9), lineY=this.recY()-30*S;
+    g.q.forEach((s,i)=>{ const minY=i===0?lineY:g.q[i-1].y-44*S; s.y=Math.min(s.y+sp*dt,minY); });
+    if(g.q[0]&&g.q[0].y>=lineY){ g.q[0].wait=(g.q[0].wait||0)+dt; if(g.q[0].wait>1.6){ const s=g.q.shift(); g.combo=0; pop(W/2,lineY,'TOO SLOW','#ff4d6d'); sfx.bad(); if(s.k==='A') g.amy-=8; else g.glp-=8; explain(g,'slow','<b>Too slow!</b> Signals that never reach a receptor do nothing. Sort them before they pile up.','#ff4d6d'); } }
+    g.amy=clamp(g.amy-dt*(4+prog*3),0,100); g.glp=clamp(g.glp-dt*(4+prog*3),0,100);
+    if(g.amy>60&&g.glp>60){ g.duo+=dt; g.score+=dt*60; explain(g,'duo','<b>CagriSema combo!</b> Both fullness switches are on at once. In trials, the combination beat either drug alone.','#ffd45c'); }
+    g.score+=dt*(g.amy+g.glp)*0.15;
+    g.fly.forEach(f=>f.t+=dt*3); g.fly=g.fly.filter(f=>f.t<1);
+    if(g.amy<=0&&g.glp<=0) g.endEarly='Both fullness signals ran out.';
+  },
+  send(g,side){
+    const s=g.q[0]; if(!s) return; if(s.y<TOP+PH()*0.25) return;
+    g.q.shift(); const ok=(side==='L'&&s.k==='A')||(side==='R'&&s.k==='G'); const tx=side==='L'?W*0.18:W*0.82;
+    g.fly.push({k:s.k,x1:W/2,y1:s.y,x2:tx,y2:this.recY(),t:0});
+    if(ok){ g.combo++; const pts=50+Math.min(10,g.combo)*8; g.score+=pts; if(s.k==='A') g.amy=Math.min(100,g.amy+12); else g.glp=Math.min(100,g.glp+12); burst(tx,this.recY(),s.k==='A'?'#cc44ff':'#3ff3ff',12,200); pop(tx,this.recY()-50*S,'+'+pts,'#ffd45c'); sfx.good();
+      explain(g,'ok'+s.k,s.k==='A'?'<b>Amylin docked!</b> Amylin comes from the pancreas with insulin and signals fullness through its <b>own</b> receptor in the brain.':'<b>GLP-1 docked!</b> GLP-1 is the gut\'s fullness signal — semaglutide is the long-lasting copy.',s.k==='A'?'#cc44ff':'#3ff3ff'); }
+    else { g.combo=0; pop(tx,this.recY()-50*S,'WRONG RECEPTOR','#ff4d6d',18); sfx.bad(); explain(g,'wrong','<b>Wrong receptor!</b> A hormone only works on its own receptor — amylin can\'t switch on the GLP-1 receptor, and vice versa.','#ff4d6d'); }
+  },
+  down(g,x){ this.send(g,x<W/2?'L':'R'); },
+  key(g,k){ if(k==='ArrowLeft'||k==='a'||k==='A'||k==='1') this.send(g,'L'); if(k==='ArrowRight'||k==='d'||k==='D'||k==='2') this.send(g,'R'); },
+  draw(g){
+    drawBg('#1d0a33','#05020d','#cc44ff');
+    const ry=this.recY();
+    ctx.fillStyle='rgba(204,68,255,0.06)'; ctx.fillRect(0,TOP,W/2,B-TOP); ctx.fillStyle='rgba(63,243,255,0.06)'; ctx.fillRect(W/2,TOP,W/2,B-TOP);
+    [['L',W*0.18,'#cc44ff','AMYLIN RECEPTOR',g.amy],['R',W*0.82,'#3ff3ff','GLP-1 RECEPTOR',g.glp]].forEach(([s,x,c,n,v])=>{
+      glowCircle(x,ry,60*S,c,0.4); ctx.strokeStyle=c; ctx.lineWidth=5*S; ctx.beginPath(); ctx.arc(x,ry,30*S,Math.PI*1.1,Math.PI*1.9,true); ctx.stroke();
+      label(n,x,ry+40*S,17,c); bar(x-60*S,ry+56*S,120*S,10*S,v/100,v>60?'#3dff8a':v>30?'#ffd45c':'#ff4d6d');
+      small(s==='L'?'◀ TAP LEFT':'TAP RIGHT ▶',x,TOP+20*S,14,c);
+    });
+    ctx.setLineDash([5*S,5*S]); ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.beginPath(); ctx.moveTo(W/2,TOP); ctx.lineTo(W/2,B); ctx.stroke(); ctx.setLineDash([]);
+    g.q.forEach((s,i)=>{ const c=s.k==='A'?'#cc44ff':'#3ff3ff'; glowCircle(W/2,s.y,28*S,c,i===0?0.9:0.5); ctx.fillStyle=c; ctx.beginPath(); ctx.arc(W/2,s.y,(i===0?18:14)*S,0,Math.PI*2); ctx.fill(); label(s.k==='A'?'AMY':'GLP',W/2,s.y+0.5,i===0?14:11,'#120520'); if(i===0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2*S; ctx.beginPath(); ctx.arc(W/2,s.y,24*S,0,Math.PI*2); ctx.stroke(); } });
+    g.fly.forEach(f=>{ glowCircle(f.x1+(f.x2-f.x1)*f.t,f.y1+(f.y2-f.y1)*f.t,18*S,f.k==='A'?'#cc44ff':'#3ff3ff'); });
+    if(g.amy>60&&g.glp>60) label('🤝 CAGRISEMA COMBO — BONUS POINTS',W/2,TOP+PH()*0.12,22,'#ffd45c');
+  }
+});
+
+GAMES.push({
+  id:'elora', cat:'metab', icon:'🎯', name:'Selective Shot', pep:'ELORALINTIDE', col:'#3dff8a', dur:60, stars:[2500,5500,9000],
+  tag:'Aim and fire at amylin receptors only — skip the look-alike calcitonin receptors.',
+  ev:'Human clinical research · phase 2 done, phase 3 underway',
+  eli:'<b>Eloralintide</b> copies <b>amylin</b>, the pancreas\'s "I\'m full" hormone. Amylin can also tickle a look-alike switch called the <b>calcitonin receptor</b>. Eloralintide was designed to be <b>selective</b> — it prefers the amylin receptor about <b>12 to 1</b>. It has <b>no GLP-1 action</b> at all.',
+  how:'<b>Drag</b> back from the launcher to aim (like a slingshot), <b>let go</b> to fire. Hit green <b>AMYLIN</b> receptors. Avoid grey <b>CALCITONIN</b> receptors — those are "off-target". Your selectivity score shows how picky your shots are.',
+  goal:'Hit green AMYLIN receptors, avoid grey CALCITONIN ones',
+  take:'Eloralintide is a selective amylin receptor agonist. In a 48-week phase 2 trial (263 people) average weight loss ranged from about 9% to 20% depending on dose, versus 0.4% on placebo; nausea and fatigue were the most common side effects. Phase 3 trials are underway, and it is being studied with tirzepatide. Investigational — not approved.',
+  learn:['Eloralintide = selective amylin copy (no GLP-1 action)','Prefers amylin receptor ~12:1 over calcitonin receptor','Selective drugs aim to hit the right target and fewer wrong ones'],
+  tips:['"Selective" means a drug mostly hits one target — fewer off-target effects is the goal.','Because it has no GLP-1 action, eloralintide is discussed for people who can\'t use GLP-1 drugs.','Amylin is released together with insulin after you eat.'],
+  launcher(){ return {x:W/2,y:B-PH()*0.12}; },
+  coach(g){ return [
+    {t:'This is your <b>eloralintide launcher</b>. DRAG back from it to aim (like a slingshot), then LET GO to fire.', at:()=>[this.launcher().x,this.launcher().y]},
+    {t:'Hit the green <b>AMYLIN receptors</b> — that\'s the target eloralintide is built for.'},
+    {t:'Grey <b>CALCITONIN receptors</b> look similar. Hitting them is "off-target" and lowers your selectivity. Eloralintide prefers amylin about <b>12 to 1</b>.'} ]; },
+  init(g){ g.tg=[]; g.shots=[]; g.aim=null; g.good=0; g.bad=0; this.fill(g); },
+  fill(g){ while(g.tg.length<9){ const cal=Math.random()<0.28; g.tg.push({x:rnd(W*0.1,W*0.9),y:rnd(TOP+PH()*0.08,TOP+PH()*0.6),cal,vx:rnd(-40,40)*S,t:0}); } },
+  update(g,dt){
+    const prog=g.t/this.dur;
+    g.tg.forEach(t=>{ t.t+=dt; t.x+=t.vx*(1+prog)*dt; if(t.x<W*0.06||t.x>W*0.94) t.vx*=-1; });
+    g.shots.forEach(s=>{ s.x+=s.vx*dt; s.y+=s.vy*dt; s.t+=dt; });
+    g.shots=g.shots.filter(s=>{
+      for(const t of g.tg){ if(dist(s.x,s.y,t.x,t.y)<30*S){ g.tg.splice(g.tg.indexOf(t),1);
+        if(t.cal){ g.bad++; g.combo=0; g.score=Math.max(0,g.score-80); pop(t.x,t.y,'OFF-TARGET −80','#b8c0d0',18); sfx.bad(); burst(t.x,t.y,'#9aa4b8',10); explain(g,'off','<b>Off-target!</b> That was a calcitonin receptor. Drug designers try to avoid look-alike receptors to limit side effects — that is what "selective" means.','#b8c0d0'); }
+        else { g.good++; g.combo++; const pts=100+Math.min(12,g.combo)*10; g.score+=pts; pop(t.x,t.y,'AMYLIN ✓ +'+pts,'#3dff8a',18); sfx.great(); burst(t.x,t.y,'#3dff8a',16,240); explain(g,'on','<b>On target!</b> Switching on the amylin receptor signals fullness and slows the stomach.','#3dff8a'); }
+        setTimeout(()=>{ if(G&&G.game===this&&G.running) this.fill(G); },400); return false; } }
+      if(s.t>2||s.y<TOP||s.x<0||s.x>W){ explain(g,'miss','<b>Missed.</b> Drag back <b>away</b> from the target — the shot flies the opposite way, like a slingshot.'); return false; }
+      return true; });
+    if(g.good+g.bad>=8&&g.good/(g.good+g.bad)>=0.9) explain(g,'sel','<b>Great selectivity!</b> Over 90% of your hits were on amylin receptors — just like a selective drug.','#ffd45c');
+  },
+  down(g,x,y){ const L=this.launcher(); if(dist(x,y,L.x,L.y)<130*S) g.aim={x,y}; },
+  move(g,x,y){ if(g.aim){ g.aim.x=x; g.aim.y=y; } },
+  up(g,x,y){ if(!g.aim) return; const L=this.launcher(); const dx=L.x-x, dy=L.y-y, len=Math.hypot(dx,dy); g.aim=null; if(len<14*S){ explain(g,'pull','<b>Pull back further</b> before letting go to fire.'); return; } const v=900*S; g.shots.push({x:L.x,y:L.y,vx:dx/len*v,vy:dy/len*v,t:0}); sfx.tick(); },
+  draw(g){
+    drawBg('#082414','#020805','#3dff8a');
+    const L=this.launcher();
+    g.tg.forEach(t=>{ const c=t.cal?'#9aa4b8':'#3dff8a'; glowCircle(t.x,t.y,36*S,c,t.cal?0.25:0.45); ctx.strokeStyle=c; ctx.lineWidth=4*S; ctx.beginPath(); ctx.arc(t.x,t.y,20*S,Math.PI*1.15,Math.PI*1.85,true); ctx.stroke(); ctx.fillStyle=c; ctx.fillRect(t.x-3*S,t.y,6*S,16*S); small(t.cal?'CALCITONIN':'AMYLIN',t.x,t.y+26*S,11,c); });
+    if(g.aim){ const dx=L.x-g.aim.x, dy=L.y-g.aim.y, len=Math.hypot(dx,dy)||1; ctx.setLineDash([6*S,6*S]); ctx.strokeStyle='rgba(61,255,138,0.7)'; ctx.lineWidth=2*S; ctx.beginPath(); ctx.moveTo(L.x,L.y); ctx.lineTo(L.x+dx/len*PH()*0.6,L.y+dy/len*PH()*0.6); ctx.stroke(); ctx.setLineDash([]); ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.beginPath(); ctx.moveTo(L.x,L.y); ctx.lineTo(g.aim.x,g.aim.y); ctx.stroke(); }
+    g.shots.forEach(s=>{ glowCircle(s.x,s.y,16*S,'#3dff8a'); ctx.fillStyle='#d6ffe6'; ctx.beginPath(); ctx.arc(s.x,s.y,6*S,0,Math.PI*2); ctx.fill(); });
+    glowCircle(L.x,L.y,60*S,'rgba(61,255,138,0.5)'); ctx.fillStyle='#1d5a35'; ctx.beginPath(); ctx.arc(L.x,L.y,30*S,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#3dff8a'; ctx.lineWidth=3*S; ctx.stroke(); label('DRAG',L.x,L.y,15,'#3dff8a');
+    const sel=g.good+g.bad?Math.round(g.good/(g.good+g.bad)*100):100;
+    small('SELECTIVITY: '+sel+'%  ·  amylin hits '+g.good+'  ·  off-target '+g.bad,W/2,TOP+14*S,15,sel>=90?'#3dff8a':sel>=70?'#ffd45c':'#ff4d6d');
+  }
+});
+
+GAMES.push({
+  id:'atx', cat:'metab', icon:'⛽', name:'Fuel Gauge', pep:'ATX-304 (O304)', col:'#ffb300', dur:60, stars:[2200,4500,7000],
+  tag:'Switch on the cell\'s low-fuel sensor (AMPK) to pull sugar in — and burn fat as heat without overheating.',
+  ev:'Human clinical research · early (phase IIa) · not a GLP-1',
+  eli:'Every cell has a <b>fuel gauge</b> called <b>AMPK</b>. When fuel runs low — like during exercise — AMPK switches on and the cell grabs more sugar and burns more fuel. <b>ATX-304</b> (formerly O304) is a pill being studied to switch AMPK on. It is also a mild <b>"uncoupler"</b>: it lets some fuel burn off as <b>heat</b>.',
+  how:'Tap <b>AMPK ON</b> when it is charged — sugar doors (<b>GLUT4</b>) open on the muscle cell. <b>Tap the open doors</b> to pull sugar out of the blood. <b>Hold UNCOUPLE</b> to burn liver fat as heat — but let go before the temperature hits red!',
+  goal:'Get blood sugar into the green zone and burn liver fat — don\'t overheat',
+  take:'ATX-304 (formerly O304) is an oral AMPK activator that also acts as a mild mitochondrial uncoupler. It has been tested in an early 28-day phase IIa study in people with type 2 diabetes already taking metformin. It is not a GLP-1, it is not approved, and evidence in people is still early and small.',
+  learn:['AMPK = the cell\'s low-fuel sensor (exercise turns it on)','AMPK on → more sugar pulled into muscle (GLUT4)','Uncoupling = burning some fuel as heat · ATX-304 = early research'],
+  tips:['GLUT4 are "sugar doors" that move to the muscle cell surface when AMPK or insulin says so.','Exercise and fasting both activate AMPK naturally.','Too much uncoupling would mean too much heat — the body has to stay in a safe range.'],
+  cell(){ return {x:W/2,y:TOP+PH()*0.45,rx:Math.min(W*0.34,300*S),ry:PH()*0.2}; },
+  btnA(){ return {x:W*0.25,y:B-PH()*0.11}; }, btnU(){ return {x:W*0.75,y:B-PH()*0.11}; },
+  coach(g){ return [
+    {t:'This is a <b>muscle cell</b>. The top meters show <b>blood sugar</b>, <b>liver fat</b> and <b>temperature</b>.', at:()=>[this.cell().x,this.cell().y]},
+    {t:'Tap <b>AMPK ON</b> (the cell\'s fuel-gauge switch). Sugar doors called <b>GLUT4</b> pop open — tap them to pull sugar out of the blood.', at:()=>[this.btnA().x,this.btnA().y]},
+    {t:'<b>Hold UNCOUPLE</b> to burn liver fat off as heat. Watch the temperature — let go before it turns red!', at:()=>[this.btnU().x,this.btnU().y]} ]; },
+  init(g){ g.sug=180; g.fat=100; g.temp=37; g.ampk=100; g.ampkT=0; g.doors=[]; g.hold=false; g.over=0; },
   update(g,dt){
     const prog=g.t/this.dur, C=this.cell();
-    g.decayT-=dt; if(g.decayT<=0){ g.decayT=Math.max(0.7,1.8-prog*1.1)*rnd(0.7,1.2); const ok=g.mitos.filter(m=>!m.bad); if(ok.length){ const m=pick(ok); m.bad=true; m.subtle=prog>0.35&&Math.random()<0.5; } else this.spawn(g,true,prog>0.35); if(g.mitos.length<6) this.spawn(g,false); }
+    g.sug=clamp(g.sug+dt*(5+prog*4),70,260);
+    if(Math.random()<dt*0.18){ g.sug+=rnd(15,30); pop(W*0.85,TOP+40*S,'🍞 SNACK','#fff',16); }
+    if(g.ampkT>0){ g.ampkT-=dt; if(g.doors.length<4&&Math.random()<dt*2.4){ const a=Math.random()*Math.PI*2; g.doors.push({x:C.x+Math.cos(a)*C.rx,y:C.y+Math.sin(a)*C.ry,t:0}); } } else g.ampk=Math.min(100,g.ampk+dt*14);
+    g.doors.forEach(d=>d.t+=dt); g.doors=g.doors.filter(d=>d.t<2.2);
+    if(g.hold&&g.over<=0){ g.fat=Math.max(0,g.fat-dt*7); g.temp+=dt*1.6; g.score+=dt*25; explain(g,'unc','<b>Uncoupling:</b> the mitochondria let some fuel "leak" as heat instead of making ATP — so the cell burns more fuel to keep up.','#ff9a4d'); }
+    else g.temp=Math.max(37,g.temp-dt*1.1);
+    if(g.temp>=40.5&&g.over<=0){ g.over=3; g.hold=false; pop(this.btnU().x,this.btnU().y-60*S,'OVERHEATED!','#ff4d6d',22); sfx.bad(); explain(g,'hot','<b>Overheated!</b> Too much uncoupling makes too much heat. Real uncouplers have to be gentle — the body must stay in a safe temperature range.','#ff4d6d'); }
+    g.over=Math.max(0,g.over-dt);
+    if(g.sug>=80&&g.sug<=130) g.score+=dt*40;
+  },
+  down(g,x,y){
+    const A=this.btnA(), U=this.btnU();
+    if(dist(x,y,A.x,A.y)<58*S){ if(g.ampk>=100&&g.ampkT<=0){ g.ampk=0; g.ampkT=6; sfx.power(); pop(A.x,A.y-60*S,'AMPK ON!','#ffd45c',22); explain(g,'ampk','<b>AMPK switched on!</b> The cell thinks it\'s low on fuel (like during exercise), so it opens GLUT4 sugar doors.','#ffd45c'); } else pop(A.x,A.y-60*S,'CHARGING…','#b8b8d0',16); return; }
+    if(dist(x,y,U.x,U.y)<58*S){ if(g.over<=0) g.hold=true; return; }
+    const d=g.doors.find(d=>dist(x,y,d.x,d.y)<34*S); if(d){ g.doors.splice(g.doors.indexOf(d),1); g.sug=Math.max(70,g.sug-16); g.score+=40; g.combo++; burst(d.x,d.y,'#ffd45c',12); pop(d.x,d.y,'SUGAR IN −16','#ffd45c',16); sfx.good(); explain(g,'door','<b>Sugar moved in!</b> GLUT4 doors let sugar leave the blood and enter the muscle, where it can be burned for energy.','#ffd45c'); }
+  },
+  up(g){ g.hold=false; },
+  key(g,k){ if(k==='a'||k==='A'||k==='1') this.down(g,this.btnA().x,this.btnA().y); },
+  draw(g){
+    drawBg('#241703','#070400','#ffb300');
+    const C=this.cell(), A=this.btnA(), U=this.btnU();
+    glowCircle(C.x,C.y,Math.max(C.rx,C.ry)*1.3,g.temp>39.5?'rgba(255,90,60,0.35)':'rgba(255,179,0,0.18)');
+    ctx.fillStyle='#5a1a24'; ctx.beginPath(); ctx.ellipse(C.x,C.y,C.rx,C.ry,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#ff8a9a'; ctx.lineWidth=2*S; for(let k=-6;k<=6;k++){ const x=C.x+k*C.rx/7; const h=C.ry*Math.sqrt(Math.max(0,1-Math.pow(k/7,2))); ctx.beginPath(); ctx.moveTo(x,C.y-h*0.85); ctx.lineTo(x,C.y+h*0.85); ctx.stroke(); }
+    label('MUSCLE CELL',C.x,C.y,18,'#ffd1d8');
+    g.doors.forEach(d=>{ glowCircle(d.x,d.y,30*S,'rgba(255,212,92,0.8)'); ctx.fillStyle='#ffd45c'; rr(d.x-14*S,d.y-14*S,28*S,28*S,6*S); ctx.fill(); label('GLUT4',d.x,d.y,10,'#3a2a00'); });
+    const bw=Math.min(W*0.26,170*S), by=TOP+12*S;
+    bar(W*0.04,by,bw,11*S,(g.sug-70)/190,g.sug<=130&&g.sug>=80?'#3dff8a':g.sug>180?'#ff4d6d':'#ffd45c','BLOOD SUGAR '+Math.round(g.sug));
+    bar(W/2-bw/2,by,bw,11*S,g.fat/100,'#ff9a4d','LIVER FAT '+Math.round(g.fat)+'%');
+    bar(W*0.96-bw,by,bw,11*S,(g.temp-37)/3.5,g.temp>39.5?'#ff4d6d':g.temp>38.5?'#ffd45c':'#3dff8a','TEMP '+g.temp.toFixed(1)+'° (game)');
+    const ready=g.ampk>=100&&g.ampkT<=0;
+    glowCircle(A.x,A.y,64*S,'rgba(255,212,92,0.6)',ready||g.ampkT>0?1:0.3); ctx.fillStyle=g.ampkT>0?'#ffd45c':ready?'#ffb300':'#5a4a20'; ctx.beginPath(); ctx.arc(A.x,A.y,44*S,0,Math.PI*2); ctx.fill();
+    label(g.ampkT>0?'ON '+Math.ceil(g.ampkT)+'s':ready?'AMPK ON':Math.floor(g.ampk)+'%',A.x,A.y,17,'#2a1a00');
+    glowCircle(U.x,U.y,64*S,'rgba(255,90,60,0.6)',g.hold?1:0.4); ctx.fillStyle=g.over>0?'#4a2020':g.hold?'#ff6a3d':'#a8452a'; ctx.beginPath(); ctx.arc(U.x,U.y,44*S,0,Math.PI*2); ctx.fill();
+    label(g.over>0?'COOLING':'HOLD:',U.x,U.y-8*S,15,'#fff'); label(g.over>0?Math.ceil(g.over)+'s':'UNCOUPLE',U.x,U.y+10*S,15,'#fff');
+  }
+});
+
+GAMES.push({
+  id:'mots', cat:'mito', icon:'🔋', name:'Power Grid', pep:'MOTS-c', col:'#ff9a4d', dur:60, stars:[3000,6000,9000],
+  tag:'Keep five hard-working muscle cells powered — fire the MOTS-c signal when it gets hectic.',
+  ev:'Animal research + early human studies',
+  eli:'<b>MOTS-c</b> is a tiny message made by your <b>mitochondria</b> — the batteries in your cells. When you exercise, levels can rise. In mice, MOTS-c helped muscles take in sugar and use energy better, a bit like an "exercise signal". Scientists are only starting to study it in people.',
+  how:'Five muscle cells burn energy. <b>Tap a cell</b> to send it a sugar fuel pack from the bank at the bottom. Don\'t let any cell hit zero (3 strikes = out). When the center <b>MOTS-c</b> ring is full, <b>tap it</b>: for 6 seconds each fuel pack gives double energy and cells drain slower.',
+  goal:'Tap cells before their energy bars run out',
+  take:'MOTS-c is a peptide encoded in mitochondrial DNA. In mice it has been linked to better glucose handling and exercise capacity, partly through the cell\'s fuel sensor AMPK. Human research is early and small, so these "exercise-mimic" effects are not established in people.',
+  learn:['MOTS-c = a signal made by mitochondria','In mice: better sugar use & exercise capacity','Human research is early — not established'],
+  tips:['Most of your DNA is in the nucleus — mitochondria carry a tiny loop of their own.','AMPK is a cell\'s fuel gauge: it switches on when energy runs low.','Exercise is one of the best-proven ways to build more and better mitochondria.'],
+  pos(i){ const cx=W/2, cy=TOP+PH()*0.46, R=Math.min(W*0.36,PH()*0.33); const a=-Math.PI/2+i/5*Math.PI*2; return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}; },
+  center(){ return {x:W/2,y:TOP+PH()*0.46}; },
+  coach(g){ return [
+    {t:'These are <b>muscle cells</b>. The bar under each one is its energy. It drains as the muscle works.', at:()=>{ const p=this.pos(0); return [p.x,p.y]; }},
+    {t:'TAP a cell to send it a <b>sugar fuel pack</b> from the bank. Packs refill over time.', at:()=>[W/2,B-18*S]},
+    {t:'The center is a <b>mitochondrion</b>. When its ring fills, TAP it to release <b>MOTS-c</b>: cells use fuel better for 6 seconds.', at:()=>[this.center().x,this.center().y]} ]; },
+  init(g){ g.cells=[0,1,2,3,4].map(i=>({e:80,rate:rnd(5,8),flash:0,i})); g.bank=4; g.bankT=0; g.mots=0; g.motsT=0; g.strikes=0; g.flow=[]; },
+  update(g,dt){
+    const prog=g.t/this.dur, boost=g.motsT>0;
+    g.cells.forEach(c=>{ c.e-=c.rate*(1+prog*1.1)*(boost?0.5:1)*dt; c.flash=Math.max(0,c.flash-dt*2); if(c.e<=0){ c.e=45; g.strikes++; g.combo=0; const p=this.pos(c.i); pop(p.x,p.y,'FATIGUE '+g.strikes+'/3','#ff4d6d',20); sfx.bad(); burst(p.x,p.y,'#ff4d6d',16); explain(g,'fat','<b>Fatigue!</b> A muscle cell ran out of energy. Real muscles get tired when they burn fuel faster than it arrives.','#ff4d6d'); if(Math.random()<0.5) c.rate=rnd(5,9); } });
+    if(g.strikes>=3) g.endEarly='Three fatigue strikes — the muscles gave out!';
+    g.bankT+=dt; if(g.bankT>=(boost?0.45:0.62)){ g.bankT=0; if(g.bank<8) g.bank++; }
+    if(!boost) g.mots=Math.min(100,g.mots+dt*7); g.motsT=Math.max(0,g.motsT-dt);
+    if(g.mots>=100) explain(g,'ready','<b>MOTS-c is ready!</b> Tap the glowing mitochondrion in the middle.','#ffd45c');
+    g.flow.forEach(f=>f.t+=dt*2.5); g.flow=g.flow.filter(f=>f.t<1);
+    g.score+=dt*g.cells.reduce((s,c)=>s+c.e,0)/5*0.9;
+  },
+  feed(g,c){
+    if(g.bank<=0){ pop(W/2,this.center().y+80*S,'FUEL BANK EMPTY','#ff4d6d',16); explain(g,'empty','<b>Out of fuel packs.</b> Wait for the bank to refill — and save packs for the cells that are lowest.','#ff4d6d'); return; }
+    g.bank--; const gain=g.motsT>0?40:22; c.e=Math.min(100,c.e+gain); c.flash=1; g.combo++; const p=this.pos(c.i), C=this.center();
+    g.flow.push({x1:C.x,y1:C.y,x2:p.x,y2:p.y,t:0}); g.score+=10; burst(p.x,p.y,g.motsT>0?'#ffd45c':'#ff9a4d',8,160); pop(p.x,p.y-46*S,'+'+gain,g.motsT>0?'#ffd45c':'#ffcf9a',15); sfx.good();
+    explain(g,'feed','<b>Fuel delivered!</b> Muscles burn sugar inside their mitochondria to make ATP, the energy that powers movement.','#ff9a4d');
+  },
+  mots(g){ if(g.mots<100||g.motsT>0) return; g.mots=0; g.motsT=6; sfx.power(); pop(W/2,TOP+50*S,'MOTS-c SIGNAL!','#ffd45c',26); burst(this.center().x,this.center().y,'#ffd45c',30,300); explain(g,'boost','<b>MOTS-c released!</b> In mice, MOTS-c helped muscles take in sugar and use fuel better (partly via AMPK). Each pack now gives double energy.','#ffd45c'); },
+  down(g,x,y){ const C=this.center(); if(dist(x,y,C.x,C.y)<58*S){ this.mots(g); return; } const c=g.cells.slice().sort((a,b)=>dist(x,y,this.pos(a.i).x,this.pos(a.i).y)-dist(x,y,this.pos(b.i).x,this.pos(b.i).y))[0]; const p=this.pos(c.i); if(dist(x,y,p.x,p.y)<75*S) this.feed(g,c); },
+  key(g,k){ if(k===' ') this.mots(g); const n=parseInt(k,10); if(n>=1&&n<=5) this.feed(g,g.cells[n-1]); },
+  draw(g){
+    drawBg(g.motsT>0?'#2a1600':'#180c02','#050200','#ff9a4d');
+    const C=this.center(), boost=g.motsT>0;
+    g.flow.forEach(f=>{ glowCircle(f.x1+(f.x2-f.x1)*f.t,f.y1+(f.y2-f.y1)*f.t,16*S,boost?'#ffd45c':'#ff9a4d'); });
+    g.cells.forEach(c=>{ const p=this.pos(c.i), e=c.e/100, col=e>0.5?'#3dff8a':e>0.25?'#ffd45c':'#ff4d6d';
+      ctx.strokeStyle='rgba(255,154,77,0.2)'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.moveTo(C.x,C.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+      glowCircle(p.x,p.y,62*S,col,0.25+c.flash*0.4);
+      ctx.save(); ctx.translate(p.x,p.y); ctx.fillStyle='#5a1a24'; rr(-44*S,-24*S,88*S,48*S,24*S); ctx.fill(); ctx.strokeStyle='#ff8a9a'; ctx.lineWidth=2*S; for(let k=-3;k<=3;k++){ ctx.beginPath(); ctx.moveTo(k*11*S,-20*S); ctx.lineTo(k*11*S,20*S); ctx.stroke(); } ctx.restore();
+      bar(p.x-38*S,p.y+30*S,76*S,9*S,e,col);
+      if(e<0.25&&Math.floor(g.t*6)%2) label('⚠ LOW',p.x,p.y-38*S,14,'#ff4d6d');
+    });
+    glowCircle(C.x,C.y,80*S,boost?'rgba(255,212,92,0.7)':'rgba(255,154,77,0.4)');
+    ctx.fillStyle=boost?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.ellipse(C.x,C.y,46*S,28*S,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#5a2a00'; ctx.lineWidth=2.5*S; ctx.beginPath(); for(let k=-3;k<=3;k++){ ctx.moveTo(C.x+k*10*S,C.y-18*S); ctx.lineTo(C.x+k*10*S+5*S,C.y); ctx.lineTo(C.x+k*10*S,C.y+18*S); } ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=6*S; ctx.beginPath(); ctx.arc(C.x,C.y,56*S,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle=g.mots>=100?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.arc(C.x,C.y,56*S,-Math.PI/2,-Math.PI/2+Math.PI*2*(boost?g.motsT/6:g.mots/100)); ctx.stroke();
+    label(boost?'MOTS-c '+Math.ceil(g.motsT)+'s':g.mots>=100?'TAP: MOTS-c!':'MOTS-c '+Math.floor(g.mots)+'%',C.x,C.y+72*S,16,g.mots>=100||boost?'#ffd45c':'#ffcf9a');
+    small('SUGAR FUEL BANK',W/2,B-38*S,13,'rgba(255,255,255,0.75)');
+    for(let i=0;i<8;i++){ ctx.fillStyle=i<g.bank?'#ffcf9a':'rgba(255,255,255,0.12)'; ctx.beginPath(); ctx.arc(W/2+(i-3.5)*22*S,B-16*S,8*S,0,Math.PI*2); ctx.fill(); }
+    label('STRIKES '+'✖'.repeat(g.strikes)+'·'.repeat(3-g.strikes),16*S,TOP+14*S,18,'#ff4d6d','left');
+  }
+});
+
+GAMES.push({
+  id:'ss31', cat:'mito', icon:'🛡️', name:'Cristae Shield', pep:'SS-31 (ELAMIPRETIDE)', col:'#7fb6ff', dur:60, stars:[2500,5000,8000],
+  tag:'Shield cardiolipin on the mitochondria\'s inner folds from damaging sparks to keep ATP flowing.',
+  ev:'Human clinical research (mixed results) · mechanism proposed',
+  eli:'Inside each mitochondrion is a folded wall called the <b>inner membrane</b> (the folds are <b>cristae</b>). It is built with a special fat called <b>cardiolipin</b> that holds the energy machines in place. Sparks called <b>ROS</b> can damage it. <b>SS-31</b> is a small peptide that goes to this inner membrane and is thought to <b>stick to cardiolipin</b> and help protect it.',
+  how:'Orange dots on the folds are <b>cardiolipin</b>. Red <b>ROS sparks</b> fly toward them. <b>Tap a dot</b> to place an <b>SS-31 shield</b> on it before a spark hits. Shields wear off, and your supply refills slowly. More healthy cardiolipin = more ATP energy.',
+  goal:'Tap orange cardiolipin dots to shield them before red sparks hit',
+  take:'SS-31 (elamipretide) is a mitochondria-targeting peptide that concentrates in the inner mitochondrial membrane and binds cardiolipin. That protective role is a proposed mechanism from lab and animal work. Human trials in rare mitochondrial diseases and heart failure have had mixed results, so benefits in people are not established.',
+  learn:['Inner membrane folds (cristae) hold the energy machines','Cardiolipin = special fat that keeps them working','SS-31 is thought to bind cardiolipin — human results are mixed'],
+  tips:['ROS ("reactive oxygen species") are a normal by-product of making energy — trouble starts when there are too many.','ATP is the energy "currency" your cells spend.','Cardiolipin is found almost only in the inner mitochondrial membrane.'],
+  geo(){ const w=Math.min(W*0.9,780*S), h=PH()*0.5, x=(W-w)/2, y=TOP+PH()*0.22; return {x,y,w,h}; },
+  nodes(){ const G2=this.geo(); const n=[]; for(let i=0;i<8;i++){ const fx=G2.x+G2.w*(i+0.5)/8; n.push({x:fx,y:G2.y+G2.h*(i%2===0?0.3:0.7),i}); } return n; },
+  coach(g){ return [
+    {t:'This wavy wall is the <b>inner membrane</b> of a mitochondrion — its folds are called <b>cristae</b>.', at:()=>{ const G2=this.geo(); return [G2.x+G2.w/2,G2.y+G2.h/2]; }},
+    {t:'Orange dots are <b>cardiolipin</b>, a special fat that holds the energy machines together. TAP one to put an <b>SS-31 shield</b> on it.', at:()=>{ const n=this.nodes()[0]; return [n.x,n.y]; }},
+    {t:'Red <b>ROS sparks</b> damage unshielded cardiolipin and cut your ATP. Shields wear off — keep re-shielding!'} ]; },
+  init(g){ g.st=this.nodes().map(()=>({sh:0,dmg:0})); g.ros=[]; g.rT=1; g.charges=4; g.cT=0; g.atp=1; },
+  update(g,dt){
+    const prog=g.t/this.dur, N=this.nodes(), G2=this.geo();
+    g.st.forEach(s=>{ s.sh=Math.max(0,s.sh-dt); if(s.dmg>0) s.dmg=Math.max(0,s.dmg-dt*0.12); });
+    g.cT+=dt; if(g.cT>=1.5){ g.cT=0; if(g.charges<4) g.charges++; }
+    g.rT-=dt; if(g.rT<=0){ g.rT=Math.max(0.45,1.25-prog*0.75)*rnd(0.7,1.2); const n=pick(N); g.ros.push({x:rnd(G2.x,G2.x+G2.w),y:Math.random()<0.5?TOP:B,tx:n.x,ty:n.y,i:n.i,t:0}); }
+    g.ros.forEach(r=>{ r.t+=dt; const a=Math.atan2(r.ty-r.y,r.tx-r.x), sp=(90+prog*80)*S; r.x+=Math.cos(a)*sp*dt+Math.sin(r.t*12)*0.8; r.y+=Math.sin(a)*sp*dt; });
+    g.ros=g.ros.filter(r=>{ if(dist(r.x,r.y,r.tx,r.ty)<14*S){ const s=g.st[r.i];
+      if(s.sh>0){ burst(r.x,r.y,'#7fb6ff',10,180); pop(r.x,r.y-24*S,'BLOCKED','#7fb6ff',16); g.score+=40; sfx.good(); explain(g,'block','<b>Spark blocked!</b> SS-31 is thought to sit on cardiolipin and help protect it from damage.','#7fb6ff'); }
+      else { s.dmg=1; burst(r.x,r.y,'#ff4d6d',12,200); pop(r.x,r.y-24*S,'DAMAGED','#ff4d6d',16); sfx.bad(); g.combo=0; explain(g,'dmg','<b>Cardiolipin damaged!</b> When it\'s damaged, the energy machines work worse and make less ATP — and even more sparks.','#ff4d6d'); }
+      return false; } return true; });
+    const healthy=g.st.filter(s=>s.dmg<0.3).length/g.st.length; g.atp=healthy; g.score+=dt*healthy*90;
+    if(healthy<0.4) explain(g,'low','<b>ATP is dropping.</b> Lots of damage means the cell runs low on energy. Shield the dots that sparks are heading for.','#ffd45c');
+  },
+  down(g,x,y){
+    const N=this.nodes(); const n=N.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
+    if(!n||dist(x,y,n.x,n.y)>50*S) return;
+    if(g.charges<=0){ pop(n.x,n.y-30*S,'NO SS-31 LEFT','#b8b8d0',15); explain(g,'nocharge','<b>Out of SS-31 for a moment.</b> Your supply refills every 1.5 seconds — plan your shields.'); return; }
+    g.charges--; const s=g.st[n.i]; s.sh=5; if(s.dmg>0) s.dmg=Math.max(0,s.dmg-0.5); g.combo++; burst(n.x,n.y,'#7fb6ff',10,160); sfx.tick(); explain(g,'shield','<b>SS-31 shield placed.</b> SS-31 concentrates in the inner membrane where cardiolipin lives.','#7fb6ff');
+  },
+  draw(g){
+    drawBg('#0a1530','#02040c','#7fb6ff');
+    const G2=this.geo(), N=this.nodes();
+    ctx.strokeStyle='rgba(127,182,255,0.35)'; ctx.lineWidth=6*S; rr(G2.x-16*S,G2.y-22*S,G2.w+32*S,G2.h+44*S,60*S); ctx.stroke();
+    ctx.strokeStyle='#ffb27a'; ctx.lineWidth=7*S; ctx.lineJoin='round'; ctx.beginPath(); N.forEach((n,i)=>{ i?ctx.lineTo(n.x,n.y):ctx.moveTo(G2.x,n.y); }); ctx.lineTo(G2.x+G2.w,N[7].y); ctx.stroke();
+    small('INNER MEMBRANE (CRISTAE)',G2.x+G2.w/2,G2.y-34*S,13,'rgba(200,220,255,0.8)');
+    N.forEach((n,i)=>{ const s=g.st[i]; const c=s.dmg>0.3?'#5a2a2a':'#ff9a4d'; if(s.sh>0){ glowCircle(n.x,n.y,40*S,'rgba(127,182,255,0.75)'); ctx.strokeStyle='#bfe0ff'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(n.x,n.y,22*S,0,Math.PI*2*(s.sh/5)); ctx.stroke(); }
+      glowCircle(n.x,n.y,24*S,s.dmg>0.3?'rgba(255,60,60,0.3)':'rgba(255,154,77,0.6)'); ctx.fillStyle=c; ctx.beginPath(); ctx.arc(n.x,n.y,12*S,0,Math.PI*2); ctx.fill(); if(s.dmg>0.3) label('✖',n.x,n.y,14,'#ff8080'); });
+    g.ros.forEach(r=>{ glowCircle(r.x,r.y,20*S,'rgba(255,60,90,0.85)'); ctx.fillStyle='#ff3c5a'; ctx.beginPath(); for(let k=0;k<8;k++){ const a=k/8*Math.PI*2+r.t*8, rad=(k%2?4:10)*S; ctx.lineTo(r.x+Math.cos(a)*rad,r.y+Math.sin(a)*rad); } ctx.closePath(); ctx.fill(); });
+    bar(W/2-110*S,B-48*S,220*S,12*S,g.atp,g.atp>0.6?'#3dff8a':g.atp>0.35?'#ffd45c':'#ff4d6d','ATP ENERGY OUTPUT');
+    small('SS-31 SUPPLY',16*S,TOP+12*S,13,'#bfe0ff','left'); for(let i=0;i<4;i++){ ctx.fillStyle=i<g.charges?'#7fb6ff':'rgba(255,255,255,0.12)'; ctx.beginPath(); ctx.arc(20*S+i*20*S,TOP+32*S,7*S,0,Math.PI*2); ctx.fill(); }
+  }
+});
+
+GAMES.push({
+  id:'uro', cat:'mito', icon:'♻️', name:'Mito Cleanup', pep:'UROLITHIN A', col:'#ffd45c', dur:60, stars:[2500,5000,8000],
+  tag:'Drag broken mitochondria into the recycler — but don\'t trash the healthy ones.',
+  ev:'Small human trials + animal & cell research',
+  eli:'<b>Mitochondria</b> are the batteries inside your cells. Old, broken batteries leak and waste energy. Cells have a recycling program called <b>mitophagy</b> that eats broken mitochondria so new ones can be built. <b>Urolithin A</b> — made by gut bacteria from foods like pomegranate — is studied for switching that recycling up.',
+  how:'<b>Drag</b> broken mitochondria (red, cracked, flickering) into the <b>♻️ recycler</b>. Each one recycled lets a fresh one be built. Don\'t recycle healthy green ones. Too many broken ones drain the cell\'s energy. Tap the gold <b>UA</b> capsule to scan for hidden damage.',
+  goal:'Drag RED broken mitochondria into the ♻️ recycler',
+  take:'Urolithin A is made by gut bacteria from ellagitannins (in pomegranates, berries and walnuts). In cell and animal studies it boosts mitophagy, and small human trials have reported changes in mitochondrial markers and some muscle measures. Many people\'s gut bacteria make little of it. The game is a simplified model.',
+  learn:['Mitophagy = recycling broken mitochondria','Urolithin A comes from gut bacteria + pomegranate-type foods','Small human trials so far — not a proven anti-aging fix'],
+  tips:['Only some people\'s gut bacteria can turn pomegranate compounds into Urolithin A.','"Mitophagy" = "mito" (mitochondria) + "phagy" (eating).','Building new mitochondria is called biogenesis — exercise is a strong trigger.'],
+  cell(){ return {cx:W/2,cy:TOP+PH()*0.42,rx:Math.min(W*0.44,440*S),ry:Math.min(PH()*0.32,300*S)}; },
+  bin(){ return {x:W/2,y:B-48*S,r:44*S}; },
+  coach(g){ return [
+    {t:'These are <b>mitochondria</b> — your cell\'s batteries. <b>Green = healthy</b>. <b>Red & cracked = broken</b>.', at:()=>{ const m=g.mitos.find(m=>m.bad)||g.mitos[0]; return [m.x,m.y]; }},
+    {t:'DRAG broken ones into the <b>recycler</b>. Cells recycle broken mitochondria — that\'s called <b>mitophagy</b>.', at:()=>[this.bin().x,this.bin().y]},
+    {t:'Don\'t recycle healthy ones! Watch the <b>cell energy</b> bar at the top — broken batteries drain it.', at:()=>[W/2,TOP+16*S]} ]; },
+  spawn(g,bad,subtle){ const C=this.cell(); const a=Math.random()*Math.PI*2, d=Math.sqrt(Math.random())*0.75; g.mitos.push({x:C.cx+Math.cos(a)*C.rx*d,y:C.cy+Math.sin(a)*C.ry*d,rot:Math.random()*3,vx:rnd(-12,12)*S,vy:rnd(-10,10)*S,bad:!!bad,subtle:!!subtle,t:Math.random()*5}); },
+  init(g){ g.mitos=[]; for(let i=0;i<7;i++) this.spawn(g,i===1); g.energy=100; g.drag=null; g.decayT=2; g.ua=null; g.uaT=8; g.scanT=0; },
+  update(g,dt){
+    const prog=g.t/this.dur, C=this.cell();
+    g.decayT-=dt; if(g.decayT<=0){ g.decayT=Math.max(0.75,1.9-prog*1.1)*rnd(0.7,1.2); const ok=g.mitos.filter(m=>!m.bad); if(ok.length){ const m=pick(ok); m.bad=true; m.subtle=prog>0.35&&Math.random()<0.5; if(m.subtle) explain(g,'subtle','<b>Hidden damage!</b> Some broken mitochondria still look almost healthy. Tap the gold UA capsule to scan for them.','#ffd45c'); } else this.spawn(g,true,prog>0.35); if(g.mitos.length<6) this.spawn(g,false); }
     g.mitos.forEach(m=>{ if(m===g.drag) return; m.t+=dt; m.x+=m.vx*dt; m.y+=m.vy*dt; m.rot+=dt*0.3; const nx=(m.x-C.cx)/C.rx, ny=(m.y-C.cy)/C.ry; if(nx*nx+ny*ny>0.75){ m.vx=-m.vx; m.vy=-m.vy; m.x-=nx*4; m.y-=ny*4; } });
     const bad=g.mitos.filter(m=>m.bad).length;
     g.energy=clamp(g.energy-(bad*bad*0.55-1.5)*dt*1.2,0,100);
-    if(g.energy<=0){ g.endEarly='The cell ran out of energy — too many broken batteries!'; }
+    if(bad>=4) explain(g,'many','<b>Too many broken batteries!</b> They leak and waste energy — that\'s why cells need to recycle them fast.','#ff4d6d');
+    if(g.energy<=0) g.endEarly='The cell ran out of energy — too many broken batteries!';
     g.score+=dt*g.energy*0.12;
     g.uaT-=dt; if(g.uaT<=0&&!g.ua){ g.ua={x:rnd(W*0.2,W*0.8),y:rnd(C.cy-C.ry*0.5,C.cy+C.ry*0.5),t:0}; g.uaT=rnd(9,13); }
     if(g.ua){ g.ua.t+=dt; if(g.ua.t>5) g.ua=null; }
     g.scanT=Math.max(0,g.scanT-dt);
   },
   down(g,x,y){
-    if(g.ua&&dist(x,y,g.ua.x,g.ua.y)<34*S){ g.scanT=7; pop(g.ua.x,g.ua.y,'UROLITHIN A: SCANNER ON','#ffd45c',20); sfx.power(); g.ua=null; return; }
-    const m=g.mitos.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(m&&dist(x,y,m.x,m.y)<40*S){ g.drag=m; m.ox=x-m.x; m.oy=y-m.y; }
+    if(g.ua&&dist(x,y,g.ua.x,g.ua.y)<36*S){ g.scanT=7; pop(g.ua.x,g.ua.y,'SCANNER ON','#ffd45c',20); sfx.power(); g.ua=null; explain(g,'ua','<b>Urolithin A scanner!</b> In lab studies Urolithin A helps cells spot and recycle damaged mitochondria. Hidden damage is now outlined.','#ffd45c'); return; }
+    const m=g.mitos.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(m&&dist(x,y,m.x,m.y)<42*S){ g.drag=m; m.ox=x-m.x; m.oy=y-m.y; }
   },
   move(g,x,y){ if(g.drag){ g.drag.x=x-g.drag.ox; g.drag.y=y-g.drag.oy; } },
-  up(g,x,y){
-    if(!g.drag) return; const m=g.drag; g.drag=null; const B=this.bin();
-    if(dist(m.x,m.y,B.x,B.y)<B.r+18*S){
+  up(g){
+    if(!g.drag) return; const m=g.drag; g.drag=null; const Bn=this.bin();
+    if(dist(m.x,m.y,Bn.x,Bn.y)<Bn.r+20*S){
       g.mitos.splice(g.mitos.indexOf(m),1);
-      if(m.bad){ g.combo++; const pts=100+(m.subtle?60:0)+g.combo*10; g.score+=pts; g.energy=Math.min(100,g.energy+6); pop(B.x,B.y-60*S,(m.subtle?'HIDDEN DAMAGE! ':'RECYCLED! ')+'+'+pts,'#ffd45c',20); burst(B.x,B.y,'#ffd45c',18,220); sfx.great(); setTimeout(()=>{ if(G&&G.game===this) { this.spawn(g,false); pop(W/2,TOP+70*S,'✨ NEW MITOCHONDRION BUILT','#3dff8a',16); } },500); }
-      else { g.combo=0; g.score=Math.max(0,g.score-120); g.energy=Math.max(0,g.energy-10); pop(B.x,B.y-60*S,'THAT ONE WAS WORKING! −120','#ff4d6d',20); sfx.bad(); }
+      if(m.bad){ g.combo++; const pts=100+(m.subtle?60:0)+g.combo*10; g.score+=pts; g.energy=Math.min(100,g.energy+6); pop(Bn.x,Bn.y-60*S,'RECYCLED +'+pts,'#ffd45c',20); burst(Bn.x,Bn.y,'#ffd45c',18,220); sfx.great(); explain(g,'rec','<b>Recycled!</b> The parts get reused, and the cell can build a fresh mitochondrion (that\'s called biogenesis).','#ffd45c'); setTimeout(()=>{ if(G&&G.game===this&&G.running){ this.spawn(G,false); pop(W/2,TOP+60*S,'✨ NEW MITOCHONDRION','#3dff8a',16); } },500); }
+      else { g.combo=0; g.score=Math.max(0,g.score-120); g.energy=Math.max(0,g.energy-10); pop(Bn.x,Bn.y-60*S,'THAT ONE WORKED! −120','#ff4d6d',20); sfx.bad(); explain(g,'healthy','<b>Oops — that one was healthy.</b> Mitophagy is picky: it should only remove damaged mitochondria.','#ff4d6d'); }
     }
   },
   drawMito(m,g){
-    const w=34*S, h=16*S, flick=m.bad&&!m.subtle&&Math.floor(m.t*6)%3===0;
-    const show=m.bad&&(!m.subtle||g.scanT>0);
+    const w=34*S, h=16*S, flick=m.bad&&!m.subtle&&Math.floor(m.t*6)%3===0, show=m.bad&&(!m.subtle||g.scanT>0);
     ctx.save(); ctx.translate(m.x,m.y); ctx.rotate(m.rot);
     glowCircle(0,0,34*S,show?'rgba(255,90,60,0.55)':'rgba(61,255,138,0.45)',flick?0.3:1);
     ctx.fillStyle=show?(flick?'#7a3020':'#c8553a'):(m.bad?'#5fd98a':'#3dff8a'); rr(-w,-h,w*2,h*2,h); ctx.fill();
@@ -391,221 +683,433 @@ GAMES.push({
   },
   draw(g){
     drawBg('#1e1505','#060402','#ffd45c');
-    const C=this.cell(), B=this.bin();
+    const C=this.cell(), Bn=this.bin();
     glowCircle(C.cx,C.cy,Math.max(C.rx,C.ry)*1.15,'rgba(255,212,92,0.12)');
     ctx.fillStyle='rgba(255,240,200,0.05)'; ctx.strokeStyle='rgba(255,212,92,0.5)'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.ellipse(C.cx,C.cy,C.rx,C.ry,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle='rgba(120,90,200,0.35)'; ctx.beginPath(); ctx.ellipse(C.cx+C.rx*0.55,C.cy-C.ry*0.45,40*S,30*S,0.4,0,Math.PI*2); ctx.fill(); label('NUCLEUS',C.cx+C.rx*0.55,C.cy-C.ry*0.45,12,'rgba(220,210,255,0.7)');
+    ctx.fillStyle='rgba(120,90,200,0.35)'; ctx.beginPath(); ctx.ellipse(C.cx+C.rx*0.55,C.cy-C.ry*0.45,40*S,30*S,0.4,0,Math.PI*2); ctx.fill(); small('NUCLEUS',C.cx+C.rx*0.55,C.cy-C.ry*0.45,12,'rgba(220,210,255,0.75)');
     g.mitos.forEach(m=>this.drawMito(m,g));
-    // recycler
-    glowCircle(B.x,B.y,B.r*1.6,'rgba(255,212,92,0.5)'); ctx.fillStyle='#2a1f05'; ctx.strokeStyle='#ffd45c'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
-    label('♻️',B.x,B.y-6*S,30); label('MITOPHAGY',B.x,B.y+24*S,13,'#ffd45c');
-    // energy bar
-    const bw=Math.min(W*0.6,360*S), bx=(W-bw)/2, by=TOP+12*S;
-    ctx.fillStyle='rgba(255,255,255,0.1)'; rr(bx,by,bw,14*S,7*S); ctx.fill();
-    ctx.fillStyle=g.energy>50?'#3dff8a':g.energy>25?'#ffd45c':'#ff4d6d'; rr(bx,by,bw*g.energy/100,14*S,7*S); ctx.fill();
-    label('CELL ENERGY',W/2,by+28*S,14,'rgba(255,255,255,0.75)');
-    if(g.scanT>0) label('🔍 SCANNER '+Math.ceil(g.scanT)+'s — hidden damage outlined',W/2,by+48*S,15,'#ffd45c');
+    glowCircle(Bn.x,Bn.y,Bn.r*1.6,'rgba(255,212,92,0.5)'); ctx.fillStyle='#2a1f05'; ctx.strokeStyle='#ffd45c'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(Bn.x,Bn.y,Bn.r,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    label('♻️',Bn.x,Bn.y-6*S,28); small('RECYCLER',Bn.x,Bn.y+22*S,12,'#ffd45c');
+    bar(W/2-130*S,TOP+10*S,260*S,13*S,g.energy/100,g.energy>50?'#3dff8a':g.energy>25?'#ffd45c':'#ff4d6d','CELL ENERGY');
+    if(g.scanT>0) small('🔍 SCANNER '+Math.ceil(g.scanT)+'s — hidden damage outlined',W/2,TOP+46*S,14,'#ffd45c');
     if(g.ua){ glowCircle(g.ua.x,g.ua.y,40*S,'rgba(255,212,92,0.8)'); ctx.fillStyle='#ffd45c'; rr(g.ua.x-26*S,g.ua.y-13*S,52*S,26*S,13*S); ctx.fill(); label('UA',g.ua.x,g.ua.y+1,18,'#2a1f05'); }
   }
 });
 
-/* ---------- 5. THYMOSIN ALPHA-1: T-CELL BOOTCAMP ---------- */
 GAMES.push({
-  id:'ta1', icon:'🛡️', name:'T-Cell Bootcamp', pep:'THYMOSIN ALPHA-1', col:'#b026ff', dur:60, stars:[3000,6000,9500],
+  id:'kpv', cat:'repair', icon:'🧯', name:'Calm the Fire', pep:'KPV', col:'#ff6b6b', dur:60, stars:[2500,5000,8000],
+  tag:'Stop the inflammation alarm (NF-κB) before it reaches each cell\'s nucleus and starts a fire.',
+  ev:'Lab & animal research',
+  eli:'When a gut cell is irritated, an alarm messenger called <b>NF-κB</b> runs to the cell\'s <b>nucleus</b> (its control room). Once there, it orders inflammation chemicals like <b>IL-6</b> and <b>TNF-α</b> — the "fire". <b>KPV</b> is a tiny 3-amino-acid piece of a natural hormone (α-MSH). In lab and animal studies it <b>blocked NF-κB</b> from getting into the nucleus.',
+  how:'Irritants hit the gut cells. Each one sends a glowing <b>NF-κB alarm</b> running down toward that cell\'s <b>nucleus</b>. <b>Tap the alarm</b> to block it with KPV. If it reaches the nucleus, 🔥 inflammation flares up. Keep the inflammation meter low.',
+  goal:'Tap the glowing NF-κB alarms before they reach a nucleus',
+  take:'KPV (lysine-proline-valine) is the end piece of alpha-melanocyte-stimulating hormone (α-MSH). Lab and animal studies, especially in models of gut inflammation like colitis, show it can reduce NF-κB activity and inflammatory cytokines. Good human trials are lacking, so its effects in people are not established.',
+  learn:['NF-κB = inflammation "alarm" that switches on genes','KPV = 3-amino-acid piece of α-MSH','Blocks NF-κB in lab/animal studies — human data lacking'],
+  tips:['Inflammation is a normal defense — the problem is when it doesn\'t switch off.','Cytokines like IL-6 and TNF-α are messages that call in more immune cells.','KPV is tiny: only three amino acids (K-P-V).'],
+  cols(){ return 5; }, cellX(i){ return W*(i+0.5)/this.cols(); },
+  memY(){ return TOP+PH()*0.18; }, nucY(){ return TOP+PH()*0.66; },
+  coach(g){ return [
+    {t:'These are <b>gut lining cells</b>. The top edge faces the gut, where irritants come from.', at:()=>[this.cellX(2),this.memY()]},
+    {t:'When a cell is irritated, an <b>NF-κB alarm</b> runs down to the <b>nucleus</b> (the control room). TAP it to block it — that\'s what KPV does in lab studies.', at:()=>[this.cellX(2),(this.memY()+this.nucY())/2]},
+    {t:'If the alarm reaches the <b>nucleus</b>, the cell makes inflammation chemicals 🔥. Keep the inflammation meter low!', at:()=>[this.cellX(2),this.nucY()]} ]; },
+  init(g){ g.al=[]; g.aT=1; g.fire=[]; g.inf=0; },
+  update(g,dt){
+    const prog=g.t/this.dur;
+    g.aT-=dt; if(g.aT<=0){ g.aT=Math.max(0.45,1.25-prog*0.75)*rnd(0.7,1.2); const i=Math.floor(Math.random()*this.cols()); g.al.push({i,y:this.memY(),t:0,sp:rnd(0.75,1.15)}); burst(this.cellX(i),this.memY()-10*S,'#c8a0ff',6,120); explain(g,'irr','<b>Irritant hit!</b> Bacteria toxins or irritation trigger the NF-κB alarm inside the cell.','#c8a0ff'); }
+    const sp=(PH()*0.2)*(1+prog*0.9);
+    g.al.forEach(a=>{ a.t+=dt; a.y+=sp*a.sp*dt; });
+    g.al=g.al.filter(a=>{ if(a.y>=this.nucY()){ g.inf=Math.min(100,g.inf+10); g.combo=0; for(let k=0;k<3;k++) g.fire.push({x:this.cellX(a.i)+rnd(-20,20)*S,y:this.nucY(),t:0,l:pick(['IL-6','TNF-α','IL-1β'])}); pop(this.cellX(a.i),this.nucY()-30*S,'INFLAMMATION!','#ff4d6d',18); sfx.bad(); explain(g,'fire','<b>Alarm reached the nucleus!</b> The cell now pumps out inflammation chemicals (IL-6, TNF-α, IL-1β) that call in more immune cells.','#ff4d6d'); return false; } return true; });
+    g.fire.forEach(f=>{ f.t+=dt; f.y-=40*S*dt; }); g.fire=g.fire.filter(f=>f.t<1.6);
+    g.inf=Math.max(0,g.inf-dt*1.6);
+    if(g.inf>=100) g.endEarly='Inflammation spread out of control!';
+    g.score+=dt*(100-g.inf)*0.4;
+  },
+  down(g,x,y){
+    const a=g.al.slice().sort((p,q)=>dist(x,y,this.cellX(p.i),p.y)-dist(x,y,this.cellX(q.i),q.y))[0];
+    if(a&&dist(x,y,this.cellX(a.i),a.y)<44*S){ g.al.splice(g.al.indexOf(a),1); g.combo++; const pts=80+Math.min(10,g.combo)*8; g.score+=pts; burst(this.cellX(a.i),a.y,'#7fe8ff',14,220); pop(this.cellX(a.i),a.y,'BLOCKED +'+pts,'#7fe8ff',18); sfx.good(); explain(g,'blk','<b>KPV block!</b> In lab studies KPV kept NF-κB from moving into the nucleus — so the inflammation genes stayed off.','#7fe8ff'); }
+  },
+  draw(g){
+    drawBg('#2a0a14','#080206','#ff9ccc');
+    const n=this.cols(), cw=W/n, my=this.memY(), ny=this.nucY();
+    small('— GUT SIDE (irritants come from here) —',W/2,my-26*S,12,'rgba(255,200,215,0.75)');
+    for(let i=0;i<n;i++){ const x=this.cellX(i);
+      ctx.fillStyle='rgba(255,170,190,0.12)'; ctx.strokeStyle='rgba(255,170,190,0.5)'; ctx.lineWidth=2*S; rr(x-cw/2+4*S,my-6*S,cw-8*S,(B-PH()*0.1)-my,14*S); ctx.fill(); ctx.stroke();
+      ctx.fillStyle='#ffd1dc'; for(let k=0;k<5;k++){ ctx.beginPath(); ctx.arc(x-cw/2+12*S+k*(cw-24*S)/4,my-6*S,4*S,Math.PI,0); ctx.fill(); }
+      ctx.setLineDash([4*S,5*S]); ctx.strokeStyle='rgba(200,160,255,0.35)'; ctx.beginPath(); ctx.moveTo(x,my+6*S); ctx.lineTo(x,ny-24*S); ctx.stroke(); ctx.setLineDash([]);
+      glowCircle(x,ny,40*S,'rgba(140,100,220,0.4)'); ctx.fillStyle='#7a5ad0'; ctx.beginPath(); ctx.arc(x,ny,22*S,0,Math.PI*2); ctx.fill(); small('NUCLEUS',x,ny+34*S,11,'rgba(220,210,255,0.85)');
+    }
+    g.al.forEach(a=>{ const x=this.cellX(a.i); glowCircle(x,a.y,26*S,'rgba(255,90,140,0.85)'); ctx.fillStyle='#ff5a8c'; ctx.beginPath(); ctx.arc(x,a.y,13*S,0,Math.PI*2); ctx.fill(); label('NF-κB',x,a.y+24*S,12,'#ffb3cc'); });
+    g.fire.forEach(f=>{ ctx.globalAlpha=1-f.t/1.6; label('🔥',f.x,f.y,22); small(f.l,f.x,f.y+16*S,10,'#ffd45c'); ctx.globalAlpha=1; });
+    bar(W/2-120*S,B-PH()*0.05,240*S,11*S,g.inf/100,g.inf<40?'#3dff8a':g.inf<70?'#ffd45c':'#ff4d6d');
+    small('INFLAMMATION',W/2,B-PH()*0.05-12*S,12,'rgba(255,255,255,0.8)');
+  }
+});
+
+GAMES.push({
+  id:'ghk', cat:'repair', icon:'🧵', name:'Collagen Weaver', pep:'GHK-Cu', col:'#2f9bff', dur:70, stars:[2500,5000,8000],
+  tag:'Drag copper to fibroblast cells so they weave collagen over a wound. Zap free radicals.',
+  ev:'Lab & animal research · some cosmetic skin studies',
+  eli:'GHK is a tiny peptide your body already makes, and it loves to grab <b>copper</b> (Cu). Copper-GHK is thought to wake up <b>fibroblasts</b> — the skin\'s builder cells that spin <b>collagen</b>, the stretchy rope that holds skin together. Your body makes less GHK as you get older.',
+  how:'<b>Drag</b> blue <b>Cu</b> copper ions onto a purple <b>fibroblast</b>. Each delivery weaves collagen into the nearest gaps in the wound. Red <b>free radicals</b> break collagen — <b>tap them</b>. Close the whole wound for a bonus.',
+  goal:'Drag blue Cu onto purple fibroblasts — close the wound',
+  take:'GHK-Cu is a naturally occurring copper-binding peptide. In lab and animal studies it influences fibroblasts, collagen and other skin-repair signals, and it is widely used in cosmetic skin products. Large human trials for wound healing are lacking, so the repair shown here is the proposed idea — not a guaranteed result.',
+  learn:['GHK-Cu = tiny peptide that carries copper','Thought to activate fibroblasts → collagen','Mostly lab/animal + cosmetic studies'],
+  tips:['"Cu" is the chemical symbol for copper — from the Latin word cuprum.','Collagen is the most common protein in your body.','Free radicals are unstable molecules; antioxidants help keep them in check.'],
+  geom(){ const ww=Math.min(W*0.8,620*S), wh=Math.min(PH()*0.3,240*S), wx=(W-ww)/2, wy=TOP+PH()*0.22; return {wx,wy,ww,wh}; },
+  fibros(){ const {wx,wy,ww,wh}=this.geom(); return [[wx-6*S,wy-36*S],[wx+ww+6*S,wy-36*S],[wx-6*S,wy+wh+36*S],[wx+ww+6*S,wy+wh+36*S],[wx+ww/2,wy-44*S],[wx+ww/2,wy+wh+44*S]].map(([x,y],i)=>({x,y,i})); },
+  coach(g){ return [
+    {t:'This red area is a <b>wound</b> — gaps where skin needs rebuilding.', at:()=>{ const G2=this.geom(); return [G2.wx+G2.ww/2,G2.wy+G2.wh/2]; }},
+    {t:'Blue <b>Cu</b> balls are <b>copper ions</b>. DRAG one onto a purple <b>fibroblast</b> (builder cell).', at:()=>{ const o=g.ions[0]; return o?[o.x,o.y]:[W/2,B-PH()*0.15]; }},
+    {t:'The fibroblast then spins <b>collagen</b> into the nearest gaps. Red <b>free radicals</b> break collagen — TAP them to zap them.', at:()=>{ const f=this.fibros()[4]; return [f.x,f.y]; }} ]; },
+  newWound(g){ g.cells=[]; for(let r=0;r<g.rows;r++) for(let c=0;c<g.cols;c++) g.cells.push({c,r,f:Math.random()<Math.max(0.05,0.3-(g.wounds||0)*0.06)?1:0}); },
+  init(g){ g.cols=12; g.rows=5; g.wounds=0; this.newWound(g); g.ions=[]; g.ionT=0; g.rads=[]; g.radT=4; g.drag=null; g.strands=[]; for(let i=0;i<2;i++) this.addIon(g); },
+  addIon(g){ const side=Math.random()<0.5; g.ions.push({x:side?rnd(30*S,W*0.3):rnd(W*0.7,W-30*S),y:rnd(B-PH()*0.25,B-PH()*0.06),vx:rnd(-18,18)*S,vy:rnd(-12,12)*S,t:0}); },
+  update(g,dt){
+    const prog=g.t/this.dur, {wx,wy,ww,wh}=this.geom();
+    g.ionT-=dt; if(g.ionT<=0&&g.ions.length<5){ g.ionT=rnd(0.8,1.5); this.addIon(g); }
+    g.ions.forEach(o=>{ if(o===g.drag) return; o.x+=o.vx*dt; o.y+=o.vy*dt; if(o.x<15*S||o.x>W-15*S) o.vx*=-1; if(o.y<B-PH()*0.28||o.y>B-15*S) o.vy*=-1; });
+    g.radT-=dt; if(g.radT<=0){ g.radT=Math.max(1,2.7-prog*1.6)*rnd(0.7,1.2); const e=Math.random()<0.5; g.rads.push({x:e?-10:W+10,y:rnd(wy,wy+wh),t:0}); explain(g,'rad','<b>Free radical incoming!</b> These unstable molecules damage proteins like collagen. Tap to zap it.','#ff4d6d'); }
+    g.rads.forEach(r=>{ r.t+=dt; const tgt=g.cells.filter(c=>c.f>=1); let tx=wx+ww/2, ty=wy+wh/2; if(tgt.length){ if(!r.tgt||r.tgt.f<1) r.tgt=pick(tgt); tx=wx+(r.tgt.c+0.5)*ww/g.cols; ty=wy+(r.tgt.r+0.5)*wh/g.rows; } const a=Math.atan2(ty-r.y,tx-r.x), sp=(55+prog*45)*S; r.x+=Math.cos(a)*sp*dt; r.y+=Math.sin(a)*sp*dt;
+      if(r.tgt&&dist(r.x,r.y,tx,ty)<10*S&&r.tgt.f>=1){ r.tgt.f=0; r.tgt=null; r.hits=(r.hits||0)+1; pop(r.x,r.y,'COLLAGEN BROKEN','#ff4d6d',14); sfx.bad(); } });
+    g.rads=g.rads.filter(r=>(r.hits||0)<3);
+    g.cells.forEach(c=>{ if(c.f>0&&c.f<1) c.f=Math.min(1,c.f+dt*2.2); });
+    g.strands.forEach(s=>s.t+=dt); g.strands=g.strands.filter(s=>s.t<0.6);
+    if(g.cells.every(c=>c.f>=1)){ g.wounds++; g.score+=800; pop(W/2,wy+wh/2,'WOUND CLOSED! +800','#ffd45c',30); sfx.win(); burst(W/2,wy+wh/2,'#ffd45c',40,320); explain(g,'closed','<b>Wound closed!</b> In real skin, fibroblasts lay down collagen over days to weeks, then it slowly gets stronger.','#ffd45c'); this.newWound(g); }
+  },
+  down(g,x,y){
+    const r=g.rads.find(r=>dist(x,y,r.x,r.y)<32*S); if(r){ g.rads.splice(g.rads.indexOf(r),1); g.score+=40; burst(r.x,r.y,'#ff4d6d',12,200); pop(r.x,r.y,'ZAPPED +40','#ffd45c',16); sfx.good(); return; }
+    const o=g.ions.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0]; if(o&&dist(x,y,o.x,o.y)<46*S){ g.drag=o; o.ox=x-o.x; o.oy=y-o.y; }
+  },
+  move(g,x,y){ if(g.drag){ g.drag.x=x-g.drag.ox; g.drag.y=y-g.drag.oy; } },
+  up(g){
+    if(!g.drag) return; const o=g.drag; g.drag=null;
+    const f=this.fibros().find(f=>dist(o.x,o.y,f.x,f.y)<50*S); if(!f){ explain(g,'drop','Drop the copper <b>right on</b> a purple fibroblast cell.'); return; }
+    g.ions.splice(g.ions.indexOf(o),1);
+    const {wx,wy,ww,wh}=this.geom(), cx=c=>wx+(c.c+0.5)*ww/g.cols, cy=c=>wy+(c.r+0.5)*wh/g.rows;
+    const empty=g.cells.filter(c=>c.f<=0).sort((a,b)=>dist(f.x,f.y,cx(a),cy(a))-dist(f.x,f.y,cx(b),cy(b))).slice(0,5);
+    empty.forEach(c=>{ c.f=0.01; g.strands.push({x1:f.x,y1:f.y,x2:cx(c),y2:cy(c),t:0}); });
+    g.score+=empty.length*30; burst(f.x,f.y,'#2f9bff',16,220); pop(f.x,f.y-30*S,'+COLLAGEN x'+empty.length,'#7fd0ff',18); sfx.great();
+    explain(g,'weave','<b>Fibroblast activated!</b> GHK carries copper to cells; in lab studies copper-GHK nudged fibroblasts to make more collagen.','#7fd0ff');
+  },
+  draw(g){
+    drawBg('#1a0b2e','#07030f','#ff9ccc');
+    const {wx,wy,ww,wh}=this.geom(), cw=ww/g.cols, ch=wh/g.rows;
+    ctx.fillStyle='rgba(255,170,190,0.12)'; ctx.fillRect(0,wy-64*S,W,wh+128*S);
+    g.cells.forEach(c=>{ const x=wx+c.c*cw, y=wy+c.r*ch; ctx.fillStyle='rgba(120,10,30,0.55)'; ctx.fillRect(x+1,y+1,cw-2,ch-2);
+      if(c.f>0){ ctx.globalAlpha=c.f; ctx.strokeStyle='#ffe2ea'; ctx.lineWidth=2*S; for(let k=0;k<3;k++){ ctx.beginPath(); ctx.moveTo(x+2,y+ch*(k+1)/4); ctx.bezierCurveTo(x+cw*0.33,y+ch*(k+1)/4-4*S,x+cw*0.66,y+ch*(k+1)/4+4*S,x+cw-2,y+ch*(k+1)/4); ctx.stroke(); } ctx.globalAlpha=1; } });
+    ctx.strokeStyle='rgba(255,90,120,0.7)'; ctx.lineWidth=2; ctx.strokeRect(wx,wy,ww,wh);
+    const pct=Math.round(g.cells.filter(c=>c.f>=1).length/g.cells.length*100);
+    label('WOUND CLOSED: '+pct+'%   ·   HEALED: '+g.wounds,W/2,TOP+12*S,18,'#ffd45c');
+    g.strands.forEach(s=>{ ctx.globalAlpha=1-s.t/0.6; ctx.strokeStyle='#bfe6ff'; ctx.lineWidth=2.5*S; ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x1+(s.x2-s.x1)*Math.min(1,s.t*3),s.y1+(s.y2-s.y1)*Math.min(1,s.t*3)); ctx.stroke(); }); ctx.globalAlpha=1;
+    this.fibros().forEach(f=>{ const wob=Math.sin(g.t*3+f.i)*3*S; glowCircle(f.x,f.y,40*S,'rgba(176,38,255,0.5)'); ctx.fillStyle='#9b4dff'; ctx.beginPath(); ctx.ellipse(f.x,f.y,26*S+wob,16*S-wob*0.5,f.i,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e9d6ff'; ctx.beginPath(); ctx.arc(f.x,f.y,6*S,0,Math.PI*2); ctx.fill(); });
+    small('FIBROBLAST',this.fibros()[0].x+10*S,this.fibros()[0].y-26*S,12,'#d9b8ff');
+    g.ions.forEach(o=>{ glowCircle(o.x,o.y,30*S,'rgba(47,155,255,0.7)'); ctx.fillStyle='#2f9bff'; ctx.beginPath(); ctx.arc(o.x,o.y,16*S,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#ff9a4d'; ctx.lineWidth=2*S; ctx.stroke(); label('Cu',o.x,o.y+1,16,'#fff'); });
+    g.rads.forEach(r=>{ glowCircle(r.x,r.y,24*S,'rgba(255,60,90,0.8)'); ctx.fillStyle='#ff3c5a'; ctx.beginPath(); for(let k=0;k<10;k++){ const a=k/10*Math.PI*2+r.t*6, rad=(k%2?6:13)*S; ctx.lineTo(r.x+Math.cos(a)*rad,r.y+Math.sin(a)*rad); } ctx.closePath(); ctx.fill(); });
+  }
+});
+
+const REP={
+  bpc:{n:'BPC-157',c:'#3dff8a',need:'🩸',needTxt:'needs new blood vessels',role:'studied in animals for healing and new blood-vessel growth'},
+  tb:{n:'TB-500',c:'#ffe14d',need:'🏃',needTxt:'needs repair cells to move in',role:'a piece of thymosin β4, which helps cells crawl to an injury'},
+  ghk:{n:'GHK-Cu',c:'#2f9bff',need:'🧵',needTxt:'needs new collagen',role:'carries copper; linked to collagen and skin remodeling'},
+  kpv:{n:'KPV',c:'#ff6b6b',need:'🔥',needTxt:'is inflamed',role:'blocked the NF-κB inflammation alarm in lab studies'}
+};
+GAMES.push({
+  id:'glow', cat:'repair', icon:'✨', name:'Repair Crew', pep:'GLOW BLEND', col:'#ff2dff', dur:60, stars:[2500,5500,9000],
+  tag:'Match each injury to the right crew member — BPC-157, TB-500 or GHK-Cu.',
+  ev:'Lab & animal research (each part) · blends vendor-specific',
+  eli:'<b>GLOW</b> is a blend sold by research vendors. The version on the VPN calculator mixes three peptides: <b>BPC-157</b> (studied for healing and new blood vessels), <b>TB-500</b> (helps repair cells crawl to an injury) and <b>GHK-Cu</b> (copper peptide linked to collagen). The idea is a "repair crew" where each member does a different job.',
+  how:'Injuries pop up, each with a <b>need icon</b>: 🩸 = needs <b>blood vessels</b> (BPC-157), 🏃 = needs <b>cells to move in</b> (TB-500), 🧵 = needs <b>collagen</b> (GHK-Cu). <b>Tap a crew member</b> at the bottom, then <b>tap the injury</b> it fits. Heal them before they scar.',
+  goal:'Tap a crew member, then tap the injury with its matching icon',
+  take:'BPC-157, TB-500 and GHK-Cu are each studied mostly in lab and animal models for different parts of tissue repair. The GLOW blend itself (on the VPN calculator: BPC-157 10 mg + TB-500 10 mg + GHK-Cu 50 mg) has not been tested as a combination in human trials, and vendor formulas vary — always check the label and an independent COA. The "crew" roles here are simplified.',
+  learn:['BPC-157 → blood-vessel growth & healing (animal studies)','TB-500 → helps repair cells migrate (thymosin β4 piece)','GHK-Cu → collagen & remodeling · blend untested in humans'],
+  tips:['Healing happens in stages: clotting, inflammation, rebuilding, then remodeling.','New blood vessels bring oxygen and nutrients to an injury — that\'s called angiogenesis.','Blends vary between vendors — the label and an independent COA tell you what\'s really inside.'],
+  KINDS:['bpc','tb','ghk'],
+  tray(){ const k=this.KINDS.length; return this.KINDS.map((id,i)=>({id,x:W*(i+0.5)/k,y:B-PH()*0.1})); },
+  coach(g){ return [
+    {t:'Injuries appear on this tissue. Each one shows what it <b>needs</b>: 🩸 blood vessels, 🏃 repair cells, or 🧵 collagen.', at:()=>[W/2,TOP+PH()*0.35]},
+    {t:'This is your <b>repair crew</b>. Each peptide does a different job. TAP one to pick it…', at:()=>{ const t=this.tray()[0]; return [t.x,t.y]; }},
+    {t:'…then TAP an injury whose icon matches. <b>BPC-157 → 🩸</b>, <b>TB-500 → 🏃</b>, <b>GHK-Cu → 🧵</b>.'} ]; },
+  init(g){ g.inj=[]; g.iT=0.5; g.sel=null; g.scars=0; },
+  spawnInj(g){ const k=pick(this.KINDS); let x,y,tries=0; do{ x=rnd(W*0.1,W*0.9); y=rnd(TOP+PH()*0.12,B-PH()*0.3); tries++; }while(tries<10&&g.inj.some(o=>dist(x,y,o.x,o.y)<80*S)); g.inj.push({k,x,y,t:0,life:rnd(6,8)*(1-Math.min(0.45,g.t/this.dur*0.45))}); },
+  update(g,dt){
+    const prog=g.t/this.dur; g.iT-=dt; if(g.iT<=0&&g.inj.length<6){ g.iT=Math.max(0.7,1.6-prog*0.8)*rnd(0.7,1.2); this.spawnInj(g); }
+    g.inj.forEach(o=>o.t+=dt);
+    g.inj=g.inj.filter(o=>{ if(o.t>o.life){ g.scars++; g.combo=0; pop(o.x,o.y,'SCARRED','#9aa4b8',18); sfx.bad(); explain(g,'scar','<b>Scarred.</b> When repair is slow, the body patches injuries with tougher, less flexible scar tissue.','#9aa4b8'); return false; } return true; });
+    if(g.scars>=6) g.endEarly='Too many injuries scarred over!';
+  },
+  down(g,x,y){
+    const t=this.tray().find(t=>dist(x,y,t.x,t.y)<48*S); if(t){ g.sel=t.id; sfx.tick(); explain(g,'sel'+t.id,'<b>'+REP[t.id].n+' picked.</b> Now tap an injury showing '+REP[t.id].need+'.',REP[t.id].c); return; }
+    const o=g.inj.find(o=>dist(x,y,o.x,o.y)<46*S); if(!o) return;
+    if(!g.sel){ pop(o.x,o.y-30*S,'PICK A CREW MEMBER FIRST','#fff',14); explain(g,'pickfirst','First <b>tap a crew member</b> at the bottom, then tap the injury.'); return; }
+    if(g.sel===o.k){ g.inj.splice(g.inj.indexOf(o),1); g.combo++; const pts=100+Math.min(10,g.combo)*10; g.score+=pts; burst(o.x,o.y,REP[o.k].c,16,240); pop(o.x,o.y,'HEALED +'+pts,REP[o.k].c,20); sfx.great(); explain(g,'ok'+o.k,'<b>'+REP[o.k].n+'</b> — '+REP[o.k].role+'.',REP[o.k].c); }
+    else { g.combo=0; g.score=Math.max(0,g.score-50); pop(o.x,o.y,'WRONG TOOL','#ff4d6d',18); sfx.bad(); explain(g,'wrong','<b>Wrong crew member.</b> That injury '+REP[o.k].needTxt+' — that\'s a job for <b>'+REP[o.k].n+'</b>.','#ff4d6d'); }
+  },
+  key(g,k){ const n=parseInt(k,10); if(n>=1&&n<=this.KINDS.length){ g.sel=this.KINDS[n-1]; sfx.tick(); } },
+  draw(g){
+    drawBg('#2a0a2e','#08020a','#ff9cf0');
+    ctx.fillStyle='rgba(255,150,170,0.10)'; rr(W*0.04,TOP+PH()*0.04,W*0.92,PH()*0.68,24*S); ctx.fill(); ctx.strokeStyle='rgba(255,170,190,0.25)'; ctx.lineWidth=1.5*S; for(let i=0;i<9;i++){ const y=TOP+PH()*(0.1+i*0.07); ctx.beginPath(); ctx.moveTo(W*0.06,y); ctx.bezierCurveTo(W*0.35,y-8*S,W*0.65,y+8*S,W*0.94,y); ctx.stroke(); }
+    g.inj.forEach(o=>{ const f=1-o.t/o.life, c=REP[o.k].c; glowCircle(o.x,o.y,40*S,'rgba(255,60,90,0.45)'); ctx.fillStyle='#7a1028'; ctx.beginPath(); ctx.ellipse(o.x,o.y,28*S,18*S,0.3,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=c; ctx.lineWidth=4*S; ctx.beginPath(); ctx.arc(o.x,o.y,32*S,-Math.PI/2,-Math.PI/2+Math.PI*2*f); ctx.stroke(); label(REP[o.k].need,o.x,o.y,24); });
+    this.tray().forEach((t,i)=>{ const R=REP[t.id], sel=g.sel===t.id; glowCircle(t.x,t.y,56*S,R.c,sel?0.9:0.35); ctx.fillStyle=sel?R.c:'#1a1030'; ctx.strokeStyle=R.c; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(t.x,t.y,36*S,0,Math.PI*2); ctx.fill(); ctx.stroke(); label(R.n,t.x,t.y-6*S,15,sel?'#120520':R.c); label(R.need+' '+(i+1),t.x,t.y+12*S,15,sel?'#120520':'#fff'); });
+    small('SCARS: '+g.scars+' / 6',16*S,TOP+14*S,14,'#b8c0d0','left');
+  }
+});
+
+GAMES.push({
+  id:'klow', cat:'repair', icon:'🏭', name:'Conveyor Lab', pep:'KLOW BLEND', col:'#ff6b6b', dur:60, stars:[3000,6500,10000],
+  tag:'Tissue samples ride a conveyor — stamp each with the right peptide, including KPV for inflammation.',
+  ev:'Lab & animal research (each part) · blends vendor-specific',
+  eli:'<b>KLOW</b> is <b>GLOW plus KPV</b>. On the VPN calculator it\'s BPC-157 + TB-500 + GHK-Cu + <b>KPV</b>. KPV adds an <b>anti-inflammation</b> job: in lab studies it blocked NF-κB, the inflammation alarm inside cells. So the crew grows to four.',
+  how:'Samples slide along the belt. When one is inside the <b>stamp zone</b>, tap the matching button (or keys <b>1–4</b>): 🩸 <b>BPC-157</b>, 🏃 <b>TB-500</b>, 🧵 <b>GHK-Cu</b>, 🔥 <b>KPV</b>. Wrong stamps and missed samples cost a strike — 5 strikes and the lab shuts down.',
+  goal:'Stamp each sample in the zone with its matching peptide',
+  take:'KLOW adds KPV (studied in lab and animal models for calming NF-κB-driven inflammation) to the GLOW trio. On the VPN calculator: BPC-157 10 mg + TB-500 10 mg + GHK-Cu 50 mg + KPV 10 mg (80 mg). The combination has not been tested in human trials and vendor formulas vary — check the label and an independent COA.',
+  learn:['KLOW = GLOW + KPV (4 peptides)','KPV → calms NF-κB inflammation (lab/animal)','Combos are untested in humans · formulas vary'],
+  tips:['Inflammation and repair overlap: the body calls in immune cells, then rebuilds.','Always check a blend\'s label and independent COA — the mix can differ by vendor.','The stamp zone is the dashed box in the middle of the belt.'],
+  KINDS:['bpc','tb','ghk','kpv'],
+  beltY(){ return TOP+PH()*0.4; }, zoneX(){ return W*0.5; },
+  btns(){ return this.KINDS.map((id,i)=>({id,x:W*(i+0.5)/4,y:B-PH()*0.12})); },
+  coach(g){ return [
+    {t:'Tissue samples ride this <b>conveyor belt</b>. Each shows what it needs: 🩸 🏃 🧵 or 🔥.', at:()=>[W*0.25,this.beltY()]},
+    {t:'This box is the <b>stamp zone</b>. When a sample is inside it, stamp it with the right peptide.', at:()=>[this.zoneX(),this.beltY()]},
+    {t:'Your 4 stamps. 🔥 means inflamed — that\'s <b>KPV</b>\'s job, the extra member that makes GLOW into KLOW.', at:()=>{ const b=this.btns()[3]; return [b.x,b.y]; }} ]; },
+  init(g){ g.items=[]; g.sT=0.3; g.strikes=0; g.flash=0; },
+  update(g,dt){
+    const prog=g.t/this.dur, sp=(110+prog*120)*S;
+    g.sT-=dt; if(g.sT<=0){ g.sT=Math.max(0.6,1.3-prog*0.65)*rnd(0.8,1.2); g.items.push({k:pick(this.KINDS),x:-40*S}); }
+    g.items.forEach(o=>o.x+=sp*dt); g.flash=Math.max(0,g.flash-dt*3);
+    const zx=this.zoneX(), zw=70*S;
+    g.items=g.items.filter(o=>{ if(o.x>zx+zw/2+30*S&&!o.done){ g.strikes++; g.combo=0; pop(zx+zw,this.beltY()-40*S,'MISSED','#ff4d6d',18); sfx.bad(); explain(g,'miss','<b>Sample missed!</b> Stamp it while it is inside the dashed box.','#ff4d6d'); return false; } return o.x<W+60*S; });
+    if(g.strikes>=5) g.endEarly='Five strikes — the lab shut down!';
+  },
+  stamp(g,id){
+    const zx=this.zoneX(), zw=70*S; const o=g.items.find(o=>!o.done&&Math.abs(o.x-zx)<zw/2+12*S);
+    if(!o){ g.combo=0; pop(zx,this.beltY()-50*S,'NOTHING IN THE ZONE','#ffd45c',15); explain(g,'empty','Wait until a sample is <b>inside the stamp box</b>, then stamp it.'); return; }
+    o.done=true; g.flash=1;
+    if(o.k===id){ g.combo++; const pts=80+Math.min(12,g.combo)*10; g.score+=pts; burst(o.x,this.beltY(),REP[id].c,14,220); pop(o.x,this.beltY()-46*S,'+'+pts,REP[id].c,20); sfx.great(); explain(g,'ok'+id,'<b>'+REP[id].n+'</b> — '+REP[id].role+'.',REP[id].c); }
+    else { g.strikes++; g.combo=0; pop(o.x,this.beltY()-46*S,'WRONG STAMP','#ff4d6d',18); sfx.bad(); explain(g,'wrong','<b>Wrong stamp.</b> That sample '+REP[o.k].needTxt+' — use <b>'+REP[o.k].n+'</b>.','#ff4d6d'); }
+    setTimeout(()=>{ if(G&&G.game===this){ const i=G.items.indexOf(o); if(i>=0) G.items.splice(i,1); } },160);
+  },
+  down(g,x,y){ const b=this.btns().find(b=>dist(x,y,b.x,b.y)<46*S); if(b) this.stamp(g,b.id); },
+  key(g,k){ const n=parseInt(k,10); if(n>=1&&n<=4) this.stamp(g,this.KINDS[n-1]); },
+  draw(g){
+    drawBg('#2a0d0d','#080202','#ff9c9c');
+    const by=this.beltY(), zx=this.zoneX(), zw=70*S;
+    ctx.fillStyle='#2b2f3a'; ctx.fillRect(0,by-34*S,W,68*S); ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=2*S; const off=(g.t*110*S)%(30*S); for(let x=-30*S+off;x<W;x+=30*S){ ctx.beginPath(); ctx.moveTo(x,by-34*S); ctx.lineTo(x+14*S,by+34*S); ctx.stroke(); }
+    ctx.strokeStyle=g.flash>0?'#ffd45c':'#fff'; ctx.lineWidth=3*S; ctx.setLineDash([6*S,4*S]); rr(zx-zw/2,by-44*S,zw,88*S,10*S); ctx.stroke(); ctx.setLineDash([]); small('STAMP ZONE',zx,by-56*S,13,'#fff');
+    g.items.forEach(o=>{ ctx.globalAlpha=o.done?0.4:1; ctx.fillStyle='#f3d6dc'; rr(o.x-24*S,by-24*S,48*S,48*S,10*S); ctx.fill(); label(REP[o.k].need,o.x,by,26); ctx.globalAlpha=1; });
+    this.btns().forEach((b,i)=>{ const R=REP[b.id]; glowCircle(b.x,b.y,50*S,R.c,0.35); ctx.fillStyle='#1a1030'; ctx.strokeStyle=R.c; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(b.x,b.y,Math.min(36*S,W/9),0,Math.PI*2); ctx.fill(); ctx.stroke(); label(R.n,b.x,b.y-7*S,13,R.c); label(R.need+' '+(i+1),b.x,b.y+11*S,14,'#fff'); });
+    label('STRIKES '+'✖'.repeat(g.strikes)+'·'.repeat(Math.max(0,5-g.strikes)),16*S,TOP+14*S,18,'#ff4d6d','left');
+  }
+});
+
+GAMES.push({
+  id:'ta1', cat:'repair', icon:'🪖', name:'T-Cell Bootcamp', pep:'THYMOSIN ALPHA-1', col:'#b026ff', dur:60, stars:[3000,6000,9500],
   tag:'Tap viruses, bacteria and infected cells — but never your own healthy cells.',
   ev:'Human clinical research · approved in some countries, not FDA-approved',
-  eli:'Your <b>T-cells</b> are immune soldiers trained in a gland called the <b>thymus</b>. Their hardest job is telling <b>invaders</b> (viruses, bacteria, infected cells) apart from <b>your own healthy cells</b>. Thymosin alpha-1 is a peptide originally found in the thymus that is studied for helping T-cells develop and work.',
-  how:'Cells pop up everywhere. <b>Tap</b> invaders: spiky viruses, bacteria rods, and your cells with red spots (infected). <b>Don\'t tap</b> healthy cells with the green "SELF" badge — attacking yourself is autoimmunity! Invaders that escape hurt your health. Grab the <b>Tα1</b> badge for training mode: targets get outlined.',
-  take:'Thymosin alpha-1 (thymalfasin) is a peptide first isolated from the thymus. It is approved in some countries for certain conditions (such as as an add-on in hepatitis B), but it is not FDA-approved. Research suggests it can affect T-cell maturation and immune signaling, but it is not proven to prevent or cure infections or cancer — and a stronger immune response is not automatically better.',
-  facts:['The "T" in T-cell stands for thymus, where they mature.','Your thymus shrinks with age — by older adulthood much of it has turned to fat.','Autoimmune diseases happen when the immune system attacks the body\'s own cells.'],
-  init(g){ g.cells=[]; g.spawnT=0.4; g.hp=100; g.trainT=0; g.badge=null; g.badgeT=10; },
+  eli:'Your <b>T-cells</b> are immune soldiers trained in a gland called the <b>thymus</b>. Their hardest job is telling <b>invaders</b> (viruses, bacteria, infected cells) apart from <b>your own healthy cells</b>. Thymosin alpha-1 is a peptide first found in the thymus, studied for helping T-cells develop and work.',
+  how:'Cells pop up. <b>Tap</b> invaders: spiky viruses, bacteria rods, and cells with red spots (infected). <b>Don\'t tap</b> healthy cells with the green "SELF" badge — attacking yourself is autoimmunity! Grab the <b>Tα1</b> badge for training mode.',
+  goal:'Tap invaders and red-spotted infected cells — never the green SELF cells',
+  take:'Thymosin alpha-1 (thymalfasin) was first isolated from the thymus. It is approved in some countries for certain conditions (for example as an add-on in hepatitis B), but not by the FDA. Research suggests it affects T-cell maturation and immune signaling, but it is not proven to prevent or cure infections or cancer — and a stronger immune response is not automatically better.',
+  learn:['T-cells are trained in the thymus','Key skill: tell invaders from "self"','Tα1: approved in some countries · not FDA-approved'],
+  tips:['The "T" in T-cell stands for thymus, where they mature.','Your thymus shrinks with age.','Autoimmune disease happens when the immune system attacks the body\'s own cells.'],
+  coach(g){ return [
+    {t:'Cells will pop up all over. Your job is to be a <b>T-cell</b>.'},
+    {t:'TAP invaders: <b>spiky viruses</b>, <b>bacteria rods</b>, and your cells with <b>red spots</b> (infected). T-cells clear infected cells.'},
+    {t:'<b>DON\'T</b> tap cells with the green <b>SELF</b> badge. Attacking your own healthy cells is called <b>autoimmunity</b>.'} ]; },
+  init(g){ g.cells=[]; g.spawnT=0.6; g.hp=100; g.trainT=0; g.badge=null; g.badgeT=10; },
   update(g,dt){
     const prog=g.t/this.dur;
     g.spawnT-=dt;
-    if(g.spawnT<=0){ g.spawnT=Math.max(0.32,0.85-prog*0.5)*rnd(0.7,1.2); const r=Math.random(); const k=r<0.36?'self':r<0.58?'virus':r<0.78?'bact':'infected'; let x,y,tries=0; do{ x=rnd(50*S,W-50*S); y=rnd(TOP+50*S,H-50*S); tries++; }while(tries<12&&g.cells.some(c=>dist(x,y,c.x,c.y)<70*S)); g.cells.push({k,x,y,t:0,life:Math.max(0.95,1.9-prog*0.85)*rnd(0.85,1.15),rot:Math.random()*6}); }
+    if(g.spawnT<=0){ g.spawnT=Math.max(0.36,0.9-prog*0.5)*rnd(0.7,1.2); const r=Math.random(); const k=r<0.36?'self':r<0.58?'virus':r<0.78?'bact':'infected'; let x,y,tries=0; do{ x=rnd(50*S,W-50*S); y=rnd(TOP+40*S,B-40*S); tries++; }while(tries<12&&g.cells.some(c=>dist(x,y,c.x,c.y)<70*S)); g.cells.push({k,x,y,t:0,life:Math.max(1,2-prog*0.85)*rnd(0.85,1.15),rot:Math.random()*6}); }
     g.cells.forEach(c=>{ c.t+=dt; c.rot+=dt; });
-    g.cells=g.cells.filter(c=>{ if(c.t>c.life){ if(c.k!=='self'){ g.hp=Math.max(0,g.hp-9); g.combo=0; pop(c.x,c.y,'ESCAPED! −HEALTH','#ff4d6d',16); sfx.bad(); } return false; } return true; });
+    g.cells=g.cells.filter(c=>{ if(c.t>c.life){ if(c.k!=='self'){ g.hp=Math.max(0,g.hp-9); g.combo=0; pop(c.x,c.y,'ESCAPED!','#ff4d6d',16); sfx.bad(); explain(g,'esc','<b>An invader escaped!</b> Each one that gets away lets the infection spread. Tap them before they vanish.','#ff4d6d'); } return false; } return true; });
     if(g.hp<=0) g.endEarly='The infection overwhelmed your immune system!';
     g.trainT=Math.max(0,g.trainT-dt); g.badgeT-=dt;
-    if(g.badgeT<=0&&!g.badge){ g.badge={x:rnd(W*0.2,W*0.8),y:rnd(TOP+80*S,H*0.8),t:0}; g.badgeT=rnd(11,15); }
+    if(g.badgeT<=0&&!g.badge){ g.badge={x:rnd(W*0.2,W*0.8),y:rnd(TOP+60*S,B-60*S),t:0}; g.badgeT=rnd(11,15); }
     if(g.badge){ g.badge.t+=dt; if(g.badge.t>4.5) g.badge=null; }
   },
   down(g,x,y){
-    if(g.badge&&dist(x,y,g.badge.x,g.badge.y)<36*S){ g.trainT=7; pop(g.badge.x,g.badge.y,'Tα1 TRAINING MODE!','#e2b6ff',22); sfx.power(); g.badge=null; return; }
+    if(g.badge&&dist(x,y,g.badge.x,g.badge.y)<38*S){ g.trainT=7; pop(g.badge.x,g.badge.y,'TRAINING MODE!','#e2b6ff',22); sfx.power(); g.badge=null; explain(g,'train','<b>Tα1 training mode!</b> Thymosin alpha-1 is studied for helping T-cells mature — here, targets get outlined.','#e2b6ff'); return; }
     const c=g.cells.slice().sort((a,b)=>dist(x,y,a.x,a.y)-dist(x,y,b.x,b.y))[0];
-    if(!c||dist(x,y,c.x,c.y)>40*S) return;
+    if(!c||dist(x,y,c.x,c.y)>44*S) return;
     g.cells.splice(g.cells.indexOf(c),1);
-    if(c.k==='self'){ g.combo=0; g.score=Math.max(0,g.score-150); g.hp=Math.max(0,g.hp-6); pop(c.x,c.y,'AUTOIMMUNE OOPS! −150','#ff4d6d',20); sfx.bad(); burst(c.x,c.y,'#ff4d6d',10); }
-    else { g.combo++; const pts=(c.k==='infected'?140:100)+Math.min(10,g.combo)*10; g.score+=pts; pop(c.x,c.y,(c.k==='infected'?'INFECTED CELL CLEARED ':'+')+pts,c.k==='infected'?'#ffd45c':'#e2b6ff',c.k==='infected'?17:20); burst(c.x,c.y,'#b026ff',14,230); c.k==='infected'?sfx.great():sfx.good(); }
+    if(c.k==='self'){ g.combo=0; g.score=Math.max(0,g.score-150); g.hp=Math.max(0,g.hp-6); pop(c.x,c.y,'AUTOIMMUNE! −150','#ff4d6d',20); sfx.bad(); burst(c.x,c.y,'#ff4d6d',10); explain(g,'self','<b>Autoimmune oops!</b> That was your own healthy cell. A good immune system is <b>balanced</b> — stronger isn\'t always better.','#ff4d6d'); }
+    else { g.combo++; const pts=(c.k==='infected'?140:100)+Math.min(10,g.combo)*10; g.score+=pts; pop(c.x,c.y,'+'+pts,c.k==='infected'?'#ffd45c':'#e2b6ff',20); burst(c.x,c.y,'#b026ff',14,230); c.k==='infected'?sfx.great():sfx.good();
+      explain(g,'k'+c.k,{virus:'<b>Virus cleared!</b> Viruses hide inside cells to copy themselves.',bact:'<b>Bacteria cleared!</b> Bacteria are living cells that can multiply on their own.',infected:'<b>Infected cell cleared!</b> "Killer" T-cells destroy your own cells that viruses have taken over — that stops the virus copying.'}[c.k],c.k==='infected'?'#ffd45c':'#e2b6ff'); }
   },
   drawCell(c,g){
-    const k=c.k, grow=Math.min(1,c.t/0.15), fade=c.t>c.life-0.3?(Math.floor(c.t*14)%2?0.45:1):1, r=26*S*grow;
+    const k=c.k, r=26*S*Math.min(1,c.t/0.15), fade=c.t>c.life-0.3?(Math.floor(c.t*14)%2?0.45:1):1;
     ctx.globalAlpha=fade;
     if(g.trainT>0&&k!=='self'){ ctx.strokeStyle='#ffd45c'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.arc(c.x,c.y,r+10*S,0,Math.PI*2); ctx.stroke(); }
-    if(k==='self'||k==='infected'){
-      glowCircle(c.x,c.y,r*1.6,k==='self'?'rgba(255,180,200,0.4)':'rgba(255,80,80,0.5)');
-      ctx.fillStyle='#ffc2d1'; ctx.beginPath(); ctx.arc(c.x,c.y,r,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle='#b05a78'; ctx.beginPath(); ctx.arc(c.x+4*S,c.y-3*S,r*0.35,0,Math.PI*2); ctx.fill();
-      if(k==='self'){ ctx.fillStyle='#3dff8a'; rr(c.x-18*S,c.y+r-6*S,36*S,13*S,6*S); ctx.fill(); label('SELF',c.x,c.y+r+0.5*S,11,'#063a1a'); }
-      else { ctx.fillStyle='#e0132f'; [[-10,-10],[9,8],[-6,10],[12,-9]].forEach(([a,b])=>{ ctx.beginPath(); ctx.arc(c.x+a*S,c.y+b*S,4*S,0,Math.PI*2); ctx.fill(); }); }
-    } else if(k==='virus'){
-      glowCircle(c.x,c.y,r*1.7,'rgba(176,38,255,0.6)'); ctx.fillStyle='#9b2cff';
-      ctx.beginPath(); ctx.arc(c.x,c.y,r*0.7,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#d9a8ff'; ctx.lineWidth=3*S;
-      for(let i=0;i<10;i++){ const a=i/10*Math.PI*2+c.rot; ctx.beginPath(); ctx.moveTo(c.x+Math.cos(a)*r*0.7,c.y+Math.sin(a)*r*0.7); ctx.lineTo(c.x+Math.cos(a)*r*1.1,c.y+Math.sin(a)*r*1.1); ctx.stroke(); ctx.fillStyle='#ff4dd8'; ctx.beginPath(); ctx.arc(c.x+Math.cos(a)*r*1.15,c.y+Math.sin(a)*r*1.15,3*S,0,Math.PI*2); ctx.fill(); }
-    } else {
-      glowCircle(c.x,c.y,r*1.6,'rgba(61,255,138,0.5)'); ctx.save(); ctx.translate(c.x,c.y); ctx.rotate(c.rot*0.6); ctx.fillStyle='#2ec46a'; rr(-r,-r*0.45,r*2,r*0.9,r*0.45); ctx.fill(); ctx.strokeStyle='#a8ffcb'; ctx.lineWidth=2*S; for(let i=-1;i<=1;i++){ ctx.beginPath(); ctx.moveTo(r*0.9,i*6*S); ctx.quadraticCurveTo(r*1.3,i*6*S+6*S,r*1.6,i*6*S); ctx.stroke(); } ctx.restore();
-    }
+    if(k==='self'||k==='infected'){ glowCircle(c.x,c.y,r*1.6,k==='self'?'rgba(255,180,200,0.4)':'rgba(255,80,80,0.5)'); ctx.fillStyle='#ffc2d1'; ctx.beginPath(); ctx.arc(c.x,c.y,r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#b05a78'; ctx.beginPath(); ctx.arc(c.x+4*S,c.y-3*S,r*0.35,0,Math.PI*2); ctx.fill();
+      if(k==='self'){ ctx.fillStyle='#3dff8a'; rr(c.x-18*S,c.y+r-6*S,36*S,13*S,6*S); ctx.fill(); label('SELF',c.x,c.y+r+0.5*S,11,'#063a1a'); } else { ctx.fillStyle='#e0132f'; [[-10,-10],[9,8],[-6,10],[12,-9]].forEach(([a,b])=>{ ctx.beginPath(); ctx.arc(c.x+a*S,c.y+b*S,4*S,0,Math.PI*2); ctx.fill(); }); } }
+    else if(k==='virus'){ glowCircle(c.x,c.y,r*1.7,'rgba(176,38,255,0.6)'); ctx.fillStyle='#9b2cff'; ctx.beginPath(); ctx.arc(c.x,c.y,r*0.7,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#d9a8ff'; ctx.lineWidth=3*S; for(let i=0;i<10;i++){ const a=i/10*Math.PI*2+c.rot; ctx.beginPath(); ctx.moveTo(c.x+Math.cos(a)*r*0.7,c.y+Math.sin(a)*r*0.7); ctx.lineTo(c.x+Math.cos(a)*r*1.1,c.y+Math.sin(a)*r*1.1); ctx.stroke(); ctx.fillStyle='#ff4dd8'; ctx.beginPath(); ctx.arc(c.x+Math.cos(a)*r*1.15,c.y+Math.sin(a)*r*1.15,3*S,0,Math.PI*2); ctx.fill(); } }
+    else { glowCircle(c.x,c.y,r*1.6,'rgba(61,255,138,0.5)'); ctx.save(); ctx.translate(c.x,c.y); ctx.rotate(c.rot*0.6); ctx.fillStyle='#2ec46a'; rr(-r,-r*0.45,r*2,r*0.9,r*0.45); ctx.fill(); ctx.restore(); }
     ctx.globalAlpha=1;
   },
   draw(g){
     drawBg('#160830','#04020c','#b026ff');
     g.cells.forEach(c=>this.drawCell(c,g));
     if(g.badge){ glowCircle(g.badge.x,g.badge.y,40*S,'rgba(226,182,255,0.8)'); ctx.fillStyle='#e2b6ff'; ctx.beginPath(); for(let i=0;i<6;i++){ const a=i/6*Math.PI*2-Math.PI/2; ctx.lineTo(g.badge.x+Math.cos(a)*24*S,g.badge.y+Math.sin(a)*24*S); } ctx.closePath(); ctx.fill(); label('Tα1',g.badge.x,g.badge.y+1,18,'#2a0a4a'); }
-    const bw=Math.min(W*0.6,360*S), bx=(W-bw)/2, by=TOP+12*S;
-    ctx.fillStyle='rgba(255,255,255,0.1)'; rr(bx,by,bw,14*S,7*S); ctx.fill(); ctx.fillStyle=g.hp>50?'#3dff8a':g.hp>25?'#ffd45c':'#ff4d6d'; rr(bx,by,bw*g.hp/100,14*S,7*S); ctx.fill();
-    label('BODY HEALTH',W/2,by+28*S,14,'rgba(255,255,255,0.75)');
-    if(g.trainT>0) label('🎯 TRAINING MODE '+Math.ceil(g.trainT)+'s',W/2,by+48*S,16,'#ffd45c');
-    if(g.combo>=5) label('COMBO x'+g.combo,W/2,H-24*S,22,'#e2b6ff');
+    bar(W/2-130*S,TOP+10*S,260*S,13*S,g.hp/100,g.hp>50?'#3dff8a':g.hp>25?'#ffd45c':'#ff4d6d','BODY HEALTH');
+    if(g.trainT>0) small('🎯 TRAINING MODE '+Math.ceil(g.trainT)+'s',W/2,TOP+46*S,15,'#ffd45c');
   }
 });
 
-/* ---------- 6. MOTS-c: POWER GRID ---------- */
-GAMES.push({
-  id:'mots', icon:'🔋', name:'Power Grid', pep:'MOTS-c', col:'#ff9a4d', dur:70, stars:[3000,6000,9000],
-  tag:'Keep five hard-working muscle cells powered — trigger the MOTS-c signal when it gets hectic.',
-  ev:'Animal research + early human studies',
-  eli:'<b>MOTS-c</b> is a tiny message made by your <b>mitochondria</b> — the batteries in your cells. When you exercise, levels can rise. In mice, MOTS-c helped muscles take in sugar and use energy better, a bit like an "exercise signal". Scientists are only starting to study it in people.',
-  how:'Five muscle cells burn energy at different speeds. <b>Tap a cell</b> to send it a glucose fuel pack from the bank (it refills over time). Don\'t let any cell hit zero — that is a fatigue strike (3 strikes and you\'re out). When the <b>MOTS-c</b> meter is full, tap it (or <b>Space</b>): for 6 seconds every fuel pack gives double energy and cells drain slower.',
-  take:'MOTS-c is a peptide encoded in mitochondrial DNA. In mice it has been linked to better glucose handling and exercise capacity, partly through a cell energy sensor called AMPK. Human research is early and small, so these "exercise-mimic" effects are not established in people. The game is a simplified model.',
-  facts:['Most of your DNA is in the cell nucleus — but mitochondria carry a tiny loop of their own.','AMPK is like a cell\'s fuel gauge: it switches on when energy runs low.','Regular exercise is one of the best-proven ways to build more and better mitochondria.'],
-  init(g){ g.cells=[0,1,2,3,4].map(i=>({e:80,rate:rnd(5,8),flash:0,i})); g.bank=4; g.bankT=0; g.mots=0; g.motsT=0; g.strikes=0; g.flow=[]; },
-  pos(i){ const cx=W/2, cy=TOP+(H-TOP)*0.45, R=Math.min(W*0.36,(H-TOP)*0.33); const a=-Math.PI/2+i/5*Math.PI*2; return {x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R}; },
-  center(){ return {x:W/2,y:TOP+(H-TOP)*0.45}; },
-  update(g,dt){
-    const prog=g.t/this.dur, boost=g.motsT>0;
-    g.cells.forEach(c=>{ c.e-=c.rate*(1+prog*1.1)*(boost?0.5:1)*dt; c.flash=Math.max(0,c.flash-dt*2); if(c.e<=0){ c.e=45; g.strikes++; g.combo=0; const p=this.pos(c.i); pop(p.x,p.y,'FATIGUE STRIKE '+g.strikes+'/3','#ff4d6d',20); sfx.bad(); burst(p.x,p.y,'#ff4d6d',16); if(Math.random()<0.5) c.rate=rnd(5,9); } });
-    if(g.strikes>=3) g.endEarly='Three fatigue strikes — the muscles gave out!';
-    g.bankT+=dt; const rate=boost?0.45:0.62; if(g.bankT>=rate){ g.bankT=0; if(g.bank<8) g.bank++; }
-    if(!boost) g.mots=Math.min(100,g.mots+dt*7); g.motsT=Math.max(0,g.motsT-dt);
-    g.flow.forEach(f=>f.t+=dt*2.5); g.flow=g.flow.filter(f=>f.t<1);
-    const avg=g.cells.reduce((s,c)=>s+c.e,0)/5; g.score+=dt*avg*0.9;
-  },
-  feed(g,c){
-    if(g.bank<=0){ pop(W/2,this.center().y+70*S,'FUEL BANK EMPTY!','#ff4d6d',16); beep(200,0.06,'triangle',0.04); return; }
-    g.bank--; const gain=g.motsT>0?40:22; c.e=Math.min(100,c.e+gain); c.flash=1; g.combo++; const p=this.pos(c.i), C=this.center();
-    g.flow.push({x1:C.x,y1:C.y,x2:p.x,y2:p.y,t:0}); g.score+=10; burst(p.x,p.y,g.motsT>0?'#ffd45c':'#ff9a4d',8,160); pop(p.x,p.y-46*S,'+'+gain+' ENERGY',g.motsT>0?'#ffd45c':'#ffcf9a',15); sfx.good();
-  },
-  mots(g){ if(g.mots<100||g.motsT>0) return; g.mots=0; g.motsT=6; sfx.power(); pop(W/2,TOP+60*S,'MOTS-c SIGNAL! AMPK ON','#ffd45c',26); burst(this.center().x,this.center().y,'#ffd45c',30,300); },
-  down(g,x,y){
-    const C=this.center(); if(dist(x,y,C.x,C.y)<54*S){ this.mots(g); return; }
-    const c=g.cells.slice().sort((a,b)=>dist(x,y,this.pos(a.i).x,this.pos(a.i).y)-dist(x,y,this.pos(b.i).x,this.pos(b.i).y))[0]; const p=this.pos(c.i);
-    if(dist(x,y,p.x,p.y)<70*S) this.feed(g,c);
-  },
-  key(g,k){ if(k===' ') this.mots(g); const n=parseInt(k,10); if(n>=1&&n<=5) this.feed(g,g.cells[n-1]); },
-  draw(g){
-    drawBg(g.motsT>0?'#2a1600':'#180c02','#050200','#ff9a4d');
-    const C=this.center(), boost=g.motsT>0;
-    g.flow.forEach(f=>{ const x=f.x1+(f.x2-f.x1)*f.t, y=f.y1+(f.y2-f.y1)*f.t; glowCircle(x,y,16*S,boost?'#ffd45c':'#ff9a4d'); });
-    g.cells.forEach(c=>{ const p=this.pos(c.i), e=c.e/100, col=e>0.5?'#3dff8a':e>0.25?'#ffd45c':'#ff4d6d';
-      ctx.strokeStyle='rgba(255,154,77,0.2)'; ctx.lineWidth=3*S; ctx.beginPath(); ctx.moveTo(C.x,C.y); ctx.lineTo(p.x,p.y); ctx.stroke();
-      glowCircle(p.x,p.y,62*S,col,0.25+c.flash*0.4);
-      // muscle cell: striped capsule
-      ctx.save(); ctx.translate(p.x,p.y); ctx.fillStyle='#5a1a24'; rr(-44*S,-26*S,88*S,52*S,26*S); ctx.fill(); ctx.strokeStyle='#ff8a9a'; ctx.lineWidth=2*S; for(let k=-3;k<=3;k++){ ctx.beginPath(); ctx.moveTo(k*11*S,-22*S); ctx.lineTo(k*11*S,22*S); ctx.stroke(); }
-      ctx.fillStyle='rgba(0,0,0,0.5)'; rr(-36*S,30*S,72*S,9*S,4*S); ctx.fill(); ctx.fillStyle=col; rr(-36*S,30*S,72*S*e,9*S,4*S); ctx.fill(); ctx.restore();
-      label(String(c.i+1),p.x,p.y,20,'#fff');
-      if(e<0.25&&Math.floor(g.t*6)%2) label('⚠ LOW',p.x,p.y-40*S,14,'#ff4d6d');
-    });
-    // centre: mitochondria hub with MOTS-c meter
-    glowCircle(C.x,C.y,80*S,boost?'rgba(255,212,92,0.7)':'rgba(255,154,77,0.4)');
-    ctx.fillStyle=boost?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.ellipse(C.x,C.y,48*S,30*S,0,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='#5a2a00'; ctx.lineWidth=2.5*S; ctx.beginPath(); for(let k=-3;k<=3;k++){ ctx.moveTo(C.x+k*11*S,C.y-20*S); ctx.lineTo(C.x+k*11*S+5*S,C.y); ctx.lineTo(C.x+k*11*S,C.y+20*S); } ctx.stroke();
-    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=6*S; ctx.beginPath(); ctx.arc(C.x,C.y,58*S,0,Math.PI*2); ctx.stroke();
-    ctx.strokeStyle=g.mots>=100?'#ffd45c':'#ff9a4d'; ctx.beginPath(); ctx.arc(C.x,C.y,58*S,-Math.PI/2,-Math.PI/2+Math.PI*2*(boost?g.motsT/6:g.mots/100)); ctx.stroke();
-    label(boost?'AMPK ON '+Math.ceil(g.motsT)+'s':g.mots>=100?'TAP: MOTS-c!':'MOTS-c '+Math.floor(g.mots)+'%',C.x,C.y+76*S,16,g.mots>=100||boost?'#ffd45c':'#ffcf9a');
-    // fuel bank
-    label('GLUCOSE BANK',W/2,H-46*S,14,'rgba(255,255,255,0.7)');
-    for(let i=0;i<8;i++){ ctx.fillStyle=i<g.bank?'#ffcf9a':'rgba(255,255,255,0.12)'; ctx.beginPath(); ctx.arc(W/2+(i-3.5)*22*S,H-22*S,8*S,0,Math.PI*2); ctx.fill(); }
-    label('STRIKES '+'✖'.repeat(g.strikes)+'·'.repeat(3-g.strikes),18*S,TOP+18*S,18,'#ff4d6d','left');
-  }
-});
+/* ---------- learning cards ---------- */
+function wrapLines(c,txt,maxW){ const words=txt.split(' '), out=[]; let ln=''; words.forEach(w=>{ const t=ln?ln+' '+w:w; if(c.measureText(t).width>maxW&&ln){ out.push(ln); ln=w; } else ln=t; }); if(ln) out.push(ln); return out; }
+function makeCard(gm){
+  const c=document.createElement('canvas'); c.width=1080; c.height=1350; const x=c.getContext('2d');
+  const s=SAVE.games[gm.id]||{};
+  const bg=x.createLinearGradient(0,0,0,1350); bg.addColorStop(0,'#160a36'); bg.addColorStop(1,'#060214'); x.fillStyle=bg; x.fillRect(0,0,1080,1350);
+  x.strokeStyle=gm.col; x.lineWidth=14; x.strokeRect(24,24,1032,1302);
+  x.fillStyle=gm.col; x.fillRect(24,24,1032,210);
+  x.textBaseline='middle'; x.textAlign='left';
+  x.font='120px sans-serif'; x.fillText(gm.icon,60,130);
+  x.fillStyle='#0a0520'; x.font='400 36px "Share Tech Mono",monospace'; x.fillText('VPN PEPTIDE ARCADE · LEARNING CARD',210,80);
+  x.font='400 '+(gm.pep.length>16?74:100)+'px "Bebas Neue",sans-serif'; x.fillText(gm.pep,210,160);
+  x.fillStyle='#fff'; x.font='400 54px "Bebas Neue",sans-serif'; x.fillText('GAME: '+gm.name.toUpperCase()+'   '+'★'.repeat(s.stars||0)+'☆'.repeat(3-(s.stars||0)),60,290);
+  x.fillStyle='#ffd45c'; x.font='400 48px "Bebas Neue",sans-serif'; x.fillText('EXPLAIN IT LIKE I\'M 5',60,375);
+  x.fillStyle='#ece8ff'; x.font='600 34px Rajdhani,sans-serif';
+  let y=425; wrapLines(x,strip(gm.eli),960).slice(0,9).forEach(l=>{ x.fillText(l,60,y); y+=44; });
+  y+=24; x.fillStyle=gm.col; x.font='400 48px "Bebas Neue",sans-serif'; x.fillText('KEY FACTS',60,y); y+=56;
+  x.fillStyle='#fff'; x.font='700 34px Rajdhani,sans-serif';
+  gm.learn.forEach(f=>{ wrapLines(x,'• '+f,960).forEach((l,i)=>{ x.fillText((i?'   ':'')+l,60,y); y+=44; }); y+=6; });
+  y=Math.max(y+30,1150); x.fillStyle='#ffd45c'; x.fillRect(60,y-36,960,72);
+  x.fillStyle='#14102a'; x.font='700 30px Rajdhani,sans-serif'; x.textAlign='center'; x.fillText('EVIDENCE: '+gm.ev,540,y);
+  x.fillStyle='rgba(230,225,250,0.75)'; x.font='600 26px Rajdhani,sans-serif'; x.fillText('Educational only — not medical advice. Play free: '+location.host+'/peptide-arcade.html',540,1285);
+  return c;
+}
+function cardURL(gm){ return makeCard(gm).toDataURL('image/png'); }
+function downloadCard(gm){ const a=document.createElement('a'); a.href=cardURL(gm); a.download='vpn-learning-card-'+gm.id+'.png'; document.body.appendChild(a); a.click(); a.remove(); }
+function printCards(list){
+  const imgs=list.map(gm=>'<img src="'+cardURL(gm)+'">').join('');
+  const f=document.createElement('iframe'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;'; document.body.appendChild(f);
+  const d=f.contentWindow.document; d.open();
+  d.write('<!doctype html><html><head><meta charset="utf-8"><title>VPN learning cards</title><style>@page{margin:0.4in}body{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:0.25in;}img{width:100%;break-inside:avoid;}</style></head><body>'+imgs+'</body></html>'); d.close();
+  setTimeout(()=>{ f.contentWindow.focus(); f.contentWindow.print(); setTimeout(()=>f.remove(),2000); },400);
+}
+function openCards(){
+  const got=GAMES.filter(gm=>(SAVE.games[gm.id]||{}).card);
+  $('cardsSub').textContent=got.length+' / '+GAMES.length+' UNLOCKED';
+  const box=$('cardsGrid'); box.innerHTML='';
+  GAMES.forEach(gm=>{ const d=document.createElement('div');
+    if((SAVE.games[gm.id]||{}).card){ d.innerHTML='<img alt="'+gm.pep+' learning card" src="'+cardURL(gm)+'"><div class="cb"><button>⬇ Save</button><button>🖨️ Print</button></div>'; const bs=d.querySelectorAll('button'); bs[0].onclick=()=>downloadCard(gm); bs[1].onclick=()=>printCards([gm]); }
+    else d.innerHTML='<div class="lock">🔒<br>'+gm.pep+'<br><small>Finish "'+gm.name+'" to unlock</small></div>';
+    box.appendChild(d); });
+  $('printAllBtn').disabled=!got.length; $('printAllBtn').onclick=()=>{ if(got.length) printCards(got); };
+  $('cardsOvl').hidden=false;
+}
+$('cardsBtn').onclick=openCards; $('cardsClose').onclick=()=>{ $('cardsOvl').hidden=true; };
 
-/* =====================================================================
-   ENGINE
-   ===================================================================== */
-let G=null, last=0, raf=0, held=null;
+/* ---------- engine ---------- */
+let G=null, last=0, held=null;
 function resize(){
   DPR=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
   cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); ctx.setTransform(DPR,0,0,DPR,0,0);
-  S=clamp(Math.min(W,H)/560,0.7,1.4); TOP=Math.max(52,$('hud').offsetHeight||52);
+  S=clamp(Math.min(W,H)/580,0.66,1.35);
+  const hud=$('hud').offsetHeight||48; $('goal').style.top=hud+'px';
+  TOP=hud+($('goal').offsetHeight||26)+4; B=H-($('tipbar').offsetHeight||64)-6;
 }
 window.addEventListener('resize',resize);
-
-function starsFor(game,score){ return game.stars.filter(s=>score>=s).length; }
+function starsFor(gm,score){ return gm.stars.filter(s=>score>=s).length; }
 function renderHub(){
-  const grid=$('grid'); grid.innerHTML='';
-  let xp=0, stars=0, done=0;
-  GAMES.forEach(gm=>{ const s=SAVE.games[gm.id]||{}; xp+=s.xp||0; stars+=s.stars||0; if(s.stars) done++;
+  ['metab','mito','repair','bonus'].forEach(k=>$('grid-'+k).innerHTML='');
+  let xp=0, stars=0, done=0, cards=0;
+  GAMES.forEach(gm=>{ const s=SAVE.games[gm.id]||{}; xp+=s.xp||0; stars+=s.stars||0; if(s.stars) done++; if(s.card) cards++;
     const b=document.createElement('button'); b.className='gcard'; b.style.setProperty('--c',gm.col);
-    b.innerHTML='<span class="gi">'+gm.icon+'</span><span class="gp">'+gm.pep+'</span><span class="gn">'+gm.name+'</span><span class="gt">'+gm.tag+'</span><span class="ev" style="margin-top:0.5rem;align-self:flex-start">'+gm.ev.split(' · ')[0]+'</span><span class="gf"><span><span class="stars">'+'★'.repeat(s.stars||0)+'<span style="opacity:.25">'+'★'.repeat(3-(s.stars||0))+'</span></span><br><span class="best">'+(s.best?'Best: '+s.best:'Not played yet')+'</span></span><span class="play">PLAY ▶</span></span>';
-    b.onclick=()=>openGame(gm); grid.appendChild(b); });
-  const gl=document.createElement('a'); gl.className='gcard glow'; gl.href='glowrilla-game.html'; gl.style.textDecoration='none';
-  gl.innerHTML='<span class="gi">🦍</span><span class="gp">BONUS · FULL ARCADE GAME</span><span class="gn">Glowrilla vs Big Pharma</span><span class="gt">Protect the Reta case from Big Pharma goons, unlock the Peptide Codex and take down the CEO.</span><span class="gf"><span class="best">Separate game</span><span class="play">PLAY ▶</span></span>';
-  grid.appendChild(gl);
-  $('pXP').textContent=xp; $('pStars').textContent=stars+' / '+GAMES.length*3; $('pDone').textContent=done+' / '+GAMES.length;
+    b.innerHTML=(s.card?'<span class="got">📇 card</span>':'')+'<span class="gi">'+gm.icon+'</span><span class="gp">'+gm.pep+'</span><span class="gn">'+gm.name+'</span><span class="gt">'+gm.tag+'</span><span class="ev" style="margin-top:0.5rem;align-self:flex-start">'+gm.ev.split(' · ')[0]+'</span><span class="gf"><span><span class="stars">'+'★'.repeat(s.stars||0)+'<span style="opacity:.25">'+'★'.repeat(3-(s.stars||0))+'</span></span><br><span class="best">'+(s.best?'Best: '+s.best:'Not played yet')+'</span></span><span class="play">PLAY ▶</span></span>';
+    b.onclick=()=>openGame(gm); $('grid-'+gm.cat).appendChild(b); });
+  const gl=document.createElement('a'); gl.className='gcard'; gl.style.setProperty('--c','#3ff3ff'); gl.href='glowrilla-game.html';
+  gl.innerHTML='<span class="gi">🦍</span><span class="gp">FULL ARCADE GAME</span><span class="gn">Glowrilla vs Big Pharma</span><span class="gt">Protect the Reta case from Big Pharma goons, unlock the Peptide Codex and take down the CEO.</span><span class="gf"><span class="best">Separate game</span><span class="play">PLAY ▶</span></span>';
+  $('grid-bonus').appendChild(gl);
+  $('pXP').textContent=xp; $('pStars').textContent=stars+'/'+GAMES.length*3; $('pDone').textContent=done+'/'+GAMES.length; $('pCards').textContent=cards+'/'+GAMES.length;
 }
 function openGame(gm){
-  G={game:gm, score:0, combo:0, miss:0, t:0, running:false, over:false};
+  G={game:gm,score:0,combo:0,t:0,running:false,over:false,said:{},learned:[]};
   document.documentElement.style.setProperty('--c',gm.col);
-  $('hub').hidden=true; $('play').hidden=false; resize();
+  $('hub').hidden=true; $('play').hidden=false;
   ['iIcon','eIcon'].forEach(i=>$(i).textContent=gm.icon);
   $('iName').textContent=gm.name; $('iPep').textContent=gm.pep; $('iEli').innerHTML=gm.eli; $('iHow').innerHTML=gm.how; $('iEv').textContent='Evidence: '+gm.ev;
   $('hName').textContent=gm.icon+' '+gm.name; $('hScore').textContent='0'; $('hTime').textContent=gm.dur+'s';
+  $('goalTxt').textContent=gm.goal; $('tipTxt').innerHTML='What\'s happening will show up here as you play.'; $('tipbar').style.setProperty('--tc',gm.col);
   document.querySelectorAll('#play .card').forEach(c=>c.style.setProperty('--c',gm.col));
   $('intro').hidden=false; $('end').hidden=true; FX=[]; TXT=[];
-  initAmb(gm.col); gm.init(G); window.scrollTo(0,0); $('goBtn').focus();
+  resize(); initAmb(gm.col); gm.init(G); window.scrollTo(0,0); $('goBtn').focus();
 }
-function startGame(){ const gm=G.game; Object.assign(G,{score:0,combo:0,miss:0,t:0,running:true,over:false,endEarly:null}); gm.init(G); FX=[]; TXT=[]; $('intro').hidden=true; $('end').hidden=true; try{ AC&&AC.resume&&AC.resume(); }catch(e){} sfx.tick(); }
+function startGame(){
+  const gm=G.game; Object.assign(G,{score:0,combo:0,t:0,running:true,over:false,endEarly:null,said:{},learned:[]});
+  resize(); gm.init(G); FX=[]; TXT=[]; tipIdx=0; lastTip=0;
+  const played=(SAVE.games[gm.id]||{}).plays;
+  G.coach=gm.coach?gm.coach(G):[]; G.ci=0;
+  if(played&&G.coach.length) G.coach=[{t:'Welcome back! Quick reminder — <b>'+gm.goal+'</b>. Tap to start.'}];
+  $('intro').hidden=true; $('end').hidden=true; try{ AC&&AC.resume&&AC.resume(); }catch(e){} sfx.tick();
+  if(G.coach.length) tip('🎓 <b>Coach:</b> follow the arrows. Tap anywhere for the next step.',gm.col);
+}
+function coachNext(){ G.ci++; sfx.tick(); if(G.ci>=G.coach.length){ G.coach=[]; tip('<b>GO!</b> '+G.game.goal+'.',G.game.col); } }
+function drawCoach(){
+  const st=G.coach[G.ci]; if(!st) return;
+  ctx.fillStyle='rgba(4,2,12,0.55)'; ctx.fillRect(0,0,W,H);
+  let at=null; try{ at=st.at?st.at():null; }catch(e){}
+  const bw=Math.min(W-32,520), pad=14, fs=Math.round(17*Math.max(0.9,S));
+  ctx.font='700 '+fs+'px Rajdhani,sans-serif';
+  const lines=wrapLines(ctx,strip(st.t),bw-pad*2), lh=Math.round(fs*1.3), bh=lines.length*lh+pad*2+28;
+  let by=at?(at[1]>(TOP+B)/2?at[1]-90*S-bh:at[1]+90*S):(TOP+B)/2-bh/2; by=clamp(by,TOP+6,B-bh-6); const bx=(W-bw)/2;
+  if(at){ const p=1+Math.sin(performance.now()/180)*0.12; glowCircle(at[0],at[1],70*S*p,G.game.col,0.55); ctx.strokeStyle='#fff'; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(at[0],at[1],44*S*p,0,Math.PI*2); ctx.stroke();
+    const ax=clamp(at[0],bx+20,bx+bw-20), ay=at[1]>by?by+bh:by; ctx.strokeStyle='#ffd45c'; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(at[0],at[1]+(at[1]>ay?-50*S:50*S)); ctx.stroke(); }
+  ctx.fillStyle='rgba(12,6,32,0.96)'; ctx.strokeStyle=G.game.col; ctx.lineWidth=3; rr(bx,by,bw,bh,16); ctx.fill(); ctx.stroke();
+  ctx.font='700 '+fs+'px Rajdhani,sans-serif'; ctx.fillStyle='#fff'; ctx.textAlign='left'; ctx.textBaseline='top'; lines.forEach((l,i)=>ctx.fillText(l,bx+pad,by+pad+i*lh));
+  ctx.fillStyle='#ffd45c'; ctx.textAlign='right'; ctx.font='400 '+Math.round(16*Math.max(0.9,S))+'px "Bebas Neue",sans-serif'; ctx.fillText('TAP TO CONTINUE ▶  '+(G.ci+1)+'/'+G.coach.length,bx+bw-pad,by+bh-24);
+}
 function finish(){
   const gm=G.game; G.running=false; G.over=true; const sc=Math.floor(G.score), st=starsFor(gm,sc);
-  const s=SAVE.games[gm.id]=SAVE.games[gm.id]||{}; const firstStars=st>(s.stars||0);
-  s.best=Math.max(s.best||0,sc); s.stars=Math.max(s.stars||0,st); s.xp=(s.xp||0)+Math.floor(sc/10)+st*50; s.plays=(s.plays||0)+1; save();
+  const s=SAVE.games[gm.id]=SAVE.games[gm.id]||{}; const newCard=!s.card;
+  s.best=Math.max(s.best||0,sc); s.stars=Math.max(s.stars||0,st); s.xp=(s.xp||0)+Math.floor(sc/10)+st*50; s.plays=(s.plays||0)+1; s.card=true; save();
   $('eTitle').textContent=G.endEarly?'GAME OVER':st>=3?'LEGENDARY!':st===2?'GREAT JOB!':st===1?'NICE WORK!':'KEEP PRACTICING!';
-  $('eScore').textContent=sc; $('eStars').innerHTML='★'.repeat(st)+'<span style="opacity:.25">'+'★'.repeat(3-st)+'</span>';
+  $('eScore').textContent=sc; $('eStars').innerHTML='★'.repeat(st)+'<span style="opacity:.25">'+'★'.repeat(3-st)+'</span>'+(st<3?'<div class="small">Next star at '+gm.stars[st]+'</div>':'');
   $('eTake').innerHTML=(G.endEarly?'<b>'+G.endEarly+'</b><br>':'')+gm.take;
-  $('eFact').textContent=pick(gm.facts); $('eEv').textContent='Evidence: '+gm.ev;
-  $('end').hidden=false; st?sfx.win():sfx.bad(); if(firstStars) burst(W/2,H/2,gm.col,40,360);
-  $('againBtn').focus();
+  $('eLearn').innerHTML='<ul style="margin:0.2rem 0 0 1.1rem;padding:0">'+gm.learn.map(l=>'<li>'+l+'</li>').join('')+'</ul>'+(newCard?'<div style="margin-top:0.4rem;color:var(--gold)">📇 New learning card unlocked!</div>':'');
+  $('eEv').textContent='Evidence: '+gm.ev; $('eCard').src=cardURL(gm);
+  $('dlCard').onclick=()=>downloadCard(gm); $('prCard').onclick=()=>printCards([gm]);
+  $('end').hidden=false; st?sfx.win():sfx.bad(); $('againBtn').focus();
 }
-function backToHub(){ G=null; $('play').hidden=true; $('hub').hidden=false; renderHub(); }
+function backToHub(){ G=null; $('play').hidden=true; $('hub').hidden=false; renderHub(); window.scrollTo(0,0); }
 $('goBtn').onclick=startGame; $('againBtn').onclick=startGame; $('hubBtn').onclick=backToHub; $('quitBtn').onclick=backToHub;
-$('resetBtn').onclick=()=>{ if(confirm('Reset all Peptide Arcade scores and stars on this device?')){ SAVE={games:{},muted}; save(); renderHub(); } };
+$('resetBtn').onclick=()=>{ if(confirm('Reset all Peptide Arcade scores, stars and cards on this device?')){ SAVE={games:{},muted}; save(); renderHub(); } };
 
 function loop(ts){
   const dt=Math.min(0.033,(ts-last)/1000||0); last=ts;
+  if(tipT>0) tipT-=dt;
   if(G){
     const gm=G.game;
-    if(G.running){ G.t+=dt; gm.update(G,dt); stepFx(dt); const left=Math.max(0,gm.dur-G.t); $('hTime').textContent=Math.ceil(left)+'s'; $('hScore').textContent=Math.floor(G.score); if(left<=0||G.endEarly) finish(); }
-    else stepFx(dt);
+    if(G.running && !(G.coach&&G.coach.length)){
+      G.t+=dt; gm.update(G,dt); stepFx(dt);
+      const left=Math.max(0,gm.dur-G.t); $('hTime').textContent=Math.ceil(left)+'s'; $('hScore').textContent=Math.floor(G.score);
+      if(tipT<=0 && G.t-lastTip>10 && gm.tips&&gm.tips.length){ tip('💡 '+gm.tips[tipIdx%gm.tips.length],gm.col); tipIdx++; }
+      if(left<=0||G.endEarly) finish();
+    } else stepFx(dt);
     ctx.clearRect(0,0,W,H); gm.draw(G); drawFx();
+    if(G.running && G.coach && G.coach.length) drawCoach();
   }
-  raf=requestAnimationFrame(loop);
+  requestAnimationFrame(loop);
 }
 function pt(e){ const r=cv.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; }
-cv.addEventListener('pointerdown',e=>{ if(!G||!G.running) return; e.preventDefault(); held=e.pointerId; try{cv.setPointerCapture(e.pointerId);}catch(_){} const [x,y]=pt(e); G.game.down&&G.game.down(G,x,y); });
+cv.addEventListener('pointerdown',e=>{ if(!G||!G.running) return; e.preventDefault(); if(G.coach&&G.coach.length){ coachNext(); return; } held=e.pointerId; try{cv.setPointerCapture(e.pointerId);}catch(_){} const [x,y]=pt(e); G.game.down&&G.game.down(G,x,y); });
 cv.addEventListener('pointermove',e=>{ if(!G||!G.running||held!==e.pointerId) return; const [x,y]=pt(e); G.game.move&&G.game.move(G,x,y); });
 ['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,e=>{ if(!G||held!==e.pointerId) return; held=null; const [x,y]=pt(e); G.running&&G.game.up&&G.game.up(G,x,y); }));
 window.addEventListener('keydown',e=>{
+  if(!$('cardsOvl').hidden&&e.key==='Escape'){ $('cardsOvl').hidden=true; return; }
   if(!G) return;
   if(e.key==='Escape'){ backToHub(); return; }
   if(!G.running){ if(e.key==='Enter'&&!$('intro').hidden){ e.preventDefault(); startGame(); } return; }
+  if(G.coach&&G.coach.length){ if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){ e.preventDefault(); coachNext(); } return; }
   if(e.key===' ') e.preventDefault();
   G.game.key&&G.game.key(G,e.key);
 });
-document.addEventListener('visibilitychange',()=>{ /* timers are frame-based; a hidden tab simply pauses */ });
 
-resize(); renderHub(); raf=requestAnimationFrame(loop);
-if(/[?&]dev=1/.test(location.search)) window.__arc={G:()=>G,GAMES,openGame,startGame};
-// deep link: peptide-arcade.html#reta opens that game
+resize(); renderHub(); requestAnimationFrame(loop);
+if(/[?&]dev=1/.test(location.search)) window.__arc={G:()=>G,GAMES,openGame,startGame,coachNext,openCards,makeCard,
+  step:(n)=>{ for(let i=0;i<(n||1);i++){ last=performance.now()-16; const raf=window.requestAnimationFrame; window.requestAnimationFrame=()=>0; try{ loop(performance.now()); } finally { window.requestAnimationFrame=raf; } } }}; // testing hook only
 const deep=location.hash.slice(1); const dg=GAMES.find(g=>g.id===deep); if(dg) openGame(dg);
 })();
 </script>
