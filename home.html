@@ -4919,7 +4919,7 @@ document.addEventListener('keydown', function(e){
     <nav id="vpn-start-path" data-vt-skip aria-label="Start here">
       <div class="sp-h"><b>New here? Start in 4 steps</b><span>about 10 minutes, all free</span></div>
       <ol>
-        <li><a href="#vpn-watch-first" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d)d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});return false;"><b>Watch the welcome</b><small>A short intro to what VPN is and how to use it</small></a></li>
+        <li><a href="#vpn-watch-first" onclick="document.getElementById('vh2-videos').scrollIntoView({behavior:'smooth',block:'start'});return false;"><b>Watch the welcome</b><small>A short intro to what VPN is and how to use it</small></a></li>
         <li><a href="#vpn-peptides-101" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><b>Peptides 101</b><small>What a peptide is, in plain English</small></a></li>
         <li><a href="peptide-suggestion.html"><b>Find your peptides</b><small>Peptide Match: 3 questions, ranked results</small></a></li>
         <li><a href="#bloodwork" onclick="showView('bloodwork');return false;"><b>Get blood work first</b><small>What to test before and during research</small></a></li>
@@ -8489,7 +8489,7 @@ document.addEventListener('keydown', function(e){
     #site-hero > #vpn-start-path{order:2 !important;}
     #site-hero > #vh2-tools{order:3 !important;}
     #site-hero > #vh2-h-learn{order:4 !important;}
-    #site-hero > #vpn-watch-first{order:5 !important;}
+    #site-hero > #vpn-watch-first{order:6 !important;}
     #site-hero > #vpn-learn-play{order:6 !important;}
     #site-hero > #vh2-h-safety{order:7 !important;}
     #site-hero > .vpn-rules, #site-hero > #vpn-rules{order:8 !important;}
@@ -8538,7 +8538,58 @@ document.addEventListener('keydown', function(e){
     </div>
   </section>
 
-  <div id="vh2-h-learn" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Learn</div><h2>Understand it before you research it</h2><p>Start with the welcome video, then the basics in plain English.</p></div></div></div>
+  <div id="vh2-h-learn" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Learn</div><h2>Video guides &amp; the basics</h2><p>Three short videos, each with a clear purpose, then Peptides 101 in plain English.</p></div></div></div>
+
+  <!-- VIDEO GUIDES — each video says what it's for and when to watch it -->
+  <style>
+    #site-hero > #vh2-videos{order:5 !important;}
+    #site-hero > #vpn-watch-first{order:6 !important;}
+    #vpn-welcome-video-details{display:none !important;} /* its videos now live in the cards below */
+    .vh2-vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.8rem;}
+    .vh2-vid{display:flex;flex-direction:column;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);}
+    .vh2-vid video{width:100%;aspect-ratio:16/9;display:block;background:#000;object-fit:contain;}
+    .vh2-vid .vb{display:flex;flex-direction:column;gap:0.45rem;padding:0.95rem 1rem 1.05rem;}
+    .vh2-vid .tag{align-self:flex-start;font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:6px;color:#fff;background:linear-gradient(90deg,var(--a1),var(--a2));}
+    .vh2-vid .tag.b{background:linear-gradient(90deg,var(--a2),var(--a3));}
+    .vh2-vid .tag.c{background:linear-gradient(90deg,#ff6a2a,#ffb12a);color:#1a0e00;}
+    .vh2-vid h3{margin:0;font-size:1.05rem !important;font-weight:800;letter-spacing:-0.01em;color:var(--ink);line-height:1.25 !important;}
+    .vh2-vid p{margin:0;font-size:0.9rem !important;line-height:1.5 !important;color:var(--sub);}
+    .vh2-vid dl{margin:0.2rem 0 0;display:grid;gap:0.35rem;}
+    .vh2-vid dt{font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);}
+    .vh2-vid dd{margin:0;font-size:0.88rem !important;line-height:1.45 !important;color:var(--ink);}
+    @media(max-width:900px){ .vh2-vids{grid-template-columns:1fr;} }
+  </style>
+  <section id="vh2-videos" class="vh2" data-vt-skip aria-label="Video guides">
+    <div class="vh2-vids">
+      <article class="vh2-vid">
+        <video controls playsinline preload="none" poster="VPNNEWLOGO.png?v=4"><source src="welcomevideovpn.mp4" type="video/mp4"></video>
+        <div class="vb">
+          <span class="tag">Watch first</span>
+          <h3>Welcome to VPN</h3>
+          <p>A short introduction to Verified Peptides Network: what the site is for, how it's laid out, and the safety mindset behind it.</p>
+          <dl><dt>What it's for</dt><dd>Knowing where everything is and how to use the site safely.</dd><dt>When to watch</dt><dd>Your first visit, before you explore anything else.</dd></dl>
+        </div>
+      </article>
+      <article class="vh2-vid">
+        <video controls playsinline preload="none" poster="VPNNEWLOGO.png?v=4"><source src="ultimateresearchguidevideo.mp4" type="video/mp4"></video>
+        <div class="vb">
+          <span class="tag b">Before you buy</span>
+          <h3>The Ultimate Research Guide</h3>
+          <p>How to research a peptide properly, from reading the studies to checking a vendor, so your decisions are based on evidence, not hype.</p>
+          <dl><dt>What it's for</dt><dd>Learning a repeatable way to research and verify any peptide.</dd><dt>When to watch</dt><dd>Before you choose a peptide or a vendor.</dd></dl>
+        </div>
+      </article>
+      <article class="vh2-vid">
+        <video controls playsinline preload="none" poster="video-poster.jpg"><source src="peptide-tutorial.mp4" type="video/mp4"></video>
+        <div class="vb">
+          <span class="tag c">Hands-on</span>
+          <h3>How to reconstitute a peptide vial</h3>
+          <p>Glowrilla's Peptide Lab walks through mixing a vial with bacteriostatic water step by step.</p>
+          <dl><dt>What it's for</dt><dd>Mixing correctly and avoiding the most common handling mistakes.</dd><dt>When to watch</dt><dd>Before you mix your first vial. Pair it with the calculator for your units.</dd></dl>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <div id="vh2-h-safety" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Safety first</div><h2>Must-read guides and the 4 rules</h2><p>Gray market risks, GLP safety, lab testing and the rules we follow before any research.</p></div></div></div>
 
