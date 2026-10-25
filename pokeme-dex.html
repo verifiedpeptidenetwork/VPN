@@ -898,6 +898,14 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .cond-card:hover{transform:translateY(-1px);box-shadow:3px 3px 0 rgba(0,0,0,0.18);}
 .cond-card.selected{background:color-mix(in srgb,var(--cc) 16%,#fff);border-left-color:var(--cc);box-shadow:3px 3px 0 #1a1a1a;}
 .cond-card.selected::after{content:'✓';margin-left:auto;flex-shrink:0;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#fff;font-size:0.8rem;font-weight:900;border:1.5px solid #1a1a1a;}
+.plan-band{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:18px 20px;background:#fff;border:3px solid #1a1a1a;border-radius:14px;box-shadow:4px 4px 0 rgba(0,0,0,0.2);border-top:8px solid var(--pink);}
+.plan-band-txt{flex:1 1 300px;}
+.plan-band-txt b{display:block;font-family:var(--orb);font-size:1rem;color:var(--text);margin-bottom:4px;}
+.plan-band-txt span{font-size:1.05rem;font-weight:600;color:var(--muted);line-height:1.4;}
+.plan-band-txt span b{display:inline;font-family:var(--bar);font-size:inherit;color:var(--text);}
+.plan-band-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.plan-band-btns .btn-primary,.plan-band-btns .btn-secondary{margin:0;width:auto;}
+@media(max-width:480px){ .plan-band-btns{width:100%;} .plan-band-btns > *{flex:1 1 100%;} }
 #pmd-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:99999;max-width:min(520px,calc(100vw - 24px));padding:12px 16px;border-radius:12px;background:#1a1a1a;color:#fff;border:2px solid var(--yellow);box-shadow:0 8px 24px rgba(0,0,0,0.35);font-family:var(--bar);font-size:1.05rem;font-weight:600;line-height:1.35;transition:transform .25s ease;}
 #pmd-toast.show{transform:translate(-50%,0);}
 #pmd-toast b{color:var(--yellow);}
@@ -998,6 +1006,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
       <div class="how-step"><div class="how-num">1</div><div><b>FIND A PEPTIDE</b><span>Type its name, or tap your goals (Fat Loss, Sleep…) and matching peptides appear.</span></div></div>
       <div class="how-step"><div class="how-num">2</div><div><b>TAP + ADD</b><span>It goes into <em>My Protocols</em> with a typical research starting dose and schedule filled in for you.</span></div></div>
       <div class="how-step"><div class="how-num">3</div><div><b>TICK OFF EACH DOSE</b><span>Each day, tap the circle next to a dose once you've taken it. The calendar shows what's coming up.</span></div></div>
+      <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>Print it, save it as a PDF, or download it. You get doses, syringe units, a 14-day checklist and a shopping list.</span></div></div>
     </div>
     <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed. Want to know more about a peptide first? Open the <b>📖 Browse All Peptides</b> tab.</div>
   </details>
@@ -1053,6 +1062,12 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div id="today-doses-list"></div>
   </div>
 
+  <div class="step-head"><div class="how-num">4</div><div><h3>SAVE YOUR PLAN</h3><p>A clean one-page plan you can print, keep as a PDF, or download.</p></div></div>
+  <div class="plan-band">
+    <div class="plan-band-txt"><b>📄 My Plan report</b><span>Your protocols with doses and <b>syringe units</b>, a <b>14-day tick-box checklist</b>, a shopping list and your injection-site history.</span></div>
+    <div class="plan-band-btns"><button class="btn-primary" onclick="pmdPrintReport()">🖨 PRINT / SAVE PDF</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ DOWNLOAD</button></div>
+  </div>
+
   <div class="step-head more"><div class="how-num">+</div><div><h3>MORE TOOLS (OPTIONAL)</h3><p>Calendar · injection-site rotation · shopping list · draw calculators</p></div></div>
 
   <div class="response-box visible" id="calendar-box" style="margin-top:12px;">
@@ -1089,7 +1104,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="box-hint" style="margin-top:-6px;"><b>Shopping List</b> works out how many vials you need. <b>PDF</b> or <b>Copy</b> saves your schedule to keep or share.</div>
     <div id="schedule-actions" style="display:flex; margin-top:0; gap:10px; flex-wrap:wrap;">
       <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
-      <button class="btn-secondary" onclick="downloadSchedulePDF()">⬇ Download as PDF</button>
+      <button class="btn-secondary" onclick="pmdPrintReport()">🖨 Print / Save PDF</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ Download My Plan</button>
       <button class="btn-secondary" id="copy-schedule-btn" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
     </div>
     <div class="pdf-tip" id="schedule-pdf-tip">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
@@ -2448,6 +2463,94 @@ function renderDexIndex(){
 }
 renderDexIndex();
 renderDashboard();
+
+
+// ═══════════════ MY PLAN REPORT — print / save PDF / download ═══════════════
+function pmdEsc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function pmdFmtDate(str){ var d = new Date(str + 'T00:00:00'); return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' }); }
+function pmdEndDate(p){ var s = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); s.setDate(s.getDate() + p.durationDays - 1); return dateToStr(s); }
+function pmdUnits(p){ var c = p.vial / p.water; return c > 0 ? (p.dose / c * 100) : 0; }
+
+function pmdReportHTML(){
+  var now = new Date(), today = todayStr();
+  var dateLong = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  var protos = ACTIVE_PROTOCOLS.slice();
+  var rows = protos.map(function(p){
+    var u = pmdUnits(p);
+    return '<tr><td><b>' + pmdEsc(p.name) + '</b><br><small>' + p.vial + ' mg vial + ' + p.water + ' mL BAC water</small></td>'
+      + '<td>' + p.dose + ' mg</td><td><b>' + (u % 1 === 0 ? u.toFixed(0) : u.toFixed(1)) + ' units</b><br><small>' + (u/100).toFixed(3) + ' mL</small></td>'
+      + '<td>' + frequencyLabel(p) + '</td><td>' + pmdEsc(p.timeLabel) + '</td>'
+      + '<td>' + pmdFmtDate(p.startDateTime.split('T')[0]) + ' → ' + pmdFmtDate(pmdEndDate(p)) + '<br><small>' + daysRemaining(p) + ' days left</small></td></tr>';
+  }).join('');
+
+  // 14-day checklist
+  var days = [];
+  for (var i = 0; i < 14; i++){ var d = new Date(today + 'T00:00:00'); d.setDate(d.getDate() + i); days.push(dateToStr(d)); }
+  var check = days.map(function(ds){
+    var due = protos.filter(function(p){ return isDoseDueOnDate(p, ds); });
+    if (!due.length) return '<tr class="rest"><td>' + pmdFmtDate(ds) + (ds === today ? ' <em>today</em>' : '') + '</td><td colspan="2">Rest day, no doses due</td></tr>';
+    return '<tr><td>' + pmdFmtDate(ds) + (ds === today ? ' <em>today</em>' : '') + '</td><td>'
+      + due.map(function(p){
+          var done = !!(DOSE_LOG[ds] && DOSE_LOG[ds][p.id]);
+          return '<div class="dose"><span class="box' + (done ? ' done' : '') + '">' + (done ? '✓' : '') + '</span>' + pmdEsc(p.name) + ' — ' + p.dose + ' mg (' + pmdUnits(p).toFixed(1) + ' u) · ' + pmdEsc(p.timeLabel.split(' (')[0]) + '</div>';
+        }).join('') + '</td><td class="site"></td></tr>';
+  }).join('');
+
+  var shop = protos.map(function(s){
+    var totalMg = s.dose * countDosesInRange(s), vials = Math.ceil(totalMg / s.vial) || 1;
+    return '<tr><td>' + pmdEsc(s.name) + '</td><td>' + vials + ' × ' + s.vial + ' mg vial' + (vials>1?'s':'') + '</td><td>~' + (vials * s.water) + ' mL BAC water</td><td>' + totalMg.toFixed(1) + ' mg total</td></tr>';
+  }).join('');
+
+  var zoneLabel = function(code){ var z = INJ_ZONES.find(function(x){ return x.code === code; }); return z ? z.label : code; };
+  var sug = zoneLabel(suggestedZone());
+  var inj = INJ_LOG.slice().sort(function(a,b){ return a.date < b.date ? 1 : -1; }).slice(0, 10)
+    .map(function(e){ return '<tr><td>' + pmdFmtDate(String(e.date).slice(0,10)) + '</td><td>' + pmdEsc(zoneLabel(e.zone)) + '</td></tr>'; }).join('');
+
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<title>PokeMe-Dex — My Plan — ' + dateLong + '</title><style>'
+    + '*{box-sizing:border-box}body{font:13.5px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1a1a1a;margin:0 auto;padding:30px;max-width:900px;background:#fff}'
+    + 'header{display:flex;align-items:center;gap:14px;padding:14px 18px;border:3px solid #1a1a1a;border-radius:14px;background:linear-gradient(180deg,#cc0000,#e3350d);color:#fff;margin-bottom:16px}'
+    + 'header img{width:54px;height:54px;border-radius:50%;border:2px solid #1a1a1a;background:#fff}h1{margin:0;font-size:22px;letter-spacing:.02em}header p{margin:2px 0 0;opacity:.9}'
+    + '.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px}.kpis div{border:2px solid #1a1a1a;border-radius:10px;padding:8px 12px}.kpis b{display:block;font-size:20px}.kpis span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6b6256}'
+    + 'h2{font-size:15px;margin:22px 0 8px;padding-bottom:4px;border-bottom:3px solid #e3350d;letter-spacing:.02em}'
+    + 'table{width:100%;border-collapse:collapse}th,td{border:1px solid #d9d4c7;padding:7px 9px;text-align:left;vertical-align:top}th{background:#f4f1e8;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#6b6256}small{color:#6b6256}'
+    + 'tr{break-inside:avoid}.rest td{color:#9a917f}em{font-style:normal;font-size:10px;font-weight:800;background:#ffcc00;padding:1px 6px;border-radius:4px;margin-left:4px}'
+    + '.dose{display:flex;align-items:center;gap:8px;margin:2px 0}.box{display:inline-grid;place-items:center;width:16px;height:16px;border:2px solid #1a1a1a;border-radius:4px;font-size:11px;font-weight:900;flex-shrink:0}.box.done{background:#2e9e3f;color:#fff;border-color:#2e9e3f}'
+    + 'td.site{width:130px}.note{margin-top:6px;font-size:12px;color:#6b6256}'
+    + '.disc{margin-top:22px;padding:12px 14px;border-radius:10px;background:#fff7d6;border:2px solid #1a1a1a;border-left:6px solid #ffcc00;color:#5c4a00;font-size:12px}footer{margin-top:14px;text-align:center;color:#6b6256;font-size:11.5px}'
+    + '@media print{body{padding:0}}@media(max-width:640px){body{padding:14px}.kpis{grid-template-columns:1fr}table{font-size:12px}}'
+    + '</style></head><body>'
+    + '<header><img src="' + location.origin + '/VPNNEWLOGO.png?v=2" alt=""><div><h1>PokeMe-Dex · My Plan</h1><p>Verified Peptides Network · printed ' + dateLong + '</p></div></header>'
+    + '<div class="kpis"><div><b>' + protos.length + '</b><span>Active protocols</span></div><div><b>' + protos.filter(isDoseDueToday).length + '</b><span>Doses due today</span></div><div><b>' + pmdEsc(sug) + '</b><span>Next injection site</span></div></div>'
+    + '<h2>My protocols</h2><table><tr><th>Peptide</th><th>Dose</th><th>Draw (U-100 syringe)</th><th>How often</th><th>When</th><th>Dates</th></tr>' + rows + '</table>'
+    + '<p class="note">Units assume a U-100 insulin syringe (100 units = 1 mL). Double-check every draw with your own math.</p>'
+    + '<h2>Next 14 days — dose checklist</h2><table><tr><th>Day</th><th>Doses (tick when taken)</th><th>Site used</th></tr>' + check + '</table>'
+    + '<h2>Shopping list</h2><table><tr><th>Peptide</th><th>Vials</th><th>Water</th><th>Total needed</th></tr>' + shop + '</table>'
+    + '<p class="note">Rough estimates for each full protocol. Buy a little extra for priming and spills.</p>'
+    + (inj ? '<h2>Recent injection sites</h2><table><tr><th>Date</th><th>Site</th></tr>' + inj + '</table>' : '')
+    + '<div class="disc"><b>Educational research reference only — not medical advice.</b> Doses are typical research starting points, not prescriptions. Work with a licensed doctor, get blood work, and verify every dose and calculation yourself.</div>'
+    + '<footer>' + location.host + ' · PokeMe-Dex dose tracker</footer></body></html>';
+}
+function pmdNeedProtocols(){ if (ACTIVE_PROTOCOLS.length) return true; pmdToast('Add at least one peptide first, then you can print or download your plan.'); return false; }
+function pmdPrintReport(){
+  if (!pmdNeedProtocols()) return;
+  var f = document.createElement('iframe');
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+  document.body.appendChild(f);
+  var doc = f.contentWindow.document; doc.open(); doc.write(pmdReportHTML()); doc.close();
+  setTimeout(function(){ try { f.contentWindow.focus(); f.contentWindow.print(); } catch(e){} setTimeout(function(){ f.remove(); }, 2000); }, 500);
+}
+function pmdDownloadReport(){
+  if (!pmdNeedProtocols()) return;
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([pmdReportHTML()], { type:'text/html' }));
+  a.download = 'pokeme-dex-my-plan-' + todayStr() + '.html';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  pmdToast('⬇ <b>My Plan</b> downloaded. Open it any time to view or print.');
+}
+// old buttons now produce the full report
+function downloadSchedulePDF(){ pmdPrintReport(); }
 
 function showTab(name){
   ['tracker','index'].forEach(function(t){
