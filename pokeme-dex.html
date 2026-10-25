@@ -2516,7 +2516,15 @@ function pmdFmtDate(str){ var d = new Date(str + 'T00:00:00'); return d.toLocale
 function pmdEndDate(p){ var s = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); s.setDate(s.getDate() + p.durationDays - 1); return dateToStr(s); }
 function pmdUnits(p){ var c = p.vial / p.water; return c > 0 ? (p.dose / c * 100) : 0; }
 
-function pmdReportHTML(){
+// totals for the shopping list: vials per peptide plus water, syringes and swabs
+function pmdBuyList(){
+  var items = ACTIVE_PROTOCOLS.map(function(s){
+    var doses = countDosesInRange(s), mg = s.dose * doses, vials = Math.max(1, Math.ceil(mg / s.vial));
+    return { name:s.name, vialMg:s.vial, vials:vials, mg:mg, water:vials * s.water, doses:doses };
+  });
+  var doses = items.reduce(function(a,i){ return a + i.doses; }, 0), water = items.reduce(function(a,i){ return a + i.water; }, 0);
+  return { items:items, doses:doses, water:water, bottles:Math.ceil(water / 30), syringes:Math.ceil(doses * 1.1), swabs:doses * 2 };
+}function pmdReportHTML(){
   var now = new Date(), today = todayStr();
   var dateLong = now.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
   var protos = ACTIVE_PROTOCOLS.slice();
@@ -2570,7 +2578,12 @@ function pmdReportHTML(){
     + '<h2>My protocols</h2><table><tr><th>Peptide</th><th>Dose</th><th>Draw (U-100 syringe)</th><th>How often</th><th>When</th><th>Dates</th></tr>' + rows + '</table>'
     + '<p class="note">Units assume a U-100 insulin syringe (100 units = 1 mL). Double-check every draw with your own math.</p>'
     + '<h2>Next 14 days — dose checklist</h2><table><tr><th>Day</th><th>Doses (tick when taken)</th><th>Site used</th></tr>' + check + '</table>'
-    + '<h2>Shopping list</h2><table><tr><th>Peptide</th><th>Vials</th><th>Water</th><th>Total needed</th></tr>' + shop + '</table>'
+    + '<h2>What to buy</h2><table><tr><th>Peptide</th><th>Vials</th><th>Water</th><th>Total needed</th></tr>' + shop + '</table>'
+    + (function(){ var b = pmdBuyList(); return '<table style="margin-top:10px"><tr><th>Supplies</th><th>How many</th><th>Why</th></tr>'
+        + '<tr><td>☐ Bacteriostatic water (30 mL bottles)</td><td><b>' + b.bottles + '</b></td><td>~' + b.water + ' mL total for mixing</td></tr>'
+        + '<tr><td>☐ U-100 insulin syringes (0.3–1 mL)</td><td><b>' + b.syringes + '</b></td><td>1 per dose (' + b.doses + ') + 10% spare</td></tr>'
+        + '<tr><td>☐ Alcohol prep swabs</td><td><b>' + b.swabs + '</b></td><td>vial top + skin, every dose</td></tr>'
+        + '<tr><td>☐ Sharps container</td><td><b>1</b></td><td>safe needle disposal</td></tr></table>'; })()
     + '<p class="note">Rough estimates for each full protocol. Buy a little extra for priming and spills.</p>'
     + (inj ? '<h2>Recent injection sites</h2><table><tr><th>Date</th><th>Site</th></tr>' + inj + '</table>' : '')
     + '<div class="disc"><b>Educational research reference only — not medical advice.</b> Doses are typical research starting points, not prescriptions. Work with a licensed doctor, get blood work, and verify every dose and calculation yourself.</div>'
@@ -2615,12 +2628,16 @@ function pmdReportText(){
       lines.push((done ? '☑ ' : '☐ ') + pmdFmtDate(ds) + ': ' + p.name + ' ' + p.dose + ' mg (' + pmdUnits(p).toFixed(1) + ' u)');
     });
   }
-  lines.push('', 'SHOPPING LIST');
+  lines.push('', 'WHAT TO BUY');
   ACTIVE_PROTOCOLS.forEach(function(s){
     var totalMg = s.dose * countDosesInRange(s), vials = Math.ceil(totalMg / s.vial) || 1;
     lines.push('• ' + s.name + ': ' + vials + ' × ' + s.vial + ' mg vial' + (vials>1?'s':'') + ', ~' + (vials * s.water) + ' mL BAC water');
   });
-  var z = INJ_ZONES.find(function(x){ return x.code === suggestedZone(); });
+  var bl = pmdBuyList();
+  lines.push('☐ Bacteriostatic water: ' + bl.bottles + ' × 30 mL bottle' + (bl.bottles>1?'s':'') + ' (~' + bl.water + ' mL)');
+  lines.push('☐ U-100 insulin syringes: ' + bl.syringes + ' (1 per dose + 10% spare)');
+  lines.push('☐ Alcohol swabs: ' + bl.swabs);
+  lines.push('☐ Sharps container: 1');  var z = INJ_ZONES.find(function(x){ return x.code === suggestedZone(); });
   lines.push('', 'Next injection site: ' + (z ? z.label : '—'));
   lines.push('', 'Educational only — verify every dose and talk to a licensed doctor.', location.origin + '/pokeme-dex.html');
   return lines.join('\n');

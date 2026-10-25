@@ -2396,7 +2396,39 @@ function pmBuild(key, btn){
 }
 
 /* ---------- printable / downloadable report ---------- */
-function pmReportHTML(){
+/* what to buy for every built schedule: vials, water, syringes, swabs */
+function pmBuyList(){
+  var items = (SCHEDULES || []).map(function(s){
+    var doses = 0, mg = 0;
+    s.rows.forEach(function(r){ doses += r.weeks * s.freq; mg += r.dose * r.weeks * s.freq; });
+    var vials = Math.max(1, Math.ceil(mg / s.vial));
+    return { name:s.name, vialMg:s.vial, vials:vials, mg:mg, water:vials * s.water, doses:doses, weeks:s.rows.reduce(function(a,r){ return a + r.weeks; }, 0) };
+  });
+  var doses = items.reduce(function(a,i){ return a + i.doses; }, 0);
+  var water = items.reduce(function(a,i){ return a + i.water; }, 0);
+  return { items:items, doses:doses, water:water, bottles:Math.ceil(water / 30), syringes:Math.ceil(doses * 1.1), swabs:doses * 2 };
+}
+function pmBuyHTML(){
+  var b = pmBuyList(); if (!b.items.length) return '<h2>What to buy</h2><p class="tip">Build a dose schedule on the page (tap <b>Build my schedule</b> on a match) and your full shopping list appears here.</p>';
+  return '<h2>What to buy</h2><table><tr><th>Peptide</th><th>Vials to buy</th><th>Total needed</th><th>BAC water</th><th>Doses</th></tr>'
+    + b.items.map(function(i){ return '<tr><td><b>' + pmEsc(i.name) + '</b><br><small>' + i.weeks + '-week schedule</small></td><td><b>' + i.vials + ' × ' + i.vialMg + ' mg</b></td><td>' + i.mg.toFixed(1) + ' mg</td><td>~' + i.water + ' mL</td><td>' + i.doses + '</td></tr>'; }).join('')
+    + '</table><table class="supplies"><tr><th>Supplies</th><th>How many</th><th>Why</th></tr>'
+    + '<tr><td>☐ Bacteriostatic water (30 mL bottles)</td><td><b>' + b.bottles + '</b></td><td>~' + b.water + ' mL total for mixing</td></tr>'
+    + '<tr><td>☐ U-100 insulin syringes (0.3–1 mL)</td><td><b>' + b.syringes + '</b></td><td>1 per dose (' + b.doses + ') + 10% spare</td></tr>'
+    + '<tr><td>☐ Alcohol prep swabs</td><td><b>' + b.swabs + '</b></td><td>vial top + skin, every dose</td></tr>'
+    + '<tr><td>☐ Sharps container</td><td><b>1</b></td><td>safe needle disposal</td></tr></table>'
+    + '<p class="tip">Rough estimates. Buy a little extra to cover priming and spills, and only buy from vendors with recent third-party COAs.</p>';
+}
+function pmBuyText(){
+  var b = pmBuyList(); if (!b.items.length) return [];
+  var L = ['', 'WHAT TO BUY'];
+  b.items.forEach(function(i){ L.push('☐ ' + i.name + ': ' + i.vials + ' × ' + i.vialMg + ' mg vials (' + i.mg.toFixed(1) + ' mg total, ' + i.doses + ' doses)'); });
+  L.push('☐ Bacteriostatic water: ' + b.bottles + ' × 30 mL bottle' + (b.bottles>1?'s':'') + ' (~' + b.water + ' mL)');
+  L.push('☐ U-100 insulin syringes: ' + b.syringes + ' (1 per dose + 10% spare)');
+  L.push('☐ Alcohol swabs: ' + b.swabs);
+  L.push('☐ Sharps container: 1');
+  return L;
+}function pmReportHTML(){
   var d = new Date(), date = d.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
   var sex = SELECTED_GENDER === 'male' ? 'Male' : SELECTED_GENDER === 'female' ? 'Female' : 'Not specified';
   var goals = []; SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
@@ -2426,13 +2458,14 @@ function pmReportHTML(){
     + '.m h3 em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#e2f6f1;color:#0b7d69;padding:3px 7px;border-radius:5px}.m h3 small{margin-left:auto;font-weight:600;color:#7a829c;font-size:12px}'
     + '.m p{margin:0 0 8px;color:#39405a}.m ul{margin:0 0 10px;padding-left:18px;color:#39405a}'
     + 'table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{border:1px solid #e3e6ef;padding:6px 8px;text-align:left}th{background:#f5f7fb;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5a6280}'
-    + '.disc{margin-top:22px;padding:12px 14px;border-radius:10px;background:#fff7e6;border:1px solid #f3d9a4;color:#6b4e12;font-size:12.5px}footer{margin-top:16px;color:#7a829c;font-size:12px;text-align:center}'
+    + 'table.supplies{margin-top:10px}.tip{margin:8px 0 0;color:#5a6280;font-size:12.5px}small{color:#7a829c}.disc{margin-top:22px;padding:12px 14px;border-radius:10px;background:#fff7e6;border:1px solid #f3d9a4;color:#6b4e12;font-size:12.5px}footer{margin-top:16px;color:#7a829c;font-size:12px;text-align:center}'
     + '@media print{body{padding:0}.noprint{display:none}}@media(max-width:600px){body{padding:18px}.meta{grid-template-columns:1fr}}'
     + '</style></head><body>'
     + '<header><img src="' + location.origin + '/VPNNEWLOGO.png?v=4" alt=""><div><h1>Peptide Match report</h1><p>Verified Peptides Network · generated ' + date + '</p></div></header>'
     + '<div class="meta"><div><b>Results for</b>' + sex + '</div><div><b>Goals</b>' + pmEsc(goals.join(', ') || '—') + '</div><div><b>Matches</b>' + PM_LAST.length + ' peptides</div></div>'
     + (PM_LAST.length ? '<h2>Your matches (ranked)</h2>' + matches : '')
     + sched
+    + pmBuyHTML()
     + '<div class="disc"><b>Educational research information only, not medical advice.</b> Protocols are typical research starting points, not prescriptions. Talk to a licensed doctor and get baseline blood work before starting anything, and verify all doses and math independently.</div>'
     + '<footer>' + location.host + ' · Research · Education · Community</footer></body></html>';
 }
@@ -2471,6 +2504,7 @@ function pmReportText(){
       s.rows.forEach(function(r, i){ var a = i*r.weeks+1, b = a+r.weeks-1, ml = r.dose/c; L.push('   ☐ Weeks ' + a + (r.weeks>1?'–'+b:'') + ': ' + r.dose.toFixed(2) + ' mg = ' + (ml*100).toFixed(1) + ' units (' + ml.toFixed(3) + ' mL)'); });
     });
   }
+  L = L.concat(pmBuyText());
   L.push('', 'Educational only — verify every dose and talk to a licensed doctor.', location.origin + '/peptide-suggestion.html');
   return L.join('\n');
 }
