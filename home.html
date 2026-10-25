@@ -31647,7 +31647,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 })();
 </script>
 <!-- ── VPN MUSIC PLAYER v3 — compact transport, easy close, docked clear of every other floating button ── -->
-<audio id="vpn-bg-audio" loop preload="auto">
+<audio id="vpn-bg-audio" loop preload="none">
   <source src="burning-skyline.mp3" type="audio/mpeg">
 </audio>
 
@@ -31818,17 +31818,9 @@ html[data-theme="light"] #vpn-mp-chip{background:#fff;border-color:#2e9e3f;} htm
     window.vpnMPLoadTrack((cur+dir+tracks.length)%tracks.length);
   };
 
-  // Autoplay on page load (muted first to satisfy browser policy, then unmute)
+  // No autoplay: music starts only when the visitor taps play (⚙ > Music player, or the player's ▶)
   sessionStorage.removeItem('vpn-from-access');
-  /* No music behind the disclaimer gate — start once the visitor enters the site */
-  var dgGate=document.getElementById('dg');
-  if(dgGate && !dgGate.classList.contains('hidden')){
-    new MutationObserver(function(_,obs){
-      if(dgGate.classList.contains('hidden')){obs.disconnect();tryPlay();}
-    }).observe(dgGate,{attributes:true,attributeFilter:['class']});
-  } else {
-    tryPlay();
-  }
+  audio.preload='none';
 
   function watchVid(v){
     v.addEventListener('play',function(){if(_playing&&!audio.paused){audio.pause();_pausedByVideo=true;setPlaying(false);}});
