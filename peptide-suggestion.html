@@ -839,7 +839,69 @@ html[data-theme="light"] .pm-top{ background:rgba(255,255,255,0.8); }
 .pm-buy-item .d{margin-top:4px;font-size:12.5px;color:var(--pm-dim);line-height:1.4;}
 .pm-buy-item.sup .q{font-size:20px;}
 .pm-buy h4{margin:16px 0 8px;font:700 12px/1 var(--pm-font);letter-spacing:0.08em;text-transform:uppercase;color:var(--pm-dim);}
-.pm-buy-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}/* section titles reused for search/resources/schedule */
+.pm-buy-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}/* ── schedule builder (clean form) ── */
+.pm-bld{ padding:22px; display:grid; gap:18px; }
+.pm-bld-step{ border:1px solid var(--pm-line); border-radius:16px; padding:18px; background:var(--pm-card2); }
+.pm-bld-h{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.pm-bld-h .n{ flex-shrink:0; width:32px; height:32px; border-radius:10px; display:grid; place-items:center; font:800 15px var(--pm-font); color:var(--pm-acc-ink); background:linear-gradient(135deg,var(--pm-acc),var(--pm-acc2)); }
+.pm-bld-h b{ display:block; font:800 17px/1.2 var(--pm-font); letter-spacing:-0.01em; color:var(--pm-text); }
+.pm-bld-h small{ font:500 13.5px/1.3 var(--pm-font); color:var(--pm-sub); }
+.pm-fields{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.pm-field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.pm-field.full{ grid-column:1 / -1; }
+.pm-field > span{ font:600 13.5px/1.2 var(--pm-font); color:var(--pm-text); }
+.pm-field > small{ font:500 12.5px/1.3 var(--pm-font); color:var(--pm-dim); }
+.pm-unit{ position:relative; }
+.pm-unit em{ position:absolute; right:14px; top:50%; transform:translateY(-50%); font:600 13.5px var(--pm-font); font-style:normal; color:var(--pm-dim); pointer-events:none; }
+.pm-unit input{ padding-right:70px !important; }
+body.pm .pm-bld .pep-input{ width:100%; box-sizing:border-box; padding:13px 14px !important; height:auto; }
+body.pm .pm-bld select.pep-input{ appearance:auto; }
+.pm-conc{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--pm-line); }
+.pm-conc-chip{ display:flex; flex-direction:column; padding:8px 12px; border-radius:12px; border:1px solid rgba(46,230,197,0.4); background:rgba(46,230,197,0.07); }
+.pm-conc-chip small{ font:600 11px var(--pm-font); letter-spacing:0.08em; text-transform:uppercase; color:var(--pm-dim); }
+.pm-conc-chip span{ font:800 16px var(--pm-font) !important; color:var(--pm-acc) !important; }
+.pm-conc-note{ flex:1 1 200px; font:500 12.5px/1.4 var(--pm-font); color:var(--pm-dim); }
+.pm-bld-go{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.pm-bld-go .pm-btn{ padding:15px 24px; font-size:16px; }
+.pm-bld-go span{ font:500 13.5px var(--pm-font); color:var(--pm-sub); }
+/* help: one tidy accordion, inner sections restyled to match */
+.pm-help{ border:1px solid var(--pm-line); border-radius:14px; background:var(--pm-card2); }
+.pm-help > summary{ list-style:none; cursor:pointer; padding:14px 16px; font:700 15px var(--pm-font); color:var(--pm-text); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.pm-help > summary::-webkit-details-marker{ display:none; }
+.pm-help > summary small{ font:500 12.5px var(--pm-font); color:var(--pm-dim); }
+.pm-help > summary::after{ content:'+'; margin-left:auto; font-size:20px; color:var(--pm-dim); }
+.pm-help[open] > summary::after{ content:'–'; }
+.pm-help-body{ padding:0 16px 16px; display:grid; gap:8px; }
+.pm-help-body details{ margin:0 !important; padding:0 !important; border:1px solid var(--pm-line) !important; border-radius:12px !important; background:var(--pm-card) !important; }
+.pm-help-body details > summary{ list-style:none; cursor:pointer; padding:12px 14px !important; font:600 14px var(--pm-font) !important; letter-spacing:0 !important; color:var(--pm-text) !important; display:flex; align-items:center; gap:8px; }
+.pm-help-body details > summary::-webkit-details-marker{ display:none; }
+.pm-help-body details > summary::after{ content:'›'; margin-left:auto; font-size:18px; color:var(--pm-dim); transition:transform .15s; }
+.pm-help-body details[open] > summary::after{ transform:rotate(90deg); }
+.pm-help-body details > div{ padding:0 14px 14px !important; font:500 14px/1.6 var(--pm-font) !important; color:var(--pm-sub) !important; }
+.pm-help-body details > div *{ font-family:var(--pm-font) !important; }
+.pm-help-body img{ max-width:100%; border-radius:10px; }
+/* generated schedule + clear */
+.pm-clear{ cursor:pointer; font:600 13px var(--pm-font); color:var(--pm-dim); }
+.pm-clear:hover{ color:#ff6b8b; }
+#schedule-pdf-tip, #shopping-list-box{ display:none !important; }
+#schedule-list > div{ background:var(--pm-card2) !important; border:1px solid var(--pm-line) !important; border-top:3px solid var(--pm-acc) !important; border-radius:14px !important; }
+#schedule-list > div > div:first-child{ border-bottom-color:var(--pm-line) !important; }
+#schedule-list *{ font-family:var(--pm-font) !important; letter-spacing:0 !important; }
+#schedule-list [style*="color:var(--cyan)"], #schedule-list strong{ color:var(--pm-acc) !important; }
+#schedule-list .schedule-row{ background:var(--pm-card) !important; border:1px solid var(--pm-line) !important; margin:8px 0 !important; padding:10px 12px !important; }
+#schedule-list .schedule-week{ color:var(--pm-sub) !important; font-weight:700 !important; }
+#schedule-list .schedule-dose{ color:var(--pm-text) !important; font-weight:800 !important; }
+/* resources: same chevron on every accordion */
+.pm-res-block > details > summary{ list-style:none !important; display:flex !important; align-items:center; gap:8px; }
+.pm-res-block > details > summary::-webkit-details-marker{ display:none; }
+.pm-res-block > details > summary::after{ content:'›'; margin-left:auto; font-size:20px; color:var(--pm-dim); transition:transform .15s; }
+.pm-res-block > details[open] > summary::after{ transform:rotate(90deg); }
+@media(max-width:640px){
+  .pm-bld{ padding:14px; gap:14px; } .pm-bld-step{ padding:14px; }
+  .pm-fields{ grid-template-columns:1fr; gap:12px; }
+  .pm-bld-go .pm-btn{ width:100%; }
+}
+/* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
 .pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
@@ -1376,38 +1438,50 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
 
   <hr class="divider">
 
-  <div class="section-heading">
-    <div class="section-eyebrow">Schedule builder</div>
-    <h2>Build your dose schedule</h2>
-    <p>Tap <b>Build my schedule</b> on any match to fill this in automatically, or enter your own numbers. Your schedule is added to your printable report.</p>
-  </div>
+  <section class="pm-sec pm-builder" id="pm-builder-sec">
+    <div class="pm-sec-h"><div class="k">Schedule builder</div><h2>Build your dose schedule</h2><p>Tap <b>Build my schedule</b> on any match to fill this in automatically, or enter your own numbers. Every schedule you build is added to your report and shopping list.</p></div>
 
-  <div class="info-row">
-    <div class="info-field">
-      <label>Peptide Name</label>
-      <input id="b-name" class="pep-input" type="text" placeholder="e.g. Retatrutide">
-    </div>
-  </div>
+    <div class="pm-card pm-bld">
+      <div class="pm-bld-step">
+        <div class="pm-bld-h"><span class="n">1</span><div><b>Your vial</b><small>Copy these from the label on your vial</small></div></div>
+        <div class="pm-fields">
+          <label class="pm-field full"><span>Peptide name</span><input id="b-name" class="pep-input" type="text" placeholder="e.g. Retatrutide"></label>
+          <label class="pm-field"><span>Peptide in the vial</span><div class="pm-unit"><input id="b-vial" class="pep-input" type="number" min="0" step="0.5" placeholder="10" oninput="onVialWaterInput('vial')"><em>mg</em></div></label>
+          <label class="pm-field"><span>Bacteriostatic water added</span><div class="pm-unit"><input id="b-water" class="pep-input" type="number" min="0" max="3" step="0.1" placeholder="2" oninput="onVialWaterInput('water')"><em>mL</em></div><small>Max 3 mL for most vials</small></label>
+        </div>
+        <div class="pm-conc">
+          <div class="pm-conc-chip"><small>Concentration</small><span id="bac-ratio-label"></span></div>
+          <button type="button" id="bac-lock-btn" class="pm-btn sm" onclick="toggleBacLock()">🔓 Keep ratio: OFF</button>
+          <input id="bac-custom-ratio" type="number" min="0" step="0.1" placeholder="custom mg/mL" class="pep-input" style="display:none;width:140px;" oninput="onCustomRatioInput()">
+          <span class="pm-conc-note">Turn on <b>Keep ratio</b> if you want changing one number to update the other automatically.</span>
+        </div>
+      </div>
 
-  <div class="info-row">
-    <div class="info-field">
-      <label>💊 How Much Is In The Vial (mg)</label>
-      <input id="b-vial" class="pep-input" type="number" min="0" step="0.5" placeholder="e.g. 10" oninput="onVialWaterInput('vial')">
-    </div>
-    <div class="info-field">
-      <label>💧 How Much Water To Add (mL)</label>
-      <input id="b-water" class="pep-input" type="number" min="0" max="3" step="0.1" placeholder="e.g. 2 (max 3)" oninput="onVialWaterInput('water')">
-    </div>
-  </div>
+      <div class="pm-bld-step">
+        <div class="pm-bld-h"><span class="n">2</span><div><b>Your dosing</b><small>Starting dose and how it steps up</small></div></div>
+        <div class="pm-fields">
+          <label class="pm-field"><span>Starting dose</span><div class="pm-unit"><input id="b-start" class="pep-input" type="number" min="0" step="0.05" placeholder="0.25"><em>mg</em></div></label>
+          <label class="pm-field"><span>Increase each step by</span><div class="pm-unit"><input id="b-step" class="pep-input" type="number" min="0" step="0.05" placeholder="0.25"><em>mg</em></div><small>Use 0 for a flat dose</small></label>
+          <label class="pm-field"><span>Weeks at each step</span><div class="pm-unit"><input id="b-weeks" class="pep-input" type="number" min="1" step="1" placeholder="4"><em>weeks</em></div></label>
+          <label class="pm-field"><span>Doses per week</span><div class="pm-unit"><input id="b-freq" class="pep-input" type="number" min="1" step="1" placeholder="1"><em>× / week</em></div><small>7 = daily</small></label>
+          <label class="pm-field full"><span>Time of day</span>
+            <select id="b-time" class="pep-input">
+              <option value="am">Morning</option>
+              <option value="pm">Evening / before bed</option>
+              <option value="any">Either, no preference</option>
+            </select>
+          </label>
+        </div>
+      </div>
 
-  <div class="info-row">
-    <div class="info-field" style="flex-direction:row;align-items:center;gap:0.6rem;display:flex;flex-wrap:wrap;">
-      <button type="button" id="bac-lock-btn" class="pep-input" style="cursor:pointer;width:auto;text-align:left;" onclick="toggleBacLock()">🔒 Lock Ratio: ON</button>
-      <span id="bac-ratio-label" style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--cyan);"></span>
-      <input id="bac-custom-ratio" type="number" min="0" step="0.1" placeholder="custom mg/mL" class="pep-input" style="display:none;width:120px;" oninput="onCustomRatioInput()">
-    </div>
-  </div>
+      <div class="pm-bld-go">
+        <button class="pm-btn pri" onclick="buildSchedule()">Generate my schedule →</button>
+        <span>Adds it to your schedule, shopping list and report below.</span>
+      </div>
 
+      <details class="pm-help">
+        <summary>❓ Help &amp; examples <small>Units math, step-by-step, Lock Ratio, GHK-Cu notes</small></summary>
+        <div class="pm-help-body">
   <details style="margin-bottom:0.75rem;">
     <summary style="cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--muted);">🧪 Reconstitution Info &amp; Example (mg, mcg, units)</summary>
     <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);line-height:1.6;padding:0.6rem 0 0;">
@@ -1463,57 +1537,25 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
       <strong style="color:var(--cyan);">Note:</strong> Copper peptides can oxidize/discolor in solution over time — store reconstituted vials in the fridge and watch for color changes (a slight blue/green tint is normal, but a strong shift may mean it's degrading).
     </div>
   </details>
+        </div>
+      </details>
+    </div>
 
-  <div class="info-row">
-    <div class="info-field">
-      <label>🎯 Dose You Start With (mg)</label>
-      <input id="b-start" class="pep-input" type="number" min="0" step="0.05" placeholder="e.g. 0.25">
+    <div class="response-box" id="schedule-box">
+      <div class="response-label" id="schedule-header" style="justify-content:space-between;">
+        <span>📅 Your dose schedule</span>
+        <span class="pm-clear" onclick="clearSchedules()">Clear all ✕</span>
+      </div>
+      <div id="schedule-list"></div>
+      <div id="schedule-actions" style="display:none; margin-top:18px; gap:10px; flex-wrap:wrap;">
+        <button class="pm-btn sm" id="copy-schedule-btn" onclick="copyScheduleText()">📋 Copy schedule</button>
+        <button class="pm-btn sm" onclick="downloadSchedulePDF()">🖨 Print schedule</button>
+      </div>
+      <div class="pdf-tip" id="schedule-pdf-tip" style="display:none;"></div>
+      <div id="shopping-list-box" style="display:none;"></div>
+      <div id="pm-buy-live"></div>
     </div>
-    <div class="info-field">
-      <label>📈 How Much To Add Each Step (mg)</label>
-      <input id="b-step" class="pep-input" type="number" min="0" step="0.05" placeholder="e.g. 0.25">
-    </div>
-  </div>
-
-  <div class="info-row">
-    <div class="info-field">
-      <label>📅 How Many Weeks Before Increasing</label>
-      <input id="b-weeks" class="pep-input" type="number" min="1" step="1" placeholder="e.g. 4">
-    </div>
-    <div class="info-field">
-      <label>🔁 How Many Times A Week</label>
-      <input id="b-freq" class="pep-input" type="number" min="1" step="1" placeholder="e.g. 1">
-    </div>
-  </div>
-
-  <div class="info-row">
-    <div class="info-field">
-      <label>🕐 Time Of Day To Take It</label>
-      <select id="b-time" class="pep-input">
-        <option value="am">Morning (AM)</option>
-        <option value="pm">Evening / Before Bed (PM)</option>
-        <option value="any">Either — No Strong Preference</option>
-      </select>
-    </div>
-  </div>
-
-  <button class="btn-primary" onclick="buildSchedule()">GENERATE MY SCHEDULE →</button>
-
-  <div class="response-box" id="schedule-box">
-    <div class="response-label" id="schedule-header" style="justify-content:space-between;">
-      <span><span class="pulse-dot"></span>YOUR DOSE SCHEDULE</span>
-      <span style="cursor:pointer;color:var(--pink);" onclick="clearSchedules()">CLEAR ALL ✕</span>
-    </div>
-    <div id="schedule-list"></div>
-    <div id="schedule-actions" style="display:none; margin-top:18px; gap:10px; flex-wrap:wrap;">
-      <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
-      <button class="btn-secondary" onclick="downloadSchedulePDF()">⬇ Download as PDF</button>
-    </div>
-    <button class="btn-secondary" id="copy-schedule-btn" style="display:none; margin-top:10px;" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
-    <div class="pdf-tip" id="schedule-pdf-tip" style="display:none;">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
-    <div id="shopping-list-box" style="display:none; margin-top:18px;"></div>
-    <div id="pm-buy-live"></div>
-  </div>
+  </section>
 
 </main>
 
@@ -1977,12 +2019,16 @@ function togglePep(el){
   card.classList.toggle('open');
 }
 
-var bacLocked = true;
+var bacLocked = false; // off by default: concentration just follows what you type
 var bacRatio = 5; // mg per mL (10mg / 2mL default)
 
 function updateBacRatioLabel(){
   var lbl = document.getElementById('bac-ratio-label');
-  if (!bacLocked) { lbl.textContent = ''; return; }
+  if (!bacLocked) {
+    var v = parseFloat(document.getElementById('b-vial').value), w = parseFloat(document.getElementById('b-water').value);
+    lbl.textContent = (v > 0 && w > 0) ? (v / w).toFixed(2) + ' mg per mL' : 'enter vial + water';
+    return;
+  }
   lbl.textContent = bacRatio.toFixed(2) + ' mg per mL';
 }
 
@@ -1997,15 +2043,12 @@ function toggleBacLock(){
   var btn = document.getElementById('bac-lock-btn');
   var customEl = document.getElementById('bac-custom-ratio');
   if (bacLocked) {
-    btn.textContent = '🔒 Lock Ratio: ON';
-    var custom = parseFloat(customEl.value);
-    if (custom > 0) bacRatio = custom; else recalcRatioFromFields();
-    customEl.style.display = 'none';
+    btn.textContent = '🔒 Keep ratio: ON';
+    recalcRatioFromFields();
   } else {
-    btn.textContent = '🔓 Lock Ratio: OFF (custom)';
-    customEl.value = bacRatio.toFixed(2);
-    customEl.style.display = 'inline-block';
+    btn.textContent = '🔓 Keep ratio: OFF';
   }
+  customEl.style.display = 'none';
   updateBacRatioLabel();
 }
 
@@ -2015,7 +2058,7 @@ function onCustomRatioInput(){
 }
 
 function onVialWaterInput(changed){
-  if (!bacLocked) return;
+  if (!bacLocked) { updateBacRatioLabel(); return; }
   var vialEl  = document.getElementById('b-vial');
   var waterEl = document.getElementById('b-water');
   var vial  = parseFloat(vialEl.value);
@@ -2245,8 +2288,6 @@ function copyShoppingText(){
 })();
 </script>
 
-<!-- BACK TO TOP -->
-<script>(function(){var b=document.createElement('button');b.innerHTML='&#9650;';b.title='Back to top';b.setAttribute('style','display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:2147483647;width:50px;height:50px;border-radius:50%;border:2px solid rgba(0,245,255,0.8);background:rgba(4,0,20,0.95);color:#00f5ff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2);transition:transform 0.2s,box-shadow 0.2s;align-items:center;justify-content:center;');b.onclick=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);;};b.onmouseover=function(){this.style.transform='scale(1.15)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';};b.onmouseout=function(){this.style.transform='scale(1)';this.style.boxShadow='0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2)';};document.body.appendChild(b);function upd(){var s=(window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop)>150;b.style.display=s?'flex':'none';}window.addEventListener('scroll',upd,{passive:true});upd();})();</script>
 <script>
 /* ══════════ PEPTIDE MATCH — wizard, results, report ══════════
    Drives the original SELECTED_GOALS / SELECTED_GENDER / PEPTIDES / GOAL_MAP data. */
