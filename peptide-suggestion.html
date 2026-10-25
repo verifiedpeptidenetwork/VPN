@@ -807,7 +807,23 @@ html[data-theme="light"] .pm-top{ background:rgba(255,255,255,0.8); }
 .pm-finish p{ margin:4px 0 0; color:var(--pm-sub); font-size:14.5px; }
 .pm-finish .pm-res-actions{ margin-left:auto; }
 
-/* section titles reused for search/resources/schedule */
+/* inflammation focus section */
+.pm-inf{ padding:22px; }
+.pm-inf-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:14px; }
+.pm-inf-box{ background:var(--pm-card2); border:1px solid var(--pm-line); border-radius:14px; padding:16px; }
+.pm-inf-box h3, .pm-inf-head h3{ margin:0 0 8px; font-size:16px; font-weight:800; letter-spacing:-0.01em; }
+.pm-inf-box p{ margin:0 0 8px; color:var(--pm-sub); font-size:14.5px; line-height:1.55; }
+.pm-inf-box p b, .pm-inf-list b{ color:var(--pm-text); }
+.pm-inf-list{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.pm-inf-list li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:var(--pm-sub); }
+.pm-inf-list li span{ flex-shrink:0; width:26px; height:26px; display:grid; place-items:center; border-radius:8px; background:rgba(255,255,255,0.05); font-size:14px; }
+.pm-inf-note{ margin:10px 0 0 !important; font-size:13px !important; color:var(--pm-dim) !important; }
+.pm-inf-basics{ margin:14px 0 0; padding:12px 14px; border-radius:12px; border:1px solid rgba(46,230,197,0.35); background:rgba(46,230,197,0.06); font-size:14.5px; line-height:1.5; color:var(--pm-sub); }
+.pm-inf-basics b{ color:var(--pm-acc); }
+.pm-inf-head{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:22px 0 12px; }
+.pm-inf-head h3{ margin:0; }
+.pm-inf-head .pm-btn{ margin-left:auto; }
+@media(max-width:640px){ .pm-inf{ padding:14px; } .pm-inf-head .pm-btn{ margin-left:0; width:100%; } }/* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
 .pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
@@ -860,6 +876,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <a class="pm-brand" href="home.html"><img src="VPNNEWLOGO.png?v=4" alt="VPN logo"><span><span class="pm-long">Verified Peptides Network</span><span class="pm-short">VPN · Peptide Match</span><small class="pm-long">Peptide Match</small></span></a>
     <nav class="pm-top-links">
       <a href="home.html">← Home</a>
+      <a class="hide-sm" href="#pm-inflam">Inflammation</a>
       <a class="hide-sm" href="pokeme-dex.html">PokeMe-Dex tracker</a>
       <a href="#pm-builder">Schedule</a>
     </nav>
@@ -949,6 +966,41 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <button class="pm-btn pri" onclick="pmSearch()">Look up</button>
   </div>
   <div class="pm-list" id="pm-search-out" style="margin-top:14px;"></div>
+</section>
+
+<section class="pm-sec" id="pm-inflam">
+  <div class="pm-sec-h"><div class="k">Focus topic</div><h2>🌡️ Inflammation</h2><p>What it is, how to measure it, and which peptides this tool links to it.</p></div>
+  <div class="pm-card pm-inf">
+    <div class="pm-inf-grid">
+      <div class="pm-inf-box">
+        <h3>Two kinds</h3>
+        <p><b>Short-term (acute)</b> is healthy. It's the redness and swelling that repairs a cut, a strain or an infection, then switches off.</p>
+        <p><b>Long-term (chronic, low-grade)</b> doesn't switch off. It's linked with joint pain, gut problems, skin flare-ups, insulin resistance and heart disease.</p>
+      </div>
+      <div class="pm-inf-box">
+        <h3>Where it shows up</h3>
+        <ul class="pm-inf-list">
+          <li><span>🌀</span><b>Gut</b> — bloating, IBS/IBD symptoms, food reactions</li>
+          <li><span>🦴</span><b>Joints &amp; tendons</b> — stiffness, swelling, slow healing</li>
+          <li><span>✨</span><b>Skin</b> — redness, acne, eczema-type flares</li>
+          <li><span>🔥</span><b>Whole body</b> — fatigue, aches, brain fog</li>
+        </ul>
+      </div>
+      <div class="pm-inf-box">
+        <h3>Blood tests to ask about</h3>
+        <ul class="pm-inf-list">
+          <li><span>🩸</span><b>hs-CRP</b> — the main general inflammation marker</li>
+          <li><span>🩸</span><b>ESR</b> — a slower-moving inflammation marker</li>
+          <li><span>🩸</span><b>CBC with differential</b> — white blood cell picture</li>
+          <li><span>🩸</span><b>HbA1c / fasting insulin</b> — blood sugar, a big driver of chronic inflammation</li>
+        </ul>
+        <p class="pm-inf-note">Test before and during any research so you can see whether anything actually changes.</p>
+      </div>
+    </div>
+    <div class="pm-inf-basics"><b>The basics move the numbers most:</b> sleep, a healthy waistline, regular movement, fewer ultra-processed foods and enough omega-3. Peptides are researched as an add-on, not a replacement.</div>
+    <div class="pm-inf-head"><h3>Peptides this tool links to inflammation</h3><button class="pm-btn pri sm" onclick="pmStartWithGoal('inflammation')">Match me for inflammation →</button></div>
+    <div class="pm-list" id="pm-inflam-list"></div>
+  </div>
 </section>
 
 <section class="pm-sec pm-res-block">
@@ -2381,7 +2433,21 @@ function pmReportHTML(){
     + '<div class="disc"><b>Educational research information only, not medical advice.</b> Protocols are typical research starting points, not prescriptions. Talk to a licensed doctor and get baseline blood work before starting anything, and verify all doses and math independently.</div>'
     + '<footer>' + location.host + ' · Research · Education · Community</footer></body></html>';
 }
-/* ---------- save to Notes / Google Keep (phone share sheet, copy fallback) ---------- */
+/* inflammation section: list the peptides mapped to it, and a shortcut into the quiz */
+(function(){
+  var out = document.getElementById('pm-inflam-list'); if (!out) return;
+  var keys = (GOAL_MAP.inflammation || []).filter(function(k){ return PEPTIDES[k]; });
+  out.innerHTML = keys.map(function(k, i){ return pmCard({ key:k, count:0, goals:['inflammation'] }, i + 1, 0); }).join('');
+})();
+function pmStartWithGoal(g){
+  SELECTED_GOALS.add(g);
+  var b = document.querySelector('.pm-goal[data-g="' + g + '"]'); if (b) b.classList.add('sel');
+  var n = SELECTED_GOALS.size;
+  document.getElementById('pm-goal-count').textContent = n + ' goal' + (n>1?'s':'') + ' selected';
+  document.getElementById('pm-next-2').disabled = false;
+  pmGo(PM_SEX_SET ? 2 : 1);
+  document.getElementById('pm-wizard').scrollIntoView({ behavior:'smooth', block:'start' });
+}/* ---------- save to Notes / Google Keep (phone share sheet, copy fallback) ---------- */
 function pmReportText(){
   var L = [], total = SELECTED_GOALS.size, goals = [];
   SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
