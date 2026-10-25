@@ -31609,6 +31609,14 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 <!-- Collapsed FAB — parked well above the back-to-top / close-all cluster -->
 <div id="vpn-mp-fab" title="Open music player" role="button" tabindex="0" aria-label="Open music player" style="position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;width:52px;height:52px;border-radius:50%;border:2px solid #00ff41;background:rgba(0,8,28,0.96);color:#00ff41;font-size:1.3rem;cursor:grab;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,255,65,0.5),0 0 40px rgba(0,255,65,0.18);user-select:none;-webkit-user-select:none;">&#127925;</div>
 
+<!-- Mini "now playing" bar: shown while music plays and the panel is closed, so it can always be paused, muted or stopped -->
+<div id="vpn-mp-chip" role="region" aria-label="Music controls">
+  <button type="button" class="mpc-lbl" onclick="vpnMPOpen()" title="Open music player">🎵 <span>Music</span></button>
+  <button type="button" id="vpn-mp-chip-pp" onclick="vpnMPToggle()" title="Play / pause" aria-label="Play or pause">⏸</button>
+  <button type="button" id="vpn-mp-chip-mute" onclick="vpnMPMute()" title="Mute" aria-label="Mute music">🔊</button>
+  <button type="button" class="mpc-x" onclick="vpnMPClose()" title="Stop and close" aria-label="Stop music and close">✕</button>
+</div>
+
 <!-- Expanded panel -->
 <div id="vpn-mp-panel" role="dialog" aria-label="Music player" style="position:fixed;bottom:9.6rem;right:1.4rem;z-index:2147483646;width:272px;max-width:calc(100vw - 2rem);max-height:calc(100vh - 10.6rem);background:rgba(4,0,14,0.97);border:2px solid rgba(0,255,65,0.55);border-radius:16px;box-shadow:0 0 34px rgba(0,255,65,0.28),0 8px 28px rgba(0,0,0,0.85);backdrop-filter:blur(14px);overflow:hidden;display:none;flex-direction:column;">
   <div id="vpn-mp-header" style="flex-shrink:0;display:flex;align-items:center;gap:0.5rem;padding:0.65rem 0.5rem 0.65rem 0.9rem;background:rgba(0,255,65,0.08);border-bottom:1px solid rgba(0,255,65,0.14);cursor:grab;">
@@ -31617,6 +31625,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       <div id="vpn-mp-track" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;color:#00ff41;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">BURNING SKYLINE</div>
       <div id="vpn-mp-status" style="font-family:'Rajdhani',sans-serif;font-size:0.6rem;font-weight:600;color:rgba(0,255,65,0.4);letter-spacing:0.06em;">TAP PLAY TO START</div>
     </div>
+    <button id="vpn-mp-mute" onclick="vpnMPMute()" title="Mute" aria-label="Mute music" style="background:none;border:1.5px solid rgba(0,255,65,0.35);border-radius:50%;color:#00ff41;font-size:0.95rem;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;">🔊</button>
     <button id="vpn-mp-min" onclick="vpnMPCollapse()" title="Minimize" aria-label="Minimize player" style="background:none;border:none;color:rgba(0,255,65,0.45);font-size:1.05rem;cursor:pointer;width:30px;height:30px;line-height:1;flex-shrink:0;">&#8722;</button>
     <button id="vpn-mp-close" onclick="vpnMPClose()" title="Close player" aria-label="Close player" style="background:rgba(255,45,80,0.14);border:1.5px solid rgba(255,60,80,0.5);border-radius:50%;color:#ff4d6a;font-size:1rem;cursor:pointer;width:30px;height:30px;line-height:1;flex-shrink:0;display:flex;align-items:center;justify-content:center;">&#x2715;</button>
   </div>
@@ -31667,6 +31676,13 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 #vpn-mp-pp:hover,#vpn-mp-prev:hover,#vpn-mp-next:hover{background:rgba(0,255,65,0.22);border-color:#00ff41;}
 @keyframes vpnMPPulse{0%,100%{box-shadow:0 0 18px rgba(0,255,65,0.5),0 0 40px rgba(0,255,65,0.18);}50%{box-shadow:0 0 26px rgba(0,255,65,0.8),0 0 55px rgba(0,255,65,0.4);}}
 #vpn-mp-fab.playing{animation:vpnMPPulse 2s ease-in-out infinite;}
+#vpn-mp-chip{position:fixed;left:12px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:2147483645;display:none;align-items:center;gap:4px;padding:4px;border-radius:999px;background:rgba(6,10,8,0.92);border:1.5px solid rgba(0,255,65,0.55);box-shadow:0 6px 20px rgba(0,0,0,0.5),0 0 14px rgba(0,255,65,0.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+#vpn-mp-chip.on{display:flex;}
+#vpn-mp-chip button{height:34px;min-width:34px;border-radius:999px;border:none;background:rgba(0,255,65,0.1);color:#00ff41;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 9px;}
+#vpn-mp-chip .mpc-lbl{font:700 13px 'Rajdhani',sans-serif;letter-spacing:0.06em;background:none;}
+#vpn-mp-chip .mpc-x{background:rgba(255,45,80,0.18);color:#ff7b92;}
+@media(max-width:900px){ body:has(#vpn-bottom-nav) #vpn-mp-chip{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px));} }
+html[data-theme="light"] #vpn-mp-chip{background:#fff;border-color:#2e9e3f;} html[data-theme="light"] #vpn-mp-chip button{color:#1a6b2a;}
 @media(max-width:500px){
   #vpn-mp-panel{width:calc(100vw - 2rem);right:1rem;bottom:9.6rem;}
   #vpn-mp-fab{right:1rem;bottom:9.6rem;}
@@ -31711,6 +31727,22 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
   window.vpnMPExpand=function(){if(_closed)return;panel.style.display='flex';fab.style.display='none';};
   window.vpnMPCollapse=function(){panel.style.display='none';fab.style.display='flex';};
   window.vpnMPClose=function(){panel.style.display='none';fab.style.display='none';audio.pause();setPlaying(false);_closed=true;var fi=document.getElementById('vpn-mp-yt-iframe');if(fi)fi.src='';};
+  // Open from the ⚙ menu (the floating button is hidden on phones), mute, and a mini bar so music can always be stopped
+  var chip=document.getElementById('vpn-mp-chip'), muteBtn=document.getElementById('vpn-mp-mute');
+  function syncChip(){
+    if(!chip) return;
+    var panelOpen=panel.style.display==='flex';
+    chip.classList.toggle('on', !audio.paused && !panelOpen && !_closed);
+    var cp=document.getElementById('vpn-mp-chip-pp'); if(cp) cp.textContent=audio.paused?'▶':'⏸';
+    var cm=document.getElementById('vpn-mp-chip-mute'); if(cm) cm.textContent=audio.muted?'🔇':'🔊';
+    if(muteBtn) muteBtn.textContent=audio.muted?'🔇':'🔊';
+  }
+  window.vpnMPOpen=function(){ _closed=false; panel.style.display='flex'; fab.style.display='none'; syncChip(); };
+  window.vpnMPMute=function(){ audio.muted=!audio.muted; syncChip(); };
+  ['play','pause','volumechange'].forEach(function(ev){ audio.addEventListener(ev, function(){ setTimeout(syncChip,0); }); });
+  var _origCollapse=window.vpnMPCollapse, _origClose=window.vpnMPClose;
+  window.vpnMPCollapse=function(){ _origCollapse(); syncChip(); };
+  window.vpnMPClose=function(){ _origClose(); syncChip(); };
   window.vpnMPSwitchTab=function(tab){
     var lp=document.getElementById('vpn-mp-local-panel');
     var yp=document.getElementById('vpn-mp-yt-panel');
@@ -32662,7 +32694,7 @@ window.addEventListener('appinstalled', function(){
     if(g==='theme'){ if(window.vpnThemeToggle) window.vpnThemeToggle(); setTimeout(syncTheme,50); return; }
     if(g==='aplus') return textBtn(true);
     if(g==='aminus') return textBtn(false);
-    if(g==='music'){ var m=document.getElementById('vpn-mp-fab'); if(m) m.click(); open(false); return; }
+    if(g==='music'){ if(window.vpnMPOpen) window.vpnMPOpen(); open(false); return; }
     if(g==='top'){ window.scrollTo({top:0,behavior:'smooth'}); open(false); }
   });
   function fillHub(){ var src=document.getElementById('gw-menu-home'), dst=document.getElementById('vpn-gear-hub'); if(!src||!dst||dst.children.length) return;
