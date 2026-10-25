@@ -826,7 +826,20 @@ html[data-theme="light"] .pm-top{ background:rgba(255,255,255,0.8); }
 .pm-inf-head{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:22px 0 12px; }
 .pm-inf-head h3{ margin:0; }
 .pm-inf-head .pm-btn{ margin-left:auto; }
-@media(max-width:640px){ .pm-inf{ padding:14px; } .pm-inf-head .pm-btn{ margin-left:0; width:100%; } }/* section titles reused for search/resources/schedule */
+@media(max-width:640px){ .pm-inf{ padding:14px; } .pm-inf-head .pm-btn{ margin-left:0; width:100%; } }/* live "what to buy" card under the schedule */
+#pm-buy-live:empty{display:none;}
+.pm-buy{margin-top:20px;border:1px solid rgba(46,230,197,0.45);border-radius:16px;background:linear-gradient(135deg,rgba(46,230,197,0.07),rgba(91,140,255,0.07));padding:18px;}
+.pm-buy h3{margin:0 0 4px;font:800 18px/1.2 var(--pm-font);letter-spacing:-0.02em;color:var(--pm-text);}
+.pm-buy > p{margin:0 0 14px;color:var(--pm-sub);font:500 14px/1.5 var(--pm-font);}
+.pm-buy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:10px;}
+.pm-buy-item{background:var(--pm-card);border:1px solid var(--pm-line);border-radius:12px;padding:12px 14px;font-family:var(--pm-font);}
+.pm-buy-item .n{font-size:13px;font-weight:700;color:var(--pm-sub);}
+.pm-buy-item .q{margin-top:2px;font-size:22px;font-weight:800;letter-spacing:-0.02em;color:var(--pm-text);}
+.pm-buy-item .q small{font-size:13px;font-weight:600;color:var(--pm-sub);}
+.pm-buy-item .d{margin-top:4px;font-size:12.5px;color:var(--pm-dim);line-height:1.4;}
+.pm-buy-item.sup .q{font-size:20px;}
+.pm-buy h4{margin:16px 0 8px;font:700 12px/1 var(--pm-font);letter-spacing:0.08em;text-transform:uppercase;color:var(--pm-dim);}
+.pm-buy-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}/* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
 .pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
@@ -1499,6 +1512,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <button class="btn-secondary" id="copy-schedule-btn" style="display:none; margin-top:10px;" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
     <div class="pdf-tip" id="schedule-pdf-tip" style="display:none;">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
     <div id="shopping-list-box" style="display:none; margin-top:18px;"></div>
+    <div id="pm-buy-live"></div>
   </div>
 
 </main>
@@ -2428,7 +2442,28 @@ function pmBuyText(){
   L.push('☐ Alcohol swabs: ' + b.swabs);
   L.push('☐ Sharps container: 1');
   return L;
-}function pmReportHTML(){
+}/* live shopping list under the schedule builder — refreshes whenever a schedule is built or cleared */
+function pmRenderBuyLive(){
+  var out = document.getElementById('pm-buy-live'); if (!out) return;
+  var b = pmBuyList(); if (!b.items.length) { out.innerHTML = ''; return; }
+  var it = b.items.map(function(i){
+    return '<div class="pm-buy-item"><div class="n">' + pmEsc(i.name) + '</div><div class="q">' + i.vials + ' vial' + (i.vials>1?'s':'') + ' <small>× ' + i.vialMg + ' mg</small></div>'
+      + '<div class="d">' + i.mg.toFixed(1) + ' mg over ' + i.weeks + ' weeks · ' + i.doses + ' doses · ~' + i.water + ' mL water</div></div>';
+  }).join('');
+  var sup = [['Bacteriostatic water', b.bottles + ' <small>× 30 mL</small>', '~' + b.water + ' mL total for mixing'],
+             ['Insulin syringes (U-100)', b.syringes, '1 per dose (' + b.doses + ') + 10% spare'],
+             ['Alcohol swabs', b.swabs, 'vial top + skin, every dose'],
+             ['Sharps container', 1, 'safe needle disposal']]
+    .map(function(s){ return '<div class="pm-buy-item sup"><div class="n">' + s[0] + '</div><div class="q">' + s[1] + '</div><div class="d">' + s[2] + '</div></div>'; }).join('');
+  out.innerHTML = '<div class="pm-buy"><h3>🛒 What to buy for this protocol</h3><p>Worked out from your schedule above. Rough estimates, so buy a little extra for priming and spills.</p>'
+    + '<h4>Peptides</h4><div class="pm-buy-grid">' + it + '</div><h4>Supplies</h4><div class="pm-buy-grid">' + sup + '</div>'
+    + '<div class="pm-buy-actions"><button class="pm-btn sm pri" onclick="pmPrintReport()">🖨 Print / Save PDF</button><button class="pm-btn sm" onclick="pmShareNotes()">📝 Save to Notes</button><button class="pm-btn sm" onclick="pmDownloadReport()">⬇ Download</button></div></div>';
+}
+(function(){
+  var build = buildSchedule, clear = clearSchedules;
+  buildSchedule = function(silent){ build(silent); pmRenderBuyLive(); };
+  clearSchedules = function(){ clear(); pmRenderBuyLive(); };
+})();function pmReportHTML(){
   var d = new Date(), date = d.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
   var sex = SELECTED_GENDER === 'male' ? 'Male' : SELECTED_GENDER === 'female' ? 'Female' : 'Not specified';
   var goals = []; SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
