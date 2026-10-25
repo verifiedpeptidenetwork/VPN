@@ -7720,136 +7720,102 @@ document.addEventListener('keydown', function(e){
 
 
 
-      <!-- Glowrilla dropdown -->
-      <div class="qa-dropdown" id="glowrillaDropdown">
-        <button class="qa-trigger hbtn" onclick="document.getElementById('glowrillaDropdown').classList.toggle('open')" style="border-color:rgba(0,245,255,0.7);color:#00f5ff;text-shadow:0 0 8px #00f5ff;animation:glowBadgeCyan 2.8s ease-in-out infinite;">
-          🦍 GLOWRILLA'S SELF &amp; PEPTIDE PROTOCOLS <span style="font-size:0.75rem;opacity:0.8;">▼</span>
+      <!-- Glowrilla's Peptide Lab — switching guides, peptide research guides, Glowrilla's own protocols -->
+      <style>
+        #glowrillaLab{display:block;width:100%;margin:0 auto 0.85rem;}
+        #glowrillaLab > .qa-trigger{width:100%;justify-content:center;}
+        #glowrillaLabPanel{display:none;flex:0 0 100%;order:99;box-sizing:border-box;margin:0 0 0.85rem;padding:1rem;border:2px solid rgba(0,245,255,0.5);border-radius:10px;background:#000;box-shadow:0 0 24px rgba(0,245,255,0.15);text-align:left;}
+        #glowrillaLabPanel.open{display:block;}
+        #glowrillaLabPanel .gl-h{display:flex;align-items:center;gap:0.5rem;margin:1.2rem 0 0.6rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.12em;color:var(--gc,#00f5ff);border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:0.35rem;}
+        #glowrillaLabPanel .gl-h:first-child{margin-top:0;}
+        #glowrillaLabPanel .gl-h small{margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.04em;color:rgba(255,255,255,0.5);}
+        #glowrillaLabPanel .gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.8rem;}
+        #glowrillaLabPanel .gl-card{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.12);border-top:3px solid var(--gc,#00f5ff);border-radius:8px;overflow:hidden;background:#05050b;}
+        #glowrillaLabPanel .gl-card img{width:100%;height:230px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;background:#0a0a14;}
+        #glowrillaLabPanel .gl-card b{display:block;padding:0.55rem 0.7rem 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.05rem;letter-spacing:0.08em;color:var(--gc,#00f5ff);}
+        #glowrillaLabPanel .gl-card p{margin:0.2rem 0 0;padding:0 0.7rem 0.7rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;line-height:1.4;color:rgba(230,236,250,0.88);}
+        #glowrillaLabPanel .gl-card p em{font-style:normal;color:#ffd45c;}
+        #glowrillaLabPanel .gl-switch{--gc:#ff2d95;padding:0.8rem;border:2px solid rgba(255,45,149,0.55);border-radius:10px;background:linear-gradient(135deg,rgba(255,45,149,0.1),rgba(0,245,255,0.06));}
+        #glowrillaLabPanel .gl-switch .gl-h{margin-top:0;}
+        #glowrillaLabPanel .gl-own{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.4rem;}
+        #glowrillaLabPanel .gl-own button{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.75rem;border:1px solid rgba(0,245,255,0.25);border-radius:6px;background:#05050b;color:#00f5ff;cursor:pointer;text-align:left;font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.08em;}
+        #glowrillaLabPanel .gl-own button span{font-size:1.2rem;}
+        #glowrillaLabPanel .gl-own button:hover{background:rgba(0,245,255,0.08);}
+        #glowrillaLabPanel .gl-note{margin:1rem 0 0;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);}
+        @media(max-width:500px){ #glowrillaLabPanel{padding:0.7rem;} #glowrillaLabPanel .gl-grid{grid-template-columns:1fr 1fr;gap:0.5rem;} #glowrillaLabPanel .gl-card img{height:170px;} #glowrillaLabPanel .gl-card p{font-size:0.84rem;} }
+        html[data-theme="light"] #glowrillaLabPanel,html[data-theme="light"] #glowrillaLabPanel .gl-card,html[data-theme="light"] #glowrillaLabPanel .gl-own button{background:#fff;}
+        html[data-theme="light"] #glowrillaLabPanel .gl-card p{color:#26324a;} html[data-theme="light"] #glowrillaLabPanel .gl-card p em{color:#8a5a00;}
+      </style>
+      <div class="qa-dropdown" id="glowrillaLab" data-search="glowrilla peptide lab protocol guides switching tirz reta tirzepatide retatrutide cagrilintide cagrisema eloralintide aod-9604 tesamorelin mots-c ss-31 ghk-cu kpv ara-290 cartalax epitalon dsip semax selank">
+        <button class="qa-trigger hbtn" onclick="var p=document.getElementById('glowrillaLabPanel');p.classList.toggle('open');if(p.classList.contains('open'))p.scrollIntoView({behavior:'smooth',block:'start'});" style="border-color:rgba(0,245,255,0.7);color:#00f5ff;text-shadow:0 0 8px #00f5ff;animation:glowBadgeCyan 2.8s ease-in-out infinite;">
+          🦍 GLOWRILLA'S PEPTIDE LAB — GUIDES &amp; PROTOCOLS <span style="font-size:0.75rem;opacity:0.8;">▼</span>
         </button>
-        <div class="qa-panel" style="min-width:280px;background:#000;border-color:rgba(0,245,255,0.5);box-shadow:0 8px 32px #000,0 0 24px rgba(0,245,255,0.2);">
-          <div class="qa-item" onclick="openLightbox('cheatsheet/glowrillasresearchstack.png','Glowrilla\'s Self Protocol');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🦍</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Glowrilla's Self Protocol</div>
-              
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('cheatsheet/MOTSC%20SS31%20SEQUENCE.png','MOTSC &amp; SS-31 — Mitochondrial Sequencing Guide');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🧬</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">MOTSC &amp; SS-31 Sequencing Guide</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Mitochondrial protocol — click to zoom</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('glowrillavitaminprotocol.jpg','Glowrilla\'s Vitamin Protocol');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">💊</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Glowrilla's Vitamin Protocol</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Full supplement &amp; vitamin stack</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('cheatsheet/ss31nad.png','SS-31 + NAD+ — The Ultimate Mitochondrial Alliance');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">⚡</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">SS-31 + NAD+ Mitochondrial Alliance</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Energy · oxidative stress · cellular protection</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('cheatsheet/motscnad.png','MOTSC + NAD+ — Metabolic Reboot &amp; Insulin Sensitivity');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🔥</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">MOTSC + NAD+ Metabolic Reboot</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Insulin sensitivity · metabolic health</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('cheatsheet/glpbnenefits.jpg','GLP Benefits — Research Overview');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">💉</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">GLP Benefits — Research Overview</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Full benefit breakdown · mechanism · research</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('damaged mito.jpg','Damaged Mitochondria — What Happens If They Aren\'t Cleared?');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🔬</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Damaged Mitochondria — What Happens If Not Cleared</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Mitophagy · ROS · why cleanup matters</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('damaged mito2.jpg','Mitochondria — Clean, Repair, Revitalize');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🔄</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Mitochondria: Clean → Repair → Revitalize</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">6–8 month phased plan · RA &amp; mid-50s fatigue</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('damaged mito3.jpg','Why SS-31 Comes Before MOTS-c');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🧭</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Why SS-31 Comes Before MOTS-c</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">The correct repair-then-optimize sequence</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('damaged mitotrifecta.jpg','The Mitochondria Trifecta');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">⚡</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">The Mitochondria Trifecta</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">Urolithin A + SS-31 + MOTS-c · full dosing, over 40</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('3powerfulpeps.jpg','3 Powerful Peptides for Inflammation, Autoimmune Disease &amp; Arthritis');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🦍</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">3 Powerful Peptides — Inflammation &amp; Arthritis</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">GLP-1s · BPC-157 · TB4</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div class="qa-item" onclick="openLightbox('4powerfulpeps.jpg','4 Powerful Peptides for Inflammation, Autoimmune Disease &amp; Arthritis');document.getElementById('glowrillaDropdown').classList.remove('open')" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;border-bottom:1px solid rgba(0,245,255,0.12);">
-            <span style="font-size:1.3rem;">🦍</span>
-            <div>
-              <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">4 Powerful Peptides — Research Dosing Guide</div>
-              <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">GLP-1s · BPC-157 · TB4 · Thymosin Alpha-1</div>
-            </div>
-            <span style="color:#00f5ff;margin-left:auto;">↗</span>
-          </div>
-          <div style="border-bottom:0;">
-            <div class="qa-item" onclick="var p=document.getElementById('glwSwitchPanel');var open=p.style.display==='block';p.style.display=open?'none':'block';document.getElementById('glwSwitchArr').textContent=open?'▼':'▲';" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;cursor:pointer;">
-              <span style="font-size:1.3rem;">🔄</span>
-              <div>
-                <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#00f5ff;">Tirz ⇌ Reta Switching Guide</div>
-                <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.55);margin-top:2px;">3 guides — washout · RHR · Cagri · Eloralin</div>
-              </div>
-              <span id="glwSwitchArr" style="color:#00f5ff;margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;">▼</span>
-            </div>
-            <div id="glwSwitchPanel" style="display:none;padding:0 1rem 1rem;background:rgba(0,245,255,0.03);border-top:1px solid rgba(0,245,255,0.1);">
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:0.6rem;">
-                <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/switchingfromtirztoretaviceversa.png','Tirz ⇌ Reta Switching Guide — Research Smart. Switch Smarter.')">
-                  <img loading="lazy" src="cheatsheet/switchingfromtirztoretaviceversa.png" alt="Tirz ⇌ Reta Switching Guide" style="width:100%;display:block;border-radius:4px;border:1px solid rgba(0,245,255,0.3);" title="Click to zoom">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:rgba(0,245,255,0.7);margin-top:3px;text-align:center;">Vol. 1</div>
-                </div>
-                <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/switchfromtirztoreta.jpg','Tirz ⇌ Reta Switching Guide (Vol. 2)')">
-                  <img loading="lazy" src="cheatsheet/switchfromtirztoreta.jpg" alt="Tirz ⇌ Reta Switching Guide Vol. 2" style="width:100%;display:block;border-radius:4px;border:1px solid rgba(0,245,255,0.3);" title="Click to zoom">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:rgba(0,245,255,0.7);margin-top:3px;text-align:center;">Vol. 2</div>
-                </div>
-                <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/retatotirzcagrielora.png','Reta · Tirz · Cagrilintide · Eloralinatide — Full Switching Reference')">
-                  <img loading="lazy" src="cheatsheet/retatotirzcagrielora.png" alt="Reta Tirz Cagrilintide Eloralinatide Reference" style="width:100%;display:block;border-radius:4px;border:1px solid rgba(0,245,255,0.3);" title="Click to zoom">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:rgba(0,245,255,0.7);margin-top:3px;text-align:center;">Full Ref</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+      <div class="gl-panel" id="glowrillaLabPanel">
+
+          <div class="gl-switch">
+            <div class="gl-h">🔄 SWITCHING TIRZ ⇌ RETA <small>Start here if you're changing GLPs</small></div>
+            <div class="gl-grid">
+              <div class="gl-card"><img loading="lazy" src="cheatsheet/switchingfromtirztoretaviceversa.png" alt="Tirz ⇌ Reta Switching Guide" onclick="openLightbox(this.src,'Tirz ⇌ Reta Switching Guide — Vol. 1')"><b>Switching Guide — Vol. 1</b><p>How to move from tirzepatide to retatrutide (or back): when to take the next dose, which starting dose matches where you are now, and why you shouldn't jump straight to the same milligrams.</p></div>
+              <div class="gl-card"><img loading="lazy" src="cheatsheet/switchfromtirztoreta.jpg" alt="Tirz ⇌ Reta Switching Guide Vol. 2" onclick="openLightbox(this.src,'Tirz ⇌ Reta Switching Guide — Vol. 2')"><b>Switching Guide — Vol. 2</b><p>The switch step by step, plus what to watch: <em>resting heart rate</em>, stomach side effects and appetite in the first weeks on the new compound.</p></div>
+              <div class="gl-card"><img loading="lazy" src="cheatsheet/retatotirzcagrielora.png" alt="Reta Tirz Cagrilintide Eloralintide reference" onclick="openLightbox(this.src,'Reta · Tirz · Cagrilintide · Eloralintide — Switching Reference')"><b>Reta · Tirz · Cagri · Elora Reference</b><p>One chart comparing all four: which receptors each one hits, weekly dose ranges, and how they line up if you add or swap an amylin (cagrilintide or eloralintide).</p></div>
+            </div>
+          </div>
+
+          <div class="gl-h" style="--gc:#ff2d95;">⚖️ WEIGHT LOSS &amp; METABOLIC <small>GLPs · amylin · fat-loss peptides</small></div>
+          <div class="gl-grid">
+            <div class="gl-card" style="--gc:#3ff3ff;"><img loading="lazy" src="cheatsheet/glowrilla-lab/tirz.jpg" alt="Tirzepatide guide" onclick="openLightbox(this.src,'Tirzepatide — Dosing Chart &amp; Protocol Guide')"><b>Tirzepatide (Mounjaro / Zepbound)</b><p>Dual GIP + GLP-1 agonist, <em>FDA-approved</em>. The label schedule goes from 2.5 mg up to 15 mg weekly. Includes mixing math for 10, 40 and 60 mg vials, side effects and which labs to monitor.</p></div>
+            <div class="gl-card" style="--gc:#3ff3ff;"><img loading="lazy" src="cheatsheet/glowrilla-lab/retatrutide.jpg" alt="Retatrutide guide" onclick="openLightbox(this.src,'Retatrutide — Peptide Research Guide')"><b>Retatrutide</b><p>Triple agonist (GLP-1, GIP and glucagon). Up to <em>24.2% weight loss</em> in Phase 2. Shows the Phase 3 titration from 2 mg to 12 mg weekly, plus mixing math. Still investigational, not FDA-approved.</p></div>
+            <div class="gl-card" style="--gc:#ff2d95;"><img loading="lazy" src="cheatsheet/glowrilla-lab/cagri.jpg" alt="Cagrilintide guide" onclick="openLightbox(this.src,'Cagrilintide — Peptide Research Guide')"><b>Cagrilintide</b><p>A long-acting copy of amylin, the "I'm full" hormone. It ends meals sooner and slows stomach emptying, through a different pathway from GLP-1s. Investigational.</p></div>
+            <div class="gl-card" style="--gc:#ff2d95;"><img loading="lazy" src="cheatsheet/glowrilla-lab/cagrisema.jpg" alt="CagriSema guide" onclick="openLightbox(this.src,'CagriSema — Cagrilintide + Semaglutide')"><b>CagriSema (Cagri + Sema)</b><p>Cagrilintide plus semaglutide, the combo Novo Nordisk is testing in Phase 3 trials. Amylin and GLP-1 working together on appetite.</p></div>
+            <div class="gl-card" style="--gc:#ff2d95;"><img loading="lazy" src="cheatsheet/glowrilla-lab/cagritirz.jpg" alt="Cagrilintide + Tirzepatide guide" onclick="openLightbox(this.src,'Cagrilintide + Tirzepatide — Stack Guide')"><b>Cagrilintide + Tirzepatide</b><p>Amylin plus GIP/GLP-1, which covers three receptors. Lays out a separate-vial protocol and dosing math. This exact combo has <em>no human trials</em>; the rationale comes from CagriSema data.</p></div>
+            <div class="gl-card" style="--gc:#ff2d95;"><img loading="lazy" src="cheatsheet/glowrilla-lab/cagrireta.jpg" alt="Cagrilintide + Retatrutide guide" onclick="openLightbox(this.src,'Cagrilintide + Retatrutide — Four-Receptor Stack Guide')"><b>Cagrilintide + Retatrutide</b><p>Four receptors: amylin, GLP-1, GIP and glucagon. Covers a pre-blended 5:1 vial and a staggered plan (reta first, cagri added at week 9). <em>No human trials</em> of this combo.</p></div>
+            <div class="gl-card" style="--gc:#ff2d95;"><img loading="lazy" src="cheatsheet/glowrilla-lab/elora.jpg" alt="Eloralintide guide" onclick="openLightbox(this.src,'Eloralintide — Peptide Research Guide')"><b>Eloralintide</b><p>Eli Lilly's selective amylin agonist, given weekly. Phase 2 showed up to about <em>20% weight loss</em> at 48 weeks; Phase 3 is under way. Its milligram doses don't match sema, tirz or reta.</p></div>
+            <div class="gl-card" style="--gc:#ffd45c;"><img loading="lazy" src="cheatsheet/glowrilla-lab/aod.jpg" alt="AOD-9604 guide" onclick="openLightbox(this.src,'AOD-9604 — Peptide Research Guide')"><b>AOD-9604</b><p>A small fragment of growth hormone (aa 177–191) marketed for fat loss. Honest read: a 502-person Phase 2b trial found <em>no real weight loss vs placebo</em>. Not FDA-approved, and banned in sport.</p></div>
+            <div class="gl-card" style="--gc:#ffd45c;"><img loading="lazy" src="cheatsheet/glowrilla-lab/aodgelguide.jpg" alt="AOD-9604 reconstitution guide" onclick="openLightbox(this.src,'AOD-9604 — Reconstitution Complete Guide')"><b>AOD-9604 — Stop It Gelling</b><p>Why AOD clumps in plain BAC water, and the fix: add a little 0.6% acetic acid first, swirl, then top up with BAC water. Six steps plus troubleshooting.</p></div>
+            <div class="gl-card" style="--gc:#ffd45c;"><img loading="lazy" src="cheatsheet/glowrilla-lab/tesa.jpg" alt="Tesamorelin guide" onclick="openLightbox(this.src,'Tesamorelin — Peptide Research Guide')"><b>Tesamorelin</b><p>A growth-hormone-releasing peptide, <em>FDA-approved</em> (Egrifta) to cut deep belly fat in HIV lipodystrophy. It raises your own GH and IGF-1, so IGF-1 is the lab to watch.</p></div>
+          </div>
+
+          <div class="gl-h" style="--gc:#00ff64;">🩹 RECOVERY, SKIN &amp; JOINTS <small>Healing · inflammation · nerves</small></div>
+          <div class="gl-grid">
+            <div class="gl-card" style="--gc:#00ff64;"><img loading="lazy" src="cheatsheet/glowrilla-lab/ghkcu.jpg" alt="GHK-Cu guide" onclick="openLightbox(this.src,'GHK-Cu — Peptide Research Guide')"><b>GHK-Cu</b><p>A copper peptide your body already makes. It's best studied on skin (collagen, wound healing, hair); evidence for injecting it is much thinner.</p></div>
+            <div class="gl-card" style="--gc:#00ff64;"><img loading="lazy" src="cheatsheet/glowrilla-lab/kpv.jpg" alt="KPV guide" onclick="openLightbox(this.src,'KPV — Peptide Research Guide')"><b>KPV</b><p>A 3-amino-acid piece of alpha-MSH with anti-inflammatory effects. It's studied mostly for gut inflammation (colitis) in lab and animal models, with little human data.</p></div>
+            <div class="gl-card" style="--gc:#00ff64;"><img loading="lazy" src="cheatsheet/glowrilla-lab/ara290.jpg" alt="ARA-290 guide" onclick="openLightbox(this.src,'ARA-290 — Peptide Research Guide')"><b>ARA-290 (Cibinetide)</b><p>Built from EPO's tissue-protective part without raising red blood cells. Small human trials looked at nerve pain from small-fiber neuropathy.</p></div>
+            <div class="gl-card" style="--gc:#00ff64;"><img loading="lazy" src="cheatsheet/glowrilla-lab/cartalax.jpg" alt="Cartalax guide" onclick="openLightbox(this.src,'Cartalax — Peptide Research Guide')"><b>Cartalax (AED)</b><p>A Khavinson "bioregulator" tripeptide aimed at cartilage. It has only been tested in <em>cell cultures</em>, with no human trials showing it fixes joints, so its dosing is community-made.</p></div>
+          </div>
+
+          <div class="gl-h" style="--gc:#b026ff;">🧠 BRAIN, MOOD &amp; SLEEP <small>Nootropic · calming · sleep</small></div>
+          <div class="gl-grid">
+            <div class="gl-card" style="--gc:#b026ff;"><img loading="lazy" src="cheatsheet/glowrilla-lab/semax.jpg" alt="Semax guide" onclick="openLightbox(this.src,'Semax — Peptide Research Guide')"><b>Semax</b><p>A nasal peptide from Russia, based on a piece of ACTH. It's studied for focus and stroke recovery and raises BDNF. Approved in Russia, not by the FDA.</p></div>
+            <div class="gl-card" style="--gc:#b026ff;"><img loading="lazy" src="cheatsheet/glowrilla-lab/selank.jpg" alt="Selank guide" onclick="openLightbox(this.src,'Selank — Peptide Research Guide')"><b>Selank</b><p>Semax's calmer sibling: a nasal Russian peptide studied for anxiety and calm focus without heavy sedation. Approved in Russia, not by the FDA.</p></div>
+            <div class="gl-card" style="--gc:#b026ff;"><img loading="lazy" src="cheatsheet/glowrilla-lab/dsip.jpg" alt="DSIP guide" onclick="openLightbox(this.src,'DSIP — Peptide Research Guide')"><b>DSIP</b><p>Delta Sleep-Inducing Peptide. Researched for deep sleep and stress since the 1970s; human results are mixed and modern data is limited.</p></div>
+          </div>
+
+          <div class="gl-h" style="--gc:#ff9a4d;">⏳ LONGEVITY &amp; MITOCHONDRIA <small>Energy · aging</small></div>
+          <div class="gl-grid">
+            <div class="gl-card" style="--gc:#ff9a4d;"><img loading="lazy" src="cheatsheet/glowrilla-lab/motsc.jpg" alt="MOTS-c guide" onclick="openLightbox(this.src,'MOTS-c — Peptide Research Guide')"><b>MOTS-c</b><p>A peptide made by your mitochondria. Studied (mostly in animals) for insulin sensitivity and exercise capacity, and called an "exercise mimetic".</p></div>
+            <div class="gl-card" style="--gc:#ff9a4d;"><img loading="lazy" src="cheatsheet/glowrilla-lab/ss31.jpg" alt="SS-31 guide" onclick="openLightbox(this.src,'SS-31 (Elamipretide) — Peptide Research Guide')"><b>SS-31 (Elamipretide)</b><p>Attaches to cardiolipin inside the mitochondria to help energy production and cut oxidative stress. Tested in human trials for mitochondrial disease.</p></div>
+            <div class="gl-card" style="--gc:#ff9a4d;"><img loading="lazy" src="cheatsheet/glowrilla-lab/epitalon.jpg" alt="Epitalon guide" onclick="openLightbox(this.src,'Epitalon — Peptide Research Guide')"><b>Epitalon</b><p>A Khavinson tetrapeptide studied for telomerase and melatonin and sleep rhythm. The evidence is mostly animal work and small Russian studies.</p></div>
+          </div>
+
+          <div class="gl-h">🦍 GLOWRILLA'S OWN PROTOCOLS <small>Tap to open</small></div>
+          <div class="gl-own">
+            <button onclick="openLightbox('cheatsheet/glowrillasresearchstack.png','Glowrilla\'s Self Protocol')"><span>🦍</span>Glowrilla's Self Protocol</button>
+            <button onclick="openLightbox('glowrillavitaminprotocol.jpg','Glowrilla\'s Vitamin Protocol')"><span>💊</span>Glowrilla's Vitamin Protocol</button>
+            <button onclick="openLightbox('cheatsheet/MOTSC%20SS31%20SEQUENCE.png','MOTSC &amp; SS-31 — Mitochondrial Sequencing Guide')"><span>🧬</span>MOTS-c &amp; SS-31 Sequencing</button>
+            <button onclick="openLightbox('cheatsheet/ss31nad.png','SS-31 + NAD+ — The Ultimate Mitochondrial Alliance')"><span>⚡</span>SS-31 + NAD+ Alliance</button>
+            <button onclick="openLightbox('cheatsheet/motscnad.png','MOTSC + NAD+ — Metabolic Reboot &amp; Insulin Sensitivity')"><span>🔥</span>MOTS-c + NAD+ Metabolic Reboot</button>
+            <button onclick="openLightbox('cheatsheet/glpbnenefits.jpg','GLP Benefits — Research Overview')"><span>💉</span>GLP Benefits — Overview</button>
+            <button onclick="openLightbox('damaged mito.jpg','Damaged Mitochondria — What Happens If They Aren\'t Cleared?')"><span>🔬</span>Damaged Mitochondria</button>
+            <button onclick="openLightbox('damaged mito2.jpg','Mitochondria — Clean, Repair, Revitalize')"><span>🔄</span>Clean → Repair → Revitalize</button>
+            <button onclick="openLightbox('damaged mito3.jpg','Why SS-31 Comes Before MOTS-c')"><span>🧭</span>Why SS-31 Before MOTS-c</button>
+            <button onclick="openLightbox('damaged mitotrifecta.jpg','The Mitochondria Trifecta')"><span>⚡</span>The Mitochondria Trifecta</button>
+            <button onclick="openLightbox('3powerfulpeps.jpg','3 Powerful Peptides for Inflammation, Autoimmune Disease &amp; Arthritis')"><span>🦍</span>3 Peptides — Inflammation</button>
+            <button onclick="openLightbox('4powerfulpeps.jpg','4 Powerful Peptides for Inflammation, Autoimmune Disease &amp; Arthritis')"><span>🦍</span>4 Peptides — Dosing Guide</button>
+          </div>
+
+          <p class="gl-note">Tap any picture to open the full guide. The captions are short summaries, so always check the full chart and the studies yourself. For research and education only, not medical advice.</p>
+        </div>
 
 
       <!-- Spike Protein / Long COVID Dropdown -->
