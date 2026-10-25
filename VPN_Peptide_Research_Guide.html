@@ -3,6 +3,7 @@
 <head>
 <link rel="icon" href="favicon.ico" sizes="48x48"><link rel="icon" href="icon-192.png" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VPN Peptide Research Field Guide</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Bebas+Neue&display=swap');
@@ -153,6 +154,14 @@
     td.peptide-name { font-size: 7.5pt; }
     .cat-header { font-size: 8.5pt; }
     tr { page-break-inside: avoid; }
+  }
+
+  /* PHONES — bigger text, tables swipe sideways instead of stretching the page */
+  @media screen and (max-width: 700px) {
+    body { font-size: 15px; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; font-size: 13px; }
+    thead th { font-size: 12px; white-space: nowrap; }
+    td.peptide-name { font-size: 13px; }
   }
 </style>
 </head>
