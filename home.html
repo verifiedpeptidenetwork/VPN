@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(localStorage.getItem('vpn_disclaimer_v2')==='accepted')document.documentElement.classList.add('dg-ok');}catch(e){}</script><style>html.dg-ok #dg{display:none!important;}</style>
 <title>VPN Verified Peptides Network | Research Guides</title>
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
@@ -86,7 +87,7 @@
     font-weight: 700;
     font-size: 13px;
     background-color: #000;
-    background-image: url('WALLPAPER.png');
+    background-image: url('WALLPAPER.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -108,7 +109,7 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background-image: url('WALLPAPER.png');
+      background-image: url('WALLPAPER.jpg');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
@@ -124,7 +125,7 @@
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    background-image: linear-gradient(rgba(243,239,230,0.42), rgba(243,239,230,0.42)), url('WALLPAPER.png') !important;
+    background-image: linear-gradient(rgba(243,239,230,0.42), rgba(243,239,230,0.42)), url('WALLPAPER.jpg') !important;
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
@@ -3271,7 +3272,7 @@
       <!-- Video -->
       <div style="background:#000;">
         <div style="position:relative;width:100%;">
-          <video id="dg-vid" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;display:block;max-height:320px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
+          <video id="dg-vid" muted playsinline webkit-playsinline controls preload="none" style="width:100%;display:block;max-height:320px;background:#000;object-fit:contain;-webkit-tap-highlight-color:transparent;">
             <source src="accessvideo.mp4?v=1" type="video/mp4; codecs=avc1">
             <source src="accessvideo.mp4?v=1" type="video/mp4">
           </video>
@@ -3385,7 +3386,10 @@ var dgVidUnlocked = false;
 (function(){
   var vid = document.getElementById('dg-vid');
   if(!vid) return;
+  var gate = document.getElementById('dg');
+  if(!gate || gate.classList.contains('hidden')) return; // already accepted: don't download the video
   vid.muted = true;
+  vid.preload = 'auto';
   vid.play().catch(function(){});
   document.addEventListener('touchstart', function(){ vid.play().catch(function(){}); }, {once:true, passive:true});
   vid.addEventListener('play', function(){ var o=document.getElementById('dg-tap-overlay');if(o)o.style.display='none'; });
@@ -4927,7 +4931,7 @@ document.addEventListener('keydown', function(e){
           </summary>
           <!-- Video -->
           <div style="width:100%;">
-            <video controls preload="metadata" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
+            <video controls preload="none" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
               <source src="welcomevideovpn.mp4" type="video/mp4">
             </video>
           </div>
@@ -4936,7 +4940,7 @@ document.addEventListener('keydown', function(e){
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ff1450;margin-bottom:0.5rem;">🎬 THE ULTIMATE RESEARCH GUIDE</div>
           </div>
           <div style="width:100%;">
-            <video controls preload="metadata" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
+            <video controls preload="none" style="width:100%;display:block;aspect-ratio:16/9;max-height:420px;background:#000;" playsinline>
               <source src="ultimateresearchguidevideo.mp4" type="video/mp4">
             </video>
           </div>
@@ -5700,18 +5704,18 @@ document.addEventListener('keydown', function(e){
           </div>
           <div id="reta-news-body" style="display:none;background:#0d0008;padding:0.9rem 1rem 1rem;">
           <div id="reta-copy-src">
-            <img src="retanews.PNG" alt="Eli Lilly vs FDA — Retatrutide as a Vaccine?" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.6rem;">
+            <img loading="lazy" decoding="async" src="retanews.PNG" alt="Eli Lilly vs FDA — Retatrutide as a Vaccine?" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.6rem;">
             <div style="display:flex;justify-content:flex-end;margin-bottom:0.6rem;">
               <a href="elisues.jpg" download="VPN-Eli-Lilly-Issues.jpg" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.22rem 0.65rem;border:1px solid #ff0080;color:#ff0080;text-decoration:none;background:rgba(255,0,128,0.08);">⬇ Save</a>
             </div>
             <div style="cursor:zoom-in;" onclick="openLightbox('elisues.jpg','Eli Lilly — Reta Issues Update')">
-              <img src="elisues.jpg" alt="Eli Lilly — Reta Issues Update" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;" title="Click to zoom">
+              <img loading="lazy" decoding="async" src="elisues.jpg" alt="Eli Lilly — Reta Issues Update" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;" title="Click to zoom">
             </div>
             <div style="display:flex;justify-content:flex-end;margin-bottom:0.6rem;">
               <a href="1200$to7.jpg" download="VPN-1200-to-7.jpg" style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;padding:0.22rem 0.65rem;border:1px solid #ff0080;color:#ff0080;text-decoration:none;background:rgba(255,0,128,0.08);">⬇ Save</a>
             </div>
             <div style="cursor:zoom-in;" onclick="openLightbox('1200$to7.jpg','1200% to $7 — Price Collapse')">
-              <img src="1200$to7.jpg" alt="1200% to $7 — Price Collapse" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;" title="Click to zoom">
+              <img loading="lazy" decoding="async" src="1200$to7.jpg" alt="1200% to $7 — Price Collapse" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(255,0,128,0.35);margin-bottom:0.9rem;" title="Click to zoom">
             </div>
             <div style="position:relative;width:100%;padding-bottom:56.25%;background:#000;border-radius:8px;overflow:hidden;margin-bottom:0.9rem;border:1px solid rgba(255,0,128,0.3);">
               <iframe src="https://www.youtube.com/embed/o5aZ3D4UVAg" title="Eli Lilly vs FDA" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
@@ -5970,7 +5974,7 @@ document.addEventListener('keydown', function(e){
               </p>
               <!-- Infographic -->
               <div style="text-align:center;margin-bottom:0.8rem;">
-                <img src="hashimotoi reversal.jpg" alt="VPN Hashimoto's Synergistic Protocol Infographic" onclick="openLightbox('hashimotoi reversal.jpg','VPN Synergistic Protocol for Hashimoto\'s Reversal')" style="max-width:100%;border-radius:8px;border:1px solid rgba(123,82,255,0.4);cursor:zoom-in;">
+                <img loading="lazy" decoding="async" src="hashimotoi reversal.jpg" alt="VPN Hashimoto's Synergistic Protocol Infographic" onclick="openLightbox('hashimotoi reversal.jpg','VPN Synergistic Protocol for Hashimoto\'s Reversal')" style="max-width:100%;border-radius:8px;border:1px solid rgba(123,82,255,0.4);cursor:zoom-in;">
                 <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(180,170,255,0.5);margin-top:0.35rem;">Click to enlarge · VPN Glowrilla Research Labs</div>
               </div>
               <!-- Dosages grid -->
@@ -6098,9 +6102,9 @@ document.addEventListener('keydown', function(e){
           </summary>
           <div class="vpn-news-body">
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.85rem;">
-              <img src="dmso1.jpg" alt="DMSO Infographic 1" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.35);cursor:zoom-in;" onclick="openLightbox('dmso1.jpg','DMSO — The Hidden Miracle Compound')">
-              <img src="dmso2.jpg" alt="DMSO Infographic 2" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso2.jpg','DMSO Benefits & Safety')">
-              <img src="dmso3.jpg" alt="DMSO Infographic 3" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso3.jpg','DMSO — Additional Research')">
+              <img loading="lazy" decoding="async" src="dmso1.jpg" alt="DMSO Infographic 1" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.35);cursor:zoom-in;" onclick="openLightbox('dmso1.jpg','DMSO — The Hidden Miracle Compound')">
+              <img loading="lazy" decoding="async" src="dmso2.jpg" alt="DMSO Infographic 2" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso2.jpg','DMSO Benefits & Safety')">
+              <img loading="lazy" decoding="async" src="dmso3.jpg" alt="DMSO Infographic 3" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);cursor:zoom-in;" onclick="openLightbox('dmso3.jpg','DMSO — Additional Research')">
             </div>
             <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(200,240,255,0.88);line-height:1.75;margin-bottom:0.85rem;">DMSO (Dimethyl Sulfoxide) is one of the most studied yet suppressed compounds in medicine. A cheap, natural byproduct of the wood pulp industry, it penetrates skin instantly — dragging other molecules straight into the bloodstream. Researchers have explored it for <strong style="color:#fff;">cancer, brain injury, arthritis, wound healing, and bladder disease</strong>. It's FDA-approved for one condition and studied experimentally for many more. The reason it isn't mainstream? It can't be patented.</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem;">
@@ -6121,7 +6125,7 @@ document.addEventListener('keydown', function(e){
                 
               </div>
             </div>
-            <img src="dmso2.jpg" alt="DMSO Benefits & Safety" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);margin-bottom:0.85rem;">
+            <img loading="lazy" decoding="async" src="dmso2.jpg" alt="DMSO Benefits & Safety" style="width:100%;display:block;border-radius:8px;border:1px solid rgba(0,229,255,0.25);margin-bottom:0.85rem;">
             <!-- DMSO VIDEOS -->
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.14em;color:rgba(0,229,255,0.6);margin-bottom:0.5rem;">🎬 WATCH — DMSO DEEP DIVES</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem;">
@@ -6266,7 +6270,7 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
-            <img src="tesaguidenew.PNG" alt="Tesa Guide New" style="width:100%;border-radius:8px;border:1px solid rgba(157,0,255,0.35);margin-bottom:0.85rem;display:block;" onclick="openLightbox('tesaguidenew.PNG','Tesamorelin Reconstitution Guide — Glowrilla VPN')" style="cursor:zoom-in;">
+            <img loading="lazy" decoding="async" src="tesaguidenew.PNG" alt="Tesa Guide New" style="width:100%;border-radius:8px;border:1px solid rgba(157,0,255,0.35);margin-bottom:0.85rem;display:block;" onclick="openLightbox('tesaguidenew.PNG','Tesamorelin Reconstitution Guide — Glowrilla VPN')" style="cursor:zoom-in;">
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(204,68,255,0.7);letter-spacing:0.08em;margin-bottom:0.6rem;">GELLING · STORAGE · DOSING REFERENCES</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;margin-bottom:0.7rem;">
               <div>
@@ -6386,7 +6390,7 @@ document.addEventListener('keydown', function(e){
             <span class="vpn-news-arrow">▼</span>
           </summary>
           <div class="vpn-news-body">
-            <img src="survodutide.png" alt="Survodutide Phase III" style="width:100%;border-radius:8px;border:1px solid rgba(0,245,255,0.2);margin-bottom:0.9rem;display:block;">
+            <img loading="lazy" decoding="async" src="survodutide.png" alt="Survodutide Phase III" style="width:100%;border-radius:8px;border:1px solid rgba(0,245,255,0.2);margin-bottom:0.9rem;display:block;">
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;margin-bottom:0.9rem;">
               <div style="background:rgba(0,245,255,0.06);border:1px solid rgba(0,245,255,0.25);border-radius:6px;padding:0.6rem;text-align:center;"><div style="font-size:1.4rem;font-weight:900;color:#00f5ff;">34%</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.55);">Visceral Fat ↓</div></div>
               <div style="background:rgba(157,0,255,0.06);border:1px solid rgba(157,0,255,0.3);border-radius:6px;padding:0.6rem;text-align:center;"><div style="font-size:1.4rem;font-weight:900;color:#9d00ff;">63%</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.55);">Liver Fat ↓</div></div>
@@ -6905,7 +6909,7 @@ document.addEventListener('keydown', function(e){
             </div>
 
             <div style="margin-top:0.85rem;cursor:zoom-in;" onclick="openLightbox('guides-pictures/larazotide.jpg','Without Larazotide vs With Larazotide — Leaky Gut Diagram')">
-              <img loading="eager" src="guides-pictures/larazotide.jpg" alt="Without Larazotide vs With Larazotide — Leaky Gut Diagram" style="width:100%;display:block;max-height:220px;object-fit:contain;border:1px solid rgba(255,45,120,0.3);border-radius:4px;">
+              <img loading="lazy" src="guides-pictures/larazotide.jpg" alt="Without Larazotide vs With Larazotide — Leaky Gut Diagram" style="width:100%;display:block;max-height:220px;object-fit:contain;border:1px solid rgba(255,45,120,0.3);border-radius:4px;">
             </div>
             <div style="margin-top:0.6rem;font-size:0.9rem;color:rgba(255,255,255,0.55);">— Nick Norwitz MD PhD (@nicknorwitz) · #larazotide #peptides #staycurious</div>
 
@@ -6915,7 +6919,7 @@ document.addEventListener('keydown', function(e){
                 The Guardian stack combines <strong style="color:var(--neon-pink);">BPC-157</strong>, <strong style="color:var(--neon-pink);">KPV</strong>, <strong style="color:var(--neon-pink);">Larazotide Acetate</strong>, Zinc Carnosine &amp; Zinc Ionophore — repairing, calming, sealing and protecting the gut barrier from leaky gut, IBS/IBD, autoimmune issues and inflammation.
               </div>
               <div style="margin-top:0.85rem;cursor:zoom-in;" onclick="openLightbox('guardianlazarotide.png','The Guardian — Complete Gut Healing &amp; Protection')">
-                <img src="guardianlazarotide.png" alt="The Guardian — Complete Gut Healing & Protection" style="width:100%;display:block;border:1px solid rgba(255,45,120,0.3);border-radius:4px;">
+                <img loading="lazy" decoding="async" src="guardianlazarotide.png" alt="The Guardian — Complete Gut Healing & Protection" style="width:100%;display:block;border:1px solid rgba(255,45,120,0.3);border-radius:4px;">
               </div>
               <div style="margin-top:0.6rem;"><a href="https://youtu.be/ZglRoLNN3lo?si=UYiSfkMTmbeI6vd" target="_blank" rel="noopener" style="color:var(--neon-pink);font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;text-decoration:underline;">▶ Watch: Larazotide &amp; Leaky Gut Deep Dive</a></div>
               <div style="margin-top:0.75rem;display:flex;flex-direction:column;gap:0.4rem;">
@@ -8609,7 +8613,7 @@ document.addEventListener('keydown', function(e){
       <!-- WARNING GRAY MARKET — FIRST THING YOU SEE -->
       <div style="border:2px solid #ff1a1a;border-top:4px solid #ff1a1a;border-radius:6px;overflow:hidden;box-shadow:0 0 32px rgba(255,26,26,0.4),0 0 64px rgba(255,26,26,0.15);margin-bottom:1.25rem;">
         <div style="cursor:zoom-in;" onclick="openLightbox('warninggraymarket.jpg','WARNING — Read This Before You Buy: The Truth About The Gray Market')">
-          <img src="warninggraymarket.jpg" alt="Warning — Read This Before You Buy: The Truth About The Gray Market" style="width:100%;display:block;" title="Click to zoom">
+          <img loading="lazy" decoding="async" src="warninggraymarket.jpg" alt="Warning — Read This Before You Buy: The Truth About The Gray Market" style="width:100%;display:block;" title="Click to zoom">
         </div>
         <div style="background:#0d0000;padding:1rem 1.25rem;border-top:1px solid rgba(255,26,26,0.3);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff1a1a;margin-bottom:0.5rem;">NO MATTER WHAT GROUP YOU JOIN — THE NUMBER DOES NOT MATTER.</div>
@@ -8621,13 +8625,13 @@ document.addEventListener('keydown', function(e){
       </div>
 
       <div style="cursor:zoom-in;" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.png','Our Health Is In The Hands Of The Insurance Companies')">
-        <img src="cheatsheet/insuranceiswhywerehere.png" alt="Our Health Is In The Hands Of The Insurance Companies" style="width:100%;display:block;border-radius:4px;" title="Click to zoom">
+        <img loading="lazy" decoding="async" src="cheatsheet/insuranceiswhywerehere.png" alt="Our Health Is In The Hands Of The Insurance Companies" style="width:100%;display:block;border-radius:4px;" title="Click to zoom">
       </div>
 
       <!-- THE 3 TESTS — GRAY MARKET REALITY -->
       <div style="margin-top:1.25rem;border:2px solid #ff1a1a;border-top:4px solid #ff1a1a;border-radius:6px;overflow:hidden;box-shadow:0 0 32px rgba(255,26,26,0.4),0 0 64px rgba(255,26,26,0.15);">
         <div style="cursor:zoom-in;" onclick="openLightbox('WARNING3TESTONLY.jpg','Warning — Read This Before You Buy (The 3 Tests)')">
-          <img src="WARNING3TESTONLY.jpg" alt="Warning — Read This Before You Buy: The 3 Tests" style="width:100%;display:block;" title="Click to zoom">
+          <img loading="lazy" decoding="async" src="WARNING3TESTONLY.jpg" alt="Warning — Read This Before You Buy: The 3 Tests" style="width:100%;display:block;" title="Click to zoom">
         </div>
         <div style="background:#0d0000;padding:1rem 1.25rem;border-top:1px solid rgba(255,26,26,0.3);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:#ff1a1a;margin-bottom:0.5rem;">IT WILL NEVER BE TRULY SAFE. YOU CAN ONLY MITIGATE RISK.</div>
@@ -8638,13 +8642,13 @@ document.addEventListener('keydown', function(e){
       <div style="margin-top:1.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:1rem;">
         <div style="border:1px solid rgba(0,255,100,0.3);border-top:3px solid #00ff64;border-radius:6px;overflow:hidden;">
           <div style="cursor:zoom-in;" onclick="openLightbox('3TESTSOTHERSUTEST.jpg','The 3 Tests You\'re Most Likely To Get In The Gray Market')">
-            <img src="3TESTSOTHERSUTEST.jpg" alt="The 3 Tests: Identity, Quantity, Purity" style="width:100%;display:block;" title="Click to zoom">
+            <img loading="lazy" decoding="async" src="3TESTSOTHERSUTEST.jpg" alt="The 3 Tests: Identity, Quantity, Purity" style="width:100%;display:block;" title="Click to zoom">
           </div>
           <div style="background:#000;padding:0.75rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:#00ff64;">Identity · Quantity · Purity — Breakdown</div>
         </div>
         <div style="border:1px solid rgba(0,245,255,0.3);border-top:3px solid var(--neon-cyan);border-radius:6px;overflow:hidden;">
           <div style="cursor:zoom-in;" onclick="openLightbox('TYPESOFPEPTIDETESTING.jpg','A Simple Guide To Peptide Testing — 6 Types Explained')">
-            <img src="TYPESOFPEPTIDETESTING.jpg" alt="A Simple Guide To Peptide Testing — 6 Types" style="width:100%;display:block;" title="Click to zoom">
+            <img loading="lazy" decoding="async" src="TYPESOFPEPTIDETESTING.jpg" alt="A Simple Guide To Peptide Testing — 6 Types" style="width:100%;display:block;" title="Click to zoom">
           </div>
           <div style="background:#000;padding:0.75rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.1em;color:var(--neon-cyan);">All 6 Types Of Peptide Testing Explained</div>
         </div>
@@ -8656,7 +8660,7 @@ document.addEventListener('keydown', function(e){
       <!-- BIG PHARMA NOT SCARED -->
       <div style="margin-top:1.25rem;border:2px solid #ff1a1a;border-top:4px solid #ff1a1a;border-radius:6px;overflow:hidden;box-shadow:0 0 24px rgba(255,26,26,0.25);">
         <div style="cursor:zoom-in;" onclick="openLightbox('bigpharmanotscaredofgraymarket.jpg','Big Pharma Is Not Scared Of The Gray Market — Here Is Why')">
-          <img src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma Is Not Scared Of The Gray Market" style="width:100%;display:block;" title="Click to zoom">
+          <img loading="lazy" decoding="async" src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma Is Not Scared Of The Gray Market" style="width:100%;display:block;" title="Click to zoom">
         </div>
         <div style="background:#0d0000;padding:0.85rem 1.25rem;border-top:1px solid rgba(255,26,26,0.3);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#ff1a1a;margin-bottom:0.35rem;">BIG PHARMA IS NOT SCARED OF THE GRAY MARKET.</div>
@@ -8859,7 +8863,7 @@ document.addEventListener('keydown', function(e){
         <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,45,120,0.12);border:1px solid rgba(255,45,120,0.45);color:var(--neon-pink);">⭐ PLEASE WATCH</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.1em;color:#fff;">🧪 How to Reconstitute a Research Peptide — Researcher Glowrilla · PIN &amp; PRAY</div>
       </div>
-      <video src="peptide-tutorial.mp4" poster="video-poster.jpg" controls playsinline preload="metadata" style="width:100%;display:block;max-height:540px;object-fit:contain;background:#000;"></video>
+      <video src="peptide-tutorial.mp4" poster="video-poster.jpg" controls playsinline preload="none" style="width:100%;display:block;max-height:540px;object-fit:contain;background:#000;"></video>
       <div style="padding:0.6rem 1.4rem;background:rgba(255,45,120,0.04);font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,200,220,0.7);">For research use only · Not for human consumption · 21+ · Consult a licensed professional</div>
     </div>
 
@@ -9295,7 +9299,7 @@ document.addEventListener('keydown', function(e){
         <div style="padding:1.25rem 1.75rem 0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.18em;color:#9d00ff;margin-bottom:0.5rem;">🚫😨 SCARED OF NEEDLES? CAN'T REACH SOME INJECTION SITES?</div>
           <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
-            <img loading="eager" src="guides-pictures/owen-mumford-autoject2.jpg" alt="Owen Mumford Autoject2 Injection Aid" style="width:140px;height:140px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:6px;padding:8px;border:2px solid var(--neon-orange);">
+            <img loading="lazy" src="guides-pictures/owen-mumford-autoject2.jpg" alt="Owen Mumford Autoject2 Injection Aid" style="width:140px;height:140px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:6px;padding:8px;border:2px solid var(--neon-orange);">
             <div style="flex:1;min-width:200px;">
               <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);text-shadow:0 0 10px rgba(255,107,0,0.5);line-height:1.15;">Owen Mumford Autoject2 — Injection Aid</div>
               <div style="font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;margin-top:0.3rem;">You never see the needle. It hides it completely.</div>
@@ -9345,7 +9349,7 @@ document.addEventListener('keydown', function(e){
           <div style="margin:0 1.25rem 1.5rem;">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:var(--neon-cyan);margin-bottom:0.6rem;">▶ How To Use — Tutorial</div>
             <a href="https://www.youtube.com/watch?v=fndalvwKF4s" target="_blank" rel="noopener" style="position:relative;display:block;width:100%;padding-bottom:56.25%;background:#000;border:1px solid rgba(0,245,255,0.2);text-decoration:none;">
-              <img src="https://img.youtube.com/vi/fndalvwKF4s/hqdefault.jpg" alt="Autoject2 Tutorial" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+              <img loading="lazy" decoding="async" src="https://img.youtube.com/vi/fndalvwKF4s/hqdefault.jpg" alt="Autoject2 Tutorial" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
               <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25);">
                 <div style="width:68px;height:68px;border-radius:50%;background:rgba(0,245,255,0.85);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(0,245,255,0.6);">
                   <span style="color:#000;font-size:1.6rem;margin-left:4px;">▶</span>
@@ -10581,7 +10585,7 @@ document.addEventListener('keydown', function(e){
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.05rem;font-weight:600;color:#d0c8e8;text-transform:uppercase;letter-spacing:0.05em;">Metabolic evaluation · hormones · thyroid · inflammation</div>
         </div>
         <div style="border-top:1px solid rgba(255,230,0,0.5);cursor:zoom-in;" onclick="openLightbox('TESTSFORWOMEN.png','Request for Medical Evaluation — For a Woman')">
-          <img src="TESTSFORWOMEN.png" alt="Blood tests for women" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
+          <img loading="lazy" decoding="async" src="TESTSFORWOMEN.png" alt="Blood tests for women" style="width:100%;height:320px;object-fit:cover;object-position:top;display:block;">
         </div>
         <div style="padding:0.6rem 1rem;background:#0c0c08;">
           <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:#9d00ff;text-transform:uppercase;letter-spacing:0.05em;">Click to zoom · Download → Upload to ChatGPT or Grok → Extract text → Email your doctor</div>
@@ -10999,7 +11003,7 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Rajdhani',sans-serif;font-size: 1.1rem;font-weight:700;color:#00ff64;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">Click to zoom</div>
       </div>
       <div style="border-top:1px solid rgba(0,255,100,0.3);cursor:zoom-in;" onclick="openLightbox('WORKWITHDOCTOR.png','Inform Your Doctor. Protect Your Health.')">
-        <img src="WORKWITHDOCTOR.png" alt="How to work with your doctor" style="width:100%;display:block;">
+        <img loading="lazy" decoding="async" src="WORKWITHDOCTOR.png" alt="How to work with your doctor" style="width:100%;display:block;">
       </div>
     </div>
 
@@ -12124,7 +12128,7 @@ document.addEventListener('keydown', function(e){
         Larazotide is also being investigated for <strong style="color:#fff;">Long COVID</strong> — reducing viral particles/spike antigen leaking from the gut into the bloodstream and lowering systemic inflammation.
       </div>
       <div style="cursor:zoom-in;margin-bottom:0.85rem;" onclick="openLightbox('guardianlazarotide.png','The Guardian — Complete Gut Healing & Protection')">
-        <img src="guardianlazarotide.png" alt="The Guardian — Complete Gut Healing & Protection" style="width:100%;display:block;border:1px solid rgba(255,45,120,0.3);">
+        <img loading="lazy" decoding="async" src="guardianlazarotide.png" alt="The Guardian — Complete Gut Healing & Protection" style="width:100%;display:block;border:1px solid rgba(255,45,120,0.3);">
       </div>
       <!-- Deep Dive Text -->
       <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.75;margin-bottom:1rem;border-top:1px solid rgba(255,45,120,0.2);padding-top:1rem;">
@@ -12218,7 +12222,7 @@ document.addEventListener('keydown', function(e){
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Zinc = The Bullet · Ionophore = The Gun · Click image to zoom</div>
       </div>
       <div style="cursor:zoom-in;" onclick="openLightbox('rna.png?v=2','Zinc Ionophore — RNA Virus Protocol Reference')">
-        <img src="rna.png?v=2" alt="Zinc Ionophore &amp; RNA Virus Protocol" style="width:100%;display:block;max-height:800px;object-fit:contain;background:#05050a;">
+        <img loading="lazy" decoding="async" src="rna.png?v=2" alt="Zinc Ionophore &amp; RNA Virus Protocol" style="width:100%;display:block;max-height:800px;object-fit:contain;background:#05050a;">
       </div>
     </div>
 
@@ -12280,7 +12284,7 @@ document.addEventListener('keydown', function(e){
             <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,20,80,0.12);border:1px solid rgba(255,20,80,0.45);color:#ff1450;">▶ WATCH</span>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#fff;">Spike Protein Test &amp; Treatment Protocol</div>
           </div>
-          <video src="spikeproteintestandtreatment.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
+          <video src="spikeproteintestandtreatment.mp4" controls playsinline preload="none" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
           <div style="padding:0.5rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,160,180,0.65);">For educational purposes only · Not medical advice · Consult a licensed physician</div>
         </div>
 
@@ -12290,7 +12294,7 @@ document.addEventListener('keydown', function(e){
             <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,20,80,0.12);border:1px solid rgba(255,20,80,0.45);color:#ff1450;">▶ WATCH</span>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#fff;">Smokers &amp; COVID — The Nicotine Connection</div>
           </div>
-          <video src="smokersandcovid.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
+          <video src="smokersandcovid.mp4" controls playsinline preload="none" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
           <div style="padding:0.5rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,160,180,0.65);">For educational purposes only · Not medical advice · Consult a licensed physician</div>
         </div>
 
@@ -12300,7 +12304,7 @@ document.addEventListener('keydown', function(e){
             <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;padding:0.2rem 0.65rem;background:rgba(255,20,80,0.12);border:1px solid rgba(255,20,80,0.45);color:#ff1450;">▶ WATCH</span>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#fff;">RNA Viruses — How They Work &amp; How to Fight Them</div>
           </div>
-          <video src="rnaviruses.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
+          <video src="rnaviruses.mp4" controls playsinline preload="none" style="width:100%;display:block;max-height:520px;object-fit:contain;background:#000;"></video>
           <div style="padding:0.5rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,160,180,0.65);">For educational purposes only · Not medical advice · Consult a licensed physician</div>
         </div>
 
@@ -12602,7 +12606,7 @@ document.addEventListener('keydown', function(e){
     <div style="background:#0a060e;border:1px solid rgba(255,45,120,0.3);border-left:4px solid var(--neon-pink);border-radius:8px;padding:1rem 1.1rem;margin-bottom:1.25rem;">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:var(--neon-pink);margin-bottom:0.75rem;">📌 APPLE PECTIN — VIDEO GUIDE</div>
       <div style="text-align:center;">
-        <video controls style="max-width:100%;max-height:480px;border-radius:6px;border:2px solid rgba(255,45,120,0.3);box-shadow:0 0 24px rgba(255,0,128,0.25);" preload="metadata">
+        <video controls style="max-width:100%;max-height:480px;border-radius:6px;border:2px solid rgba(255,45,120,0.3);box-shadow:0 0 24px rgba(255,0,128,0.25);" preload="none">
           <source src="applepectinvideo.mp4" type="video/mp4">
         </video>
       </div>
@@ -12771,7 +12775,7 @@ document.addEventListener('keydown', function(e){
       <div class="vh-accent-line"></div>
     </div>
     <div style="margin-bottom:1.5rem;border:2px solid var(--neon-cyan);box-shadow:0 0 24px rgba(0,245,255,0.2);overflow:hidden;cursor:zoom-in;" onclick="openLightbox('guides-pictures/RESEARCHERPLUSHIES.png','The VPN Researcher Plushies')">
-      <img loading="eager" src="guides-pictures/RESEARCHERPLUSHIES.png" alt="VPN Researcher Plushies" style="width:100%;display:block;max-height:220px;object-fit:contain;">
+      <img loading="lazy" src="guides-pictures/RESEARCHERPLUSHIES.png" alt="VPN Researcher Plushies" style="width:100%;display:block;max-height:220px;object-fit:contain;">
     </div>
 
     <div style="margin-bottom:1.5rem;border:2px solid rgba(0,245,255,0.25);overflow:hidden;position:relative;padding:1.4rem 1.5rem;background:linear-gradient(135deg,rgba(0,245,255,0.1),rgba(255,45,120,0.08) 50%,rgba(180,0,255,0.1));display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
@@ -12800,7 +12804,7 @@ document.addEventListener('keydown', function(e){
       <!-- Glowrilla — LEAD SCIENTIST -->
       <div style="background:var(--card-bg);border:2px solid var(--neon-cyan);border-top:4px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px rgba(0,245,255,0.15);">
         <div style="background:linear-gradient(135deg,rgba(0,245,255,0.12),rgba(255,45,120,0.06));padding:0.45rem 1rem;"><span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.2em;color:var(--neon-cyan);">⭐ LEAD SCIENTIST</span></div>
-        <img src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla" onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-nDsjW1zl.jpeg" alt="Glowrilla" onclick="openLightbox('RESEARCHERS/pro-nDsjW1zl.jpeg','Glowrilla — Lead Scientist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:var(--neon-cyan);">Glowrilla</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Lead Scientist · GHK-Cu & Peptide Synthesis</div>
@@ -12812,7 +12816,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Wrex -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/RESEARCHERWREX.png" alt="Researcher Wrex" onclick="openLightbox('RESEARCHERS/RESEARCHERWREX.png','Researcher Wrex — Lead Peptide Geneticist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/RESEARCHERWREX.png" alt="Researcher Wrex" onclick="openLightbox('RESEARCHERS/RESEARCHERWREX.png','Researcher Wrex — Lead Peptide Geneticist')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#9d00ff;">Researcher Wrex</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-orange);text-transform:uppercase;">Lead Peptide Geneticist · Genetics Is Code</div>
@@ -12824,7 +12828,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Leonidas -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_000000000634723091be2728c1926bc9.png" alt="Researcher Leonidas" onclick="openLightbox('RESEARCHERS/file_000000000634723091be2728c1926bc9.png','Researcher Leonidas — The Peptide King')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_000000000634723091be2728c1926bc9.png" alt="Researcher Leonidas" onclick="openLightbox('RESEARCHERS/file_000000000634723091be2728c1926bc9.png','Researcher Leonidas — The Peptide King')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Leonidas</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">The Peptide King · Peptide Design & Signal Amplification</div>
@@ -12836,7 +12840,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Ellie -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000278071fda21d19fd5ec32fce.png" alt="Researcher Ellie" onclick="openLightbox('RESEARCHERS/file_00000000278071fda21d19fd5ec32fce.png','Researcher Ellie — The Peptide Explorer')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000278071fda21d19fd5ec32fce.png" alt="Researcher Ellie" onclick="openLightbox('RESEARCHERS/file_00000000278071fda21d19fd5ec32fce.png','Researcher Ellie — The Peptide Explorer')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Ellie</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">The Peptide Explorer · Data Pioneer</div>
@@ -12848,7 +12852,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Tiger -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_000000005c9c71fda8716e1313cadc70.png" alt="Researcher Tiger" onclick="openLightbox('RESEARCHERS/file_000000005c9c71fda8716e1313cadc70.png','Researcher Tiger — Focus. Precision. Powerful Results.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_000000005c9c71fda8716e1313cadc70.png" alt="Researcher Tiger" onclick="openLightbox('RESEARCHERS/file_000000005c9c71fda8716e1313cadc70.png','Researcher Tiger — Focus. Precision. Powerful Results.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);">Researcher Tiger</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Focus. Precision. Powerful Results.</div>
@@ -12860,7 +12864,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Fox -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_000000006f287230b3a4975a68eb1150.png" alt="Researcher Fox" onclick="openLightbox('RESEARCHERS/file_000000006f287230b3a4975a68eb1150.png','Researcher Fox — Smart Science. Smarter Solutions.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_000000006f287230b3a4975a68eb1150.png" alt="Researcher Fox" onclick="openLightbox('RESEARCHERS/file_000000006f287230b3a4975a68eb1150.png','Researcher Fox — Smart Science. Smarter Solutions.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Researcher Fox</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Smart Science. Smarter Solutions.</div>
@@ -12872,7 +12876,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Dr. Lab Rat -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-92OZumhb.jpeg" alt="Dr. Lab Rat" onclick="openLightbox('RESEARCHERS/pro-92OZumhb.jpeg','Dr. Lab Rat')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-92OZumhb.jpeg" alt="Dr. Lab Rat" onclick="openLightbox('RESEARCHERS/pro-92OZumhb.jpeg','Dr. Lab Rat')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Dr. Lab Rat</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Science · Real Results</div>
@@ -12884,7 +12888,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Poly -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000386471f884315bd163c221e8.png" alt="Researcher Poly" onclick="openLightbox('RESEARCHERS/file_00000000386471f884315bd163c221e8.png','Researcher Poly — The Replication Expert')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000386471f884315bd163c221e8.png" alt="Researcher Poly" onclick="openLightbox('RESEARCHERS/file_00000000386471f884315bd163c221e8.png','Researcher Poly — The Replication Expert')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Poly</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">The Replication Expert · Reproducibility Is Our Superpower</div>
@@ -12896,7 +12900,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Slothaniel -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000d0d071fd973bffde0783524c.png" alt="Researcher Slothaniel" onclick="openLightbox('RESEARCHERS/file_00000000d0d071fd973bffde0783524c.png','Researcher Slothaniel — Measure Twice, Publish Once')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000d0d071fd973bffde0783524c.png" alt="Researcher Slothaniel" onclick="openLightbox('RESEARCHERS/file_00000000d0d071fd973bffde0783524c.png','Researcher Slothaniel — Measure Twice, Publish Once')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Researcher Slothaniel</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Measure Twice, Publish Once · Quality Assurance</div>
@@ -12908,7 +12912,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher MikeA -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-AzZWTIWZ.jpeg" alt="Researcher MikeA" onclick="openLightbox('RESEARCHERS/pro-AzZWTIWZ.jpeg','Researcher MikeA')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-AzZWTIWZ.jpeg" alt="Researcher MikeA" onclick="openLightbox('RESEARCHERS/pro-AzZWTIWZ.jpeg','Researcher MikeA')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher MikeA</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Synthesis Specialist</div>
@@ -12920,7 +12924,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Wolverine -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-DXRviXz5.jpeg" alt="Researcher Wolverine" onclick="openLightbox('RESEARCHERS/pro-DXRviXz5.jpeg','Researcher Wolverine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-DXRviXz5.jpeg" alt="Researcher Wolverine" onclick="openLightbox('RESEARCHERS/pro-DXRviXz5.jpeg','Researcher Wolverine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);">Researcher Wolverine</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Research · TB-500 Specialist</div>
@@ -12932,7 +12936,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Bamboo -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-IKJjS80P.jpeg" alt="Researcher Bamboo" onclick="openLightbox('RESEARCHERS/pro-IKJjS80P.jpeg','Researcher Bamboo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-IKJjS80P.jpeg" alt="Researcher Bamboo" onclick="openLightbox('RESEARCHERS/pro-IKJjS80P.jpeg','Researcher Bamboo')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Bamboo</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Pattern Discovery · Founding Algorithm Architect</div>
@@ -12944,7 +12948,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Gator -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00ff64;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-ZzH4MGNr.jpeg" alt="Researcher Gator" onclick="openLightbox('RESEARCHERS/pro-ZzH4MGNr.jpeg','Researcher Gator')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-ZzH4MGNr.jpeg" alt="Researcher Gator" onclick="openLightbox('RESEARCHERS/pro-ZzH4MGNr.jpeg','Researcher Gator')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#00ff64;">Researcher Gator</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Quality Control · Pure · Potent · Verified</div>
@@ -12956,7 +12960,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Porcupine -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-gJgeIrCS.jpeg" alt="Researcher Porcupine" onclick="openLightbox('RESEARCHERS/pro-gJgeIrCS.jpeg','Researcher Porcupine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-gJgeIrCS.jpeg" alt="Researcher Porcupine" onclick="openLightbox('RESEARCHERS/pro-gJgeIrCS.jpeg','Researcher Porcupine')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Porcupine</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Precision Mapping of Peptides</div>
@@ -12968,7 +12972,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Scurry -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-4380o7Gk.jpeg" alt="Researcher Scurry" onclick="openLightbox('RESEARCHERS/pro-4380o7Gk.jpeg','Researcher Scurry')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-4380o7Gk.jpeg" alt="Researcher Scurry" onclick="openLightbox('RESEARCHERS/pro-4380o7Gk.jpeg','Researcher Scurry')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Scurry</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Lab Mouse · Peptide Analysis Specialist</div>
@@ -12980,7 +12984,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Penny -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/pro-pdKkFkat.jpeg" alt="Researcher Penny" onclick="openLightbox('RESEARCHERS/pro-pdKkFkat.jpeg','Researcher Penny')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/pro-pdKkFkat.jpeg" alt="Researcher Penny" onclick="openLightbox('RESEARCHERS/pro-pdKkFkat.jpeg','Researcher Penny')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Penny</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Synthesis · Cool Under Pressure</div>
@@ -12992,7 +12996,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Tamy -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/dogytam.png" alt="Researcher Tamy" onclick="openLightbox('RESEARCHERS/dogytam.png','Researcher Tamy — Peptide Research. Real Results. Better You.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/dogytam.png" alt="Researcher Tamy" onclick="openLightbox('RESEARCHERS/dogytam.png','Researcher Tamy — Peptide Research. Real Results. Better You.')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Tamy</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Peptide Research Specialist · Real Results · Better You</div>
@@ -13004,7 +13008,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Beaver -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-cyan);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_0000000000c871f88e8055a1458441d7.png" alt="Researcher Beaver" onclick="openLightbox('RESEARCHERS/file_0000000000c871f88e8055a1458441d7.png','Researcher Beaver — Building Better Databases')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_0000000000c871f88e8055a1458441d7.png" alt="Researcher Beaver" onclick="openLightbox('RESEARCHERS/file_0000000000c871f88e8055a1458441d7.png','Researcher Beaver — Building Better Databases')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-cyan);">Researcher Beaver</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-pink);text-transform:uppercase;">Building Better Databases · Data Integrity Specialist</div>
@@ -13016,7 +13020,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Momo -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_000000009fcc71f883a93c9ca51605d3.png" alt="Researcher Momo" onclick="openLightbox('RESEARCHERS/file_000000009fcc71f883a93c9ca51605d3.png','Researcher Momo — Curious About Everything')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_000000009fcc71f883a93c9ca51605d3.png" alt="Researcher Momo" onclick="openLightbox('RESEARCHERS/file_000000009fcc71f883a93c9ca51605d3.png','Researcher Momo — Curious About Everything')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Momo</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Curious About Everything · Data Exploration</div>
@@ -13028,7 +13032,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Owlbert -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000a21471f8aa3784c6c6fad0c4.png" alt="Researcher Owlbert" onclick="openLightbox('RESEARCHERS/file_00000000a21471f8aa3784c6c6fad0c4.png','Researcher Owlbert — Watching the Data Day and Night')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000a21471f8aa3784c6c6fad0c4.png" alt="Researcher Owlbert" onclick="openLightbox('RESEARCHERS/file_00000000a21471f8aa3784c6c6fad0c4.png','Researcher Owlbert — Watching the Data Day and Night')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:#9d00ff;">Researcher Owlbert</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">Data Watch Specialist · 24/7 Surveillance</div>
@@ -13040,7 +13044,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Wommy -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000ac4471fdb4d18da48c73b300.png" alt="Researcher Wommy" onclick="openLightbox('RESEARCHERS/file_00000000ac4471fdb4d18da48c73b300.png','Researcher Wommy — I Wonder Peps!')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000ac4471fdb4d18da48c73b300.png" alt="Researcher Wommy" onclick="openLightbox('RESEARCHERS/file_00000000ac4471fdb4d18da48c73b300.png','Researcher Wommy — I Wonder Peps!')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-pink);">Researcher Wommy</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">The Peptide Prospector · I Wonder Peps!</div>
@@ -13052,7 +13056,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Researcher Roobert -->
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-orange);overflow:hidden;display:flex;flex-direction:column;">
-        <img src="RESEARCHERS/file_00000000f6d07230b6320ef3fd21d3b6.png" alt="Researcher Roobert" onclick="openLightbox('RESEARCHERS/file_00000000f6d07230b6320ef3fd21d3b6.png','Researcher Roobert — The Data Hopper')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
+        <img loading="lazy" decoding="async" src="RESEARCHERS/file_00000000f6d07230b6320ef3fd21d3b6.png" alt="Researcher Roobert" onclick="openLightbox('RESEARCHERS/file_00000000f6d07230b6320ef3fd21d3b6.png','Researcher Roobert — The Data Hopper')" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;" title="Click to view full poster">
         <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--neon-orange);">Researcher Roobert</div>
           <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.12em;color:var(--neon-cyan);text-transform:uppercase;">The Data Hopper · Cross-Connection Analysis</div>
@@ -13114,7 +13118,7 @@ document.addEventListener('keydown', function(e){
             style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:0.25rem 0.75rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.08);">⬇ Save Image</a>
         </div>
         <div style="cursor:zoom-in;" onclick="openLightbox('Reconstitution_Research_Calculator.png','Reconstitution Calculator — Visual Reference')">
-          <img src="Reconstitution_Research_Calculator.png" alt="Reconstitution Calculator Reference" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
+          <img loading="lazy" decoding="async" src="Reconstitution_Research_Calculator.png" alt="Reconstitution Calculator Reference" style="width:100%;display:block;object-fit:contain;" title="Click to zoom">
         </div>
         <div style="padding:1rem 1.25rem;border-top:1px solid var(--card-border);">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.14em;color:#9d00ff;margin-bottom:0.5rem;">HOW TO USE THIS CALCULATOR</div>
@@ -13629,7 +13633,7 @@ document.addEventListener('keydown', function(e){
         <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.2em;padding:0.2rem 0.6rem;background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.5);color:var(--neon-pink);">🔴 MUST WATCH</span>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;color:#fff;">🧪 Glowrilla's Full Reconstitution Guide — Watch Before You Calculate</div>
       </div>
-      <video src="peptide-tutorial.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:420px;object-fit:contain;background:#000;"></video>
+      <video src="peptide-tutorial.mp4" controls playsinline preload="none" style="width:100%;display:block;max-height:420px;object-fit:contain;background:#000;"></video>
     </div>
     <!-- Research Guide Video -->
     <div style="max-width:700px;margin:0 auto 2.5rem;">
@@ -13966,7 +13970,7 @@ document.addEventListener('keydown', function(e){
 </div>
 </div>
 <div class="view" id="view-quick-guide">
-  <div class="view-hero" style="--vh1:#9d00ff;--vh2:#00f5ff;background:linear-gradient(135deg,rgba(10,0,28,0.82) 0%,rgba(4,0,13,0.78) 50%,rgba(0,5,18,0.82) 100%);background-image:url('WALLPAPER.png'),linear-gradient(135deg,rgba(10,0,28,0.82) 0%,rgba(4,0,13,0.78) 50%,rgba(0,5,18,0.82) 100%);background-size:cover,auto;background-position:center 20%,0 0;background-repeat:no-repeat,no-repeat;background-blend-mode:overlay;">
+  <div class="view-hero" style="--vh1:#9d00ff;--vh2:#00f5ff;background:linear-gradient(135deg,rgba(10,0,28,0.82) 0%,rgba(4,0,13,0.78) 50%,rgba(0,5,18,0.82) 100%);background-image:url('WALLPAPER.jpg'),linear-gradient(135deg,rgba(10,0,28,0.82) 0%,rgba(4,0,13,0.78) 50%,rgba(0,5,18,0.82) 100%);background-size:cover,auto;background-position:center 20%,0 0;background-repeat:no-repeat,no-repeat;background-blend-mode:overlay;">
     <div class="vh-inner">
       <div class="vh-icon">🛠</div>
       <div>
@@ -14021,7 +14025,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- Image -->
       <div style="cursor:zoom-in;margin-bottom:1.25rem;" onclick="openLightbox('cheatsheet/pennsvsneedlesusebothwhen.jpg','Pens vs Insulin Needles — When Do I Use Which?')">
-        <img src="cheatsheet/pennsvsneedlesusebothwhen.jpg" alt="Pens vs Insulin Needles" style="width:100%;display:block;border-radius:6px;border:1px solid rgba(0,245,255,0.2);" title="Click to zoom">
+        <img loading="lazy" decoding="async" src="cheatsheet/pennsvsneedlesusebothwhen.jpg" alt="Pens vs Insulin Needles" style="width:100%;display:block;border-radius:6px;border:1px solid rgba(0,245,255,0.2);" title="Click to zoom">
       </div>
 
       <!-- Two column layout -->
@@ -14588,7 +14592,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-ghkcu-expect-body" style="display:block;border-top:1px solid rgba(0,255,100,0.2);">
-        <img loading="eager" src="guides-pictures/guide-ghkcu-expect.png" alt="GHK-Cu Injection What to Expect" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-expect.png','GHK-Cu Injection: What to Expect & When to Worry')" />
+        <img loading="lazy" src="guides-pictures/guide-ghkcu-expect.png" alt="GHK-Cu Injection What to Expect" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-expect.png','GHK-Cu Injection: What to Expect & When to Worry')" />
       </div>
     </div>
 
@@ -14610,7 +14614,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-ghkcu-body" style="display:block;border-top:1px solid rgba(255,45,120,0.2);">
-        <img loading="eager" src="guides-pictures/guide-ghkcu-reactions.png" alt="GHK-Cu Injection Reactions Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-reactions.png','GHK-Cu Injections — Reactions, Timeline & When to Worry')" />
+        <img loading="lazy" src="guides-pictures/guide-ghkcu-reactions.png" alt="GHK-Cu Injection Reactions Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-reactions.png','GHK-Cu Injections — Reactions, Timeline & When to Worry')" />
       </div>
     </div>
 
@@ -14632,7 +14636,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-pepstorage-body" style="display:block;border-top:1px solid rgba(0,245,255,0.2);">
-        <img loading="eager" src="guides-pictures/guide-peptide-storage.png" alt="Peptide Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-peptide-storage.png','Peptide Storage Guide')" />
+        <img loading="lazy" src="guides-pictures/guide-peptide-storage.png" alt="Peptide Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-peptide-storage.png','Peptide Storage Guide')" />
       </div>
     </div>
 
@@ -14654,7 +14658,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-badbac-body" style="display:block;border-top:1px solid rgba(255,45,120,0.2);">
-        <img loading="eager" src="guides-pictures/guide-bad-bac-water.png?v=2" alt="Bad Bacteriostatic Water Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bad-bac-water.png','Bad Bacteriostatic Water — Risks & What To Do')" />
+        <img loading="lazy" src="guides-pictures/guide-bad-bac-water.png?v=2" alt="Bad Bacteriostatic Water Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bad-bac-water.png','Bad Bacteriostatic Water — Risks & What To Do')" />
       </div>
     </div>
 
@@ -14676,7 +14680,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-reconstitute-body" style="display:block;border-top:1px solid rgba(255,230,0,0.2);">
-        <img loading="eager" src="guides-pictures/guide-reconstitute.png" alt="How to Reconstitute a Peptide Vial" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-reconstitute.png','How to Reconstitute a Lyophilized Peptide Vial')" />
+        <img loading="lazy" src="guides-pictures/guide-reconstitute.png" alt="How to Reconstitute a Peptide Vial" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-reconstitute.png','How to Reconstitute a Lyophilized Peptide Vial')" />
       </div>
     </div>
 
@@ -14698,7 +14702,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
       <div id="guide-bac-body" style="display:block;border-top:1px solid rgba(0,245,255,0.2);">
-        <img loading="eager" src="guides-pictures/guide-bac-water.png" alt="Bacteriostatic Water Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bac-water.png','Bacteriostatic Water — Storage Guide')" />
+        <img loading="lazy" src="guides-pictures/guide-bac-water.png" alt="Bacteriostatic Water Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bac-water.png','Bacteriostatic Water — Storage Guide')" />
       </div>
     </div>
     </div>
@@ -15494,7 +15498,7 @@ document.addEventListener('keydown', function(e){
     </summary>
     <div style="background:rgba(0,10,5,0.99);border:2px solid rgba(0,200,83,0.5);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;">
       <div style="position:relative;background:#000;aspect-ratio:16/9;">
-        <video id="rq-vid-1" muted playsinline webkit-playsinline controls preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;">
+        <video id="rq-vid-1" muted playsinline webkit-playsinline controls preload="none" style="width:100%;height:100%;object-fit:contain;display:block;">
           <source src="whatisselfruqyah.mp4" type="video/mp4; codecs=avc1">
           <source src="whatisselfruqyah.mp4" type="video/mp4">
         </video>
@@ -15637,23 +15641,23 @@ document.addEventListener('keydown', function(e){
   <!-- 3 healing images -->
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1rem;margin-bottom:1.5rem;">
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.3);cursor:zoom-in;" onclick="openLightbox('ruqyah.jpg','Ruqyah — Islamic Healing')">
-      <img src="ruqyah.jpg" alt="Ruqyah Islamic Healing" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <img loading="lazy" decoding="async" src="ruqyah.jpg" alt="Ruqyah Islamic Healing" style="width:100%;display:block;object-fit:cover;max-height:220px;">
       <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00c853;">Ruqyah — Quranic Healing</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.3);cursor:zoom-in;" onclick="openLightbox('sidrwitchcraft.jpg','Sidr — Protection from Witchcraft')">
-      <img src="sidrwitchcraft.jpg" alt="Sidr — Protection from Witchcraft" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <img loading="lazy" decoding="async" src="sidrwitchcraft.jpg" alt="Sidr — Protection from Witchcraft" style="width:100%;display:block;object-fit:cover;max-height:220px;">
       <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ffd600;">Sidr — Witchcraft & Evil Eye</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.3);cursor:zoom-in;" onclick="openLightbox('duaprotectionfromsatan.jpg','Dua — Protection from Satan')">
-      <img src="duaprotectionfromsatan.jpg" alt="Dua — Protection from Satan" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <img loading="lazy" decoding="async" src="duaprotectionfromsatan.jpg" alt="Dua — Protection from Satan" style="width:100%;display:block;object-fit:cover;max-height:220px;">
       <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00c853;">Dua — Protection from Satan</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.4);cursor:zoom-in;" onclick="openLightbox('evileyeruqya.jpg','Evil Eye — Ruqyah &amp; Protection')">
-      <img src="evileyeruqya.jpg" alt="Evil Eye — Ruqyah &amp; Protection" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <img loading="lazy" decoding="async" src="evileyeruqya.jpg" alt="Evil Eye — Ruqyah &amp; Protection" style="width:100%;display:block;object-fit:cover;max-height:220px;">
       <div style="padding:0.6rem 0.75rem;background:rgba(0,8,4,0.95);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#ffd600;">Evil Eye — Ruqyah &amp; Protection</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.3);cursor:zoom-in;" onclick="openLightbox('magicandjinn.jpg','Magic &amp; Jinn — Islamic Healing &amp; Ruqyah')">
-      <img src="magicandjinn.jpg" alt="Magic and Jinn — Islamic Ruqyah" style="width:100%;display:block;object-fit:cover;max-height:220px;">
+      <img loading="lazy" decoding="async" src="magicandjinn.jpg" alt="Magic and Jinn — Islamic Ruqyah" style="width:100%;display:block;object-fit:cover;max-height:220px;">
       <div style="padding:0.6rem 0.75rem;background:#000;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:#00c853;">Magic &amp; Jinn — Ruqyah &amp; Islamic Healing</div>
     </div>
   </div>
@@ -15663,15 +15667,15 @@ document.addEventListener('keydown', function(e){
        ══════════════════════════════════════════════ -->
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1rem;margin-bottom:1.5rem;">
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('reliefruqya1.jpg','Ruqyah Relief — Part 1')">
-      <img src="reliefruqya1.jpg" alt="Ruqyah Relief 1" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="reliefruqya1.jpg" alt="Ruqyah Relief 1" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">Relief Through Ruqyah · Part 1</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('reliefruqya2.jpg','Ruqyah Relief — Part 2')">
-      <img src="reliefruqya2.jpg" alt="Ruqyah Relief 2" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="reliefruqya2.jpg" alt="Ruqyah Relief 2" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">Relief Through Ruqyah · Part 2</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('reliefruqya3.jpg','Ruqyah Relief — Part 3')">
-      <img src="reliefruqya3.jpg" alt="Ruqyah Relief 3" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="reliefruqya3.jpg" alt="Ruqyah Relief 3" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">Relief Through Ruqyah · Part 3</div>
     </div>
   </div>
@@ -15684,45 +15688,45 @@ document.addEventListener('keydown', function(e){
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1rem;margin-bottom:1.5rem;">
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('ruqya1.jpg','How To Determine If You\'re Afflicted By A Spiritual Disease')">
-      <img src="ruqya1.jpg" alt="How To Determine If You're Afflicted By A Spiritual Disease" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="ruqya1.jpg" alt="How To Determine If You're Afflicted By A Spiritual Disease" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">How To Determine If You're Afflicted — Part 1</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('ruqya3.jpg','How To Determine What Spiritual Disease You Have — Part 2')">
-      <img src="ruqya3.jpg" alt="How To Determine What Spiritual Disease You Have" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="ruqya3.jpg" alt="How To Determine What Spiritual Disease You Have" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">What Spiritual Disease Do You Have? — Part 2</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('ruqya2.jpg','Surah An-Nas &amp; Surah Al-Falaq — Exact Words From The Quran')">
-      <img src="ruqya2.jpg" alt="Surah An-Nas and Surah Al-Falaq — Exact Words From The Quran" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="ruqya2.jpg" alt="Surah An-Nas and Surah Al-Falaq — Exact Words From The Quran" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">Surah An-Nas &amp; Al-Falaq — Reference Card</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('ruqya4.jpg','Healing Session (Cure) — 7 Intentions Visual Reference')">
-      <img src="ruqya4.jpg" alt="Healing Session Cure 7 Intentions Visual Reference" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="ruqya4.jpg" alt="Healing Session Cure 7 Intentions Visual Reference" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">Healing Session (Cure) — Visual Reference Card</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('ruqya5.jpg','The Ruqyah That Exposes Who Did Sihr On You And Cancels It — Part 4')">
-      <img src="ruqya5.jpg" alt="The Ruqyah That Exposes Who Did Sihr On You And Cancels It Part 4" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="ruqya5.jpg" alt="The Ruqyah That Exposes Who Did Sihr On You And Cancels It Part 4" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">Exposing Who Did Sihr &amp; Cancelling It — Part 4</div>
     </div>
     <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('breakhiddenmagic.jpg','Du\'a To Break Hidden Magic — Uncover, Destroy, Be Free')">
-      <img src="breakhiddenmagic.jpg" alt="Dua To Break Hidden Magic" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="breakhiddenmagic.jpg" alt="Dua To Break Hidden Magic" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">Du'a To Break Hidden Magic — Full Protection Du'as</div>
     </div>
     <div data-search="evil eye is real allah permission qadr protection ruqyah dua" style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('evileye1.jpg','The Evil Eye Is Real')">
-      <img src="evileye1.jpg" alt="The Evil Eye Is Real But Only By Allahs Permission" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="evileye1.jpg" alt="The Evil Eye Is Real But Only By Allahs Permission" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">The Evil Eye Is Real — But Only By Allah's Permission</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:600;color:rgba(200,255,220,0.55);margin-top:3px;line-height:1.5;">Hadith references (Sahih Muslim 2187/2188) on the reality of the evil eye, why protection through du'a and ruqyah is also part of Allah's decree, and practical daily steps to protect yourself.</div>
       </div>
     </div>
     <div data-search="keep your plans private envy hasad hadith quran jacob yusuf protection" style="border-radius:8px;overflow:hidden;border:1px solid rgba(0,200,83,0.35);cursor:zoom-in;" onclick="openLightbox('evileye2.jpg','Keep Your Plans Private')">
-      <img src="evileye2.jpg" alt="Keep Your Plans Private Not Everyone Wishes You Well" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="evileye2.jpg" alt="Keep Your Plans Private Not Everyone Wishes You Well" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#00c853;">Keep Your Plans Private — Not Everyone Wishes You Well</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:600;color:rgba(200,255,220,0.55);margin-top:3px;line-height:1.5;">Why concealing blessings and plans (per the hadith on Mu'adh ibn Jabal and the story of Yusuf/Ya'qub in Qur'an 12:5) is itself a form of protection — envy can come from anyone, including those closest to you.</div>
       </div>
     </div>
     <div data-search="unseen world black magic sihr evil eye envy hatred allah qadr protection" style="border-radius:8px;overflow:hidden;border:1px solid rgba(255,214,0,0.35);cursor:zoom-in;" onclick="openLightbox('evileye3.jpg','The Unseen World')">
-      <img src="evileye3.jpg" alt="The Unseen World Black Magic Evil Eye and Envy" style="width:100%;display:block;object-fit:cover;max-height:200px;">
+      <img loading="lazy" decoding="async" src="evileye3.jpg" alt="The Unseen World Black Magic Evil Eye and Envy" style="width:100%;display:block;object-fit:cover;max-height:200px;">
       <div style="padding:0.55rem 0.75rem;background:rgba(0,8,4,0.97);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.12em;color:#ffd600;">The Unseen World — Black Magic, The Evil Eye &amp; Envy</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:600;color:rgba(200,255,220,0.55);margin-top:3px;line-height:1.5;">Ties together sihr, the evil eye, and envy from those close to you — and why both being harmed and being protected are equally part of Allah's qadr, so seeking refuge is never wasted effort.</div>
@@ -15742,7 +15746,7 @@ document.addEventListener('keydown', function(e){
       <!-- Video 2: Lost Due to Magic -->
       <div style="background:rgba(0,10,5,0.99);border:1px solid rgba(255,214,0,0.35);border-top:3px solid #ffd600;border-radius:8px;overflow:hidden;position:relative;">
         <div style="position:relative;background:#000;aspect-ratio:16/9;">
-          <video id="rq-vid-2" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;">
+          <video id="rq-vid-2" muted playsinline webkit-playsinline controls preload="none" style="width:100%;height:100%;object-fit:contain;display:block;">
             <source src="lostduetomagic.mp4" type="video/mp4; codecs=avc1">
             <source src="lostduetomagic.mp4" type="video/mp4">
           </video>
@@ -15759,7 +15763,7 @@ document.addEventListener('keydown', function(e){
       <!-- Video 3: Surah Falaq & Naas -->
       <div style="background:rgba(0,10,5,0.99);border:1px solid rgba(0,200,83,0.35);border-top:3px solid #00c853;border-radius:8px;overflow:hidden;position:relative;">
         <div style="position:relative;background:#000;aspect-ratio:16/9;">
-          <video id="rq-vid-3" autoplay muted playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;">
+          <video id="rq-vid-3" muted playsinline webkit-playsinline controls preload="none" style="width:100%;height:100%;object-fit:contain;display:block;">
             <source src="surahfalaqsurahnas.mp4" type="video/mp4; codecs=avc1">
             <source src="surahfalaqsurahnas.mp4" type="video/mp4">
           </video>
@@ -16164,7 +16168,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-quad-body" style="display:none;border-top:2px solid rgba(0,255,100,0.3);">
-      <img loading="eager" src="guides-pictures/guide-quad-workout.png" alt="5 Standing Exercises for Quad Strength" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-quad-workout.png','5 Standing Exercises — Quad Strength After 60')" />
+      <img loading="lazy" src="guides-pictures/guide-quad-workout.png" alt="5 Standing Exercises for Quad Strength" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-quad-workout.png','5 Standing Exercises — Quad Strength After 60')" />
     </div>
   </div>
 
@@ -16186,7 +16190,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-leg-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-      <img loading="eager" src="guides-pictures/guide-leg-strength.jpg" alt="Leg Workout Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-leg-strength.jpg','Leg Workout Guide')" />
+      <img loading="lazy" src="guides-pictures/guide-leg-strength.jpg" alt="Leg Workout Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-leg-strength.jpg','Leg Workout Guide')" />
     </div>
   </div>
 
@@ -16208,7 +16212,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-3day-body" style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-      <img loading="eager" src="guides-pictures/guide-3day-resistance.png" alt="3-Day Workout Split" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-3day-resistance.png','3-Day Full Body Workout Split')" />
+      <img loading="lazy" src="guides-pictures/guide-3day-resistance.png" alt="3-Day Workout Split" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-3day-resistance.png','3-Day Full Body Workout Split')" />
     </div>
   </div>
 
@@ -16230,7 +16234,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-4x4-body" style="display:none;border-top:1px solid rgba(255,230,0,0.2);">
-      <img loading="eager" src="guides-pictures/guide-4x4x4-cardio.png" alt="4x4 Training Method" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-4x4x4-cardio.png','4×4 Training Method')" />
+      <img loading="lazy" src="guides-pictures/guide-4x4x4-cardio.png" alt="4x4 Training Method" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-4x4x4-cardio.png','4×4 Training Method')" />
     </div>
   </div>
 
@@ -16252,7 +16256,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-glpsplit-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
-      <img loading="eager" src="guides-pictures/guide-glp-split.png" alt="GLP Medication Workout Split" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-glp-split.png','Why This Split Works on GLP Medication')" />
+      <img loading="lazy" src="guides-pictures/guide-glp-split.png" alt="GLP Medication Workout Split" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-glp-split.png','Why This Split Works on GLP Medication')" />
     </div>
   </div>
 
@@ -16274,7 +16278,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
     <div id="workout-zone2-body" style="display:none;border-top:1px solid rgba(255,107,0,0.2);">
-      <img loading="eager" src="guides-pictures/guide-zone2-cardio.png" alt="Zone 2 Cardio Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-zone2-cardio.png','Zone 2 Cardio — Strong Heart. Long Life.')" />
+      <img loading="lazy" src="guides-pictures/guide-zone2-cardio.png" alt="Zone 2 Cardio Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-zone2-cardio.png','Zone 2 Cardio — Strong Heart. Long Life.')" />
     </div>
   </div>
 
@@ -16869,7 +16873,7 @@ function csvFilter(cat, btn) {
       if(!inner) return;
       var logoWrap = document.createElement('div');
       logoWrap.className = 'vh-logo-wrap';
-      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="vpnlogo.png?v=4" class="vh-logo-img" alt="VPN">';
+      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="VPNNEWLOGO.png?v=4" class="vh-logo-img" alt="VPN">';
       inner.insertBefore(logoWrap, inner.firstChild);
       // move text into content wrapper with eyebrow
       var titleEl = inner.querySelector('.vh-title');
@@ -18472,7 +18476,7 @@ function csvFilter(cat, btn) {
             <a href="Crypto%20summarized%20guide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid #9d00ff;color:#9d00ff;text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
           </div>
           <div style="cursor:zoom-in;" onclick="openLightbox('Crypto%20summarized%20guide.png','Crypto 101 — Gray Market Purchasing')">
-            <img src="Crypto%20summarized%20guide.png" alt="Crypto 101 for Gray Market Purchases" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
+            <img loading="lazy" decoding="async" src="Crypto%20summarized%20guide.png" alt="Crypto 101 for Gray Market Purchases" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
           </div>
         </div>
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #9d00ff;overflow:hidden;">
@@ -19824,7 +19828,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid #00ff64;color:#00ff64;text-decoration:none;background:rgba(0,255,100,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(0,255,100,0.2);">
-            <img loading="eager" src="guides-pictures/guide-ghkcu-expect.png" alt="GHK-Cu Injection What to Expect" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-expect.png','GHK-Cu Injection: What to Expect & When to Worry')" />
+            <img loading="lazy" src="guides-pictures/guide-ghkcu-expect.png" alt="GHK-Cu Injection What to Expect" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-expect.png','GHK-Cu Injection: What to Expect & When to Worry')" />
           </div>
         </div>
 
@@ -19843,7 +19847,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(255,45,120,0.2);">
-            <img loading="eager" src="guides-pictures/guide-ghkcu-reactions.png" alt="GHK-Cu Reactions Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-reactions.png','GHK-Cu Injections — Reactions, Timeline & When to Worry')" />
+            <img loading="lazy" src="guides-pictures/guide-ghkcu-reactions.png" alt="GHK-Cu Reactions Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-ghkcu-reactions.png','GHK-Cu Injections — Reactions, Timeline & When to Worry')" />
           </div>
         </div>
 
@@ -19862,7 +19866,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-            <img loading="eager" src="guides-pictures/guide-peptide-storage.png" alt="Peptide Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-peptide-storage.png','Peptide Storage Guide')" />
+            <img loading="lazy" src="guides-pictures/guide-peptide-storage.png" alt="Peptide Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-peptide-storage.png','Peptide Storage Guide')" />
           </div>
         </div>
 
@@ -19881,7 +19885,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(255,45,120,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(255,45,120,0.2);">
-            <img loading="eager" src="guides-pictures/guide-bad-bac-water.png?v=2" alt="Bad Bacteriostatic Water Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bad-bac-water.png','Bad Bacteriostatic Water — Risks & What To Do')" />
+            <img loading="lazy" src="guides-pictures/guide-bad-bac-water.png?v=2" alt="Bad Bacteriostatic Water Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bad-bac-water.png','Bad Bacteriostatic Water — Risks & What To Do')" />
           </div>
         </div>
 
@@ -19900,7 +19904,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid #9d00ff;color:#9d00ff;text-decoration:none;background:rgba(157,0,255,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(157,0,255,0.2);">
-            <img loading="eager" src="guides-pictures/guide-reconstitute.png" alt="How to Reconstitute a Peptide Vial" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-reconstitute.png','How to Reconstitute a Lyophilized Peptide Vial')" />
+            <img loading="lazy" src="guides-pictures/guide-reconstitute.png" alt="How to Reconstitute a Peptide Vial" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-reconstitute.png','How to Reconstitute a Lyophilized Peptide Vial')" />
           </div>
         </div>
 
@@ -19919,7 +19923,7 @@ function csvFilter(cat, btn) {
                style="font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.35rem 0.8rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:rgba(0,245,255,0.06);white-space:nowrap;">⬇ Download</a>
           </div>
           <div style="display:none;border-top:1px solid rgba(0,245,255,0.2);">
-            <img loading="eager" src="guides-pictures/guide-bac-water.png" alt="Bacteriostatic Water Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bac-water.png','Bacteriostatic Water — Storage Guide')" />
+            <img loading="lazy" src="guides-pictures/guide-bac-water.png" alt="Bacteriostatic Water Storage Guide" style="width:100%;display:block;max-height:220px;object-fit:contain;cursor:zoom-in;" onclick="openLightbox('guides-pictures/guide-bac-water.png','Bacteriostatic Water — Storage Guide')" />
           </div>
         </div>
         <div data-search="gout uric acid mouse protocol mots-c bpc-157 tb-500 ll-37 hyperuricemia potassium citrate vitamin c" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid #00f5ff;overflow:hidden;">
@@ -20234,7 +20238,7 @@ function csvFilter(cat, btn) {
             <a href="guardianlazarotide.png" download style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.06em;padding:0.2rem 0.6rem;border:1px solid var(--neon-pink);color:var(--neon-pink);text-decoration:none;background:rgba(0,0,0,0.3);">⬇ Save</a>
           </div>
           <div style="cursor:zoom-in;" onclick="openLightbox('guardianlazarotide.png','The Guardian — Complete Gut Healing & Protection')">
-            <img src="guardianlazarotide.png" alt="The Guardian — Gut Healing & Larazotide" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
+            <img loading="lazy" decoding="async" src="guardianlazarotide.png" alt="The Guardian — Gut Healing & Larazotide" style="width:100%;display:block;object-fit:contain;max-height:220px;" title="Click to zoom">
           </div>
         </div>
         <div style="background:var(--card-bg);border:1px solid var(--card-border);border-top:3px solid var(--neon-pink);overflow:hidden;">
@@ -21162,7 +21166,7 @@ function csvFilter(cat, btn) {
           <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--card-border);">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#00f5ff;">How To Read An Insulin Needle — Video Guide</div>
           </div>
-          <video src="howtoreadainuslinneedle.mp4" controls playsinline preload="metadata" style="width:100%;display:block;max-height:260px;object-fit:contain;background:#000;"></video>
+          <video src="howtoreadainuslinneedle.mp4" controls playsinline preload="none" style="width:100%;display:block;max-height:260px;object-fit:contain;background:#000;"></video>
         </div>
       </div>
     </div>
@@ -24898,7 +24902,7 @@ function csvFilter(cat, btn) {
     <a id="lightbox-dl" href="" download style="font-family:'Bebas Neue',sans-serif;font-size: 1.1rem;letter-spacing:0.15em;padding:0.4rem 1.2rem;border:1px solid var(--neon-cyan);color:var(--neon-cyan);text-decoration:none;background:#0a0a1e;">⬇ Download</a>
     <button onclick="closeLightbox()" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.15em;padding:0.4rem 1rem;border:1px solid var(--neon-pink);color:var(--neon-pink);background:#0d0a18;cursor:pointer;">✕ Close</button>
   </div>
-  <img id="lightbox-img" src="" alt="" style="max-width:min(900px,95vw);max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,0.15);">
+  <img loading="lazy" decoding="async" id="lightbox-img" src="" alt="" style="max-width:min(900px,95vw);max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,0.15);">
 </div>
 
 <!-- REPORT VIEWER MODAL -->
@@ -26358,7 +26362,7 @@ function viewReport(vendorId, peptide, type, idx) {
   } else if(r.isPdf) {
     content.innerHTML = '<embed src="'+r.dataUrl+'" type="application/pdf" style="width:100%;height:500px;border:none;" />';
   } else {
-    content.innerHTML = '<img src="'+r.dataUrl+'" style="max-width:100%;max-height:520px;object-fit:contain;display:block;margin:0 auto;border:1px solid var(--card-border);" />';
+    content.innerHTML = '<img loading="lazy" decoding="async" src="'+r.dataUrl+'" style="max-width:100%;max-height:520px;object-fit:contain;display:block;margin:0 auto;border:1px solid var(--card-border);" />';
   }
   document.getElementById('viewer-download').onclick = function(){
     if (r.driveUrl) {
@@ -29003,7 +29007,7 @@ function renderScanResults(files, vendorId) {
       <div>
         <input type="hidden" data-file-id="${f.id}" data-role="link" value="${drivePreviewLink}" />
         <a href="${drivePreviewLink}" target="_blank" title="Open full document" style="display:block;position:relative;">
-          <img src="${thumbUrl}" alt="preview"
+          <img loading="lazy" decoding="async" src="${thumbUrl}" alt="preview"
             style="width:100%;max-width:130px;height:65px;object-fit:cover;border:1px solid rgba(0,245,255,0.25);display:block;background:#0a0a1e;"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
           <div style="display:none;width:100%;max-width:130px;height:65px;border:1px dashed rgba(0,245,255,0.2);align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);">No preview</div>
@@ -31906,7 +31910,7 @@ window.addEventListener('appinstalled', function(){
 @keyframes gmFadeH{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 </style>
 <button id="gw-fab-home" title="Glowrilla Hub">
-  <img src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
+  <img loading="lazy" decoding="async" src="APPICONMASCOT.png" alt="Glowrilla" onerror="this.style.display='none';this.parentNode.innerHTML='🦍';">
 </button>
 <div id="gw-menu-home">
   <a href="javascript:void(0)" onclick="showView('bloodwork');document.getElementById('gw-menu-home').classList.remove('open');">🩸 Blood Work</a>

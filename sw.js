@@ -1,5 +1,5 @@
-const CACHE = 'vpn-v1';
-const PRECACHE = ['./home.html', './VPNNEWLOGO.png', './WALLPAPER.png'];
+const CACHE = 'vpn-v2';
+const PRECACHE = ['./home.html', './VPNNEWLOGO.png', './WALLPAPER.jpg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
