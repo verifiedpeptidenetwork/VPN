@@ -4364,6 +4364,16 @@ document.addEventListener('keydown', function(e){
   #vpn-sidebar::-webkit-scrollbar { width: 4px; }
   #vpn-sidebar::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.2); border-radius: 2px; }
   @media(max-width:900px) { #vpn-sidebar { display: none !important; } }
+  /* phones/tablets: the same sidebar becomes the ☰ menu — a slide-in drawer */
+  @media(max-width:900px) {
+    html body #vpn-sidebar.vpn-drawer { display:flex !important; width:min(300px,86vw); height:100dvh; z-index:100001; transform:translateX(-105%); visibility:hidden; transition:transform .26s ease, visibility 0s linear .26s; box-shadow:12px 0 40px rgba(0,0,0,0.6); padding-bottom:calc(16px + env(safe-area-inset-bottom,0px)); overscroll-behavior:contain; }
+    html body #vpn-sidebar.vpn-drawer.drawer-open { transform:none; visibility:visible; transition:transform .26s ease, visibility 0s; }
+    #vpn-drawer-bg { position:fixed; inset:0; z-index:100000; background:rgba(0,0,0,0.55); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); opacity:0; pointer-events:none; transition:opacity .2s; }
+    #vpn-drawer-bg.on { opacity:1; pointer-events:auto; }
+    #vpn-drawer-close { display:flex !important; }
+    body.drawer-locked { overflow:hidden !important; }
+  }
+  #vpn-drawer-close { display:none; position:absolute; top:10px; right:10px; z-index:3; width:36px; height:36px; border-radius:10px; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.06); color:#fff; font-size:20px; cursor:pointer; }
 
   @keyframes sbLogoGlow {
     0%   { box-shadow: 0 0 0 2px rgba(0,255,65,0.9),  0 0 18px rgba(0,255,65,0.6),  0 0 36px rgba(0,255,65,0.25); border-color: rgba(0,255,65,0.9); }
@@ -4539,7 +4549,8 @@ document.addEventListener('keydown', function(e){
 </style>
 
 <!-- ── LEFT SIDEBAR ── -->
-<nav id="vpn-sidebar">
+<nav id="vpn-sidebar" class="vpn-drawer" aria-label="Site menu">
+  <button type="button" id="vpn-drawer-close" aria-label="Close menu" onclick="vpnDrawer(false)">✕</button>
   <!-- Logo -->
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
     <div class="sb-logo-bar"></div>
@@ -25466,12 +25477,29 @@ const VENDORS = [
 let currentVendor = null;
 
 
+// Phones/tablets: ☰ and MORE open the desktop sidebar as a slide-in drawer (one menu everywhere)
+function vpnDrawer(open){
+  var sb = document.getElementById('vpn-sidebar'); if (!sb) return;
+  var bg = document.getElementById('vpn-drawer-bg');
+  if (!bg) { bg = document.createElement('div'); bg.id = 'vpn-drawer-bg'; bg.onclick = function(){ vpnDrawer(false); }; document.body.appendChild(bg); }
+  if (open === undefined) open = !sb.classList.contains('drawer-open');
+  sb.classList.toggle('drawer-open', open); bg.classList.toggle('on', open);
+  document.body.classList.toggle('drawer-locked', open);
+  var btn = document.getElementById('hamburger-btn'); if (btn) btn.classList.toggle('active', open);
+  if (open) { var a = sb.querySelector('.sb-active'); if (a) a.scrollIntoView({ block:'center' }); }
+}
 function toggleMobileNav() {
+  if (window.innerWidth <= 900) { vpnDrawer(); return; }
   var nav = document.getElementById('mobile-nav');
   var btn = document.getElementById('hamburger-btn');
   nav.classList.toggle('open');
   btn.classList.toggle('active');
 }
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') vpnDrawer(false); });
+document.addEventListener('click', function(e){
+  // tapping any destination in the drawer closes it
+  if (e.target.closest && e.target.closest('#vpn-sidebar .sb-item, #vpn-sidebar .sb-ext-link, #vpn-sidebar .sb-logo')) vpnDrawer(false);
+});
 
 document.addEventListener('click', function(e){
   document.querySelectorAll('.nav-dropdown.open').forEach(function(d){
