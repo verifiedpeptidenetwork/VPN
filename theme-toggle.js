@@ -262,6 +262,8 @@
     // light values as the "original" inline styles and break the switch back to dark.
     if(touchedSet.has(el)) return;
     var cs=getComputedStyle(el);
+    // small condensed headline font is hard to read on light backgrounds: swap it for a clearer one (CSS below, light mode only)
+    if(/Bebas/i.test(cs.fontFamily) && parseFloat(cs.fontSize)<17) el.classList.add('vt-lm-read');
     // Page banners get their own light treatment (tinted with the banner's accent colors)
     if(el.classList && (el.classList.contains('view-hero') || el.classList.contains('ms-hero'))){
       styleHero(el, cs);
@@ -529,6 +531,11 @@
       +'@media (orientation:portrait) and (max-width:900px){body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 15px + env(safe-area-inset-bottom,0px));}}'
       +'body:has(#dg:not(.hidden)) #vt-top-btn{display:none!important;}'
       +'@media print{#vt-dock{display:none!important;}}'
+      /* light mode readability: clearer font for small condensed text + darker accents that pass contrast */
+      +'html[data-theme="light"] .vt-lm-read{font-family:Rajdhani,"Segoe UI",Roboto,Arial,sans-serif!important;font-weight:700!important;letter-spacing:0.03em!important;}'
+      +'html[data-theme="light"] .hf-t,html[data-theme="light"] .hf-btn:not(.hf-pri){color:#0b5f9e!important;}'
+      +'html[data-theme="light"] .hf-btn.hf-pri{background:#0b5f9e!important;color:#fff!important;}'
+      +'html[data-theme="light"] #vpn-sidebar .sb-item.sb-active{background:#7a5c14!important;color:#fffdf8!important;}'
       /* portrait phones: one tidy stack at the right edge — ⚙ at the bottom, ↑ above it, both 42px; ↑ only once scrolled */
       +'@media (orientation:portrait) and (max-width:900px){'
       +  '#vt-dock{right:10px!important;}'
