@@ -4881,6 +4881,38 @@ document.addEventListener('keydown', function(e){
       html[data-theme="light"] #gw-arcade .ga-alt{color:#0b6e7a !important;border-color:rgba(11,110,122,0.5) !important;}
     </style>
 
+    <!-- START HERE — the 4-step path for new visitors (sits right under the hero) -->
+    <style>
+      #vpn-start-path{order:2;width:100%;box-sizing:border-box;margin:0 0 0.9rem;padding:1rem;border-radius:18px;background:linear-gradient(135deg,rgba(255,47,168,0.08),rgba(47,180,255,0.08)),#07040f;border:1.5px solid rgba(154,92,255,0.45);}
+      #vpn-start-path .sp-h{display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap;margin:0 0 0.75rem;}
+      #vpn-start-path .sp-h b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:0.08em;background:linear-gradient(90deg,#ff5fb8,#a86bff,#4fc2ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      #vpn-start-path .sp-h span{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:rgba(220,228,250,0.7);}
+      #vpn-start-path ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.6rem;counter-reset:sp;}
+      #vpn-start-path li{counter-increment:sp;}
+      #vpn-start-path a{position:relative;display:flex;flex-direction:column;gap:0.2rem;height:100%;box-sizing:border-box;padding:0.75rem 0.8rem 0.75rem 3rem;border-radius:12px;text-decoration:none;color:#fff;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);transition:border-color .15s,transform .15s;}
+      #vpn-start-path a:hover{border-color:rgba(168,107,255,0.7);transform:translateY(-1px);}
+      #vpn-start-path a::before{content:counter(sp);position:absolute;left:0.75rem;top:0.75rem;width:1.7rem;height:1.7rem;border-radius:50%;display:grid;place-items:center;font:700 0.95rem/1 'Rajdhani',sans-serif;color:#0a0614;background:linear-gradient(135deg,#ff5fb8,#4fc2ff);}
+      #vpn-start-path a b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.12rem;letter-spacing:0.07em;line-height:1.1;}
+      #vpn-start-path a small{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.86rem;line-height:1.3;color:rgba(220,228,250,0.72);}
+      @media(max-width:900px){ #vpn-start-path ol{grid-template-columns:1fr 1fr;} }
+      @media(max-width:420px){ #vpn-start-path ol{grid-template-columns:1fr;} #vpn-start-path a{padding:0.65rem 0.75rem 0.65rem 2.9rem;} }
+      html[data-theme="light"] #vpn-start-path{background:#fff;border-color:rgba(91,42,134,0.35);}
+      html[data-theme="light"] #vpn-start-path a{color:#14102a;background:#f7f5ff;border-color:rgba(91,42,134,0.2);}
+      html[data-theme="light"] #vpn-start-path a small,html[data-theme="light"] #vpn-start-path .sp-h span{color:#4a4566;}
+      /* shorter home: hide shortcuts that duplicate the hero tiles, bottom bar and menu */
+      #site-hero > #qnav-wrap{display:none !important;}
+      @media(max-width:900px){ #site-hero > #vpn-docvid-promo, #site-hero > #if-promo{display:none !important;} }
+    </style>
+    <nav id="vpn-start-path" aria-label="Start here">
+      <div class="sp-h"><b>New here? Start in 4 steps</b><span>about 10 minutes, all free</span></div>
+      <ol>
+        <li><a href="#vpn-watch-first" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d)d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});return false;"><b>Watch the welcome</b><small>A short intro to what VPN is and how to use it</small></a></li>
+        <li><a href="#vpn-peptides-101" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><b>Peptides 101</b><small>What a peptide is, in plain English</small></a></li>
+        <li><a href="peptide-suggestion.html"><b>Find your peptides</b><small>Peptide Match: 3 questions, ranked results</small></a></li>
+        <li><a href="#bloodwork" onclick="showView('bloodwork');return false;"><b>Get blood work first</b><small>What to test before and during research</small></a></li>
+      </ol>
+    </nav>
+
     <div id="vpn-watch-first" style="margin:0 0 0.9rem;width:100%;box-sizing:border-box;">
       <div style="border:2px solid rgba(255,20,80,0.7);border-top:4px solid #ff1450;background:#000;border-radius:10px;overflow:hidden;box-shadow:0 0 40px rgba(255,20,80,0.2),0 0 80px rgba(255,20,80,0.07);">
         <!-- Header / toggle -->
@@ -8410,7 +8442,7 @@ document.addEventListener('keydown', function(e){
 
       <!-- MAIN ACTIONS — one primary, one secondary (warnings live in the 4 Rules + disclaimer gate) -->
       <div class="home-cta-row">
-        <button type="button" class="home-cta home-cta-primary" onclick="var d=document.getElementById('vpn-welcome-video-details');if(d){d.open=true;document.getElementById('vpn-watch-first').scrollIntoView({behavior:'smooth',block:'start'});}">▶ START HERE</button>
+        <button type="button" class="home-cta home-cta-primary" onclick="document.getElementById('vpn-start-path').scrollIntoView({behavior:'smooth',block:'start'});">▶ START HERE</button>
         <button type="button" class="home-cta home-cta-secondary" onclick="showView('all-peptides')">🔬 LEARN ABOUT YOUR PEPTIDE</button>
       </div>
       <div id="vpn-install-help" class="vpn-install-help" hidden>
