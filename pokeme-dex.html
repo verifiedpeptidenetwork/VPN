@@ -871,7 +871,31 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   .stats-row{grid-template-columns:1fr}
 }
 </style>
-<style id="phone-fit">/* phone portrait fixes */ @media(max-width:480px){ .header-inner{flex-wrap:wrap;justify-content:center;gap:12px;} .logo-emoji{width:120px;height:120px;} .header-text{flex:1 1 100%;min-width:0;} .header-vpn{font-size:1.9rem !important;letter-spacing:0.06em;} .header-full{letter-spacing:0.1em !important;} .header-tagline{letter-spacing:0.06em;overflow-wrap:anywhere;} }</style>
+<style id="how-to-use">
+/* HOW IT WORKS card + numbered step headers */
+.how-card{background:#fff;border:3px solid #1a1a1a;border-radius:14px;box-shadow:4px 4px 0 rgba(0,0,0,0.2);margin-bottom:26px;overflow:hidden;}
+.how-card > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--purple);color:#fff;font-family:var(--orb);font-weight:900;font-size:1.05rem;letter-spacing:0.06em;}
+.how-card > summary::-webkit-details-marker{display:none;}
+.how-card > summary .how-toggle{margin-left:auto;font-family:var(--mono);font-size:0.8rem;letter-spacing:0.1em;opacity:0.85;}
+.how-card[open] > summary .how-toggle::after{content:'HIDE ▲';} .how-card:not([open]) > summary .how-toggle::after{content:'SHOW ▼';}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px;padding:16px 18px 6px;}
+.how-step{display:flex;gap:12px;align-items:flex-start;}
+.how-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#fff;border:2px solid #1a1a1a;font-family:var(--orb);font-weight:900;font-size:1rem;}
+.how-step b{display:block;font-family:var(--orb);font-size:0.9rem;letter-spacing:0.05em;color:var(--text);margin-bottom:2px;}
+.how-step span{font-size:1.02rem;line-height:1.35;color:var(--muted);font-weight:600;}
+.how-note{margin:8px 18px 16px;padding:10px 12px;border-radius:8px;background:#fff7d6;border-left:5px solid var(--yellow);font-size:0.98rem;font-weight:600;color:#5c4a00;line-height:1.4;}
+.step-head{display:flex;align-items:center;gap:12px;margin:34px 0 10px;}
+.step-head .how-num{width:40px;height:40px;font-size:1.1rem;}
+.step-head h3{font-family:var(--orb);font-weight:900;font-size:1.25rem;letter-spacing:0.04em;color:var(--purple);line-height:1.15;margin:0;}
+.step-head p{margin:2px 0 0;font-size:1.05rem;font-weight:600;color:var(--muted);line-height:1.3;}
+.step-head.more .how-num{background:var(--cyan);}
+.box-hint{font-family:var(--bar);font-size:1rem;font-weight:600;color:var(--muted);margin:-8px 0 14px;line-height:1.35;}
+#pmd-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:99999;max-width:min(520px,calc(100vw - 24px));padding:12px 16px;border-radius:12px;background:#1a1a1a;color:#fff;border:2px solid var(--yellow);box-shadow:0 8px 24px rgba(0,0,0,0.35);font-family:var(--bar);font-size:1.05rem;font-weight:600;line-height:1.35;transition:transform .25s ease;}
+#pmd-toast.show{transform:translate(-50%,0);}
+#pmd-toast b{color:var(--yellow);}
+@media(max-width:480px){ .step-head h3{font-size:1.05rem;} .how-card > summary{font-size:0.92rem;padding:12px 14px;} .how-steps{padding:14px 14px 4px;} .how-note{margin:8px 14px 14px;} }
+</style>
+<style id="phone-fit">/* phone portrait fixes */ @media(max-width:480px){ header{padding:12px 14px 10px;} .header-inner{flex-wrap:wrap;justify-content:center;gap:8px 12px;} .logo-emoji{width:72px;height:72px;} .header-text{flex:1 1 auto !important;text-align:left;} .header-tagline{font-size:0.7rem;margin-top:3px;} .dex-lights{display:none;} .header-badge{flex:1 1 100%;padding:4px 8px;font-size:0.62rem;line-height:1.3;} .tab-btn{font-size:0.82rem !important;padding:10px 8px !important;} .header-text{flex:1 1 100%;min-width:0;} .header-vpn{font-size:1.9rem !important;letter-spacing:0.06em;} .header-full{letter-spacing:0.1em !important;} .header-tagline{letter-spacing:0.06em;overflow-wrap:anywhere;} }</style>
 </head>
 <body>
 <div id="auth-gate-overlay" style="position:fixed;inset:0;z-index:99999;background:#04020a;display:flex;align-items:center;justify-content:center;color:#c9c9e8;font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;">CHECKING ACCESS...</div>
@@ -954,20 +978,26 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 <main>
 
   <div class="tab-bar">
-    <div class="tab-btn active" id="tabbtn-tracker" onclick="showTab('tracker')">💉 Dose Tracker</div>
-    <div class="tab-btn" id="tabbtn-index" onclick="showTab('index')">📖 PokeMe-Dex Index</div>
+    <div class="tab-btn active" id="tabbtn-tracker" onclick="showTab('tracker')">💉 My Tracker</div>
+    <div class="tab-btn" id="tabbtn-index" onclick="showTab('index')">📖 Browse All Peptides</div>
   </div>
 
   <div class="tab-panel active" id="tab-tracker">
 
-  <div class="section-heading">
-    <div class="section-eyebrow">YOUR SCHEDULE</div>
-    <h2>Active Protocols &amp; Today's Doses</h2>
-    <p>Search for a peptide below (or browse the <strong>📖 PokeMe-Dex Index</strong> tab) and hit <strong>+ ADD</strong> — it's added instantly with a suggested dose and schedule.</p>
-  </div>
+  <details class="how-card" id="how-card" open>
+    <summary>❓ HOW POKEME-DEX WORKS <span class="how-toggle"></span></summary>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-num">1</div><div><b>FIND A PEPTIDE</b><span>Type its name, or tap your goals (Fat Loss, Sleep…) and matching peptides appear.</span></div></div>
+      <div class="how-step"><div class="how-num">2</div><div><b>TAP + ADD</b><span>It goes into <em>My Protocols</em> with a typical research starting dose and schedule filled in for you.</span></div></div>
+      <div class="how-step"><div class="how-num">3</div><div><b>TICK OFF EACH DOSE</b><span>Each day, tap the circle next to a dose once you've taken it. The calendar shows what's coming up.</span></div></div>
+    </div>
+    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed. Want to know more about a peptide first? Open the <b>📖 Browse All Peptides</b> tab.</div>
+  </details>
+
+  <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>FIND A PEPTIDE</h3><p>Search by name, or tap one or more goals below.</p></div></div>
 
   <div style="margin-bottom:24px;">
-    <div class="field-label">🔍 SEARCH FOR A PEPTIDE BY NAME</div>
+    <div class="field-label">🔍 SEARCH BY NAME</div>
     <div class="info-row" style="margin-bottom:0;">
       <div class="info-field">
         <input id="peptide-search" class="pep-input" type="text" list="peptide-search-list" placeholder="e.g. BPC-157, Retatrutide, NAD+..." onkeydown="if(event.key==='Enter'){searchPeptide();}">
@@ -979,10 +1009,10 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 
   <!-- CONDITION / GOAL SELECTOR -->
   <div style="margin-bottom:24px;background:rgba(0,0,0,0.72);border:1.5px solid rgba(0,245,255,0.2);border-radius:12px;padding:1rem;">
-    <div class="field-label">🎯 OR SELECT A CONDITION / GOAL — GET MATCHED PEPTIDES</div>
-    <div id="condition-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px;"></div>
-    <button class="btn-secondary" onclick="renderSuggestions()" style="margin-top:4px;">⚡ ANALYZE &amp; SUGGEST PEPTIDES</button>
-    <button class="btn-secondary" onclick="SELECTED_GOALS.clear();document.querySelectorAll('.cond-card').forEach(function(c){c.classList.remove('selected');});renderSuggestions();" style="margin-top:4px;margin-left:8px;opacity:0.6;">✕ Clear</button>
+    <div class="field-label">🎯 OR TAP YOUR GOALS (PICK AS MANY AS YOU LIKE)</div>
+    <div id="condition-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px,100%),1fr));gap:8px;margin-bottom:12px;"></div>
+    <div class="box-hint" style="margin:0 0 10px;">Matching peptides show up right below as you tap. Peptides that match more of your goals are listed first.</div>
+    <button class="btn-secondary" onclick="SELECTED_GOALS.clear();document.querySelectorAll('.cond-card').forEach(function(c){c.classList.remove('selected');c.style.background=c.dataset.bg;c.style.borderColor=c.dataset.bd;c.style.boxShadow='none';});document.getElementById('suggestions-box').classList.remove('visible');" style="margin-top:4px;opacity:0.75;">✕ Clear goals</button>
   </div>
 
   <div class="response-box" id="suggestions-box">
@@ -990,6 +1020,8 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div id="suggestions-list"></div>
     <button class="btn-secondary" id="copy-suggestions-btn" style="display:none; margin-top:14px;" onclick="copySuggestionsText()">📋 Copy as Text</button>
   </div>
+
+  <div class="step-head"><div class="how-num">2</div><div><h3>MY PROTOCOLS</h3><p>Everything you've added. Tap <b>REMOVE</b> to stop tracking one.</p></div></div>
 
   <div class="stats-row">
     <div class="stat-box"><div class="stat-num" id="stat-active">0</div><div class="stat-label">Active Protocols</div></div>
@@ -1002,15 +1034,20 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
       <span><span class="pulse-dot"></span>ACTIVE PROTOCOLS</span>
       <span style="cursor:pointer;color:var(--pink);" onclick="clearProtocols()">CLEAR ALL ✕</span>
     </div>
+    <div class="box-hint">Each line shows the dose, how often, the time of day and the days left. The doses are typical research starting points, not medical advice.</div>
     <div id="protocols-list"></div>
   </div>
 
-  <div class="response-box visible" id="today-doses-box">
+  <div class="step-head"><div class="how-num">3</div><div><h3>TICK OFF TODAY'S DOSES</h3><p>Tap the circle once you've taken a dose. Tap again to undo.</p></div></div>
+
+  <div class="response-box visible" id="today-doses-box" style="margin-top:12px;">
     <div class="response-label"><span class="pulse-dot"></span>TODAY'S DOSES</div>
     <div id="today-doses-list"></div>
   </div>
 
-  <div class="response-box visible" id="calendar-box">
+  <div class="step-head more"><div class="how-num">+</div><div><h3>MORE TOOLS (OPTIONAL)</h3><p>Calendar · injection-site rotation · shopping list · draw calculators</p></div></div>
+
+  <div class="response-box visible" id="calendar-box" style="margin-top:12px;">
     <div class="response-label" style="justify-content:space-between;">
       <span><span class="pulse-dot"></span>📅 DOSE CALENDAR</span>
       <span style="display:flex;gap:14px;align-items:center;">
@@ -1019,6 +1056,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
         <span style="cursor:pointer;font-family:var(--orb);font-weight:900;" onclick="calendarShiftMonth(1)">▶</span>
       </span>
     </div>
+    <div class="box-hint">Tap any day to see which doses are due. Use ◀ ▶ to change month.</div>
     <div class="cal-grid" id="calendar-grid"></div>
     <div id="calendar-day-detail"></div>
   </div>
@@ -1040,6 +1078,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="response-label" style="justify-content:space-between;">
       <span><span class="pulse-dot"></span>SCHEDULE / SHOPPING TOOLS</span>
     </div>
+    <div class="box-hint" style="margin-top:-6px;"><b>Shopping List</b> works out how many vials you need. <b>PDF</b> or <b>Copy</b> saves your schedule to keep or share.</div>
     <div id="schedule-actions" style="display:flex; margin-top:0; gap:10px; flex-wrap:wrap;">
       <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
       <button class="btn-secondary" onclick="downloadSchedulePDF()">⬇ Download as PDF</button>
@@ -1054,7 +1093,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="section-heading">
     <div class="section-eyebrow">POKEME-RECON CALCULATIONS</div>
     <h2>Figure Out Your Draw Amount</h2>
-    <p>Two simple ways to calculate how much to draw — pick whichever fields you have handy.</p>
+    <p>Not sure how many units to pull into the syringe? Fill in either calculator. Use #1 if you just want mL and units, or #2 if you also want it checked against your syringe size.</p>
   </div>
 
   <div class="response-box visible" id="recon-box-1">
@@ -1112,7 +1151,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="section-heading">
     <div class="section-eyebrow">PEPTIDE INDEX — POKEME-DEX ENTRIES</div>
     <h2>Browse All Entries</h2>
-    <p>Every peptide and supplement mentioned in this tool, alphabetized and numbered like a real Pokédex — with study citations where available. Tap a card to read its full entry, or hit <strong>+ ADD</strong> to instantly add it to your active protocols (see them in the 💉 Dose Tracker tab).</p>
+    <p>Every peptide and supplement mentioned in this tool, alphabetized and numbered like a real Pokédex — with study citations where available. Tap a card to read its full entry, or hit <strong>+ ADD</strong> to instantly add it to your active protocols (it appears in the <strong>💉 My Tracker</strong> tab).</p>
   </div>
 
   <details style="margin-bottom:0.75rem;border:1px solid rgba(201,201,232,0.25);padding:0.5rem 0.75rem;background:rgba(201,201,232,0.04);">
@@ -1464,12 +1503,15 @@ var CONDITION_META = [
       'transition:background 0.15s,border-color 0.15s;user-select:none;'
     ].join('');
     div.innerHTML = '<span style="font-size:1.1rem;flex-shrink:0;">' + c.icon + '</span><span>' + c.label + '</span>';
+    div.dataset.bg = c.color + '0d';
+    div.dataset.bd = c.color + '44';
     div.onclick = function(){
       if (SELECTED_GOALS.has(c.key)){
         SELECTED_GOALS.delete(c.key);
         div.classList.remove('selected');
         div.style.background = c.color + '0d';
         div.style.borderColor = c.color + '44';
+        div.style.boxShadow = 'none';
       } else {
         SELECTED_GOALS.add(c.key);
         div.classList.add('selected');
@@ -1477,6 +1519,9 @@ var CONDITION_META = [
         div.style.borderColor = c.color;
         div.style.boxShadow = '0 0 10px ' + c.color + '55';
       }
+      // show matches straight away — no separate "analyze" step
+      if (SELECTED_GOALS.size) renderSuggestions();
+      else document.getElementById('suggestions-box').classList.remove('visible');
     };
     grid.appendChild(div);
   });
@@ -1746,7 +1791,7 @@ function renderSuggestions(){
   var list = document.getElementById('suggestions-list');
   if (SELECTED_GOALS.size === 0){
     box.classList.add('visible');
-    list.innerHTML = '<div class="pep-result-desc">Select at least one goal above, then run analysis again.</div>';
+    list.innerHTML = '<div class="pep-result-desc">Tap at least one goal above to see matching peptides.</div>';
     return;
   }
   var counts = {};
@@ -1949,9 +1994,32 @@ function useForSchedule(key, ev){
     timeLabel: timeOfDayLabel(p.time)
   });
   saveProtocols();
-  showTab('tracker');
-  document.getElementById('active-protocols-box').scrollIntoView({behavior:'smooth', block:'nearest'});
+  var fromIndex = document.getElementById('tab-index').classList.contains('active');
+  if (fromIndex) {
+    showTab('tracker');
+    document.getElementById('active-protocols-box').scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    renderDashboard();
+  }
+  pmdToast('✓ <b>' + p.name + '</b> added to My Protocols with a starting dose of ' + p.start + ' mg. Tick it off under <b>Today\'s Doses</b> when you take it.');
 }
+
+function pmdToast(html){
+  var t = document.getElementById('pmd-toast');
+  if (!t) { t = document.createElement('div'); t.id = 'pmd-toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  t.innerHTML = html;
+  t.classList.add('show');
+  clearTimeout(t._hide);
+  t._hide = setTimeout(function(){ t.classList.remove('show'); }, 4500);
+}
+
+// How-it-works card: remember if the visitor hid it
+(function(){
+  var card = document.getElementById('how-card');
+  if (!card) return;
+  try { if (localStorage.getItem('pmd-how-hidden') === '1') card.open = false; } catch(e){}
+  card.addEventListener('toggle', function(){ try { localStorage.setItem('pmd-how-hidden', card.open ? '0' : '1'); } catch(e){} });
+})();
 
 function removeProtocol(id){
   ACTIVE_PROTOCOLS = ACTIVE_PROTOCOLS.filter(function(p){ return p.id !== id; });
@@ -2398,7 +2466,6 @@ function showTab(name){
 
 </script>
 
-<button onclick="document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);" title="Back to top" style="position:fixed;bottom:1.4rem;right:1.4rem;z-index:2147483647;width:52px;height:52px;border-radius:50%;border:2px solid #00f5ff;background:rgba(0,8,28,0.96);color:#00f5ff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18);transition:transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18)';">↑</button>
 
 <!-- GLOBAL TYPOGRAPHY — READABILITY UPDATE -->
 <style>
