@@ -529,6 +529,14 @@
       +'@media (orientation:portrait) and (max-width:900px){body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 15px + env(safe-area-inset-bottom,0px));}}'
       +'body:has(#dg:not(.hidden)) #vt-top-btn{display:none!important;}'
       +'@media print{#vt-dock{display:none!important;}}'
+      /* portrait phones: one tidy stack at the right edge — ⚙ at the bottom, ↑ above it, both 42px; ↑ only once scrolled */
+      +'@media (orientation:portrait) and (max-width:900px){'
+      +  '#vt-dock{right:10px!important;}'
+      +  '#vt-dock-btn{width:42px!important;height:42px!important;font-size:20px!important;background:rgba(8,0,24,0.82)!important;box-shadow:0 2px 10px rgba(0,0,0,0.45)!important;}'
+      +  'body #vt-top-btn{right:10px!important;width:42px!important;height:42px!important;font-size:20px!important;background:rgba(0,8,28,0.82)!important;box-shadow:0 2px 10px rgba(0,0,0,0.45)!important;bottom:calc(18px + 42px + 8px + env(safe-area-inset-bottom,0px))!important;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}'
+      +  'body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 14px + 42px + 8px + env(safe-area-inset-bottom,0px))!important;}'
+      +  'body #vt-top-btn.vt-top-on{opacity:1;pointer-events:auto;transform:none;}'
+      +'}'
       /* Phones: keep home.html's search bar clear of the corner controls (landscape still shows them) */
       +'@media(max-width:900px) and (orientation:landscape){#vpnSearchBar{padding-right:56px!important;box-sizing:border-box;}}'
       /* Light mode, stylesheet half: these can't be handled per-element from JS
@@ -716,6 +724,14 @@
     b.textContent='↑';
     b.addEventListener('click',scrollAllTop);
     document.body.appendChild(b);
+    // only show ↑ once the reader has scrolled (pages scroll either the window or <body>)
+    function syncTop(){
+      var y=Math.max(window.scrollY||0, document.documentElement.scrollTop||0, document.body.scrollTop||0);
+      b.classList.toggle('vt-top-on', y>500);
+    }
+    window.addEventListener('scroll',syncTop,{passive:true});
+    document.addEventListener('scroll',syncTop,{passive:true,capture:true});
+    syncTop();
   }
 
   function init(){
