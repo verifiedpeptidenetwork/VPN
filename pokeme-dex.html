@@ -1065,7 +1065,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   <div class="step-head"><div class="how-num">4</div><div><h3>SAVE YOUR PLAN</h3><p>A clean one-page plan you can print, keep as a PDF, or download.</p></div></div>
   <div class="plan-band">
     <div class="plan-band-txt"><b>📄 My Plan report</b><span>Your protocols with doses and <b>syringe units</b>, a <b>14-day tick-box checklist</b>, a shopping list and your injection-site history.</span></div>
-    <div class="plan-band-btns"><button class="btn-primary" onclick="pmdPrintReport()">🖨 PRINT / SAVE PDF</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ DOWNLOAD</button></div>
+    <div class="plan-band-btns"><button class="btn-primary" onclick="pmdPrintReport()">🖨 PRINT / SAVE PDF</button><button class="btn-secondary" onclick="pmdShareNotes()">📝 SAVE TO NOTES / KEEP</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ DOWNLOAD</button></div>
   </div>
 
   <div class="step-head more"><div class="how-num">+</div><div><h3>MORE TOOLS (OPTIONAL)</h3><p>Calendar · injection-site rotation · shopping list · draw calculators</p></div></div>
@@ -1104,7 +1104,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
     <div class="box-hint" style="margin-top:-6px;"><b>Shopping List</b> works out how many vials you need. <b>PDF</b> or <b>Copy</b> saves your schedule to keep or share.</div>
     <div id="schedule-actions" style="display:flex; margin-top:0; gap:10px; flex-wrap:wrap;">
       <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
-      <button class="btn-secondary" onclick="pmdPrintReport()">🖨 Print / Save PDF</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ Download My Plan</button>
+      <button class="btn-secondary" onclick="pmdPrintReport()">🖨 Print / Save PDF</button><button class="btn-secondary" onclick="pmdShareNotes()">📝 Save to Notes / Keep</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ Download My Plan</button>
       <button class="btn-secondary" id="copy-schedule-btn" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
     </div>
     <div class="pdf-tip" id="schedule-pdf-tip">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
@@ -2548,6 +2548,46 @@ function pmdDownloadReport(){
   document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   pmdToast('⬇ <b>My Plan</b> downloaded. Open it any time to view or print.');
+}
+// ═══════════════ SAVE TO NOTES — phone share sheet (Notes / Google Keep), copy fallback ═══════════════
+function pmdReportText(){
+  var today = todayStr(), lines = [];
+  lines.push('POKEME-DEX — MY PLAN (' + new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }) + ')');
+  lines.push('Verified Peptides Network · research reference, not medical advice', '');
+  lines.push('MY PROTOCOLS');
+  ACTIVE_PROTOCOLS.forEach(function(p){
+    var u = pmdUnits(p);
+    lines.push('• ' + p.name + ' — ' + p.dose + ' mg = ' + u.toFixed(1) + ' units (' + (u/100).toFixed(3) + ' mL) · ' + frequencyLabel(p) + ' · ' + p.timeLabel.split(' (')[0]);
+    lines.push('   ' + p.vial + ' mg vial + ' + p.water + ' mL BAC water · ' + pmdFmtDate(p.startDateTime.split('T')[0]) + ' → ' + pmdFmtDate(pmdEndDate(p)) + ' (' + daysRemaining(p) + ' days left)');
+  });
+  lines.push('', 'NEXT 7 DAYS');
+  for (var i = 0; i < 7; i++){
+    var d = new Date(today + 'T00:00:00'); d.setDate(d.getDate() + i); var ds = dateToStr(d);
+    var due = ACTIVE_PROTOCOLS.filter(function(p){ return isDoseDueOnDate(p, ds); });
+    if (!due.length) { lines.push(pmdFmtDate(ds) + ': rest day'); continue; }
+    due.forEach(function(p){
+      var done = !!(DOSE_LOG[ds] && DOSE_LOG[ds][p.id]);
+      lines.push((done ? '☑ ' : '☐ ') + pmdFmtDate(ds) + ': ' + p.name + ' ' + p.dose + ' mg (' + pmdUnits(p).toFixed(1) + ' u)');
+    });
+  }
+  lines.push('', 'SHOPPING LIST');
+  ACTIVE_PROTOCOLS.forEach(function(s){
+    var totalMg = s.dose * countDosesInRange(s), vials = Math.ceil(totalMg / s.vial) || 1;
+    lines.push('• ' + s.name + ': ' + vials + ' × ' + s.vial + ' mg vial' + (vials>1?'s':'') + ', ~' + (vials * s.water) + ' mL BAC water');
+  });
+  var z = INJ_ZONES.find(function(x){ return x.code === suggestedZone(); });
+  lines.push('', 'Next injection site: ' + (z ? z.label : '—'));
+  lines.push('', 'Educational only — verify every dose and talk to a licensed doctor.', location.origin + '/pokeme-dex.html');
+  return lines.join('\n');
+}
+function pmdShareNotes(){
+  if (!pmdNeedProtocols()) return;
+  var text = pmdReportText(), title = 'PokeMe-Dex — My Plan';
+  if (navigator.share) {
+    navigator.share({ title: title, text: text }).catch(function(err){ if (err && err.name !== 'AbortError') copyToClipboard(text); });
+  } else {
+    copyToClipboard(text);
+  }
 }
 // old buttons now produce the full report
 function downloadSchedulePDF(){ pmdPrintReport(); }

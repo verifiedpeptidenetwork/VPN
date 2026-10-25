@@ -924,6 +924,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <div class="pm-res-actions">
       <button class="pm-btn sm" onclick="pmEdit()">✎ Edit answers</button>
       <button class="pm-btn sm" onclick="pmPrintReport()">🖨 Print / Save PDF</button>
+      <button class="pm-btn sm" onclick="pmShareNotes()">📝 Save to Notes</button>
       <button class="pm-btn sm pri" onclick="pmDownloadReport()">⬇ Download report</button>
     </div>
   </div>
@@ -933,6 +934,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <div><h3>Keep your results</h3><p>Your report lists every match, why it matches and its typical protocol, plus any schedule you build below.</p></div>
     <div class="pm-res-actions">
       <button class="pm-btn" onclick="pmPrintReport()">🖨 Print / Save as PDF</button>
+      <button class="pm-btn" onclick="pmShareNotes()">📝 Save to Notes / Keep</button>
       <button class="pm-btn pri" onclick="pmDownloadReport()">⬇ Download report</button>
     </div>
   </div>
@@ -2377,6 +2379,36 @@ function pmReportHTML(){
     + sched
     + '<div class="disc"><b>Educational research information only, not medical advice.</b> Protocols are typical research starting points, not prescriptions. Talk to a licensed doctor and get baseline blood work before starting anything, and verify all doses and math independently.</div>'
     + '<footer>' + location.host + ' · Research · Education · Community</footer></body></html>';
+}
+/* ---------- save to Notes / Google Keep (phone share sheet, copy fallback) ---------- */
+function pmReportText(){
+  var L = [], total = SELECTED_GOALS.size, goals = [];
+  SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
+  L.push('PEPTIDE MATCH — MY RESULTS (' + new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }) + ')');
+  L.push('Verified Peptides Network · research reference, not medical advice', '');
+  if (goals.length) L.push('Goals: ' + goals.join(', '), '');
+  PM_LAST.forEach(function(it, i){
+    var p = PEPTIDES[it.key];
+    L.push((i+1) + '. ' + p.name + (i===0 ? ' (best match)' : '') + ' — matches ' + it.count + ' of ' + total);
+    pmWhy(it.key, it.goals).forEach(function(w){ L.push('   • ' + pmLabel(w.g) + ': ' + w.t); });
+    L.push('   Protocol: ' + pmProto(p).map(function(x){ return x[0] + ' ' + x[1]; }).join(' · '));
+  });
+  if (SCHEDULES.length){
+    L.push('', 'MY DOSE SCHEDULE');
+    SCHEDULES.forEach(function(s){
+      var c = s.vial / s.water;
+      L.push('• ' + s.name + ' — ' + c.toFixed(2) + ' mg/mL · ' + s.freq + 'x/week · ' + s.timeLabel);
+      s.rows.forEach(function(r, i){ var a = i*r.weeks+1, b = a+r.weeks-1, ml = r.dose/c; L.push('   ☐ Weeks ' + a + (r.weeks>1?'–'+b:'') + ': ' + r.dose.toFixed(2) + ' mg = ' + (ml*100).toFixed(1) + ' units (' + ml.toFixed(3) + ' mL)'); });
+    });
+  }
+  L.push('', 'Educational only — verify every dose and talk to a licensed doctor.', location.origin + '/peptide-suggestion.html');
+  return L.join('\n');
+}
+function pmShareNotes(){
+  if (!PM_LAST.length && !SCHEDULES.length) { alert('Get your matches or build a schedule first, then save them to Notes.'); return; }
+  var text = pmReportText();
+  if (navigator.share) navigator.share({ title:'Peptide Match — my results', text:text }).catch(function(e){ if (e && e.name !== 'AbortError') copyToClipboard(text); });
+  else copyToClipboard(text);
 }
 function pmPrintReport(){
   if (!PM_LAST.length && !(SCHEDULES && SCHEDULES.length)) { alert('Get your matches or build a schedule first, then print your report.'); return; }
