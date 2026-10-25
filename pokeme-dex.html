@@ -973,24 +973,68 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   overlay.style.display = 'none';
 </script>
 
-<header>
-  <div class="header-inner">
-    <img class="logo-emoji" src="pokemedexlogo.png" alt="PokeMe-Dex mascot — Glowrilla the Researcher">
-    <div class="header-text">
-      <div class="header-vpn">POKEME-DEX</div>
-      <div class="header-full">Gotta Poke 'Em All</div>
-      <div class="header-tagline">AI-STYLE GOAL MATCHING + DOSE SCHEDULE BUILDER</div>
-      <div class="dex-lights"><span class="dex-light blue"></span><span class="dex-light yellow"></span><span class="dex-light red"></span></div>
+<style id="pmx-header-css">
+/* PokeMe-Dex header — product explainer in the Pokédex palette */
+header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 0%,var(--pink) 100%);border-bottom:6px solid #1a1a1a;box-shadow:0 4px 24px rgba(0,0,0,0.3);color:#fff;}
+.pmx-nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,0.18);}
+.pmx-nav a{color:#fff;text-decoration:none;font-family:var(--bar);font-weight:700;font-size:1rem;letter-spacing:0.04em;padding:7px 12px;border-radius:9px;white-space:nowrap;}
+.pmx-nav a:hover{background:rgba(0,0,0,0.18);}
+.pmx-nav .pmx-home{display:flex;align-items:center;gap:8px;padding-left:4px;}
+.pmx-nav .pmx-home img{width:30px;height:30px;border-radius:50%;}
+.pmx-nav .pmx-links{margin-left:auto;display:flex;gap:4px;}
+.pmx-hero{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:26px 18px 18px;}
+.pmx-mascot{width:150px;height:150px;border-radius:50%;flex-shrink:0;border:4px solid #1a1a1a;background:#fff;box-shadow:5px 5px 0 rgba(0,0,0,0.25);object-fit:cover;}
+.pmx-kicker{display:inline-block;font-family:var(--mono);font-weight:700;font-size:0.8rem;letter-spacing:0.16em;background:#ffcc00;color:#1a1a1a;border:2px solid #1a1a1a;border-radius:6px;padding:3px 9px;}
+.pmx h1{margin:10px 0 6px;font-family:var(--orb);font-weight:900;font-size:clamp(2.1rem,5vw,3.2rem);letter-spacing:0.05em;line-height:1;color:#fff;-webkit-text-stroke:1.5px #1a1a1a;text-shadow:3px 3px 0 #1a1a1a;}
+.pmx-lead{margin:0;max-width:640px;font-family:var(--bar);font-weight:600;font-size:clamp(1.08rem,2vw,1.3rem);line-height:1.4;color:#fff;}
+.pmx-feats{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
+.pmx-feats li{font-family:var(--bar);font-weight:700;font-size:0.98rem;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,0.95);color:#1a1a1a;border:2px solid #1a1a1a;}
+.pmx-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+.pmx-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-family:var(--orb);font-weight:700;font-size:0.85rem;letter-spacing:0.05em;padding:12px 16px;border-radius:12px;border:2.5px solid #1a1a1a;background:#fff;color:#1a1a1a;box-shadow:3px 3px 0 #1a1a1a;transition:transform .12s;}
+.pmx-btn:hover{transform:translate(-1px,-1px);}
+.pmx-btn.pri{background:#ffcc00;}
+.pmx-fine{max-width:1100px;margin:0 auto;padding:0 18px 14px;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;color:rgba(255,255,255,0.85);}
+@media(max-width:640px){
+  .pmx-nav{padding:8px 10px;gap:4px;} .pmx-nav a{font-size:0.9rem;padding:6px 8px;} .pmx-nav .pmx-home span{display:none;}
+  .pmx-hero{flex-direction:column;align-items:flex-start;gap:12px;padding:18px 14px 12px;}
+  .pmx-mascot{width:86px;height:86px;border-width:3px;position:absolute;right:14px;margin-top:-4px;}
+  .pmx-hero{position:relative;}
+  .pmx-hero > div{padding-right:0;}
+  .pmx-kicker{font-size:10.5px;padding:2px 7px;} .pmx h1{max-width:calc(100% - 92px);font-size:27px;letter-spacing:0.03em;white-space:nowrap;margin:8px 0 6px;-webkit-text-stroke:1px #1a1a1a;text-shadow:2px 2px 0 #1a1a1a;}
+  .pmx-mascot{width:76px;height:76px;}
+  .pmx-feats{gap:6px;margin-top:10px;} .pmx-feats li{font-size:13px;padding:3px 9px;border-width:1.5px;}
+  .pmx-cta{margin-top:12px;gap:8px;} .pmx-btn{font-size:12px;padding:10px 12px;}
+  .pmx-fine{font-size:10px;line-height:1.5;}
+  .pmx-lead{font-size:15px;line-height:1.4;}
+  .pmx-cta .pmx-btn{flex:1 1 100%;justify-content:center;}
+  .pmx-fine{padding:0 14px 12px;}
+}
+/* the page-wide font-boost forces sizes with !important; keep the header's own scale */header.pmx h1{font-size:clamp(2.1rem,5vw,3.2rem) !important;line-height:1 !important;}header.pmx .pmx-lead{line-height:1.4 !important;}header.pmx .pmx-feats li{font-size:0.98rem !important;line-height:1.3 !important;}@media(max-width:640px){ header.pmx h1{font-size:27px !important;} header.pmx .pmx-lead{font-size:15px !important;} header.pmx .pmx-feats li{font-size:13px !important;} header.pmx .pmx-btn{font-size:12px !important;} header.pmx .pmx-nav a{font-size:14px !important;} }
+</style>
+<header class="pmx">
+  <nav class="pmx-nav" aria-label="Site">
+    <a class="pmx-home" href="home.html"><img src="VPNNEWLOGO.png?v=4" alt="VPN"><span>← VPN Home</span></a>
+    <div class="pmx-links">
+      <a href="peptide-suggestion.html">Peptide Match</a>
+      <a href="https://glowklowcalc.com" target="_blank" rel="noopener">GlowKlowCalc ↗</a>
     </div>
-    <div class="header-badge">RESEARCH USE ONLY<br>(Pokémon parody — not affiliated with Nintendo/Game Freak)</div>
+  </nav>
+  <div class="pmx-hero">
+    <img class="pmx-mascot" src="pokemedexlogo.png" alt="PokeMe-Dex mascot — Glowrilla the Researcher">
+    <div>
+      <span class="pmx-kicker">FREE PEPTIDE DOSE TRACKER</span>
+      <h1>POKEME-DEX</h1>
+      <p class="pmx-lead">Keep every research peptide in one place. Pick a peptide, get a starting dose and schedule, tick off each dose as you go, and print your plan.</p>
+      <ul class="pmx-feats"><li>💉 Dose tracker</li><li>📅 Calendar</li><li>🔄 Injection-site rotation</li><li>🧮 Draw calculator</li><li>🖨 Printable plan</li></ul>
+      <div class="pmx-cta">
+        <a class="pmx-btn pri" href="#how-card" onclick="showTab('tracker');setTimeout(function(){document.getElementById('how-card').scrollIntoView({behavior:'smooth',block:'start'});},30);return false;">▶ START TRACKING</a>
+        <a class="pmx-btn" href="peptide-suggestion.html">NOT SURE WHAT TO ADD? PEPTIDE MATCH →</a>
+      </div>
+    </div>
   </div>
+  <div class="pmx-fine">Research use only · not medical advice · saved on this device, no account needed · Pokémon parody, not affiliated with Nintendo / Game Freak</div>
 </header>
 <div class="rainbow-strip"></div>
-
-<div style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;padding:0.85rem 1rem;background:rgba(4,0,20,0.6);border-bottom:1px solid rgba(255,45,255,0.2);">
-  <a href="home.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:linear-gradient(110deg,#ff2d78,#9d00ff);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;text-decoration:none;">🏠 BACK TO HOMEPAGE</a>
-  <a href="https://glowklowcalc.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:linear-gradient(110deg,#00f5ff,#9d00ff);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;text-decoration:none;">🧮 GLOWKLOWCALC.COM ↗</a>
-</div>
 
 <main>
 
