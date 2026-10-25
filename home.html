@@ -3027,6 +3027,20 @@
   html[data-theme="light"] .vpn-getapp{background:linear-gradient(120deg,#e9f7ff,#f3ecff 55%,#ffeef6);border-color:rgba(91,42,134,0.45);}
   html[data-theme="light"] .vpn-getapp b{color:#0f1b2d;} html[data-theme="light"] .vpn-getapp small{color:#3a4658;} html[data-theme="light"] .vpn-getapp .ga-ar{color:#9b1d4a;}
 </style>
+<style id="vpn-lockup-css">
+  /* VPN brand lockup: emblem + wordmark (sidebar and phone header) */
+  .vpn-lockup{display:flex;align-items:center;gap:0.7rem;min-width:0;}
+  .vpn-lockup .vl-em{flex-shrink:0;width:46px;height:52px;filter:drop-shadow(-3px 0 8px rgba(255,47,168,0.45)) drop-shadow(3px 0 8px rgba(47,180,255,0.45));}
+  .vpn-lockup .vl-text{min-width:0;line-height:1.05;}
+  .vpn-lockup .vl-word{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.08em;line-height:0.95;background:linear-gradient(90deg,#ff5fb8,#a86bff 50%,#4fc2ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .vpn-lockup .vl-name{margin-top:2px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:#e9ecf8;white-space:nowrap;}
+  .vpn-lockup .vl-tag{margin-top:3px;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,210,240,0.6);white-space:nowrap;}
+  .sb-logo-inner .vpn-lockup{padding:0.15rem 0;} .sb-logo-inner .vpn-lockup .vl-name{font-size:0.7rem;letter-spacing:0.03em;} .sb-logo-inner .vpn-lockup .vl-tag{font-size:0.62rem;}
+  .site-header .logo .vpn-lockup .vl-em{width:38px;height:43px;}
+  .site-header .logo .vpn-lockup .vl-word{font-size:1.7rem;}
+  .site-header .logo .vpn-lockup .vl-name{font-size:0.74rem;}
+  html[data-theme="light"] .vpn-lockup .vl-name{color:#14102a;} html[data-theme="light"] .vpn-lockup .vl-tag{color:#4a4566;}
+</style>
 </head>
 <body>
 
@@ -4132,14 +4146,9 @@ document.addEventListener('keydown', function(e){
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
-      <div style="position:relative;flex-shrink:0;width:44px;height:44px;">
-        <div style="position:absolute;inset:-3px;border-radius:50%;border:2px solid rgba(196,80,255,0.75);animation:sbRingRotate 12s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
-        <div style="position:absolute;inset:0px;border-radius:50%;border:1px dashed rgba(64,160,255,0.55);animation:sbRingRotateCCW 8s linear infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
-        <img src="VPNNEWLOGO.png?v=4" alt="VPN" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;object-fit:cover;z-index:3;">
-      </div>
-      <div class="logo-text">
-        <div class="logo-title">Research Unfiltered Information</div>
-        <div class="logo-sub">Verified Peptides Network</div>
+      <div class="vpn-lockup" data-vt-skip>
+        <svg class="vl-em" viewBox="0 0 64 72" role="img" aria-label="VPN"><defs><linearGradient id="vemAg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient><linearGradient id="vemAf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0f33"/><stop offset="1" stop-color="#070512"/></linearGradient></defs><path d="M32 3 L59 12.5 V35 C59 52.5 47.5 63.5 32 69.5 C16.5 63.5 5 52.5 5 35 V12.5 Z" fill="url(#vemAf)" stroke="url(#vemAg)" stroke-width="3" stroke-linejoin="round"/><path d="M32 9.5 L53 17 V35 C53 48.5 44.5 57 32 62" fill="none" stroke="url(#vemAg)" stroke-width="1" opacity=".45"/><text x="32" y="37" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="23" letter-spacing="1" fill="url(#vemAg)">VPN</text><path d="M17 50 L24 46 L31 50" fill="none" stroke="#9a5cff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/><circle cx="17" cy="50" r="2.6" fill="#ff2fa8"/><circle cx="24" cy="46" r="2.6" fill="#c45cff"/><circle cx="31" cy="50" r="2.6" fill="#7a6bff"/><circle cx="42" cy="47" r="6" fill="#2fb4ff"/><path d="M39.3 47.2 L41.3 49.2 L44.8 45.2" fill="none" stroke="#06101f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="vl-text"><div class="vl-word">VPN</div><div class="vl-name">Verified Peptides Network</div><div class="vl-tag">Research · Unfiltered</div></div>
       </div>
     </div>
     <nav id="desktop-nav" style="display:none;"></nav>
@@ -4535,27 +4544,9 @@ document.addEventListener('keydown', function(e){
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
     <div class="sb-logo-bar"></div>
     <div class="sb-logo-inner">
-      <div style="position:relative;flex-shrink:0;width:54px;height:54px;">
-        <!-- outer glow ring -->
-        <div style="position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(0,255,65,0.8);animation:sbLogoGlow 4s ease-in-out infinite,sbRingRotate 12s linear infinite;z-index:1;box-sizing:border-box;pointer-events:none;"></div>
-        <!-- dashed CCW ring -->
-        <div style="position:absolute;inset:2px;border-radius:50%;border:1.5px dashed rgba(0,245,255,0.5);animation:sbRingRotateCCW 6s linear infinite;z-index:2;box-sizing:border-box;pointer-events:none;"></div>
-        <!-- hex corner dots -->
-        <div style="position:absolute;inset:-8px;z-index:3;pointer-events:none;">
-          <svg viewBox="0 0 70 70" style="width:100%;height:100%;opacity:0.55;">
-            <circle cx="35" cy="3"  r="2" fill="#00f5ff"/>
-            <circle cx="35" cy="67" r="2" fill="#00f5ff"/>
-            <circle cx="4"  cy="20" r="2" fill="#ff2d78"/>
-            <circle cx="66" cy="20" r="2" fill="#ff2d78"/>
-            <circle cx="4"  cy="50" r="2" fill="#9d00ff"/>
-            <circle cx="66" cy="50" r="2" fill="#9d00ff"/>
-          </svg>
-        </div>
-        <img src="VPNNEWLOGO.png?v=4" alt="VPN" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;z-index:4;">
-      </div>
-      <div class="sb-logo-text" data-vt-skip>
-        <div class="sb-logo-title"><span class="sbt-a">Research</span><span class="sbt-b">Unfiltered</span><span class="sbt-c">Information</span></div>
-        <div class="sb-logo-sub">Verified Peptides Network</div>
+      <div class="vpn-lockup" data-vt-skip>
+        <svg class="vl-em" viewBox="0 0 64 72" role="img" aria-label="VPN"><defs><linearGradient id="vemBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient><linearGradient id="vemBf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0f33"/><stop offset="1" stop-color="#070512"/></linearGradient></defs><path d="M32 3 L59 12.5 V35 C59 52.5 47.5 63.5 32 69.5 C16.5 63.5 5 52.5 5 35 V12.5 Z" fill="url(#vemBf)" stroke="url(#vemBg)" stroke-width="3" stroke-linejoin="round"/><path d="M32 9.5 L53 17 V35 C53 48.5 44.5 57 32 62" fill="none" stroke="url(#vemBg)" stroke-width="1" opacity=".45"/><text x="32" y="37" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="23" letter-spacing="1" fill="url(#vemBg)">VPN</text><path d="M17 50 L24 46 L31 50" fill="none" stroke="#9a5cff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/><circle cx="17" cy="50" r="2.6" fill="#ff2fa8"/><circle cx="24" cy="46" r="2.6" fill="#c45cff"/><circle cx="31" cy="50" r="2.6" fill="#7a6bff"/><circle cx="42" cy="47" r="6" fill="#2fb4ff"/><path d="M39.3 47.2 L41.3 49.2 L44.8 45.2" fill="none" stroke="#06101f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="vl-text"><div class="vl-word">VPN</div><div class="vl-name">Verified Peptides Network</div><div class="vl-tag">Research · Unfiltered</div></div>
       </div>
     </div>
     <div class="sb-logo-bar"></div>
@@ -7376,11 +7367,11 @@ document.addEventListener('keydown', function(e){
     img[src^="VPNNEWLOGO.png"],img[src^="vpnlogo.png"]{border-radius:50%;animation:vpnLogoBreath 5s ease-in-out infinite !important;filter:none !important;}
     html[data-theme="light"] img[src^="VPNNEWLOGO.png"],html[data-theme="light"] img[src^="vpnlogo.png"]{animation:none !important;box-shadow:-4px -2px 10px rgba(255,45,149,0.4),4px -2px 10px rgba(64,140,255,0.4),-3px 4px 10px rgba(255,150,40,0.3);}
     /* hero badge: thin static ring painted in the logo's colours + the same tight halo on the card (it clips its image) */
-    #home-desktop-cols .retro80-card{border:3px solid transparent !important;background:linear-gradient(#05030a,#05030a) padding-box,conic-gradient(from 0deg,#9a5cff,#3f7bff 60deg,#2fb4ff 115deg,#5a62ff 165deg,#c43cff 200deg,#ff6a2a 232deg,#ffb12a 250deg,#ff3f80 290deg,#ff2fa8 330deg,#9a5cff) border-box !important;animation:vpnLogoBreath 5s ease-in-out infinite !important;}
-    #home-desktop-cols .retro80-card img[src^="VPNNEWLOGO.png"]{animation:none !important;box-shadow:none !important;}
+    .retro80-card{border:3px solid transparent !important;background:linear-gradient(#05030a,#05030a) padding-box,conic-gradient(from 0deg,#9a5cff,#3f7bff 60deg,#2fb4ff 115deg,#5a62ff 165deg,#c43cff 200deg,#ff6a2a 232deg,#ffb12a 250deg,#ff3f80 290deg,#ff2fa8 330deg,#9a5cff) border-box !important;animation:vpnLogoBreath 5s ease-in-out infinite !important;}
+    .retro80-card img[src^="VPNNEWLOGO.png"]{animation:none !important;box-shadow:none !important;}
     .vpn-halo{display:none !important;} /* old yellow sunburst behind the badge — the tight logo-colour glow replaces it */
-    html[data-theme="light"] #home-desktop-cols .retro80-card{animation:none !important;box-shadow:-6px -2px 18px rgba(255,45,149,0.4),6px -2px 18px rgba(64,140,255,0.4),-4px 6px 18px rgba(255,150,40,0.3) !important;}
-    @media(prefers-reduced-motion:reduce){ img[src^="VPNNEWLOGO.png"],img[src^="vpnlogo.png"],#home-desktop-cols .retro80-card{animation:none !important;box-shadow:-5px -2px 12px rgba(255,45,149,0.55),5px -2px 12px rgba(64,140,255,0.55),-4px 5px 12px rgba(255,150,40,0.38) !important;} }
+    html[data-theme="light"] .retro80-card{animation:none !important;box-shadow:-6px -2px 18px rgba(255,45,149,0.4),6px -2px 18px rgba(64,140,255,0.4),-4px 6px 18px rgba(255,150,40,0.3) !important;}
+    @media(prefers-reduced-motion:reduce){ img[src^="VPNNEWLOGO.png"],img[src^="vpnlogo.png"],.retro80-card{animation:none !important;box-shadow:-5px -2px 12px rgba(255,45,149,0.55),5px -2px 12px rgba(64,140,255,0.55),-4px 5px 12px rgba(255,150,40,0.38) !important;} }
     .retro80-glow{display:none;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
