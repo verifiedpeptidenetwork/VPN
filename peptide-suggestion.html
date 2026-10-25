@@ -901,6 +901,54 @@ body.pm .pm-bld select.pep-input{ appearance:auto; }
   .pm-fields{ grid-template-columns:1fr; gap:12px; }
   .pm-bld-go .pm-btn{ width:100%; }
 }
+/* ── hero: copy + example result card ── */
+.pm-hero{ text-align:left; padding:56px 0 24px; }
+.pm-hero-grid{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:40px; align-items:center; }
+.pm-hero h1{ margin:16px 0 14px; max-width:none; }
+.pm-hero p{ margin:0; max-width:560px; }
+.pm-hero .pm-cta, .pm-hero .pm-trust{ justify-content:flex-start; }
+.pm-hero-demo{ background:var(--pm-card); border:1px solid var(--pm-line2); border-radius:20px; padding:16px; box-shadow:0 30px 70px -35px rgba(46,230,197,0.45); transform:rotate(-1deg); }
+.pm-demo-head{ display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font:700 12px var(--pm-font); letter-spacing:0.06em; text-transform:uppercase; color:var(--pm-dim); margin:2px 4px 12px; }
+.pm-demo-goals{ text-transform:none; letter-spacing:0; color:var(--pm-sub); }
+.pm-demo-row{ display:flex; align-items:center; gap:12px; padding:12px; border-radius:14px; border:1px solid var(--pm-line); background:var(--pm-card2); margin-bottom:8px; }
+.pm-demo-row.best{ border-color:rgba(46,230,197,0.55); box-shadow:0 0 0 1px rgba(46,230,197,0.2); }
+.pm-demo-row .r{ width:28px; height:28px; border-radius:9px; display:grid; place-items:center; font:800 13px var(--pm-font); background:var(--pm-card); border:1px solid var(--pm-line2); color:var(--pm-sub); flex-shrink:0; }
+.pm-demo-row.best .r{ background:var(--pm-acc); color:var(--pm-acc-ink); border-color:transparent; }
+.pm-demo-row .t{ flex:1; min-width:0; }
+.pm-demo-row .t b{ display:block; font:800 15px var(--pm-font); color:var(--pm-text); }
+.pm-demo-row .t b em{ font-style:normal; margin-left:6px; font-size:10px; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; padding:2px 6px; border-radius:5px; background:rgba(46,230,197,0.14); color:var(--pm-acc); vertical-align:middle; }
+.pm-demo-row .t small{ font:500 12.5px var(--pm-font); color:var(--pm-dim); }
+.pm-demo-row .f{ width:84px; text-align:right; flex-shrink:0; }
+.pm-demo-row .f small{ font:700 12px var(--pm-font); color:var(--pm-sub); }
+.pm-demo-row .f i{ display:block; margin-top:5px; height:5px; border-radius:99px; background:var(--pm-line); position:relative; overflow:hidden; }
+.pm-demo-row .f i::after{ content:''; position:absolute; inset:0 auto 0 0; width:var(--w); border-radius:99px; background:linear-gradient(90deg,var(--pm-acc),var(--pm-acc2)); }
+.pm-demo-foot{ margin:10px 4px 2px; font:500 12.5px var(--pm-font); color:var(--pm-dim); }
+.pm-how{ list-style:none; margin:34px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.pm-how li{ display:flex; gap:12px; align-items:flex-start; padding:14px; border-radius:14px; border:1px solid var(--pm-line); background:rgba(255,255,255,0.02); }
+.pm-how li > span{ flex-shrink:0; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font:800 13px var(--pm-font); color:var(--pm-acc-ink); background:linear-gradient(135deg,var(--pm-acc),var(--pm-acc2)); }
+.pm-how b{ display:block; font:700 14.5px var(--pm-font); color:var(--pm-text); }
+.pm-how small{ font:500 13px/1.35 var(--pm-font); color:var(--pm-sub); }
+/* ── sticky section bar ── */
+.pm-subnav{ position:sticky; top:60px; z-index:40; background:rgba(7,8,13,0.86); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--pm-line); margin:8px 0 0; }
+html[data-theme="light"] .pm-subnav{ background:rgba(255,255,255,0.9); }
+.pm-subnav .pm-wrap{ display:flex; gap:6px; padding-top:8px; padding-bottom:8px; overflow-x:auto; scrollbar-width:none; }
+.pm-subnav .pm-wrap::-webkit-scrollbar{ display:none; }
+.pm-subnav a{ flex-shrink:0; padding:8px 14px; border-radius:999px; font:600 14px var(--pm-font); color:var(--pm-sub); text-decoration:none; border:1px solid transparent; white-space:nowrap; transition:background .15s,color .15s; }
+.pm-subnav a:hover{ color:var(--pm-text); background:var(--pm-card); }
+.pm-subnav a.on{ color:var(--pm-text); background:var(--pm-card); border-color:rgba(46,230,197,0.5); }
+.pm-sec, .pm-wizard, .pm-results{ scroll-margin-top:120px !important; }
+@media(max-width:860px){
+  .pm-hero-grid{ grid-template-columns:1fr; gap:24px; }
+  .pm-hero-demo{ transform:none; }
+  .pm-how{ grid-template-columns:1fr; gap:8px; margin-top:22px; }
+}
+@media(max-width:640px){
+  .pm-hero{ padding:28px 0 12px; }
+  .pm-hero-demo{ padding:12px; }
+  .pm-demo-row{ padding:10px; }
+  .pm-subnav{ top:61px; }
+  .pm-subnav a{ font-size:13.5px; padding:7px 12px; }
+}
 /* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
@@ -954,8 +1002,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <a class="pm-brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><svg class="pm-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="pmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2ee6c5"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1220" stroke="url(#pmg)" stroke-width="1.6"/><path d="M8 27 L14 21 L20 25 L27 14" fill="none" stroke="url(#pmg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/><circle cx="8" cy="27" r="3" fill="#2ee6c5"/><circle cx="14" cy="21" r="3" fill="#3fc9d9"/><circle cx="20" cy="25" r="3" fill="#4aaeea"/><circle cx="29" cy="13" r="6.2" fill="url(#pmg)"/><path d="M26.2 13.2 L28.3 15.2 L32 11.1" fill="none" stroke="#04221c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="pm-long">Peptide Match</span><span class="pm-short">Peptide Match</span><small class="pm-long">by Verified Peptides Network</small></span></a>
     <nav class="pm-top-links">
       <a href="home.html">← Home</a>
-      <a class="hide-sm" href="pokeme-dex.html">PokeMe-Dex tracker</a>
-      <a href="#pm-builder">Schedule</a>
+      <a href="pokeme-dex.html">Tracker</a>
     </nav>
   </div>
 </header>
@@ -963,17 +1010,43 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
 <main>
 
 <section class="pm-hero">
-  <span class="pm-pill"><i></i>Free research tool · no account · nothing leaves your device</span>
-  <h1>Find the peptides <span>researched for your goals.</span></h1>
-  <p>Answer three quick questions. You'll get a ranked list of research peptides, why each one matches, a typical starting protocol, and a report you can print or download.</p>
-  <div class="pm-cta">
-    <button class="pm-btn pri" onclick="pmStart()">Start matching — about 60 seconds →</button>
-    <a class="pm-btn ghost" href="#pm-search-sec">Look up a peptide by name</a>
+  <div class="pm-hero-grid">
+    <div class="pm-hero-txt">
+      <span class="pm-pill"><i></i>Free research tool · no account · nothing leaves your device</span>
+      <h1>Find the peptides <span>researched for your goals.</span></h1>
+      <p>Answer three quick questions. Get a ranked list of research peptides with why each one matches, a typical starting protocol, a dose schedule and a shopping list you can print or save.</p>
+      <div class="pm-cta">
+        <button class="pm-btn pri" onclick="pmStart()">Start matching →</button>
+        <a class="pm-btn ghost" href="#pm-search-sec">Look up a peptide</a>
+      </div>
+      <div class="pm-trust">
+        <span><b>80+</b> peptides</span><span><b>20</b> goals</span><span><b>~60 sec</b> to results</span><span><b>Print · PDF · Notes</b></span>
+      </div>
+    </div>
+    <div class="pm-hero-demo" aria-hidden="true">
+      <div class="pm-demo-head"><span>Example results</span><span class="pm-demo-goals">🌀 Gut · ✨ Skin · 🌡️ Inflammation</span></div>
+      <div class="pm-demo-row best"><span class="r">1</span><div class="t"><b>BPC-157 <em>Best match</em></b><small>Gut · Skin · Inflammation</small></div><div class="f"><small>3 of 3</small><i style="--w:100%"></i></div></div>
+      <div class="pm-demo-row"><span class="r">2</span><div class="t"><b>KPV</b><small>Gut · Skin</small></div><div class="f"><small>2 of 3</small><i style="--w:67%"></i></div></div>
+      <div class="pm-demo-row"><span class="r">3</span><div class="t"><b>GHK-Cu</b><small>Skin · Inflammation</small></div><div class="f"><small>2 of 3</small><i style="--w:67%"></i></div></div>
+      <div class="pm-demo-foot">+ why each matches · starting protocol · what to buy</div>
+    </div>
   </div>
-  <div class="pm-trust">
-    <span><b>80+</b> peptides</span><span><b>20</b> goals</span><span><b>Why it matches</b> for every result</span><span><b>Print / PDF</b> report</span>
-  </div>
+  <ol class="pm-how">
+    <li><span>1</span><div><b>Answer 3 questions</b><small>Who it's for, your goals, a quick review</small></div></li>
+    <li><span>2</span><div><b>See ranked matches</b><small>With the research reason for each</small></div></li>
+    <li><span>3</span><div><b>Build &amp; save your plan</b><small>Schedule, shopping list, print or Notes</small></div></li>
+  </ol>
 </section>
+
+<nav class="pm-subnav" id="pm-subnav" aria-label="Sections">
+  <div class="pm-wrap">
+    <a href="#pm-wizard" data-sec="pm-wizard">🎯 Match</a>
+    <a href="#pm-search-sec" data-sec="pm-search-sec">🔎 Look up</a>
+    <a href="#pm-inflam" data-sec="pm-inflam">🌡️ Inflammation</a>
+    <a href="#pm-builder-sec" data-sec="pm-builder-sec">📅 Schedule</a>
+    <a href="#pm-resources" data-sec="pm-resources">🩸 Resources</a>
+  </div>
+</nav>
 
 <section class="pm-card pm-wizard" id="pm-wizard">
   <div class="pm-prog"><span class="pm-prog-txt" id="pm-prog-txt">Step 1 of 3</span><div class="pm-prog-bar"><i id="pm-prog-bar"></i></div></div>
@@ -1080,7 +1153,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
   </div>
 </section>
 
-<section class="pm-sec pm-res-block">
+<section class="pm-sec pm-res-block" id="pm-resources">
   <div class="pm-sec-h"><div class="k">Do this first</div><h2>Resources before you start</h2><p>Baseline blood work, plus vitamins, supplements and peptides by condition with studies and dosages.</p></div>
   <details style="margin-bottom:0.75rem;border:1px solid rgba(201,201,232,0.25);padding:0.5rem 0.75rem;background:rgba(201,201,232,0.04);">
 
@@ -2559,7 +2632,18 @@ function pmStartWithGoal(g){
   document.getElementById('pm-next-2').disabled = false;
   pmGo(PM_SEX_SET ? 2 : 1);
   document.getElementById('pm-wizard').scrollIntoView({ behavior:'smooth', block:'start' });
-}/* ---------- save to Notes / Google Keep (phone share sheet, copy fallback) ---------- */
+}/* section bar: highlight the section you're in */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('#pm-subnav a[data-sec]')); if(!links.length || !('IntersectionObserver' in window)) return;
+  var vis={};
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ vis[e.target.id]=e.isIntersecting ? e.intersectionRatio : 0; });
+    var best=null, top=-1; links.forEach(function(a){ var r=vis[a.dataset.sec]||0; if(r>top){ top=r; best=a; } });
+    links.forEach(function(a){ a.classList.toggle('on', a===best && top>0); });
+    if(best && top>0 && best.scrollIntoView){ var bar=best.parentElement; bar.scrollLeft=Math.max(0, best.offsetLeft - 16); }
+  },{ rootMargin:'-120px 0px -45% 0px', threshold:[0,0.15,0.4,0.75] });
+  links.forEach(function(a){ var el=document.getElementById(a.dataset.sec); if(el) io.observe(el); });
+})();/* ---------- save to Notes / Google Keep (phone share sheet, copy fallback) ---------- */
 function pmReportText(){
   var L = [], total = SELECTED_GOALS.size, goals = [];
   SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
