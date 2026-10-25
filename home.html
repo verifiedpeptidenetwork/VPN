@@ -8402,6 +8402,47 @@ document.addEventListener('keydown', function(e){
     html[data-theme="light"] .vpn-hc-feat .fi{background:color-mix(in srgb,var(--fc) 14%,#fff) !important;}
   </style>
   <!-- HERO CARD: logo + words side by side (stacked on phones) -->
+  <!-- KNOW THIS FIRST — the three must-reads + the site disclaimer, above the hero -->
+  <style>
+    #vpn-know-first{order:0;width:100%;box-sizing:border-box;margin:0 0 0.9rem;padding:0.9rem;border-radius:16px;background:#0b0710;border:1.5px solid rgba(255,176,32,0.55);box-shadow:0 0 0 1px rgba(255,176,32,0.12) inset;}
+    #vpn-know-first .kf-h{display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap;margin:0 0 0.7rem;}
+    #vpn-know-first .kf-h b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.35rem;letter-spacing:0.08em;color:#ffb020;}
+    #vpn-know-first .kf-h span{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:rgba(230,232,245,0.72);}
+    #vpn-know-first .kf-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.55rem;}
+    #vpn-know-first .kf-row button{display:flex;align-items:center;gap:0.65rem;text-align:left;cursor:pointer;padding:0.75rem 0.85rem;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.14);color:#fff;transition:border-color .15s,transform .15s;}
+    #vpn-know-first .kf-row button:hover{border-color:#ffb020;transform:translateY(-1px);}
+    #vpn-know-first .kf-ic{flex-shrink:0;width:2.2rem;height:2.2rem;border-radius:10px;display:grid;place-items:center;font-size:1.15rem;background:rgba(255,176,32,0.14);}
+    #vpn-know-first .kf-row b{display:block;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;line-height:1.15;color:#fff;}
+    #vpn-know-first .kf-row small{display:block;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.84rem;line-height:1.25;color:rgba(220,226,245,0.7);}
+    #vpn-know-first .kf-disc{margin:0.75rem 0 0;padding:0.6rem 0.75rem;border-radius:10px;background:rgba(255,176,32,0.08);border-left:3px solid #ffb020;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.92rem;line-height:1.45;color:rgba(235,236,245,0.86);}
+    #vpn-know-first .kf-disc b{color:#ffb020;}
+    @media(max-width:640px){
+      #vpn-know-first{padding:0.75rem;}
+      #vpn-know-first .kf-row{gap:0.4rem;}
+      #vpn-know-first .kf-row button{flex-direction:column;align-items:center;text-align:center;gap:0.35rem;padding:0.6rem 0.35rem;}
+      #vpn-know-first .kf-row small{display:none;}
+      #vpn-know-first .kf-row b{font-size:0.92rem;}
+      #vpn-know-first .kf-disc{font-size:0.84rem;}
+    }
+    html[data-theme="light"] #vpn-know-first{background:#fff8ea;border-color:#c98a0b;}
+    html[data-theme="light"] #vpn-know-first .kf-h b,html[data-theme="light"] #vpn-know-first .kf-disc b{color:#8a5a00;}
+    html[data-theme="light"] #vpn-know-first .kf-h span,html[data-theme="light"] #vpn-know-first .kf-row small,html[data-theme="light"] #vpn-know-first .kf-disc{color:#4a3f2a;}
+    html[data-theme="light"] #vpn-know-first .kf-row button{background:#fff;border-color:rgba(138,90,0,0.3);color:#1d1708;}
+    html[data-theme="light"] #vpn-know-first .kf-row b{color:#1d1708;}
+    /* less clutter: the static disclaimer replaces the scrolling ticker and the hero slogan lines */
+    body #no-coa-banner{display:none !important;}
+    .vpn-hc-path, .vpn-hc-note{display:none !important;}
+  </style>
+  <section id="vpn-know-first" aria-label="Know this first">
+    <div class="kf-h"><b>⚠ Know this first</b><span>Read these before researching any peptide</span></div>
+    <div class="kf-row">
+      <button type="button" onclick="showView('graymarket')"><span class="kf-ic">⚠️</span><span><b>Gray market risks</b><small>Fake COAs, bad vendors, contamination</small></span></button>
+      <button type="button" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}"><span class="kf-ic">🧩</span><span><b>Peptides 101</b><small>What peptides are and how they work</small></span></button>
+      <button type="button" onclick="var d=document.getElementById('glp-must-read');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}"><span class="kf-ic">💉</span><span><b>GLP risks</b><small>Myths, side effects, what to watch</small></span></button>
+    </div>
+    <p class="kf-disc"><b>Disclaimer:</b> Research &amp; education only. Not medical advice, not for human consumption, no COAs provided here. Talk to your doctor and get blood work first.</p>
+  </section>
+
   <div id="home-desktop-cols" class="vpn-hero-card" data-vt-skip>
   <div class="vpn-hc-body">
   <div class="retro80-outer">
@@ -25623,6 +25664,10 @@ function showViewInternal(name) {
     if (sh) sh.style.display = '';
     var hl = document.querySelector('.site-header .logo');
     if (hl) hl.style.display = 'none';
+  } else {
+    // back on home (or desktop): bring the header logo back
+    var hl2 = document.querySelector('.site-header .logo');
+    if (hl2) hl2.style.display = '';
   }
 
   // Collapse <main> when an out-of-main view is active — kills the dead-space block
@@ -31682,6 +31727,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 #vpn-mp-chip .mpc-lbl{font:700 13px 'Rajdhani',sans-serif;letter-spacing:0.06em;background:none;}
 #vpn-mp-chip .mpc-x{background:rgba(255,45,80,0.18);color:#ff7b92;}
 @media(max-width:900px){ body:has(#vpn-bottom-nav) #vpn-mp-chip{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px));} }
+@media(min-width:901px){ body:has(#vpn-sidebar) #vpn-mp-chip{left:254px;} }
 html[data-theme="light"] #vpn-mp-chip{background:#fff;border-color:#2e9e3f;} html[data-theme="light"] #vpn-mp-chip button{color:#1a6b2a;}
 @media(max-width:500px){
   #vpn-mp-panel{width:calc(100vw - 2rem);right:1rem;bottom:9.6rem;}
