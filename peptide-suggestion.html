@@ -674,68 +674,282 @@ select, input[type="number"], input[type="text"], textarea { font-size: 1.1rem !
 }
 </style>
 <style id="phone-fit">/* phone portrait fixes */ @media(max-width:480px){ .goals-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;} .goal-card{min-width:0;font-size:1.02rem !important;padding:14px 8px !important;overflow-wrap:anywhere;} }</style>
-</head>
-<body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style id="pm-premium">
+/* ══════════ PEPTIDE MATCH — premium layer ══════════ */
+:root{
+  --pm-bg:#07080d; --pm-bg2:#0c0e16; --pm-card:#11131d; --pm-card2:#161925;
+  --pm-line:rgba(255,255,255,0.08); --pm-line2:rgba(255,255,255,0.14);
+  --pm-text:#eef1f8; --pm-sub:#a3abc2; --pm-dim:#6f7891;
+  --pm-acc:#2ee6c5; --pm-acc2:#5b8cff; --pm-acc-ink:#04221c;
+  --pm-warn:#f5b84b; --pm-r:16px; --pm-font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+html[data-theme="light"]{ --pm-bg:#f6f7fb; --pm-bg2:#eef0f6; --pm-card:#ffffff; --pm-card2:#f7f8fc; --pm-line:rgba(15,20,40,0.09); --pm-line2:rgba(15,20,40,0.16); --pm-text:#121626; --pm-sub:#4a5270; --pm-dim:#7a829c; --pm-acc:#0fa58b; --pm-acc2:#3461e0; --pm-acc-ink:#ffffff; }
+body.pm{ background:var(--pm-bg) !important; background-image:radial-gradient(900px 420px at 15% -5%,rgba(46,230,197,0.10),transparent 60%),radial-gradient(800px 420px at 95% 0%,rgba(91,140,255,0.10),transparent 60%) !important; color:var(--pm-text); font-family:var(--pm-font); font-size:16px; -webkit-font-smoothing:antialiased; }
+body.pm main{ max-width:1080px; margin:0 auto; padding:0 20px 80px; }
+.pm *{ box-sizing:border-box; }
+.pm-wrap{ max-width:1080px; margin:0 auto; padding:0 20px; }
 
-<!-- PROFESSIONAL HERO -->
-<div style="background:linear-gradient(160deg,#060010 0%,#04000d 60%,#080015 100%);border-bottom:1px solid rgba(0,245,255,0.2);box-shadow:0 4px 40px rgba(0,0,0,0.8);position:relative;overflow:hidden;">
-  <div style="height:3px;background:linear-gradient(90deg,#ff2d78,#cc44ff 30%,#00f5ff 60%,#ff2d78);"></div>
-  <div style="max-width:860px;margin:0 auto;padding:2rem 1.2rem 1.4rem;display:flex;gap:1.8rem;align-items:center;flex-wrap:wrap;">
-    <div style="flex-shrink:0;display:flex;align-items:center;justify-content:center;">
-      <div style="position:relative;width:110px;height:110px;">
-        <div style="position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#00f5ff,#ff2d78,#cc44ff,#00f5ff);filter:blur(3px);opacity:0.7;animation:logopulse 3s ease-in-out infinite;"></div>
-        <div style="position:absolute;inset:2px;border-radius:50%;background:#04000d;"></div>
-        <img src="vpnlogo.png?v=3" alt="VPN Logo" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);border-radius:50%;object-fit:cover;">
-      </div>
-    </div>
-    <div style="flex:1;min-width:200px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:0.12em;line-height:1;background:linear-gradient(90deg,#00f5ff,#ff2d78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">PEPTIDE SUGGESTION TOOL</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:0.25rem;">Verified Peptides Network</div>
-      <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <span style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;padding:3px 10px;border:1px solid rgba(0,245,255,0.4);color:#00f5ff;letter-spacing:0.1em;">RESEARCH ONLY</span>
-        <span style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;padding:3px 10px;border:1px solid rgba(255,45,120,0.4);color:#ff2d78;letter-spacing:0.1em;">NOT MEDICAL ADVICE</span>
-        <span style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;padding:3px 10px;border:1px solid rgba(255,230,0,0.4);color:#ffe600;letter-spacing:0.1em;">ALWAYS FREE</span>
-      </div>
-      <a href="home.html" style="display:inline-block;margin-top:0.8rem;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(0,245,255,0.6);text-decoration:none;letter-spacing:0.08em;">&larr; Back to VPN Home</a>
-    </div>
+/* top bar */
+.pm-top{ padding:0 !important; margin:0 !important; box-shadow:none !important; position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); background:rgba(7,8,13,0.72); border-bottom:1px solid var(--pm-line); }
+html[data-theme="light"] .pm-top{ background:rgba(255,255,255,0.8); }
+.pm-top .pm-wrap{ display:flex; align-items:center; gap:12px; height:60px; }
+.pm-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--pm-text); font-weight:700; letter-spacing:-0.01em; }
+.pm-brand img{ width:38px; height:38px; border-radius:50%; object-fit:cover; }
+.pm-brand .pm-short{ display:none; }
+.pm-brand small{ display:block; font-weight:500; font-size:11px; color:var(--pm-dim); letter-spacing:0.02em; }
+.pm-top-links{ margin-left:auto; display:flex; gap:6px; }
+.pm-top-links a{ font-size:13px; font-weight:600; color:var(--pm-sub); text-decoration:none; padding:8px 12px; border-radius:10px; }
+.pm-top-links a:hover{ background:var(--pm-card); color:var(--pm-text); }
+
+/* hero */
+.pm-hero{ padding:64px 0 28px; text-align:center; }
+.pm-pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; border:1px solid var(--pm-line2); background:var(--pm-card); font-size:13px; font-weight:600; color:var(--pm-sub); }
+.pm-pill i{ width:7px; height:7px; border-radius:50%; background:var(--pm-acc); box-shadow:0 0 0 4px rgba(46,230,197,0.18); }
+.pm-hero h1{ margin:18px auto 14px; max-width:780px; font-size:clamp(32px,5.4vw,56px); line-height:1.05; letter-spacing:-0.035em; font-weight:800; }
+.pm-hero h1 span{ background:linear-gradient(90deg,var(--pm-acc),var(--pm-acc2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.pm-hero p{ margin:0 auto; max-width:620px; font-size:clamp(16px,2vw,18px); line-height:1.6; color:var(--pm-sub); }
+.pm-cta{ margin-top:28px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.pm-btn{ appearance:none; border:1px solid var(--pm-line2); background:var(--pm-card); color:var(--pm-text); font:600 15px/1 var(--pm-font); padding:14px 20px; border-radius:12px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; transition:transform .15s,background .15s,border-color .15s,opacity .15s; }
+.pm-btn:hover{ border-color:var(--pm-dim); transform:translateY(-1px); }
+.pm-btn.pri{ background:var(--pm-acc); border-color:transparent; color:var(--pm-acc-ink); box-shadow:0 10px 30px -10px rgba(46,230,197,0.55); }
+.pm-btn.pri:hover{ filter:brightness(1.06); }
+.pm-btn:disabled{ opacity:0.4; cursor:not-allowed; transform:none; }
+.pm-btn.sm{ padding:10px 14px; font-size:13.5px; border-radius:10px; }
+.pm-btn.ghost{ background:transparent; }
+.pm-trust{ margin:30px auto 0; display:flex; gap:10px 26px; justify-content:center; flex-wrap:wrap; font-size:13.5px; color:var(--pm-sub); font-weight:500; }
+.pm-trust b{ color:var(--pm-text); font-weight:700; }
+
+/* wizard */
+.pm-card{ background:var(--pm-card); border:1px solid var(--pm-line); border-radius:22px; box-shadow:0 30px 80px -40px rgba(0,0,0,0.8); }
+.pm-wizard{ margin:26px auto 0; max-width:860px; padding:28px; scroll-margin-top:76px; }
+.pm-prog{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+.pm-prog-txt{ font-size:13px; font-weight:600; color:var(--pm-dim); white-space:nowrap; }
+.pm-prog-bar{ flex:1; height:6px; border-radius:99px; background:var(--pm-line); overflow:hidden; }
+.pm-prog-bar i{ display:block; height:100%; width:33%; border-radius:99px; background:linear-gradient(90deg,var(--pm-acc),var(--pm-acc2)); transition:width .35s ease; }
+.pm-step{ display:none; animation:pmIn .3s ease; }
+.pm-step.on{ display:block; }
+@keyframes pmIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+.pm-step h2{ font-size:clamp(22px,3vw,28px); letter-spacing:-0.025em; font-weight:800; margin:0 0 6px; line-height:1.2; }
+.pm-step > p.pm-lead{ color:var(--pm-sub); margin:0 0 20px; font-size:15.5px; line-height:1.55; }
+.pm-choice{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr)); gap:12px; }
+.pm-opt{ text-align:left; display:flex; gap:14px; align-items:center; padding:18px; border-radius:var(--pm-r); border:1.5px solid var(--pm-line2); background:var(--pm-card2); color:var(--pm-text); cursor:pointer; font:inherit; transition:border-color .15s,background .15s,transform .15s; }
+.pm-opt:hover{ border-color:var(--pm-dim); }
+.pm-opt .ic{ font-size:22px; width:44px; height:44px; display:grid; place-items:center; border-radius:12px; background:rgba(255,255,255,0.05); flex-shrink:0; }
+.pm-opt b{ display:block; font-size:16px; font-weight:700; }
+.pm-opt small{ display:block; color:var(--pm-sub); font-size:13.5px; margin-top:2px; }
+.pm-opt.sel{ border-color:var(--pm-acc); background:rgba(46,230,197,0.08); box-shadow:0 0 0 4px rgba(46,230,197,0.12); }
+.pm-group{ margin-bottom:18px; }
+.pm-group h4{ margin:0 0 10px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--pm-dim); font-weight:700; }
+.pm-goals{ display:grid; grid-template-columns:repeat(auto-fill,minmax(min(190px,100%),1fr)); gap:10px; }
+.pm-goal{ display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; border:1.5px solid var(--pm-line2); background:var(--pm-card2); color:var(--pm-text); font:600 14.5px/1.25 var(--pm-font); cursor:pointer; text-align:left; transition:border-color .15s,background .15s; }
+.pm-goal span{ font-size:18px; }
+.pm-goal:hover{ border-color:var(--pm-dim); }
+.pm-goal.sel{ border-color:var(--pm-acc); background:rgba(46,230,197,0.09); }
+.pm-goal.sel::after{ content:'✓'; margin-left:auto; width:20px; height:20px; border-radius:50%; display:grid; place-items:center; background:var(--pm-acc); color:var(--pm-acc-ink); font-size:12px; font-weight:800; }
+.pm-nav{ display:flex; align-items:center; gap:10px; margin-top:24px; padding-top:20px; border-top:1px solid var(--pm-line); }
+.pm-nav .pm-count{ font-size:13.5px; color:var(--pm-sub); font-weight:600; }
+.pm-nav .pm-btn.pri{ margin-left:auto; }
+.pm-summary{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+.pm-chip{ display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px; background:var(--pm-card2); border:1px solid var(--pm-line2); font-size:13px; font-weight:600; color:var(--pm-text); }
+.pm-chip.acc{ border-color:rgba(46,230,197,0.45); color:var(--pm-acc); background:rgba(46,230,197,0.07); }
+.pm-safety{ border:1px solid rgba(245,184,75,0.35); background:rgba(245,184,75,0.07); border-radius:14px; padding:16px 18px; }
+.pm-safety ul{ margin:8px 0 12px 18px; padding:0; color:var(--pm-sub); font-size:14.5px; line-height:1.6; }
+.pm-safety strong{ color:var(--pm-warn); }
+.pm-agree{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; font-weight:600; cursor:pointer; line-height:1.45; }
+.pm-agree input{ width:20px; height:20px; accent-color:var(--pm-acc); flex-shrink:0; margin-top:1px; }
+
+/* results */
+.pm-results{ margin:34px auto 0; max-width:960px; scroll-margin-top:76px; }
+.pm-res-head{ display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; margin-bottom:16px; }
+.pm-res-head h2{ margin:0; font-size:clamp(24px,3.4vw,34px); letter-spacing:-0.03em; font-weight:800; }
+.pm-res-head p{ margin:6px 0 0; color:var(--pm-sub); font-size:15px; }
+.pm-res-actions{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+.pm-filters{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 18px; }
+.pm-filter{ padding:8px 13px; border-radius:999px; border:1px solid var(--pm-line2); background:transparent; color:var(--pm-sub); font:600 13px var(--pm-font); cursor:pointer; }
+.pm-filter.on{ background:var(--pm-text); color:var(--pm-bg); border-color:var(--pm-text); }
+.pm-list{ display:grid; gap:14px; }
+.pm-res{ background:var(--pm-card); border:1px solid var(--pm-line); border-radius:18px; padding:20px 22px; position:relative; }
+.pm-res.best{ border-color:rgba(46,230,197,0.5); box-shadow:0 0 0 1px rgba(46,230,197,0.25),0 24px 60px -30px rgba(46,230,197,0.45); }
+.pm-res-top{ display:flex; gap:14px; align-items:flex-start; }
+.pm-rank{ flex-shrink:0; width:38px; height:38px; border-radius:11px; display:grid; place-items:center; font-weight:800; font-size:15px; background:var(--pm-card2); border:1px solid var(--pm-line2); color:var(--pm-sub); }
+.pm-res.best .pm-rank{ background:var(--pm-acc); color:var(--pm-acc-ink); border-color:transparent; }
+.pm-res-name{ flex:1; min-width:0; }
+.pm-res-name h3{ margin:0; font-size:19px; font-weight:800; letter-spacing:-0.02em; line-height:1.25; }
+.pm-badge{ display:inline-block; margin-left:8px; vertical-align:middle; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; background:rgba(46,230,197,0.14); color:var(--pm-acc); }
+.pm-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.pm-tag{ font-size:12px; font-weight:600; padding:4px 9px; border-radius:999px; background:var(--pm-card2); border:1px solid var(--pm-line); color:var(--pm-sub); }
+.pm-score{ flex-shrink:0; text-align:right; min-width:120px; }
+.pm-score b{ display:block; font-size:13px; font-weight:700; color:var(--pm-text); }
+.pm-score small{ font-size:12px; color:var(--pm-dim); }
+.pm-meter{ margin-top:6px; height:6px; border-radius:99px; background:var(--pm-line); overflow:hidden; }
+.pm-meter i{ display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,var(--pm-acc),var(--pm-acc2)); }
+.pm-desc{ margin:14px 0 0; color:var(--pm-sub); font-size:15px; line-height:1.6; }
+.pm-why{ margin-top:12px; border-top:1px solid var(--pm-line); padding-top:12px; }
+.pm-why summary{ cursor:pointer; list-style:none; font-size:14px; font-weight:700; color:var(--pm-text); display:flex; align-items:center; gap:8px; }
+.pm-why summary::-webkit-details-marker{ display:none; }
+.pm-why summary::after{ content:'+'; margin-left:auto; font-size:18px; color:var(--pm-dim); }
+.pm-why[open] summary::after{ content:'–'; }
+.pm-why ul{ margin:10px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+.pm-why li{ font-size:14.5px; line-height:1.55; color:var(--pm-sub); padding-left:14px; border-left:2px solid var(--pm-acc); }
+.pm-why li b{ color:var(--pm-text); }
+.pm-proto{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.pm-proto div{ padding:8px 11px; border-radius:10px; background:var(--pm-card2); border:1px solid var(--pm-line); font-size:13px; color:var(--pm-sub); }
+.pm-proto div b{ display:block; font-size:14px; color:var(--pm-text); font-weight:700; }
+.pm-res-foot{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+.pm-res-foot .pm-note{ font-size:12.5px; color:var(--pm-dim); margin-left:auto; }
+.pm-empty{ padding:40px 20px; text-align:center; color:var(--pm-sub); border:1px dashed var(--pm-line2); border-radius:18px; }
+
+/* finish / report band */
+.pm-finish{ margin:26px 0 0; padding:22px; border-radius:18px; border:1px solid var(--pm-line2); background:linear-gradient(135deg,rgba(46,230,197,0.08),rgba(91,140,255,0.08)); display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.pm-finish h3{ margin:0; font-size:18px; font-weight:800; letter-spacing:-0.02em; }
+.pm-finish p{ margin:4px 0 0; color:var(--pm-sub); font-size:14.5px; }
+.pm-finish .pm-res-actions{ margin-left:auto; }
+
+/* section titles reused for search/resources/schedule */
+.pm-sec{ margin:56px auto 0; max-width:960px; }
+.pm-sec-h{ margin-bottom:16px; }
+.pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
+.pm-sec-h h2{ margin:6px 0 4px; font-size:clamp(22px,3vw,28px); letter-spacing:-0.025em; font-weight:800; }
+.pm-sec-h p{ margin:0; color:var(--pm-sub); font-size:15px; line-height:1.55; }
+.pm-search{ display:flex; gap:10px; flex-wrap:wrap; padding:16px; }
+.pm-search input{ flex:1 1 260px; min-width:0; padding:14px 16px; border-radius:12px; border:1px solid var(--pm-line2); background:var(--pm-card2); color:var(--pm-text); font:500 16px var(--pm-font); outline:none; }
+.pm-search input:focus{ border-color:var(--pm-acc); box-shadow:0 0 0 4px rgba(46,230,197,0.15); }
+.pm-res-block > details{ background:var(--pm-card) !important; border:1px solid var(--pm-line) !important; border-left:1px solid var(--pm-line) !important; border-radius:14px !important; padding:4px 6px !important; margin-bottom:10px !important; }
+.pm-res-block > details > summary{ font-family:var(--pm-font) !important; font-weight:700 !important; letter-spacing:0 !important; font-size:15px !important; padding:12px 12px !important; color:var(--pm-text) !important; }
+
+/* restyle the existing schedule builder */
+body.pm .section-heading .section-eyebrow{ font-family:var(--pm-font); color:var(--pm-acc); font-size:12px; letter-spacing:0.1em; font-weight:700; }
+body.pm .section-heading h2{ font-family:var(--pm-font); font-weight:800; letter-spacing:-0.025em; color:var(--pm-text); font-size:clamp(22px,3vw,28px); text-shadow:none; background:none; -webkit-text-fill-color:currentColor; }
+body.pm .section-heading p{ font-family:var(--pm-font); color:var(--pm-sub); font-size:15px; }
+body.pm .info-field label, body.pm .field-label{ font-family:var(--pm-font) !important; font-size:12.5px !important; font-weight:700; letter-spacing:0.04em; color:var(--pm-sub) !important; text-shadow:none !important; }
+body.pm .pep-input{ font-family:var(--pm-font) !important; background:var(--pm-card2) !important; border:1px solid var(--pm-line2) !important; border-radius:12px !important; color:var(--pm-text) !important; font-size:16px !important; box-shadow:none !important; }
+body.pm .pep-input:focus{ border-color:var(--pm-acc) !important; box-shadow:0 0 0 4px rgba(46,230,197,0.15) !important; }
+body.pm .btn-primary{ font-family:var(--pm-font) !important; font-weight:700 !important; letter-spacing:0 !important; background:var(--pm-acc) !important; color:var(--pm-acc-ink) !important; border:0 !important; border-radius:12px !important; clip-path:none !important; box-shadow:0 10px 30px -10px rgba(46,230,197,0.55) !important; text-shadow:none !important; }
+body.pm .btn-secondary{ font-family:var(--pm-font) !important; font-weight:600 !important; letter-spacing:0 !important; background:var(--pm-card) !important; color:var(--pm-text) !important; border:1px solid var(--pm-line2) !important; border-radius:10px !important; clip-path:none !important; text-shadow:none !important; box-shadow:none !important; }
+body.pm .response-box{ background:var(--pm-card) !important; border:1px solid var(--pm-line) !important; border-radius:18px !important; box-shadow:none !important; clip-path:none !important; }
+body.pm .response-box::before{ display:none !important; }
+body.pm .response-label{ font-family:var(--pm-font) !important; color:var(--pm-text) !important; letter-spacing:0.02em !important; font-weight:700 !important; }
+body.pm .rainbow-strip, body.pm hr.divider{ display:none !important; }
+body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-radius:12px !important; }
+
+@media(max-width:640px){
+  .pm-hero{ padding:40px 0 16px; }
+  .pm-wizard{ padding:20px 16px; border-radius:18px; }
+  .pm-res{ padding:16px; }
+  .pm-res-top{ flex-wrap:wrap; }
+  .pm-score{ flex:1 1 100%; text-align:left; min-width:0; }
+  .pm-res-foot .pm-note{ margin-left:0; flex:1 1 100%; }
+  .pm-top-links a.hide-sm{ display:none; }
+  .pm-brand > span{ font-size:14px; line-height:1.15; white-space:nowrap; }
+  .pm-brand .pm-long{ display:none; } .pm-brand .pm-short{ display:inline; }
+  .pm-top-links a{ padding:8px 8px; font-size:12.5px; white-space:nowrap; }
+  .pm-nav{ flex-wrap:wrap; }
+}
+@media print{ .pm-top,.pm-hero,.pm-wizard,.pm-filters,.pm-res-actions,.pm-res-foot,#vt-top-btn{ display:none !important; } }
+</style>
+
+</head>
+<body class="pm">
+
+<!-- ══════════ PEPTIDE MATCH — guided goal matcher ══════════ -->
+<header class="pm-top">
+  <div class="pm-wrap">
+    <a class="pm-brand" href="home.html"><img src="VPNNEWLOGO.png?v=2" alt="VPN logo"><span><span class="pm-long">Verified Peptides Network</span><span class="pm-short">VPN · Peptide Match</span><small class="pm-long">Peptide Match</small></span></a>
+    <nav class="pm-top-links">
+      <a href="home.html">← Home</a>
+      <a class="hide-sm" href="pokeme-dex.html">PokeMe-Dex tracker</a>
+      <a href="#pm-builder">Schedule</a>
+    </nav>
   </div>
-  <div style="max-width:860px;margin:0 auto;padding:0 1.2rem 1.6rem;">
-    <div style="background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.18);border-left:4px solid #00f5ff;padding:1.1rem 1.4rem;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.18em;color:#00f5ff;margin-bottom:0.75rem;">HOW TO USE THIS TOOL &mdash; 3 EASY STEPS</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;">
-        <div style="background:rgba(0,0,0,0.4);padding:0.85rem;border-top:2px solid #00f5ff;text-align:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#00f5ff;line-height:1;">1</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-top:0.3rem;">Pick Your Goals</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.55);margin-top:0.25rem;">Choose what you want to improve, select male or female, then tap <strong style="color:#fff;">Run Analysis</strong></div>
-        </div>
-        <div style="background:rgba(0,0,0,0.4);padding:0.85rem;border-top:2px solid #ff2d78;text-align:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#ff2d78;line-height:1;">2</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-top:0.3rem;">Add Peptides</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.55);margin-top:0.25rem;">Tap <strong style="color:#fff;">+ ADD</strong> on any peptide you want, check your dose, then tap <strong style="color:#fff;">Generate My Schedule</strong></div>
-        </div>
-        <div style="background:rgba(0,0,0,0.4);padding:0.85rem;border-top:2px solid #ffe600;text-align:center;">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#ffe600;line-height:1;">3</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-top:0.3rem;">Save Your Plan</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.55);margin-top:0.25rem;">Use <strong style="color:#fff;">Copy as Text</strong> or <strong style="color:#fff;">Download PDF</strong> to save your schedule</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div><div class="rainbow-strip"></div>
+</header>
 
 <main>
 
-  <div class="section-heading">
-    <div class="section-eyebrow">STEP 1 &mdash; TELL US YOUR GOALS</div>
-    <h2>What Do You Want To Work On?</h2>
-    <p>Tap one or more boxes below that match what you want to improve &mdash; then scroll down and tap <strong>Run Analysis</strong>.</p>
+<section class="pm-hero">
+  <span class="pm-pill"><i></i>Free research tool · no account · nothing leaves your device</span>
+  <h1>Find the peptides <span>researched for your goals.</span></h1>
+  <p>Answer three quick questions. You'll get a ranked list of research peptides, why each one matches, a typical starting protocol, and a report you can print or download.</p>
+  <div class="pm-cta">
+    <button class="pm-btn pri" onclick="pmStart()">Start matching — about 60 seconds →</button>
+    <a class="pm-btn ghost" href="#pm-search-sec">Look up a peptide by name</a>
+  </div>
+  <div class="pm-trust">
+    <span><b>80+</b> peptides</span><span><b>20</b> goals</span><span><b>Why it matches</b> for every result</span><span><b>Print / PDF</b> report</span>
+  </div>
+</section>
+
+<section class="pm-card pm-wizard" id="pm-wizard">
+  <div class="pm-prog"><span class="pm-prog-txt" id="pm-prog-txt">Step 1 of 3</span><div class="pm-prog-bar"><i id="pm-prog-bar"></i></div></div>
+
+  <div class="pm-step on" data-step="1">
+    <h2>Who are these results for?</h2>
+    <p class="pm-lead">A few peptides are researched only in men or only in women, so this keeps your matches relevant.</p>
+    <div class="pm-choice" id="pm-sex">
+      <button type="button" class="pm-opt" data-v="male"><span class="ic">♂</span><span><b>Male</b><small>Includes male-specific options</small></span></button>
+      <button type="button" class="pm-opt" data-v="female"><span class="ic">♀</span><span><b>Female</b><small>Includes female-specific options, e.g. PCOS</small></span></button>
+      <button type="button" class="pm-opt" data-v=""><span class="ic">◌</span><span><b>Prefer not to say</b><small>Show options for everyone</small></span></button>
+    </div>
+    <div class="pm-nav"><span class="pm-count">Takes about a minute</span><button class="pm-btn pri" id="pm-next-1" onclick="pmGo(2)" disabled>Continue →</button></div>
   </div>
 
-  <div class="disclaimer">
-    ⚠ FOR LEARNING ONLY — THIS IS A SUGGESTION TOOL, NOT MEDICAL ADVICE. A suggestion is just a starting point for your own research — not a recommendation to follow blindly. This tool gives general examples based on research, not a prescription. Always do your own independent research, talk to a licensed doctor before starting anything, and double-check your math with the Reconstitution Calculator.
-    <br><br>
-    Work with your doctor — even if they disagree with you — and independently verify everything in every part of this tool (or any website) before acting on it.
+  <div class="pm-step" data-step="2">
+    <h2>What do you want to work on?</h2>
+    <p class="pm-lead">Pick everything that applies. Peptides that match more of your goals rank higher.</p>
+    <div id="pm-goal-groups"></div>
+    <div class="pm-nav"><button class="pm-btn ghost" onclick="pmGo(1)">← Back</button><span class="pm-count" id="pm-goal-count">No goals selected</span><button class="pm-btn pri" id="pm-next-2" onclick="pmGo(3)" disabled>Continue →</button></div>
   </div>
+
+  <div class="pm-step" data-step="3">
+    <h2>Review &amp; get your matches</h2>
+    <p class="pm-lead">Here's what you told us. Tap <b>Back</b> to change anything.</p>
+    <div class="pm-summary" id="pm-summary"></div>
+    <div class="pm-safety">
+      <strong>⚠ Before you read your results</strong>
+      <ul>
+        <li>This is an educational research tool, <b>not medical advice</b> or a prescription.</li>
+        <li>Protocols shown are typical <b>research starting points</b>, not recommendations for you.</li>
+        <li>Talk to a licensed doctor and get blood work before starting anything, and double-check all math.</li>
+      </ul>
+      <label class="pm-agree"><input type="checkbox" id="pm-agree" onchange="document.getElementById('pm-next-3').disabled=!this.checked">I understand this is educational research information, not medical advice.</label>
+    </div>
+    <div class="pm-nav"><button class="pm-btn ghost" onclick="pmGo(2)">← Back</button><button class="pm-btn pri" id="pm-next-3" onclick="pmShowResults()" disabled>See my matches →</button></div>
+  </div>
+</section>
+
+<section class="pm-results" id="pm-results" hidden>
+  <div class="pm-res-head">
+    <div><h2 id="pm-res-title">Your matches</h2><p id="pm-res-sub"></p></div>
+    <div class="pm-res-actions">
+      <button class="pm-btn sm" onclick="pmEdit()">✎ Edit answers</button>
+      <button class="pm-btn sm" onclick="pmPrintReport()">🖨 Print / Save PDF</button>
+      <button class="pm-btn sm pri" onclick="pmDownloadReport()">⬇ Download report</button>
+    </div>
+  </div>
+  <div class="pm-filters" id="pm-filters"></div>
+  <div class="pm-list" id="pm-list"></div>
+  <div class="pm-finish">
+    <div><h3>Keep your results</h3><p>Your report lists every match, why it matches and its typical protocol, plus any schedule you build below.</p></div>
+    <div class="pm-res-actions">
+      <button class="pm-btn" onclick="pmPrintReport()">🖨 Print / Save as PDF</button>
+      <button class="pm-btn pri" onclick="pmDownloadReport()">⬇ Download report</button>
+    </div>
+  </div>
+</section>
+
+<section class="pm-sec" id="pm-search-sec">
+  <div class="pm-sec-h"><div class="k">Already know the name?</div><h2>Look up a single peptide</h2><p>Get its description and typical research protocol, then send it straight to the schedule builder.</p></div>
+  <div class="pm-card pm-search">
+    <input id="peptide-search" type="text" list="peptide-search-list" placeholder="e.g. BPC-157, Retatrutide, NAD+" onkeydown="if(event.key==='Enter'){pmSearch();}" autocomplete="off">
+    <datalist id="peptide-search-list"></datalist>
+    <button class="pm-btn pri" onclick="pmSearch()">Look up</button>
+  </div>
+  <div class="pm-list" id="pm-search-out" style="margin-top:14px;"></div>
+</section>
+
+<section class="pm-sec pm-res-block">
+  <div class="pm-sec-h"><div class="k">Do this first</div><h2>Resources before you start</h2><p>Baseline blood work, plus vitamins, supplements and peptides by condition with studies and dosages.</p></div>
   <details style="margin-bottom:0.75rem;border:1px solid rgba(201,201,232,0.25);padding:0.5rem 0.75rem;background:rgba(201,201,232,0.04);">
 
     <summary style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:var(--cyan);">🩸 Suggested Blood Work BEFORE Starting Any Protocol</summary>
@@ -764,46 +978,6 @@ select, input[type="number"], input[type="text"], textarea { font-size: 1.1rem !
       <span style="color:var(--yellow);">🇺🇸 Thank you to all service men &amp; women — God bless you all.</span>
     </div>
   </details>
-
-  <div style="margin-bottom:24px;">
-    <div class="field-label">🔍 OR SEARCH FOR A SPECIFIC PEPTIDE BY NAME</div>
-    <div class="info-row" style="margin-bottom:0;">
-      <div class="info-field">
-        <input id="peptide-search" class="pep-input" type="text" list="peptide-search-list" placeholder="e.g. BPC-157, Retatrutide, NAD+..." onkeydown="if(event.key==='Enter'){searchPeptide();}">
-        <datalist id="peptide-search-list"></datalist>
-      </div>
-    </div>
-    <button class="btn-secondary" style="margin-top:10px;" onclick="searchPeptide()">🔍 Search This Peptide</button>
-  </div>
-
-  <div class="gender-row" id="gender-row">
-    <div class="gender-btn" data-gender="male">♂ Male</div>
-    <div class="gender-btn" data-gender="female">♀ Female</div>
-  </div>
-
-  <div class="goals-grid" id="goals-grid">
-    <div class="goal-card" data-goal="fatloss"><span class="goal-icon">🔥</span>Fat Loss</div>
-    <div class="goal-card" data-goal="muscle"><span class="goal-icon">💪</span>Muscle Growth</div>
-    <div class="goal-card" data-goal="antiaging"><span class="goal-icon">🧬</span>Anti-Aging</div>
-    <div class="goal-card" data-goal="recovery"><span class="goal-icon">🩹</span>Recovery</div>
-    <div class="goal-card" data-goal="sleep"><span class="goal-icon">😴</span>Sleep</div>
-    <div class="goal-card" data-goal="gut"><span class="goal-icon">🌀</span>Gut Health</div>
-    <div class="goal-card" data-goal="joints"><span class="goal-icon">🦴</span>Joints</div>
-    <div class="goal-card" data-goal="skin"><span class="goal-icon">✨</span>Skin &amp; Hair</div>
-    <div class="goal-card" data-goal="cognitive"><span class="goal-icon">🧠</span>Cognitive</div>
-    <div class="goal-card" data-goal="libido"><span class="goal-icon">❤️</span>Libido / Hormones</div>
-    <div class="goal-card" data-goal="insulin"><span class="goal-icon">🍬</span>Insulin Resistance</div>
-    <div class="goal-card" data-goal="thyroid"><span class="goal-icon">🦋</span>Thyroid Support</div>
-    <div class="goal-card" data-goal="inflammation"><span class="goal-icon">🔥</span>Inflammation</div>
-    <div class="goal-card" data-goal="hair"><span class="goal-icon">💇</span>Hair</div>
-    <div class="goal-card" data-goal="energy"><span class="goal-icon">⚡</span>Energy</div>
-    <div class="goal-card" data-goal="immune"><span class="goal-icon">🛡️</span>Immune Support</div>
-    <div class="goal-card" data-goal="longevity"><span class="goal-icon">⏳</span>Longevity / Bioregulators</div>
-    <div class="goal-card" data-goal="pcos"><span class="goal-icon">🌸</span>PCOS</div>
-    <div class="goal-card" data-goal="autoimmune"><span class="goal-icon">🦴</span>Autoimmune / RA</div>
-    <div class="goal-card" data-goal="cancer"><span class="goal-icon">🎗️</span>Cancer Support</div>
-  </div>
-
   <!-- VITAMINS, SUPPLEMENTS & PEPTIDES BY CONDITION DROPDOWN -->
   <details style="background:rgba(45,212,191,0.04);border:1px solid rgba(45,212,191,0.2);border-left:4px solid var(--cyan);margin-bottom:24px;">
     <summary style="cursor:pointer;padding:14px 18px;font-family:var(--orb);font-size:0.85rem;letter-spacing:0.12em;color:var(--cyan);list-style:none;display:flex;align-items:center;gap:10px;">
@@ -1118,21 +1292,24 @@ select, input[type="number"], input[type="text"], textarea { font-size: 1.1rem !
 
     </div>
   </details>
+</section>
 
-  <button class="btn-primary" onclick="renderSuggestions()">RUN ANALYSIS →</button>
+<!-- legacy hooks the original script still binds to (kept hidden) -->
+<div hidden>
+  <div class="gender-row" id="gender-row"></div>
+  <div class="goals-grid" id="goals-grid"></div>
+  <div class="response-box" id="suggestions-box"><div id="suggestions-list"></div><button id="copy-suggestions-btn"></button></div>
+</div>
 
-  <div class="response-box" id="suggestions-box">
-    <div class="response-label"><span class="pulse-dot"></span>HERE'S WHAT WE'D SUGGEST (TAP ANY ONE FOR DETAILS)</div>
-    <div id="suggestions-list"></div>
-    <button class="btn-secondary" id="copy-suggestions-btn" style="display:none; margin-top:14px;" onclick="copySuggestionsText()">📋 Copy Suggestions as Text</button>
-  </div>
+<div id="pm-builder" style="scroll-margin-top:76px;"></div>
+
 
   <hr class="divider">
 
   <div class="section-heading">
-    <div class="section-eyebrow">STEP 2 — BUILD YOUR DOSE SCHEDULE</div>
-    <h2>How Much, How Often, How Long</h2>
-    <p>Tap a peptide above to fill this in automatically, or type your own info below.</p>
+    <div class="section-eyebrow">Schedule builder</div>
+    <h2>Build your dose schedule</h2>
+    <p>Tap <b>Build my schedule</b> on any match to fill this in automatically, or enter your own numbers. Your schedule is added to your printable report.</p>
   </div>
 
   <div class="info-row">
@@ -1991,7 +2168,6 @@ function copyShoppingText(){
 
 </script>
 
-<button onclick="document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);" title="Back to top" style="position:fixed;bottom:1.4rem;right:1.4rem;z-index:2147483647;width:52px;height:52px;border-radius:50%;border:2px solid #00f5ff;background:rgba(0,8,28,0.96);color:#00f5ff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18);transition:transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.transform='scale(1.18)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 0 18px rgba(0,245,255,0.55),0 0 40px rgba(0,245,255,0.18)';">↑</button>
 <script>
 (function(){
   var dummy = null;
@@ -2000,6 +2176,227 @@ function copyShoppingText(){
 
 <!-- BACK TO TOP -->
 <script>(function(){var b=document.createElement('button');b.innerHTML='&#9650;';b.title='Back to top';b.setAttribute('style','display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:2147483647;width:50px;height:50px;border-radius:50%;border:2px solid rgba(0,245,255,0.8);background:rgba(4,0,20,0.95);color:#00f5ff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2);transition:transform 0.2s,box-shadow 0.2s;align-items:center;justify-content:center;');b.onclick=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);;};b.onmouseover=function(){this.style.transform='scale(1.15)';this.style.boxShadow='0 0 30px rgba(0,245,255,0.9),0 0 60px rgba(0,245,255,0.4)';};b.onmouseout=function(){this.style.transform='scale(1)';this.style.boxShadow='0 0 20px rgba(0,245,255,0.5),0 0 40px rgba(0,245,255,0.2)';};document.body.appendChild(b);function upd(){var s=(window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop)>150;b.style.display=s?'flex':'none';}window.addEventListener('scroll',upd,{passive:true});upd();})();</script>
+<script>
+/* ══════════ PEPTIDE MATCH — wizard, results, report ══════════
+   Drives the original SELECTED_GOALS / SELECTED_GENDER / PEPTIDES / GOAL_MAP data. */
+var PM_GROUPS = [
+  { t:'Body & metabolism', g:[['fatloss','🔥','Fat loss'],['muscle','💪','Muscle growth'],['insulin','🍬','Insulin resistance'],['energy','⚡','Energy']] },
+  { t:'Recovery & pain',   g:[['recovery','🩹','Injury recovery'],['joints','🦴','Joints'],['inflammation','🌡️','Inflammation'],['gut','🌀','Gut health']] },
+  { t:'Mind & sleep',      g:[['cognitive','🧠','Focus & memory'],['sleep','😴','Sleep']] },
+  { t:'Looks & aging',     g:[['skin','✨','Skin'],['hair','💇','Hair'],['antiaging','🧬','Anti-aging'],['longevity','⏳','Longevity / bioregulators']] },
+  { t:'Hormones & immunity', g:[['libido','❤️','Libido & hormones'],['thyroid','🦋','Thyroid support'],['pcos','🌸','PCOS'],['immune','🛡️','Immune support']] },
+  { t:'Health conditions', g:[['autoimmune','🦠','Autoimmune / RA'],['cancer','🎗️','Cancer & chemo support']] }
+];
+var PM_SEX_SET = false, PM_LAST = [], PM_FILTER = 'all';
+
+function pmEsc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function pmLabel(g){ for (var i=0;i<PM_GROUPS.length;i++) for (var j=0;j<PM_GROUPS[i].g.length;j++) if (PM_GROUPS[i].g[j][0]===g) return PM_GROUPS[i].g[j][2]; return (GOAL_LABELS[g]||g); }
+function pmIcon(g){ for (var i=0;i<PM_GROUPS.length;i++) for (var j=0;j<PM_GROUPS[i].g.length;j++) if (PM_GROUPS[i].g[j][0]===g) return PM_GROUPS[i].g[j][1]; return '•'; }
+
+(function pmBuildGoals(){
+  var host = document.getElementById('pm-goal-groups');
+  host.innerHTML = PM_GROUPS.map(function(grp){
+    return '<div class="pm-group"><h4>' + grp.t + '</h4><div class="pm-goals">'
+      + grp.g.map(function(x){ return '<button type="button" class="pm-goal" data-g="' + x[0] + '"><span>' + x[1] + '</span>' + x[2] + '</button>'; }).join('')
+      + '</div></div>';
+  }).join('');
+  host.addEventListener('click', function(e){
+    var b = e.target.closest('.pm-goal'); if (!b) return;
+    var g = b.getAttribute('data-g');
+    if (SELECTED_GOALS.has(g)) { SELECTED_GOALS.delete(g); b.classList.remove('sel'); } else { SELECTED_GOALS.add(g); b.classList.add('sel'); }
+    var n = SELECTED_GOALS.size;
+    document.getElementById('pm-goal-count').textContent = n ? (n + ' goal' + (n>1?'s':'') + ' selected') : 'No goals selected';
+    document.getElementById('pm-next-2').disabled = n === 0;
+  });
+  document.getElementById('pm-sex').addEventListener('click', function(e){
+    var b = e.target.closest('.pm-opt'); if (!b) return;
+    document.querySelectorAll('#pm-sex .pm-opt').forEach(function(o){ o.classList.toggle('sel', o === b); });
+    SELECTED_GENDER = b.getAttribute('data-v') || null; PM_SEX_SET = true;
+    document.getElementById('pm-next-1').disabled = false;
+    setTimeout(function(){ pmGo(2); }, 220);
+  });
+})();
+
+function pmStart(){ document.getElementById('pm-wizard').scrollIntoView({behavior:'smooth', block:'start'}); }
+
+function pmGo(n){
+  document.querySelectorAll('.pm-step').forEach(function(s){ s.classList.toggle('on', +s.getAttribute('data-step') === n); });
+  document.getElementById('pm-prog-txt').textContent = 'Step ' + n + ' of 3';
+  document.getElementById('pm-prog-bar').style.width = (n/3*100) + '%';
+  if (n === 3) pmRenderSummary();
+  var w = document.getElementById('pm-wizard'); if (w.getBoundingClientRect().top < 0) w.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function pmRenderSummary(){
+  var sex = SELECTED_GENDER === 'male' ? '♂ Male' : SELECTED_GENDER === 'female' ? '♀ Female' : 'Everyone';
+  var chips = '<span class="pm-chip">' + sex + '</span>';
+  SELECTED_GOALS.forEach(function(g){ chips += '<span class="pm-chip acc">' + pmIcon(g) + ' ' + pmLabel(g) + '</span>'; });
+  document.getElementById('pm-summary').innerHTML = chips;
+}
+
+// same ranking as the original renderSuggestions(): count of selected goals each peptide is mapped to
+function pmCompute(){
+  var counts = {}, matched = {};
+  SELECTED_GOALS.forEach(function(g){
+    var keys = (GOAL_MAP[g]||[]).slice();
+    if (SELECTED_GENDER && GENDER_GOAL_MAP[SELECTED_GENDER] && GENDER_GOAL_MAP[SELECTED_GENDER][g]) keys = keys.concat(GENDER_GOAL_MAP[SELECTED_GENDER][g]);
+    keys.forEach(function(k){
+      if (!PEPTIDES[k]) return;
+      if ((matched[k] = matched[k] || []).indexOf(g) === -1) { matched[k].push(g); counts[k] = (counts[k]||0) + 1; }
+    });
+  });
+  Object.keys(counts).forEach(function(k){ var gg = PEPTIDES[k].gender; if (gg && gg !== 'both' && gg !== SELECTED_GENDER) delete counts[k]; });
+  return Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a] || PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); })
+    .map(function(k){ return { key:k, count:counts[k], goals:matched[k] }; });
+}
+
+function pmProto(p){
+  var freq = p.freq >= 7 ? 'Daily' : (p.freq + '× / week');
+  var time = p.time === 'pm' ? 'Evening' : p.time === 'am' ? 'Morning' : 'Any time';
+  var titr = p.step > 0 ? ('+' + p.step + ' mg every ' + p.weeks + ' wk') : ('Flat dose · ' + p.weeks + '-wk blocks');
+  return [['Vial', p.vial + ' mg'], ['BAC water', p.water + ' mL'], ['Start dose', p.start + ' mg'], ['Titration', titr], ['Frequency', freq], ['Time', time]];
+}
+function pmWhy(key, goals){
+  return goals.map(function(g){
+    var t = (GOAL_REASONS[g] && GOAL_REASONS[g][key]) || ('Researched because it ' + (GOAL_EXPLAIN[g] || 'relates to this goal'));
+    return { g:g, t:t.replace(/\.$/,'') + '.' };
+  });
+}
+
+function pmCard(item, rank, total){
+  var p = PEPTIDES[item.key], best = rank === 1 && total > 0;
+  var pct = total ? Math.round(item.count/total*100) : 100;
+  var why = pmWhy(item.key, item.goals);
+  return '<article class="pm-res' + (best?' best':'') + '" data-goals="' + item.goals.join(' ') + '">'
+    + '<div class="pm-res-top">'
+    +   '<div class="pm-rank">' + rank + '</div>'
+    +   '<div class="pm-res-name"><h3>' + pmEsc(p.name) + (best ? '<span class="pm-badge">Best match</span>' : '') + '</h3>'
+    +     '<div class="pm-tags">' + item.goals.map(function(g){ return '<span class="pm-tag">' + pmIcon(g) + ' ' + pmLabel(g) + '</span>'; }).join('') + '</div></div>'
+    +   (total ? '<div class="pm-score"><b>Matches ' + item.count + ' of ' + total + ' goal' + (total>1?'s':'') + '</b><small>' + pct + '% fit</small><div class="pm-meter"><i style="width:' + pct + '%"></i></div></div>' : '')
+    + '</div>'
+    + '<p class="pm-desc">' + pmEsc(p.desc) + '</p>'
+    + (why.length ? '<details class="pm-why"' + (rank <= 1 ? ' open' : '') + '><summary>Why it matches your goals</summary><ul>'
+        + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></details>' : '')
+    + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div>'
+    + '<div class="pm-res-foot"><button class="pm-btn sm pri" onclick="pmBuild(\'' + item.key + '\', this)">Build my schedule →</button>'
+    +   '<span class="pm-note">Typical research starting protocol, not medical advice.</span></div>'
+    + '</article>';
+}
+
+function pmShowResults(){
+  PM_LAST = pmCompute(); PM_FILTER = 'all';
+  var sec = document.getElementById('pm-results'); sec.hidden = false;
+  var total = SELECTED_GOALS.size;
+  document.getElementById('pm-res-title').textContent = PM_LAST.length ? (PM_LAST.length + ' peptides match your goals') : 'No matches yet';
+  var names = []; SELECTED_GOALS.forEach(function(g){ names.push(pmLabel(g)); });
+  document.getElementById('pm-res-sub').textContent = 'Ranked by how many of your ' + total + ' goal' + (total>1?'s':'') + ' each one is researched for: ' + names.join(', ') + '.';
+  var f = '<button class="pm-filter on" data-f="all">All (' + PM_LAST.length + ')</button>';
+  SELECTED_GOALS.forEach(function(g){
+    var n = PM_LAST.filter(function(i){ return i.goals.indexOf(g) !== -1; }).length;
+    f += '<button class="pm-filter" data-f="' + g + '">' + pmIcon(g) + ' ' + pmLabel(g) + ' (' + n + ')</button>';
+  });
+  document.getElementById('pm-filters').innerHTML = total > 1 ? f : '';
+  pmRenderList();
+  LAST_SUGGESTIONS = PM_LAST.map(function(i){ return PEPTIDES[i.key].name + ' — ' + PEPTIDES[i.key].desc; });
+  setTimeout(function(){ sec.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+}
+function pmRenderList(){
+  var total = SELECTED_GOALS.size;
+  var items = PM_FILTER === 'all' ? PM_LAST : PM_LAST.filter(function(i){ return i.goals.indexOf(PM_FILTER) !== -1; });
+  document.getElementById('pm-list').innerHTML = items.length
+    ? items.map(function(it){ return pmCard(it, PM_LAST.indexOf(it) + 1, total); }).join('')
+    : '<div class="pm-empty">No peptides in this tool are mapped to that combination yet. Try fewer or different goals.</div>';
+}
+document.getElementById('pm-filters').addEventListener('click', function(e){
+  var b = e.target.closest('.pm-filter'); if (!b) return;
+  PM_FILTER = b.getAttribute('data-f');
+  document.querySelectorAll('.pm-filter').forEach(function(x){ x.classList.toggle('on', x === b); });
+  pmRenderList();
+});
+function pmEdit(){ pmGo(2); document.getElementById('pm-wizard').scrollIntoView({behavior:'smooth', block:'start'}); }
+
+function pmFindKey(q){
+  q = q.trim().toLowerCase(); if (!q) return null;
+  var ks = Object.keys(PEPTIDES);
+  return ks.find(function(k){ return PEPTIDES[k].name.toLowerCase() === q; })
+      || ks.find(function(k){ return PEPTIDES[k].name.toLowerCase().indexOf(q) !== -1 || k.toLowerCase().indexOf(q) !== -1; }) || null;
+}
+function pmSearch(){
+  var input = document.getElementById('peptide-search'), out = document.getElementById('pm-search-out');
+  var key = pmFindKey(input.value);
+  if (!input.value.trim()) return;
+  out.innerHTML = key ? pmCard({ key:key, count:0, goals:getPepGoals(key) }, 1, 0).replace(' best"', '"')
+                      : '<div class="pm-empty">No peptide found for “' + pmEsc(input.value) + '”. Check the spelling, or pick from the suggestions as you type.</div>';
+}
+// keep the original search function name working
+function searchPeptide(){ pmSearch(); }
+
+function pmBuild(key, btn){
+  useForSchedule(key);
+  if (btn) { btn.textContent = '✓ Added to schedule'; btn.classList.remove('pri'); }
+  var h = document.getElementById('pm-builder'); if (h) h.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- printable / downloadable report ---------- */
+function pmReportHTML(){
+  var d = new Date(), date = d.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+  var sex = SELECTED_GENDER === 'male' ? 'Male' : SELECTED_GENDER === 'female' ? 'Female' : 'Not specified';
+  var goals = []; SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
+  var total = SELECTED_GOALS.size;
+  var matches = PM_LAST.map(function(it, i){
+    var p = PEPTIDES[it.key];
+    return '<section class="m"><h3><span>' + (i+1) + '</span>' + pmEsc(p.name) + (i===0?' <em>Best match</em>':'') + '<small>Matches ' + it.count + ' of ' + total + '</small></h3>'
+      + '<p>' + pmEsc(p.desc) + '</p>'
+      + '<ul>' + pmWhy(it.key, it.goals).map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul>'
+      + '<table><tr>' + pmProto(p).map(function(x){ return '<th>' + x[0] + '</th>'; }).join('') + '</tr><tr>' + pmProto(p).map(function(x){ return '<td>' + x[1] + '</td>'; }).join('') + '</tr></table></section>';
+  }).join('');
+  var sched = (typeof SCHEDULES !== 'undefined' && SCHEDULES.length) ? '<h2>Your dose schedule</h2>' + SCHEDULES.map(function(s){
+    var c = s.vial / s.water;
+    return '<section class="m"><h3>' + pmEsc(s.name) + '<small>' + c.toFixed(2) + ' mg/mL · ' + s.vial + ' mg in ' + s.water + ' mL · ' + s.freq + '×/week · ' + pmEsc(s.timeLabel) + '</small></h3>'
+      + '<table><tr><th>Weeks</th><th>Dose</th><th>Draw (mL)</th><th>Units (U-100)</th></tr>'
+      + s.rows.map(function(r, i){ var a = i*r.weeks+1, b = a+r.weeks-1, ml = r.dose/c; return '<tr><td>' + a + (r.weeks>1?'–'+b:'') + '</td><td>' + r.dose.toFixed(2) + ' mg</td><td>' + ml.toFixed(3) + '</td><td>' + (ml*100).toFixed(1) + '</td></tr>'; }).join('')
+      + '</table></section>';
+  }).join('') : '';
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<title>Peptide Match report — ' + date + '</title><style>'
+    + '*{box-sizing:border-box}body{font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#141826;margin:0;padding:32px;background:#fff;max-width:860px;margin:0 auto}'
+    + 'header{display:flex;align-items:center;gap:14px;border-bottom:3px solid #0fa58b;padding-bottom:14px;margin-bottom:18px}header img{width:56px;height:56px;border-radius:50%}'
+    + 'h1{font-size:24px;margin:0;letter-spacing:-.02em}header p{margin:2px 0 0;color:#5a6280}'
+    + '.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 18px}.meta div{border:1px solid #e3e6ef;border-radius:10px;padding:10px 12px}.meta b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7a829c}'
+    + 'h2{font-size:17px;margin:26px 0 10px;letter-spacing:-.01em}.m{border:1px solid #e3e6ef;border-radius:12px;padding:14px 16px;margin:0 0 12px;break-inside:avoid}'
+    + '.m h3{margin:0 0 6px;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.m h3 span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:#0fa58b;color:#fff;font-size:12px}'
+    + '.m h3 em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#e2f6f1;color:#0b7d69;padding:3px 7px;border-radius:5px}.m h3 small{margin-left:auto;font-weight:600;color:#7a829c;font-size:12px}'
+    + '.m p{margin:0 0 8px;color:#39405a}.m ul{margin:0 0 10px;padding-left:18px;color:#39405a}'
+    + 'table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{border:1px solid #e3e6ef;padding:6px 8px;text-align:left}th{background:#f5f7fb;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5a6280}'
+    + '.disc{margin-top:22px;padding:12px 14px;border-radius:10px;background:#fff7e6;border:1px solid #f3d9a4;color:#6b4e12;font-size:12.5px}footer{margin-top:16px;color:#7a829c;font-size:12px;text-align:center}'
+    + '@media print{body{padding:0}.noprint{display:none}}@media(max-width:600px){body{padding:18px}.meta{grid-template-columns:1fr}}'
+    + '</style></head><body>'
+    + '<header><img src="' + location.origin + '/VPNNEWLOGO.png?v=2" alt=""><div><h1>Peptide Match report</h1><p>Verified Peptides Network · generated ' + date + '</p></div></header>'
+    + '<div class="meta"><div><b>Results for</b>' + sex + '</div><div><b>Goals</b>' + pmEsc(goals.join(', ') || '—') + '</div><div><b>Matches</b>' + PM_LAST.length + ' peptides</div></div>'
+    + (PM_LAST.length ? '<h2>Your matches (ranked)</h2>' + matches : '')
+    + sched
+    + '<div class="disc"><b>Educational research information only, not medical advice.</b> Protocols are typical research starting points, not prescriptions. Talk to a licensed doctor and get baseline blood work before starting anything, and verify all doses and math independently.</div>'
+    + '<footer>' + location.host + ' · Research · Education · Community</footer></body></html>';
+}
+function pmPrintReport(){
+  if (!PM_LAST.length && !(SCHEDULES && SCHEDULES.length)) { alert('Get your matches or build a schedule first, then print your report.'); return; }
+  var f = document.createElement('iframe');
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+  document.body.appendChild(f);
+  var doc = f.contentWindow.document; doc.open(); doc.write(pmReportHTML()); doc.close();
+  setTimeout(function(){ try { f.contentWindow.focus(); f.contentWindow.print(); } catch(e){} setTimeout(function(){ f.remove(); }, 2000); }, 500);
+}
+function pmDownloadReport(){
+  if (!PM_LAST.length && !(SCHEDULES && SCHEDULES.length)) { alert('Get your matches or build a schedule first, then download your report.'); return; }
+  var blob = new Blob([pmReportHTML()], { type:'text/html' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'peptide-match-report-' + new Date().toISOString().slice(0,10) + '.html';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+</script>
+
 <script src="theme-toggle.js?v=31" defer></script>
 </body>
 </html>
