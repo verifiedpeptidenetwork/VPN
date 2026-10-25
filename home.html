@@ -4902,19 +4902,6 @@ document.addEventListener('keydown', function(e){
             </video>
           </div>
         </details>
-        <!-- Play the peptide game (Glowrilla) -->
-        <div style="padding:0.75rem 0.9rem 0.2rem;background:#000;border-top:1px solid rgba(255,20,80,0.2);">
-    <div id="gw-arcade" data-vt-skip data-search="game peptide arcade glowrilla play learn eli5 quiz retatrutide tirzepatide mots-c thymosin ghk-cu urolithin">
-      <span class="ga-marq">★ LEARN BY PLAYING ★</span>
-      <span class="ga-icon"><img src="game-icon-192.png" alt="" width="84" height="84" loading="lazy" decoding="async"><span class="ga-joy" aria-hidden="true">🎮</span></span>
-      <span class="ga-txt">
-        <b>PEPTIDE <i>ARCADE</i></b>
-        <small>Mini-games where <u>the way you play is what each peptide does in the body</u> — with 🧒 plain-English explanations as you go. Plus the full <em>Glowrilla vs Big Pharma</em> game.</small>
-        <span class="ga-tags"><span>⚡ Reta</span><span>🍽️ Tirz</span><span>🔋 MOTS-c</span><span>🛡️ Tα1</span><span>🧵 GHK-Cu</span><span>♻️ Urolithin A</span></span>
-      </span>
-      <span class="ga-btns"><a class="ga-coin" href="peptide-arcade.html">▶ PLAY ARCADE<em>FREE · PHONE &amp; PC</em></a></span>
-    </div>
-        </div>
         <!-- Before You Research info -->
         <div style="background:#000;border-top:1px solid rgba(255,20,80,0.2);">
           <div onclick="(function(el){var b=el.nextElementSibling;var open=b.style.display==='flex';b.style.display=open?'none':'flex';el.querySelector('.byr-main-arr').textContent=open?'▼':'▲';})(this)"
@@ -7450,15 +7437,39 @@ document.addEventListener('keydown', function(e){
     @media(prefers-reduced-motion:reduce){.vpn-rule::after,.vpn-rules-head .pulse{animation:none;}}
   </style>
   <!-- ══ PEPTIDES 101 — simple explanation (Start Here area, right after the welcome video) ══ -->
-  <details id="vpn-peptides-101" data-search="peptides 101 what is a peptide amino acids proteins how peptides work receptor why not amino acid complex injection site reactions lumps beginner" style="order:2;width:100%;box-sizing:border-box;margin:0 0 0.9rem;border:2px solid rgba(0,245,255,0.55);border-top:4px solid #00f5ff;background:#020814;border-radius:10px;overflow:hidden;">
-    <summary style="list-style:none;cursor:pointer;padding:0.8rem 1.1rem;display:flex;align-items:center;gap:0.75rem;background:linear-gradient(90deg,rgba(0,245,255,0.12),transparent);">
-      <span style="font-size:1.4rem;">🧩</span>
-      <span style="flex:1;min-width:0;">
-        <span style="display:block;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.14em;color:#00f5ff;">PEPTIDES 101 — THE SIMPLE EXPLANATION</span>
-        <span style="display:block;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;color:rgba(200,235,255,0.7);">New here? What a peptide is, how it works, and why injection sites react</span>
+  <!-- ══ PEPTIDES 101 + ARCADE — learn the basics, then play them ══ -->
+  <style>
+    #vpn-learn-play{order:2;width:100%;box-sizing:border-box;margin:0 0 0.9rem;}
+    #vpn-learn-play #gw-arcade{margin:0;border-radius:18px 18px 0 0;}
+    #vpn-learn-play .lp-steps{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.55rem;}
+    #vpn-learn-play .lp-steps span{display:inline-flex;align-items:center;gap:0.35rem;padding:0.15rem 0.65rem;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.1em;color:#fff;background:rgba(0,0,0,0.35);border:1px solid rgba(63,243,255,0.45);}
+    #vpn-learn-play .lp-steps span:nth-child(2){border-color:rgba(255,45,149,0.55);}
+    #vpn-learn-play .lp-steps i{font-style:normal;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;font-size:0.75rem;background:#3ff3ff;color:#05010c;}
+    #vpn-learn-play .lp-steps span:nth-child(2) i{background:#ff2d95;color:#fff;}
+    #vpn-learn-play .ga-alt{cursor:pointer;background:rgba(0,0,0,0.3);}
+    #vpn-peptides-101{border:1px solid rgba(63,243,255,0.55);border-top:none;background:#020814;border-radius:0 0 18px 18px;overflow:hidden;}
+    #vpn-peptides-101 > summary{list-style:none;cursor:pointer;padding:0.65rem 1.1rem;display:flex;align-items:center;justify-content:center;gap:0.6rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.14em;color:#3ff3ff;background:linear-gradient(90deg,rgba(63,243,255,0.1),rgba(255,45,149,0.08));}
+    #vpn-peptides-101 > summary::-webkit-details-marker{display:none;}
+    #vpn-peptides-101 .lp-arr{transition:transform .2s;} #vpn-peptides-101[open] .lp-arr{transform:rotate(180deg);}
+    html[data-theme="light"] #vpn-learn-play .lp-steps span{color:#1d2540;background:#fff;}
+  </style>
+  <div id="vpn-learn-play">
+    <div id="gw-arcade" data-vt-skip data-search="game peptide arcade glowrilla play learn eli5 quiz retatrutide tirzepatide mots-c thymosin ghk-cu urolithin peptides 101 beginner">
+      <span class="ga-marq">★ LEARN IT · THEN PLAY IT ★</span>
+      <span class="ga-icon"><img src="game-icon-192.png" alt="" width="84" height="84" loading="lazy" decoding="async"><span class="ga-joy" aria-hidden="true">🎮</span></span>
+      <span class="ga-txt">
+        <b>PEPTIDES 101 <i>+ ARCADE</i></b>
+        <small>New here? <u>Learn what a peptide is in 2 minutes</u>, then play mini-games where the way you play is what each peptide does in the body. Plus the full <em>Glowrilla vs Big Pharma</em> game.</small>
+        <span class="lp-steps"><span><i>1</i>READ THE BASICS</span><span><i>2</i>PLAY EACH PEPTIDE</span></span>
+        <span class="ga-tags"><span>⚡ Reta</span><span>🍽️ Tirz</span><span>🔋 MOTS-c</span><span>🛡️ Tα1</span><span>🧵 GHK-Cu</span><span>♻️ Urolithin A</span></span>
       </span>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.12em;padding:3px 10px;border:1px solid #00f5ff;color:#00f5ff;border-radius:4px;">TAP TO OPEN</span>
-    </summary>
+      <span class="ga-btns">
+        <a class="ga-alt" role="button" onclick="var d=document.getElementById('vpn-peptides-101');d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});">📖 START 101</a>
+        <a class="ga-coin" href="peptide-arcade.html">▶ PLAY ARCADE<em>FREE · PHONE &amp; PC</em></a>
+      </span>
+    </div>
+  <details id="vpn-peptides-101" data-search="peptides 101 what is a peptide amino acids proteins how peptides work receptor why not amino acid complex injection site reactions lumps beginner">
+    <summary>🧩 PEPTIDES 101 — THE SIMPLE EXPLANATION <span class="lp-arr">▼</span></summary>
     <div style="padding:0.9rem 1.1rem 1.1rem;font-family:'Rajdhani',sans-serif;font-size:0.98rem;font-weight:600;color:rgba(225,236,252,0.92);line-height:1.65;">
   <!-- PRAYER BAR — static, no scroll -->
   <div id="home-prayer" style="margin:0 0 0.9rem;border-radius:8px;border-left:1px solid rgba(0,245,255,0.25);border-right:1px solid rgba(255,0,255,0.2);width:100%;box-sizing:border-box;background:rgba(4,0,12,0.97);border-top:1px solid rgba(0,245,255,0.4);border-bottom:1px solid rgba(255,0,255,0.3);padding:0.5rem 1rem;position:relative;z-index:10;box-shadow:0 0 28px rgba(0,245,255,0.12),inset 0 0 40px rgba(157,0,255,0.04);">
@@ -7514,6 +7525,7 @@ document.addEventListener('keydown', function(e){
       </div>
     </div>
   </details>
+  </div>
 
   <section class="vpn-rules" aria-label="Must-read safety guides and the 4 rules">
     <!-- MUST-READ SAFETY: GLP warning, gray market, protocols, spike protein + Janoshik lab testing -->
