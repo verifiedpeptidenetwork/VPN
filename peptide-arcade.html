@@ -33,7 +33,7 @@
   .prog b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.9rem;color:var(--gold);line-height:1;}
   .prog small{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(220,215,240,0.75);}
   .sec{margin:1.2rem 0 0.5rem;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.5rem;letter-spacing:0.1em;color:#fff;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.9rem;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:0.9rem;}
   .gcard{position:relative;display:flex;flex-direction:column;text-align:left;padding:1rem;border-radius:18px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,#0d0826),#08041a 70%);color:#fff;cursor:pointer;overflow:hidden;transition:transform .15s,box-shadow .15s;text-decoration:none;}
   .gcard:hover,.gcard:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 2px var(--c),0 18px 40px -18px var(--c);outline:none;}
   .gcard .gi{font-size:2.3rem;line-height:1;}
@@ -1114,5 +1114,6 @@ if(/[?&]dev=1/.test(location.search)) window.__arc={G:()=>G,GAMES,openGame,start
 const deep=location.hash.slice(1); const dg=GAMES.find(g=>g.id===deep); if(dg) openGame(dg);
 })();
 </script>
+<script src="readable.js?v=1" defer></script>
 </body>
 </html>
