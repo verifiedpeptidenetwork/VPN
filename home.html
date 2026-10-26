@@ -4600,6 +4600,7 @@ document.addEventListener('keydown', function(e){
   <button class="sb-item" data-view="glp" onclick="showView('glp');setSbActive(this)"><span class="sb-icon">💉</span>GLP Hub</button>
   <button class="sb-item" data-view="graymarket" onclick="showView('graymarket');setSbActive(this)"><span class="sb-icon">⚠️</span>Gray Market Risks</button>
   <button class="sb-item" data-view="bloodwork" onclick="showView('bloodwork');setSbActive(this)"><span class="sb-icon">🩸</span>Blood Work</button>
+  <button class="sb-item" data-view="crypto" onclick="showView('crypto');setSbActive(this)"><span class="sb-icon">🪙</span>Crypto 101</button>
 
   <div class="sb-divider"></div>
 
@@ -23449,6 +23450,55 @@ function csvFilter(cat, btn) {
       <span style="--cc:#ffb300;"><i></i>Eloralintide <em>Amylin</em></span>
     </div>
   </section>
+  <!-- WHO SHOULD AVOID GLP-1s — boxed-warning summary, top of GLP Hub -->
+  <section id="glp-avoid" data-vt-skip aria-label="Who should avoid GLP-1 peptides">
+    <style>
+      #glp-avoid{margin:0 0 1.1rem;border-radius:20px;overflow:hidden;border:1.5px solid rgba(255,63,128,0.6);background:#12060c;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#f6eef2;}
+      #glp-avoid *{box-sizing:border-box;}
+      #glp-avoid .ga-top{display:flex;gap:0.9rem;align-items:flex-start;padding:1.1rem 1.2rem;background:linear-gradient(90deg,rgba(255,47,90,0.22),rgba(255,47,90,0.06));border-bottom:1px solid rgba(255,63,128,0.35);}
+      #glp-avoid .ga-ic{flex-shrink:0;width:2.6rem;height:2.6rem;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;background:#ff2f5a;color:#fff;}
+      #glp-avoid .ga-k{font-size:0.72rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#ff8aa6;}
+      #glp-avoid h3{margin:0.2rem 0 0;font-size:clamp(1.2rem,2.6vw,1.55rem) !important;font-weight:800;letter-spacing:-0.02em;line-height:1.2 !important;color:#fff;}
+      #glp-avoid .ga-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);gap:0.9rem;padding:1rem 1.2rem 1.2rem;}
+      #glp-avoid ul{margin:0;padding:0;list-style:none;display:grid;gap:0.55rem;}
+      #glp-avoid li{display:flex;gap:0.6rem;align-items:flex-start;font-size:0.95rem !important;line-height:1.5 !important;color:rgba(246,238,242,0.86);}
+      #glp-avoid li b{color:#fff;}
+      #glp-avoid li .x{flex-shrink:0;width:1.35rem;height:1.35rem;border-radius:50%;display:grid;place-items:center;font-size:0.75rem;font-weight:900;color:#fff;background:#ff2f5a;margin-top:0.1rem;}
+      #glp-avoid li .c{background:#e08a00;}
+      #glp-avoid .ga-alt{padding:1rem;border-radius:16px;border:1px solid rgba(47,180,255,0.45);background:linear-gradient(135deg,rgba(47,180,255,0.12),rgba(154,92,255,0.08));}
+      #glp-avoid .ga-alt .t{font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#7cc8ff;}
+      #glp-avoid .ga-alt h4{margin:0.3rem 0 0.4rem;font-size:1.08rem !important;font-weight:800;color:#fff;}
+      #glp-avoid .ga-alt p{margin:0 0 0.5rem;font-size:0.9rem !important;line-height:1.5 !important;color:rgba(230,236,250,0.84);}
+      #glp-avoid .ga-alt p:last-child{margin:0;}
+      #glp-avoid .ga-alt .note{font-size:0.82rem !important;color:rgba(230,236,250,0.62);}
+      #glp-avoid .ga-foot{padding:0 1.2rem 1rem;font-size:0.82rem !important;line-height:1.5 !important;color:rgba(246,238,242,0.6);}
+      @media(max-width:760px){ #glp-avoid .ga-body{grid-template-columns:1fr;} }
+      html[data-theme="light"] #glp-avoid{background:#fff6f8;color:#3a0f1c;}
+      html[data-theme="light"] #glp-avoid h3, html[data-theme="light"] #glp-avoid li b, html[data-theme="light"] #glp-avoid .ga-alt h4{color:#2a0a14;-webkit-text-fill-color:#2a0a14;}
+      html[data-theme="light"] #glp-avoid li, html[data-theme="light"] #glp-avoid .ga-alt p, html[data-theme="light"] #glp-avoid .ga-foot{color:#4a2a35;-webkit-text-fill-color:#4a2a35;}
+      html[data-theme="light"] #glp-avoid .ga-alt{background:#eef6ff;}
+    </style>
+    <div class="ga-top">
+      <span class="ga-ic">⚠</span>
+      <div><div class="ga-k">Read first · FDA boxed warning</div><h3>Who should avoid GLP-1 peptides</h3></div>
+    </div>
+    <div class="ga-body">
+      <ul>
+        <li><span class="x">✕</span><span><b>Personal or family history of medullary thyroid carcinoma (MTC).</b> Semaglutide and tirzepatide carry an FDA boxed warning: they caused thyroid C-cell tumors in rodents.</span></li>
+        <li><span class="x">✕</span><span><b>Multiple Endocrine Neoplasia syndrome type 2 (MEN 2).</b> An inherited condition that raises the risk of medullary thyroid cancer. GLP-1s are contraindicated.</span></li>
+        <li><span class="x">✕</span><span><b>Pregnant, trying to conceive, or breastfeeding.</b> The semaglutide label advises stopping at least 2 months before a planned pregnancy.</span></li>
+        <li><span class="x c">!</span><span><b>Use extra caution</b> with a history of pancreatitis, gallbladder disease, diabetic eye disease (retinopathy) or severe stomach emptying problems. Talk to your doctor first.</span></li>
+      </ul>
+      <div class="ga-alt">
+        <div class="t">If MTC or MEN 2 applies to you</div>
+        <h4>Eloralintide carries no thyroid boxed warning</h4>
+        <p>Eloralintide is an <b>amylin</b> agonist, not a GLP-1, so the MTC / MEN 2 boxed warning that applies to GLP-1 drugs doesn't apply to it. For people with those two conditions, it's the lower-risk option to research.</p>
+        <p class="note">It's still investigational (Phase 3, not FDA-approved) and long-term safety data is limited. Discuss it with your doctor before starting anything.</p>
+      </div>
+    </div>
+    <div class="ga-foot">Retatrutide is also a GLP-1 agonist; expect the same thyroid precautions while it's in trials. Educational information only, not medical advice.</div>
+  </section>
+
   <script>
     function glpJump(id){ var e=document.getElementById(id); if(!e) return; if(e.tagName==='DETAILS') e.open=true; e.scrollIntoView({behavior:'smooth',block:'start'}); }
   </script>
@@ -24532,6 +24582,122 @@ function csvFilter(cat, btn) {
     html[data-theme="light"] #view-winter :is(.wi-note,.wi-tip){color:#5a3b00 !important;background:#fff4d6 !important;border-color:#d9a400 !important;}
   </style>
 </div>
+
+  <!-- ═══ CRYPTO 101 ═══ -->
+  <div class="view" id="view-crypto">
+    <style>
+      #view-crypto{--ink:#f1f3fb;--sub:rgba(214,220,240,0.78);--dim:rgba(190,198,225,0.6);--card:#0f0d1a;--card2:#15131f;--line:rgba(255,255,255,0.10);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);}
+      #view-crypto *{box-sizing:border-box;}
+      #cr-hero{position:relative;overflow:hidden;border-radius:22px;padding:clamp(1.3rem,3.4vw,2.4rem);margin:0 0 1.1rem;border:1px solid var(--line);background:radial-gradient(640px 320px at 90% 0%,rgba(255,177,42,0.22),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(154,92,255,0.2),transparent 60%),linear-gradient(160deg,#0d0a1c,#06050d);}
+      #cr-hero .hg{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,0.7fr);gap:1.6rem;align-items:center;}
+      #cr-hero .k{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#ffb12a,#ff2fa8,#9a5cff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      #cr-hero h2{margin:0.5rem 0 0.7rem;font-size:clamp(2rem,5vw,3.2rem) !important;font-weight:800;letter-spacing:-0.035em;line-height:1.03 !important;color:var(--ink);}
+      #cr-hero h2 span{background:linear-gradient(90deg,#ffb12a,#ff2fa8);-webkit-background-clip:text;background-clip:text;color:transparent;}
+      #cr-hero p{margin:0;max-width:580px;font-size:1.02rem !important;line-height:1.6 !important;color:var(--sub);}
+      #cr-hero .cta{display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:1.2rem;}
+      .cr-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.8rem 1.15rem;border-radius:12px;font:700 0.93rem 'Inter',system-ui,sans-serif;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:var(--ink);}
+      .cr-btn.pri{border:none;color:#1a0e00;background:linear-gradient(90deg,#ffd06a,#ffb12a);box-shadow:0 10px 28px -12px rgba(255,177,42,0.7);}
+      #cr-hero .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem;margin-top:1.3rem;max-width:520px;}
+      #cr-hero .stats div{padding:0.65rem 0.8rem;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,0.035);}
+      #cr-hero .stats b{display:block;font-size:1.2rem;font-weight:800;}
+      #cr-hero .stats small{font-size:0.76rem !important;font-weight:600;color:var(--dim);}
+      #cr-hero .coin{justify-self:center;width:min(220px,100%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:clamp(4rem,10vw,6.5rem);background:radial-gradient(circle at 35% 30%,#ffe7a3,#ffb12a 45%,#b86b00);box-shadow:0 0 0 6px rgba(255,177,42,0.18),0 30px 60px -20px rgba(255,177,42,0.6);}
+      .cr-h{margin:1.5rem 0 0.7rem;} .cr-h .kk{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#ffb12a;}
+      .cr-h h3{margin:0.25rem 0 0;font-size:clamp(1.3rem,2.6vw,1.65rem) !important;font-weight:800;letter-spacing:-0.02em;line-height:1.2 !important;color:var(--ink);}
+      .cr-h p{margin:0.3rem 0 0;font-size:0.95rem !important;color:var(--sub);}
+      .cr-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.7rem;list-style:none;margin:0;padding:0;counter-reset:s;}
+      .cr-steps li{counter-increment:s;position:relative;padding:1rem 1rem 1rem 3.4rem;border-radius:16px;border:1px solid var(--line);background:var(--card);}
+      .cr-steps li::before{content:counter(s);position:absolute;left:1rem;top:1rem;width:1.8rem;height:1.8rem;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#1a0e00;background:linear-gradient(135deg,#ffd06a,#ffb12a);}
+      .cr-steps b{display:block;font-size:1rem;font-weight:700;} .cr-steps small{display:block;margin-top:0.25rem;font-size:0.88rem !important;line-height:1.45 !important;color:var(--sub);}
+      .cr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.7rem;}
+      .cr-card{padding:1rem 1.1rem;border-radius:16px;border:1px solid var(--line);background:var(--card);}
+      .cr-card h4{margin:0 0 0.45rem;font-size:1rem !important;font-weight:800;color:var(--ink);}
+      .cr-card ul{margin:0;padding-left:1.1rem;} .cr-card li{margin:0.25rem 0;font-size:0.92rem !important;line-height:1.5 !important;color:var(--sub);}
+      .cr-card li b{color:var(--ink);}
+      .cr-alert{display:flex;gap:0.8rem;align-items:flex-start;padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(255,63,128,0.45);background:linear-gradient(135deg,rgba(255,47,168,0.12),#0f0d1a);}
+      .cr-alert .ic{font-size:1.5rem;line-height:1;} .cr-alert b{display:block;font-size:1rem;font-weight:800;color:#ff7bb0;}
+      .cr-alert p{margin:0.3rem 0 0;font-size:0.92rem !important;line-height:1.5 !important;color:var(--sub);}
+      .cr-net{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.6rem;}
+      .cr-net div{padding:0.9rem;border-radius:14px;border:1px solid var(--line);background:var(--card2);}
+      .cr-net b{display:block;font-size:0.98rem;font-weight:800;} .cr-net small{display:block;margin-top:0.2rem;font-size:0.84rem !important;line-height:1.4 !important;color:var(--sub);}
+      .cr-net .bad{border-color:rgba(255,63,128,0.4);}
+      .cr-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:0.7rem;}
+      .cr-gal figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);cursor:zoom-in;}
+      .cr-gal img{width:100%;height:190px;object-fit:cover;object-position:top;display:block;}
+      .cr-gal figcaption{padding:0.6rem 0.75rem;font-size:0.85rem !important;font-weight:600;color:var(--ink);}
+      .cr-dl{display:flex;flex-wrap:wrap;gap:0.55rem;}
+      .cr-fine{margin-top:1.2rem;padding:0.85rem 1rem;border-radius:12px;background:rgba(255,177,42,0.08);border-left:3px solid #ffb12a;font-size:0.88rem !important;line-height:1.5 !important;color:var(--sub);}
+      @media(max-width:860px){ #cr-hero .hg{grid-template-columns:1fr;} #cr-hero .coin{order:-1;width:130px;font-size:4rem;} .cr-steps,.cr-grid,.cr-net{grid-template-columns:1fr;} }
+      @media(max-width:520px){ #cr-hero .cta .cr-btn{flex:1 1 100%;justify-content:center;} }
+      html[data-theme="light"] #view-crypto{--ink:#14112a;--sub:#4a4566;--dim:#6f6a8a;--card:#fff;--card2:#f7f5ff;--line:rgba(30,20,70,0.12);}
+      html[data-theme="light"] #cr-hero{background:radial-gradient(640px 320px at 90% 0%,rgba(255,177,42,0.18),transparent 60%),linear-gradient(160deg,#fff,#fbf6ee);}
+      html[data-theme="light"] #view-crypto *{-webkit-text-fill-color:currentColor;}
+      html[data-theme="light"] #cr-hero .k,html[data-theme="light"] #cr-hero h2 span{-webkit-text-fill-color:transparent;}
+    </style>
+
+    <section id="cr-hero" data-vt-skip>
+      <div class="hg">
+        <div>
+          <div class="k">Start here · payments</div>
+          <h2>Crypto 101: <span>pay safely, step by step.</span></h2>
+          <p>Most research vendors only take crypto. This guide shows you how to buy it, move it to your own wallet and pay a vendor, without losing money to fees, holds or scams.</p>
+          <div class="cta">
+            <button type="button" class="cr-btn pri" onclick="document.getElementById('cr-steps').scrollIntoView({behavior:'smooth',block:'start'})">▶ Show me the 3 steps</button>
+            <a class="cr-btn" href="cheatsheet/CryptoGuide.pdf" target="_blank" rel="noopener">⬇ Download the PDF guide</a>
+          </div>
+          <div class="stats"><div><b>3</b><small>simple steps</small></div><div><b>$5</b><small>test send first</small></div><div><b>~$0.20</b><small>per transfer on SOL / ETH</small></div></div>
+        </div>
+        <div class="coin" aria-hidden="true">🪙</div>
+      </div>
+    </section>
+
+    <div class="cr-h" id="cr-steps"><div class="kk">The whole process</div><h3>Three steps, every time</h3></div>
+    <ol class="cr-steps">
+      <li><b>Buy crypto on an exchange</b><small>Coinbase or Kraken. You'll verify your ID once. Buy a stablecoin (USDC/USDT) plus a little gas coin.</small></li>
+      <li><b>Send it to your own wallet</b><small>Install Trust Wallet on your phone and send what you bought there. This is the step people skip, and they shouldn't.</small></li>
+      <li><b>Pay the vendor from your wallet</b><small>Send a $5 test first, have the vendor confirm it arrived, then send the rest.</small></li>
+    </ol>
+
+    <div class="cr-h"><div class="kk">Read before you send anything</div><h3>The rules that keep your money safe</h3></div>
+    <div class="cr-grid">
+      <div class="cr-alert"><span class="ic">🚫</span><div><b>Never pay a vendor straight from an exchange</b><p>Sending from Coinbase, Cash App, Venmo or Zelle directly to a vendor can get your account banned. Always pay from your own wallet, like Trust Wallet.</p></div></div>
+      <div class="cr-alert"><span class="ic">⚠️</span><div><b>DMs with payment details are almost always scams</b><p>Only use contact info from a vendor's official promo or channel. People have unknowingly forwarded scam links, so double-check every address.</p></div></div>
+    </div>
+
+    <div class="cr-h"><div class="kk">What to buy</div><h3>A stablecoin to pay with, plus a little gas</h3><p>A stablecoin is always worth $1. The gas coin pays the small network fee. Your wallet takes the fee automatically when you send.</p></div>
+    <div class="cr-net">
+      <div><b>Solana network</b><small>SOL for gas + USDC/USDT. Usually under $0.20 per send. A top pick.</small></div>
+      <div><b>Ethereum network (ERC-20)</b><small>ETH for gas + USDC/USDT. Works everywhere; check the fee before sending.</small></div>
+      <div class="bad"><b>Tron network (TRC-20)</b><small>TRX for gas + USDT. The most expensive to send. Use only if your vendor requires it.</small></div>
+    </div>
+
+    <div class="cr-h"><div class="kk">Where to buy</div><h3>Fees and holds, compared</h3></div>
+    <div class="cr-grid">
+      <div class="cr-card"><h4>🏦 Coinbase / Kraken</h4><ul><li><b>Fee:</b> 0% for USDC on Coinbase with a bank account.</li><li><b>Hold:</b> instant, or up to a week for new accounts.</li><li>Most of the community buys USDC here and sends it to Trust Wallet.</li></ul></div>
+      <div class="cr-card"><h4>📱 MoonPay, XO Pay, Ramp</h4><ul><li><b>Fee:</b> about 4% higher.</li><li><b>Hold:</b> often just a few hours.</li><li>Accepts Apple Pay, handy if you're in a hurry.</li></ul></div>
+    </div>
+
+    <div class="cr-h"><div class="kk">Visual guides</div><h3>Crypto infographics</h3><p>Tap any guide to open it full size.</p></div>
+    <div class="cr-gal">
+      <figure onclick="openLightbox('cheatsheet/HOWTOBUYPEPTIDESWITHCRYPTO.png','How to Buy Peptides With Crypto')"><img loading="lazy" src="cheatsheet/HOWTOBUYPEPTIDESWITHCRYPTO.png" alt="How to buy peptides with crypto"><figcaption>How to buy peptides with crypto</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto-exchange-vs-wallet-peptides.jpg','Exchange vs Wallet')"><img loading="lazy" src="cheatsheet/crypto-exchange-vs-wallet-peptides.jpg" alt="Exchange vs wallet"><figcaption>Exchange vs wallet</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto-101-gray-market-guide.jpg','Crypto 101 — Gray Market Guide')"><img loading="lazy" src="cheatsheet/crypto-101-gray-market-guide.jpg" alt="Crypto 101 gray market guide"><figcaption>Crypto 101: gray market guide</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto-buyers-guide-exodus-kraken.jpg','Buyers Guide — Exodus & Kraken')"><img loading="lazy" src="cheatsheet/crypto-buyers-guide-exodus-kraken.jpg" alt="Buyer's guide Exodus and Kraken"><figcaption>Buyer's guide: Exodus &amp; Kraken</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto-payment-guide-exodus-pyusd.jpg','Payment Guide — Exodus & PYUSD')"><img loading="lazy" src="cheatsheet/crypto-payment-guide-exodus-pyusd.jpg" alt="Payment guide Exodus and PYUSD"><figcaption>Payment guide: Exodus &amp; PYUSD</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto-robinhood-guide.jpg','Robinhood Crypto Guide')"><img loading="lazy" src="cheatsheet/crypto-robinhood-guide.jpg" alt="Robinhood crypto guide"><figcaption>Robinhood guide</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/Crypto%20summarized%20guide.png','Crypto Summarized Guide')"><img loading="lazy" src="cheatsheet/Crypto%20summarized%20guide.png" alt="Crypto summarized guide"><figcaption>One-page summary</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/cryptoeasyguide.png','Crypto Easy Guide')"><img loading="lazy" src="cheatsheet/cryptoeasyguide.png" alt="Crypto easy guide"><figcaption>Easy guide</figcaption></figure>
+    </div>
+
+    <div class="cr-h"><div class="kk">Keep a copy</div><h3>Full guides</h3></div>
+    <div class="cr-dl">
+      <a class="cr-btn" href="cheatsheet/Crypto%201-2-3%20%E2%80%94%20VPN%20Guide.html" target="_blank" rel="noopener">📄 Crypto 1-2-3 (printable)</a>
+      <a class="cr-btn" href="cheatsheet/CryptoGuide_Infographic.html" target="_blank" rel="noopener">🖼 Crypto infographic</a>
+      <a class="cr-btn" href="cheatsheet/CryptoGuide.pdf" target="_blank" rel="noopener">⬇ PDF guide</a>
+      <a class="cr-btn" href="https://t.me/ruivpndata" target="_blank" rel="noopener">✈️ Ask in Telegram</a>
+    </div>
+    <p class="cr-fine">Educational information only, not financial advice. Crypto payments generally can't be reversed, so always send a small test first and double-check the address and network. Guide content provided by @brownguy89 for the VPN community.</p>
+  </div>
 
   <div class="view" id="view-graymarket">
     <div class="view-hero" style="--vh1:#ff0080;--vh2:#ffb300;">
