@@ -8467,7 +8467,7 @@ document.addEventListener('keydown', function(e){
     #vh2-foot .links a:hover{opacity:1;text-decoration:underline;}
     @media(max-width:900px){
       #vh2-hero .hg{grid-template-columns:1fr;}
-      #vh2-hero .badge{order:-1;width:min(230px,70%);}
+      #vh2-hero .badge{order:-1;width:min(340px,80vw);}
       .vh2-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
       .vh2-grid.three{grid-template-columns:1fr;}
     }
@@ -8475,7 +8475,7 @@ document.addEventListener('keydown', function(e){
       #vh2-hero{border-radius:20px;}
       #vh2-hero h1{text-align:center;} #vh2-hero .lead{text-align:center;margin:0 auto;} #vh2-hero .kick{display:flex;width:max-content;margin:0 auto;}
       #vh2-hero .cta{justify-content:center;flex-wrap:nowrap;} #vh2-hero .cta .vh2-btn{flex:1 1 0;padding:0.8rem 0.6rem;font-size:0.9rem;}
-      #vh2-hero .badge{width:150px !important;} #vh2-hero .hg{gap:1rem;} #vh2-hero h1{margin:0.7rem 0 0.6rem;}
+      #vh2-hero .badge{width:min(340px,88vw) !important;} #vh2-hero .hg{gap:1rem;} #vh2-hero h1{margin:0.7rem 0 0.6rem;}
       #vh2-hero .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:0.35rem;margin-top:1rem;} #vh2-hero .stats div{padding:0.5rem 0.3rem;text-align:center;} #vh2-hero .stats b{font-size:1rem;} #vh2-hero .stats small{font-size:0.66rem;line-height:1.2;display:block;}
       .vh2-card{padding:0.85rem;} .vh2-card small{font-size:0.8rem;} .vh2-card.feat{grid-column:span 2;}
     }
@@ -32271,6 +32271,85 @@ window.addEventListener('appinstalled', function(){
   document.addEventListener('click',function(e){
     if(!fab.contains(e.target)&&!menu.contains(e.target))menu.classList.remove('open');
   });
+})();
+</script>
+<!-- ═══ Section heroes, home-page style: one look for every menu section ═══ -->
+<style id="vhx-css">
+  .view-hero.vh2.vhx{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.10) !important;border-radius:22px !important;margin:0 0 1.1rem !important;
+    background:radial-gradient(640px 300px at 88% 10%,color-mix(in srgb,var(--vh1,#9a5cff) 26%,transparent),transparent 60%),radial-gradient(560px 280px at 0% 100%,rgba(47,180,255,0.14),transparent 60%),linear-gradient(160deg,#0d0a1c,#06050d) !important;box-shadow:none !important;}
+  .view-hero.vh2.vhx::before,.view-hero.vh2.vhx::after{display:none !important;}
+  .view-hero.vh2.vhx .vh-inner{padding:clamp(1.2rem,3vw,2rem) clamp(1.1rem,3vw,2rem) !important;}
+  .vhx .vh2-top{gap:1.1rem !important;align-items:center !important;}
+  .vhx .vh2-ic{width:60px !important;height:60px !important;border-radius:16px !important;font-size:1.8rem !important;background:color-mix(in srgb,var(--vh1,#9a5cff) 18%,#0f0d1a) !important;border:1px solid color-mix(in srgb,var(--vh1,#9a5cff) 45%,transparent) !important;box-shadow:none !important;}
+  .vhx .vh-eyebrow{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;font-size:0.72rem !important;letter-spacing:0.14em !important;text-transform:uppercase;margin:0 0 0.35rem !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important;}
+  .vhx .vh-title{font-family:'Inter',system-ui,sans-serif !important;font-weight:800 !important;font-size:clamp(1.8rem,4.6vw,2.9rem) !important;letter-spacing:-0.03em !important;line-height:1.05 !important;text-transform:none !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;text-shadow:none !important;background:none !important;}
+  .vhx .vh-sub{font-family:'Inter',system-ui,sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.6 !important;color:rgba(214,220,240,0.78) !important;max-width:760px;margin:1rem 0 0 !important;}
+  .vhx .vh2-stats{display:grid !important;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr)) !important;gap:0.55rem !important;margin:1.2rem 0 0 !important;max-width:720px;}
+  .vhx .vh2-stat{text-align:left !important;padding:0.7rem 0.85rem !important;border-radius:12px !important;background:rgba(255,255,255,0.035) !important;border:1px solid rgba(255,255,255,0.10) !important;}
+  .vhx .vh2-stat b{font-family:'Inter',system-ui,sans-serif !important;font-weight:800 !important;font-size:1.3rem !important;letter-spacing:-0.02em !important;color:#f1f3fb !important;}
+  .vhx .vh2-stat small{font-family:'Inter',system-ui,sans-serif !important;font-weight:600 !important;font-size:0.74rem !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(190,198,225,0.7) !important;}
+  .vhx-cta{display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:1.1rem;}
+  .vhx-cta button,.vhx-cta a{display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.1rem;border-radius:12px;font:700 0.92rem 'Inter',system-ui,sans-serif;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:#f1f3fb;transition:transform .15s,border-color .15s;}
+  .vhx-cta button:hover,.vhx-cta a:hover{transform:translateY(-1px);border-color:rgba(255,255,255,0.32);}
+  .vhx-cta .pri{border:none;color:#fff;background:linear-gradient(90deg,#ff2fa8,#9a5cff);box-shadow:0 10px 28px -12px rgba(255,47,168,0.7);}
+  /* the "jump to" chips under some heroes */
+  .vhx ~ * .vh2-jump a, .vhx .vh2-jump a{font-family:'Inter',system-ui,sans-serif !important;}
+  @media(max-width:600px){
+    .vhx .vh2-ic{width:48px !important;height:48px !important;font-size:1.45rem !important;border-radius:13px !important;}
+    .vhx .vh-title{font-size:1.75rem !important;}
+    .vhx .vh-sub{font-size:0.95rem !important;}
+    .vhx .vh2-stats{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+    .vhx-cta > *{flex:1 1 calc(50% - 0.3rem);justify-content:center;}
+  }
+  html[data-theme="light"] .view-hero.vh2.vhx{background:radial-gradient(640px 300px at 88% 10%,color-mix(in srgb,var(--vh1,#9a5cff) 14%,transparent),transparent 60%),linear-gradient(160deg,#ffffff,#f3f1ff) !important;border-color:rgba(30,20,70,0.12) !important;}
+  html[data-theme="light"] .vhx .vh-title{color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+  html[data-theme="light"] .vhx .vh-sub{color:#4a4566 !important;}
+  html[data-theme="light"] .vhx .vh2-stat{background:#fff !important;border-color:rgba(30,20,70,0.12) !important;}
+  html[data-theme="light"] .vhx .vh2-stat b{color:#14112a !important;} html[data-theme="light"] .vhx .vh2-stat small{color:#6f6a8a !important;}
+  html[data-theme="light"] .vhx-cta button:not(.pri),html[data-theme="light"] .vhx-cta a:not(.pri){background:#fff;color:#14112a;border-color:rgba(30,20,70,0.16);-webkit-text-fill-color:#14112a;}
+  html[data-theme="light"] .vhx-cta .pri{-webkit-text-fill-color:#fff;}
+</style>
+<script>
+/* Section heroes: friendlier titles + the two most useful next steps for each section */
+(function(){
+  var go = function(v){ return "showView('" + v + "');window.scrollTo({top:0});"; };
+  var homeTo = function(id){ return "showView('home');setTimeout(function(){var e=document.getElementById('" + id + "');if(e){if(e.tagName==='DETAILS')e.open=true;e.scrollIntoView({behavior:'smooth',block:'start'});}},150);"; };
+  var C = {
+    videos:      ['Research videos',           [['📊 Research studies', go('studies'), 1], ['🩸 Blood work', go('bloodwork')]]],
+    supplies:    ['Research supplies',         [['🧮 Recon calculator', go('calculator'), 1], ['🏷️ Label templates', go('templates')]]],
+    templates:   ['Label templates',           [['💉 PokeMe-Dex tracker', 'location.href=\'pokeme-dex.html\'', 1], ['🧮 Recon calculator', go('calculator')]]],
+    bloodwork:   ['Blood work & labs',         [['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'', 1], ['📊 Research studies', go('studies')]]],
+    vitamins:    ['Vitamins & stacks',         [['🩸 Blood work', go('bloodwork'), 1], ['💪 Workout guides', go('workouts')]]],
+    bonus:       ['Bonus vault',               [['🏪 Research shops', go('shops'), 1], ['✈️ Telegram library', 'window.open(\'https://t.me/ruivpndata\',\'_blank\',\'noopener\')']]],
+    terms:       ['Terms of use',              [['📬 Contact', go('contact'), 1], ['⚠️ Gray market risks', go('graymarket')]]],
+    team:        ['Meet the team',             [['🦍 My story', go('about'), 1], ['📬 Contact', go('contact')]]],
+    calculator:  ['Reconstitution calculator', [['⚗️ KLOW & GLOW calc', go('klow-glow'), 1], ['💉 PokeMe-Dex tracker', 'location.href=\'pokeme-dex.html\'']]],
+    'quick-guide':['Tools & guides',           [['🗄️ Cheat sheet vault', go('cheatsheets'), 1], ['🔬 Peptide index', go('all-peptides')]]],
+    ruqyah:      ['Ruqyah Islamic healing',    [['🦍 My story', go('about'), 1]]],
+    workouts:    ['Workout protocols',         [['💊 Vitamins & stacks', go('vitamins'), 1], ['🩸 Blood work', go('bloodwork')]]],
+    cheatsheets: ['Cheat sheet vault',         [['✈️ 1,000+ more on Telegram', 'window.open(\'https://t.me/ruivpndata\',\'_blank\',\'noopener\')', 1], ['🔬 Peptide index', go('all-peptides')]]],
+    tgk:         ['Tesa · GHK-Cu · KPV',       [['🔬 Peptide index', go('all-peptides'), 1], ['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'']]],
+    cancer:      ['Cancer & peptides',         [['📊 Research studies', go('studies'), 1], ['🩸 Blood work', go('bloodwork')]]],
+    graymarket:  ['Gray market risks',         [['🧪 Lab testing (Janoshik)', homeTo('home-janoshik'), 1], ['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'']]],
+    studies:     ['Research studies',          [['📡 Intel feed', go('intel-feed'), 1], ['📰 Latest news', 'location.href=\'latest-news.html\'']]],
+    contact:     ['Contact',                   [['✈️ Telegram', 'window.open(\'https://t.me/ruivpndata\',\'_blank\',\'noopener\')', 1], ['📋 Terms of use', go('terms')]]]
+  };
+  function upgrade(){
+    Object.keys(C).forEach(function(v){
+      var hero = document.querySelector('#view-' + v + ' > .view-hero');
+      if (!hero || hero.classList.contains('vhx')) return;
+      hero.classList.add('vhx');
+      var t = hero.querySelector('.vh-title'); if (t) t.textContent = C[v][0];
+      var anchor = hero.querySelector('.vh-sub') || hero.querySelector('.vh2-stats');
+      if (!anchor || !C[v][1].length) return;
+      var row = document.createElement('div'); row.className = 'vhx-cta';
+      row.innerHTML = C[v][1].map(function(a){ return '<button type="button"' + (a[2] ? ' class="pri"' : '') + ' onclick="' + a[1].replace(/"/g,'&quot;') + '">' + a[0] + '</button>'; }).join('');
+      anchor.parentNode.insertBefore(row, anchor.nextSibling);
+    });
+  }
+  // heroes are finished by an earlier script on load; upgrade after it
+  if (document.readyState === 'complete') setTimeout(upgrade, 0); else window.addEventListener('load', function(){ setTimeout(upgrade, 0); });
+  setTimeout(upgrade, 1500);
 })();
 </script>
 <script src="theme-toggle.js?v=34" defer></script>
