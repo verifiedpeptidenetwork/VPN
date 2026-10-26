@@ -3030,25 +3030,18 @@
   html[data-theme="light"] .vpn-getapp b{color:#0f1b2d;} html[data-theme="light"] .vpn-getapp small{color:#3a4658;} html[data-theme="light"] .vpn-getapp .ga-ar{color:#9b1d4a;}
 </style>
 <style id="vpn-lockup-css">
-  /* VPN brand lockup: emblem + wordmark (sidebar and phone header) */
-  .vpn-lockup{display:flex;align-items:center;gap:0.7rem;min-width:0;}
-  .vpn-lockup .vl-em{flex-shrink:0;width:46px;height:52px;filter:drop-shadow(-3px 0 8px rgba(255,47,168,0.45)) drop-shadow(3px 0 8px rgba(47,180,255,0.45));}
-  .vpn-lockup .vl-text{min-width:0;line-height:1.05;}
-  .vpn-lockup .vl-word{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.08em;line-height:0.95;background:linear-gradient(90deg,#ff5fb8,#a86bff 50%,#4fc2ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .vpn-lockup .vl-name{margin-top:2px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:#e9ecf8;white-space:nowrap;}
-  .vpn-lockup .vl-tag{margin-top:3px;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,210,240,0.6);white-space:nowrap;}
-  .vpn-lockup .vl-word{display:flex;align-items:center;gap:0.45rem;}
-  .vpn-lockup .vl-rui{font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;background:linear-gradient(180deg,#ffe08a,#ffb12a);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .vpn-lockup .vl-sep{width:2px;height:0.8em;border-radius:2px;background:linear-gradient(180deg,#ff2fa8,#2fb4ff);opacity:0.8;}
-  .vpn-lockup .vl-name{text-transform:none !important;letter-spacing:0.01em !important;font-size:0.82rem !important;}
-  .vpn-lockup .vl-tag{letter-spacing:0.06em !important;font-size:0.62rem !important;}
-  .sb-logo-inner .vpn-lockup .vl-name{font-size:0.78rem !important;} .sb-logo-inner .vpn-lockup .vl-tag{font-size:0.56rem !important;letter-spacing:0.01em !important;}
-  .vpn-lockup .vl-text{overflow:hidden;}
-  .sb-logo-inner .vpn-lockup{padding:0.15rem 0;} .sb-logo-inner .vpn-lockup .vl-name{font-size:0.7rem;letter-spacing:0.03em;} .sb-logo-inner .vpn-lockup .vl-tag{font-size:0.62rem;}
-  .site-header .logo .vpn-lockup .vl-em{width:38px;height:43px;}
-  .site-header .logo .vpn-lockup .vl-word{font-size:1.7rem;}
-  .site-header .logo .vpn-lockup .vl-name{font-size:0.74rem;}
-  html[data-theme="light"] .vpn-lockup .vl-name{color:#14102a;} html[data-theme="light"] .vpn-lockup .vl-tag{color:#4a4566;}
+  /* Brand lockup: simple mark + Inter wordmark */
+  .vpn-lockup{display:flex;align-items:center;gap:0.7rem;min-width:0;text-decoration:none;}
+  .vpn-lockup .vl-em{flex-shrink:0;width:40px;height:40px;border-radius:11px;box-shadow:0 6px 18px -8px rgba(154,92,255,0.8);}
+  .vpn-lockup .vl-text{min-width:0;line-height:1.15;overflow:hidden;}
+  .vpn-lockup .vl-word{display:flex;align-items:center;gap:0.45rem;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;font-weight:800 !important;font-size:1.2rem !important;letter-spacing:-0.02em !important;color:#f4f5fb;-webkit-text-fill-color:#f4f5fb;text-shadow:none !important;}
+  .vpn-lockup .vl-rui{font-family:'Inter',system-ui,sans-serif !important;font-size:0.62rem !important;font-weight:700 !important;letter-spacing:0.12em !important;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,0.18);color:rgba(220,225,245,0.75);-webkit-text-fill-color:rgba(220,225,245,0.75);}
+  .vpn-lockup .vl-name{margin-top:2px;font-family:'Inter',system-ui,sans-serif !important;font-weight:500 !important;font-size:0.76rem !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(200,206,230,0.7);-webkit-text-fill-color:rgba(200,206,230,0.7);white-space:nowrap;text-shadow:none !important;}
+  .site-header .logo .vpn-lockup .vl-em{width:36px;height:36px;border-radius:10px;}
+  .site-header .logo .vpn-lockup .vl-word{font-size:1.1rem !important;}
+  html[data-theme="light"] .vpn-lockup .vl-word{color:#14102a;-webkit-text-fill-color:#14102a;}
+  html[data-theme="light"] .vpn-lockup .vl-rui{color:#4a4566;-webkit-text-fill-color:#4a4566;border-color:rgba(30,20,70,0.2);}
+  html[data-theme="light"] .vpn-lockup .vl-name{color:#4a4566;-webkit-text-fill-color:#4a4566;}
 </style>
 </head>
 <body>
@@ -4162,8 +4155,8 @@ document.addEventListener('keydown', function(e){
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
       <div class="vpn-lockup" data-vt-skip>
-        <svg class="vl-em" viewBox="0 0 64 72" role="img" aria-label="VPN"><defs><linearGradient id="vemAg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient><linearGradient id="vemAf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0f33"/><stop offset="1" stop-color="#070512"/></linearGradient></defs><path d="M32 3 L59 12.5 V35 C59 52.5 47.5 63.5 32 69.5 C16.5 63.5 5 52.5 5 35 V12.5 Z" fill="url(#vemAf)" stroke="url(#vemAg)" stroke-width="3" stroke-linejoin="round"/><path d="M32 9.5 L53 17 V35 C53 48.5 44.5 57 32 62" fill="none" stroke="url(#vemAg)" stroke-width="1" opacity=".45"/><text x="32" y="22.5" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="10" letter-spacing="2.2" fill="#ffc94d">RUI</text><text x="32" y="39.5" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="20" letter-spacing="1" fill="url(#vemAg)">VPN</text><path d="M17 50 L24 46 L31 50" fill="none" stroke="#9a5cff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/><circle cx="17" cy="50" r="2.6" fill="#ff2fa8"/><circle cx="24" cy="46" r="2.6" fill="#c45cff"/><circle cx="31" cy="50" r="2.6" fill="#7a6bff"/><circle cx="42" cy="47" r="6" fill="#2fb4ff"/><path d="M39.3 47.2 L41.3 49.2 L44.8 45.2" fill="none" stroke="#06101f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="vl-text"><div class="vl-word"><span class="vl-rui">RUI</span><span class="vl-sep"></span>VPN</div><div class="vl-name">Verified Peptides Network</div><div class="vl-tag">Research Unfiltered Information</div></div>
+        <svg class="vl-em" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="vlg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="url(#vlg1)"/><path d="M11.5 14l8.5 13 8.5-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="vl-text"><div class="vl-word">VPN<span class="vl-rui">RUI</span></div><div class="vl-name">Verified Peptides Network</div></div>
       </div>
     </div>
     <nav id="desktop-nav" style="display:none;"></nav>
@@ -4571,8 +4564,8 @@ document.addEventListener('keydown', function(e){
     <div class="sb-logo-bar"></div>
     <div class="sb-logo-inner">
       <div class="vpn-lockup" data-vt-skip>
-        <svg class="vl-em" viewBox="0 0 64 72" role="img" aria-label="VPN"><defs><linearGradient id="vemBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient><linearGradient id="vemBf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0f33"/><stop offset="1" stop-color="#070512"/></linearGradient></defs><path d="M32 3 L59 12.5 V35 C59 52.5 47.5 63.5 32 69.5 C16.5 63.5 5 52.5 5 35 V12.5 Z" fill="url(#vemBf)" stroke="url(#vemBg)" stroke-width="3" stroke-linejoin="round"/><path d="M32 9.5 L53 17 V35 C53 48.5 44.5 57 32 62" fill="none" stroke="url(#vemBg)" stroke-width="1" opacity=".45"/><text x="32" y="22.5" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="10" letter-spacing="2.2" fill="#ffc94d">RUI</text><text x="32" y="39.5" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',Impact,sans-serif" font-size="20" letter-spacing="1" fill="url(#vemBg)">VPN</text><path d="M17 50 L24 46 L31 50" fill="none" stroke="#9a5cff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/><circle cx="17" cy="50" r="2.6" fill="#ff2fa8"/><circle cx="24" cy="46" r="2.6" fill="#c45cff"/><circle cx="31" cy="50" r="2.6" fill="#7a6bff"/><circle cx="42" cy="47" r="6" fill="#2fb4ff"/><path d="M39.3 47.2 L41.3 49.2 L44.8 45.2" fill="none" stroke="#06101f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="vl-text"><div class="vl-word"><span class="vl-rui">RUI</span><span class="vl-sep"></span>VPN</div><div class="vl-name">Verified Peptides Network</div><div class="vl-tag">Research Unfiltered Information</div></div>
+        <svg class="vl-em" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="vlg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset=".5" stop-color="#9a5cff"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="url(#vlg2)"/><path d="M11.5 14l8.5 13 8.5-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="vl-text"><div class="vl-word">VPN<span class="vl-rui">RUI</span></div><div class="vl-name">Verified Peptides Network</div></div>
       </div>
     </div>
     <div class="sb-logo-bar"></div>
@@ -32595,7 +32588,7 @@ window.addEventListener('appinstalled', function(){
    views nested in #site-hero, which left a big empty strip on wide monitors. These rules
    come last so they win. Percentages resolve against <body>, so the scrollbar is accounted for. */
 @media (min-width: 901px) {
-  :root { --vpn-sb: 242px; --vpn-max: 1440px; }
+  :root { --vpn-sb: 242px; --vpn-max: 100vw; } /* no cap: every page uses the full width, like Home */
   #vpnSearchBar { width: calc(100% - var(--vpn-sb)) !important; box-sizing: border-box; }
   /* Home + views that live inside #site-hero: hero holds the offset, gutters center the column */
   #site-hero {
@@ -32613,6 +32606,9 @@ window.addEventListener('appinstalled', function(){
     max-width: none !important;
     box-sizing: border-box;
   }
+  /* Same gutters as Home on every page */
+  body.vpn-nonhome #site-hero { padding-left: clamp(10px,2vw,22px) !important; padding-right: clamp(10px,2vw,22px) !important; }
+  body > .view.active:not(#_) { margin-left: calc(var(--vpn-sb) + 22px) !important; width: calc(100% - var(--vpn-sb) - 44px) !important; }
 }
 /* Phone held sideways: shrink the floating buttons so they stop covering the content */
 @media (orientation: landscape) and (max-height: 500px) {
