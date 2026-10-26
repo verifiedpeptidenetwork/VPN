@@ -33371,6 +33371,165 @@ window.addEventListener('appinstalled', function(){
   document.addEventListener('vpn-theme-change',syncTheme);
 })();
 </script>
+<!-- PRO LAYER — one clean card style for every section page + the sidebar (same look as the home safety cards) -->
+<style id="vpn-pro-layer">
+  :root{--px-ink:#f1f3fb;--px-sub:rgba(200,206,230,0.74);--px-line:rgba(255,255,255,0.09);--px-card:#0e0c18;--px-card2:#14111f;}
+  html[data-theme="light"]{--px-ink:#14112a;--px-sub:#4a4566;--px-line:rgba(30,20,70,0.12);--px-card:#ffffff;--px-card2:#f3f0fb;}
+
+  /* ── sidebar: quiet list instead of yellow slabs ── */
+  html body #vpn-sidebar .sb-item{display:flex !important;align-items:center !important;gap:0.65rem !important;width:100% !important;height:auto !important;min-height:38px;margin:1px 0 !important;padding:0.5rem 0.75rem !important;box-sizing:border-box;clip-path:none !important;border:none !important;border-radius:10px !important;background:transparent !important;box-shadow:none !important;color:var(--px-sub) !important;-webkit-text-fill-color:currentColor !important;font:600 0.9rem/1.2 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;text-shadow:none !important;text-align:left !important;transform:none !important;animation:none !important;transition:background .15s,color .15s;}
+  html body #vpn-sidebar .sb-item::before,html body #vpn-sidebar .sb-item::after{display:none !important;}
+  html body #vpn-sidebar .sb-item:hover{background:rgba(255,255,255,0.05) !important;color:var(--px-ink) !important;}
+  html body #vpn-sidebar .sb-item.sb-active{background:linear-gradient(90deg,rgba(255,47,168,0.16),rgba(154,92,255,0.10)) !important;color:var(--px-ink) !important;box-shadow:inset 3px 0 0 #ff2fa8 !important;}
+  html body #vpn-sidebar .sb-item .sb-icon{flex-shrink:0;width:1.6rem;height:1.6rem;display:grid;place-items:center;border-radius:8px;font-size:0.95rem;background:rgba(255,255,255,0.05);filter:none !important;margin:0 !important;}
+  html body #vpn-sidebar .sb-section{font:700 0.68rem/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.12em !important;text-transform:uppercase !important;color:rgba(200,206,230,0.45) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;margin:1.1rem 0.75rem 0.4rem !important;padding:0 !important;border:none !important;background:none !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item:hover{background:rgba(30,20,70,0.05) !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item .sb-icon{background:rgba(30,20,70,0.06);}
+  html[data-theme="light"] body #vpn-sidebar .sb-section{color:#8a85a5 !important;}
+
+  /* ── section pages ── */
+  .px-on, .px-on *{text-shadow:none !important;}
+  .px-on h1,.px-on h2,.px-on h3,.px-on h4{font-family:'Inter',system-ui,sans-serif !important;letter-spacing:-0.01em !important;}
+  /* expandable bars */
+  .px-on details.px-det{border:none !important;background:none !important;box-shadow:none !important;border-radius:16px !important;margin:0 0 0.6rem !important;overflow:visible !important;}
+  .px-on summary.px-sum{display:flex !important;align-items:center !important;justify-content:flex-start !important;flex-wrap:wrap;gap:0.4rem 0.75rem !important;min-height:58px;box-sizing:border-box;margin:0 !important;padding:0.85rem 2.8rem 0.85rem 1.1rem !important;position:relative;list-style:none;cursor:pointer;border-radius:16px !important;border:1px solid var(--px-line) !important;border-left:3px solid var(--px-ac,#9a5cff) !important;background:var(--px-card) !important;box-shadow:none !important;color:var(--px-ink) !important;-webkit-text-fill-color:currentColor !important;font:700 1rem/1.35 'Inter',system-ui,sans-serif !important;letter-spacing:-0.005em !important;text-transform:none !important;text-align:left !important;animation:none !important;transition:background .15s,transform .15s;}
+  .px-on summary.px-sum *{text-align:left !important;}
+  .px-on summary.px-sum::-webkit-details-marker{display:none;}
+  .px-on summary.px-sum::marker{content:'';}
+  .px-on summary.px-sum::before{display:none !important;}
+  .px-on summary.px-sum::after{content:'' !important;display:block !important;position:absolute !important;right:1.1rem;top:50%;width:8px;height:8px;margin-top:-6px;border-right:2px solid var(--px-sub);border-bottom:2px solid var(--px-sub);transform:rotate(45deg);transition:transform .2s;background:none !important;}
+  .px-on details[open] > summary.px-sum::after{transform:rotate(-135deg);margin-top:-2px;}
+  .px-on details[open] > summary.px-sum{border-radius:16px 16px 0 0 !important;background:var(--px-card2) !important;}
+  .px-on summary.px-sum:hover{background:var(--px-card2) !important;transform:translateY(-1px);}
+  .px-on summary.px-sum small,.px-on summary.px-sum .px-small{display:block;width:100%;font:500 0.85rem/1.4 'Inter',sans-serif !important;color:var(--px-sub) !important;-webkit-text-fill-color:currentColor !important;letter-spacing:0 !important;text-transform:none !important;}
+  .px-on summary.px-sum img{border-radius:8px;}
+  .px-on details.px-det > :not(summary){border-left:1px solid var(--px-line);border-right:1px solid var(--px-line);}
+  .px-on details.px-det[open] > :last-child:not(summary){border-bottom:1px solid var(--px-line);border-radius:0 0 16px 16px;}
+  .px-on details.px-det[open]{background:var(--px-card) !important;}
+  /* small pills inside bars (TAP TO EXPAND, NEW, AMAZON'S CHOICE…) */
+  .px-on .px-pill{font:700 0.66rem/1 'Inter',sans-serif !important;letter-spacing:0.08em !important;text-transform:uppercase !important;padding:0.35rem 0.55rem !important;border-radius:999px !important;border:1px solid var(--px-line) !important;background:rgba(255,255,255,0.04) !important;color:var(--px-sub) !important;-webkit-text-fill-color:currentColor !important;box-shadow:none !important;margin:0 !important;}
+  /* boxed panels */
+  .px-on .px-box{border-radius:18px !important;border:1px solid var(--px-line) !important;border-top:3px solid var(--px-ac,#9a5cff) !important;background:var(--px-card) !important;box-shadow:none !important;animation:none !important;}
+  .px-on .px-box.px-warn{border-top-color:#ffb020 !important;background:linear-gradient(180deg,rgba(255,176,32,0.07),transparent 140px),var(--px-card) !important;}
+  .px-on .px-left{text-align:left !important;}
+  .px-on .px-box{text-align:left !important;}
+  .px-on .px-box :is(h1,h2,h3,h4,h5,.px-head)[style*="center"],.px-on .px-box > div[style*="text-align:center"],.px-on .px-box > div[style*="text-align: center"]{text-align:left !important;}
+  .px-on .px-head{font-family:'Inter',system-ui,sans-serif !important;font-weight:800 !important;letter-spacing:-0.01em !important;text-transform:none !important;-webkit-text-fill-color:currentColor;}
+  /* buttons and links that looked like neon chips */
+  .px-on .px-btn{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;letter-spacing:0 !important;text-transform:none !important;border-radius:12px !important;box-shadow:none !important;animation:none !important;}
+  .px-on .vpn-copy-btn{font:600 0.75rem/1 'Inter',sans-serif !important;letter-spacing:0 !important;padding:0.4rem 0.65rem !important;border-radius:999px !important;border:1px solid var(--px-line) !important;background:var(--px-card2) !important;color:var(--px-sub) !important;}
+  @media(max-width:640px){
+    .px-on summary.px-sum{min-height:56px;padding:0.8rem 2.5rem 0.8rem 0.95rem !important;font-size:0.98rem !important;}
+    .px-on .px-left-m{text-align:left !important;}
+  }
+</style>
+<script>
+(function(){
+  /* acronyms and units that stay as written when an ALL-CAPS label is converted */
+  var KEEP = /^(GLP|GLP-1|GLP-1S|COA|COAS|BAC|PCOS|EAA|EAAS|NAD|NAD\+|DNA|MTC|MEN|FDA|RUI|VPN|BPC|TB|GHK|GHK-CU|KPV|PDF|ID|AI|IGF|IGF-1|HGH|GH|TRT|LDL|HDL|CBC|CMP|TSH|A1C|HBA1C|NMN|MOTS-C|SS-31|IV|IM|SQ|UV|LED|USA|UK|EU|DIY|ELI5|FAQ|CJC|HCG|DHEA|PT-141|MK-677|ALA|NAC|COQ10|PQQ|ATP|AMPK|MTOR|CRP|ALT|AST|PSA|ESR|LH|FSH|SHBG|DHT|T3|T4|PTH|EPA|DHA|ACV|OTC|RX|PH|IU|UTI|ADHD|PTSD|IBS|SIBO|GI|ED|MS|ALS|HIV|COVID|COVID-19|LLC|TV|NIH|PMC|USP|HPLC|LC-MS|MS|QR|SARS-COV-2|BDNF|GABA|DSIP|NK|II|III|IV|TA1|TA-1|TB-500|BPC-157|AOD|AOD-9604|CJC-1295|SLU-PP-332|5-AMINO-1MQ|VIP|LL-37|KLOW|ARA-290)$/;
+  var UNITS = {MG:'mg',MCG:'mcg',ML:'mL',KG:'kg',G:'g',IU:'IU',MM:'mm',CC:'cc',LB:'lb',LBS:'lbs',OZ:'oz',VS:'vs',X:'x'};
+  var SMALL = /^(AN|AND|OR|THE|OF|TO|FOR|IN|ON|AT|BY|WITH|VS|PER|FROM|INTO|NOR|BUT|AS|IS|IT|ITS|IT'S)$/;
+  function cap(w){ return w.charAt(0) + w.slice(1).toLowerCase(); }
+  function word(w, first){
+    var core = w.replace(/^[^A-Z0-9]+|[^A-Z0-9+]+$/g, ''); if (!core) return w;
+    var pre = w.slice(0, w.indexOf(core)), post = w.slice(w.indexOf(core) + core.length);
+    var out;
+    if (KEEP.test(core)) out = ({COAS:'COAs',EAAS:'EAAs','GLP-1S':'GLP-1s',COQ10:'CoQ10','GHK-CU':'GHK-Cu','MOTS-C':'MOTS-c',KLOW:'KLOW'})[core] || core;
+    else if (UNITS[core]) out = UNITS[core];
+    else if (/\d/.test(core) && core.length <= 6) out = core;
+    else if (!first && SMALL.test(core)) out = core.toLowerCase();
+    else out = core.split('-').map(cap).join('-');
+    return pre + out + post;
+  }
+  function decaps(s){
+    var i = 0;
+    return s.replace(/\S+/g, function(w){ var r = word(w, i === 0 || /[—:|·–]$/.test(prev)); prev = w; i++; return r; });
+  }
+  var prev = '';
+  function isCaps(t){ var l = t.replace(/[^A-Za-z]/g, ''); return l.length >= 4 && l === l.toUpperCase(); }
+  function convertText(el){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(function(n){ if (isCaps(n.textContent) && !n.parentElement.closest('svg,code,kbd,.px-pill')) { prev = ''; n.textContent = decaps(n.textContent); } });
+  }
+  function accentOf(el){
+    var c = getComputedStyle(el), cands = [c.borderLeftColor, c.borderTopColor, c.color];
+    for (var i = 0; i < cands.length; i++){
+      var m = cands[i].match(/\d+(\.\d+)?/g); if (!m) continue;
+      var r = +m[0], g = +m[1], b = +m[2], a = m[3] == null ? 1 : +m[3];
+      if (a < 0.25) continue;
+      var mx = Math.max(r,g,b), mn = Math.min(r,g,b);
+      if (mx - mn > 60) return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+    return '';
+  }
+  var SKIP = '.view-hero, .vh2, #glp-avoid, svg, video, iframe, canvas, table, form, input, select, textarea, .b3-gal, [data-px-skip], .pm-calc, .calc-wrap';
+  function skin(view){
+    if (!view || view.id === 'view-home' || view.__px || !view.offsetHeight) return; view.__px = true;
+    view.classList.add('px-on');
+    // bars
+    view.querySelectorAll('details > summary').forEach(function(s){
+      if (s.closest(SKIP)) return;
+      var d = s.parentElement, ac = accentOf(d) || accentOf(s);
+      d.classList.add('px-det'); s.classList.add('px-sum');
+      if (ac) s.style.setProperty('--px-ac', ac);
+      // short ALL-CAPS chips inside the bar become small pills
+      s.querySelectorAll('span, em, b, small, div').forEach(function(x){
+        var t = x.textContent.trim();
+        if (x.children.length === 0 && /TAP TO (EXPAND|OPEN)|CLICK TO (EXPAND|OPEN)/i.test(t) && t.length <= 24) { x.style.setProperty('display','none','important'); return; }
+        if (x.children.length === 0 && t.length > 1 && t.length <= 22 && isCaps(t) && /TAP|EXPAND|NEW|CHOICE|OPEN|READ|BEST|TOP|HOT|FREE|SALE|WARNING|COPY|GUIDE|LIST/.test(t)) x.classList.add('px-pill');
+      });
+      convertText(s);
+      // titles white, sub-lines soft gray — the colour lives on the accent edge
+      s.querySelectorAll('span, b, strong, div, em, small, p').forEach(function(x){
+        if (x.classList.contains('px-pill') || x.closest('.vpn-copy-btn')) return;
+        var own = ''; for (var n = x.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) own += n.textContent;
+        if (!own.trim()) return;
+        var fs = parseFloat(getComputedStyle(x).fontSize);
+        x.style.setProperty('color', fs < 14.5 ? 'var(--px-sub)' : 'var(--px-ink)', 'important');
+        x.style.setProperty('-webkit-text-fill-color', 'currentColor', 'important');
+        x.style.setProperty('font-family', 'Inter,system-ui,sans-serif', 'important');
+        x.style.setProperty('background-image', 'none', 'important');
+        if (fs >= 14.5) { x.style.setProperty('font-weight', '700', 'important'); x.style.setProperty('letter-spacing', '-0.005em', 'important'); x.style.setProperty('text-transform', 'none', 'important'); }
+      });
+    });
+    // boxes with their own neon border
+    view.querySelectorAll('div[style*="border"], section[style*="border"], a[style*="border"]').forEach(function(b){
+      if (b.closest(SKIP) || b.closest('summary') || b.closest('.px-box')) return;
+      if (b.offsetHeight < 70 || b.offsetWidth < 260) return;
+      var c = getComputedStyle(b); if (parseFloat(c.borderTopWidth) + parseFloat(c.borderLeftWidth) < 1) return;
+      var ac = accentOf(b);
+      b.classList.add('px-box'); if (ac) b.style.setProperty('--px-ac', ac);
+      if (/NOT FOR HUMAN|DISCLAIMER|RESEARCH USE ONLY|FOR LEARNING ONLY|NOT MEDICAL ADVICE/i.test(b.textContent.slice(0, 160))) b.classList.add('px-warn');
+    });
+    // headings / labels set in ALL CAPS, and long centred paragraphs
+    view.querySelectorAll('h1,h2,h3,h4,h5,strong,b,div,span,a,button,p').forEach(function(e){
+      if (e.closest(SKIP) || e.closest('summary') || e.closest('.vpn-copy-btn')) return;
+      var own = ''; for (var n = e.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) own += n.textContent;
+      own = own.trim(); if (!own) return;
+      var c = getComputedStyle(e), fs = parseFloat(c.fontSize);
+      var caps = c.textTransform === 'uppercase' || isCaps(own);
+      if (caps && fs >= 14 && own.length >= 6) {
+        e.style.setProperty('text-transform', 'none', 'important');
+        e.style.setProperty('letter-spacing', '-0.005em', 'important');
+        if (isCaps(own)) convertText(e);
+        else if (c.textTransform === 'uppercase' && own === own.toLowerCase()) e.textContent = own.charAt(0).toUpperCase() + own.slice(1);
+        if (/^(A|BUTTON)$/.test(e.tagName)) e.classList.add('px-btn'); else e.classList.add('px-head');
+      }
+      if (e.tagName === 'P' || e.tagName === 'DIV') {
+        if (c.textAlign === 'center' && e.textContent.trim().length > 110 && e.closest('.px-box, .px-det')) e.classList.add('px-left');
+      }
+    });
+  }
+  function run(){
+    document.querySelectorAll('.view').forEach(function(v){ if (v.offsetParent || v.classList.contains('active')) skin(v); });
+  }
+  var _sv = window.showView;
+  if (typeof _sv === 'function') window.showView = function(){ var r = _sv.apply(this, arguments); setTimeout(run, 60); return r; };
+  function start(){ setTimeout(run, 120); setTimeout(run, 1500); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
 </body>
 </html>
 
