@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPN DISPATCH — Verified Peptide Network Intel</title>
+<title>Latest News · Verified Peptides Network</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -388,6 +388,9 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
   .np-footer{padding:1rem;}
 }
 </style>
+<!-- no jump on load: hold the page until it is parsed and the fonts are in, then show it once -->
+<style>html.vpn-wait body > *:not(.lp-bar){opacity:0 !important;}</style>
+<script>(function(){var h=document.documentElement;h.classList.add('vpn-wait');var done=false,dom=false,fonts=false;function show(){if(done)return;done=true;h.classList.remove('vpn-wait');}function check(){if(dom&&fonts)setTimeout(show,150);}document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){dom=true;check();},900);});document.addEventListener('DOMContentLoaded',function(){dom=true;check();});try{document.fonts.ready.then(function(){fonts=true;check();});}catch(e){fonts=true;}setTimeout(function(){fonts=true;check();},1200);setTimeout(show,2500);})();</script>
 </head>
 <body>
 
@@ -420,6 +423,101 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
 </div>
 
 <!-- ── NAV ─────────────────────────────────────────────────────── -->
+<!-- ══ LATEST NEWS — professional header + clean cards (overrides the older newspaper/neon styling) ══ -->
+<style id="ln-pro">
+  :root{--lp-ink:#f2f3fa;--lp-sub:rgba(200,206,230,0.75);--lp-mute:rgba(200,206,230,0.5);--lp-line:rgba(255,255,255,0.09);--lp-card:#0d0b17;--lp-card2:#13101f;}
+  html[data-theme="light"]{--lp-ink:#14112a;--lp-sub:#4a4566;--lp-mute:#7a7595;--lp-line:rgba(30,20,70,0.12);--lp-card:#ffffff;--lp-card2:#f6f4fc;}
+  .ln-nav,.masthead,.ticker-wrap,.ln-ticker,.news-ticker,.np-watermark{display:none !important;}
+  #ln-count{min-height:18px;}
+  /* top bar */
+  .lp-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:0.75rem;padding:0.7rem clamp(16px,3vw,32px);background:rgba(8,7,14,0.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--lp-line);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  html[data-theme="light"] .lp-bar{background:rgba(255,255,255,0.88);}
+  .lp-bar img{width:34px;height:34px;border-radius:10px;object-fit:cover;background:#000;}
+  .lp-brand{display:flex;flex-direction:column;line-height:1.15;min-width:0;}
+  .lp-brand b{font-weight:800;font-size:0.98rem;letter-spacing:-0.015em;color:var(--lp-ink);}
+  .lp-brand small{font-weight:500;font-size:0.74rem;color:var(--lp-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lp-links{margin-left:auto;display:flex;gap:0.4rem;flex-shrink:0;}
+  .lp-links a{display:inline-flex;align-items:center;gap:0.35rem;padding:0.5rem 0.8rem;border-radius:10px;border:1px solid var(--lp-line);background:var(--lp-card2);color:var(--lp-ink);font:600 0.86rem 'Inter',sans-serif;text-decoration:none;white-space:nowrap;}
+  .lp-links a:hover{border-color:rgba(154,92,255,0.5);}
+  /* hero */
+  .lp-hero{max-width:1200px;margin:clamp(14px,3vw,28px) auto 0;padding:0 clamp(12px,3vw,24px);box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;}
+  .lp-hero-in{position:relative;overflow:hidden;border-radius:24px;border:1px solid var(--lp-line);padding:clamp(1.3rem,4vw,2.6rem);background:radial-gradient(620px 300px at 92% 0%,rgba(255,47,168,0.20),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(47,180,255,0.16),transparent 60%),linear-gradient(160deg,#0d0a1c,#06050d);}
+  html[data-theme="light"] .lp-hero-in{background:radial-gradient(620px 300px at 92% 0%,rgba(255,47,168,0.10),transparent 60%),linear-gradient(160deg,#fff,#f5f2ff);}
+  .lp-kick{display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 0.8rem;border-radius:999px;border:1px solid var(--lp-line);background:rgba(255,255,255,0.04);font-size:0.8rem;font-weight:600;color:var(--lp-sub);}
+  .lp-kick i{width:8px;height:8px;border-radius:50%;background:#2ee6a0;box-shadow:0 0 0 4px rgba(46,230,160,0.18);}
+  .lp-hero h1{margin:0.8rem 0 0.6rem;font-weight:800;font-size:clamp(2rem,5.4vw,3.4rem);line-height:1.04;letter-spacing:-0.035em;color:var(--lp-ink);}
+  .lp-hero h1 span{background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+  .lp-hero p{margin:0;max-width:640px;font-size:1.02rem;line-height:1.6;color:var(--lp-sub);}
+  .lp-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.6rem;margin-top:1.3rem;max-width:720px;}
+  .lp-stats div{padding:0.75rem 0.85rem;border-radius:14px;border:1px solid var(--lp-line);background:rgba(255,255,255,0.035);}
+  html[data-theme="light"] .lp-stats div{background:#fff;}
+  .lp-stats b{display:block;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:var(--lp-ink);}
+  .lp-stats small{display:block;margin-top:2px;font-weight:600;font-size:0.76rem;color:var(--lp-mute);}
+  .lp-note{margin-top:1rem;font-size:0.8rem;color:var(--lp-mute);}
+  @media(max-width:640px){ .lp-stats{grid-template-columns:repeat(2,minmax(0,1fr));} .lp-brand small{display:none;} .lp-links a{padding:0.5rem 0.65rem;font-size:0.8rem;} }
+  /* section headers */
+  .np-divider{display:flex !important;align-items:center !important;gap:0.6rem !important;margin:2rem 0 0.9rem !important;padding:0 !important;border:none !important;background:none !important;}
+  .np-divider-line,.np-divider-line-r{display:none !important;}
+  .np-divider-num{font:700 0.72rem/1 'Inter',sans-serif !important;letter-spacing:0.06em !important;padding:0.35rem 0.55rem !important;border-radius:999px !important;border:1px solid var(--lp-line) !important;background:var(--lp-card2) !important;color:var(--lp-sub) !important;}
+  .np-divider-label{padding:0 !important;border:none !important;background:none !important;box-shadow:none !important;font:800 1.35rem/1.2 'Inter',sans-serif !important;letter-spacing:-0.02em !important;text-transform:none !important;color:var(--lp-ink) !important;-webkit-text-fill-color:var(--lp-ink) !important;}
+  /* news cards */
+  details.vpn-news-card{border:1px solid var(--lp-line) !important;border-radius:16px !important;background:var(--lp-card) !important;box-shadow:none !important;overflow:hidden !important;}
+  details.vpn-news-card .vpn-news-icon{filter:none !important;}
+  details.vpn-news-card .vpn-news-arrow{display:none !important;}
+  details.vpn-news-card .vpn-news-body{font-family:'Inter',system-ui,sans-serif !important;color:var(--lp-sub) !important;}
+  .ta1-h,.t1-h{font:700 1rem/1.3 'Inter',sans-serif !important;letter-spacing:-0.005em !important;text-transform:none !important;color:var(--lp-ink) !important;-webkit-text-fill-color:var(--lp-ink) !important;margin-top:1rem !important;}
+  .ta1-c,.ta1-c *{font-family:'Inter',system-ui,sans-serif !important;}
+  /* breaking stories */
+  .breaking-banner{max-width:1200px;margin-left:auto !important;margin-right:auto !important;border-radius:20px !important;border:1px solid var(--lp-line) !important;border-left:3px solid var(--bb-ac,#2fb4ff) !important;background:var(--lp-card) !important;box-shadow:none !important;overflow:hidden;animation:none !important;}
+  .bb-stripe{display:none !important;}
+  .bb-inner{padding:clamp(1rem,2.6vw,1.5rem) !important;}
+  .bb-head{display:flex !important;flex-wrap:wrap;align-items:center !important;gap:0.5rem !important;margin-bottom:0.6rem !important;}
+  .bb-badge{font:700 0.7rem/1 'Inter',sans-serif !important;letter-spacing:0.04em !important;padding:0.4rem 0.6rem !important;border-radius:999px !important;box-shadow:none !important;}
+  .bb-category,.bb-live{font:600 0.78rem 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;color:var(--lp-mute) !important;animation:none !important;}
+  .bb-headline{font:800 clamp(1.2rem,2.6vw,1.6rem)/1.2 'Inter',sans-serif !important;letter-spacing:-0.02em !important;text-transform:none !important;color:var(--lp-ink) !important;-webkit-text-fill-color:var(--lp-ink) !important;}
+  .bb-deck{margin-top:0.4rem !important;font:400 0.98rem/1.6 'Inter',sans-serif !important;letter-spacing:0 !important;color:var(--lp-sub) !important;}
+  .bb-toggle{margin-top:0.85rem !important;font:700 0.86rem 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;padding:0.6rem 0.95rem !important;border-radius:10px !important;border:1px solid var(--lp-line) !important;background:var(--lp-card2) !important;color:var(--lp-ink) !important;box-shadow:none !important;cursor:pointer;}
+  .bb-body{font-family:'Inter',system-ui,sans-serif !important;color:var(--lp-sub) !important;}
+  .vk-stats div{border-radius:14px !important;border:1px solid var(--lp-line) !important;background:var(--lp-card2) !important;box-shadow:none !important;}
+  .vk-stats b{font-family:'Inter',sans-serif !important;font-weight:800 !important;letter-spacing:-0.02em !important;}
+  .vk-tbl{font-family:'Inter',sans-serif !important;}
+</style>
+<header class="lp-bar" data-px-skip>
+  <img src="VPNNEWLOGO.png?v=5" alt="" onerror="this.src='VPNNEWLOGO.png'">
+  <div class="lp-brand"><b>Verified Peptides Network</b><small>Research Unfiltered Information</small></div>
+  <nav class="lp-links"><a href="home.html">← Home</a><a href="pokeme-dex.html">PokeMe-Dex</a></nav>
+</header>
+<section class="lp-hero" data-px-skip aria-label="Latest news">
+  <div class="lp-hero-in">
+    <span class="lp-kick"><i></i>Latest news · updated as studies publish</span>
+    <h1>Peptide research news, <span>verified.</span></h1>
+    <p>New trials, approvals and published studies, explained in plain English with the PubMed link for every claim, so you can check it yourself.</p>
+    <div class="lp-stats">
+      <div><b id="lp-count">19</b><small>Stories</small></div>
+      <div><b>PubMed</b><small>Linked sources</small></div>
+      <div><b>3</b><small>Research · clinical · tools</small></div>
+      <div><b>Free</b><small>No paywall</small></div>
+    </div>
+    <div class="lp-note">Research and education only. Not medical advice. Talk to your doctor before acting on anything here.</div>
+  </div>
+</section>
+<script>
+  (function(){
+    // story count from the page itself; accent colour for each breaking story from its badge
+    function go(){
+      var n = document.querySelectorAll('details.vpn-news-card, .breaking-banner').length;
+      var c = document.getElementById('lp-count'); if (c && n) c.textContent = n;
+      document.querySelectorAll('.breaking-banner').forEach(function(b){
+        var bd = b.querySelector('.bb-badge'); if (bd) b.style.setProperty('--bb-ac', getComputedStyle(bd).backgroundColor);
+      });
+      document.querySelectorAll('.bb-toggle').forEach(function(t){
+        var fix = function(){ t.textContent = /COLLAPSE/i.test(t.textContent) ? '▲ Show less' : '▼ Read more'; };
+        fix(); t.addEventListener('click', function(){ setTimeout(fix, 0); });
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+  })();
+</script>
 <nav class="ln-nav">
   <a href="home.html">← VPN HOME</a>
   <a href="pokeme-dex.html">🧬 POKEME-DEX</a>
