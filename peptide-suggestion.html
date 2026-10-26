@@ -954,7 +954,34 @@ html[data-theme="light"] .pm-subnav{ background:rgba(255,255,255,0.9); }
 #pm-tray.show{ transform:translate(-50%,0); }
 #pm-tray .pm-btn{ white-space:nowrap; }
 .pm-add.on{ border-color:rgba(255,47,168,0.55) !important; color:var(--pm-acc) !important; }
-@media(max-width:520px){ #pm-tray{ left:10px; right:62px; z-index:2147483647; transform:translateY(160%); justify-content:space-between; font-size:13px; } #pm-tray.show{ transform:none; } #pm-tray .pm-btn{ padding:9px 12px; font-size:12.5px; } }/* section titles reused for search/resources/schedule */
+@media(max-width:520px){ #pm-tray{ left:10px; right:62px; z-index:2147483647; transform:translateY(160%); justify-content:space-between; font-size:13px; } #pm-tray.show{ transform:none; } #pm-tray .pm-btn{ padding:9px 12px; font-size:12.5px; } }/* ── comfortable mode: large text and big tap targets for every age ── */
+body.pm{ font-size:18px; }
+.pm-btn{ min-height:52px; font-size:16px !important; padding:14px 22px !important; border-radius:14px !important; }
+.pm-btn.sm{ min-height:48px; font-size:15.5px !important; padding:12px 18px !important; }
+.pm-step h2{ font-size:clamp(26px,4vw,32px) !important; }
+.pm-step > p.pm-lead{ font-size:17px !important; }
+.pm-opt{ padding:22px !important; } .pm-opt b{ font-size:19px !important; } .pm-opt small{ font-size:15px !important; }
+.pm-goal{ min-height:60px; font-size:17px !important; padding:14px 16px !important; } .pm-goal span{ font-size:22px !important; }
+.pm-group h4{ font-size:14px !important; }
+.pm-agree{ font-size:17px !important; } .pm-agree input{ width:28px !important; height:28px !important; }
+.pm-safety ul{ font-size:16px !important; }
+.pm-res h3{ font-size:22px !important; } .pm-desc{ font-size:17px !important; line-height:1.65 !important; }
+.pm-why summary{ font-size:16px !important; } .pm-why li{ font-size:16px !important; }
+.pm-proto div{ font-size:14.5px !important; padding:10px 13px !important; } .pm-proto div b{ font-size:16px !important; }
+.pm-tag{ font-size:14px !important; }
+.pm-score b{ font-size:15px !important; } .pm-score small{ font-size:14px !important; }
+.pm-res-foot .pm-note{ font-size:14px !important; }
+.pm-more-btn{ width:100%; margin-top:6px; }
+.pm-prog-txt{ font-size:15px !important; } .pm-prog-bar{ height:10px !important; }
+.pm-nav .pm-count{ font-size:16px !important; }
+.pm-field > span{ font-size:16px !important; } .pm-field > small{ font-size:14px !important; }
+body.pm .pm-bld .pep-input{ font-size:18px !important; padding:15px 16px !important; }
+.pm-bld-h b{ font-size:19px !important; } .pm-bld-h small{ font-size:15px !important; }
+@media(max-width:640px){
+  .pm-res-foot .pm-btn{ flex:1 1 100%; }
+  .pm-nav .pm-btn{ flex:1 1 100%; } .pm-nav .pm-count{ order:-1; flex:1 1 100%; text-align:center; }
+  .pm-goals{ grid-template-columns:1fr !important; }
+}/* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
 .pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
@@ -2443,10 +2470,10 @@ function pmCompute(){
 }
 
 function pmProto(p){
-  var freq = p.freq >= 7 ? 'Daily' : (p.freq + '× / week');
+  var freq = p.freq >= 7 ? 'Every day' : (p.freq === 1 ? 'Once a week' : p.freq + ' times a week');
   var time = p.time === 'pm' ? 'Evening' : p.time === 'am' ? 'Morning' : 'Any time';
-  var titr = p.step > 0 ? ('+' + p.step + ' mg every ' + p.weeks + ' wk') : ('Flat dose · ' + p.weeks + '-wk blocks');
-  return [['Vial', p.vial + ' mg'], ['BAC water', p.water + ' mL'], ['Start dose', p.start + ' mg'], ['Titration', titr], ['Frequency', freq], ['Time', time]];
+  var titr = p.step > 0 ? ('Add ' + p.step + ' mg every ' + p.weeks + ' weeks') : ('Same dose, ' + p.weeks + ' weeks');
+  return [['Vial size', p.vial + ' mg'], ['Water to add', p.water + ' mL'], ['First dose', p.start + ' mg'], ['How it goes up', titr], ['How often', freq], ['Best time', time]];
 }
 function pmWhy(key, goals){
   return goals.map(function(g){
@@ -2467,16 +2494,16 @@ function pmCard(item, rank, total){
     +   (total ? '<div class="pm-score"><b>Matches ' + item.count + ' of ' + total + ' goal' + (total>1?'s':'') + '</b><small>' + pct + '% fit</small><div class="pm-meter"><i style="width:' + pct + '%"></i></div></div>' : '')
     + '</div>'
     + '<p class="pm-desc">' + pmEsc(p.desc) + '</p>'
-    + (why.length ? '<details class="pm-why"' + (rank <= 1 ? ' open' : '') + '><summary>Why it matches your goals</summary><ul>'
+    + (why.length ? '<details class="pm-why"' + (rank <= 1 ? ' open' : '') + '><summary>Why this was picked for you</summary><ul>'
         + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></details>' : '')
     + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div>'
     + '<div class="pm-res-foot"><button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button><button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>'
-    +   '<span class="pm-note">Typical research starting protocol, not medical advice.</span></div>'
+    +   '<span class="pm-note">A typical research starting point, not medical advice. Check with your doctor.</span></div>'
     + '</article>';
 }
 
 function pmShowResults(){
-  PM_LAST = pmCompute(); PM_FILTER = 'all';
+  PM_LAST = pmCompute(); PM_FILTER = 'all'; PM_SHOW_ALL = false;
   var sec = document.getElementById('pm-results'); sec.hidden = false;
   var total = SELECTED_GOALS.size;
   document.getElementById('pm-res-title').textContent = PM_LAST.length ? (PM_LAST.length + ' peptides match your goals') : 'No matches yet';
@@ -2492,16 +2519,19 @@ function pmShowResults(){
   LAST_SUGGESTIONS = PM_LAST.map(function(i){ return PEPTIDES[i.key].name + ' — ' + PEPTIDES[i.key].desc; });
   setTimeout(function(){ sec.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
 }
+var PM_SHOW_ALL = false;
 function pmRenderList(){
   var total = SELECTED_GOALS.size;
   var items = PM_FILTER === 'all' ? PM_LAST : PM_LAST.filter(function(i){ return i.goals.indexOf(PM_FILTER) !== -1; });
+  var shown = PM_SHOW_ALL ? items : items.slice(0, 3);
   document.getElementById('pm-list').innerHTML = items.length
-    ? items.map(function(it){ return pmCard(it, PM_LAST.indexOf(it) + 1, total); }).join('')
+    ? shown.map(function(it){ return pmCard(it, PM_LAST.indexOf(it) + 1, total); }).join('')
+      + (items.length > shown.length ? '<button type="button" class="pm-btn pm-more-btn" onclick="PM_SHOW_ALL=true;pmRenderList();">Show ' + (items.length - shown.length) + ' more matches ↓</button>' : '')
     : '<div class="pm-empty">No peptides in this tool are mapped to that combination yet. Try fewer or different goals.</div>';
 }
 document.getElementById('pm-filters').addEventListener('click', function(e){
   var b = e.target.closest('.pm-filter'); if (!b) return;
-  PM_FILTER = b.getAttribute('data-f');
+  PM_FILTER = b.getAttribute('data-f'); PM_SHOW_ALL = false;
   document.querySelectorAll('.pm-filter').forEach(function(x){ x.classList.toggle('on', x === b); });
   pmRenderList();
 });
