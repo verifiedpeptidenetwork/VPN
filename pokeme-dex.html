@@ -1038,10 +1038,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
 
 <main>
 
-  <div class="tab-bar">
-    <div class="tab-btn active" id="tabbtn-tracker" onclick="showTab('tracker')">💉 My Tracker</div>
-    <div class="tab-btn" id="tabbtn-index" onclick="showTab('index')">📖 Browse All Peptides</div>
-  </div>
+  <span id="tabbtn-tracker" hidden></span><span id="tabbtn-index" hidden></span>
 
   <div class="tab-panel active" id="tab-tracker">
 
@@ -1053,7 +1050,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div class="how-step"><div class="how-num">3</div><div><b>TICK OFF EACH DOSE</b><span>Each day, tap the circle next to a dose once you've taken it. The calendar shows what's coming up.</span></div></div>
       <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>Print it, save it as a PDF, or download it. You get doses, syringe units, a 14-day checklist and a shopping list.</span></div></div>
     </div>
-    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed. Want to know more about a peptide first? Open the <b>📖 Browse All Peptides</b> tab.</div>
+    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed. Not sure which peptide? <a href="peptide-suggestion.html" style="color:inherit;font-weight:700;">Try Peptide Match</a>.</div>
   </details>
 
   <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>FIND A PEPTIDE</h3><p>Search by name, or tap one or more goals below.</p></div></div>
@@ -2691,5 +2688,65 @@ function showTab(name){
   small, .small, .sub, .footnote { font-size: 0.88rem !important; }
 </style>
 <script src="theme-toggle.js?v=34" defer></script><script src="readable.js?v=1" defer></script>
-</body>
+<!-- ═══ EASY MODE: one page, compact on phones, extra tools folded away ═══ -->
+<style id="pmd-easy">
+  #tab-index{display:none !important;}
+  .pmd-more{margin-top:12px;border:3px solid #1a1a1a;border-radius:14px;background:#fff;box-shadow:4px 4px 0 rgba(0,0,0,0.2);overflow:hidden;}
+  .pmd-more > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-family:var(--orb);font-weight:700;font-size:15px;color:var(--text);}
+  .pmd-more > summary::-webkit-details-marker{display:none;}
+  .pmd-more > summary small{display:block;font-family:var(--bar);font-weight:600;font-size:14px;color:var(--muted);margin-top:2px;}
+  .pmd-more > summary::after{content:'＋';margin-left:auto;font-size:20px;color:var(--pink);}
+  .pmd-more[open] > summary::after{content:'－';}
+  .pmd-more > summary .ic{font-size:22px;}
+  .pmd-more > .pmd-more-body{padding:0 12px 14px;}
+  .pmd-more .response-box{margin-top:0 !important;box-shadow:none !important;border-width:2px !important;}
+  .pmd-more .section-heading{margin-bottom:12px !important;}
+  @media(max-width:600px){
+    body{font-size:16px !important;}
+    header.pmx .pmx-feats, header.pmx .pmx-fine{display:none !important;}
+    header.pmx .pmx-hero{padding:14px 14px 12px !important;}
+    header.pmx .pmx-cta{margin-top:10px !important;}
+    #how-card .how-steps{grid-template-columns:1fr !important;gap:8px !important;padding:12px 14px 4px !important;}
+    #how-card .how-step span{font-size:14px !important;}
+    #how-card .how-note{font-size:13.5px !important;}
+    .step-head{margin:22px 0 8px !important;} .step-head h3{font-size:17px !important;} .step-head p{font-size:14px !important;}
+    #condition-grid{grid-template-columns:1fr 1fr !important;gap:6px !important;}
+    .cond-card{padding:8px 8px !important;font-size:14px !important;gap:6px !important;}
+    .cond-card .cc-ic{width:24px !important;height:24px !important;font-size:13px !important;}
+    .goal-panel{padding:12px !important;}
+    .stats-row{display:grid !important;grid-template-columns:repeat(3,1fr) !important;gap:6px !important;}
+    .stat-box{padding:10px 4px !important;} .stat-num{font-size:24px !important;} .stat-label{font-size:11.5px !important;line-height:1.2 !important;}
+    .response-box{padding:16px !important;}
+    .empty-state{padding:14px 0 !important;font-size:15px !important;} .empty-state svg{width:44px !important;height:44px !important;}
+    .pep-input{font-size:16px !important;padding:12px !important;}
+    .plan-band{padding:14px !important;}
+  }
+</style>
+<script>
+(function(){
+  // fold the optional tools into tap-to-open rows
+  var groups = [
+    ['calendar-box', '📅', 'Dose calendar', 'See which doses are due on any day'],
+    ['inj-site-box', '💉', 'Injection-site rotation', 'Log where you inject and get the next spot'],
+    ['schedule-box', '🛒', 'Shopping list &amp; copy schedule', 'How many vials and how much water to buy'],
+    [['recon-box-1','recon-box-2'], '🧮', 'Draw calculator', 'How many units to pull into the syringe']
+  ];
+  var more = document.querySelector('.step-head.more');
+  if (more) { var p = more.querySelector('p'); if (p) p.textContent = 'Tap any row to open it.'; }
+  var anchor = more;
+  groups.forEach(function(g){
+    var ids = [].concat(g[0]), els = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+    if (!els.length) return;
+    var d = document.createElement('details'); d.className = 'pmd-more';
+    d.innerHTML = '<summary><span class="ic">' + g[1] + '</span><span>' + g[2] + '<small>' + g[3] + '</small></span></summary><div class="pmd-more-body"></div>';
+    var body = d.querySelector('.pmd-more-body');
+    els[0].parentNode.insertBefore(d, els[0]);
+    els.forEach(function(e){ body.appendChild(e); });
+  });
+  // the old "Figure out your draw amount" heading now lives inside the calculator row
+  var rh = [].slice.call(document.querySelectorAll('#tab-tracker > .section-heading')).filter(function(h){ return /POKEME-RECON/.test(h.textContent); })[0];
+  var calc = document.getElementById('recon-box-1'); if (rh && calc) calc.parentNode.insertBefore(rh, calc);
+  var hr = document.querySelector('#tab-tracker > hr.divider'); if (hr) hr.remove();
+})();
+</script></body>
 </html>
