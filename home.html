@@ -23424,9 +23424,10 @@ function csvFilter(cat, btn) {
     <div class="gh-top">
       <div class="gh-copy">
         <div class="gh-eyebrow"><span class="gh-dot"></span>UPDATED OCTOBER 2026 · PUBMED-LINKED</div>
-        <h1 class="gh-title">GLP <span>HUB</span></h1>
+        <h1 class="gh-title">GLP Hub: <span>every weight-loss peptide, compared.</span></h1>
         <p class="gh-sub">Every major weight-loss peptide in one place — what each one does, the latest published trials, how to switch or come off, protecting your muscle, and non-GLP-1 options for people with MEN2 or past pancreatitis.</p>
         <div class="gh-jumps">
+          <button type="button" class="pri" onclick="document.getElementById('glp-avoid').scrollIntoView({behavior:'smooth',block:'start'})">⚠ Who should avoid</button>
           <button type="button" onclick="glpJump('glp-compare')">📊 Compare</button>
           <button type="button" onclick="glpJump('glp-switching')">🔁 Switching</button>
           <button type="button" onclick="glpJump('glp-muscle')">💪 Save muscle</button>
@@ -23547,7 +23548,34 @@ function csvFilter(cat, btn) {
       #glp-hero .gh-stat b{font-size:1.65rem;}
       #glp-hero .gh-jumps button{font-size:0.85rem;padding:0.4rem 0.7rem;}
     }
-  </style>
+  
+/* ── GLP hero, Crypto-101 style ── */
+html body #glp-hero{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;border-radius:22px !important;border:1px solid rgba(255,255,255,0.10) !important;padding:clamp(1.3rem,3.4vw,2.4rem) !important;
+  background:radial-gradient(640px 320px at 92% 0%,rgba(255,47,168,0.22),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(47,180,255,0.18),transparent 60%),linear-gradient(160deg,#0d0a1c,#06050d) !important;box-shadow:none !important;}
+html body #glp-hero::before,html body #glp-hero::after,html body #glp-hero .gh-orb{display:none !important;}
+html body #glp-hero .gh-eyebrow{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;font-size:0.72rem !important;letter-spacing:0.14em !important;text-transform:uppercase;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important;}
+html body #glp-hero .gh-dot{background:#2ee6a0 !important;box-shadow:0 0 0 4px rgba(46,230,160,0.18) !important;-webkit-text-fill-color:initial;}
+html body #glp-hero .gh-title{font-family:'Inter',system-ui,sans-serif !important;font-weight:800 !important;font-size:clamp(2rem,5vw,3.2rem) !important;letter-spacing:-0.035em !important;line-height:1.03 !important;text-transform:none !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;text-shadow:none !important;margin:0.5rem 0 0.7rem !important;}
+html body #glp-hero .gh-title span{background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) !important;-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;-webkit-text-fill-color:transparent !important;}
+html body #glp-hero .gh-sub{font-family:'Inter',system-ui,sans-serif !important;font-size:1.02rem !important;font-weight:400 !important;line-height:1.6 !important;letter-spacing:0 !important;color:rgba(214,220,240,0.8) !important;max-width:600px;}
+html body #glp-hero .gh-jumps{gap:0.5rem !important;margin-top:1.2rem !important;}
+html body #glp-hero .gh-jumps button{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;font-size:0.9rem !important;letter-spacing:0 !important;text-transform:none !important;padding:0.7rem 1rem !important;border-radius:12px !important;border:1px solid rgba(255,255,255,0.14) !important;background:rgba(255,255,255,0.04) !important;color:#f1f3fb !important;box-shadow:none !important;text-shadow:none !important;}
+html body #glp-hero .gh-jumps button.pri{border:none !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;box-shadow:0 10px 28px -12px rgba(255,47,168,0.7) !important;}
+html body #glp-hero .gh-stat{border-radius:16px !important;border:1px solid rgba(255,255,255,0.10) !important;background:rgba(255,255,255,0.035) !important;box-shadow:none !important;}
+html body #glp-hero .gh-stat b{font-family:'Inter',system-ui,sans-serif !important;font-weight:800 !important;letter-spacing:-0.03em !important;font-size:clamp(1.5rem,3vw,2rem) !important;text-shadow:none !important;color:var(--sc) !important;}
+html body #glp-hero .gh-stat span{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;font-size:0.92rem !important;letter-spacing:0 !important;text-transform:none !important;color:#f1f3fb !important;}
+html body #glp-hero .gh-stat small{font-family:'Inter',system-ui,sans-serif !important;font-weight:600 !important;font-size:0.76rem !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(190,198,225,0.65) !important;}
+html body #glp-hero .gh-chips{border-top:1px solid rgba(255,255,255,0.08) !important;}
+html body #glp-hero .gh-chips span{font-family:'Inter',system-ui,sans-serif !important;font-weight:700 !important;font-size:0.86rem !important;letter-spacing:0 !important;text-transform:none !important;border-radius:999px !important;background:rgba(255,255,255,0.035) !important;box-shadow:none !important;text-shadow:none !important;color:#f1f3fb !important;}
+html body #glp-hero .gh-chips em{font-family:'Inter',system-ui,sans-serif !important;font-weight:600 !important;font-size:0.76rem !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(190,198,225,0.7) !important;}
+@media(max-width:600px){ html body #glp-hero .gh-jumps button{flex:1 1 calc(50% - 0.25rem);justify-content:center;} }
+html[data-theme="light"] body #glp-hero{background:radial-gradient(640px 320px at 92% 0%,rgba(255,47,168,0.12),transparent 60%),linear-gradient(160deg,#fff,#f5f2ff) !important;border-color:rgba(30,20,70,0.12) !important;}
+html[data-theme="light"] body #glp-hero .gh-title{color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+html[data-theme="light"] body #glp-hero .gh-sub{color:#4a4566 !important;}
+html[data-theme="light"] body #glp-hero .gh-jumps button:not(.pri),html[data-theme="light"] body #glp-hero .gh-chips span{background:#fff !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;border-color:rgba(30,20,70,0.14) !important;}
+html[data-theme="light"] body #glp-hero .gh-stat{background:#fff !important;border-color:rgba(30,20,70,0.12) !important;}
+html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
+</style>
 
 <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b"><b>This whole page in kid words:</b><br>💉 <b>What these drugs do:</b> they copy messages your gut and pancreas send after eating — "I'm full" (GLP-1), "help insulin" (GIP), "burn stored fuel" (glucagon), and "stop eating" (amylin). More messages usually means more weight loss, but also more tummy side effects.<br>📊 <b>Compare:</b> retatrutide uses three messages, tirzepatide two, semaglutide one. Cagrilintide and eloralintide use the amylin message and skip GLP-1.<br>🧬 <b>MEN2 / pancreatitis:</b> if your family has a rare thyroid tumor or you've had pancreatitis, GLP-1 drugs may not be for you — amylin-only drugs skip GLP-1.<br>👁 <b>Eye stroke:</b> a very rare sudden loss of vision has been linked to these drugs. Sudden vision change = go to the doctor right away.<br>💪 <b>Save your muscle:</b> when you eat less, your body can eat muscle too. Protein and lifting tell it to keep muscle and burn fat.<br>🔁 <b>Switching &amp; stopping:</b> switch on your normal shot day and start lower. When you stop, hunger comes back, so weight often returns — step down slowly.<br>📚 <b>Studies:</b> every result links to the real study so you can check it.</div></details>
   <div class="glp-note">⚠ Research and education only — not medical advice. Retatrutide, survodutide, cagrilintide and eloralintide are <strong>not FDA-approved</strong> (as of October 2026). Every number below comes from a published trial you can open and check. Make dosing, switching and stopping decisions with your doctor.</div>
