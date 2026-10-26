@@ -33472,6 +33472,8 @@ window.addEventListener('appinstalled', function(){
       if (s.closest(SKIP)) return;
       var d = s.parentElement, ac = accentOf(d) || accentOf(s);
       d.classList.add('px-det'); s.classList.add('px-sum');
+      var sb = [], q = s; while (q && q !== document.documentElement) { sb = (getComputedStyle(q).backgroundColor.match(/[\d.]+/g) || []).map(Number); if (sb.length >= 3 && (sb[3] == null || sb[3] > 0.5)) break; sb = []; q = q.parentElement; }
+      if (sb.length >= 3 && sb[0] + sb[1] + sb[2] > 560) { s.style.setProperty('--px-ink', '#14112a'); s.style.setProperty('--px-sub', '#4a4566'); }
       if (ac) s.style.setProperty('--px-ac', ac);
       // short ALL-CAPS chips inside the bar become small pills
       s.querySelectorAll('span, em, b, small, div').forEach(function(x){
@@ -33485,7 +33487,9 @@ window.addEventListener('appinstalled', function(){
         if (x.classList.contains('px-pill') || x.closest('.vpn-copy-btn')) return;
         var own = ''; for (var n = x.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) own += n.textContent;
         if (!own.trim()) return;
-        var fs = parseFloat(getComputedStyle(x).fontSize);
+        var xc = getComputedStyle(x), xb = (xc.backgroundColor.match(/[\d.]+/g) || []).map(Number);
+        if (xb.length >= 3 && (xb[3] == null || xb[3] > 0.5)) return; // badges with their own fill keep their colours
+        var fs = parseFloat(xc.fontSize);
         x.style.setProperty('color', fs < 14.5 ? 'var(--px-sub)' : 'var(--px-ink)', 'important');
         x.style.setProperty('-webkit-text-fill-color', 'currentColor', 'important');
         x.style.setProperty('font-family', 'Inter,system-ui,sans-serif', 'important');
