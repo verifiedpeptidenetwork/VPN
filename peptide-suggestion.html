@@ -860,6 +860,7 @@ body.pm .pm-bld select.pep-input{ appearance:auto; }
 .pm-conc-chip{ display:flex; flex-direction:column; padding:8px 12px; border-radius:12px; border:1px solid rgba(255,47,168,0.4); background:rgba(255,47,168,0.07); }
 .pm-conc-chip small{ font:600 11px var(--pm-font); letter-spacing:0.08em; text-transform:uppercase; color:var(--pm-dim); }
 .pm-conc-chip span{ font:800 16px var(--pm-font) !important; color:var(--pm-acc) !important; }
+.pm-ratio-note{ flex:1 1 100%; padding:8px 12px; border-radius:10px; background:rgba(255,47,168,0.08); border:1px solid rgba(255,47,168,0.3); font:600 13px/1.4 var(--pm-font); color:var(--pm-text); }
 .pm-conc-note{ flex:1 1 200px; font:500 12.5px/1.4 var(--pm-font); color:var(--pm-dim); }
 .pm-bld-go{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
 .pm-bld-go .pm-btn{ padding:15px 24px; font-size:16px; }
@@ -949,7 +950,11 @@ html[data-theme="light"] .pm-subnav{ background:rgba(255,255,255,0.9); }
   .pm-subnav{ top:61px; }
   .pm-subnav a{ font-size:13.5px; padding:7px 12px; }
 }
-/* section titles reused for search/resources/schedule */
+#pm-tray{ position:fixed; left:50%; bottom:calc(16px + env(safe-area-inset-bottom,0px)); transform:translate(-50%,160%); z-index:2147483647; display:flex; align-items:center; gap:12px; padding:8px 8px 8px 16px; border-radius:999px; background:rgba(15,13,26,0.96); border:1px solid rgba(255,47,168,0.5); box-shadow:0 16px 40px -12px rgba(0,0,0,0.8),0 0 24px -6px rgba(255,47,168,0.5); font:600 14px var(--pm-font); color:var(--pm-text); transition:transform .25s ease; max-width:calc(100vw - 24px); }
+#pm-tray.show{ transform:translate(-50%,0); }
+#pm-tray .pm-btn{ white-space:nowrap; }
+.pm-add.on{ border-color:rgba(255,47,168,0.55) !important; color:var(--pm-acc) !important; }
+@media(max-width:520px){ #pm-tray{ left:10px; right:62px; z-index:2147483647; transform:translateY(160%); justify-content:space-between; font-size:13px; } #pm-tray.show{ transform:none; } #pm-tray .pm-btn{ padding:9px 12px; font-size:12.5px; } }/* section titles reused for search/resources/schedule */
 .pm-sec{ margin:56px auto 0; max-width:960px; }
 .pm-sec-h{ margin-bottom:16px; }
 .pm-sec-h .k{ font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm-acc); }
@@ -1526,7 +1531,8 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
           <div class="pm-conc-chip"><small>Concentration</small><span id="bac-ratio-label"></span></div>
           <button type="button" id="bac-lock-btn" class="pm-btn sm" onclick="toggleBacLock()">🔓 Keep ratio: OFF</button>
           <input id="bac-custom-ratio" type="number" min="0" step="0.1" placeholder="custom mg/mL" class="pep-input" style="display:none;width:140px;" oninput="onCustomRatioInput()">
-          <span class="pm-conc-note">Turn on <b>Keep ratio</b> if you want changing one number to update the other automatically.</span>
+          <span class="pm-conc-note">Turn on <b>Keep ratio</b> to lock this strength: change the vial or the water and the other updates.</span>
+          <div id="bac-ratio-note" class="pm-ratio-note" style="display:none;"></div>
         </div>
       </div>
 
@@ -1630,6 +1636,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     </div>
   </section>
 
+<div id="pm-tray" role="region" aria-label="Your plan"><span>🧾 Your plan: <b id="pm-tray-n">0 peptides</b></span><button class="pm-btn sm pri" onclick="pmScrollPlan()">View schedule &amp; shopping list →</button></div>
 </main>
 
 <script>
@@ -2095,52 +2102,51 @@ function togglePep(el){
 var bacLocked = false; // off by default: concentration just follows what you type
 var bacRatio = 5; // mg per mL (10mg / 2mL default)
 
-function updateBacRatioLabel(){
-  var lbl = document.getElementById('bac-ratio-label');
-  if (!bacLocked) {
-    var v = parseFloat(document.getElementById('b-vial').value), w = parseFloat(document.getElementById('b-water').value);
-    lbl.textContent = (v > 0 && w > 0) ? (v / w).toFixed(2) + ' mg per mL' : 'enter vial + water';
-    return;
-  }
-  lbl.textContent = bacRatio.toFixed(2) + ' mg per mL';
-}
-
 function recalcRatioFromFields(){
   var vial  = parseFloat(document.getElementById('b-vial').value);
   var water = parseFloat(document.getElementById('b-water').value);
   if (vial > 0 && water > 0) bacRatio = vial / water;
 }
 
-function toggleBacLock(){
-  bacLocked = !bacLocked;
-  var btn = document.getElementById('bac-lock-btn');
-  var customEl = document.getElementById('bac-custom-ratio');
-  if (bacLocked) {
-    btn.textContent = '🔒 Keep ratio: ON';
-    recalcRatioFromFields();
-  } else {
-    btn.textContent = '🔓 Keep ratio: OFF';
+function updateBacRatioLabel(){
+  var lbl = document.getElementById('bac-ratio-label');
+  var note = document.getElementById('bac-ratio-note');
+  var v = parseFloat(document.getElementById('b-vial').value), w = parseFloat(document.getElementById('b-water').value);
+  // always show the real strength of what's typed
+  lbl.textContent = (v > 0 && w > 0) ? (v / w).toFixed(2) + ' mg per mL' : 'enter vial + water';
+  if (note) {
+    var msg = '';
+    if (w > 3) msg = '⚠ More than 3 mL usually won\'t fit in a standard vial. Use less water or split it.';
+    else if (bacLocked) msg = '🔒 Keeping ' + bacRatio.toFixed(2) + ' mg per mL: change the vial or the water and the other updates.';
+    note.textContent = msg; note.style.display = msg ? 'block' : 'none';
   }
-  customEl.style.display = 'none';
+}
+function toggleBacLock(){
+  var btn = document.getElementById('bac-lock-btn');
+  var v = parseFloat(document.getElementById('b-vial').value), w = parseFloat(document.getElementById('b-water').value);
+  if (!bacLocked && !(v > 0 && w > 0)) {
+    // nothing to keep yet
+    var note = document.getElementById('bac-ratio-note');
+    if (note) { note.textContent = 'Enter both the vial amount and the water first, then turn on Keep ratio.'; note.style.display = 'block'; }
+    return;
+  }
+  bacLocked = !bacLocked;
+  if (bacLocked) bacRatio = v / w;
+  btn.textContent = bacLocked ? '🔒 Keep ratio: ON' : '🔓 Keep ratio: OFF';
+  btn.classList.toggle('pri', bacLocked);
+  document.getElementById('bac-custom-ratio').style.display = 'none';
   updateBacRatioLabel();
 }
-
 function onCustomRatioInput(){
   var custom = parseFloat(document.getElementById('bac-custom-ratio').value);
   if (custom > 0) bacRatio = custom;
 }
-
 function onVialWaterInput(changed){
-  if (!bacLocked) { updateBacRatioLabel(); return; }
-  var vialEl  = document.getElementById('b-vial');
-  var waterEl = document.getElementById('b-water');
-  var vial  = parseFloat(vialEl.value);
-  var water = parseFloat(waterEl.value);
-
-  if (changed === 'vial') {
-    if (vial > 0) waterEl.value = Math.min(3, parseFloat((vial / bacRatio).toFixed(2)));
-  } else {
-    if (water > 0) vialEl.value = parseFloat((water * bacRatio).toFixed(2));
+  if (bacLocked && bacRatio > 0) {
+    var vialEl = document.getElementById('b-vial'), waterEl = document.getElementById('b-water');
+    var vial = parseFloat(vialEl.value), water = parseFloat(waterEl.value);
+    if (changed === 'vial' && vial > 0) waterEl.value = parseFloat((vial / bacRatio).toFixed(2));
+    if (changed === 'water' && water > 0) vialEl.value = parseFloat((water * bacRatio).toFixed(2));
   }
   updateBacRatioLabel();
 }
@@ -2464,7 +2470,7 @@ function pmCard(item, rank, total){
     + (why.length ? '<details class="pm-why"' + (rank <= 1 ? ' open' : '') + '><summary>Why it matches your goals</summary><ul>'
         + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></details>' : '')
     + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div>'
-    + '<div class="pm-res-foot"><button class="pm-btn sm pri" onclick="pmBuild(\'' + item.key + '\', this)">Build my schedule →</button>'
+    + '<div class="pm-res-foot"><button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button><button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>'
     +   '<span class="pm-note">Typical research starting protocol, not medical advice.</span></div>'
     + '</article>';
 }
@@ -2517,12 +2523,39 @@ function pmSearch(){
 // keep the original search function name working
 function searchPeptide(){ pmSearch(); }
 
+/* plan: add several peptides, then review them all in the schedule builder */
+var PM_ADDED = {};
+function pmAdd(key, btn){
+  if (PM_ADDED[key]) { pmScrollPlan(); return; }
+  var y = window.scrollY;
+  useForSchedule(key);
+  PM_ADDED[key] = true;
+  window.scrollTo(0, y);                       // stay on the results
+  pmSyncPlan();
+}
+function pmSyncPlan(){
+  document.querySelectorAll('.pm-add').forEach(function(b){
+    var on = !!PM_ADDED[b.getAttribute('data-key')];
+    b.textContent = on ? '✓ In your plan' : '+ Add to plan';
+    b.classList.toggle('pri', !on); b.classList.toggle('on', on);
+  });
+  var n = (typeof SCHEDULES !== 'undefined') ? SCHEDULES.length : 0;
+  var tray = document.getElementById('pm-tray');
+  tray.classList.toggle('show', n > 0);
+  document.getElementById('pm-tray-n').textContent = n + ' peptide' + (n === 1 ? '' : 's');
+}
+function pmScrollPlan(){ var s = document.getElementById('schedule-box') || document.getElementById('pm-builder-sec'); if (s) s.scrollIntoView({behavior:'smooth', block:'start'}); }
+(function(){
+  var clear = clearSchedules;
+  clearSchedules = function(){ clear(); PM_ADDED = {}; pmSyncPlan(); };
+  var build = buildSchedule;
+  buildSchedule = function(silent){ build(silent); setTimeout(pmSyncPlan, 0); };
+})();
 function pmBuild(key, btn){
   useForSchedule(key);
-  if (btn) { btn.textContent = '✓ Added to schedule'; btn.classList.remove('pri'); }
-  var h = document.getElementById('pm-builder'); if (h) h.scrollIntoView({behavior:'smooth', block:'start'});
+  PM_ADDED[key] = true; pmSyncPlan();
+  var h = document.getElementById('pm-builder-sec'); if (h) h.scrollIntoView({behavior:'smooth', block:'start'});
 }
-
 /* ---------- printable / downloadable report ---------- */
 /* what to buy for every built schedule: vials, water, syringes, swabs */
 function pmBuyList(){
