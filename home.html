@@ -4603,6 +4603,14 @@ document.addEventListener('keydown', function(e){
 
   <div class="sb-divider"></div>
 
+  <div class="sb-section">Health</div>
+  <button class="sb-item" data-view="vitamins" onclick="showView('vitamins');setSbActive(this)"><span class="sb-icon">💊</span>Vitamins &amp; Supps</button>
+  <button class="sb-item" data-view="workouts" onclick="showView('workouts');setSbActive(this)"><span class="sb-icon">💪</span>Workout Guides</button>
+  <button class="sb-item" data-view="supplies" onclick="showView('supplies');setSbActive(this)"><span class="sb-icon">🧫</span>Supplies</button>
+  <button class="sb-item" data-view="quick-guide" onclick="showView('quick-guide');setSbActive(this)"><span class="sb-icon">🛠️</span>Tools &amp; Guides</button>
+
+  <div class="sb-divider"></div>
+
   <div class="sb-section">Tools</div>
   <a href="pokeme-dex.html" class="sb-item"><span class="sb-icon">💉</span>PokeMe-Dex Tracker</a>
   <button class="sb-item" data-view="calculator" onclick="showView('calculator');setSbActive(this)"><span class="sb-icon">🧮</span>Recon Calculator</button>
@@ -4627,14 +4635,6 @@ document.addEventListener('keydown', function(e){
   <button class="sb-item" data-view="intel-feed" onclick="showView('intel-feed');setSbActive(this)"><span class="sb-icon">📡</span>Intel Feed</button>
   <button class="sb-item" data-view="videos" onclick="showView('videos');setSbActive(this)"><span class="sb-icon">▶️</span>Doctor Videos</button>
   <button class="sb-item" data-view="cheatsheets" onclick="showView('cheatsheets');setSbActive(this)"><span class="sb-icon">🗄️</span>Cheat Sheet Vault</button>
-
-  <div class="sb-divider"></div>
-
-  <div class="sb-section">Health</div>
-  <button class="sb-item" data-view="vitamins" onclick="showView('vitamins');setSbActive(this)"><span class="sb-icon">💊</span>Vitamins &amp; Supps</button>
-  <button class="sb-item" data-view="workouts" onclick="showView('workouts');setSbActive(this)"><span class="sb-icon">💪</span>Workout Guides</button>
-  <button class="sb-item" data-view="supplies" onclick="showView('supplies');setSbActive(this)"><span class="sb-icon">🧫</span>Supplies</button>
-  <button class="sb-item" data-view="quick-guide" onclick="showView('quick-guide');setSbActive(this)"><span class="sb-icon">🛠️</span>Tools &amp; Guides</button>
 
   <div class="sb-divider"></div>
 
@@ -32350,6 +32350,48 @@ window.addEventListener('appinstalled', function(){
   // heroes are finished by an earlier script on load; upgrade after it
   if (document.readyState === 'complete') setTimeout(upgrade, 0); else window.addEventListener('load', function(){ setTimeout(upgrade, 0); });
   setTimeout(upgrade, 1500);
+})();
+</script>
+<!-- ═══ Readable section pages: home-page typography for every view ═══ -->
+<style id="vx-css">
+  .vx-body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;font-weight:500;line-height:1.6 !important;letter-spacing:0 !important;}
+  .vx-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;font-weight:700 !important;letter-spacing:0.02em !important;line-height:1.3 !important;}
+  .vx-head{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;font-weight:800 !important;letter-spacing:-0.01em !important;line-height:1.2 !important;}
+  .vx-glow{text-shadow:none !important;}
+  body.vpn-nonhome .view.active{line-height:1.6;}
+</style>
+<script>
+/* Every section page (not Home) gets the same clean type as the home page:
+   condensed display fonts -> Inter, nothing smaller than ~14px, no glow on text. */
+(function(){
+  function fix(view){
+    if (!view || view.id === 'view-home') return;
+    // keep hero buttons right under the description (another script may move the description after they're added)
+    var hero = view.querySelector(':scope > .view-hero.vhx'), cta = hero && hero.querySelector('.vhx-cta'), sub = hero && hero.querySelector('.vh-inner > .vh-sub');
+    if (cta && sub && cta.previousElementSibling !== sub) sub.parentNode.insertBefore(cta, sub.nextSibling);
+    var els = view.querySelectorAll('*');
+    for (var i = 0; i < els.length; i++){
+      var e = els[i];
+      if (e.__vx) continue; e.__vx = true;
+      if (e.closest('.vhx, svg, canvas, video, iframe, [data-vt-skip]')) continue;
+      var hasText = false;
+      for (var n = e.firstChild; n; n = n.nextSibling){ if (n.nodeType === 3 && n.textContent.trim().length > 1){ hasText = true; break; } }
+      if (!hasText) continue;
+      var c = getComputedStyle(e), fam = c.fontFamily, fs = parseFloat(c.fontSize);
+      if (/Bebas|Orbitron|Share Tech|Monoton|Bangers/i.test(fam)) e.classList.add(fs >= 22 ? 'vx-head' : 'vx-label');
+      else if (/Rajdhani|Barlow/i.test(fam)) e.classList.add('vx-body');
+      if (fs < 14) e.style.setProperty('font-size', (fs < 11 ? 13 : 14) + 'px', 'important');
+      if (c.textShadow && c.textShadow !== 'none') e.classList.add('vx-glow');
+    }
+  }
+  var _show = window.showView;
+  if (typeof _show === 'function'){
+    window.showView = function(v){ var r = _show.apply(this, arguments); var el = document.getElementById('view-' + v); setTimeout(function(){ fix(el); }, 40); setTimeout(function(){ fix(el); }, 900); return r; };
+  }
+  function initial(){ var a = document.querySelector('.view.active'); if (a) fix(a); }
+  var pend = null;
+  new MutationObserver(function(){ if (pend) return; pend = setTimeout(function(){ pend = null; var a = document.querySelector('.view.active'); if (a && a.id !== 'view-home') fix(a); }, 250); }).observe(document.body, { childList:true, subtree:true });
+  if (document.readyState === 'complete') initial(); else window.addEventListener('load', initial);
 })();
 </script>
 <script src="theme-toggle.js?v=34" defer></script>
