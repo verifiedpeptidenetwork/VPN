@@ -4266,7 +4266,6 @@ document.addEventListener('keydown', function(e){
     <div class="mnav-grid" style="padding-bottom:1.25rem;">
       <button class="mnav-card" style="color:#9d00ff;border-color:rgba(255,230,0,0.4);" onclick="mobileNav('terms')"><span class="mnav-icon">📋</span><span class="mnav-label">TERMS</span></button>
       <button class="mnav-card" style="color:#ff2d78;border-color:rgba(255,45,120,0.4);" onclick="showView('about');toggleMobileNav();"><span class="mnav-icon">🦍</span><span class="mnav-label">MY STORY</span></button>
-      <button class="mnav-card" style="color:#00f5ff;border-color:rgba(0,245,255,0.4);" onclick="showView('intel-feed');toggleMobileNav();"><span class="mnav-icon">📡</span><span class="mnav-label">INTEL FEED</span></button>
       <button class="mnav-card" style="color:#00f5ff;border-color:rgba(0,245,255,0.4);" onclick="showView('contact');toggleMobileNav();"><span class="mnav-icon">📬</span><span class="mnav-label">CONTACT</span></button>
     </div>
 
@@ -4632,7 +4631,6 @@ document.addEventListener('keydown', function(e){
   <div class="sb-section">Research &amp; news</div>
   <button class="sb-item" data-view="studies" onclick="showView('studies');setSbActive(this)"><span class="sb-icon">📊</span>Research Studies</button>
   <a href="latest-news.html" class="sb-item"><span class="sb-icon">📡</span>Latest News</a>
-  <button class="sb-item" data-view="intel-feed" onclick="showView('intel-feed');setSbActive(this)"><span class="sb-icon">📡</span>Intel Feed</button>
   <button class="sb-item" data-view="videos" onclick="showView('videos');setSbActive(this)"><span class="sb-icon">▶️</span>Doctor Videos</button>
   <button class="sb-item" data-view="cheatsheets" onclick="showView('cheatsheets');setSbActive(this)"><span class="sb-icon">🗄️</span>Cheat Sheet Vault</button>
 
@@ -4746,7 +4744,6 @@ document.addEventListener('keydown', function(e){
         <span class="rnav-group-label">COMMUNITY</span>
         <button class="rtab rtab-cyan" onclick="showView('videos');setRTab(this)">▶ VIDEOS</button>
         <button class="rtab rtab-green" onclick="showView('team');setRTab(this)">🧬 MEET THE TEAM</button>
-        <button class="rtab rtab-cyan" onclick="showView('intel-feed');setRTab(this)">📡 INTEL FEED</button>
         <button class="rtab rtab-pink" onclick="showView('bonus');setRTab(this)">⭐ BONUS</button>
       </div>
     </div>
@@ -5277,7 +5274,7 @@ document.addEventListener('keydown', function(e){
         .if-promo-chip{font-size:0.6rem;padding:2px 7px;margin:2px 2px 2px 0;}
       }
     </style>
-    <div id="if-promo" onclick="showView('intel-feed');setRTab(document.querySelector('[onclick*=intel-feed]'))">
+    <div id="if-promo" hidden>
       <div id="if-promo-scan"></div>
       <div id="if-promo-body">
         <div>
@@ -6980,7 +6977,7 @@ document.addEventListener('keydown', function(e){
             </div>
 
             <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.4rem;">
-              <a href="cheatsheet/Crypto%201-2-3%20%E2%80%94%20VPN%20Guide.html" target="_blank" rel="noopener" style="color:#9d00ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">📄 Crypto 1-2-3 — VPN Guide ↗</a>
+              <a href="cheatsheet/crypto-1-2-3.html" target="_blank" rel="noopener" style="color:#9d00ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">📄 Crypto 1-2-3 — VPN Guide ↗</a>
               <a href="cheatsheet/CryptoGuide_Infographic.html" target="_blank" rel="noopener" style="color:#9d00ff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">📄 Crypto Guide Infographic (HTML) ↗</a>
               <a href="cheatsheet/CryptoGuide.pdf" target="_blank" rel="noopener" style="color:var(--neon-cyan);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:underline;">📕 Crypto Guide — PDF Download ↗</a>
             </div>
@@ -8174,6 +8171,9 @@ document.addEventListener('keydown', function(e){
       .vpn-rules .sp-bar{min-height:64px;}
     }
     html[data-theme="light"] #site-hero > .vpn-rules{--ink:#14112a;--sub:#4a4566;--line:rgba(30,20,70,0.12);--card:#fff;background:#f7f6fb !important;}
+    html[data-theme="light"] body .vpn-rules .sp-bar, html[data-theme="light"] body .vpn-rules .vpn-rule{background:#ffffff !important;}
+    html[data-theme="light"] body #site-hero > .vpn-rules{background:#f7f6fb !important;}
+    html[data-theme="light"] body #view-crypto{background:transparent !important;}
     html[data-theme="light"] .vpn-rules .sp-bar:hover,html[data-theme="light"] .vpn-rules .vpn-rule:hover{background:#f1eefb !important;}
     html[data-theme="light"] .vpn-rules .sp-bar.sp-alert{background:linear-gradient(90deg,rgba(255,63,90,0.08),transparent 70%),#fff !important;}
   </style>
@@ -8697,7 +8697,7 @@ document.addEventListener('keydown', function(e){
     <div class="vh2-h"><div><div class="k">Stay current</div><h2>News and the latest published research</h2></div></div>
     <div class="vh2-grid three">
       <a class="vh2-card" style="--c:#ff9a1f" href="latest-news.html"><span class="ic">📰</span><b>Latest news</b><small>Trials, approvals and research updates, as they happen</small><span class="go">Read the news →</span></a>
-      <button type="button" class="vh2-card" style="--c:#2fb4ff" onclick="showView('intel-feed')"><span class="ic">📡</span><b>Peptide Intel feed</b><small>Live PubMed feed across 27 peptide categories</small><span class="go">Open feed →</span></button>
+      <button type="button" class="vh2-card" style="--c:#2fb4ff" onclick="showView('studies');window.scrollTo({top:0});"><span class="ic">📊</span><b>Research studies</b><small>163 PubMed-linked studies, sorted by peptide</small><span class="go">Open studies →</span></button>
       <a class="vh2-card" style="--c:#229ED9" href="https://t.me/ruivpndata" target="_blank" rel="noopener"><span class="ic">✈️</span><b>Telegram image library</b><small>1,000+ pictures and infographics. Verify the info yourself.</small><span class="go">Join @ruivpndata →</span></a>
     </div>
   </section>
@@ -9111,8 +9111,8 @@ document.addEventListener('keydown', function(e){
       <div class="pi-top">
         <div class="pi-ic" aria-hidden="true">🔬</div>
         <div class="pi-tt">
-          <div class="pi-eyebrow">VPN RESEARCH LIBRARY · A–Z</div>
-          <h2 class="pi-title">PEPTIDE <span>INDEX</span></h2>
+          <div class="pi-eyebrow">Research library · A to Z</div>
+          <h2 class="pi-title">Peptide <span>index</span></h2>
           <div id="peptide-index-count" class="pi-count"></div>
         </div>
       </div>
@@ -9135,8 +9135,8 @@ document.addEventListener('keydown', function(e){
         <button type="button" data-k="bio" onclick="piQuick('bio')">Bioregulators</button>
       </div>
       <div class="pi-btns">
-        <button type="button" class="pi-b1" onclick="showView('studies')">📊 Research Studies</button>
-        <button type="button" class="pi-b2" onclick="showView('calculator')">🧮 Dose Calculator</button>
+        <button type="button" class="pi-b1" onclick="showView('studies');window.scrollTo({top:0});">📊 Research studies</button>
+        <button type="button" class="pi-b2" onclick="showView('calculator');window.scrollTo({top:0});">🧮 Dose calculator</button>
         <a class="pi-b3" href="peptide-suggestion.html">🧬 Peptide Match</a>
       </div>
     </div>
@@ -9173,13 +9173,46 @@ document.addEventListener('keydown', function(e){
       html[data-theme="light"] #pi-hero .pi-stat{background:#fff !important;border-color:rgba(124,42,170,0.2) !important;} html[data-theme="light"] #pi-hero .pi-stat b{color:#9a5b00 !important;}
       html[data-theme="light"] #pi-hero .pi-chips button{color:#5b1f86 !important;background:#fff !important;}
     </style>
+    <style id="pi-hero-pro">
+      html body #pi-hero{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;border-radius:22px !important;border:1px solid rgba(255,255,255,0.10) !important;padding:clamp(1.2rem,3vw,2rem) !important;margin-bottom:1.1rem !important;box-shadow:none !important;background:radial-gradient(640px 300px at 88% 10%,rgba(154,92,255,0.22),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(47,180,255,0.14),transparent 60%),linear-gradient(160deg,#0d0a1c,#06050d) !important;}
+      html body #pi-hero *{text-shadow:none !important;}
+      html body #pi-hero .pi-glow{display:none !important;}
+      html body #pi-hero .pi-top{gap:1.1rem !important;}
+      html body #pi-hero .pi-ic{width:60px !important;height:60px !important;border-radius:16px !important;font-size:1.8rem !important;background:color-mix(in srgb,#9a5cff 18%,#0f0d1a) !important;border:1px solid color-mix(in srgb,#9a5cff 45%,transparent) !important;box-shadow:none !important;}
+      html body #pi-hero .pi-eyebrow{font:700 0.72rem/1 'Inter',sans-serif !important;letter-spacing:0.14em !important;text-transform:uppercase !important;margin:0 0 0.4rem !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;}
+      html body #pi-hero .pi-title{font:800 clamp(1.8rem,4.6vw,2.9rem)/1.05 'Inter',sans-serif !important;letter-spacing:-0.03em !important;text-transform:none !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;margin:0 !important;}
+      html body #pi-hero .pi-title span{background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) !important;-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;-webkit-text-fill-color:transparent !important;}
+      html body #pi-hero .pi-count{font:600 0.86rem/1.3 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(200,206,230,0.7) !important;margin-top:0.35rem !important;}
+      html body #pi-hero .pi-lede{font:400 1.02rem/1.6 'Inter',sans-serif !important;letter-spacing:0 !important;color:rgba(214,220,240,0.82) !important;max-width:640px !important;margin:1rem 0 1.1rem !important;text-align:left !important;}
+      html body #pi-hero .pi-stats{grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:0.6rem !important;max-width:760px;margin-bottom:1.1rem !important;}
+      html body #pi-hero .pi-stat{text-align:left !important;padding:0.75rem 0.85rem !important;border-radius:14px !important;background:rgba(255,255,255,0.035) !important;border:1px solid rgba(255,255,255,0.10) !important;}
+      html body #pi-hero .pi-stat b{font:800 1.4rem/1.1 'Inter',sans-serif !important;letter-spacing:-0.03em !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;}
+      html body #pi-hero .pi-stat small{display:block;margin-top:2px;font:600 0.78rem/1.3 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;color:rgba(200,206,230,0.65) !important;}
+      html body #pi-hero .pi-chips{gap:0.45rem !important;margin-bottom:1.1rem !important;}
+      html body #pi-hero .pi-chips button{font:600 0.88rem/1 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;padding:0.6rem 0.9rem !important;min-height:40px;border-radius:999px !important;border:1px solid rgba(255,255,255,0.14) !important;background:rgba(255,255,255,0.04) !important;color:#e6e8f5 !important;-webkit-text-fill-color:#e6e8f5 !important;box-shadow:none !important;}
+      html body #pi-hero .pi-chips button:hover{border-color:rgba(154,92,255,0.6) !important;}
+      html body #pi-hero .pi-chips button.on{border-color:transparent !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;color:#fff !important;-webkit-text-fill-color:#fff !important;}
+      html body #pi-hero .pi-btns{gap:0.6rem !important;}
+      html body #pi-hero .pi-btns > *{flex:0 1 auto !important;display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;font:700 0.95rem 'Inter',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;padding:0.85rem 1.25rem !important;border-radius:12px !important;border:1px solid rgba(255,255,255,0.14) !important;background:rgba(255,255,255,0.04) !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;box-shadow:none !important;}
+      html body #pi-hero .pi-btns .pi-b3{border:none !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;color:#fff !important;-webkit-text-fill-color:#fff !important;box-shadow:0 10px 28px -12px rgba(255,47,168,0.7) !important;}
+      #peptide-search-count{font-family:'Inter',sans-serif !important;font-weight:600 !important;font-size:0.9rem !important;letter-spacing:0 !important;color:rgba(200,206,230,0.75) !important;}
+      @media(max-width:600px){ html body #pi-hero .pi-stats{grid-template-columns:repeat(2,minmax(0,1fr)) !important;} html body #pi-hero .pi-btns > *{flex:1 1 calc(50% - 0.3rem) !important;} html body #pi-hero .pi-btns .pi-b3{flex-basis:100% !important;} }
+      html[data-theme="light"] body #pi-hero{background:radial-gradient(640px 300px at 88% 10%,rgba(154,92,255,0.12),transparent 60%),linear-gradient(160deg,#ffffff,#f3f1ff) !important;border-color:rgba(30,20,70,0.12) !important;}
+      html[data-theme="light"] body #pi-hero .pi-title,html[data-theme="light"] body #pi-hero .pi-stat b{color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+      html[data-theme="light"] body #pi-hero .pi-lede,html[data-theme="light"] body #pi-hero .pi-count,html[data-theme="light"] body #pi-hero .pi-stat small{color:#4a4566 !important;}
+      html[data-theme="light"] body #pi-hero .pi-stat,html[data-theme="light"] body #pi-hero .pi-chips button:not(.on),html[data-theme="light"] body #pi-hero .pi-btns > *:not(.pi-b3){background:#fff !important;border-color:rgba(30,20,70,0.14) !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+      html[data-theme="light"] #peptide-search-count{color:#4a4566 !important;}
+    </style>
     <script>
       function piQuick(k){
-        var C={GLP:/glp|amylin|weight|obes|appetite/i, heal:/heal|repair|tendon|wound|recover|tissue/i, GH:/growth hormone|GH|secretagog|GHRH|GHRP|IGF/, brain:/nootrop|brain|cognit|memory|neuro|focus/i, skin:/skin|hair|collagen|wrinkle|tann/i, mito:/mitochond|NAD|longevity|ageing|aging/i, immune:/immun|thym|antimicrob/i, bio:/bioregulator|khavinson/i};
+        var C={GLP:/glp|amylin|weight|obes|appetite/i, heal:/heal|repair|tendon|wound|recover|tissue/i, GH:/growth hormone|\bGH\b|secretagog|GHRH|GHRP|IGF|sermorelin|ipamorelin|tesamorelin|CJC|MK-677|hexarelin|ghrelin/i, brain:/nootrop|brain|cognit|memory|neuro|focus/i, skin:/skin|hair|collagen|wrinkle|tann/i, mito:/mitochond|NAD|longevity|ageing|aging/i, immune:/immun|thym|antimicrob/i, bio:/bioregulator|khavinson/i};
         window.piCat = C[k] || null;
         var inp=document.getElementById('peptide-search'); if(inp) inp.value='';
         if(typeof filterPeptideIndex==='function') filterPeptideIndex();
-        document.querySelectorAll('#pi-hero .pi-chips button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-k')===k); });
+        var label='';document.querySelectorAll('#pi-hero .pi-chips button').forEach(function(b){ var on=b.getAttribute('data-k')===k; b.classList.toggle('on', on); if(on) label=b.textContent; });
+        var c=document.getElementById('peptide-search-count'), g=document.getElementById('peptide-index-grid');
+        if(c){ var n=g?g.querySelectorAll('.pep-idx-card').length:0; c.textContent = k ? (n + ' compound' + (n!==1?'s':'') + ' · ' + label) : ''; }
+        if(k && g){ var y=g.getBoundingClientRect().top+window.scrollY-140; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }
       }
     </script>
     <!-- Search bar -->
@@ -9946,7 +9979,7 @@ document.addEventListener('keydown', function(e){
         </a>
 
         <!-- Vibration Plate -->
-        <a href="https://www.amazon.com/dp/B0H496PQRM" target="_blank" rel="noopener"
+        <a href="https://www.amazon.com/s?k=vibration+plate" target="_blank" rel="noopener"
            style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
            onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
           <span style="font-size:1.75rem;flex-shrink:0;">📳</span>
@@ -9954,7 +9987,7 @@ document.addEventListener('keydown', function(e){
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Vibration Plate</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Whole body vibration · Lymphatic support</div>
             <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Low impact. Can be used while standing, stretching, or doing light exercises. Good complement to peptide recovery protocols.</div>
-            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+            <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Shop vibration plates on Amazon ↗</div>
           </div>
         </a>
 
@@ -15697,15 +15730,8 @@ document.addEventListener('keydown', function(e){
       <div style="background:#0a0010;border:1.5px solid rgba(149,0,255,0.35);border-top:3px solid #9d00ff;border-radius:12px;padding:1rem 1.1rem;">
         <div style="font-size:1.4rem;margin-bottom:0.5rem;">💉</div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#9d00ff;margin-bottom:0.3rem;">PEPTIDE PENS</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,168,184,0.8);line-height:1.6;margin-bottom:0.75rem;">V1–V4 manual pens + auto injector. Contact <strong style="color:#ff2d78;">@FATIERA</strong> — Tell her SAH sent you!</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:0.75rem;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;">
-          <span style="background:rgba(149,0,255,0.1);border:1px solid rgba(149,0,255,0.25);border-radius:4px;padding:2px 7px;color:#c084fc;">🟢 V1 Budget</span>
-          <span style="background:rgba(149,0,255,0.1);border:1px solid rgba(149,0,255,0.25);border-radius:4px;padding:2px 7px;color:#c084fc;">🔵 V2 Smooth</span>
-          <span style="background:rgba(149,0,255,0.1);border:1px solid rgba(149,0,255,0.25);border-radius:4px;padding:2px 7px;color:#c084fc;">🟣 V3 Precision</span>
-          <span style="background:rgba(149,0,255,0.1);border:1px solid rgba(149,0,255,0.25);border-radius:4px;padding:2px 7px;color:#c084fc;">🔴 V4 Premium</span>
-          <span style="background:rgba(149,0,255,0.1);border:1px solid rgba(149,0,255,0.25);border-radius:4px;padding:2px 7px;color:#c084fc;">⚡️ Auto</span>
-        </div>
-        <a href="https://ezformz.net/f/pep-pens" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:linear-gradient(110deg,#9d00ff,#6200cc);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.1em;text-decoration:none;">📲 ORDER FORM ↗</a>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;color:rgba(220,214,236,0.85);line-height:1.6;margin-bottom:0.85rem;">Contact <strong style="color:#ff2d78;">@Fatiera</strong> on Telegram.</div>
+        <a href="https://t.me/Fatiera" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:#229ED9;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;">✈️ Telegram @Fatiera ↗</a>
       </div>
 
       <!-- JOYOUS RESEARCH -->
@@ -16797,7 +16823,7 @@ document.addEventListener('keydown', function(e){
         </div>
       </a>
 
-      <a href="https://www.amazon.com/dp/B0H496PQRM" target="_blank" rel="noopener"
+      <a href="https://www.amazon.com/s?k=vibration+plate" target="_blank" rel="noopener"
          style="display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;background:#020d07;border:2px solid rgba(0,255,100,0.35);border-left:4px solid #00ff64;text-decoration:none;transition:box-shadow 0.2s;"
          onmouseover="this.style.boxShadow='0 0 16px rgba(0,255,100,0.25)'" onmouseout="this.style.boxShadow='none'">
         <span style="font-size:1.75rem;flex-shrink:0;">📳</span>
@@ -16805,7 +16831,7 @@ document.addEventListener('keydown', function(e){
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:#00ff64;">Vibration Plate</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#fff;margin-top:0.1rem;">Whole body vibration · Lymphatic support</div>
           <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,255,210,0.75);margin-top:0.2rem;">Low impact. Use while standing, stretching, or light exercises.</div>
-          <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Amazon ↗</div>
+          <div style="margin-top:0.5rem;font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.12em;color:rgba(0,255,100,0.6);">Shop vibration plates on Amazon ↗</div>
         </div>
       </a>
 
@@ -17290,7 +17316,7 @@ function csvFilter(cat, btn) {
       var combined=((el.textContent||'')+' '+(el.getAttribute('data-search')||'')).toLowerCase();
       if(words.every(function(w){return combined.indexOf(w)!==-1;})){
         var title=el.querySelector('.vpn-news-title');
-        if(title) crossMatches.push({label:'📡 INTEL FEED: '+title.textContent.trim(),view:'intel-feed',navSel:'[data-view="intel-feed"]',el:el});
+        // (Intel feed removed: these cards no longer have a page to open)
       }
     });
 
@@ -24814,11 +24840,16 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
       <figure onclick="openLightbox('cheatsheet/crypto-robinhood-guide.jpg','Robinhood Crypto Guide')"><img loading="lazy" src="cheatsheet/crypto-robinhood-guide.jpg" alt="Robinhood crypto guide"><figcaption>Robinhood guide</figcaption></figure>
       <figure onclick="openLightbox('cheatsheet/Crypto%20summarized%20guide.png','Crypto Summarized Guide')"><img loading="lazy" src="cheatsheet/Crypto%20summarized%20guide.png" alt="Crypto summarized guide"><figcaption>One-page summary</figcaption></figure>
       <figure onclick="openLightbox('cheatsheet/cryptoeasyguide.png','Crypto Easy Guide')"><img loading="lazy" src="cheatsheet/cryptoeasyguide.png" alt="Crypto easy guide"><figcaption>Easy guide</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/coinbasetrustwallet.png','Coinbase to Trust Wallet')"><img loading="lazy" src="cheatsheet/coinbasetrustwallet.png" alt="Coinbase to Trust Wallet"><figcaption>Coinbase → Trust Wallet</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/alibabacrypto.png','Buying crypto with Alibaba / AliPay')"><img loading="lazy" src="cheatsheet/alibabacrypto.png" alt="Buying crypto with Alibaba / AliPay"><figcaption>Alibaba / AliPay</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/cryptoguide4.png','Crypto guide 4')"><img loading="lazy" src="cheatsheet/cryptoguide4.png" alt="Crypto guide 4"><figcaption>Crypto guide 4</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto5.png','Crypto guide 5')"><img loading="lazy" src="cheatsheet/crypto5.png" alt="Crypto guide 5"><figcaption>Crypto guide 5</figcaption></figure>
+      <figure onclick="openLightbox('cheatsheet/crypto6.png','Payment guide: always send to your wallet first')"><img loading="lazy" src="cheatsheet/crypto6.png" alt="Payment guide: always send to your wallet first"><figcaption>Send to your wallet first</figcaption></figure>
     </div>
 
     <div class="cr-h"><div class="kk">Keep a copy</div><h3>Full guides</h3></div>
     <div class="cr-dl">
-      <a class="cr-btn" href="cheatsheet/Crypto%201-2-3%20%E2%80%94%20VPN%20Guide.html" target="_blank" rel="noopener">📄 Crypto 1-2-3 (printable)</a>
+      <a class="cr-btn" href="cheatsheet/crypto-1-2-3.html" target="_blank" rel="noopener">📄 Crypto 1-2-3 (printable)</a>
       <a class="cr-btn" href="cheatsheet/CryptoGuide_Infographic.html" target="_blank" rel="noopener">🖼 Crypto infographic</a>
       <a class="cr-btn" href="cheatsheet/CryptoGuide.pdf" target="_blank" rel="noopener">⬇ PDF guide</a>
       <a class="cr-btn" href="https://t.me/ruivpndata" target="_blank" rel="noopener">✈️ Ask in Telegram</a>
@@ -27436,7 +27467,25 @@ var PEPTIDE_STACKS = {
   'Enclomiphene': 'Gonadorelin or Kisspeptin'
 };
 // Render peptide index
+// Cards render header-only; the details are built the first time a card is opened (113 full cards made the page lag)
 function buildPeptideCard(item) {
+  var full = buildPeptideCardFull(item);
+  var id = 'pep-' + item.name.replace(/[^a-z0-9]/gi,'');
+  var at = full.indexOf('<div id="' + id + '"');
+  return full.slice(0, at) + '<div id="' + id + '" class="pep-idx-body" data-pi-lazy="1"></div></div>';
+}
+(function(){
+  document.addEventListener('click', function(ev){
+    var h = ev.target.closest && ev.target.closest('.pep-idx-header'); if (!h) return;
+    var card = h.closest('.pep-idx-card'), body = card && card.querySelector('.pep-idx-body[data-pi-lazy]'); if (!body) return;
+    var name = (h.querySelector('span') || {}).textContent || '';
+    var item = PEPTIDE_DATA.filter(function(x){ return x.name === name.trim(); })[0]; if (!item) return;
+    var tmp = document.createElement('div'); tmp.innerHTML = buildPeptideCardFull(item);
+    var src = tmp.querySelector('.pep-idx-body'); if (src) body.innerHTML = src.innerHTML;
+    body.removeAttribute('data-pi-lazy');
+  }, true);
+})();
+function buildPeptideCardFull(item) {
   var p = item.name, use = item.use, dose = item.dose||'See protocol notes', duration = item.duration||'Varies by goal', protocol = item.protocol||'', desc = item.desc||'';
   var id = 'pep-' + p.replace(/[^a-z0-9]/gi,'');
   return '<div class="pep-idx-card">' +
@@ -32624,7 +32673,7 @@ window.addEventListener('appinstalled', function(){
     tgk:         ['Tesa · GHK-Cu · KPV',       [['🔬 Peptide index', go('all-peptides'), 1], ['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'']]],
     cancer:      ['Cancer & peptides',         [['📊 Research studies', go('studies'), 1], ['🩸 Blood work', go('bloodwork')]]],
     graymarket:  ['Gray market risks',         [['🧪 Lab testing (Janoshik)', homeTo('home-janoshik'), 1], ['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'']]],
-    studies:     ['Research studies',          [['📡 Intel feed', go('intel-feed'), 1], ['📰 Latest news', 'location.href=\'latest-news.html\'']]],
+    studies:     ['Research studies',          [['🔬 Peptide index', go('all-peptides'), 1], ['📰 Latest news', 'location.href=\'latest-news.html\'']]],
     contact:     ['Contact',                   [['✈️ Telegram', 'window.open(\'https://t.me/ruivpndata\',\'_blank\',\'noopener\')', 1], ['📋 Terms of use', go('terms')]]]
   };
   function upgrade(){
@@ -32687,7 +32736,7 @@ window.addEventListener('appinstalled', function(){
   if (document.readyState === 'complete') initial(); else window.addEventListener('load', initial);
 })();
 </script>
-<script src="theme-toggle.js?v=34" defer></script>
+<script src="theme-toggle.js?v=36" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
    Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
@@ -33467,11 +33516,9 @@ window.addEventListener('appinstalled', function(){
     return '';
   }
   var SKIP = '.view-hero, .vh2, #glp-avoid, svg, video, iframe, canvas, table, form, input, select, textarea, .b3-gal, [data-px-skip], .pm-calc, .calc-wrap';
-  function skin(view){
-    if (!view || view.id === 'view-home' || view.__px || !view.offsetHeight) return; view.__px = true;
-    view.classList.add('px-on');
-    // bars
-    view.querySelectorAll('details > summary').forEach(function(s){
+  // collapsible bars: shared by the section pages and the home page extras
+  function bars(view){
+    view.querySelectorAll('details > summary:not(.px-sum)').forEach(function(s){
       if (s.closest(SKIP)) return;
       var d = s.parentElement, ac = accentOf(d) || accentOf(s);
       d.classList.add('px-det'); s.classList.add('px-sum');
@@ -33500,6 +33547,11 @@ window.addEventListener('appinstalled', function(){
         if (fs >= 14.5) { x.style.setProperty('font-weight', '700', 'important'); x.style.setProperty('letter-spacing', '-0.005em', 'important'); x.style.setProperty('text-transform', 'none', 'important'); }
       });
     });
+  }
+  function skin(view){
+    if (!view || view.id === 'view-home' || view.__px || !view.offsetHeight) return; view.__px = true;
+    view.classList.add('px-on');
+    bars(view);
     // boxes with their own neon border
     view.querySelectorAll('div[style*="border"], section[style*="border"], a[style*="border"]').forEach(function(b){
       if (b.closest(SKIP) || b.closest('summary') || b.closest('.px-box')) return;
@@ -33530,11 +33582,209 @@ window.addEventListener('appinstalled', function(){
   }
   function run(){
     document.querySelectorAll('.view').forEach(function(v){ if (v.offsetParent || v.classList.contains('active')) skin(v); });
+    // the home page and the news feed keep their own design, but their collapsible bars get the same clean style
+    document.querySelectorAll('details > summary:not(.px-sum)').forEach(function(s){
+      if (s.classList.contains('sp-bar') || s.closest('.vpn-rules, #dg, [data-px-skip]')) return;
+      var v = s.closest('.view'); if (v && v.id !== 'view-home') return; // section pages are handled by skin() when they open
+      var d = s.parentElement; if (d.closest('.px-on')) { bars(d.parentElement); return; }
+      var w = document.createElement('div'); w.className = 'px-on'; w.style.display = 'contents'; // invisible wrapper: scopes the style to this bar only
+      d.before(w); w.appendChild(d); bars(w);
+    });
   }
   var _sv = window.showView;
   if (typeof _sv === 'function') window.showView = function(){ var r = _sv.apply(this, arguments); setTimeout(run, 60); return r; };
   function start(){ setTimeout(run, 120); setTimeout(run, 1500); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
+<!-- DROPDOWNS + "READ THIS FIRST" — dropdown menus in the clean pro card style (bottom sheet on phones held upright),
+     the GLP safety card stays closed but calls for attention until it's been read, and the sidebar points people to Gray Market Risks -->
+<style id="vpn-drop-steer">
+  /* ── dropdown menus ── */
+  .qa-dropdown .qa-panel{background:var(--px-card,#0e0c18) !important;border:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;border-top:3px solid #9a5cff !important;border-radius:16px !important;box-shadow:0 18px 44px rgba(0,0,0,0.55) !important;padding:6px !important;max-height:min(70vh,560px);overflow:auto !important;overscroll-behavior:contain;z-index:60;}
+  .qa-dropdown .qa-panel, .qa-dropdown .qa-panel *{text-shadow:none !important;animation:none !important;}
+  .qa-dropdown .qa-panel > div:not(.qa-item){font:500 0.84rem/1.55 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;color:var(--px-sub,rgba(200,206,230,0.74)) !important;border-bottom:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;padding:0.6rem 0.75rem 0.75rem !important;margin-bottom:4px;}
+  .qa-dropdown .qa-item{display:flex !important;align-items:center !important;gap:0.8rem !important;padding:0.7rem 0.75rem !important;border:none !important;border-radius:12px !important;background:transparent !important;color:var(--px-ink,#f1f3fb) !important;text-decoration:none !important;cursor:pointer;text-align:left;}
+  .qa-dropdown .qa-item:hover,.qa-dropdown .qa-item:focus-visible{background:var(--px-card2,#14111f) !important;outline:none;}
+  .qa-dropdown .qa-item > span:first-child{flex:none;width:2.3rem;height:2.3rem;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,0.05);font-size:1.1rem !important;filter:none !important;}
+  .qa-dropdown .qa-item > div{flex:1;min-width:0;}
+  .qa-dropdown .qa-item > div > div:first-child,.qa-dropdown .qa-item .qa-item-label{font:700 0.95rem/1.3 'Inter',system-ui,sans-serif !important;letter-spacing:-0.005em !important;text-transform:none !important;color:var(--px-ink,#f1f3fb) !important;}
+  .qa-dropdown .qa-item > div > div:nth-child(2){font:500 0.8rem/1.45 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;color:var(--px-sub,rgba(200,206,230,0.74)) !important;margin-top:2px;}
+  .qa-dropdown .qa-item > span:last-child:not(:first-child),.qa-dropdown .qa-item .qa-item-arrow{flex:none;margin-left:auto;color:var(--px-sub,rgba(200,206,230,0.74)) !important;opacity:1 !important;font-size:0.9rem !important;}
+  .qa-dropdown .qa-item [class^="qa-item-"]:not(.qa-item-icon):not(.qa-item-arrow):not(.qa-item-label){color:var(--px-ink,#f1f3fb) !important;}
+  .qa-x{display:none;}
+  html[data-theme="light"] .qa-dropdown .qa-panel{box-shadow:0 18px 44px rgba(30,20,70,0.18) !important;}
+  html[data-theme="light"] .qa-dropdown .qa-item > span:first-child{background:rgba(30,20,70,0.06);}
+  /* phones held upright: the menu slides up from the bottom, above the bottom bar, with a close button */
+  @media (max-width:640px){
+    .qa-dropdown.open::before{content:"";position:fixed;inset:0;background:rgba(4,2,12,0.62);z-index:9998;}
+    .qa-dropdown.open .qa-panel{position:fixed !important;left:8px !important;right:8px !important;top:auto !important;bottom:calc(72px + env(safe-area-inset-bottom,0px)) !important;width:auto !important;min-width:0 !important;max-width:none !important;max-height:min(68vh,620px) !important;transform:none !important;margin:0 !important;z-index:9999 !important;border-radius:20px !important;padding:8px !important;}
+    .qa-dropdown .qa-item{min-height:56px;padding:0.75rem !important;}
+    .qa-x{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0.4rem 0.4rem 0.6rem 0.75rem;margin:0 0 4px;background:none;border:none;border-bottom:1px solid var(--px-line,rgba(255,255,255,0.09));color:var(--px-ink,#f1f3fb);font:700 0.95rem 'Inter',system-ui,sans-serif;cursor:pointer;}
+    .qa-x i{font-style:normal;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--px-card2,#14111f);font-size:1.2rem;}
+    body:has(.qa-dropdown.open) #vpn-gear,body:has(.qa-dropdown.open) #vt-top-btn,body:has(.qa-dropdown.open) #vpn-back-to-top{visibility:hidden !important;}
+  }
+
+  /* ── "Skool tools" menu on the top tabs ── */
+  .rtab-dropdown .rtab-dropdown-panel{background:var(--px-card,#0e0c18) !important;border:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;border-top:3px solid #9a5cff !important;border-radius:14px !important;box-shadow:0 18px 44px rgba(0,0,0,0.55) !important;padding:6px !important;min-width:220px !important;}
+  .rtab-dropdown .rtab-dropdown-panel a,.rtab-dropdown .rtab-dropdown-panel button{font:600 0.92rem/1.3 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;color:var(--px-ink,#f1f3fb) !important;text-shadow:none !important;border:none !important;border-radius:10px !important;padding:0.6rem 0.75rem !important;}
+  .rtab-dropdown .rtab-dropdown-panel a:hover,.rtab-dropdown .rtab-dropdown-panel button:hover{background:var(--px-card2,#14111f) !important;padding-left:0.75rem !important;}
+
+  /* ── phone menu (hamburger) ── */
+  #mobile-nav.mobile-nav-dropdown{background:var(--px-card,#0e0c18) !important;border-bottom:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;box-shadow:0 18px 44px rgba(0,0,0,0.55) !important;backdrop-filter:none !important;}
+  #mobile-nav .mnav-section-label{font:700 0.68rem/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.12em !important;color:var(--px-sub,rgba(200,206,230,0.74)) !important;opacity:0.75;border-top-color:var(--px-line,rgba(255,255,255,0.09)) !important;padding:1rem 1rem 0.45rem !important;}
+  #mobile-nav .mnav-card{background:var(--px-card2,#14111f) !important;border:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;border-top:2px solid currentColor !important;border-radius:14px !important;box-shadow:none !important;text-shadow:none !important;animation:none !important;}
+  #mobile-nav .mnav-card .mnav-label{font:700 0.66rem/1.2 'Inter',system-ui,sans-serif !important;letter-spacing:0.04em !important;color:var(--px-ink,#f1f3fb) !important;text-shadow:none !important;}
+  #mobile-nav .mnav-card:active{transform:scale(0.97);}
+
+  /* ── pick-lists ── */
+  select:not([data-px-skip]){-webkit-appearance:none !important;appearance:none !important;background:var(--px-card,#0e0c18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%238f93ad' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 0.85rem center/12px 8px !important;color:var(--px-ink,#f1f3fb) !important;border:1px solid var(--px-line,rgba(255,255,255,0.09)) !important;border-radius:12px !important;padding:0.6rem 2.3rem 0.6rem 0.85rem !important;font:600 0.95rem/1.3 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;min-height:44px;cursor:pointer;}
+  select:not([data-px-skip]):focus-visible{outline:2px solid #9a5cff;outline-offset:2px;}
+  select:not([data-px-skip]) option{background:#0e0c18;color:#f1f3fb;}
+  html[data-theme="light"] select:not([data-px-skip]) option{background:#fff;color:#14112a;}
+
+  /* ── GLP safety: stays closed, but stands out until it has been read ── */
+  @keyframes vpnReadPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,63,90,0.0),0 0 0 1px rgba(255,63,90,0.35);}50%{box-shadow:0 0 0 6px rgba(255,63,90,0.14),0 0 0 1px rgba(255,63,90,0.6);}}
+  @keyframes vpnTagPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+  #glp-must-read:not([open]) > summary.sp-bar.vpn-unread{animation:vpnReadPulse 2.2s ease-in-out infinite !important;border-radius:16px;}
+  #glp-must-read > summary.sp-bar.vpn-unread .sp-go{background:#ff3f5a !important;color:#fff !important;border-color:#ff3f5a !important;animation:vpnTagPulse 2.2s ease-in-out infinite;}
+  #glp-must-read > summary.sp-bar .vpn-step{display:inline-block;margin:0 0.45rem 0 0;padding:0.18rem 0.5rem;border-radius:999px;background:#ff3f5a;color:#fff;font:800 0.62rem/1.2 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;vertical-align:2px;}
+  #glp-must-read > summary.sp-bar.vpn-done .sp-go{background:rgba(46,230,160,0.14) !important;color:#2ee6a0 !important;border-color:rgba(46,230,160,0.4) !important;}
+  #glp-must-read > summary.sp-bar.vpn-done .vpn-step{display:none;}
+
+  /* ── sidebar: point people to Gray Market Risks until they've visited it ── */
+  @keyframes vpnHerePulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
+  html body #vpn-sidebar .sb-item[data-view="graymarket"].vpn-here{box-shadow:inset 3px 0 0 #ffb020,0 0 0 1px rgba(255,176,32,0.45) !important;background:linear-gradient(90deg,rgba(255,176,32,0.14),rgba(255,176,32,0.03)) !important;color:#ffd27a !important;}
+  html body #vpn-sidebar .sb-item[data-view="graymarket"] .vpn-here-tag{margin-left:auto;padding:0.2rem 0.45rem;border-radius:999px;background:#ffb020;color:#1a1000;font:800 0.58rem/1.2 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;animation:vpnHerePulse 1.8s ease-in-out infinite;}
+  html body #vpn-sidebar .sb-item[data-view="graymarket"]:not(.vpn-here) .vpn-here-tag{display:none;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item[data-view="graymarket"].vpn-here{color:#8a5a00 !important;}
+
+  @media (prefers-reduced-motion:reduce){
+    #glp-must-read > summary.sp-bar.vpn-unread,#glp-must-read > summary.sp-bar.vpn-unread .sp-go,html body #vpn-sidebar .sb-item[data-view="graymarket"] .vpn-here-tag{animation:none !important;}
+  }
+</style>
+<script>
+(function(){
+  var store = {get:function(k){try{return localStorage.getItem(k);}catch(e){return null;}}, set:function(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
+
+  /* dropdowns: close when tapping outside or pressing Escape; add a close bar for phones */
+  function closeAll(keep){ document.querySelectorAll('.qa-dropdown.open').forEach(function(d){ if(d!==keep) d.classList.remove('open'); }); }
+  document.addEventListener('click', function(e){
+    var d = e.target.closest && e.target.closest('.qa-dropdown');
+    if (!d) return closeAll();
+    if (e.target === d) { d.classList.remove('open'); return; } // the dimmed backdrop on phones
+    closeAll(d);
+  }, true);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(); });
+  function addClose(){
+    document.querySelectorAll('.qa-dropdown .qa-panel').forEach(function(p){
+      if (p.querySelector(':scope > .qa-x')) return;
+      var t = p.closest('.qa-dropdown').querySelector('.qa-trigger, button');
+      var name = t ? (t.querySelector('.sp-tx b') || t).textContent.replace(/[▼▾]/g,'').trim() : 'Menu';
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'qa-x'; b.setAttribute('aria-label','Close menu');
+      b.innerHTML = '<span></span><i aria-hidden="true">×</i>'; b.firstChild.textContent = name;
+      b.addEventListener('click', function(e){ e.stopPropagation(); p.closest('.qa-dropdown').classList.remove('open'); });
+      p.insertBefore(b, p.firstChild);
+    });
+  }
+
+  /* GLP safety: closed by default, flagged "Step 1 · Read first" until opened once */
+  function glp(){
+    var d = document.getElementById('glp-must-read'), s = d && d.querySelector(':scope > summary');
+    if (!s || !s.classList.contains('sp-bar')) return false;
+    var read = store.get('vpn_glp_read') === '1', go = s.querySelector('.sp-go'), b = s.querySelector('.sp-tx b');
+    if (b && !b.querySelector('.vpn-step')) { var st = document.createElement('span'); st.className = 'vpn-step'; st.textContent = 'Step 1'; b.prepend(st); }
+    s.classList.toggle('vpn-unread', !read); s.classList.toggle('vpn-done', read);
+    if (go) go.textContent = read ? '✓ Read' : 'Read first';
+    if (!d.__vpnRead) { d.__vpnRead = true; d.addEventListener('toggle', function(){ if (d.open) { store.set('vpn_glp_read','1'); glp(); } }); }
+    return true;
+  }
+
+  /* sidebar: "Start here" on Gray Market Risks until it has been opened */
+  function gray(){
+    var it = document.querySelector('#vpn-sidebar .sb-item[data-view="graymarket"]'); if (!it) return false;
+    if (!it.querySelector('.vpn-here-tag')) { var tag = document.createElement('span'); tag.className = 'vpn-here-tag'; tag.textContent = 'Start here'; it.appendChild(tag); }
+    it.classList.toggle('vpn-here', store.get('vpn_gray_seen') !== '1');
+    return true;
+  }
+  var _sv = window.showView;
+  if (typeof _sv === 'function') window.showView = function(v){ if (v === 'graymarket') { store.set('vpn_gray_seen','1'); setTimeout(gray, 0); } return _sv.apply(this, arguments); };
+
+  function run(){ addClose(); glp(); gray(); }
+  function start(){ run(); setTimeout(run, 400); setTimeout(run, 1600); } // the safety cards are built by another script just after load
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
+<script>/* Intel feed was removed: old links and bookmarks go to Research studies */(function(){var sv=window.showView;if(typeof sv==='function'){window.showView=function(n){if(n==='intel-feed')n='studies';return sv.apply(this,[n].concat([].slice.call(arguments,1)));};}if(location.hash==='#intel-feed'){setTimeout(function(){window.showView('studies');},0);}})();</script>
+<!-- CUSTOM DROPDOWNS — script-built toggles (not <details>) get the same card standard -->
+<style id="vpn-pro-toggles">
+  .px-tog-bar{display:flex !important;align-items:center !important;gap:0.75rem !important;position:relative;box-sizing:border-box;min-height:56px;padding:0.85rem 2.8rem 0.85rem 1.1rem !important;border-radius:14px !important;border:1px solid var(--px-line) !important;border-left:3px solid var(--px-ac,#9a5cff) !important;background:var(--px-card) !important;box-shadow:none !important;cursor:pointer;text-align:left !important;animation:none !important;transition:background .15s,transform .15s;}
+  .px-tog-bar:hover{background:var(--px-card2) !important;transform:translateY(-1px);}
+  .px-tog-bar::after{content:'';position:absolute;right:1.1rem;top:50%;width:8px;height:8px;margin-top:-6px;border-right:2px solid var(--px-sub);border-bottom:2px solid var(--px-sub);transform:rotate(45deg);transition:transform .2s;}
+  .px-tog-bar.px-open::after{transform:rotate(-135deg);margin-top:-2px;}
+  .px-tog-bar,.px-tog-bar *{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;letter-spacing:-0.005em !important;text-transform:none !important;text-shadow:none !important;}
+  .px-tog-bar .px-arrow-old{display:none !important;}
+  .px-tog-btn{display:inline-flex !important;align-items:center !important;gap:0.4rem !important;padding:0.55rem 0.9rem !important;border-radius:10px !important;border:1px solid var(--px-line) !important;background:var(--px-card2) !important;color:var(--px-ink) !important;-webkit-text-fill-color:var(--px-ink) !important;font:700 0.88rem/1.2 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;box-shadow:none !important;text-shadow:none !important;cursor:pointer;animation:none !important;}
+  .px-tog-btn:hover{border-color:rgba(154,92,255,0.55) !important;}
+  /* Peptide Index cards */
+  html body .pep-idx-card{background:var(--px-card) !important;border:1px solid var(--px-line) !important;border-left:3px solid #9a5cff !important;border-radius:14px !important;box-shadow:none !important;}
+  html body .pep-idx-card:hover{background:var(--px-card2) !important;border-color:var(--px-line) !important;border-left-color:#ff2fa8 !important;}
+  html body .pep-idx-header{padding:0.9rem 1rem !important;align-items:center !important;}
+  html body .pep-idx-header span{font-family:'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;}
+  html body .pep-idx-header > div > span:first-child{font-weight:800 !important;font-size:1.02rem !important;letter-spacing:-0.01em !important;color:var(--px-ink) !important;-webkit-text-fill-color:var(--px-ink) !important;}
+  html body .pep-idx-header > div > span:last-child{font-weight:500 !important;font-size:0.88rem !important;color:var(--px-sub) !important;-webkit-text-fill-color:var(--px-sub) !important;}
+  html body .pep-idx-header .pa{display:grid !important;place-items:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--px-line);color:var(--px-sub) !important;font-size:0.7rem !important;margin:0 !important;}
+  html body .pep-idx-body{background:transparent !important;box-shadow:none !important;border-top:1px solid var(--px-line) !important;padding:0.9rem 1rem 1rem !important;}
+  html body .pep-idx-body span,html body .pep-idx-body p{font-family:'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;}
+  html[data-theme="light"] body .pep-idx-card{background:#fff !important;}
+</style>
+<script>
+(function(){
+  var TOGGLE = /display|classList\.toggle|\.toggle\(|\.open\s*=|\.open\b/;
+  var NOT = /showView|location|window\.open|print\(|[Cc]opy|vpnTheme|lightbox|openLightbox|scrollTo\(\{top:0/;
+  var SKIPT = '#vpn-sidebar, #vpn-bottom-nav, .vpn-bottom-nav, summary, .sp-bar, .pep-idx-header, .vh2, #vpn-close-cards, [data-px-skip], .vhx-cta, .pi-chips, .pi-btns';
+  function caps(t){ var l = t.replace(/[^A-Za-z]/g, ''); return l.length >= 4 && l === l.toUpperCase(); }
+  function title(t){ return t.replace(/[A-Za-z][A-Za-z'’-]*/g, function(w, i){ if (/^(GLP|BPC|TB|GHK|KPV|NAD|COA|COAS|FDA|MTC|PDF|EAA|CJC|IGF|MOTS|SS|HGH|TRT|DIY|ELI5|USA|PT|MK|DMSO|PCOS|LED|UV|A1C|CBC|CMP|TSH|RUI|VPN)$/.test(w.toUpperCase().replace(/S$/, '')) && w.length <= 5) return w; var lw = w.toLowerCase(); return i === 0 ? lw.charAt(0).toUpperCase() + lw.slice(1) : (/^(and|or|the|of|to|for|in|on|at|by|with|vs|per|from|a|an)$/.test(lw) ? lw : lw.charAt(0).toUpperCase() + lw.slice(1)); }); }
+  function decapsIn(el){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(function(n){ if (caps(n.textContent)) n.textContent = title(n.textContent); });
+  }
+  function accent(el){
+    var c = getComputedStyle(el), cands = [c.borderLeftColor, c.borderTopColor, c.color];
+    for (var i = 0; i < cands.length; i++){ var m = (cands[i].match(/\d+(\.\d+)?/g) || []).map(Number); if (m.length >= 3 && (m[3] == null || m[3] > 0.25) && Math.max(m[0],m[1],m[2]) - Math.min(m[0],m[1],m[2]) > 60) return 'rgb(' + m[0] + ',' + m[1] + ',' + m[2] + ')'; }
+    return '';
+  }
+  function skinToggles(root){
+    if (!root) return;
+    root.querySelectorAll('[onclick]').forEach(function(e){
+      if (e.__pxt2) return;
+      var oc = e.getAttribute('onclick') || '';
+      if (!TOGGLE.test(oc) || NOT.test(oc) || e.closest(SKIPT)) return;
+      var r = e.getBoundingClientRect(); if (!r.width) return; // hidden for now; try again when shown
+      e.__pxt2 = true;
+      decapsIn(e);
+      // old ▼ / ▲ arrow glyphs become the shared chevron on bars
+      var wide = r.width >= 260 && r.height >= 40 && !/^(BUTTON|A)$/.test(e.tagName) || (r.width >= 420 && r.height >= 44);
+      if (wide){
+        var ac = accent(e); if (ac) e.style.setProperty('--px-ac', ac);
+        e.classList.add('px-tog-bar');
+        e.querySelectorAll('span, div').forEach(function(x){ if (x.children.length === 0 && /^[▼▲▾▴⌄]\s*$|^[▼▲]\s*(open|hide|expand|collapse|read)/i.test(x.textContent.trim())) x.classList.add('px-arrow-old'); });
+        e.addEventListener('click', function(){ var me = e; setTimeout(function(){ var nx = me.nextElementSibling; var open = nx && getComputedStyle(nx).display !== 'none' && nx.getClientRects().length > 0; me.classList.toggle('px-open', !!open); }, 30); });
+      } else if (r.height < 70) {
+        e.classList.add('px-tog-btn');
+      }
+    });
+  }
+  function run(){
+    skinToggles(document.getElementById('site-hero'));
+    document.querySelectorAll('.view').forEach(function(v){ if (v.getClientRects().length) skinToggles(v); });
+  }
+  var sv = window.showView;
+  if (typeof sv === 'function') window.showView = function(){ var r = sv.apply(this, arguments); setTimeout(run, 120); return r; };
+  document.addEventListener('click', function(){ setTimeout(run, 200); }, true);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(run, 300); }); else setTimeout(run, 300);
+  setTimeout(run, 1800);
 })();
 </script>
 </body>

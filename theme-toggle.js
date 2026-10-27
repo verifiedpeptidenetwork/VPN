@@ -756,3 +756,159 @@
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* Light-mode contrast guard: after the light theme is applied, any text that is still hard to read
+   (dark text left on a dark box, or light text on a light box) gets fixed:
+   grey/black boxes become light cards, coloured boxes keep their colour and get white text.
+   Everything it changes is recorded and restored when switching back to dark mode. */
+(function(){
+  var changed = [], busy = false, timer = null;
+  function parse(c){ var m = (c || '').match(/[\d.]+/g); if (!m) return null; return { r:+m[0], g:+m[1], b:+m[2], a: m[3] == null ? 1 : +m[3] }; }
+  function lum(o){ var a = [o.r, o.g, o.b].map(function(v){ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2]; }
+  function ratio(a, b){ return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05); }
+  function chroma(o){ return Math.max(o.r, o.g, o.b) - Math.min(o.r, o.g, o.b); }
+  // the element that paints the background behind el, and that colour
+  function backdrop(el){
+    for (var x = el; x && x !== document.documentElement; x = x.parentElement){
+      var cs = getComputedStyle(x), bg = parse(cs.backgroundColor);
+      if (bg && bg.a > 0.55) return { el: x, c: bg };
+      if (cs.backgroundImage && cs.backgroundImage !== 'none'){
+        if (!/gradient/.test(cs.backgroundImage)) return null; // a picture: can't judge
+        var stops = (cs.backgroundImage.match(/rgba?\([^)]+\)/g) || []).map(parse).filter(function(s){ return s && s.a > 0.55; });
+        if (stops.length){
+          var avg = { r:0, g:0, b:0, a:1 }; stops.forEach(function(s){ avg.r += s.r / stops.length; avg.g += s.g / stops.length; avg.b += s.b / stops.length; });
+          return { el: x, c: avg, grad: true };
+        }
+      }
+    }
+    return { el: document.body, c: parse(getComputedStyle(document.body).backgroundColor) || { r:255, g:255, b:255, a:1 } };
+  }
+  function remember(el, props){
+    if (el.__cgSaved) return; el.__cgSaved = {};
+    props.forEach(function(p){ el.__cgSaved[p] = [el.style.getPropertyValue(p), el.style.getPropertyPriority(p)]; });
+    changed.push(el);
+  }
+  function set(el, p, v){ el.style.setProperty(p, v, 'important'); }
+  function fix(){
+    if (document.documentElement.getAttribute('data-theme') !== 'light' || busy) return;
+    busy = true;
+    var els = document.body.querySelectorAll('*');
+    for (var i = 0; i < els.length; i++){
+      var e = els[i];
+      if (/^(SCRIPT|STYLE|SVG|PATH|VIDEO|CANVAS|IMG|IFRAME|OPTION)$/i.test(e.tagName) || e.closest('svg,[data-cg-skip]')) continue;
+      var has = false;
+      for (var n = e.firstChild; n; n = n.nextSibling) if (n.nodeType === 3 && /[A-Za-z0-9]{2}/.test(n.textContent)) { has = true; break; }
+      if (!has || !e.getClientRects().length) continue;
+      var cs = getComputedStyle(e);
+      if (cs.visibility === 'hidden' || +cs.opacity < 0.3) continue;
+      var fc = parse(cs.webkitTextFillColor && !/rgba\(0, 0, 0, 0\)/.test(cs.webkitTextFillColor) ? cs.webkitTextFillColor : cs.color);
+      if (!fc || fc.a < 0.2) continue; // gradient text (transparent fill) is left alone
+      var bd = backdrop(e); if (!bd || !bd.c) continue;
+      var fl = lum(fc), bl = lum(bd.c);
+      if (ratio(fl, bl) >= 3) continue;
+      if (bl < 0.2 && chroma(bd.c) < 70 && bd.el !== document.body){
+        // dark grey/black box in light mode → light card
+        remember(bd.el, ['background-color', 'background-image', 'border-color']);
+        set(bd.el, 'background-color', '#ffffff'); set(bd.el, 'background-image', 'none'); set(bd.el, 'border-color', 'rgba(30,20,70,0.14)');
+        if (fl > 0.45){ remember(e, ['color', '-webkit-text-fill-color']); set(e, 'color', '#14112a'); set(e, '-webkit-text-fill-color', '#14112a'); }
+      } else if (bl < 0.45){
+        // coloured or dark box → white text
+        remember(e, ['color', '-webkit-text-fill-color']); set(e, 'color', '#ffffff'); set(e, '-webkit-text-fill-color', '#ffffff');
+      } else {
+        // light box with light text → dark text
+        remember(e, ['color', '-webkit-text-fill-color']); set(e, 'color', '#14112a'); set(e, '-webkit-text-fill-color', '#14112a');
+      }
+    }
+    busy = false;
+  }
+  function revert(){
+    changed.forEach(function(el){
+      var s = el.__cgSaved; if (!s) return;
+      for (var p in s){ if (s[p][0]) el.style.setProperty(p, s[p][0], s[p][1]); else el.style.removeProperty(p); }
+      el.__cgSaved = null;
+    });
+    changed = [];
+  }
+  function schedule(ms){ clearTimeout(timer); timer = setTimeout(fix, ms); }
+  document.addEventListener('vpn-theme-change', function(ev){ if (ev.detail === 'light') schedule(120); else revert(); });
+  function start(){
+    schedule(700); setTimeout(fix, 2200);
+    new MutationObserver(function(){ if (!busy) schedule(500); }).observe(document.body, { childList:true, subtree:true });
+    // a section or panel becoming visible (class / open / hidden changes) gets checked too
+    new MutationObserver(function(){ if (!busy) schedule(400); }).observe(document.body, { attributes:true, subtree:true, attributeFilter:['class','open','hidden'] });
+    // sections that open later (details, tabs, views) get checked when they appear
+    document.addEventListener('click', function(){ schedule(350); }, true);
+    document.addEventListener('toggle', function(){ schedule(200); }, true);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+
+/* "Close open cards": when 2+ cards the visitor opened are open, a small pill appears at the bottom.
+   One tap closes them all. Cards that are open by design (e.g. "Explain it like I'm 5") never count. */
+(function(){
+  var userOpened = new Set(), btn = null, timer = null, lastUser = 0;
+  function visible(el){ return el && el.isConnected && el.getClientRects().length > 0; }
+  // custom (non-<details>) expanders used around the site: [is open?, close it]
+  var CUSTOM = [
+    ['.pep-idx-body', function(e){ return e.style.display === 'block'; }, function(e){ e.style.display = 'none'; var c = e.closest('.pep-idx-card'), a = c && c.querySelector('.pa'); if (a) a.textContent = '▼'; }],
+    ['.bb-body.open', function(){ return true; }, function(e){ e.classList.remove('open'); var t = e.previousElementSibling; if (t && t.classList.contains('bb-toggle')) t.textContent = '▼ Read more'; }],
+    ['.qa-dropdown.open', function(){ return true; }, function(e){ e.classList.remove('open'); }],
+    ['#glowrillaLabPanel.open', function(){ return true; }, function(e){ e.classList.remove('open'); }],
+    ['#janoshik-body', function(e){ return e.style.display === 'block'; }, function(){ var b = document.getElementById('janoshik-btn'); if (b) b.click(); }]
+  ];
+  function openList(){
+    var list = [];
+    userOpened.forEach(function(d){
+      if (!d.open || !visible(d)) { if (!d.open) userOpened.delete(d); return; }
+      // a card inside another open card counts once (the outer one)
+      var outer = d.parentElement && d.parentElement.closest('details[open]');
+      if (outer && userOpened.has(outer)) return;
+      if (d.closest('.pep-idx-body, .bb-body, .qa-dropdown, #glowrillaLabPanel, #janoshik-body')) return; // inside a card that already counts
+      list.push(['d', d]);
+    });
+    CUSTOM.forEach(function(c){
+      document.querySelectorAll(c[0]).forEach(function(e){ if (visible(e) && c[1](e)) list.push(['c', e, c[2]]); });
+    });
+    return list;
+  }
+  function closeAll(){
+    openList().forEach(function(x){ if (x[0] === 'c') x[2](x[1]); });
+    userOpened.forEach(function(d){ d.open = false; }); // includes cards nested inside other cards
+    userOpened.clear(); update();
+  }
+  function make(){
+    btn = document.createElement('button'); btn.type = 'button'; btn.id = 'vpn-close-cards'; btn.setAttribute('data-px-skip', ''); btn.setAttribute('data-cg-skip', '');
+    btn.onclick = closeAll;
+    var st = document.createElement('style');
+    st.textContent = '#vpn-close-cards{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:2147483000;display:inline-flex;align-items:center;gap:0.45rem;padding:0.7rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.16);background:rgba(14,12,24,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#f1f3fb;font:700 0.9rem/1 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;box-shadow:0 14px 34px -12px rgba(0,0,0,0.7);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;}'
+      + '#vpn-close-cards.on{opacity:1;pointer-events:auto;transform:translate(-50%,0);}'
+      + '#vpn-close-cards:hover{border-color:rgba(255,47,168,0.6);}'
+      + '#vpn-close-cards b{display:grid;place-items:center;width:1.4rem;height:1.4rem;border-radius:50%;background:linear-gradient(135deg,#ff2fa8,#9a5cff);color:#fff;font-size:0.75rem;}'
+      + 'html[data-theme="light"] #vpn-close-cards{background:rgba(255,255,255,0.96);color:#14112a;border-color:rgba(30,20,70,0.16);}'
+      + 'body.has-bnav #vpn-close-cards{bottom:calc(76px + env(safe-area-inset-bottom));}'
+      + '@media print{#vpn-close-cards{display:none !important;}}';
+    document.head.appendChild(st); document.body.appendChild(btn);
+  }
+  function update(){
+    if (!btn) make();
+    var n = openList().length;
+    var nav = document.getElementById('vpn-bottom-nav');
+    document.body.classList.toggle('has-bnav', !!(nav && nav.getClientRects().length && getComputedStyle(nav).display !== 'none'));
+    if (n >= 2){ btn.innerHTML = '<b>✕</b>Close ' + n + ' open cards'; btn.classList.add('on'); }
+    else btn.classList.remove('on');
+  }
+  function soon(){ clearTimeout(timer); timer = setTimeout(update, 120); }
+  function start(){
+    document.addEventListener('toggle', function(e){
+      var d = e.target; if (!d || d.tagName !== 'DETAILS') return;
+      // only cards opened by a tap/key in the last second count (not ones that start open or are built open)
+      if (d.open) { if (Date.now() - lastUser < 1000) userOpened.add(d); } else userOpened.delete(d);
+      soon();
+    }, true);
+    ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, function(){ lastUser = Date.now(); }, { capture:true, passive:true }); });
+    document.addEventListener('click', function(){ setTimeout(soon, 50); }, true);
+    window.addEventListener('hashchange', soon);
+    update();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
