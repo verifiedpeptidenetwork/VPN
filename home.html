@@ -8121,6 +8121,24 @@ document.addEventListener('keydown', function(e){
   </section>
 
 
+  <!-- TOP QUOTE — first thing on the home page, every screen size -->
+  <style>
+    html body #site-hero > #vh2-quote{order:-1 !important;}
+    #vh2-quote{width:100%;box-sizing:border-box;margin:0 0 1rem;padding:clamp(1.1rem,3.2vw,2rem) clamp(1rem,4vw,2.6rem);border-radius:22px;position:relative;overflow:hidden;
+      border:1px solid rgba(255,255,255,0.10);background:radial-gradient(700px 260px at 50% -40%,rgba(255,47,168,0.22),transparent 70%),radial-gradient(600px 240px at 50% 140%,rgba(47,180,255,0.16),transparent 70%),#0c0a16;
+      font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center !important;}
+    #vh2-quote::before{content:'\201C';position:absolute;left:clamp(8px,2vw,22px);top:clamp(-18px,-1vw,-6px);font:800 clamp(5rem,12vw,9rem)/1 Georgia,serif;color:rgba(255,47,168,0.18);pointer-events:none;}
+    #vh2-quote q{display:block;quotes:none;margin:0 auto;max-width:980px;font-size:clamp(1.25rem,3.4vw,2.15rem) !important;font-weight:800;letter-spacing:-0.025em;line-height:1.25 !important;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;text-align:center !important;position:relative;}
+    #vh2-quote q span{background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-quote cite{display:block;margin-top:0.7rem;font-style:normal;font-size:clamp(0.82rem,1.6vw,0.95rem);font-weight:700;letter-spacing:0.04em;color:rgba(214,220,240,0.72);text-align:center !important;}
+    html[data-theme="light"] #vh2-quote{background:radial-gradient(700px 260px at 50% -40%,rgba(255,47,168,0.12),transparent 70%),radial-gradient(600px 240px at 50% 140%,rgba(47,180,255,0.10),transparent 70%),#ffffff;border-color:rgba(30,20,70,0.12);}
+    html[data-theme="light"] #vh2-quote q{color:#14112a;-webkit-text-fill-color:#14112a;}
+    html[data-theme="light"] #vh2-quote cite{color:#4a4566;}
+  </style>
+  <figure id="vh2-quote" data-vt-skip data-px-skip aria-label="Quote">
+    <q>Patients are not reckless. <span>They are looking for hope in a system that has failed them.</span></q>
+    <cite>— Sabina | glpwinner</cite>
+  </figure>
   <!-- WHY PEOPLE TURN TO PEPTIDES — infographic feature (key takeaways from Sabina | glpwinner) -->
   <style>
     html body #site-hero > #vh2-why{order:3 !important;}
@@ -8169,7 +8187,6 @@ document.addEventListener('keydown', function(e){
         <div class="wy-card" style="--c:#ffb12a"><span class="wy-ic">🔒</span><div><b>The patent problem</b><p>Naturally occurring peptides can't be patented, so few companies will pay for the $5–20 million trials FDA approval needs. That leaves them popular, but short on solid safety data.</p></div></div>
         <div class="wy-card" style="--c:#ff2fa8"><span class="wy-ic">🏥</span><div><b>Why people take the risk</b><p>Years of being dismissed, long waits, symptoms with no answers and lost trust in the system push people to look elsewhere for relief.</p></div></div>
         <div class="wy-card" style="--c:#ff4d6d"><span class="wy-ic">⚠️</span><div><b>Go in informed</b><p>Long-term data is limited, some peptides (like BPC-157) affect blood-vessel growth, and gray-market purity varies. Informed consent matters: these are not risk-free.</p></div></div>
-        <blockquote>"Patients are not reckless. They are looking for hope in a system that has failed them."<cite>— Sabina | glpwinner</cite></blockquote>
         <div class="wy-btns">
           <button type="button" class="pri" onclick="openLightbox('cheatsheet/peptides-broken-healthcare-system.webp','Peptides: a symptom of a broken healthcare system (Sabina | glpwinner)')">🔍 View full infographic</button>
           <a href="cheatsheet/peptides-broken-healthcare-system.webp" download="Peptides-Broken-Healthcare-System-Sabina-glpwinner.webp">⬇ Download</a>
@@ -8211,7 +8228,27 @@ document.addEventListener('keydown', function(e){
     #vh2-whyhere .wh-video{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);background:#000;aspect-ratio:16/9;max-width:760px;}
     #vh2-whyhere .wh-video iframe{display:block;width:100%;height:100%;border:0;}
     #vh2-whyhere .wh-vlabel{font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(214,220,240,0.6);margin:0.3rem 0 -0.4rem;}
-    @media(max-width:600px){ #vh2-whyhere .wh-chev{width:38px;height:38px;} #vh2-whyhere .wh-thumbs{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    #vh2-whyhere .wh-prev{display:flex !important;align-items:center;gap:0.4rem;margin-top:0.85rem;flex-wrap:wrap;}
+    #vh2-whyhere .wh-prev i{width:56px;height:56px;border-radius:12px;background-size:cover;background-position:center top;border:1px solid rgba(255,255,255,0.16);position:relative;flex-shrink:0;}
+    #vh2-whyhere .wh-prev i.v{width:84px;background-position:center;}
+    #vh2-whyhere .wh-prev i.v::after{content:'▶';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:0.9rem;font-style:normal;background:rgba(0,0,0,0.35);border-radius:12px;}
+    #vh2-whyhere .wh-prev em{font-style:normal;font-size:0.82rem;font-weight:700;color:rgba(214,220,240,0.75);margin-left:0.2rem;}
+    #vh2-whyhere[open] .wh-prev{display:none !important;}
+    #vh2-whyhere .wh-sp{max-width:760px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);background:#000;}
+    #vh2-whyhere .wh-play{position:relative;display:block;width:100%;padding:0;border:0;cursor:pointer;background:#000;aspect-ratio:16/9;}
+    #vh2-whyhere .wh-play img{display:block;width:100%;height:100%;object-fit:cover;}
+    #vh2-whyhere .wh-pbtn{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:linear-gradient(135deg,#ff2fa8,#9a5cff);box-shadow:0 14px 34px -10px rgba(255,47,168,0.8);}
+    #vh2-whyhere .wh-pbtn::before{content:'';position:absolute;left:31px;top:24px;border-left:22px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent;}
+    #vh2-whyhere .wh-badge{position:absolute;left:12px;top:12px;padding:0.4rem 0.7rem;border-radius:999px;background:rgba(10,8,20,0.85);border:1px solid rgba(255,255,255,0.16);font-size:0.78rem;font-weight:700;color:#fff;}
+    #vh2-whyhere .wh-frame{display:none;aspect-ratio:16/9;}
+    #vh2-whyhere .wh-sp.on .wh-play{display:none;}
+    #vh2-whyhere .wh-sp.on .wh-frame{display:block;}
+    #vh2-whyhere .wh-frame iframe{display:block;width:100%;height:100%;border:0;}
+    #vh2-whyhere .wh-cap{padding:0.8rem 1rem;background:#121020;}
+    #vh2-whyhere .wh-cap b{display:block;font-size:1rem;font-weight:800;color:#f1f3fb;}
+    #vh2-whyhere .wh-cap span{display:block;margin-top:0.15rem;font-size:0.88rem;line-height:1.45;color:rgba(214,220,240,0.78);}
+    html[data-theme="light"] #vh2-whyhere .wh-cap{background:#f8f6fd;} html[data-theme="light"] #vh2-whyhere .wh-cap b{color:#14112a;} html[data-theme="light"] #vh2-whyhere .wh-cap span,html[data-theme="light"] #vh2-whyhere .wh-prev em{color:#4a4566;}
+    @media(max-width:600px){ #vh2-whyhere .wh-chev{width:38px;height:38px;} #vh2-whyhere .wh-prev i{width:46px;height:46px;} #vh2-whyhere .wh-prev i.v{width:70px;} #vh2-whyhere .wh-pbtn{width:62px;height:62px;margin:-31px 0 0 -31px;} #vh2-whyhere .wh-pbtn::before{left:25px;top:19px;border-left-width:18px;border-top-width:12px;border-bottom-width:12px;} #vh2-whyhere .wh-thumbs{grid-template-columns:repeat(2,minmax(0,1fr));} }
     html[data-theme="light"] #vh2-whyhere{background:radial-gradient(620px 300px at 0% 0%,rgba(47,180,255,0.09),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
     html[data-theme="light"] #vh2-whyhere .wh-t,html[data-theme="light"] #vh2-whyhere .wh-card h3,html[data-theme="light"] #vh2-whyhere .wh-card strong{color:#14112a;-webkit-text-fill-color:#14112a;}
     html[data-theme="light"] #vh2-whyhere .wh-s,html[data-theme="light"] #vh2-whyhere .wh-card p,html[data-theme="light"] #vh2-whyhere .wh-thumbs figcaption,html[data-theme="light"] #vh2-whyhere .wh-vlabel{color:#4a4566;}
@@ -8225,6 +8262,7 @@ document.addEventListener('keydown', function(e){
         <span class="wh-k">Our mission</span>
         <span class="wh-t">Why we're here</span>
         <span class="wh-s">Our health is in the hands of the insurance companies. Why VPN exists, and the honest truth about gray-market risk.</span>
+        <span class="wh-prev" aria-hidden="true"><i class="v" style="background-image:url('https://i.ytimg.com/vi/VAfy26xs6e0/hqdefault.jpg')"></i><i style="background-image:url('cheatsheet/insuranceiswhywerehere.opt.jpg')"></i><i style="background-image:url('warninggraymarket.jpg')"></i><i style="background-image:url('TYPESOFPEPTIDETESTING.jpg')"></i><em>South Park clip + 6 guides inside</em></span>
       </span>
       <span class="wh-chev" aria-hidden="true"></span>
     </summary>
@@ -8232,6 +8270,15 @@ document.addEventListener('keydown', function(e){
       <figure class="wh-hero" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.opt.jpg','Our Health Is In The Hands Of The Insurance Companies')">
         <img loading="lazy" decoding="async" src="cheatsheet/insuranceiswhywerehere.opt.jpg" alt="Our health is in the hands of the insurance companies">
       </figure>
+      <div class="wh-sp">
+        <button type="button" class="wh-play" aria-label="Play the South Park clip" onclick="var w=this.parentNode;w.querySelector('.wh-frame').innerHTML='<iframe src=&quot;https://www.youtube.com/embed/VAfy26xs6e0?autoplay=1&amp;rel=0&quot; title=&quot;South Park: Navigating the American healthcare system&quot; allow=&quot;autoplay; encrypted-media; picture-in-picture&quot; allowfullscreen></iframe>';w.classList.add('on');">
+          <img loading="lazy" decoding="async" src="https://i.ytimg.com/vi/VAfy26xs6e0/hqdefault.jpg" alt="South Park: Navigating the American healthcare system">
+          <span class="wh-pbtn" aria-hidden="true"></span>
+          <span class="wh-badge">▶ Watch · South Park Studios</span>
+        </button>
+        <div class="wh-frame"></div>
+        <div class="wh-cap"><b>Navigating the American healthcare system</b><span>South Park: The End of Obesity. Why so many people end up researching on their own.</span></div>
+      </div>
 
       <div class="wh-card" style="--c:#ff2fa8">
         <h3><span class="wh-num">1</span>No matter what group you join, the number does not matter</h3>
@@ -8260,9 +8307,6 @@ document.addEventListener('keydown', function(e){
           <figure onclick="openLightbox('bigpharmanotscaredofgraymarket.jpg','Big Pharma Is Not Scared Of The Gray Market — Here Is Why')"><img loading="lazy" decoding="async" src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma is not scared of the gray market"><figcaption>Why Big Pharma isn't worried</figcaption></figure>
         </div>
       </div>
-
-      <div class="wh-vlabel">▶ Watch: Why we're here</div>
-      <div class="wh-video"><iframe data-src="https://www.youtube.com/embed/VAfy26xs6e0" title="Why We're Here" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
     </div>
   </details>
   <script>
