@@ -27512,7 +27512,7 @@ function buildPeptideCardFull(item) {
         '<span style="font-family:\'Rajdhani\',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.4;">' + PEPTIDE_STACKS[p] + '</span>' +
       '</div>' : '') +
       (protocol ? '<div style="display:flex;gap:0.5rem;align-items:flex-start;margin-bottom:0.5rem;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:0.72rem;letter-spacing:0.14em;color:#00ff64;flex-shrink:0;margin-top:0.1rem;min-width:58px;">NOTES</span><span style="font-family:\'Rajdhani\',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(200,220,200,0.8);line-height:1.45;">' + protocol + '</span></div>' : '') +
-      '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button></div>' +
+      '<div class="vpn-copy-row"><button type="button" class="vpn-copy-btn" onclick="event.stopPropagation();vpnCopyCard(this)">📋 COPY TEXT</button><button type="button" class="pep-dl-btn" data-px-skip onclick="event.stopPropagation();vpnDownloadCard(this)">⬇ Download card</button></div>' +
     '</div>' +
   '</div>';
 }
@@ -33831,6 +33831,97 @@ window.addEventListener('appinstalled', function(){
   /* theme switch at the bottom */
   html[data-theme="light"] body #vpn-theme-toggle{border-radius:12px !important;box-shadow:0 4px 14px -8px rgba(124,58,237,0.35) !important;border:1px solid rgba(124,58,237,0.18) !important;}
 </style>
+<!-- PEPTIDE INDEX — "Download card": a branded PNG of one compound, drawn on a canvas -->
+<style>
+  .pep-idx-body .vpn-copy-row{display:flex !important;gap:0.5rem !important;flex-wrap:wrap;justify-content:flex-end;}
+  .pep-dl-btn{font:700 0.8rem/1 'Inter',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;padding:0.55rem 0.85rem !important;border-radius:10px !important;border:none !important;cursor:pointer;color:#fff !important;-webkit-text-fill-color:#fff !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;box-shadow:0 8px 20px -10px rgba(255,47,168,0.8) !important;}
+  .pep-dl-btn[disabled]{opacity:0.6;cursor:wait;}
+</style>
+<script>
+(function(){
+  var LOGO = null;
+  function loadLogo(){ return new Promise(function(res){ if (LOGO) return res(LOGO); var im = new Image(); im.onload = function(){ LOGO = im; res(im); }; im.onerror = function(){ res(null); }; im.src = 'VPNNEWLOGO.png?v=5'; }); }
+  function plain(s){ var d = document.createElement('div'); d.innerHTML = String(s || ''); return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function wrap(ctx, text, maxW){
+    var words = text.split(' '), lines = [], line = '';
+    words.forEach(function(w){ var t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line){ lines.push(line); line = w; } else line = t; });
+    if (line) lines.push(line); return lines;
+  }
+  function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function draw(p, logo){
+    var W = 1080, PAD = 72, IW = W - PAD * 2, F = "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif";
+    var e5 = (typeof PEPTIDE_ELI5 !== 'undefined' ? PEPTIDE_ELI5 : {})[p.name];
+    var stack = (typeof PEPTIDE_STACKS !== 'undefined' ? PEPTIDE_STACKS : {})[p.name];
+    var rows = [['Dose', plain(p.dose || 'See protocol notes'), '#2fb4ff'], ['Duration', plain(p.duration || 'Varies by goal'), '#9a5cff']];
+    if (stack) rows.push(['Stacked with', plain(stack), '#ffb12a']);
+    if (p.protocol) rows.push(['Notes', plain(p.protocol), '#2ee6a0']);
+    var meas = document.createElement('canvas').getContext('2d');
+    // lay out first (measure), then paint
+    var blocks = [];
+    meas.font = '500 30px ' + F; var useL = wrap(meas, plain(p.use), IW);
+    var y = PAD + 150 + 20 + 92 + 22 + useL.length * 42 + 28;
+    if (e5){ meas.font = '400 28px ' + F; var e5L = wrap(meas, plain(e5), IW - 56); blocks.push(['e5', e5L, y]); y += 66 + e5L.length * 40 + 30; }
+    if (p.desc){ meas.font = '400 26px ' + F; var dL = wrap(meas, plain(p.desc), IW); if (dL.length > 9){ dL = dL.slice(0, 9); dL[8] = dL[8].replace(/\s+\S*$/, '') + '…'; } blocks.push(['desc', dL, y]); y += dL.length * 38 + 30; }
+    rows.forEach(function(r){ meas.font = '500 27px ' + F; var L = wrap(meas, r[1], IW - 230); blocks.push(['row', r, L, y]); y += Math.max(1, L.length) * 38 + 34; });
+    var H = y + 150;
+    var c = document.createElement('canvas'); c.width = W; c.height = H; var ctx = c.getContext('2d');
+    // background
+    var bg = ctx.createLinearGradient(0, 0, W, H); bg.addColorStop(0, '#0d0a1c'); bg.addColorStop(1, '#06050d'); ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    var g1 = ctx.createRadialGradient(W * 0.92, 0, 0, W * 0.92, 0, 620); g1.addColorStop(0, 'rgba(255,47,168,0.28)'); g1.addColorStop(1, 'rgba(255,47,168,0)'); ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+    var g2 = ctx.createRadialGradient(0, H, 0, 0, H, 620); g2.addColorStop(0, 'rgba(47,180,255,0.20)'); g2.addColorStop(1, 'rgba(47,180,255,0)'); ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+    // top bar
+    var tb = ctx.createLinearGradient(0, 0, W, 0); tb.addColorStop(0, '#ff2fa8'); tb.addColorStop(0.5, '#9a5cff'); tb.addColorStop(1, '#2fb4ff'); ctx.fillStyle = tb; ctx.fillRect(0, 0, W, 10);
+    // brand row
+    if (logo){ ctx.save(); rr(ctx, PAD, PAD, 76, 76, 18); ctx.clip(); ctx.drawImage(logo, PAD, PAD, 76, 76); ctx.restore(); }
+    ctx.fillStyle = '#f1f3fb'; ctx.font = '800 30px ' + F; ctx.textBaseline = 'alphabetic'; ctx.fillText('Verified Peptides Network', PAD + 96, PAD + 34);
+    ctx.fillStyle = 'rgba(200,206,230,0.7)'; ctx.font = '500 22px ' + F; ctx.fillText('Research Unfiltered Information · Peptide Index', PAD + 96, PAD + 66);
+    // eyebrow + name
+    var ey = PAD + 150; ctx.font = '700 22px ' + F; var eg = ctx.createLinearGradient(PAD, 0, PAD + 360, 0); eg.addColorStop(0, '#ff2fa8'); eg.addColorStop(1, '#2fb4ff'); ctx.fillStyle = eg; ctx.fillText('RESEARCH CARD', PAD, ey);
+    ctx.fillStyle = '#ffffff'; var ns = 76; ctx.font = '800 ' + ns + 'px ' + F; while (ctx.measureText(p.name).width > IW && ns > 44){ ns -= 4; ctx.font = '800 ' + ns + 'px ' + F; }
+    ctx.fillText(p.name, PAD, ey + 20 + ns * 0.95);
+    ctx.fillStyle = 'rgba(214,220,240,0.86)'; ctx.font = '500 30px ' + F; var uy = ey + 20 + 92 + 32; useL.forEach(function(l, i){ ctx.fillText(l, PAD, uy + i * 42); });
+    // blocks
+    blocks.forEach(function(b){
+      if (b[0] === 'e5'){
+        var by = b[2], bh = 66 + b[1].length * 40 + 6;
+        ctx.fillStyle = 'rgba(255,177,42,0.10)'; rr(ctx, PAD, by, IW, bh, 22); ctx.fill(); ctx.strokeStyle = 'rgba(255,177,42,0.45)'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = '#ffcf6b'; ctx.font = '800 24px ' + F; ctx.fillText('🧒  Explain it like I\'m 5', PAD + 28, by + 44);
+        ctx.fillStyle = '#f6efe2'; ctx.font = '400 28px ' + F; b[1].forEach(function(l, i){ ctx.fillText(l, PAD + 28, by + 88 + i * 40); });
+      } else if (b[0] === 'desc'){
+        ctx.fillStyle = 'rgba(214,220,240,0.78)'; ctx.font = '400 26px ' + F; b[1].forEach(function(l, i){ ctx.fillText(l, PAD, b[2] + 26 + i * 38); });
+      } else {
+        var r = b[1], L = b[2], ry = b[3], rh = Math.max(1, L.length) * 38 + 18;
+        ctx.fillStyle = 'rgba(255,255,255,0.04)'; rr(ctx, PAD, ry, IW, rh, 16); ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,0.09)'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = r[2]; rr(ctx, PAD, ry, 6, rh, 3); ctx.fill();
+        ctx.fillStyle = r[2]; ctx.font = '800 22px ' + F; ctx.fillText(r[0].toUpperCase(), PAD + 28, ry + 40);
+        ctx.fillStyle = '#ffffff'; ctx.font = '500 27px ' + F; L.forEach(function(l, i){ ctx.fillText(l, PAD + 220, ry + 40 + i * 38); });
+      }
+    });
+    // footer
+    ctx.fillStyle = 'rgba(255,255,255,0.10)'; ctx.fillRect(PAD, H - 118, IW, 2);
+    ctx.fillStyle = 'rgba(200,206,230,0.75)'; ctx.font = '500 22px ' + F; ctx.fillText('Research & education only. Not medical advice. Talk to your doctor and get blood work first.', PAD, H - 78, IW);
+    ctx.fillStyle = '#c9b6ff'; ctx.font = '700 22px ' + F; ctx.fillText('ruivpndata.com  ·  t.me/ruivpndata', PAD, H - 44);
+    return c;
+  }
+  window.vpnDownloadCard = function(btn){
+    var card = btn.closest('.pep-idx-card'); if (!card) return;
+    var name = ((card.querySelector('.pep-idx-header span') || {}).textContent || '').trim();
+    var p = (typeof PEPTIDE_DATA !== 'undefined' ? PEPTIDE_DATA : []).filter(function(x){ return x.name === name; })[0]; if (!p) return;
+    var label = btn.textContent; btn.disabled = true; btn.textContent = 'Making card…';
+    var fontsReady = (document.fonts && document.fonts.load) ? Promise.all([document.fonts.load("800 40px Inter"), document.fonts.load("500 20px Inter"), document.fonts.load("400 20px Inter")]).catch(function(){}) : Promise.resolve();
+    Promise.all([loadLogo(), fontsReady]).then(function(r){
+      var c = draw(p, r[0]);
+      var file = 'VPN-' + p.name.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') + '-card.png';
+      c.toBlob(function(blob){
+        var url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = file; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+        btn.textContent = '✓ Downloaded'; setTimeout(function(){ btn.textContent = label; btn.disabled = false; }, 1800);
+      }, 'image/png');
+    });
+  };
+})();
+</script>
 </body>
 </html>
 
