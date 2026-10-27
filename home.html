@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html data-darkbg lang="en">
 <head>
 <link rel="icon" href="favicon.ico?v=7" sizes="48x48"><link rel="icon" href="icon-192.png?v=7" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png?v=7" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png?v=7">
 <meta charset="UTF-8">
@@ -3063,16 +3063,15 @@
     background-size:auto !important;background-repeat:no-repeat !important;background-position:0 0 !important;}
   /* futuristic DNA layer: two glowing double helices + faint tech grid (dna-bg.svg, vector) */
   html body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:url('dna-bg.svg?v=1') center center / cover no-repeat;opacity:0.82;}
-  /* light mode: same composition in pastels */
-  html[data-theme="light"]:root body{background-color:#f6f4fb !important;}
-  html[data-theme="light"]:root body::before{display:block !important;content:'' !important;
+  /* light mode keeps the dark DNA background; the cards turn pearl instead (theme-toggle.js) */
+  html[data-theme="light"]:root body{background-color:#07060e !important;}
+  html[data-theme="light"]:root body::before{display:block !important;content:'' !important;position:fixed !important;inset:0 !important;z-index:-2 !important;pointer-events:none !important;
     background-image:
-      radial-gradient(62vmax 46vmax at 92% -8%, rgba(255,47,168,0.13), transparent 62%),
-      radial-gradient(58vmax 50vmax at -12% 34%, rgba(124,58,237,0.12), transparent 64%),
-      radial-gradient(64vmax 44vmax at 62% 112%, rgba(37,99,235,0.12), transparent 62%),
-      linear-gradient(180deg,#fbfaff 0%,#f6f4fb 55%,#f2effa 100%) !important;
-    background-size:auto !important;background-position:0 0 !important;}
-  html[data-theme="light"]:root body::after{opacity:0.38;filter:saturate(1.25);}
+      radial-gradient(62vmax 46vmax at 92% -8%, rgba(255,47,168,0.20), transparent 62%),
+      radial-gradient(58vmax 50vmax at -12% 34%, rgba(124,58,237,0.20), transparent 64%),
+      radial-gradient(64vmax 44vmax at 62% 112%, rgba(37,99,235,0.18), transparent 62%),
+      linear-gradient(180deg,#0b0918 0%,#07060e 55%,#06050b 100%) !important;
+    background-size:auto !important;background-repeat:no-repeat !important;background-position:0 0 !important;}
   /* page containers are see-through so the DNA shows between cards (cards keep their own backgrounds) */
   html body #site-hero, html body .view, html body.vpn-nonhome .view.active{background-color:transparent !important;background-image:none !important;box-shadow:none !important;}
   /* phone menu button: visible lines in light mode */
@@ -4201,7 +4200,7 @@ document.addEventListener('keydown', function(e){
     <nav id="desktop-nav" style="display:none;"></nav>
 
     <!-- Hamburger button (mobile only) -->
-    <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
+    <button class="hamburger-btn" id="hamburger-btn" data-vt-skip data-cg-skip onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -4820,7 +4819,7 @@ document.addEventListener('keydown', function(e){
 <div id="vpnSearchBar">
   <div id="vpnSearchWrap">
     <span id="vpnSearchIcon">🔍</span>
-    <input id="vpnSearchInput" type="text" placeholder="Search anything — peptide name, symptom, guide topic…" autocomplete="off" oninput="vpnSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';vpnSearchClose();}"/>
+    <input id="vpnSearchInput" type="text" name="vpn-site-search" placeholder="Search anything — peptide name, symptom, guide topic…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-form-type="other" aria-label="Search the site" oninput="vpnSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';vpnSearchClose();}"/>
     <button id="vpnSearchClear" style="display:none;" onclick="document.getElementById('vpnSearchInput').value='';vpnSearchClose();">✕</button>
     <div id="vpnSearchResults"></div>
   </div>
@@ -32928,7 +32927,7 @@ window.addEventListener('appinstalled', function(){
   if (document.readyState === 'complete') initial(); else window.addEventListener('load', initial);
 })();
 </script>
-<script src="theme-toggle.js?v=36" defer></script>
+<script src="theme-toggle.js?v=37" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
    Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
@@ -34158,6 +34157,38 @@ window.addEventListener('appinstalled', function(){
   MQ.addEventListener && MQ.addEventListener('change', run);
 })();
 </script>
+<!-- HEADER CONTROLS — menu button + search box in the site style (dark + light, all devices) -->
+<style id="vpn-hdr-controls">
+  /* menu button: rounded glass square, three clean lines, gradient middle line */
+  html body #hamburger-btn{width:46px !important;height:46px !important;padding:0 !important;border-radius:14px !important;border:1px solid rgba(255,255,255,0.14) !important;
+    background:rgba(255,255,255,0.05) !important;box-shadow:0 8px 22px -14px rgba(0,0,0,0.8) !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;gap:5px !important;animation:none !important;transition:border-color .15s,background .15s,transform .15s;}
+  html body #hamburger-btn::before,html body #hamburger-btn::after{display:none !important;}
+  html body #hamburger-btn span{display:block !important;width:20px !important;height:2px !important;margin:0 !important;border-radius:2px !important;background:#f1f3fb !important;box-shadow:none !important;opacity:1 !important;transform:none;transition:transform .2s,opacity .2s,width .2s;}
+  html body #hamburger-btn span:nth-child(2){width:14px !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;}
+  html body #hamburger-btn:hover{border-color:rgba(154,92,255,0.6) !important;background:rgba(154,92,255,0.12) !important;}
+  html body #hamburger-btn:active{transform:scale(0.96);}
+  html[data-theme="light"] body #hamburger-btn{background:#faf7f2 !important;border-color:rgba(124,58,237,0.25) !important;box-shadow:0 8px 22px -14px rgba(0,0,0,0.6) !important;}
+  html[data-theme="light"] body #hamburger-btn span{background:#3b1d8f !important;}
+  html[data-theme="light"] body #hamburger-btn span:nth-child(2){background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;}
+  /* search: rounded glass field */
+  html body #vpnSearchBar{background:transparent !important;border:none !important;box-shadow:none !important;padding:0.6rem clamp(10px,2vw,22px) !important;}
+  html body #vpnSearchWrap{position:relative !important;max-width:none;}
+  html body #vpnSearchIcon{position:absolute !important;left:16px !important;top:50% !important;transform:translateY(-50%) !important;font-size:0.95rem !important;filter:grayscale(1) brightness(1.6);opacity:0.75;pointer-events:none;z-index:2;}
+  html body #vpnSearchInput{width:100% !important;box-sizing:border-box !important;height:50px !important;padding:0 2.6rem 0 2.75rem !important;border-radius:14px !important;
+    border:1px solid rgba(255,255,255,0.13) !important;background:rgba(14,12,24,0.78) !important;color:#f1f3fb !important;-webkit-text-fill-color:#f1f3fb !important;
+    font:500 0.95rem 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;box-shadow:0 10px 28px -18px rgba(0,0,0,0.9) !important;outline:none !important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  html body #vpnSearchInput::placeholder{color:rgba(200,206,230,0.55) !important;-webkit-text-fill-color:rgba(200,206,230,0.55) !important;}
+  html body #vpnSearchInput:focus{border-color:#9a5cff !important;box-shadow:0 0 0 4px rgba(154,92,255,0.2),0 10px 28px -18px rgba(0,0,0,0.9) !important;}
+  /* browser autofill (the pale blue box) gets the site colours instead */
+  html body #vpnSearchInput:-webkit-autofill,html body #vpnSearchInput:-webkit-autofill:hover,html body #vpnSearchInput:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 1000px #0e0c18 inset !important;-webkit-text-fill-color:#f1f3fb !important;caret-color:#f1f3fb;transition:background-color 9999s;}
+  html body #vpnSearchClear{position:absolute !important;right:10px !important;top:50% !important;transform:translateY(-50%) !important;width:30px;height:30px;border-radius:9px !important;border:1px solid rgba(255,255,255,0.14) !important;background:rgba(255,255,255,0.06) !important;color:#f1f3fb !important;font-size:0.8rem !important;cursor:pointer;box-shadow:none !important;}
+  html[data-theme="light"] body #vpnSearchInput{background:#faf7f2 !important;border-color:rgba(124,58,237,0.25) !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;box-shadow:0 10px 28px -18px rgba(0,0,0,0.7) !important;}
+  html[data-theme="light"] body #vpnSearchInput::placeholder{color:#8a84a8 !important;-webkit-text-fill-color:#8a84a8 !important;}
+  html[data-theme="light"] body #vpnSearchIcon{filter:grayscale(1);opacity:0.6;}
+  html[data-theme="light"] body #vpnSearchInput:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #faf7f2 inset !important;-webkit-text-fill-color:#14112a !important;}
+  html[data-theme="light"] body #vpnSearchClear{background:#fff !important;color:#14112a !important;border-color:rgba(124,58,237,0.25) !important;}
+  @media(max-width:600px){ html body #vpnSearchInput{height:48px !important;font-size:16px !important;} html body #hamburger-btn{width:44px !important;height:44px !important;} }
+</style>
 </body>
 </html>
 

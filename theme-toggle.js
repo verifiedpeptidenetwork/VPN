@@ -784,14 +784,34 @@
     return { el: document.body, c: parse(getComputedStyle(document.body).backgroundColor) || { r:255, g:255, b:255, a:1 } };
   }
   function remember(el, props){
-    if (el.__cgSaved) return; el.__cgSaved = {};
-    props.forEach(function(p){ el.__cgSaved[p] = [el.style.getPropertyValue(p), el.style.getPropertyPriority(p)]; });
-    changed.push(el);
+    if (!el.__cgSaved) { el.__cgSaved = {}; changed.push(el); }
+    props.forEach(function(p){ if (!(p in el.__cgSaved)) el.__cgSaved[p] = [el.style.getPropertyValue(p), el.style.getPropertyPriority(p)]; });
   }
   function set(el, p, v){ el.style.setProperty(p, v, 'important'); }
   function fix(){
     if (document.documentElement.getAttribute('data-theme') !== 'light' || busy) return;
     busy = true;
+    if (document.documentElement.hasAttribute('data-darkbg')) {
+      // pages that keep their dark background in light mode: page + containers stay see-through over it
+      remember(document.body, ['background-color', 'background-image']); set(document.body, 'background-color', '#07060e'); set(document.body, 'background-image', 'none');
+      var shells = document.querySelectorAll('#site-hero, .view');
+      for (var si = 0; si < shells.length; si++) { remember(shells[si], ['background-color', 'background-image']); set(shells[si], 'background-color', 'transparent'); set(shells[si], 'background-image', 'none'); }
+      // white cards become pearl with a lavender border
+      var cards = document.body.querySelectorAll('div, section, article, aside, details, summary, figure, a, button, li, nav, header, footer');
+      for (var ci = 0; ci < cards.length; ci++) {
+        var el = cards[ci];
+        if (el.__cgPearl || el.closest('#vpn-sidebar, svg, [data-cg-skip]') || /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) continue;
+        if (!el.getClientRects().length) continue;
+        var ecs = getComputedStyle(el), ebg = parse(ecs.backgroundColor);
+        if (!ebg || ebg.a < 0.9 || ebg.r < 240 || ebg.g < 238 || ebg.b < 236 || chroma(ebg) > 14) continue;
+        if (el.getBoundingClientRect().width < 120) continue;
+        el.__cgPearl = true;
+        remember(el, ['background-color', 'border-color', 'box-shadow']);
+        set(el, 'background-color', '#faf7f2');
+        if (parseFloat(ecs.borderTopWidth) + parseFloat(ecs.borderLeftWidth) > 0) set(el, 'border-color', 'rgba(124,58,237,0.24)');
+        if (el.getBoundingClientRect().height > 60) set(el, 'box-shadow', '0 1px 0 rgba(255,255,255,0.6) inset, 0 14px 34px -22px rgba(0,0,0,0.65)');
+      }
+    }
     var els = document.body.querySelectorAll('*');
     for (var i = 0; i < els.length; i++){
       var e = els[i];
@@ -822,6 +842,7 @@
     busy = false;
   }
   function revert(){
+    changed.forEach(function(el){ el.__cgPearl = false; });
     changed.forEach(function(el){
       var s = el.__cgSaved; if (!s) return;
       for (var p in s){ if (s[p][0]) el.style.setProperty(p, s[p][0], s[p][1]); else el.style.removeProperty(p); }
