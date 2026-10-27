@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>/* Animations only draw when someone can see them: not in a background tab, not on hidden or transparent canvases. Saves phone memory/battery (iOS reloads pages that use too much). */window.vpnAnimOK=function(c){try{if(document.hidden||!c||!c.isConnected)return false;var r=c.getBoundingClientRect();if(!r.width||!r.height)return false;for(var x=c;x&&x.nodeType===1;x=x.parentElement){var s=getComputedStyle(x);if(s.display==='none'||s.visibility==='hidden'||+s.opacity<0.02)return false;}return true;}catch(e){return true;}};window.vpnTouch=matchMedia('(pointer:coarse)').matches;</script>
+<script>/* Animations only draw when someone can see them: not in a background tab, not on hidden or transparent canvases. Saves phone memory/battery (iOS reloads pages that use too much). */window.vpnAnimOK=function(c){if(document.hidden||!c)return false;var now=Date.now();if(c.__aokT&&now-c.__aokT<600)return c.__aok;c.__aokT=now;return(c.__aok=window.vpnAnimCheck(c));};window.vpnAnimCheck=function(c){try{if(!c.isConnected)return false;var r=c.getBoundingClientRect();if(!r.width||!r.height)return false;for(var x=c;x&&x.nodeType===1;x=x.parentElement){var s=getComputedStyle(x);if(s.display==='none'||s.visibility==='hidden'||+s.opacity<0.02)return false;}return true;}catch(e){return true;}};window.vpnTouch=matchMedia('(pointer:coarse)').matches;window.vpnOnWidth=function(fn){var w=window.innerWidth;window.addEventListener('resize',function(){if(window.vpnTouch&&window.innerWidth===w)return;w=window.innerWidth;fn();});};</script>
 <script>try{if(localStorage.getItem('vpn_disclaimer_v2')==='accepted')document.documentElement.classList.add('dg-ok');}catch(e){}</script>
 <!-- no jump on load: the content column stays invisible until every section is parsed and the fonts are in, then fades in once -->
 <style>html.vpn-wait #site-hero, html.vpn-wait body > .view, html.vpn-wait #vpn-sidebar, html.vpn-wait .site-header, html.vpn-wait #vpnSearchBar, html.vpn-wait #vpn-bottom-nav, html.vpn-wait .retro-nav-bar{opacity:0 !important;} /* held for a moment so the old styling never flashes on refresh */</style>
-<script>(function(){var h=document.documentElement;h.classList.add('vpn-wait');var done=false,dom=false,fonts=false;function show(){if(done)return;done=true;h.classList.remove('vpn-wait');}function check(){if(dom&&fonts)setTimeout(show,120);}document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){dom=true;check();},900);});document.addEventListener('DOMContentLoaded',function(){dom=true;check();});try{document.fonts.ready.then(function(){fonts=true;check();});}catch(e){fonts=true;}setTimeout(function(){fonts=true;check();},1200);setTimeout(show,2500);})();</script><style>html.dg-ok #dg{display:none!important;} /* legacy floating buttons: hidden before first paint (the gear menu replaces them) */ #vpn-back-top,#vpn-mp-fab,#gw-fab-home,#gw-menu-home,#vt-toggle-btn,#vt-text-ctrl{display:none!important;} /* home blocks replaced by the redesign: hidden before first paint */ #no-coa-banner,#vpn-welcome-video-details,#site-hero > #home-desktop-cols,#site-hero > #grp-learn,#site-hero > #grp-current,#site-hero > #home-why,#site-hero > #vpn-lab-video,#site-hero > #vpn-docvid-promo,#site-hero > #home-latest-news,#site-hero > #if-promo,#site-hero > #qnav-wrap{display:none!important;}</style>
+<script>(function(){var h=document.documentElement;h.classList.add('vpn-wait');var done=false,dom=false,fonts=false;function show(){if(done)return;done=true;h.classList.remove('vpn-wait');}function check(){if(dom&&fonts)setTimeout(show,480);}document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){dom=true;check();},900);});document.addEventListener('DOMContentLoaded',function(){dom=true;check();});try{document.fonts.ready.then(function(){fonts=true;check();});}catch(e){fonts=true;}setTimeout(function(){fonts=true;check();},1200);setTimeout(show,2500);})();</script><style>html.dg-ok #dg{display:none!important;} /* legacy floating buttons: hidden before first paint (the gear menu replaces them) */ #vpn-back-top,#vpn-mp-fab,#gw-fab-home,#gw-menu-home,#vt-toggle-btn,#vt-text-ctrl{display:none!important;} /* home blocks replaced by the redesign: hidden before first paint */ #no-coa-banner,#vpn-welcome-video-details,#site-hero > #home-desktop-cols,#site-hero > #grp-learn,#site-hero > #grp-current,#site-hero > #home-why,#site-hero > #vpn-lab-video,#site-hero > #vpn-docvid-promo,#site-hero > #home-latest-news,#site-hero > #if-promo,#site-hero > #qnav-wrap{display:none!important;}</style>
 <title>VPN Verified Peptides Network | Research Guides</title>
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -3935,7 +3935,7 @@ function dgEnter(){
     requestAnimationFrame(draw);
   }
   resize(); draw();
-  window.addEventListener('resize',resize);
+  vpnOnWidth(resize);
 })();
 
 // pin logo set directly in HTML
@@ -4047,7 +4047,7 @@ function checkPin(){
     canvas.height = canvas.offsetHeight;
   }
   resize();
-  window.addEventListener('resize', resize);
+  vpnOnWidth(resize);
 
   // Background stars
   for(let i=0;i<120;i++){
@@ -8349,11 +8349,11 @@ document.addEventListener('keydown', function(e){
     </summary>
     <div class="wh-body">
       <figure class="wh-hero" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.opt.jpg','Our Health Is In The Hands Of The Insurance Companies')">
-        <img loading="lazy" decoding="async" src="cheatsheet/insuranceiswhywerehere.opt.jpg" alt="Our health is in the hands of the insurance companies">
+        <img loading="lazy" decoding="async" data-src="cheatsheet/insuranceiswhywerehere.opt.jpg" alt="Our health is in the hands of the insurance companies">
       </figure>
       <div class="wh-sp">
         <button type="button" class="wh-play" aria-label="Play the South Park clip" onclick="var w=this.parentNode;w.querySelector('.wh-frame').innerHTML='<iframe src=&quot;https://www.youtube.com/embed/VAfy26xs6e0?autoplay=1&amp;rel=0&quot; title=&quot;South Park: Navigating the American healthcare system&quot; allow=&quot;autoplay; encrypted-media; picture-in-picture&quot; allowfullscreen></iframe>';w.classList.add('on');">
-          <img loading="lazy" decoding="async" src="https://i.ytimg.com/vi/VAfy26xs6e0/hqdefault.jpg" alt="South Park: Navigating the American healthcare system">
+          <img loading="lazy" decoding="async" data-src="https://i.ytimg.com/vi/VAfy26xs6e0/hqdefault.jpg" alt="South Park: Navigating the American healthcare system">
           <span class="wh-pbtn" aria-hidden="true"></span>
           <span class="wh-badge">▶ Watch · South Park Studios</span>
         </button>
@@ -8366,7 +8366,7 @@ document.addEventListener('keydown', function(e){
         <p>Whether a group has 200 members, 4,000 members or 20,000 members, <strong>you are still at risk.</strong> Membership numbers do not equal safety. Group size is not a shield.</p>
         <p>There is no such thing as a 100% safe gray market. The only difference between a smart researcher and one who gets burned is <strong>informed risk vs. uninformed risk.</strong> Research your vendor. Verify COAs every batch. Organize independent testing. The responsibility is 100% yours: own it.</p>
         <div class="wh-thumbs">
-          <figure onclick="openLightbox('warninggraymarket.jpg','WARNING — Read This Before You Buy: The Truth About The Gray Market')"><img loading="lazy" decoding="async" src="warninggraymarket.jpg" alt="Warning: the truth about the gray market"><figcaption>Read this before you buy: the truth about the gray market</figcaption></figure>
+          <figure onclick="openLightbox('warninggraymarket.jpg','WARNING — Read This Before You Buy: The Truth About The Gray Market')"><img loading="lazy" decoding="async" data-src="warninggraymarket.jpg" alt="Warning: the truth about the gray market"><figcaption>Read this before you buy: the truth about the gray market</figcaption></figure>
         </div>
       </div>
 
@@ -8375,9 +8375,9 @@ document.addEventListener('keydown', function(e){
         <p>The 3 tests you're most likely to get in the gray market are <strong>Identity</strong> (LC-MS), <strong>Quantity</strong> (net peptide content) and <strong>Purity</strong> (HPLC). Rarer tests like sterility, endotoxin, heavy metals and fentanyl screening exist but aren't commonly included; you can pay for those yourself.</p>
         <p>Vendor control won't save you: verify COAs and batch numbers, review independent test results, and make informed decisions. <strong>It's all your risk. Your health. Your money. Your decision.</strong></p>
         <div class="wh-thumbs">
-          <figure onclick="openLightbox('WARNING3TESTONLY.jpg','Warning — Read This Before You Buy (The 3 Tests)')"><img loading="lazy" decoding="async" src="WARNING3TESTONLY.jpg" alt="Warning: the 3 tests"><figcaption>The 3 tests you'll usually get</figcaption></figure>
-          <figure onclick="openLightbox('3TESTSOTHERSUTEST.jpg','The 3 Tests: Identity, Quantity, Purity')"><img loading="lazy" decoding="async" src="3TESTSOTHERSUTEST.jpg" alt="Identity, quantity, purity breakdown"><figcaption>Identity · Quantity · Purity: breakdown</figcaption></figure>
-          <figure onclick="openLightbox('TYPESOFPEPTIDETESTING.jpg','A Simple Guide To Peptide Testing — 6 Types Explained')"><img loading="lazy" decoding="async" src="TYPESOFPEPTIDETESTING.jpg" alt="All 6 types of peptide testing"><figcaption>All 6 types of peptide testing explained</figcaption></figure>
+          <figure onclick="openLightbox('WARNING3TESTONLY.jpg','Warning — Read This Before You Buy (The 3 Tests)')"><img loading="lazy" decoding="async" data-src="WARNING3TESTONLY.jpg" alt="Warning: the 3 tests"><figcaption>The 3 tests you'll usually get</figcaption></figure>
+          <figure onclick="openLightbox('3TESTSOTHERSUTEST.jpg','The 3 Tests: Identity, Quantity, Purity')"><img loading="lazy" decoding="async" data-src="3TESTSOTHERSUTEST.jpg" alt="Identity, quantity, purity breakdown"><figcaption>Identity · Quantity · Purity: breakdown</figcaption></figure>
+          <figure onclick="openLightbox('TYPESOFPEPTIDETESTING.jpg','A Simple Guide To Peptide Testing — 6 Types Explained')"><img loading="lazy" decoding="async" data-src="TYPESOFPEPTIDETESTING.jpg" alt="All 6 types of peptide testing"><figcaption>All 6 types of peptide testing explained</figcaption></figure>
         </div>
       </div>
 
@@ -8385,14 +8385,14 @@ document.addEventListener('keydown', function(e){
         <h3><span class="wh-num">3</span>Big Pharma is not scared of the gray market</h3>
         <p>We are not a threat to their bottom line; we are a rounding error. <strong>The danger is to you, not them.</strong> Know what you are buying, verify everything, and never let community size replace due diligence.</p>
         <div class="wh-thumbs">
-          <figure onclick="openLightbox('bigpharmanotscaredofgraymarket.jpg','Big Pharma Is Not Scared Of The Gray Market — Here Is Why')"><img loading="lazy" decoding="async" src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma is not scared of the gray market"><figcaption>Why Big Pharma isn't worried</figcaption></figure>
+          <figure onclick="openLightbox('bigpharmanotscaredofgraymarket.jpg','Big Pharma Is Not Scared Of The Gray Market — Here Is Why')"><img loading="lazy" decoding="async" data-src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma is not scared of the gray market"><figcaption>Why Big Pharma isn't worried</figcaption></figure>
         </div>
       </div>
     </div>
   </details>
   <script>
   /* the video only loads once someone opens the section */
-  (function(){ var d = document.getElementById('vh2-whyhere'); if (!d) return; d.addEventListener('toggle', function(){ if (!d.open) return; var f = d.querySelector('iframe[data-src]'); if (f && !f.src) f.src = f.getAttribute('data-src'); }); })();
+  (function(){ var d = document.getElementById('vh2-whyhere'); if (!d) return; d.addEventListener('toggle', function(){ if (!d.open) return; var f = d.querySelector('iframe[data-src]'); if (f && !f.src) f.src = f.getAttribute('data-src'); d.querySelectorAll('img[data-src]').forEach(function(im){ im.src = im.getAttribute('data-src'); im.removeAttribute('data-src'); }); }); })();
   </script>
 
   <!-- GET THE APP (bottom of home, above the flyers) -->
@@ -12801,7 +12801,7 @@ document.addEventListener('keydown', function(e){
       </summary>
       <div class="vpn-news-body">
         <div style="cursor:zoom-in;border-radius:8px;overflow:hidden;margin-bottom:0;" onclick="openLightbox('FUCKFAUCI.jpg','Stop Taking Medical Advice From Doctors Who Plead The 5th')">
-          <img src="FUCKFAUCI.jpg" alt="Stop Taking Medical Advice From Doctors Who Plead The 5th" style="width:100%;display:block;" loading="lazy">
+          <img loading="lazy" src="FUCKFAUCI.jpg" alt="Stop Taking Medical Advice From Doctors Who Plead The 5th" style="width:100%;display:block;" loading="lazy">
         </div>
       </div>
     </details>
@@ -16001,7 +16001,18 @@ document.addEventListener('keydown', function(e){
   </script>
 
   <!-- SHOP HERO DISCLAIMER -->
-  <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#0d0005 0%,#080000 50%,#0a0008 100%);border-bottom:2px solid rgba(255,0,60,0.35);">
+  <!-- Research Shops: same full-width card layout as the other sections -->
+  <style>
+    #view-shops #shops-hero{margin:0 0 1.1rem;border:1px solid rgba(255,0,60,0.30) !important;border-radius:22px;
+      background:radial-gradient(620px 300px at 0% 0%,rgba(255,0,80,0.16),transparent 60%),radial-gradient(560px 300px at 100% 100%,rgba(154,92,255,0.12),transparent 60%),#0c0a16 !important;}
+    #view-shops #shops-hero > div:first-child{display:none;}
+    #view-shops #shops-hero > div[style*="max-width:860px"]{max-width:none !important;margin:0 !important;padding:clamp(1.2rem,3vw,2rem) !important;}
+    #view-shops #shops-hero > div[style*="max-width:860px"] > div[style*="max-width:600px"]{max-width:760px !important;font-size:0.98rem !important;}
+    #view-shops #shops-hero + div[style*="height:1px"]{display:none;}
+    #view-shops #shops-list{max-width:none !important;margin:0 !important;padding:0 0 3rem !important;}
+    #view-shops #shops-list > div[style*="display:grid"]{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr)) !important;gap:0.9rem !important;}
+    #view-shops #shops-list > div[style*="display:grid"] > div{border-radius:18px !important;padding:1.15rem 1.25rem !important;background:#121020 !important;border-left:1px solid rgba(255,255,255,0.09) !important;border-right:1px solid rgba(255,255,255,0.09) !important;border-bottom:1px solid rgba(255,255,255,0.09) !important;box-shadow:0 18px 40px -30px rgba(0,0,0,0.9);}
+  </style>  <div id="shops-hero" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#0d0005 0%,#080000 50%,#0a0008 100%);border-bottom:2px solid rgba(255,0,60,0.35);">
     <!-- animated stripe -->
     <div style="height:3px;background:linear-gradient(90deg,#ff0050,#ff3300,#ff7800,#ff3300,#ff0050);background-size:300% 100%;animation:newsStripe 3s linear infinite;"></div>
     <!-- glow -->
@@ -16043,7 +16054,7 @@ document.addEventListener('keydown', function(e){
 
   <style>@keyframes blink2{0%,100%{opacity:1;}50%{opacity:0;}}</style>
 
-  <div style="max-width:860px;margin:0 auto;padding:1.25rem 1rem 3rem;">
+  <div id="shops-list" style="max-width:860px;margin:0 auto;padding:1.25rem 1rem 3rem;">
 
     <!-- SHOPS GRID -->
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1rem;">
@@ -32449,7 +32460,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       for(var i=0;i<cols;i++) drops[i] = Math.random() * -canvas.height / fontSize;
     }
     resizeMx();
-    window.addEventListener('resize', resizeMx);
+    vpnOnWidth(resizeMx);
     // mostly matrix green with occasional brand accents
     var mxColors = ['#00ff41','#00ff41','#00ff41','#39ff14','#00f5ff','#ff2d78','#00ff41','#00ff41','#ccffcc'];
     function drawMx(){
@@ -32508,7 +32519,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       for(var i=0;i<NUM;i++) petals.push(randomPetal(false));
     }
     resizePc();
-    window.addEventListener('resize', resizePc);
+    vpnOnWidth(resizePc);
 
     function drawPetals(){
       px.clearRect(0,0,pc.width,pc.height);
@@ -32577,7 +32588,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       for(var i=0;i<LNUM;i++) lpetals.push(rLp(false));
     }
     resizeLc();
-    window.addEventListener('resize', resizeLc);
+    vpnOnWidth(resizeLc);
     function drawLogoPetals(){
       lx.clearRect(0,0,lc.width,lc.height);
       for(var i=0;i<lpetals.length;i++){
@@ -32624,7 +32635,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
       for(var i=0;i<lcols;i++) ldrops[i] = Math.random() * -lmc.height / lfont;
     }
     resizeLmc();
-    window.addEventListener('resize', resizeLmc);
+    vpnOnWidth(resizeLmc);
     var lColors = ['#00ff41','#39ff14','#00ff41','#ccffcc','#00f5ff'];
     function drawLmc(){
       lctx.fillStyle = 'rgba(0,0,0,0.08)';
@@ -33141,7 +33152,8 @@ window.addEventListener('appinstalled', function(){
     });
   }
   // heroes are finished by an earlier script on load; upgrade after it
-  if (document.readyState === 'complete') setTimeout(upgrade, 0); else window.addEventListener('load', function(){ setTimeout(upgrade, 0); });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(upgrade, 250); }); else setTimeout(upgrade, 250);
+  window.addEventListener('load', function(){ setTimeout(upgrade, 0); });
   setTimeout(upgrade, 1500);
 })();
 </script>
