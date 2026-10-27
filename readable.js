@@ -11,7 +11,7 @@
     + '.vx-label{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;font-weight:700!important;letter-spacing:.02em!important;line-height:1.3!important}'
     + '.vx-head{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;line-height:1.2!important}'
     + '.vx-glow{text-shadow:none!important}';
-  if (!document.querySelector('script[src*="pro.js"]')) { var px = document.createElement('script'); px.src = 'pro.js?v=1'; document.head.appendChild(px); }
+  if (!document.querySelector('script[src*="pro.js"]')) { var px = document.createElement('script'); px.src = 'pro.js?v=2'; document.head.appendChild(px); }
   var s = document.createElement('style'); s.id = 'vx-css'; s.textContent = css; document.head.appendChild(s);
   var keepDisplay = document.documentElement.hasAttribute('data-keep-display');
   var DISPLAY = /Bebas|Orbitron|Share Tech|Monoton|Bangers|Press Start/i, BODY = /Rajdhani|Barlow/i;

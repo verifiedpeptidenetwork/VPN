@@ -8650,7 +8650,7 @@ document.addEventListener('keydown', function(e){
     .vh2-vid video{width:100%;aspect-ratio:16/9;display:block;background:#000;object-fit:contain;}
     .vh2-vid .vb{display:flex;flex-direction:column;gap:0.45rem;padding:0.95rem 1rem 1.05rem;}
     .vh2-vid .tag{align-self:flex-start;font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:6px;color:#fff;background:linear-gradient(90deg,var(--a1),var(--a2));}
-    .vh2-vid .tag.b{background:linear-gradient(90deg,var(--a2),var(--a3));}
+    .vh2-vid .tag.b{background:linear-gradient(90deg,#7a3cff,#1f7fd6);}
     .vh2-vid .tag.c{background:linear-gradient(90deg,#ff6a2a,#ffb12a);color:#1a0e00;}
     .vh2-vid h3{margin:0;font-size:1.05rem !important;font-weight:800;letter-spacing:-0.01em;color:var(--ink);line-height:1.25 !important;}
     .vh2-vid p{margin:0;font-size:0.9rem !important;line-height:1.5 !important;color:var(--sub);}
@@ -33438,6 +33438,15 @@ window.addEventListener('appinstalled', function(){
   html[data-theme="light"] body #vpn-sidebar .sb-item:hover{background:rgba(30,20,70,0.05) !important;}
   html[data-theme="light"] body #vpn-sidebar .sb-item .sb-icon{background:rgba(30,20,70,0.06);}
   html[data-theme="light"] body #vpn-sidebar .sb-section{color:#8a85a5 !important;}
+  /* small buttons sitting on light bars, e.g. the Cheat Sheets download-all buttons */
+  html[data-theme="light"] body .px-on summary.px-sum button{color:#0b5f6b !important;-webkit-text-fill-color:#0b5f6b !important;background:#eaf8fa !important;border-color:rgba(11,95,107,0.35) !important;text-shadow:none !important;}
+  /* cards that use the shared --card-bg variable turn light in light mode */
+  html[data-theme="light"]{--card-bg:#ffffff;--card-border:rgba(30,20,70,0.12);--text-secondary:#4a4566;}
+  html[data-theme="light"] body #vpn-theme-toggle, html[data-theme="light"] body #vpn-theme-toggle *{color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+  html[data-theme="light"] body #vpn-theme-toggle{background:#ffffff !important;border:1px solid rgba(30,20,70,0.16) !important;box-shadow:none !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item{color:#4a4566 !important;-webkit-text-fill-color:#4a4566 !important;background:transparent !important;border:none !important;box-shadow:none !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item:hover{color:#14112a !important;-webkit-text-fill-color:#14112a !important;background:rgba(30,20,70,0.05) !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item.sb-active{color:#14112a !important;-webkit-text-fill-color:#14112a !important;background:linear-gradient(90deg,rgba(255,47,168,0.12),rgba(154,92,255,0.08)) !important;box-shadow:inset 3px 0 0 #ff2fa8 !important;}
 
   /* ── section pages ── */
   .px-on, .px-on *{text-shadow:none !important;}

@@ -1,4 +1,4 @@
-const CACHE = 'vpn-v2';
+const CACHE = 'vpn-v3';
 const PRECACHE = ['./home.html', './VPNNEWLOGO.png', './WALLPAPER.jpg'];
 
 self.addEventListener('install', e => {

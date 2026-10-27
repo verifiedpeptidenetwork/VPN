@@ -4,10 +4,12 @@
    Loaded by readable.js. <html data-px-skip> opts a page out; [data-px-skip] skips one block. */
 (function(){
   if (document.documentElement.hasAttribute('data-px-skip')) return;
+  // <html data-px-bars>: a page with its own design that still wants the standard collapsible bars and pick-lists
+  var BARS_ONLY = document.documentElement.hasAttribute('data-px-bars');
   var css = ''
     + ':root{--px-ink:#f1f3fb;--px-sub:rgba(200,206,230,0.74);--px-line:rgba(255,255,255,0.09);--px-card:#0e0c18;--px-card2:#14111f;}'
     + 'html[data-theme="light"]{--px-ink:#14112a;--px-sub:#4a4566;--px-line:rgba(30,20,70,0.12);--px-card:#ffffff;--px-card2:#f3f0fb;}'
-    + 'body.px-page *{text-shadow:none!important}'
+    + 'body.px-page:not(.px-bars-only) *,body.px-page .px-det *,body.px-page select{text-shadow:none!important}'
     + 'body.px-page details.px-det{border:none!important;background:none!important;box-shadow:none!important;border-radius:16px!important;margin:0 0 .6rem!important;overflow:visible!important}'
     + 'body.px-page summary.px-sum{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap;gap:.4rem .75rem!important;min-height:56px;box-sizing:border-box;margin:0!important;padding:.85rem 2.8rem .85rem 1.1rem!important;position:relative;list-style:none;cursor:pointer;border-radius:16px!important;border:1px solid var(--px-line)!important;border-left:3px solid var(--px-ac,#9a5cff)!important;background:var(--px-card)!important;box-shadow:none!important;color:var(--px-ink)!important;-webkit-text-fill-color:currentColor!important;font:700 1rem/1.35 Inter,system-ui,sans-serif!important;letter-spacing:-.005em!important;text-transform:none!important;text-align:left!important;animation:none!important;transition:background .15s,transform .15s}'
     + 'body.px-page summary.px-sum *{text-align:left!important}'
@@ -27,6 +29,9 @@
     + 'body.px-page .px-left{text-align:left!important}'
     + 'body.px-page .px-head{font-family:Inter,system-ui,sans-serif!important;font-weight:800!important;letter-spacing:-.01em!important;text-transform:none!important}'
     + 'body.px-page .px-btn{font-family:Inter,system-ui,sans-serif!important;font-weight:700!important;letter-spacing:0!important;text-transform:none!important;box-shadow:none!important}'
+    + 'body.px-page select:not([data-px-skip]){-webkit-appearance:none!important;appearance:none!important;background:var(--px-card) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 12 8%27%3E%3Cpath d=%27M1 1.5l5 5 5-5%27 fill=%27none%27 stroke=%27%238f93ad%27 stroke-width=%271.8%27 stroke-linecap=%27round%27/%3E%3C/svg%3E") no-repeat right .85rem center/12px 8px!important;color:var(--px-ink)!important;border:1px solid var(--px-line)!important;border-radius:12px!important;padding:.6rem 2.3rem .6rem .85rem!important;font:600 .95rem/1.3 Inter,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;text-shadow:none!important;box-shadow:none!important;min-height:44px;cursor:pointer}'
+    + 'body.px-page select:not([data-px-skip]):focus-visible{outline:2px solid #9a5cff;outline-offset:2px}'
+    + 'body.px-page select option{background:var(--px-card);color:var(--px-ink)}'
     + '@media(max-width:640px){body.px-page summary.px-sum{padding:.8rem 2.5rem .8rem .95rem!important;font-size:.98rem!important}}';
   var st = document.createElement('style'); st.id = 'px-css'; st.textContent = css; document.head.appendChild(st);
 
@@ -85,6 +90,7 @@
         if (fs >= 14.5) { x.style.setProperty('font-weight', '700', 'important'); x.style.setProperty('text-transform', 'none', 'important'); x.style.setProperty('letter-spacing', '-0.005em', 'important'); }
       });
     });
+    if (BARS_ONLY) return;
     // neon-bordered boxes (vivid border colour or glow)
     root.querySelectorAll('div, section, article, aside, a, li').forEach(function(b){
       if (b.__pxb) return;
@@ -118,11 +124,62 @@
       if ((e.tagName === 'P' || e.tagName === 'DIV') && c.textAlign === 'center' && e.textContent.trim().length > 110 && e.closest('.px-box, .px-det')) e.classList.add('px-left');
     });
   }
-  function run(){ document.body.classList.add('px-page'); skin(document.body); }
+  function run(){ document.body.classList.add('px-page'); if (BARS_ONLY) document.body.classList.add('px-bars-only'); skin(document.body); }
   function start(){
     setTimeout(run, 150);
     var p = null;
     new MutationObserver(function(){ if (p) return; p = setTimeout(function(){ p = null; run(); }, 400); }).observe(document.body, { childList:true, subtree:true });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+
+/* custom (script-built) dropdowns: same card standard as the main site */
+(function(){
+  var st=document.createElement('style'); st.id='px-tog-css'; st.textContent=' .px-tog-bar{display:flex !important;align-items:center !important;gap:0.75rem !important;position:relative;box-sizing:border-box;min-height:56px;padding:0.85rem 2.8rem 0.85rem 1.1rem !important;border-radius:14px !important;border:1px solid var(--px-line) !important;border-left:3px solid var(--px-ac,#9a5cff) !important;background:var(--px-card) !important;box-shadow:none !important;cursor:pointer;text-align:left !important;animation:none !important;transition:background .15s,transform .15s;} .px-tog-bar:hover{background:var(--px-card2) !important;transform:translateY(-1px);} .px-tog-bar::after{content:\'\';position:absolute;right:1.1rem;top:50%;width:8px;height:8px;margin-top:-6px;border-right:2px solid var(--px-sub);border-bottom:2px solid var(--px-sub);transform:rotate(45deg);transition:transform .2s;} .px-tog-bar.px-open::after{transform:rotate(-135deg);margin-top:-2px;} .px-tog-bar,.px-tog-bar *{font-family:\'Inter\',system-ui,-apple-system,\'Segoe UI\',sans-serif !important;letter-spacing:-0.005em !important;text-transform:none !important;text-shadow:none !important;} .px-tog-bar .px-arrow-old{display:none !important;} .px-tog-btn{display:inline-flex !important;align-items:center !important;gap:0.4rem !important;padding:0.55rem 0.9rem !important;border-radius:10px !important;border:1px solid var(--px-line) !important;background:var(--px-card2) !important;color:var(--px-ink) !important;-webkit-text-fill-color:var(--px-ink) !important;font:700 0.88rem/1.2 \'Inter\',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;box-shadow:none !important;text-shadow:none !important;cursor:pointer;animation:none !important;} .px-tog-btn:hover{border-color:rgba(154,92,255,0.55) !important;} /* Peptide Index cards */ html body .pep-idx-card{background:var(--px-card) !important;border:1px solid var(--px-line) !important;border-left:3px solid #9a5cff !important;border-radius:14px !important;box-shadow:none !important;} html body .pep-idx-card:hover{background:var(--px-card2) !important;border-color:var(--px-line) !important;border-left-color:#ff2fa8 !important;} html body .pep-idx-header{padding:0.9rem 1rem !important;align-items:center !important;} html body .pep-idx-header span{font-family:\'Inter\',system-ui,sans-serif !important;letter-spacing:0 !important;text-transform:none !important;} html body .pep-idx-header > div > span:first-child{font-weight:800 !important;font-size:1.02rem !important;letter-spacing:-0.01em !important;color:var(--px-ink) !important;-webkit-text-fill-color:var(--px-ink) !important;} html body .pep-idx-header > div > span:last-child{font-weight:500 !important;font-size:0.88rem !important;color:var(--px-sub) !important;-webkit-text-fill-color:var(--px-sub) !important;} html body .pep-idx-header .pa{display:grid !important;place-items:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--px-line);color:var(--px-sub) !important;font-size:0.7rem !important;margin:0 !important;} html body .pep-idx-body{background:transparent !important;box-shadow:none !important;border-top:1px solid var(--px-line) !important;padding:0.9rem 1rem 1rem !important;} html body .pep-idx-body span,html body .pep-idx-body p{font-family:\'Inter\',system-ui,sans-serif !important;letter-spacing:0 !important;} html[data-theme="light"] body .pep-idx-card{background:#fff !important;} '; document.head.appendChild(st);
+})();
+
+(function(){
+  var TOGGLE = /display|classList\.toggle|\.toggle\(|\.open\s*=|\.open\b/;
+  var NOT = /showView|location|window\.open|print\(|[Cc]opy|vpnTheme|lightbox|openLightbox|scrollTo\(\{top:0/;
+  var SKIPT = '#vpn-sidebar, #vpn-bottom-nav, .vpn-bottom-nav, summary, .sp-bar, .pep-idx-header, .vh2, #vpn-close-cards, [data-px-skip], .dex-card, .lp-bar, header, nav';
+  function caps(t){ var l = t.replace(/[^A-Za-z]/g, ''); return l.length >= 4 && l === l.toUpperCase(); }
+  function title(t){ return t.replace(/[A-Za-z][A-Za-z'’-]*/g, function(w, i){ if (/^(GLP|BPC|TB|GHK|KPV|NAD|COA|COAS|FDA|MTC|PDF|EAA|CJC|IGF|MOTS|SS|HGH|TRT|DIY|ELI5|USA|PT|MK|DMSO|PCOS|LED|UV|A1C|CBC|CMP|TSH|RUI|VPN)$/.test(w.toUpperCase().replace(/S$/, '')) && w.length <= 5) return w; var lw = w.toLowerCase(); return i === 0 ? lw.charAt(0).toUpperCase() + lw.slice(1) : (/^(and|or|the|of|to|for|in|on|at|by|with|vs|per|from|a|an)$/.test(lw) ? lw : lw.charAt(0).toUpperCase() + lw.slice(1)); }); }
+  function decapsIn(el){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(function(n){ if (caps(n.textContent)) n.textContent = title(n.textContent); });
+  }
+  function accent(el){
+    var c = getComputedStyle(el), cands = [c.borderLeftColor, c.borderTopColor, c.color];
+    for (var i = 0; i < cands.length; i++){ var m = (cands[i].match(/\d+(\.\d+)?/g) || []).map(Number); if (m.length >= 3 && (m[3] == null || m[3] > 0.25) && Math.max(m[0],m[1],m[2]) - Math.min(m[0],m[1],m[2]) > 60) return 'rgb(' + m[0] + ',' + m[1] + ',' + m[2] + ')'; }
+    return '';
+  }
+  function skinToggles(root){
+    if (!root) return;
+    root.querySelectorAll('[onclick]').forEach(function(e){
+      if (e.__pxt2) return;
+      var oc = e.getAttribute('onclick') || '';
+      if (!TOGGLE.test(oc) || NOT.test(oc) || e.closest(SKIPT)) return;
+      var r = e.getBoundingClientRect(); if (!r.width) return; // hidden for now; try again when shown
+      e.__pxt2 = true;
+      decapsIn(e);
+      // old ▼ / ▲ arrow glyphs become the shared chevron on bars
+      var wide = r.width >= 260 && r.height >= 40 && !/^(BUTTON|A)$/.test(e.tagName) || (r.width >= 420 && r.height >= 44);
+      if (wide){
+        var ac = accent(e); if (ac) e.style.setProperty('--px-ac', ac);
+        e.classList.add('px-tog-bar');
+        e.querySelectorAll('span, div').forEach(function(x){ if (x.children.length === 0 && /^[▼▲▾▴⌄]\s*$|^[▼▲]\s*(open|hide|expand|collapse|read)/i.test(x.textContent.trim())) x.classList.add('px-arrow-old'); });
+        e.addEventListener('click', function(){ var me = e; setTimeout(function(){ var nx = me.nextElementSibling; var open = nx && getComputedStyle(nx).display !== 'none' && nx.getClientRects().length > 0; me.classList.toggle('px-open', !!open); }, 30); });
+      } else if (r.height < 70) {
+        e.classList.add('px-tog-btn');
+      }
+    });
+  }
+  function run(){
+    if (document.documentElement.hasAttribute('data-px-skip')) return;
+    skinToggles(document.body);
+  }
+  document.addEventListener('click', function(){ setTimeout(run, 200); }, true);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(run, 300); }); else setTimeout(run, 300);
+  setTimeout(run, 1800);
 })();

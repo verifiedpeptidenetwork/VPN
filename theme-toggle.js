@@ -795,7 +795,7 @@
     var els = document.body.querySelectorAll('*');
     for (var i = 0; i < els.length; i++){
       var e = els[i];
-      if (/^(SCRIPT|STYLE|SVG|PATH|VIDEO|CANVAS|IMG|IFRAME|OPTION)$/i.test(e.tagName) || e.closest('svg,[data-cg-skip]')) continue;
+      if (/^(SCRIPT|STYLE|SVG|PATH|VIDEO|CANVAS|IMG|IFRAME|OPTION)$/i.test(e.tagName) || e.closest('svg,[data-cg-skip],#vpn-sidebar')) continue; // the sidebar has its own light styles
       var has = false;
       for (var n = e.firstChild; n; n = n.nextSibling) if (n.nodeType === 3 && /[A-Za-z0-9]{2}/.test(n.textContent)) { has = true; break; }
       if (!has || !e.getClientRects().length) continue;
