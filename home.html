@@ -3050,7 +3050,7 @@
   html[data-theme="light"] .vpn-lockup .vl-rui{color:#4a4566;-webkit-text-fill-color:#4a4566;border-color:rgba(30,20,70,0.2);}
   html[data-theme="light"] .vpn-lockup .vl-name{color:#4a4566;-webkit-text-fill-color:#4a4566;}
 </style>
-<!-- SITE BACKGROUND — custom, image-free: soft brand glows + a fading dot grid. Sizes use vmax, so it holds in portrait and landscape on any screen -->
+<!-- SITE BACKGROUND — soft brand glows + a futuristic DNA helix layer. Sizes use vmax, so it holds in portrait and landscape on any screen -->
 <style id="vpn-bg">
   html body{background-color:#07060e !important;background-image:none !important;background-attachment:scroll !important;}
   html body::before{content:'' !important;display:block !important;position:fixed !important;inset:0 !important;z-index:-2 !important;pointer-events:none !important;
@@ -3061,11 +3061,8 @@
       radial-gradient(40vmax 30vmax at 50% 50%, rgba(154,92,255,0.06), transparent 70%),
       linear-gradient(180deg,#0b0918 0%,#07060e 55%,#06050b 100%) !important;
     background-size:auto !important;background-repeat:no-repeat !important;background-position:0 0 !important;}
-  html body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background-image:radial-gradient(rgba(255,255,255,0.075) 1px, transparent 1.3px);
-    background-size:26px 26px;
-    -webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 30%, #000 18%, transparent 78%);
-            mask-image:radial-gradient(ellipse 85% 70% at 50% 30%, #000 18%, transparent 78%);}
+  /* futuristic DNA layer: two glowing double helices + faint tech grid (dna-bg.svg, vector) */
+  html body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:url('dna-bg.svg?v=1') center center / cover no-repeat;opacity:0.82;}
   /* light mode: same composition in pastels */
   html[data-theme="light"]:root body{background-color:#f6f4fb !important;}
   html[data-theme="light"]:root body::before{display:block !important;content:'' !important;
@@ -3075,7 +3072,12 @@
       radial-gradient(64vmax 44vmax at 62% 112%, rgba(37,99,235,0.12), transparent 62%),
       linear-gradient(180deg,#fbfaff 0%,#f6f4fb 55%,#f2effa 100%) !important;
     background-size:auto !important;background-position:0 0 !important;}
-  html[data-theme="light"]:root body::after{background-image:radial-gradient(rgba(30,20,70,0.07) 1px, transparent 1.3px);}
+  html[data-theme="light"]:root body::after{opacity:0.38;filter:saturate(1.25);}
+  /* page containers are see-through so the DNA shows between cards (cards keep their own backgrounds) */
+  html body #site-hero, html body .view, html body.vpn-nonhome .view.active{background-color:transparent !important;background-image:none !important;box-shadow:none !important;}
+  /* phone menu button: visible lines in light mode */
+  html[data-theme="light"] body #hamburger-btn{background:#ffffff !important;border-color:rgba(124,58,237,0.35) !important;}
+  html[data-theme="light"] body #hamburger-btn span{background:#5b2bd6 !important;box-shadow:none !important;}
   /* the old animated star / nebula layers are retired */
   #starfield, #scene-canvas{display:none !important;}
   @media print{ html body::before, html body::after{display:none !important;} }
