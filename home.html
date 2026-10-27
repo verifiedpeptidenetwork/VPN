@@ -4947,12 +4947,12 @@ document.addEventListener('keydown', function(e){
       @media(max-width:900px){ #site-hero > #vpn-docvid-promo, #site-hero > #if-promo{display:none !important;} }
     </style>
     <nav id="vpn-start-path" data-vt-skip aria-label="Start here">
-      <div class="sp-h"><b>New here? Start in 4 steps</b><span>about 10 minutes, all free</span></div>
+      <div class="sp-h"><b>Start here in 4 steps</b><span>about 10 minutes, all free</span></div>
       <ol>
-        <li><a href="#vpn-watch-first" onclick="document.getElementById('vh2-videos').scrollIntoView({behavior:'smooth',block:'start'});return false;"><b>Watch the welcome</b><small>A short intro to what VPN is and how to use it</small></a></li>
-        <li><a href="#vpn-peptides-101" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><b>Peptides 101</b><small>What a peptide is, in plain English</small></a></li>
-        <li><a href="peptide-suggestion.html"><b>Find your peptides</b><small>Peptide Match: 3 questions, ranked results</small></a></li>
-        <li><a href="#bloodwork" onclick="showView('bloodwork');return false;"><b>Get blood work first</b><small>What to test before and during research</small></a></li>
+        <li><a href="#vpn-peptides-101" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><b>Learn the basics</b><small>Peptides 101: what a peptide is, in plain English</small></a></li>
+        <li><a href="#bloodwork" onclick="showView('bloodwork');window.scrollTo({top:0});return false;"><b>Talk to your doctor, get blood work</b><small>Be open about your research, test before you start and every few months</small></a></li>
+        <li><a href="#vh2-h-safety" onclick="var s=document.getElementById('vh2-h-safety');if(s){s.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><b>Read the safety guides</b><small>Verify every claim, and test what you buy independently</small></a></li>
+        <li><a href="#calculator" onclick="showView('calculator');window.scrollTo({top:0});return false;"><b>Measure every dose</b><small>BAC water, vial strength and exactly how many units to draw</small></a></li>
       </ol>
     </nav>
 
@@ -8118,32 +8118,63 @@ document.addEventListener('keydown', function(e){
   </div>
     </div>
 
-    <div class="vpn-rules-head"><span class="pulse"></span>THE 4 RULES BEFORE ANY RESEARCH<span class="pulse"></span></div>
-    <div class="vpn-rules-grid">
-      <button type="button" class="vpn-rule" style="--rc:#00f5ff;--rbg:rgba(0,245,255,0.14);--rd:0s;" onclick="showView('studies')">
-        <span class="vpn-rule-top"><span class="vpn-rule-num">01</span><span class="vpn-rule-ic">🔬</span></span>
-        <span class="vpn-rule-t">VERIFY EVERYTHING</span>
-        <span class="vpn-rule-d">Check every claim against research papers, articles and published literature — including what you read here.</span>
-        <span class="vpn-rule-go">RESEARCH STUDIES →</span>
-      </button>
-      <button type="button" class="vpn-rule vpn-rule-duo" style="--rc:#00ff64;--rc2:#ff2d78;--rbg:rgba(0,255,100,0.12);--rd:1.5s;" onclick="showView('bloodwork')">
-        <span class="vpn-rule-top"><span class="vpn-rule-num">02</span><span class="vpn-rule-ic">🩺</span><span class="vpn-rule-ic">🩸</span></span>
-        <span class="vpn-rule-t">YOUR DOCTOR &amp; BLOOD WORK</span>
-        <span class="vpn-rule-d">Be open with your doctor about what you're researching. Get a full blood panel before you start, then retest every few months to see what's actually changing.</span>
-        <span class="vpn-rule-go">WHAT TO ASK + BLOOD WORK GUIDE →</span>
-      </button>
-      <button type="button" class="vpn-rule" style="--rc:#ff9a1f;--rbg:rgba(255,154,31,0.14);--rd:3s;" onclick="var d=document.getElementById('grayMarketDropdown');if(d){d.classList.add('open');d.scrollIntoView({behavior:'smooth',block:'center'});}">
-        <span class="vpn-rule-top"><span class="vpn-rule-num">03</span><span class="vpn-rule-ic">⚠️</span></span>
-        <span class="vpn-rule-t">KNOW THE GRAY MARKET RISKS</span>
-        <span class="vpn-rule-d">Unknown purity, wrong doses, contamination and fake COAs are real. Test independently — never trust a label alone.</span>
-        <span class="vpn-rule-go">SPOT FAKE COAS →</span>
-      </button>
-      <button type="button" class="vpn-rule" style="--rc:#00b4ff;--rbg:rgba(0,180,255,0.14);--rd:4.5s;" onclick="showView('calculator')">
-        <span class="vpn-rule-top"><span class="vpn-rule-num">04</span><span class="vpn-rule-ic">🧮</span></span>
-        <span class="vpn-rule-t">MEASURE EVERY DOSE</span>
-        <span class="vpn-rule-d">Mixing and dosing errors are common. Use the calculator for BAC water, vial strength and exactly how many units to draw.</span>
-        <span class="vpn-rule-go">OPEN THE CALCULATORS →</span>
-      </button>
+  </section>
+
+
+  <!-- WHY PEOPLE TURN TO PEPTIDES — infographic feature (key takeaways from Sabina | glpwinner) -->
+  <style>
+    html body #site-hero > #vh2-why{order:3 !important;}
+    #vh2-why{width:100%;box-sizing:border-box;margin:0 0 1.1rem;padding:clamp(1.1rem,3vw,1.8rem);border-radius:22px;border:1px solid rgba(255,255,255,0.10);
+      background:radial-gradient(620px 300px at 100% 0%,rgba(255,177,42,0.12),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(154,92,255,0.14),transparent 60%),#0c0a16;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+    #vh2-why *{box-sizing:border-box;}
+    html body #vh2-why, html body #vh2-why *{text-align:left !important;}
+    html body #vh2-why .wy-card{display:flex !important;}
+    html body #vh2-why .wy-ic{display:grid !important;}
+    #vh2-why .wy-k{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#ffb12a,#ff2fa8,#9a5cff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-why h2{margin:0.4rem 0 0.4rem;font-size:clamp(1.5rem,3.6vw,2.2rem) !important;font-weight:800;letter-spacing:-0.03em;line-height:1.1 !important;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;}
+    #vh2-why .wy-lede{margin:0 0 1.2rem;max-width:720px;font-size:1rem !important;line-height:1.6 !important;color:rgba(214,220,240,0.8);}
+    #vh2-why .wy-grid{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:1.1rem;align-items:start;}
+    #vh2-why figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);background:#000;cursor:zoom-in;position:relative;}
+    #vh2-why figure img{display:block;width:100%;height:auto;}
+    #vh2-why figure figcaption{position:absolute;left:10px;bottom:10px;padding:0.4rem 0.7rem;border-radius:999px;background:rgba(10,8,20,0.82);border:1px solid rgba(255,255,255,0.16);font-size:0.78rem;font-weight:700;color:#fff;}
+    #vh2-why .wy-cards{display:grid;gap:0.65rem;}
+    #vh2-why .wy-card{display:flex;gap:0.8rem;align-items:flex-start;padding:0.95rem 1rem;border-radius:16px;border:1px solid rgba(255,255,255,0.09);border-left:3px solid var(--c);background:#121020;}
+    #vh2-why .wy-ic{flex-shrink:0;width:2.4rem;height:2.4rem;border-radius:12px;display:grid;place-items:center;font-size:1.15rem;background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);}
+    #vh2-why .wy-card b{display:block;font-size:1rem !important;font-weight:800;letter-spacing:-0.01em;color:#f1f3fb;margin-bottom:0.2rem;}
+    #vh2-why .wy-card p{margin:0;font-size:0.92rem !important;line-height:1.55 !important;color:rgba(214,220,240,0.8);}
+    #vh2-why blockquote{margin:0.2rem 0 0;padding:1rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,rgba(255,47,168,0.12),rgba(154,92,255,0.10));border:1px solid rgba(255,47,168,0.28);font-size:1.02rem !important;font-weight:700;line-height:1.5 !important;color:#fff;}
+    #vh2-why blockquote cite{display:block;margin-top:0.4rem;font-style:normal;font-size:0.82rem;font-weight:600;color:rgba(214,220,240,0.7);}
+    #vh2-why .wy-btns{display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:0.2rem;}
+    #vh2-why .wy-btns a,#vh2-why .wy-btns button{display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.05rem;border-radius:12px;font:700 0.9rem 'Inter',sans-serif;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:#f1f3fb;}
+    #vh2-why .wy-btns .pri{border:none;background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;}
+    @media(max-width:900px){ #vh2-why .wy-grid{grid-template-columns:1fr;} #vh2-why figure{max-width:520px;margin:0 auto;} }
+    html[data-theme="light"] #vh2-why{background:radial-gradient(620px 300px at 100% 0%,rgba(255,177,42,0.10),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
+    html[data-theme="light"] #vh2-why h2,html[data-theme="light"] #vh2-why .wy-card b{color:#14112a;-webkit-text-fill-color:#14112a;}
+    html[data-theme="light"] #vh2-why .wy-lede,html[data-theme="light"] #vh2-why .wy-card p,html[data-theme="light"] #vh2-why blockquote cite{color:#4a4566;}
+    html[data-theme="light"] #vh2-why .wy-card{background:#f8f6fd;border-color:rgba(30,20,70,0.10);}
+    html[data-theme="light"] #vh2-why blockquote{color:#14112a;background:linear-gradient(135deg,rgba(255,47,168,0.08),rgba(154,92,255,0.07));}
+    html[data-theme="light"] #vh2-why .wy-btns a:not(.pri),html[data-theme="light"] #vh2-why .wy-btns button:not(.pri){background:#fff;color:#14112a;border-color:rgba(30,20,70,0.16);}
+  </style>
+  <section id="vh2-why" data-vt-skip aria-label="Why people are turning to peptides">
+    <div class="wy-k">The bigger picture</div>
+    <h2>Why people are turning to peptides</h2>
+    <p class="wy-lede">Peptides as a symptom of a broken healthcare system: key takeaways from Sabina | glpwinner, and what they mean for anyone researching them.</p>
+    <div class="wy-grid">
+      <figure onclick="openLightbox('cheatsheet/peptides-broken-healthcare-system.webp','Peptides: a symptom of a broken healthcare system (Sabina | glpwinner)')">
+        <img loading="lazy" src="cheatsheet/peptides-broken-healthcare-system.webp" width="853" height="1280" alt="Infographic: Peptides, a symptom of a broken healthcare system. Key takeaways from Sabina | glpwinner">
+        <figcaption>🔍 Tap to read the full infographic</figcaption>
+      </figure>
+      <div class="wy-cards">
+        <div class="wy-card" style="--c:#2fb4ff"><span class="wy-ic">🧬</span><div><b>Messengers, not miracle drugs</b><p>Peptides are short chains of amino acids your body already uses as signals for healing, inflammation, metabolism and tissue repair.</p></div></div>
+        <div class="wy-card" style="--c:#ffb12a"><span class="wy-ic">🔒</span><div><b>The patent problem</b><p>Naturally occurring peptides can't be patented, so few companies will pay for the $5–20 million trials FDA approval needs. That leaves them popular, but short on solid safety data.</p></div></div>
+        <div class="wy-card" style="--c:#ff2fa8"><span class="wy-ic">🏥</span><div><b>Why people take the risk</b><p>Years of being dismissed, long waits, symptoms with no answers and lost trust in the system push people to look elsewhere for relief.</p></div></div>
+        <div class="wy-card" style="--c:#ff4d6d"><span class="wy-ic">⚠️</span><div><b>Go in informed</b><p>Long-term data is limited, some peptides (like BPC-157) affect blood-vessel growth, and gray-market purity varies. Informed consent matters: these are not risk-free.</p></div></div>
+        <blockquote>"Patients are not reckless. They are looking for hope in a system that has failed them."<cite>— Sabina | glpwinner</cite></blockquote>
+        <div class="wy-btns">
+          <button type="button" class="pri" onclick="openLightbox('cheatsheet/peptides-broken-healthcare-system.webp','Peptides: a symptom of a broken healthcare system (Sabina | glpwinner)')">🔍 View full infographic</button>
+          <a href="cheatsheet/peptides-broken-healthcare-system.webp" download="Peptides-Broken-Healthcare-System-Sabina-glpwinner.webp">⬇ Download</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -8658,16 +8689,14 @@ document.addEventListener('keydown', function(e){
   </section>
 
   <section id="vh2-tools" class="vh2" data-vt-skip aria-label="Tools">
-    <div class="vh2-h"><div><div class="k">Tools</div><h2>Everything you need, in one place</h2></div></div>
+    <div class="vh2-h"><div><div class="k">Tools</div><h2>Research tools</h2></div></div>
     <div class="vh2-grid">
-      <a class="vh2-card feat" style="--c:#ff2fa8" href="peptide-suggestion.html"><span class="ic">🧬</span><b>Peptide Match</b><small>Answer 3 questions and get research peptides ranked for your goals, with a starting protocol and shopping list.</small><span class="go">Start matching →</span></a>
       <a class="vh2-card feat" style="--c:#ffcc00" href="pokeme-dex.html"><span class="ic">💉</span><b>PokeMe-Dex tracker</b><small>Track doses, see your calendar, rotate injection sites and print your plan.</small><span class="go">Open tracker →</span></a>
-      <button type="button" class="vh2-card" style="--c:#b26bff" onclick="showView('calculator')"><span class="ic">🧮</span><b>Calculators</b><small>Mix and dose exactly, in units</small><span class="go">Open →</span></button>
-      <button type="button" class="vh2-card" style="--c:#2fb4ff" onclick="showView('all-peptides')"><span class="ic">🔬</span><b>Peptide index</b><small>80+ peptides, A–Z</small><span class="go">Browse →</span></button>
-      <button type="button" class="vh2-card" style="--c:#ff3f80" onclick="showView('bloodwork')"><span class="ic">🩸</span><b>Blood work</b><small>What to test and when</small><span class="go">Open →</span></button>
-      <button type="button" class="vh2-card" style="--c:#c45cff" onclick="var j=document.getElementById('home-janoshik');if(j){j.scrollIntoView({behavior:'smooth',block:'start'});}else{showView('graymarket');}"><span class="ic">🧪</span><b>Lab testing</b><small>Janoshik and COA checks</small><span class="go">Learn →</span></button>
-      <button type="button" class="vh2-card" style="--c:#2ee6a0" onclick="showView('studies')"><span class="ic">📊</span><b>Research studies</b><small>163 PubMed-linked</small><span class="go">Read →</span></button>
-      <button type="button" class="vh2-card" style="--c:#3b9dff" onclick="showView('videos')"><span class="ic">▶️</span><b>Doctor videos</b><small>Physicians and researchers</small><span class="go">Watch →</span></button>
+      <button type="button" class="vh2-card feat" style="--c:#2fb4ff" onclick="showView('all-peptides');window.scrollTo({top:0});"><span class="ic">🔬</span><b>Peptide index</b><small>Every compound A–Z with doses, cycles and a plain-English explanation. Download a card for each.</small><span class="go">Browse →</span></button>
+      <button type="button" class="vh2-card" style="--c:#2ee6a0" onclick="showView('studies');window.scrollTo({top:0});"><span class="ic">📊</span><b>Research studies</b><small>163 PubMed-linked</small><span class="go">Read →</span></button>
+      <button type="button" class="vh2-card" style="--c:#a855f7" onclick="showView('cheatsheets');window.scrollTo({top:0});"><span class="ic">🗄️</span><b>Cheat sheet vault</b><small>Every infographic in one grid</small><span class="go">Open →</span></button>
+      <button type="button" class="vh2-card" style="--c:#eab308" onclick="showView('templates');window.scrollTo({top:0});"><span class="ic">🏷️</span><b>Label templates</b><small>Print vial labels</small><span class="go">Open →</span></button>
+      <button type="button" class="vh2-card" style="--c:#3b9dff" onclick="showView('videos');window.scrollTo({top:0});"><span class="ic">▶️</span><b>Doctor videos</b><small>Physicians and researchers</small><span class="go">Watch →</span></button>
     </div>
   </section>
 
@@ -8724,14 +8753,12 @@ document.addEventListener('keydown', function(e){
     </div>
   </section>
 
-  <div id="vh2-h-safety" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Safety first</div><h2>Must-read guides and the 4 rules</h2><p>Gray market risks, GLP safety, lab testing and the rules we follow before any research.</p></div></div></div>
+  <div id="vh2-h-safety" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Safety first</div><h2>Read these before researching any peptide</h2><p>Research and education only. Not medical advice, not for human consumption, and we don't sell peptides or provide COAs. Work with a licensed doctor, get baseline blood work, and verify every claim yourself.</p></div></div></div>
 
   <section id="vh2-current" class="vh2" data-vt-skip aria-label="Stay current">
-    <div class="vh2-h"><div><div class="k">Stay current</div><h2>News and the latest published research</h2></div></div>
-    <div class="vh2-grid three">
+    <div class="vh2-h"><div><div class="k">Stay current</div><h2>Latest research news</h2></div></div>
+    <div class="vh2-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));">
       <a class="vh2-card" style="--c:#ff9a1f" href="latest-news.html"><span class="ic">📰</span><b>Latest news</b><small>Trials, approvals and research updates, as they happen</small><span class="go">Read the news →</span></a>
-      <button type="button" class="vh2-card" style="--c:#2fb4ff" onclick="showView('studies');window.scrollTo({top:0});"><span class="ic">📊</span><b>Research studies</b><small>163 PubMed-linked studies, sorted by peptide</small><span class="go">Open studies →</span></button>
-      <a class="vh2-card" style="--c:#229ED9" href="https://t.me/ruivpndata" target="_blank" rel="noopener"><span class="ic">✈️</span><b>Telegram image library</b><small>1,000+ pictures and infographics. Verify the info yourself.</small><span class="go">Join @ruivpndata →</span></a>
     </div>
   </section>
 
@@ -8746,9 +8773,8 @@ document.addEventListener('keydown', function(e){
   </section>
 
   <footer id="vh2-foot" class="vh2" data-vt-skip>
-    <div class="fh">⚖️ Disclaimer</div>
-    <p>Verified Peptides Network is a free, independent educational resource. Nothing on this site is medical advice, and nothing here is for human consumption. We don't sell peptides and no COAs are provided on this site. Always work with a licensed doctor, get baseline blood work before any research, and verify every claim, dose and calculation yourself.</p>
-    <div class="links"><a onclick="showView('terms')">Terms of use</a><a onclick="showView('contact')">Contact</a><a onclick="showView('graymarket')">Gray market risks</a><a href="https://t.me/ruivpndata" target="_blank" rel="noopener">Telegram</a></div>
+    <p>© 2026 Verified Peptides Network · Research Unfiltered Information · A free, independent educational resource.</p>
+    <div class="links"><a onclick="showView('terms')">Terms of use</a><a onclick="showView('contact')">Contact</a></div>
   </footer>
 
   <!-- KNOW THIS FIRST — the three must-reads + the site disclaimer, above the hero -->
@@ -8782,15 +8808,7 @@ document.addEventListener('keydown', function(e){
     body #no-coa-banner{display:none !important;}
     .vpn-hc-path, .vpn-hc-note{display:none !important;}
   </style>
-  <section id="vpn-know-first" data-vt-skip aria-label="Know this first">
-    <div class="kf-h"><b>⚠ Know this first</b><span>Read these before researching any peptide</span></div>
-    <div class="kf-row">
-      <button type="button" onclick="showView('graymarket')"><span class="kf-ic">⚠️</span><span><b>Gray market risks</b><small>Fake COAs, bad vendors, contamination</small></span></button>
-      <button type="button" onclick="var d=document.getElementById('vpn-peptides-101');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}"><span class="kf-ic">🧩</span><span><b>Peptides 101</b><small>What peptides are and how they work</small></span></button>
-      <button type="button" onclick="var d=document.getElementById('glp-must-read');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'start'});}"><span class="kf-ic">💉</span><span><b>GLP risks</b><small>Myths, side effects, what to watch</small></span></button>
-    </div>
-    <p class="kf-disc"><b>Disclaimer:</b> Research &amp; education only. Not medical advice, not for human consumption, no COAs provided here. Talk to your doctor and get blood work first.</p>
-  </section>
+
 
   <div id="home-desktop-cols" class="vpn-hero-card" data-vt-skip>
   <div class="vpn-hc-body">
