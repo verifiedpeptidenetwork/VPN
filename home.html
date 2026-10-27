@@ -8178,6 +8178,98 @@ document.addEventListener('keydown', function(e){
     </div>
   </section>
 
+
+  <!-- WHY WE'RE HERE — the original mission section, rebuilt as a closed dropdown in the new style -->
+  <style>
+    html body #site-hero > #vh2-whyhere{order:3 !important;}
+    #vh2-whyhere{width:100%;box-sizing:border-box;margin:0 0 1.1rem;border-radius:22px;border:1px solid rgba(255,255,255,0.10);overflow:hidden;
+      background:radial-gradient(620px 300px at 0% 0%,rgba(47,180,255,0.12),transparent 60%),radial-gradient(560px 300px at 100% 100%,rgba(255,47,168,0.12),transparent 60%),#0c0a16;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+    #vh2-whyhere *{box-sizing:border-box;}
+    html body #vh2-whyhere, html body #vh2-whyhere *{text-align:left !important;}
+    #vh2-whyhere > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:1rem;padding:clamp(1.1rem,3vw,1.8rem);position:relative;}
+    #vh2-whyhere > summary::-webkit-details-marker{display:none;}
+    #vh2-whyhere .wh-k{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#2fb4ff,#9a5cff,#ff2fa8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-whyhere .wh-t{display:block;margin:0.4rem 0 0.4rem;font-size:clamp(1.5rem,3.6vw,2.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;}
+    #vh2-whyhere .wh-s{display:block;max-width:720px;font-size:1rem;line-height:1.6;font-weight:500;color:rgba(214,220,240,0.8);}
+    #vh2-whyhere .wh-chev{flex-shrink:0;margin-left:auto;width:44px;height:44px;border-radius:14px;display:grid !important;place-items:center;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);transition:transform .2s;}
+    #vh2-whyhere .wh-chev::before{content:'';width:10px;height:10px;border-right:2.5px solid #f1f3fb;border-bottom:2.5px solid #f1f3fb;transform:translateY(-3px) rotate(45deg);}
+    #vh2-whyhere[open] .wh-chev{transform:rotate(180deg);}
+    #vh2-whyhere > summary:hover .wh-chev{border-color:rgba(154,92,255,0.6);}
+    #vh2-whyhere .wh-body{padding:0 clamp(1.1rem,3vw,1.8rem) clamp(1.1rem,3vw,1.8rem);display:grid;gap:0.9rem;}
+    #vh2-whyhere .wh-hero{margin:0;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);cursor:zoom-in;max-width:760px;}
+    #vh2-whyhere .wh-hero img{display:block;width:100%;height:auto;}
+    #vh2-whyhere .wh-card{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(255,255,255,0.09);border-left:3px solid var(--c);background:#121020;}
+    #vh2-whyhere .wh-card h3{display:flex;align-items:center;gap:0.6rem;margin:0 0 0.45rem;font-size:1.05rem !important;font-weight:800;letter-spacing:-0.01em;line-height:1.3 !important;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;}
+    #vh2-whyhere .wh-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:0.8rem;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);}
+    #vh2-whyhere .wh-card p{margin:0 0 0.5rem;font-size:0.95rem !important;line-height:1.6 !important;color:rgba(214,220,240,0.84);}
+    #vh2-whyhere .wh-card p:last-child{margin-bottom:0;}
+    #vh2-whyhere .wh-card strong{color:#fff;}
+    #vh2-whyhere .wh-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:0.55rem;margin-top:0.75rem;}
+    #vh2-whyhere .wh-thumbs figure{margin:0;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);background:#000;cursor:zoom-in;}
+    #vh2-whyhere .wh-thumbs img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;}
+    #vh2-whyhere .wh-thumbs figcaption{padding:0.5rem 0.6rem;font-size:0.78rem;font-weight:600;line-height:1.35;color:rgba(214,220,240,0.8);background:#121020;}
+    #vh2-whyhere .wh-video{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);background:#000;aspect-ratio:16/9;max-width:760px;}
+    #vh2-whyhere .wh-video iframe{display:block;width:100%;height:100%;border:0;}
+    #vh2-whyhere .wh-vlabel{font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(214,220,240,0.6);margin:0.3rem 0 -0.4rem;}
+    @media(max-width:600px){ #vh2-whyhere .wh-chev{width:38px;height:38px;} #vh2-whyhere .wh-thumbs{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    html[data-theme="light"] #vh2-whyhere{background:radial-gradient(620px 300px at 0% 0%,rgba(47,180,255,0.09),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
+    html[data-theme="light"] #vh2-whyhere .wh-t,html[data-theme="light"] #vh2-whyhere .wh-card h3,html[data-theme="light"] #vh2-whyhere .wh-card strong{color:#14112a;-webkit-text-fill-color:#14112a;}
+    html[data-theme="light"] #vh2-whyhere .wh-s,html[data-theme="light"] #vh2-whyhere .wh-card p,html[data-theme="light"] #vh2-whyhere .wh-thumbs figcaption,html[data-theme="light"] #vh2-whyhere .wh-vlabel{color:#4a4566;}
+    html[data-theme="light"] #vh2-whyhere .wh-card,html[data-theme="light"] #vh2-whyhere .wh-thumbs figcaption{background:#f8f6fd;}
+    html[data-theme="light"] #vh2-whyhere .wh-chev{background:#fff;border-color:rgba(30,20,70,0.16);}
+    html[data-theme="light"] #vh2-whyhere .wh-chev::before{border-color:#14112a;}
+  </style>
+  <details id="vh2-whyhere" data-vt-skip data-px-skip data-search="why we're here mission insurance companies gray market risk group size identity quantity purity testing big pharma">
+    <summary>
+      <span>
+        <span class="wh-k">Our mission</span>
+        <span class="wh-t">Why we're here</span>
+        <span class="wh-s">Our health is in the hands of the insurance companies. Why VPN exists, and the honest truth about gray-market risk.</span>
+      </span>
+      <span class="wh-chev" aria-hidden="true"></span>
+    </summary>
+    <div class="wh-body">
+      <figure class="wh-hero" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.opt.jpg','Our Health Is In The Hands Of The Insurance Companies')">
+        <img loading="lazy" decoding="async" src="cheatsheet/insuranceiswhywerehere.opt.jpg" alt="Our health is in the hands of the insurance companies">
+      </figure>
+
+      <div class="wh-card" style="--c:#ff2fa8">
+        <h3><span class="wh-num">1</span>No matter what group you join, the number does not matter</h3>
+        <p>Whether a group has 200 members, 4,000 members or 20,000 members, <strong>you are still at risk.</strong> Membership numbers do not equal safety. Group size is not a shield.</p>
+        <p>There is no such thing as a 100% safe gray market. The only difference between a smart researcher and one who gets burned is <strong>informed risk vs. uninformed risk.</strong> Research your vendor. Verify COAs every batch. Organize independent testing. The responsibility is 100% yours: own it.</p>
+        <div class="wh-thumbs">
+          <figure onclick="openLightbox('warninggraymarket.jpg','WARNING — Read This Before You Buy: The Truth About The Gray Market')"><img loading="lazy" decoding="async" src="warninggraymarket.jpg" alt="Warning: the truth about the gray market"><figcaption>Read this before you buy: the truth about the gray market</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="wh-card" style="--c:#2fb4ff">
+        <h3><span class="wh-num">2</span>It will never be truly safe. You can only mitigate risk</h3>
+        <p>The 3 tests you're most likely to get in the gray market are <strong>Identity</strong> (LC-MS), <strong>Quantity</strong> (net peptide content) and <strong>Purity</strong> (HPLC). Rarer tests like sterility, endotoxin, heavy metals and fentanyl screening exist but aren't commonly included; you can pay for those yourself.</p>
+        <p>Vendor control won't save you: verify COAs and batch numbers, review independent test results, and make informed decisions. <strong>It's all your risk. Your health. Your money. Your decision.</strong></p>
+        <div class="wh-thumbs">
+          <figure onclick="openLightbox('WARNING3TESTONLY.jpg','Warning — Read This Before You Buy (The 3 Tests)')"><img loading="lazy" decoding="async" src="WARNING3TESTONLY.jpg" alt="Warning: the 3 tests"><figcaption>The 3 tests you'll usually get</figcaption></figure>
+          <figure onclick="openLightbox('3TESTSOTHERSUTEST.jpg','The 3 Tests: Identity, Quantity, Purity')"><img loading="lazy" decoding="async" src="3TESTSOTHERSUTEST.jpg" alt="Identity, quantity, purity breakdown"><figcaption>Identity · Quantity · Purity: breakdown</figcaption></figure>
+          <figure onclick="openLightbox('TYPESOFPEPTIDETESTING.jpg','A Simple Guide To Peptide Testing — 6 Types Explained')"><img loading="lazy" decoding="async" src="TYPESOFPEPTIDETESTING.jpg" alt="All 6 types of peptide testing"><figcaption>All 6 types of peptide testing explained</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="wh-card" style="--c:#ffb12a">
+        <h3><span class="wh-num">3</span>Big Pharma is not scared of the gray market</h3>
+        <p>We are not a threat to their bottom line; we are a rounding error. <strong>The danger is to you, not them.</strong> Know what you are buying, verify everything, and never let community size replace due diligence.</p>
+        <div class="wh-thumbs">
+          <figure onclick="openLightbox('bigpharmanotscaredofgraymarket.jpg','Big Pharma Is Not Scared Of The Gray Market — Here Is Why')"><img loading="lazy" decoding="async" src="bigpharmanotscaredofgraymarket.jpg" alt="Big Pharma is not scared of the gray market"><figcaption>Why Big Pharma isn't worried</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="wh-vlabel">▶ Watch: Why we're here</div>
+      <div class="wh-video"><iframe data-src="https://www.youtube.com/embed/VAfy26xs6e0" title="Why We're Here" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+    </div>
+  </details>
+  <script>
+  /* the video only loads once someone opens the section */
+  (function(){ var d = document.getElementById('vh2-whyhere'); if (!d) return; d.addEventListener('toggle', function(){ if (!d.open) return; var f = d.querySelector('iframe[data-src]'); if (f && !f.src) f.src = f.getAttribute('data-src'); }); })();
+  </script>
+
   <!-- GET THE APP (bottom of home, above the flyers) -->
   <button type="button" id="vpn-getapp" class="vpn-getapp" onclick="vpnInstallApp()">
     <img src="icon-180.png" alt="" width="34" height="34">
