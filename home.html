@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>/* Animations only draw when someone can see them: not in a background tab, not on hidden or transparent canvases. Saves phone memory/battery (iOS reloads pages that use too much). */window.vpnAnimOK=function(c){try{if(document.hidden||!c||!c.isConnected)return false;var r=c.getBoundingClientRect();if(!r.width||!r.height)return false;for(var x=c;x&&x.nodeType===1;x=x.parentElement){var s=getComputedStyle(x);if(s.display==='none'||s.visibility==='hidden'||+s.opacity<0.02)return false;}return true;}catch(e){return true;}};window.vpnTouch=matchMedia('(pointer:coarse)').matches;</script>
 <script>try{if(localStorage.getItem('vpn_disclaimer_v2')==='accepted')document.documentElement.classList.add('dg-ok');}catch(e){}</script>
 <!-- no jump on load: the content column stays invisible until every section is parsed and the fonts are in, then fades in once -->
 <style>html.vpn-wait #site-hero{opacity:0 !important;}</style>
@@ -4044,7 +4045,7 @@ function checkPin(){
 
   // Spawn first star immediately then keep repeating
   spawnShootingStar();
-  setInterval(spawnShootingStar, 1800);
+  setInterval(function(){ var ps=document.getElementById('pin-screen'); if(ps && ps.style.display !== 'none') spawnShootingStar(); else if (shootingStars.length) shootingStars.length = 0; }, 1800);
 
   function draw(){
     const W = canvas.width, H = canvas.height;
@@ -17580,7 +17581,8 @@ function csvFilter(cat, btn) {
   <script>
   /* Fix lazy images inside <details> on mobile — browser won't load them when details is closed */
   document.addEventListener('toggle', function(e) {
-    if (e.target && e.target.tagName === 'DETAILS' && e.target.open) {
+    // only for sections someone can actually see (details that start open on hidden pages must not pull their images in)
+    if (e.target && e.target.tagName === 'DETAILS' && e.target.open && e.target.getClientRects().length) {
       e.target.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
         if (!img.src && img.dataset.src) { img.src = img.dataset.src; }
         /* Force decode so browser actually renders it */
@@ -29827,11 +29829,12 @@ setInterval(function() {
     });
   }
 
-  function loop(){ drawStars(); requestAnimationFrame(loop); }
+  function loop(){ if(!window.vpnAnimOK||vpnAnimOK(c)){ drawStars(); requestAnimationFrame(loop); } else setTimeout(function(){ requestAnimationFrame(loop); }, 700); }
   resize();
   initStars();
   loop();
-  window.addEventListener('resize', ()=>{ resize(); initStars(); });
+  var sfW = window.innerWidth;
+  window.addEventListener('resize', ()=>{ if (window.vpnTouch && window.innerWidth === sfW) return; sfW = window.innerWidth; resize(); initStars(); });
 })();
 
 // ===== DEEP SPACE NEBULA SCENE =====
@@ -29944,10 +29947,13 @@ setInterval(function() {
     drawGrid();
     requestAnimationFrame(frame);
   }
+  function gate(){ if(!window.vpnAnimOK||vpnAnimOK(c)) frame(); else setTimeout(gate, 700); }
+  var _frame = frame; frame = function(){ if(!window.vpnAnimOK||vpnAnimOK(c)) _frame(); else setTimeout(gate, 700); };
 
   resize();
   frame();
-  window.addEventListener('resize',()=>{ resize(); });
+  var scW = window.innerWidth;
+  window.addEventListener('resize',()=>{ if (window.vpnTouch && window.innerWidth === scW) return; scW = window.innerWidth; resize(); });
 })();
 </script>
 
@@ -32015,7 +32021,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
         drops[i] += 0.55;
       }
     }
-    setInterval(drawMx, 40);
+    setInterval(function(){ if(!window.vpnAnimOK||vpnAnimOK(canvas)) drawMx(); }, 40);
   }
 
   // ── ROSE PETALS ── turned off site-wide (canvases removed before the draw loops start)
@@ -32090,7 +32096,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
         px.restore();
       }
     }
-    setInterval(drawPetals, 35);
+    setInterval(function(){ if(!window.vpnAnimOK||vpnAnimOK(pc)) drawPetals(); }, 35);
   })();
 
   // ── LOGO ROSE PETALS (retro80 logo area) ──
@@ -32156,7 +32162,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
         lx.restore();
       }
     }
-    setInterval(drawLogoPetals, 35);
+    setInterval(function(){ if(!window.vpnAnimOK||vpnAnimOK(lc)) drawLogoPetals(); }, 35);
   })();
 
   // ── LOGO MATRIX RAIN (inside the big logo circle) ──
@@ -32188,7 +32194,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
         ldrops[i] += 0.7;
       }
     }
-    setInterval(drawLmc, 40);
+    setInterval(function(){ if(!window.vpnAnimOK||vpnAnimOK(lmc)) drawLmc(); }, 40);
   }
 })();
 
@@ -32199,7 +32205,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
     var tap = document.getElementById(pair[1]);
     if(!vid||!tap) return;
     vid.addEventListener('play', function(){ tap.style.display='none'; });
-    vid.play().catch(function(){});
+    // no autoplay: these sit on a hidden page, and playing them made every phone download ~16 MB of video
     vid.addEventListener('touchstart', function(){ vid.play(); }, {once:true, passive:true});
   });
 })();
