@@ -32190,6 +32190,7 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
 }
 </style>
 
+<style>/* bottom bar with nine buttons */ #vpn-bottom-nav .vpn-bnav-btn{min-width:0;} #vpn-bottom-nav .vpn-bnav-icon{font-size:1.1rem;} #vpn-bottom-nav .vpn-bnav-label{font-size:0.48rem;letter-spacing:0.06em;white-space:nowrap;} @media(max-width:360px){ #vpn-bottom-nav .vpn-bnav-icon{font-size:1rem;} #vpn-bottom-nav .vpn-bnav-label{font-size:0.42rem;letter-spacing:0.03em;} }</style>
 <div id="vpn-bottom-nav" role="navigation" aria-label="Quick navigation">
   <button class="vpn-bnav-btn vpn-bnav-active" id="bnav-home"
     style="color:#00f5ff;"
@@ -32202,6 +32203,12 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
     onclick="showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'));vpnBnavSetActive('bnav-index')">
     <span class="vpn-bnav-icon">🔬</span>
     <span class="vpn-bnav-label">INDEX</span>
+  </button>
+  <button class="vpn-bnav-btn" id="bnav-glp"
+    style="color:#2fb4ff;"
+    onclick="showView('glp');setActiveNav(document.querySelector('[onclick*=glp]'));vpnBnavSetActive('bnav-glp')">
+    <span class="vpn-bnav-icon">💉</span>
+    <span class="vpn-bnav-label">GLP</span>
   </button>
   <button class="vpn-bnav-btn" id="bnav-blood"
     style="color:#ff4d6d;"
@@ -32221,6 +32228,18 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
     <span class="vpn-bnav-icon">🧮</span>
     <span class="vpn-bnav-label">CALC</span>
   </button>
+  <button class="vpn-bnav-btn" id="bnav-gray"
+    style="color:#ffb020;"
+    onclick="showView('graymarket');setActiveNav(document.querySelector('[onclick*=graymarket]'));vpnBnavSetActive('bnav-gray')">
+    <span class="vpn-bnav-icon">⚠️</span>
+    <span class="vpn-bnav-label">GRAY MKT</span>
+  </button>
+  <button class="vpn-bnav-btn" id="bnav-crypto"
+    style="color:#2ee6a6;"
+    onclick="showView('crypto');setActiveNav(document.querySelector('[onclick*=crypto]'));vpnBnavSetActive('bnav-crypto')">
+    <span class="vpn-bnav-icon">🪙</span>
+    <span class="vpn-bnav-label">CRYPTO</span>
+  </button>
   <button class="vpn-bnav-btn" id="bnav-menu"
     style="color:#ff2d78;"
     onclick="toggleMobileNav();vpnBnavSetActive('bnav-menu')">
@@ -32238,7 +32257,7 @@ function vpnBnavSetActive(id) {
   if (el) el.classList.add('vpn-bnav-active');
 }
 (function(){
-  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood',supplies:'bnav-supplies',calculator:'bnav-calc'};
+  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood',supplies:'bnav-supplies',calculator:'bnav-calc',glp:'bnav-glp',graymarket:'bnav-gray',crypto:'bnav-crypto'};
   var orig = window.showView; if (typeof orig !== 'function') return;
   window.showView = function(v){ var r = orig.apply(this, arguments); document.querySelectorAll('.vpn-bnav-btn').forEach(function(b){ b.classList.toggle('vpn-bnav-active', b.id === map[v]); }); return r; };
 })();
