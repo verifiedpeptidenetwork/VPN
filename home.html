@@ -3050,6 +3050,36 @@
   html[data-theme="light"] .vpn-lockup .vl-rui{color:#4a4566;-webkit-text-fill-color:#4a4566;border-color:rgba(30,20,70,0.2);}
   html[data-theme="light"] .vpn-lockup .vl-name{color:#4a4566;-webkit-text-fill-color:#4a4566;}
 </style>
+<!-- SITE BACKGROUND — custom, image-free: soft brand glows + a fading dot grid. Sizes use vmax, so it holds in portrait and landscape on any screen -->
+<style id="vpn-bg">
+  html body{background-color:#07060e !important;background-image:none !important;background-attachment:scroll !important;}
+  html body::before{content:'' !important;display:block !important;position:fixed !important;inset:0 !important;z-index:-2 !important;pointer-events:none !important;
+    background-image:
+      radial-gradient(62vmax 46vmax at 92% -8%, rgba(255,47,168,0.20), transparent 62%),
+      radial-gradient(58vmax 50vmax at -12% 34%, rgba(124,58,237,0.20), transparent 64%),
+      radial-gradient(64vmax 44vmax at 62% 112%, rgba(37,99,235,0.18), transparent 62%),
+      radial-gradient(40vmax 30vmax at 50% 50%, rgba(154,92,255,0.06), transparent 70%),
+      linear-gradient(180deg,#0b0918 0%,#07060e 55%,#06050b 100%) !important;
+    background-size:auto !important;background-repeat:no-repeat !important;background-position:0 0 !important;}
+  html body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,0.075) 1px, transparent 1.3px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 30%, #000 18%, transparent 78%);
+            mask-image:radial-gradient(ellipse 85% 70% at 50% 30%, #000 18%, transparent 78%);}
+  /* light mode: same composition in pastels */
+  html[data-theme="light"]:root body{background-color:#f6f4fb !important;}
+  html[data-theme="light"]:root body::before{display:block !important;content:'' !important;
+    background-image:
+      radial-gradient(62vmax 46vmax at 92% -8%, rgba(255,47,168,0.13), transparent 62%),
+      radial-gradient(58vmax 50vmax at -12% 34%, rgba(124,58,237,0.12), transparent 64%),
+      radial-gradient(64vmax 44vmax at 62% 112%, rgba(37,99,235,0.12), transparent 62%),
+      linear-gradient(180deg,#fbfaff 0%,#f6f4fb 55%,#f2effa 100%) !important;
+    background-size:auto !important;background-position:0 0 !important;}
+  html[data-theme="light"]:root body::after{background-image:radial-gradient(rgba(30,20,70,0.07) 1px, transparent 1.3px);}
+  /* the old animated star / nebula layers are retired */
+  #starfield, #scene-canvas{display:none !important;}
+  @media print{ html body::before, html body::after{display:none !important;} }
+</style>
 </head>
 <body>
 
@@ -4298,7 +4328,7 @@ document.addEventListener('keydown', function(e){
     font-family:'Bebas Neue',sans-serif;font-size:0.68rem;letter-spacing:0.22em;
     color:rgba(0,245,255,0.55);white-space:nowrap;pointer-events:none;
   }
-  @media(min-width:769px){.site-header{display:none;}}
+  @media(min-width:901px){.site-header{display:none;}}
   /* Yellow manila file folders: body + a small raised tab on the top-left (::before) */
   .rtab {
     font-family:'Bebas Neue',sans-serif;font-size:0.88rem;letter-spacing:0.1em;
@@ -4353,7 +4383,7 @@ document.addEventListener('keydown', function(e){
   .rtab-dropdown-panel button:last-child{border-bottom:none;}
   .rtab-dropdown-panel a:hover,
   .rtab-dropdown-panel button:hover{background:rgba(255,215,0,0.1);padding-left:22px;}
-  @media(max-width:768px){.retro-nav-bar{display:none;}}
+  .retro-nav-bar{display:none !important;} /* old yellow menu: replaced by the sidebar (desktop) and the header + drawer (phones and tablets) */
   @media(max-width:768px){body{background-image:none;}}
 
   /* ── RETRO NAV: hide on desktop — sidebar replaces it ── */
