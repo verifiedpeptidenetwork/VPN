@@ -4562,7 +4562,7 @@ document.addEventListener('keydown', function(e){
 </style>
 
 <!-- ── LEFT SIDEBAR ── -->
-<nav id="vpn-sidebar" class="vpn-drawer" aria-label="Site menu">
+<nav id="vpn-sidebar" class="vpn-drawer" aria-label="Site menu" data-vt-skip>
   <button type="button" id="vpn-drawer-close" aria-label="Close menu" onclick="vpnDrawer(false)">✕</button>
   <!-- Logo -->
   <div class="sb-logo" onclick="showView('home');setSbActive(this.closest('nav').querySelector('[data-view=home]'))">
@@ -33796,6 +33796,41 @@ window.addEventListener('appinstalled', function(){
   setTimeout(run, 1800);
 })();
 </script>
+<style id="vpn-sb-light">
+  /* ── Light-mode sidebar: soft lavender panel, pastel icon tiles, gradient active pill ── */
+  html[data-theme="light"] body #vpn-sidebar{background:linear-gradient(180deg,#ffffff 0%,#fbf8ff 40%,#f4f0ff 100%) !important;border-right:1px solid rgba(124,58,237,0.12) !important;box-shadow:6px 0 30px -18px rgba(124,58,237,0.35) !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-logo,html[data-theme="light"] body #vpn-sidebar .sb-logo-inner{background:transparent !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-logo-bar{background:linear-gradient(90deg,transparent,rgba(154,92,255,0.35),transparent) !important;height:1px !important;box-shadow:none !important;opacity:1 !important;}
+  html[data-theme="light"] body #vpn-sidebar .vpn-lockup .vl-em{box-shadow:0 8px 20px -8px rgba(154,92,255,0.7) !important;}
+  /* search */
+  html[data-theme="light"] body #vpn-sidebar .sb-search-wrap{background:transparent !important;border:none !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-search-input{background:#ffffff !important;border:1px solid rgba(124,58,237,0.18) !important;border-radius:12px !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;box-shadow:0 4px 14px -8px rgba(124,58,237,0.35) !important;font-family:'Inter',system-ui,sans-serif !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-search-input::placeholder{color:#8a84a8 !important;-webkit-text-fill-color:#8a84a8 !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-search-input:focus{border-color:#9a5cff !important;box-shadow:0 0 0 4px rgba(154,92,255,0.16) !important;outline:none !important;}
+  /* group headings: gradient text + hairline */
+  html[data-theme="light"] body #vpn-sidebar .sb-section{display:flex !important;align-items:center;gap:0.5rem;background:linear-gradient(90deg,#ff2fa8,#9a5cff 60%,#2fb4ff) !important;-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;-webkit-text-fill-color:transparent !important;font-weight:800 !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-section::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(154,92,255,0.28),transparent);}
+  /* items */
+  html[data-theme="light"] body #vpn-sidebar .sb-item{border-radius:12px !important;color:#3d3858 !important;-webkit-text-fill-color:#3d3858 !important;font-weight:600 !important;transition:background .15s,transform .15s,box-shadow .15s,color .15s !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item .sb-icon{width:1.85rem !important;height:1.85rem !important;border-radius:9px !important;background:color-mix(in srgb,var(--t,#9a5cff) 14%,#ffffff) !important;border:1px solid color-mix(in srgb,var(--t,#9a5cff) 28%,transparent) !important;box-shadow:0 2px 6px -3px color-mix(in srgb,var(--t,#9a5cff) 60%,transparent);}
+  html[data-theme="light"] body #vpn-sidebar .sb-item:hover{background:#ffffff !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;box-shadow:0 6px 18px -10px rgba(124,58,237,0.45) !important;transform:translateX(2px);}
+  html[data-theme="light"] body #vpn-sidebar .sb-item.sb-active{background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;box-shadow:0 10px 24px -12px rgba(255,47,168,0.8) !important;}
+  html[data-theme="light"] body #vpn-sidebar .sb-item.sb-active .sb-icon{background:rgba(255,255,255,0.22) !important;border-color:rgba(255,255,255,0.35) !important;box-shadow:none;}
+  /* a colour per section, so the list scans at a glance */
+  #vpn-sidebar .sb-item[data-view="home"]{--t:#ff2fa8;} #vpn-sidebar .sb-item[data-view="glp"]{--t:#9a5cff;} #vpn-sidebar .sb-item[data-view="graymarket"]{--t:#f59e0b;} #vpn-sidebar .sb-item[data-view="bloodwork"]{--t:#ef4444;} #vpn-sidebar .sb-item[data-view="crypto"]{--t:#f59e0b;}
+  #vpn-sidebar .sb-item[data-view="vitamins"]{--t:#10b981;} #vpn-sidebar .sb-item[data-view="workouts"]{--t:#f97316;} #vpn-sidebar .sb-item[data-view="supplies"]{--t:#0ea5e9;} #vpn-sidebar .sb-item[data-view="quick-guide"]{--t:#64748b;}
+  #vpn-sidebar .sb-item[data-view="calculator"]{--t:#2fb4ff;} #vpn-sidebar .sb-item[data-view="klow-glow"]{--t:#14b8a6;} #vpn-sidebar .sb-item[data-view="templates"]{--t:#eab308;}
+  #vpn-sidebar .sb-item[data-view="all-peptides"]{--t:#6366f1;} #vpn-sidebar .sb-item[data-view="tgk"]{--t:#ec4899;} #vpn-sidebar .sb-item[data-view="mito"]{--t:#f97316;} #vpn-sidebar .sb-item[data-view="winter"]{--t:#38bdf8;} #vpn-sidebar .sb-item[data-view="cancer"]{--t:#eab308;}
+  #vpn-sidebar .sb-item[data-view="studies"]{--t:#22c55e;} #vpn-sidebar .sb-item[data-view="videos"]{--t:#ef4444;} #vpn-sidebar .sb-item[data-view="cheatsheets"]{--t:#a855f7;}
+  #vpn-sidebar .sb-item[data-view="about"]{--t:#ff2fa8;} #vpn-sidebar .sb-item[data-view="team"]{--t:#9a5cff;} #vpn-sidebar .sb-item[data-view="shops"]{--t:#0ea5e9;} #vpn-sidebar .sb-item[data-view="bonus"]{--t:#eab308;} #vpn-sidebar .sb-item[data-view="ruqyah"]{--t:#10b981;}
+  /* slim gradient scrollbar */
+  html[data-theme="light"] body #vpn-sidebar{scrollbar-width:thin;scrollbar-color:rgba(154,92,255,0.45) transparent;}
+  html[data-theme="light"] body #vpn-sidebar::-webkit-scrollbar{width:6px;}
+  html[data-theme="light"] body #vpn-sidebar::-webkit-scrollbar-track{background:transparent;}
+  html[data-theme="light"] body #vpn-sidebar::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff2fa8,#9a5cff);border-radius:999px;}
+  /* theme switch at the bottom */
+  html[data-theme="light"] body #vpn-theme-toggle{border-radius:12px !important;box-shadow:0 4px 14px -8px rgba(124,58,237,0.35) !important;border:1px solid rgba(124,58,237,0.18) !important;}
+</style>
 </body>
 </html>
 
