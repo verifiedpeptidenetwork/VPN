@@ -8180,10 +8180,28 @@ document.addEventListener('keydown', function(e){
     html[data-theme="light"] #vh2-why blockquote{color:#14112a;background:linear-gradient(135deg,rgba(255,47,168,0.08),rgba(154,92,255,0.07));}
     html[data-theme="light"] #vh2-why .wy-btns a:not(.pri),html[data-theme="light"] #vh2-why .wy-btns button:not(.pri){background:#fff;color:#14112a;border-color:rgba(30,20,70,0.16);}
   </style>
-  <section id="vh2-why" data-vt-skip aria-label="Why people are turning to peptides">
-    <div class="wy-k">The bigger picture</div>
-    <h2>Why people are turning to peptides</h2>
-    <p class="wy-lede">Peptides as a symptom of a broken healthcare system: key takeaways from an anonymous contributor, and what they mean for anyone researching them.</p>
+  <!-- closed-by-default cards for the two home infographic sections -->
+  <style>
+    html body .vh2-fold > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:1rem;}
+    html body .vh2-fold > summary::-webkit-details-marker{display:none;}
+    html body .vh2-fold .vf-head{display:block;flex:1;min-width:0;}
+    html body .vh2-fold .vf-head > p{margin-bottom:0 !important;}
+    html body .vh2-fold[open] > summary{margin-bottom:1.2rem;}
+    html body .vh2-fold .vf-chev{flex-shrink:0;width:44px;height:44px;border-radius:14px;display:grid !important;place-items:center;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);transition:transform .2s,border-color .15s;}
+    html body .vh2-fold .vf-chev::before{content:'';width:10px;height:10px;border-right:2.5px solid #f1f3fb;border-bottom:2.5px solid #f1f3fb;transform:translateY(-3px) rotate(45deg);}
+    html body .vh2-fold[open] .vf-chev{transform:rotate(180deg);}
+    html body .vh2-fold > summary:hover .vf-chev{border-color:rgba(154,92,255,0.6);}
+    @media(max-width:600px){ html body .vh2-fold .vf-chev{width:38px;height:38px;} }
+    html[data-theme="light"] body .vh2-fold .vf-chev{background:#fff;border-color:rgba(30,20,70,0.16);}
+    html[data-theme="light"] body .vh2-fold .vf-chev::before{border-color:#14112a;}
+  </style>  <details id="vh2-why" class="vh2-fold" data-vt-skip data-px-skip data-search="why people are turning to peptides broken healthcare system patent problem informed consent">
+    <summary>
+      <span class="vf-head"><div class="wy-k">The bigger picture</div>
+      <h2>Why people are turning to peptides</h2>
+      <p class="wy-lede">Peptides as a symptom of a broken healthcare system: key takeaways from an anonymous contributor, and what they mean for anyone researching them.</p></span>
+      <span class="vf-chev" aria-hidden="true"></span>
+    </summary>
+    <div class="vf-body">
     <div class="wy-grid">
       <figure onclick="openLightbox('cheatsheet/peptides-broken-healthcare-system.jpg','Peptides: a symptom of a broken healthcare system (Anonymous)')">
         <img loading="lazy" src="cheatsheet/peptides-broken-healthcare-system.jpg" width="853" height="1280" alt="Infographic: Peptides, a symptom of a broken healthcare system. Key takeaways from an anonymous contributor">
@@ -8200,7 +8218,8 @@ document.addEventListener('keydown', function(e){
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  </details>
 
   <!-- SOME BODIES NEED MEDICINE FIRST — no guilt, no "shortcut" -->
   <style>
@@ -8228,10 +8247,14 @@ document.addEventListener('keydown', function(e){
     html[data-theme="light"] #vh2-med .md-lede,html[data-theme="light"] #vh2-med .md-card p,html[data-theme="light"] #vh2-med .md-note{color:#4a4566;}
     html[data-theme="light"] #vh2-med .md-card{background:#f8f6fd;border-color:rgba(30,20,70,0.10);}
   </style>
-  <section id="vh2-med" data-vt-skip aria-label="Some bodies need medicine first">
-    <div class="md-k">No guilt. No shortcuts.</div>
-    <h2>Some bodies need medicine first</h2>
-    <p class="md-lede">Using a GLP-1, hormones or peptides is not "taking the easy way out." When thyroid, testosterone, insulin or your mitochondria aren't working, diet and exercise alone often can't get through. Medicine restarts the system, then the work you put in finally pays off.</p>
+  <details id="vh2-med" class="vh2-fold" data-vt-skip data-px-skip data-search="some bodies need medicine first no guilt shortcuts thyroid testosterone insulin resistance metabolic syndrome mitochondria">
+    <summary>
+      <span class="vf-head"><div class="md-k">No guilt. No shortcuts.</div>
+      <h2>Some bodies need medicine first</h2>
+      <p class="md-lede">Using a GLP-1, hormones or peptides is not "taking the easy way out." When thyroid, testosterone, insulin or your mitochondria aren't working, diet and exercise alone often can't get through. Medicine restarts the system, then the work you put in finally pays off.</p></span>
+      <span class="vf-chev" aria-hidden="true"></span>
+    </summary>
+    <div class="vf-body">
     <div class="md-figs">
       <figure onclick="openLightbox('cheatsheet/some-bodies-need-medicine-first.webp','Some Bodies Need Medicine First')">
         <img loading="lazy" src="cheatsheet/some-bodies-need-medicine-first.webp" width="853" height="1280" alt="Infographic: some bodies need medicine first. Thyroid, low testosterone and insulin resistance, and how medicine lets diet and exercise work">
@@ -8250,7 +8273,8 @@ document.addEventListener('keydown', function(e){
     </div>
     <blockquote>Medicine is not a cheat code. It's a reset tool.</blockquote>
     <p class="md-note">Education, not medical advice. Thyroid, testosterone and metabolic conditions need proper testing and a doctor's guidance.</p>
-  </section>
+  </div>
+  </details>
 
 
   <!-- WHY WE'RE HERE — the original mission section, rebuilt as a closed dropdown in the new style -->
@@ -8872,7 +8896,7 @@ document.addEventListener('keydown', function(e){
         </div>
         <div class="stats">
           <div><b>163</b><small>PubMed studies</small></div>
-          <div><b>80+</b><small>Peptides indexed</small></div>
+          <div><b class="vpn-pep-n">113</b><small>Peptides indexed</small></div>
           <div><b>1,000+</b><small>Infographics</small></div>
           <div><b>100%</b><small>Free, no paywall</small></div>
         </div>
@@ -9095,7 +9119,7 @@ document.addEventListener('keydown', function(e){
       <div class="vpn-hc-feats" role="list">
         <a role="listitem" class="vpn-hc-feat vpn-hc-feat-news" href="latest-news.html" style="--fc:#ff9a1f;text-decoration:none;"><span class="fi">📰</span><span class="ft">Latest News</span><span class="fd">Retatrutide TRIUMPH-1 results · Urolithin A + B study · new trials</span></a>
         <a role="listitem" class="vpn-hc-feat vpn-hc-feat-news" href="pokeme-dex.html" style="--fc:#ffcc00;text-decoration:none;"><span class="fi">🔴</span><span class="ft">PokeMe-Dex</span><span class="fd">Track your doses · calendar · injection-site rotation</span></a>
-        <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#00f5ff" onclick="showView('all-peptides')"><span class="fi">🔬</span><span class="ft">Peptide Index</span><span class="fd">80+ peptides, A&ndash;Z</span></button>
+        <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#00f5ff" onclick="showView('all-peptides')"><span class="fi">🔬</span><span class="ft">Peptide Index</span><span class="fd"><span class="vpn-pep-n">113</span> peptides, A&ndash;Z</span></button>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#ffb300" onclick="showView('calculator')"><span class="fi">🧮</span><span class="ft">Calculators</span><span class="fd">Mix &amp; dose exactly</span></button>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#00ff64" onclick="showView('studies')"><span class="fi">📊</span><span class="ft">Research Studies</span><span class="fd">163 PubMed-linked</span></button>
         <button type="button" role="listitem" class="vpn-hc-feat" style="--fc:#ff2d78" onclick="showView('bloodwork')"><span class="fi">🩸</span><span class="ft">Blood Work</span><span class="fd">What to test &amp; when</span></button>
@@ -27936,7 +27960,7 @@ function renderPeptideIndex() {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   });
   var grid = document.getElementById('peptide-index-grid');
-  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' compounds — A to Z'; var piN=document.getElementById('pi-stat-n'); if(piN) piN.textContent = PEPTIDE_DATA.length;
+  document.getElementById('peptide-index-count').textContent = PEPTIDE_DATA.length + ' compounds — A to Z'; var piN=document.getElementById('pi-stat-n'); if(piN) piN.textContent = PEPTIDE_DATA.length; document.querySelectorAll('.vpn-pep-n').forEach(function(e){ e.textContent = PEPTIDE_DATA.length; });
   grid.innerHTML = sorted.map(buildPeptideCard).join('');
 }
 
@@ -32162,25 +32186,29 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
     <span class="vpn-bnav-icon">🏠</span>
     <span class="vpn-bnav-label">HOME</span>
   </button>
-  <a class="vpn-bnav-btn" id="bnav-match" href="peptide-suggestion.html" style="color:#ff2fa8;">
-    <span class="vpn-bnav-icon">🧬</span>
-    <span class="vpn-bnav-label">MATCH</span>
-  </a>
-  <a class="vpn-bnav-btn" id="bnav-tracker" href="pokeme-dex.html" style="color:#ffcc00;">
-    <span class="vpn-bnav-icon">💉</span>
-    <span class="vpn-bnav-label">TRACKER</span>
-  </a>
+  <button class="vpn-bnav-btn" id="bnav-index"
+    style="color:#ff2fa8;"
+    onclick="showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'));vpnBnavSetActive('bnav-index')">
+    <span class="vpn-bnav-icon">🔬</span>
+    <span class="vpn-bnav-label">INDEX</span>
+  </button>
+  <button class="vpn-bnav-btn" id="bnav-blood"
+    style="color:#ff4d6d;"
+    onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'));vpnBnavSetActive('bnav-blood')">
+    <span class="vpn-bnav-icon">🩸</span>
+    <span class="vpn-bnav-label">BLOOD</span>
+  </button>
+  <button class="vpn-bnav-btn" id="bnav-supplies"
+    style="color:#ffcc00;"
+    onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'));vpnBnavSetActive('bnav-supplies')">
+    <span class="vpn-bnav-icon">📦</span>
+    <span class="vpn-bnav-label">SUPPLIES</span>
+  </button>
   <button class="vpn-bnav-btn" id="bnav-calc"
     style="color:#9d00ff;"
     onclick="showView('calculator');setActiveNav(document.querySelector('[onclick*=calculator]'));vpnBnavSetActive('bnav-calc')">
     <span class="vpn-bnav-icon">🧮</span>
     <span class="vpn-bnav-label">CALC</span>
-  </button>
-  <button class="vpn-bnav-btn" id="bnav-menu"
-    style="color:#ff2d78;"
-    onclick="toggleMobileNav();vpnBnavSetActive('bnav-menu')">
-    <span class="vpn-bnav-icon">☰</span>
-    <span class="vpn-bnav-label">MENU</span>
   </button>
 </div>
 
@@ -32192,6 +32220,11 @@ function vpnBnavSetActive(id) {
   var el = document.getElementById(id);
   if (el) el.classList.add('vpn-bnav-active');
 }
+(function(){
+  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood',supplies:'bnav-supplies',calculator:'bnav-calc'};
+  var orig = window.showView; if (typeof orig !== 'function') return;
+  window.showView = function(v){ var r = orig.apply(this, arguments); document.querySelectorAll('.vpn-bnav-btn').forEach(function(b){ b.classList.toggle('vpn-bnav-active', b.id === map[v]); }); return r; };
+})();
 </script>
 
 
