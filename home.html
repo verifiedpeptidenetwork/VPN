@@ -8,7 +8,7 @@
 <script>/* Animations only draw when someone can see them: not in a background tab, not on hidden or transparent canvases. Saves phone memory/battery (iOS reloads pages that use too much). */window.vpnAnimOK=function(c){try{if(document.hidden||!c||!c.isConnected)return false;var r=c.getBoundingClientRect();if(!r.width||!r.height)return false;for(var x=c;x&&x.nodeType===1;x=x.parentElement){var s=getComputedStyle(x);if(s.display==='none'||s.visibility==='hidden'||+s.opacity<0.02)return false;}return true;}catch(e){return true;}};window.vpnTouch=matchMedia('(pointer:coarse)').matches;</script>
 <script>try{if(localStorage.getItem('vpn_disclaimer_v2')==='accepted')document.documentElement.classList.add('dg-ok');}catch(e){}</script>
 <!-- no jump on load: the content column stays invisible until every section is parsed and the fonts are in, then fades in once -->
-<style>html.vpn-wait #site-hero{opacity:0 !important;}</style>
+<style>html.vpn-wait #site-hero, html.vpn-wait body > .view, html.vpn-wait #vpn-sidebar, html.vpn-wait .site-header, html.vpn-wait #vpnSearchBar, html.vpn-wait #vpn-bottom-nav, html.vpn-wait .retro-nav-bar{opacity:0 !important;} /* held for a moment so the old styling never flashes on refresh */</style>
 <script>(function(){var h=document.documentElement;h.classList.add('vpn-wait');var done=false,dom=false,fonts=false;function show(){if(done)return;done=true;h.classList.remove('vpn-wait');}function check(){if(dom&&fonts)setTimeout(show,120);}document.addEventListener('readystatechange',function(){if(document.readyState==='interactive')setTimeout(function(){dom=true;check();},900);});document.addEventListener('DOMContentLoaded',function(){dom=true;check();});try{document.fonts.ready.then(function(){fonts=true;check();});}catch(e){fonts=true;}setTimeout(function(){fonts=true;check();},1200);setTimeout(show,2500);})();</script><style>html.dg-ok #dg{display:none!important;} /* legacy floating buttons: hidden before first paint (the gear menu replaces them) */ #vpn-back-top,#vpn-mp-fab,#gw-fab-home,#gw-menu-home,#vt-toggle-btn,#vt-text-ctrl{display:none!important;} /* home blocks replaced by the redesign: hidden before first paint */ #no-coa-banner,#vpn-welcome-video-details,#site-hero > #home-desktop-cols,#site-hero > #grp-learn,#site-hero > #grp-current,#site-hero > #home-why,#site-hero > #vpn-lab-video,#site-hero > #vpn-docvid-promo,#site-hero > #home-latest-news,#site-hero > #if-promo,#site-hero > #qnav-wrap{display:none!important;}</style>
 <title>VPN Verified Peptides Network | Research Guides</title>
 <link rel="manifest" href="manifest.json">
@@ -11688,6 +11688,60 @@ document.addEventListener('keydown', function(e){
           <span style="font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">TAP TO EXPAND ▼</span>
         </div>
       </summary>
+      <!-- MITOCHONDRIAL COMPOUNDS — 3 categories (infographic + quick summary) -->
+      <style>
+        #mito-3cat{margin:0 1.25rem 1.1rem;padding:1.1rem;border-radius:18px;border:1px solid rgba(255,255,255,0.10);background:radial-gradient(520px 240px at 100% 0%,rgba(47,180,255,0.14),transparent 60%),#0d0b17;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+        html body #mito-3cat, html body #mito-3cat *{text-align:left !important;box-sizing:border-box;}
+        #mito-3cat .m3-k{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#ff4d4d,#2fb4ff,#2ee6a0);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+        #mito-3cat h3{margin:0.3rem 0 0.3rem;font-size:clamp(1.2rem,2.6vw,1.55rem) !important;font-weight:800;letter-spacing:-0.02em;line-height:1.2 !important;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;}
+        #mito-3cat .m3-lede{margin:0 0 0.9rem;font-size:0.95rem !important;line-height:1.55 !important;color:rgba(214,220,240,0.8);}
+        #mito-3cat .m3-grid{display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:0.9rem;align-items:start;}
+        #mito-3cat figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);cursor:zoom-in;position:relative;background:#000;}
+        #mito-3cat figure img{display:block;width:100%;height:auto;}
+        #mito-3cat figcaption{position:absolute;left:8px;bottom:8px;padding:0.35rem 0.6rem;border-radius:999px;background:rgba(10,8,20,0.85);border:1px solid rgba(255,255,255,0.16);font-size:0.75rem;font-weight:700;color:#fff;}
+        #mito-3cat .m3-cards{display:grid;gap:0.6rem;}
+        #mito-3cat .m3-card{padding:0.85rem 0.95rem;border-radius:14px;border:1px solid rgba(255,255,255,0.09);border-left:3px solid var(--c);background:#141122;}
+        #mito-3cat .m3-card b{display:flex;align-items:center;gap:0.5rem;font-size:0.98rem !important;font-weight:800;color:#f1f3fb;}
+        #mito-3cat .m3-n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:0.75rem;font-weight:800;color:#fff;background:var(--c);flex-shrink:0;}
+        #mito-3cat .m3-card p{margin:0.3rem 0 0.4rem;font-size:0.9rem !important;line-height:1.5 !important;color:rgba(214,220,240,0.82);}
+        #mito-3cat .m3-ex{display:flex;flex-wrap:wrap;gap:0.3rem;}
+        #mito-3cat .m3-ex span{font-size:0.75rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);color:#f1f3fb;}
+        #mito-3cat .m3-take{padding:0.85rem 0.95rem;border-radius:14px;border:1px solid rgba(255,190,40,0.4);background:rgba(255,190,40,0.08);font-size:0.9rem !important;line-height:1.5 !important;color:rgba(255,236,200,0.92);}
+        #mito-3cat .m3-take b{color:#ffcf6b;}
+        #mito-3cat .m3-btns{display:flex;flex-wrap:wrap;gap:0.5rem;}
+        #mito-3cat .m3-btns button,#mito-3cat .m3-btns a{display:inline-flex;align-items:center;gap:0.35rem;padding:0.65rem 0.95rem;border-radius:11px;font:700 0.86rem 'Inter',sans-serif;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:#f1f3fb;}
+        #mito-3cat .m3-btns .pri{border:none;background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;}
+        @media(max-width:900px){ #mito-3cat .m3-grid{grid-template-columns:1fr;} #mito-3cat figure{max-width:480px;} }
+        @media(max-width:600px){ #mito-3cat{margin:0 0.5rem 1rem;padding:0.85rem;} }
+        html[data-theme="light"] #mito-3cat{background:#faf7f2;border-color:rgba(124,58,237,0.24);color:#14112a;}
+        html[data-theme="light"] #mito-3cat h3,html[data-theme="light"] #mito-3cat .m3-card b,html[data-theme="light"] #mito-3cat .m3-ex span{color:#14112a;-webkit-text-fill-color:#14112a;}
+        html[data-theme="light"] #mito-3cat .m3-lede,html[data-theme="light"] #mito-3cat .m3-card p{color:#4a4566;}
+        html[data-theme="light"] #mito-3cat .m3-card{background:#ffffff;border-color:rgba(124,58,237,0.16);}
+        html[data-theme="light"] #mito-3cat .m3-take{color:#5a3c00;background:#fff6e0;}
+        html[data-theme="light"] #mito-3cat .m3-take b{color:#8a5a00;}
+        html[data-theme="light"] #mito-3cat .m3-btns a:not(.pri),html[data-theme="light"] #mito-3cat .m3-btns button:not(.pri){background:#fff;color:#14112a;border-color:rgba(124,58,237,0.24);}
+      </style>
+      <div id="mito-3cat" data-vt-skip data-px-skip>
+        <div class="m3-k">Mitochondria · 3 categories</div>
+        <h3>Mitochondrial compounds: different roles, better results</h3>
+        <p class="m3-lede">Mitochondrial compounds fall into three groups based on what they do in the body. Knowing which group a compound is in tells you how to use it, and what to support it with.</p>
+        <div class="m3-grid">
+          <figure onclick="openLightbox('cheatsheet/mitochondrial-compounds-3-categories.webp','Mitochondrial Compounds — 3 Categories')">
+            <img loading="lazy" decoding="async" src="cheatsheet/mitochondrial-compounds-3-categories.webp" width="853" height="1280" alt="Mitochondrial compounds: push side, optimization side and recovery side">
+            <figcaption>🔍 Tap to read the full guide</figcaption>
+          </figure>
+          <div class="m3-cards">
+            <div class="m3-card" style="--c:#ff4d4d"><b><span class="m3-n">1</span>Push side: energy deficit &amp; AMPK</b><p>Push the body into an energy deficit by turning up AMPK (the cell's alarm system) or forcing more energy output. They work your system harder, so recovery matters more.</p><div class="m3-ex"><span>MOTS-c</span><span>AICAR</span><span>ATX-304</span><span>SLU-332 / 915</span><span>BAM15</span></div></div>
+            <div class="m3-card" style="--c:#2fb4ff"><b><span class="m3-n">2</span>Optimization side: co-factors &amp; raw materials</b><p>Don't push harder. They "fill the tank" with the building blocks and co-factors mitochondria need to run more efficiently.</p><div class="m3-ex"><span>NAD+</span><span>NMN</span><span>NR</span><span>5-amino-1MQ</span></div></div>
+            <div class="m3-card" style="--c:#2ee6a0"><b><span class="m3-n">3</span>Recovery side: protection &amp; cleanup</b><p>Protect, repair and clean up your cells instead of spending energy: repairing the mitochondrial membrane and clearing out old, damaged mitochondria.</p><div class="m3-ex"><span>SS-31</span><span>Urolithin A</span><span>Humanin</span></div></div>
+            <div class="m3-take">⚠️ <b>Important takeaway:</b> if you lean heavily on the push side, prioritize better sleep, overall recovery, managing oxidative stress, and proper nutrition and hydration.</div>
+            <div class="m3-btns">
+              <button type="button" class="pri" onclick="openLightbox('cheatsheet/mitochondrial-compounds-3-categories.webp','Mitochondrial Compounds — 3 Categories')">🔍 View full guide</button>
+              <a href="cheatsheet/mitochondrial-compounds-3-categories.webp" download="Mitochondrial-Compounds-3-Categories.webp">⬇ Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
       <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b">Your cells have tiny batteries called <b>mitochondria</b>. Old, broken batteries pile up as you age and leak "smoke" (oxidative stress). <b>Urolithin A</b> turns on the clean-up crew (mitophagy) that throws out broken batteries so new ones can be built. <b>SS-31</b> patches the battery walls so they leak less. <b>MOTS-c</b> is a message that tells muscles to use fuel better. Clean → protect → optimize.</div></details>
 
       <div style="padding:0 1.25rem 1.4rem;">
@@ -33623,7 +33677,8 @@ window.addEventListener('appinstalled', function(){
   html body #vpn-sidebar .sb-item{display:flex !important;align-items:center !important;gap:0.65rem !important;width:100% !important;height:auto !important;min-height:38px;margin:1px 0 !important;padding:0.5rem 0.75rem !important;box-sizing:border-box;clip-path:none !important;border:none !important;border-radius:10px !important;background:transparent !important;box-shadow:none !important;color:var(--px-sub) !important;-webkit-text-fill-color:currentColor !important;font:600 0.9rem/1.2 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;letter-spacing:0 !important;text-transform:none !important;text-shadow:none !important;text-align:left !important;transform:none !important;animation:none !important;transition:background .15s,color .15s;}
   html body #vpn-sidebar .sb-item::before,html body #vpn-sidebar .sb-item::after{display:none !important;}
   html body #vpn-sidebar .sb-item:hover{background:rgba(255,255,255,0.05) !important;color:var(--px-ink) !important;}
-  html body #vpn-sidebar .sb-item.sb-active{background:linear-gradient(90deg,rgba(255,47,168,0.16),rgba(154,92,255,0.10)) !important;color:var(--px-ink) !important;box-shadow:inset 3px 0 0 #ff2fa8 !important;}
+  html body #vpn-sidebar .sb-item.sb-active{background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;box-shadow:0 10px 24px -12px rgba(255,47,168,0.85) !important;}
+  html body #vpn-sidebar .sb-item.sb-active .sb-icon{background:rgba(255,255,255,0.22) !important;border-color:rgba(255,255,255,0.35) !important;}
   html body #vpn-sidebar .sb-item .sb-icon{flex-shrink:0;width:1.6rem;height:1.6rem;display:grid;place-items:center;border-radius:8px;font-size:0.95rem;background:rgba(255,255,255,0.05);filter:none !important;margin:0 !important;}
   html body #vpn-sidebar .sb-section{font:700 0.68rem/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.12em !important;text-transform:uppercase !important;color:rgba(200,206,230,0.45) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;margin:1.1rem 0.75rem 0.4rem !important;padding:0 !important;border:none !important;background:none !important;}
   html[data-theme="light"] body #vpn-sidebar .sb-item:hover{background:rgba(30,20,70,0.05) !important;}
