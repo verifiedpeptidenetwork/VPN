@@ -7805,34 +7805,49 @@ document.addEventListener('keydown', function(e){
       <style>
         #glowrillaLab{display:block;width:100%;margin:0 auto 0.85rem;}
         #glowrillaLab > .qa-trigger{width:100%;justify-content:center;}
-        #glowrillaLabPanel{display:none;flex:0 0 100%;order:99;box-sizing:border-box;margin:0 0 0.85rem;padding:1rem;border:2px solid rgba(0,245,255,0.5);border-radius:10px;background:#000;box-shadow:0 0 24px rgba(0,245,255,0.15);text-align:left;}
+        #glowrillaLabPanel{display:none;flex:0 0 100%;order:99;box-sizing:border-box;margin:0 0 1.1rem;padding:clamp(1rem,3vw,1.6rem);border-radius:22px;border:1px solid rgba(255,255,255,0.10);text-align:left;
+          background:radial-gradient(620px 300px at 0% 0%,rgba(154,92,255,0.14),transparent 60%),radial-gradient(560px 300px at 100% 100%,rgba(255,47,168,0.10),transparent 60%),#0c0a16;
+          font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+        #glowrillaLabPanel *{box-sizing:border-box;}
         #glowrillaLabPanel.open{display:block;}
-        #glowrillaLabPanel .gl-h{display:flex;align-items:center;gap:0.5rem;margin:1.2rem 0 0.6rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.12em;color:var(--gc,#00f5ff);border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:0.35rem;}
+        #glowrillaLabPanel .gl-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.7rem;margin:1.6rem 0 0.75rem;padding:0 0 0 0.75rem;border-left:3px solid var(--gc,#9a5cff);
+          font-family:'Inter',system-ui,sans-serif;font-size:1.08rem;font-weight:800;letter-spacing:-0.01em;line-height:1.3;color:#f1f3fb;text-transform:none;}
         #glowrillaLabPanel .gl-h:first-child{margin-top:0;}
-        #glowrillaLabPanel .gl-h small{margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.04em;color:rgba(255,255,255,0.5);}
-        #glowrillaLabPanel .gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr));gap:0.8rem;}
-        #glowrillaLabPanel .gl-card{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.12);border-top:3px solid var(--gc,#00f5ff);border-radius:8px;overflow:hidden;background:#05050b;}
-        #glowrillaLabPanel .gl-card img{width:100%;height:230px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;background:#0a0a14;}
-        #glowrillaLabPanel .gl-card b{display:block;padding:0.55rem 0.7rem 0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.05rem;letter-spacing:0.08em;color:var(--gc,#00f5ff);}
-        #glowrillaLabPanel .gl-card p{margin:0.2rem 0 0;padding:0 0.7rem 0.7rem;font-family:'Rajdhani',sans-serif;font-size:0.92rem;font-weight:600;line-height:1.4;color:rgba(230,236,250,0.88);}
-        #glowrillaLabPanel .gl-card p em{font-style:normal;color:#ffd45c;}
-        #glowrillaLabPanel .gl-switch{--gc:#ff2d95;padding:0.8rem;border:2px solid rgba(255,45,149,0.55);border-radius:10px;background:linear-gradient(135deg,rgba(255,45,149,0.1),rgba(0,245,255,0.06));}
+        #glowrillaLabPanel .gl-h small{font-family:'Inter',system-ui,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0;color:rgba(214,220,240,0.62);}
+        #glowrillaLabPanel .gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr));gap:0.75rem;}
+        #glowrillaLabPanel .gl-card{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;background:#121020;transition:border-color .15s,transform .15s;}
+        #glowrillaLabPanel .gl-card:hover{border-color:color-mix(in srgb,var(--gc,#9a5cff) 55%,transparent);transform:translateY(-2px);}
+        #glowrillaLabPanel .gl-card img{width:100%;height:230px;object-fit:cover;object-position:top;display:block;cursor:zoom-in;background:#0a0814;border-bottom:3px solid var(--gc,#9a5cff);}
+        #glowrillaLabPanel .gl-card b{display:block;padding:0.7rem 0.85rem 0;font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:0.98rem;letter-spacing:-0.01em;line-height:1.3;color:#f1f3fb;}
+        #glowrillaLabPanel .gl-card p{margin:0.3rem 0 0;padding:0 0.85rem 0.85rem;font-family:'Inter',system-ui,sans-serif;font-size:0.86rem;font-weight:500;line-height:1.5;color:rgba(214,220,240,0.8);}
+        #glowrillaLabPanel .gl-card p em{font-style:normal;font-weight:700;color:#ffd45c;}
+        #glowrillaLabPanel .gl-switch{--gc:#ff2fa8;padding:1rem;border-radius:18px;border:1px solid rgba(255,47,168,0.32);background:linear-gradient(135deg,rgba(255,47,168,0.10),rgba(154,92,255,0.07));}
         #glowrillaLabPanel .gl-switch .gl-h{margin-top:0;}
-        #glowrillaLabPanel .gl-own{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:0.4rem;}
-        #glowrillaLabPanel .gl-own button{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.75rem;border:1px solid rgba(0,245,255,0.25);border-radius:6px;background:#05050b;color:#00f5ff;cursor:pointer;text-align:left;font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.08em;}
-        #glowrillaLabPanel .gl-own button span{font-size:1.2rem;}
-        #glowrillaLabPanel .gl-own button:hover{background:rgba(0,245,255,0.08);}
-        #glowrillaLabPanel .gl-note{margin:1rem 0 0;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.5);}
-        @media(max-width:500px){ #glowrillaLabPanel{padding:0.7rem;} #glowrillaLabPanel .gl-grid{grid-template-columns:1fr 1fr;gap:0.5rem;} #glowrillaLabPanel .gl-card img{height:170px;} #glowrillaLabPanel .gl-card p{font-size:0.84rem;} }
-        html[data-theme="light"] #glowrillaLabPanel,html[data-theme="light"] #glowrillaLabPanel .gl-card,html[data-theme="light"] #glowrillaLabPanel .gl-own button{background:#fff;}
-        html[data-theme="light"] #glowrillaLabPanel .gl-card p{color:#26324a;} html[data-theme="light"] #glowrillaLabPanel .gl-card p em{color:#8a5a00;}
+        #glowrillaLabPanel .gl-own{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:0.5rem;}
+        #glowrillaLabPanel .gl-own button{display:flex;align-items:center;gap:0.7rem;min-height:52px;padding:0.65rem 0.85rem;border:1px solid rgba(255,255,255,0.10);border-radius:14px;background:#121020;color:#f1f3fb;cursor:pointer;text-align:left;
+          font-family:'Inter',system-ui,sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0;line-height:1.3;text-shadow:none;transition:border-color .15s,background .15s;}
+        #glowrillaLabPanel .gl-own button span{flex-shrink:0;width:2.1rem;height:2.1rem;border-radius:10px;display:grid;place-items:center;font-size:1.05rem;background:rgba(154,92,255,0.16);border:1px solid rgba(154,92,255,0.35);}
+        #glowrillaLabPanel .gl-own button:hover{border-color:rgba(154,92,255,0.6);background:rgba(154,92,255,0.10);}
+        #glowrillaLabPanel .gl-note{margin:1.1rem 0 0;padding:0.75rem 0.9rem;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);font-family:'Inter',system-ui,sans-serif;font-size:0.82rem;font-weight:500;line-height:1.5;color:rgba(214,220,240,0.62);}
+        @media(max-width:500px){ #glowrillaLabPanel{padding:0.85rem;border-radius:18px;} #glowrillaLabPanel .gl-grid{grid-template-columns:1fr 1fr;gap:0.55rem;} #glowrillaLabPanel .gl-card img{height:170px;} #glowrillaLabPanel .gl-card b{font-size:0.9rem;padding:0.6rem 0.65rem 0;} #glowrillaLabPanel .gl-card p{font-size:0.8rem;padding:0 0.65rem 0.7rem;} }
+        html[data-theme="light"] #glowrillaLabPanel{background:radial-gradient(620px 300px at 0% 0%,rgba(154,92,255,0.08),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
+        html[data-theme="light"] #glowrillaLabPanel .gl-card,html[data-theme="light"] #glowrillaLabPanel .gl-own button{background:#f8f6fd;border-color:rgba(30,20,70,0.10);}
+        html[data-theme="light"] #glowrillaLabPanel .gl-h,html[data-theme="light"] #glowrillaLabPanel .gl-card b,html[data-theme="light"] #glowrillaLabPanel .gl-own button{color:#14112a;}
+        html[data-theme="light"] #glowrillaLabPanel .gl-h small,html[data-theme="light"] #glowrillaLabPanel .gl-card p,html[data-theme="light"] #glowrillaLabPanel .gl-note{color:#4a4566;}
+        html[data-theme="light"] #glowrillaLabPanel .gl-card p em{color:#8a5a00;}
+        html[data-theme="light"] #glowrillaLabPanel .gl-note{background:#f8f6fd;border-color:rgba(30,20,70,0.08);}
+        /* beat the site-wide 1rem / 1.75 text rule */
+        #glowrillaLabPanel .gl-card p{font-size:0.86rem !important;line-height:1.5 !important;}
+        #glowrillaLabPanel .gl-own button{font-size:0.9rem !important;line-height:1.3 !important;}
+        #glowrillaLabPanel p.gl-note{font-size:0.82rem !important;line-height:1.5 !important;}
+        @media(max-width:500px){ #glowrillaLabPanel .gl-card p{font-size:0.8rem !important;line-height:1.45 !important;} }
       </style>
       <div class="qa-dropdown" id="glowrillaLab" data-search="glowrilla peptide lab protocol guides switching tirz reta tirzepatide retatrutide cagrilintide cagrisema eloralintide aod-9604 tesamorelin mots-c ss-31 ghk-cu kpv ara-290 cartalax epitalon dsip semax selank">
         <button class="qa-trigger hbtn" onclick="var p=document.getElementById('glowrillaLabPanel');p.classList.toggle('open');if(p.classList.contains('open'))p.scrollIntoView({behavior:'smooth',block:'start'});" style="border-color:rgba(0,245,255,0.7);color:#00f5ff;text-shadow:0 0 8px #00f5ff;animation:glowBadgeCyan 2.8s ease-in-out infinite;">
           🦍 GLOWRILLA'S PEPTIDE LAB — GUIDES &amp; PROTOCOLS <span style="font-size:0.75rem;opacity:0.8;">▼</span>
         </button>
       </div>
-      <div class="gl-panel" id="glowrillaLabPanel">
+      <div class="gl-panel" id="glowrillaLabPanel" data-vt-skip data-px-skip>
 
           <div class="gl-switch">
             <div class="gl-h">🔄 SWITCHING TIRZ ⇌ RETA <small>Start here if you're changing GLPs</small></div>
@@ -24752,22 +24767,16 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
 
 <!-- ═══════════ WINTER, COVID, FLU, ALLERGIES & RHEUMATIC HUB ═══════════ -->
 <div class="view" id="view-winter">
-  <section id="wi-hero" data-vt-skip>
-    <div class="wi-orb wi-o1"></div><div class="wi-orb wi-o2"></div>
-    <div class="wi-eyebrow"><span></span>COLD · FLU · COVID · ALLERGIES · SPIKE PROTEIN · RHEUMATIC</div>
-    <h1>WINTER <em>&amp; IMMUNE</em> HUB</h1>
-    <p>How to support your immune system through winter, what the research really says about zinc, zinc ionophores (quercetin, EGCG, curcumin), nasal sprays and vitamin D — plus long COVID / spike protein and autoimmune joint disease.</p>
-    <div class="wi-jumps">
-      <button type="button" onclick="wiJump('wi-winter')">❄ Winter basics</button>
-      <button type="button" onclick="wiJump('wi-zinc')">🧪 Zinc &amp; ionophores</button>
-      <button type="button" onclick="wiJump('wi-nasal')">👃 Nasal care &amp; allergies</button>
-      <button type="button" onclick="wiJump('wi-ll37')">🛡 LL-37</button>
-      <button type="button" onclick="wiJump('wi-pneumonia')">🫁 Pneumonia &amp; plague</button>
-      <button type="button" onclick="wiJump('wi-covid')">🦠 COVID &amp; spike protein</button>
-      <button type="button" onclick="wiJump('wi-rheum')">🦴 Rheumatic disease</button>
-      <button type="button" onclick="wiJump('wi-studies')">📚 Studies</button>
+  <div class="view-hero" style="--vh1:#2fb4ff;--vh2:#9a5cff;background:linear-gradient(135deg,rgba(47,180,255,0.07) 0%,rgba(4,0,13,0.98) 50%,rgba(154,92,255,0.04) 100%);">
+    <div class="vh-inner">
+      <div class="vh-icon">❄️</div>
+      <div>
+        <div class="vh-title">WINTER &amp; IMMUNE</div>
+        <div class="vh-sub">How to support your immune system through winter, what the research really says about zinc, zinc ionophores (quercetin, EGCG, curcumin), nasal sprays and vitamin D, plus long COVID, spike protein and autoimmune joint disease.</div>
+      </div>
     </div>
-  </section>
+    <div class="vh-accent-line"></div>
+  </div>
   <script>function wiJump(id){var e=document.getElementById(id); if(e){ if(e.tagName==='DETAILS') e.open=true; e.scrollIntoView({behavior:'smooth',block:'start'}); }}</script>
 
   <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b"><b>This whole page in kid words:</b><br>❄ <b>Winter:</b> germs spread more because we're indoors together, the air is dry, and there's less sun. Sleep, good food, hand washing and staying home when sick are the basics. Vaccines are a choice people disagree about — both sides are shown.<br>🧪 <b>Zinc &amp; ionophores:</b> zinc can stop a virus from copying itself, but it needs a "doorman" (quercetin, green tea EGCG) to get inside cells. That works in lab dishes; big human tests haven't proven it — both views are shown.<br>👃 <b>Nose care:</b> your nose is the front door. Salt-water and xylitol sprays keep the doormat clean and wet so germs stick less.<br>🛡 <b>LL-37:</b> your body's own germ-popping peptide. Vitamin D helps you make it.<br>🦠 <b>COVID &amp; spike protein:</b> spike is the virus's key into your cells. Some people think leftover spike causes long-lasting symptoms; scientists are still studying it.<br>🫁 <b>Pneumonia &amp; plague:</b> antibiotics kill bacteria, not viruses. Plague is rare and treatable if caught early.<br>🦴 <b>Rheumatic disease:</b> if your medicine lowers your immune system, infections can hit harder — plan ahead with your doctor.</div></details>
@@ -25052,6 +25061,7 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
   <style>
     #view-winter .wi-spike-panel{position:static !important;display:block;width:100%;margin-top:0.6rem;}
     #view-winter .wi-spike-panel > .qa-trigger{display:none;}
+    #view-winter .wi-spike-panel::before,#view-winter .wi-spike-panel::after{content:none !important;display:none !important;}
     #view-winter .wi-spike-panel .qa-panel{position:static !important;display:block !important;opacity:1 !important;visibility:visible !important;transform:none !important;min-width:0 !important;width:100% !important;max-height:none !important;box-sizing:border-box;pointer-events:auto !important;}
   </style>
 
@@ -33068,6 +33078,7 @@ window.addEventListener('appinstalled', function(){
     supplies:    ['Research supplies',         [['🧮 Recon calculator', go('calculator'), 1], ['🏷️ Label templates', go('templates')]]],
     templates:   ['Label templates',           [['💉 PokeMe-Dex tracker', 'location.href=\'pokeme-dex.html\'', 1], ['🧮 Recon calculator', go('calculator')]]],
     bloodwork:   ['Blood work & labs',         [['🧬 Peptide Match', 'location.href=\'peptide-suggestion.html\'', 1], ['📊 Research studies', go('studies')]]],
+    winter:      ['Winter & immune',           [['💊 Vitamins & stacks', go('vitamins'), 1], ['📊 Research studies', go('studies')]]],
     vitamins:    ['Vitamins & stacks',         [['🩸 Blood work', go('bloodwork'), 1], ['💪 Workout guides', go('workouts')]]],
     bonus:       ['Bonus vault',               [['🏪 Research shops', go('shops'), 1], ['✈️ Telegram library', 'window.open(\'https://t.me/ruivpndata\',\'_blank\',\'noopener\')']]],
     terms:       ['Terms of use',              [['📬 Contact', go('contact'), 1], ['⚠️ Gray market risks', go('graymarket')]]],
@@ -33552,7 +33563,7 @@ window.addEventListener('appinstalled', function(){
 </style>
 <script>
 (function(){
-  var SKIP={'view-home':1,'view-all-peptides':1,'view-glp':1,'view-winter':1,'view-intel-feed':1,'view-shops':1};
+  var SKIP={'view-home':1,'view-all-peptides':1,'view-glp':1,'view-intel-feed':1,'view-shops':1};
   function txt(el){ return (el&&el.textContent||'').replace(/\s+/g,' ').trim(); }
   function targets(view){ return [].slice.call(view.querySelectorAll('summary, .section-title, .csv-sec-title, h2, h3, .cx-h, .tgk-h, .bw-divider span')).filter(function(e){ return !e.closest('.view-hero') && !e.closest('.eli5'); }); }
   function findTarget(view, label){
