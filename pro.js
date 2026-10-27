@@ -22,6 +22,8 @@
     + 'body.px-page summary.px-sum:hover{background:var(--px-card2)!important}'
     + 'body.px-page details.px-det[open]{border:1px solid var(--px-line)!important}'
     + 'body.px-page details.px-det[open]>summary.px-sum{border-top:none!important;border-right:none!important;border-bottom:1px solid var(--px-line)!important}'
+    + 'body.px-page summary.px-sum.px-on-light,html body.px-page details > summary.px-sum.px-on-light{--px-ink:#14112a!important;--px-sub:#4a4566!important;background:#ffffff!important;color:#14112a!important;border-color:#e7e1d6!important}'
+    + 'body.px-page details[open] > summary.px-sum.px-on-light{background:#faf8f3!important}'
     + 'body.px-page .px-pill{font:700 .66rem/1 Inter,sans-serif!important;letter-spacing:.08em!important;text-transform:uppercase!important;padding:.35rem .55rem!important;border-radius:999px!important;border:1px solid var(--px-line)!important;background:rgba(255,255,255,.04)!important;color:var(--px-sub)!important;-webkit-text-fill-color:currentColor!important;box-shadow:none!important}'
     + 'body.px-page .px-box{border-radius:18px!important;border:1px solid var(--px-line)!important;border-top:3px solid var(--px-ac,#9a5cff)!important;box-shadow:none!important;animation:none!important}'
     + 'body.px-page .px-box.px-solid{background:var(--px-card)!important}'
@@ -70,7 +72,7 @@
       var d = s.parentElement, ac = accentOf(d) || accentOf(s);
       d.classList.add('px-det'); s.classList.add('px-sum'); if (ac) s.style.setProperty('--px-ac', ac);
       var sb = [], q = s; while (q && q !== document.documentElement) { sb = (getComputedStyle(q).backgroundColor.match(/[\d.]+/g) || []).map(Number); if (sb.length >= 3 && (sb[3] == null || sb[3] > 0.5)) break; sb = []; q = q.parentElement; }
-      if (sb.length >= 3 && sb[0] + sb[1] + sb[2] > 560) { s.style.setProperty('--px-ink', '#14112a'); s.style.setProperty('--px-sub', '#4a4566'); }
+      if (sb.length >= 3 && sb[0] + sb[1] + sb[2] > 560) { s.classList.add('px-on-light'); }
       s.querySelectorAll('span, em, b, small, div').forEach(function(x){
         var t = x.textContent.trim();
         if (x.children.length === 0 && /^(TAP|CLICK) TO (EXPAND|OPEN)/i.test(t) && t.length <= 24) { x.style.setProperty('display','none','important'); return; }

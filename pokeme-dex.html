@@ -928,7 +928,13 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
   .cond-card{min-height:54px;padding:9px 10px !important;gap:8px !important;font-size:0.86rem !important;}
   .cond-card .cc-ic{width:28px !important;height:28px !important;font-size:0.9rem !important;}
 }
-</style></head>
+</style><style id="pmd-more-fixed">
+/* The fold-out tool cards (Dose calendar, Injection-site rotation...) always read dark-on-white: this page is light in every theme */
+html body details.pmd-more > summary, html body #pmd-easy details.pmd-more > summary, html body.px-page details.pmd-more > summary.px-sum{--px-ink:#14112a !important;--px-sub:#4a4566 !important;background:#ffffff !important;color:#14112a !important;-webkit-text-fill-color:#14112a !important;border:1px solid #e7e1d6 !important;border-left:4px solid var(--px-ac,#9a5cff) !important;box-shadow:0 1px 2px rgba(20,17,42,0.05) !important;}
+html body details.pmd-more > summary *{-webkit-text-fill-color:currentColor !important;}
+html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
+</style>
+</head>
 <body>
 <div id="auth-gate-overlay" style="position:fixed;inset:0;z-index:99999;background:#04020a;display:flex;align-items:center;justify-content:center;color:#c9c9e8;font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;">CHECKING ACCESS...</div>
 <script type="module">
@@ -2703,7 +2709,7 @@ function showTab(name){
   .vpn-news-body { font-size: 1rem !important; }
   small, .small, .sub, .footnote { font-size: 0.88rem !important; }
 </style>
-<script src="theme-toggle.js?v=36" defer></script><script src="readable.js?v=3" defer></script>
+<script src="theme-toggle.js?v=36" defer></script><script src="readable.js?v=4" defer></script>
 <!-- ═══ EASY MODE: one page, compact on phones, extra tools folded away ═══ -->
 <style id="pmd-easy">
   #tab-index{display:none !important;}

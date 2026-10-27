@@ -33468,6 +33468,7 @@ window.addEventListener('appinstalled', function(){
   .px-on details[open] > summary.px-sum::after{transform:rotate(-135deg);margin-top:-2px;}
   .px-on details[open] > summary.px-sum{border-radius:16px 16px 0 0 !important;background:var(--px-card2) !important;}
   .px-on summary.px-sum:hover{background:var(--px-card2) !important;transform:translateY(-1px);}
+  html body .px-on summary.px-sum.px-on-light{--px-ink:#14112a !important;--px-sub:#4a4566 !important;background:#ffffff !important;color:#14112a !important;border-color:#e7e1d6 !important;}
   .px-on summary.px-sum small,.px-on summary.px-sum .px-small{display:block;width:100%;font:500 0.85rem/1.4 'Inter',sans-serif !important;color:var(--px-sub) !important;-webkit-text-fill-color:currentColor !important;letter-spacing:0 !important;text-transform:none !important;}
   .px-on summary.px-sum img{border-radius:8px;}
   .px-on details.px-det > :not(summary){border-left:1px solid var(--px-line);border-right:1px solid var(--px-line);}
@@ -33538,7 +33539,7 @@ window.addEventListener('appinstalled', function(){
       var d = s.parentElement, ac = accentOf(d) || accentOf(s);
       d.classList.add('px-det'); s.classList.add('px-sum');
       var sb = [], q = s; while (q && q !== document.documentElement) { sb = (getComputedStyle(q).backgroundColor.match(/[\d.]+/g) || []).map(Number); if (sb.length >= 3 && (sb[3] == null || sb[3] > 0.5)) break; sb = []; q = q.parentElement; }
-      if (sb.length >= 3 && sb[0] + sb[1] + sb[2] > 560) { s.style.setProperty('--px-ink', '#14112a'); s.style.setProperty('--px-sub', '#4a4566'); }
+      if (sb.length >= 3 && sb[0] + sb[1] + sb[2] > 560) { s.classList.add('px-on-light'); }
       if (ac) s.style.setProperty('--px-ac', ac);
       // short ALL-CAPS chips inside the bar become small pills
       s.querySelectorAll('span, em, b, small, div').forEach(function(x){
@@ -33926,6 +33927,49 @@ window.addEventListener('appinstalled', function(){
       }, 'image/png');
     });
   };
+})();
+</script>
+<!-- PHONE WIDTH — nested boxes stop eating the screen: on phones, any padded box inside another padded box gets slim side padding -->
+<style>
+  @media (max-width: 600px) {
+    body.vpn-nonhome .view.active { padding-left: 8px !important; padding-right: 8px !important; }
+  }
+</style>
+<script>
+(function(){
+  var MQ = window.matchMedia('(max-width: 600px)');
+  var KEEP = 'button, input, select, textarea, summary, ul, ol, li, table, td, th, .px-sum, .sp-bar, .vh2, .view-hero, .vhx, .pep-idx-header, .px-tog-bar, .px-tog-btn, #vpn-sidebar, #vpn-bottom-nav, .vpn-copy-btn, .pill, [class*="badge"], [class*="chip"], [class*="tag"]';
+  function px(v){ return parseFloat(v) || 0; }
+  function slim(root){
+    if (!MQ.matches || !root) return;
+    var els = root.querySelectorAll('div, section, article, aside, details, p, figure, blockquote, a');
+    for (var i = 0; i < els.length; i++){
+      var e = els[i];
+      if (e.__pw || e.matches(KEEP) || e.closest('button, summary, .vh2, .view-hero, #vpn-sidebar, #vpn-bottom-nav, .pep-idx-header, .px-tog-bar')) continue;
+      if (!e.getClientRects().length) continue; // hidden for now; handled when shown
+      var c = getComputedStyle(e);
+      var pl = px(c.paddingLeft), pr = px(c.paddingRight), ml = px(c.marginLeft), mr = px(c.marginRight);
+      if (pl <= 9 && pr <= 9 && ml <= 6 && mr <= 6) { e.__pw = true; continue; }
+      // only boxes that sit inside another padded box (the outer card keeps its comfortable edge)
+      var anc = e.parentElement, nested = false;
+      for (var k = 0; anc && k < 12 && !anc.classList.contains('view'); k++, anc = anc.parentElement){
+        var ac = getComputedStyle(anc); if (px(ac.paddingLeft) >= 8 || px(ac.borderLeftWidth) >= 1) { nested = true; break; }
+      }
+      e.__pw = true;
+      if (!nested) { if (pl > 12) e.style.setProperty('padding-left', '12px', 'important'); if (pr > 12) e.style.setProperty('padding-right', '12px', 'important'); continue; } // outer card: comfortable but not wasteful
+      if (pl > 9) e.style.setProperty('padding-left', '8px', 'important');
+      if (pr > 9) e.style.setProperty('padding-right', '8px', 'important');
+      if (ml > 6 && c.display !== 'inline' && c.display !== 'inline-block') e.style.setProperty('margin-left', '0px', 'important');
+      if (mr > 6 && c.display !== 'inline' && c.display !== 'inline-block') e.style.setProperty('margin-right', '0px', 'important');
+    }
+  }
+  function run(){ document.querySelectorAll('.view.active').forEach(slim); }
+  var sv = window.showView;
+  if (typeof sv === 'function') window.showView = function(){ var r = sv.apply(this, arguments); setTimeout(run, 150); return r; };
+  document.addEventListener('toggle', function(e){ if (e.target && e.target.tagName === 'DETAILS' && e.target.open) setTimeout(function(){ slim(e.target); }, 30); }, true);
+  document.addEventListener('click', function(){ setTimeout(run, 250); }, true);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(run, 400); }); else setTimeout(run, 400);
+  MQ.addEventListener && MQ.addEventListener('change', run);
 })();
 </script>
 </body>
