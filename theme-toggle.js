@@ -544,6 +544,8 @@
       +  'body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 14px + 42px + 8px + env(safe-area-inset-bottom,0px))!important;}'
       +  'body #vt-top-btn.vt-top-on{opacity:1;pointer-events:auto;transform:none;}'
       /* home.html has its own fuller ⚙ menu (#vpn-gear): hide the duplicate dock there and stack ↑ above that gear */
+      /* pages' own older back-to-top buttons sat on top of the ⚙ button; the shared ↑ (#vt-top-btn) replaces them */
+      +'#ln-top-btn,#vpn-back-to-top{display:none!important;}'
       +  'body:has(#vpn-gear) #vt-dock{display:none!important;}'
       +  'body:has(#vpn-gear) #vt-top-btn{bottom:calc(76px + 42px + 8px + env(safe-area-inset-bottom,0px))!important;}'
       +'}'
