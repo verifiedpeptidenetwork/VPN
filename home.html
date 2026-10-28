@@ -33934,7 +33934,7 @@ window.addEventListener('appinstalled', function(){
     if(g==='top'){ window.scrollTo({top:0,behavior:'smooth'}); open(false); }
   });
   function fillHub(){ var src=document.getElementById('gw-menu-home'), dst=document.getElementById('vpn-gear-hub'); if(!src||!dst||dst.children.length) return;
-    [].forEach.call(src.querySelectorAll('a'),function(a){ var c=a.cloneNode(true); c.addEventListener('click',function(){ open(false); }); dst.appendChild(c); }); }
+    [].forEach.call(src.querySelectorAll('a'),function(a){ if(!/Peptide Index|Peptide Match|PokeMe/i.test(a.textContent)) return; var c=a.cloneNode(true); c.addEventListener('click',function(){ open(false); }); dst.appendChild(c); }); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fillHub); else fillHub();
   document.addEventListener('vpn-theme-change',syncTheme);
 })();
