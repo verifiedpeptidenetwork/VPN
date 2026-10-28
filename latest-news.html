@@ -487,12 +487,34 @@ details.vpn-news-card[open] .vpn-news-arrow{transform:rotate(180deg);}
   <div class="lp-brand"><b>Verified Peptides Network</b><small>Research Unfiltered Information</small></div>
   <nav class="lp-links"><a href="home.html">← Home</a><a href="pokeme-dex.html">PokeMe-Dex</a></nav>
 </header>
-<section class="lp-hero" data-px-skip aria-label="Latest news">
+<style id="lp-reta-css">
+  .lp-reta{display:flex;align-items:center;gap:0.9rem;width:100%;max-width:760px;margin:0 0 1.1rem;padding:0.9rem 1rem;border-radius:18px;cursor:pointer;text-align:left;font-family:'Inter',system-ui,sans-serif;
+    border:1px solid rgba(154,92,255,0.55);background:linear-gradient(135deg,rgba(154,92,255,0.22),rgba(255,47,168,0.14));box-shadow:0 14px 34px -22px rgba(154,92,255,0.9);color:#f1f3fb;transition:transform .15s,border-color .15s;}
+  .lp-reta:hover{transform:translateY(-2px);border-color:#c39bff;}
+  .lp-reta-ic{flex-shrink:0;width:2.8rem;height:2.8rem;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);}
+  .lp-reta-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:0.15rem;}
+  .lp-reta-tx small{font-size:0.72rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#ffb3e0;}
+  .lp-reta-tx b{font-size:1rem;font-weight:800;line-height:1.3;color:#fff;}
+  .lp-reta-tx em{font-style:normal;font-size:0.85rem;font-weight:500;color:rgba(214,220,240,0.78);}
+  .lp-reta-go{flex-shrink:0;padding:0.55rem 0.85rem;border-radius:12px;font-size:0.88rem;font-weight:800;color:#fff;background:linear-gradient(90deg,#9a5cff,#ff2fa8);white-space:nowrap;}
+  .lp-reta-go b{font-weight:800;}
+  #ln-chips button[data-c="reta"]{border-color:rgba(154,92,255,0.6) !important;}
+  #ln-chips button[data-c="reta"] i{font-style:normal;margin-left:0.15rem;padding:0 0.4rem;border-radius:999px;font-size:0.78em;background:rgba(154,92,255,0.25);}
+  #ln-chips button[data-c="reta"].on{background:linear-gradient(90deg,#9a5cff,#ff2fa8) !important;color:#fff !important;border-color:transparent !important;}
+  @media(max-width:560px){ .lp-reta{flex-wrap:wrap;} .lp-reta-go{width:100%;text-align:center;} }
+  html[data-theme="light"] .lp-reta{background:linear-gradient(135deg,#f3ecff,#ffeef8);border-color:rgba(124,58,237,0.35);color:#14112a;box-shadow:0 14px 34px -24px rgba(124,58,237,0.6);}
+  html[data-theme="light"] .lp-reta-tx b{color:#14112a;-webkit-text-fill-color:#14112a;} html[data-theme="light"] .lp-reta-tx em{color:#4a4566;-webkit-text-fill-color:#4a4566;}
+  html[data-theme="light"] .lp-reta-tx small{color:#b0207a;-webkit-text-fill-color:#b0207a;} html[data-theme="light"] .lp-reta-ic{background:#fff;border-color:rgba(124,58,237,0.25);}
+</style><section class="lp-hero" data-px-skip aria-label="Latest news">
   <div class="lp-hero-in">
     <span class="lp-kick"><i></i>Latest news · updated as studies publish</span>
     <h1>Peptide research news, <span>verified.</span></h1>
     <p>New trials, approvals and published studies, explained in plain English with the PubMed link for every claim, so you can check it yourself.</p>
-    <div class="lp-stats">
+    <button type="button" class="lp-reta" onclick="window.lnShowReta&&window.lnShowReta()" aria-label="Show all retatrutide stories">
+      <span class="lp-reta-ic" aria-hidden="true">💉</span>
+      <span class="lp-reta-tx"><small>🔥 Retatrutide news</small><b>Reta beats Ozempic in Phase 3 · the "Reta Pill" LY4086940</b><em>Every retatrutide story in one place</em></span>
+      <span class="lp-reta-go">See all <b id="lp-reta-n">·</b> →</span>
+    </button>    <div class="lp-stats">
       <div><b id="lp-count">19</b><small>Stories</small></div>
       <div><b>PubMed</b><small>Linked sources</small></div>
       <div><b>3</b><small>Research · clinical · tools</small></div>
@@ -2126,7 +2148,7 @@ window.addEventListener('scroll',function(){
   var E = [
     // Each entry restates what THAT article/section says, in simple words — no added opinion.
     // ── News & research articles (most specific first) ──
-    ['ly4086940','<b>What the article says:</b> Eli Lilly is testing a once-a-day pill that works on the same three "I''m full" and fat-burning signals as retatrutide. It is still early (Phase 2 starts November 2026), it is a different drug from retatrutide, and it is not for sale anywhere.'],
+    ['ly4086940','<b>What the article says:</b> Eli Lilly is testing a once-a-day pill that works on the same three "I\'m full" and fat-burning signals as retatrutide. It is still early (Phase 2 starts November 2026), it is a different drug from retatrutide, and it is not for sale anywhere.'],
     ['transcend-t2d-2','<b>What the article says:</b> in people with type 2 diabetes, retatrutide helped them lose about <b>20%</b> of their weight in 80 weeks, about double what Ozempic did (9.4%), and lowered blood sugar more. A few more people stopped it because of side effects.'],
     ['triumph-1','<b>What the article says:</b> a big 2-year test (2,339 adults) gave people a weekly retatrutide shot or a fake shot (placebo). People on the highest dose lost about <b>30%</b> of their body weight; the fake-shot group lost about 3%. A blood sign of inflammation (hsCRP) dropped up to <b>62%</b>.'],
     ['vk2735','<b>What the article says:</b> VK2735 (from Viking) copies the same two "I\'m full" signals as tirzepatide. In a 13-week test, people on it lost <b>9% to 14.7%</b> of their weight vs 1.7% on a fake shot. The main side effects were nausea and other tummy issues. A pill version is also being tested.'],
@@ -2411,7 +2433,9 @@ window.addEventListener('scroll',function(){
     return firstSentences(t,2);
   }
   function line(t){ var d=document.createElement('div'); d.className='ln-simple'; d.innerHTML='<span class="ic">🧒</span><span><b>In simple words:</b> '+t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>'; return d; }
-  var CAT=[['trial',/phase|trial|nejm|lancet|results|study/i],['claims',/claims check|unverified|myth/i],['lab',/cell study|mouse|lab dish|in vitro|preclinical/i],['legal',/legal|crackdown|fda|approved|regulat/i],['guide',/guide|protocol|how to|book|pdf|calculator/i]];
+  var CAT=[['reta',/retatrutide|\breta\b|ly4086940|triple agonist|triumph-|transcend-t2d/i],['trial',/phase|trial|nejm|lancet|results|study/i],['claims',/claims check|unverified|myth/i],['lab',/cell study|mouse|lab dish|in vitro|preclinical/i],['legal',/legal|crackdown|fda|approved|regulat/i],['guide',/guide|protocol|how to|book|pdf|calculator/i]];
+  function head(it){ var h=it.querySelector('.bb-head, .bb-headline, .bb-deck') ? [].map.call(it.querySelectorAll('.bb-head, .bb-headline, .bb-deck'),txt).join(' ') : txt(it.querySelector(':scope > summary')); return h||''; }
+  function isReta(it){ return CAT[0][1].test(head(it)); }
   function cats(t){ var c=[]; CAT.forEach(function(x){ if(x[1].test(t)) c.push(x[0]); }); return c; }
   function build(){
     if(document.getElementById('ln-top')) return;
@@ -2431,7 +2455,7 @@ window.addEventListener('scroll',function(){
     var tools=document.createElement('div'); tools.id='ln-tools';
     tools.innerHTML='<input id="ln-q" type="search" placeholder="🔍  Search the news — peptide, study, topic…" aria-label="Search news">'+
       '<div id="ln-chips" role="group" aria-label="Filter news">'+
-      [['','All'],['trial','🔬 Trials & studies'],['claims','⚠ Claims checks'],['lab','🧪 Lab / animal'],['legal','⚖ Legal & FDA'],['guide','📘 Guides']].map(function(x,i){ return '<button type="button" data-c="'+x[0]+'"'+(i?'':' class="on"')+'>'+x[1]+'</button>'; }).join('')+
+      [['','All'],['reta','💉 Retatrutide'],['trial','🔬 Trials & studies'],['claims','⚠ Claims checks'],['lab','🧪 Lab / animal'],['legal','⚖ Legal & FDA'],['guide','📘 Guides']].map(function(x,i){ return '<button type="button" data-c="'+x[0]+'"'+(i?'':' class="on"')+'>'+x[1]+'</button>'; }).join('')+
       '</div><div id="ln-count"></div>';
     top.parentNode.insertBefore(tools, top);
     tools.querySelector('#ln-q').addEventListener('input', filter);
@@ -2452,11 +2476,13 @@ window.addEventListener('scroll',function(){
     var q=(document.getElementById('ln-q').value||'').trim().toLowerCase();
     var on=document.querySelector('#ln-chips button.on'); var c=on?on.getAttribute('data-c'):'';
     var shown=0, all=items();
-    all.forEach(function(it){ var t=txt(it); var ok=(!q || t.toLowerCase().indexOf(q)!==-1) && (!c || cats(t).indexOf(c)!==-1); it.classList.toggle('ln-hide',!ok); if(ok) shown++; });
+    all.forEach(function(it){ var t=txt(it); var ok=(!q || t.toLowerCase().indexOf(q)!==-1) && (!c || (c==='reta' ? isReta(it) : cats(t).indexOf(c)!==-1)); it.classList.toggle('ln-hide',!ok); if(ok) shown++; });
     document.querySelectorAll('.np-grid').forEach(function(g){ var vis=[].some.call(g.children,function(k){ return !k.classList.contains('ln-hide'); }); g.classList.toggle('ln-hide',!vis); var dv=g.previousElementSibling; if(dv && dv.classList.contains('np-divider')) dv.classList.toggle('ln-hide',!vis); });
     document.getElementById('ln-count').textContent = (q||c) ? (shown+' of '+all.length+' stories') : (all.length+' stories · newest first');
   }
-  function start(){ build(); setTimeout(function(){ addSimple(); filter(); var mc=document.querySelector('.masthead-count'); if(mc) mc.textContent=items().length+' INTEL ITEMS'; }, 1000); }
+  window.lnShowReta = function(){ var b=document.querySelector('#ln-chips button[data-c="reta"]'); if(!b) return; b.click(); var tl=document.getElementById('ln-tools'); if(tl) tl.scrollIntoView({behavior:'smooth',block:'start'}); };
+  function retaCount(){ var n=items().filter(isReta).length; var e=document.getElementById('lp-reta-n'); if(e) e.textContent=n; var c=document.querySelector('#ln-chips button[data-c="reta"]'); if(c && !c.querySelector('i')) c.insertAdjacentHTML('beforeend',' <i>'+n+'</i>'); }
+  function start(){ build(); setTimeout(function(){ addSimple(); filter(); retaCount(); if(/[#&?]reta\b/i.test(location.hash+location.search)) window.lnShowReta(); var mc=document.querySelector('.masthead-count'); if(mc) mc.textContent=items().length+' INTEL ITEMS'; }, 1000); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>

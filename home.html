@@ -5120,19 +5120,6 @@ document.addEventListener('keydown', function(e){
               </div>
             </div>
 
-            <!-- ITEM 05 — INSTALL APP -->
-            <div style="border:1px solid rgba(0,245,255,0.3);border-left:3px solid #00f5ff;border-radius:6px;overflow:hidden;">
-              <div id="vpn-install-row" onclick="vpnInstallApp()"
-                   style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.55rem 0.7rem;background:rgba(0,245,255,0.06);user-select:none;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#00f5ff;flex-shrink:0;min-width:1.6rem;">05</span>
-                <span style="flex:1;font-family:'Rajdhani',sans-serif;font-size:0.88rem;font-weight:700;color:rgba(200,240,255,0.9);line-height:1.45;">
-                  <strong style="color:#fff;">Download the App.</strong> Install VPN Research to your home screen — works offline, no app store needed.
-                </span>
-                <span style="color:#00f5ff;font-size:0.82rem;flex-shrink:0;">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v13M7 10l5 5 5-5"/><rect x="3" y="17" width="18" height="4" rx="2"/></svg>
-                </span>
-              </div>
-            </div>
 
             <!-- ITEM 06 — INSULIN SYRINGE NEEDLE GUIDE -->
             <div data-search="insulin syringe needle guide U-100 units how to read markings lines cheatsheet" style="border:1px solid rgba(255,20,80,0.3);border-left:3px solid #ff1450;border-radius:6px;overflow:hidden;">
@@ -8487,7 +8474,8 @@ document.addEventListener('keydown', function(e){
   (function(){ var d = document.getElementById('vh2-whyhere'); if (!d) return; d.addEventListener('toggle', function(){ if (!d.open) return; var f = d.querySelector('iframe[data-src]'); if (f && !f.src) f.src = f.getAttribute('data-src'); d.querySelectorAll('img[data-src]').forEach(function(im){ im.src = im.getAttribute('data-src'); im.removeAttribute('data-src'); }); }); })();
   </script>
 
-  <!-- GET THE APP (bottom of home, above the flyers) -->
+  <!-- GET THE APP: the very last thing on the home page -->
+  <style>html body #site-hero > #vpn-getapp{order:99 !important;margin:0.4rem auto 1.4rem !important;}</style>
   <button type="button" id="vpn-getapp" class="vpn-getapp" onclick="vpnInstallApp()">
     <img src="icon-180.png" alt="" width="34" height="34">
     <span class="ga-tx"><b>GET THE APP</b><small>Install to your home screen — free, no app store</small></span>
