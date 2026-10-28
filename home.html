@@ -8280,6 +8280,94 @@ document.addEventListener('keydown', function(e){
   </div>
   </details>
 
+  <!-- SPIKE PROTEIN — test, videos and protocol (same content as Latest News), closed by default -->
+  <style>
+    html body #site-hero > #vh2-spike{order:3 !important;}
+    #vh2-spike{width:100%;box-sizing:border-box;margin:0 0 1.1rem;padding:clamp(1.1rem,3vw,1.8rem);border-radius:22px;border:1px solid rgba(255,20,80,0.28);
+      background:radial-gradient(620px 300px at 100% 0%,rgba(255,20,80,0.16),transparent 60%),radial-gradient(560px 300px at 0% 100%,rgba(154,92,255,0.12),transparent 60%),#0c0a16;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+    #vh2-spike *{box-sizing:border-box;}
+    html body #vh2-spike, html body #vh2-spike *{text-align:left !important;}
+    #vh2-spike .sk-k{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#ff1450,#ff6b9a,#9a5cff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-spike h2{margin:0.4rem 0 0.4rem;font-size:clamp(1.5rem,3.6vw,2.2rem) !important;font-weight:800;letter-spacing:-0.03em;line-height:1.1 !important;color:#f1f3fb;-webkit-text-fill-color:#f1f3fb;}
+    #vh2-spike h2 span{background:linear-gradient(90deg,#ff1450,#ff6b9a);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-spike .sk-lede{margin:0;max-width:760px;font-size:1rem !important;line-height:1.6 !important;color:rgba(214,220,240,0.82);}
+    #vh2-spike .sk-h{margin:1.4rem 0 0.7rem;font-size:1.08rem !important;font-weight:800;letter-spacing:-0.01em;color:#f1f3fb;padding-left:0.75rem;border-left:3px solid #ff1450;}
+    #vh2-spike .sk-note{padding:0.9rem 1rem;border-radius:16px;border:1px solid rgba(255,20,80,0.3);background:rgba(255,20,80,0.07);font-size:0.93rem !important;line-height:1.6 !important;color:rgba(230,226,245,0.88);}
+    #vh2-spike .sk-test{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.9rem;padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(255,255,255,0.10);background:#121020;}
+    #vh2-spike .sk-test b{display:block;font-size:1rem;font-weight:800;color:#f1f3fb;} #vh2-spike .sk-test small{display:block;margin-top:0.2rem;font-size:0.86rem !important;line-height:1.45 !important;color:rgba(214,220,240,0.72);}
+    #vh2-spike .sk-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.1rem;border-radius:12px;font:700 0.9rem 'Inter',system-ui,sans-serif;text-decoration:none;color:#fff;background:linear-gradient(90deg,#ff1450,#ff4d8d);border:none;}
+    #vh2-spike .sk-vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:0.8rem;}
+    #vh2-spike .sk-vid{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.10);background:#000;}
+    #vh2-spike .sk-vid b{display:block;padding:0.7rem 0.85rem;font-size:0.92rem;font-weight:700;color:#f1f3fb;background:#121020;}
+    #vh2-spike .sk-vid video{display:block;width:100%;max-height:320px;background:#000;object-fit:contain;}
+    #vh2-spike .sk-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:0.7rem;}
+    #vh2-spike .sk-gal figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.10);background:#121020;cursor:zoom-in;}
+    #vh2-spike .sk-gal img{display:block;width:100%;height:200px;object-fit:cover;object-position:top;background:#000;}
+    #vh2-spike .sk-gal figcaption{padding:0.6rem 0.75rem;font-size:0.84rem !important;font-weight:600;line-height:1.35;color:rgba(214,220,240,0.85);}
+    #vh2-spike .sk-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:0.55rem;}
+    #vh2-spike .sk-links a{display:flex;gap:0.7rem;align-items:flex-start;padding:0.85rem 0.95rem;border-radius:14px;border:1px solid rgba(255,255,255,0.10);background:#121020;text-decoration:none;}
+    #vh2-spike .sk-links a span{font-size:1.3rem;line-height:1;} #vh2-spike .sk-links b{display:block;font-size:0.92rem;font-weight:700;color:#f1f3fb;} #vh2-spike .sk-links small{display:block;margin-top:0.15rem;font-size:0.8rem !important;line-height:1.4 !important;color:rgba(214,220,240,0.68);}
+    #vh2-spike .sk-links a:hover{border-color:rgba(255,20,80,0.5);}
+    #vh2-spike .sk-fine{margin:1.2rem 0 0;font-size:0.82rem !important;line-height:1.5 !important;color:rgba(214,220,240,0.6);}
+    html[data-theme="light"] #vh2-spike{background:radial-gradient(620px 300px at 100% 0%,rgba(255,20,80,0.08),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
+    html[data-theme="light"] #vh2-spike h2,html[data-theme="light"] #vh2-spike .sk-h,html[data-theme="light"] #vh2-spike .sk-test b,html[data-theme="light"] #vh2-spike .sk-vid b,html[data-theme="light"] #vh2-spike .sk-links b{color:#14112a;-webkit-text-fill-color:#14112a;}
+    html[data-theme="light"] #vh2-spike .sk-lede,html[data-theme="light"] #vh2-spike .sk-note,html[data-theme="light"] #vh2-spike .sk-test small,html[data-theme="light"] #vh2-spike .sk-gal figcaption,html[data-theme="light"] #vh2-spike .sk-links small,html[data-theme="light"] #vh2-spike .sk-fine{color:#4a4566;}
+    html[data-theme="light"] #vh2-spike .sk-test,html[data-theme="light"] #vh2-spike .sk-vid b,html[data-theme="light"] #vh2-spike .sk-gal figure,html[data-theme="light"] #vh2-spike .sk-links a{background:#f8f6fd;border-color:rgba(30,20,70,0.10);}
+    html[data-theme="light"] #vh2-spike .sk-note{background:#fff4f6;}
+  </style>
+  <details id="vh2-spike" class="vh2-fold" data-vt-skip data-px-skip data-search="spike protein long covid post vaccine injury labcorp 164090 antibody test nicotine patch ace2 mccullough spike detox rna viruses smokers covid">
+    <summary>
+      <span class="vf-head"><div class="sk-k">Long COVID · post-vaccine symptoms</div>
+      <h2>🧬 Spike protein: <span>get tested, know your numbers</span></h2>
+      <p class="sk-lede">The Labcorp spike antibody test, three research videos, how to read your results and the treatment protocols people are researching.</p></span>
+      <span class="vf-chev" aria-hidden="true"></span>
+    </summary>
+    <div class="vf-body">
+      <div class="sk-note">Some studies have found pieces of spike protein in blood or tissue weeks to months after COVID infection, and a few after vaccination. What that means for long-term health is still being studied. Testing tells you where you stand, so you and your doctor can decide what to do next.</div>
+
+      <div class="sk-h">🩸 Step 1: get tested at Labcorp</div>
+      <div class="sk-test">
+        <div><b>SARS-CoV-2 Spike Antibody test · #164090</b><small>Semi-quantitative total antibody (spike). You can order it directly; no doctor's order needed.</small></div>
+        <a class="sk-btn" href="https://www.labcorp.com/tests/164090/sars-cov-2-semi-quantitative-total-antibody-spike" target="_blank" rel="noopener">Order the test ↗</a>
+      </div>
+
+      <div class="sk-h">▶ Watch: 3 research videos</div>
+      <div class="sk-vids">
+        <div class="sk-vid"><b>🧬 Spike protein: test &amp; treatment protocol</b><video controls playsinline preload="none" src="spikeproteintestandtreatment.mp4"></video></div>
+        <div class="sk-vid"><b>🚬 Smokers &amp; COVID: the nicotine connection</b><video controls playsinline preload="none" src="smokersandcovid.mp4"></video></div>
+        <div class="sk-vid"><b>🦠 RNA viruses: how they work &amp; how to fight them</b><video controls playsinline preload="none" src="rnaviruses.mp4"></video></div>
+      </div>
+
+      <div class="sk-h">🩸 Step 2: read your antibody results</div>
+      <div class="sk-gal">
+        <figure onclick="openLightbox('checkspieprotein.jpg','Sample Labcorp report: how to read your spike antibody test')"><img loading="lazy" data-src="checkspieprotein.jpg" alt="Sample Labcorp spike antibody report"><figcaption>Sample Labcorp report: how to read it</figcaption></figure>
+        <figure onclick="openLightbox('yourcovidantibodies.jpg','Your antibody result explained: McCullough base spike detox protocol')"><img loading="lazy" data-src="yourcovidantibodies.jpg" alt="Your COVID antibody results explained"><figcaption>Your result explained: McCullough base protocol</figcaption></figure>
+        <figure onclick="openLightbox('mccllough antibody tes.jpg','Dr. McCullough protocol and antibody testing: Q&amp;A summary')"><img loading="lazy" data-src="mccllough antibody tes.jpg" alt="Dr. McCullough protocol and antibody testing summary"><figcaption>Dr. McCullough: protocol &amp; testing Q&amp;A</figcaption></figure>
+      </div>
+
+      <div class="sk-h">🩹 Nicotine patch protocol (long COVID / ACE2)</div>
+      <div class="sk-gal">
+        <figure onclick="openLightbox('cheatsheet/nictoinepatchesnadpatches.jpg','Nicotine &amp; NAD patches: protocol guide')"><img loading="lazy" data-src="cheatsheet/nictoinepatchesnadpatches.jpg" alt="Nicotine and NAD patches protocol"><figcaption>Nicotine &amp; NAD patches: protocol guide</figcaption></figure>
+        <figure onclick="openLightbox('cheatsheet/nicotinelongcovid2.jpg','Long COVID: nicotine &amp; ACE2 receptor research')"><img loading="lazy" data-src="cheatsheet/nicotinelongcovid2.jpg" alt="Long COVID nicotine and ACE2 research"><figcaption>Long COVID: nicotine &amp; ACE2 research</figcaption></figure>
+      </div>
+
+      <div class="sk-h">📋 Research &amp; treatment resources</div>
+      <div class="sk-links">
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10663976/" target="_blank" rel="noopener"><span>📄</span><div><b>Spike protein persistence study ↗</b><small>Peer-reviewed · PubMed Central (PMC10663976)</small></div></a>
+        <a href="https://www.twc.health/products/ultimate-spike-detox?variant=49407127257304" target="_blank" rel="noopener"><span>🧪</span><div><b>TWC Ultimate Spike Detox ↗</b><small>Nattokinase · bromelain formula</small></div></a>
+        <a href="https://www.twc.health/collections/prescriptions-collection" target="_blank" rel="noopener"><span>💊</span><div><b>TWC prescriptions ↗</b><small>Telehealth · long COVID &amp; spike protocols</small></div></a>
+        <a href="https://www.twc.health/collections/supplements-collection" target="_blank" rel="noopener"><span>🛒</span><div><b>TWC supplements ↗</b><small>Recovery &amp; detox support</small></div></a>
+        <a href="https://www.amazon.com/stores/TOLEVITA/page/3A53A4D0-2081-4048-8886-A9ECED1E1558?lp_asin=B0H3BCW3YY&amp;ref_=cm_sw_r_mwn_ast_store_W387SBDTMP1VX6MW0NSP&amp;store_ref=bl_ast_dp_brandlogo_sto" target="_blank" rel="noopener"><span>🩹</span><div><b>Tolevita nicotine &amp; NAD patches ↗</b><small>Amazon · used in long COVID patch protocols</small></div></a>
+        <a href="latest-news.html"><span>📰</span><div><b>Full write-up in Latest News →</b><small>The complete spike protein feature</small></div></a>
+      </div>
+      <p class="sk-fine">Education and research only, not medical advice. Talk to a licensed doctor before making any treatment decision.</p>
+    </div>
+  </details>
+  <script>
+  /* pictures inside load only once the card is opened */
+  (function(){ var d = document.getElementById('vh2-spike'); if (!d) return; d.addEventListener('toggle', function(){ if (!d.open) return; d.querySelectorAll('img[data-src]').forEach(function(im){ im.src = im.getAttribute('data-src'); im.removeAttribute('data-src'); }); }); })();
+  </script>
+
 
   <!-- WHY WE'RE HERE — the original mission section, rebuilt as a closed dropdown in the new style -->
   <style>
