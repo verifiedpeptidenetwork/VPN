@@ -8964,7 +8964,30 @@ document.addEventListener('keydown', function(e){
     #site-hero > #vpn-lab-video, #site-hero > #vpn-docvid-promo, #site-hero > #home-latest-news, #site-hero > #if-promo{display:none !important;}
   </style>
 
-  <section id="vh2-hero" class="vh2" data-vt-skip aria-label="Verified Peptides Network">
+  <!-- hero badge: each label on the artwork is a link -->
+<style>
+  #vh2-hero .badge{position:relative;}
+  #vh2-hero .badge .bg-hots{position:absolute;inset:4px;border-radius:50%;}
+  #vh2-hero .badge .bg-hot{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    box-shadow:none !important;transition:background .15s,box-shadow .15s;animation:bgHint 2.4s ease-out 1.2s 1 both;}
+  #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.10);box-shadow:0 0 0 2px rgba(255,255,255,0.75),0 0 18px rgba(154,92,255,0.8) !important;outline:none;}
+  #vh2-hero .badge .bg-hot:active{background:rgba(255,255,255,0.18);}
+  @keyframes bgHint{0%{box-shadow:0 0 0 0 rgba(255,255,255,0);}35%{box-shadow:0 0 0 2px rgba(255,255,255,0.55),0 0 16px rgba(154,92,255,0.7);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
+  @media (prefers-reduced-motion: reduce){ #vh2-hero .badge .bg-hot{animation:none;} }
+</style>
+<script>
+/* open a section, then (optionally) scroll to a spot inside it, opening any closed folds on the way */
+window.vpnBadgeGo = function(view, id){
+  if (typeof showView === 'function') showView(view);
+  window.scrollTo({top:0});
+  if (!id) return;
+  setTimeout(function(){
+    var t = document.getElementById(id); if (!t) return;
+    for (var p = t.parentElement; p; p = p.parentElement){ if (p.tagName === 'DETAILS' && !p.open) p.open = true; }
+    t.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 350);
+};
+</script><section id="vh2-hero" class="vh2" data-vt-skip aria-label="Verified Peptides Network">
     <div class="hg">
       <div>
         <span class="kick"><i></i>Free · independent · research-first</span>
@@ -8981,7 +9004,7 @@ document.addEventListener('keydown', function(e){
           <div><b>100%</b><small>Free, no paywall</small></div>
         </div>
       </div>
-      <div class="badge"><img src="VPNNEWLOGO.png?v=5" alt="Verified Peptides Network badge"></div>
+      <div class="badge"><img src="VPNNEWLOGO.png?v=5" alt="Verified Peptides Network badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:35%;top:8%;width:30%;height:9%;" title="Verify information: research studies" aria-label="Verify information: research studies" onclick="vpnBadgeGo('studies')"></button><button type="button" class="bg-hot" style="left:8%;top:14%;width:22%;height:17%;" title="Verify COAs: how to check a COA" aria-label="Verify COAs: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:70%;top:14%;width:23%;height:18%;" title="Identify fake COAs: how to spot a fake" aria-label="Identify fake COAs: how to spot a fake" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:16%;top:37%;width:23%;height:12%;" title="Verify everything: latest news" aria-label="Verify everything: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:61%;top:38%;width:23%;height:11%;" title="Work with your doctor: blood work guide" aria-label="Work with your doctor: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button><button type="button" class="bg-hot" style="left:34%;top:68%;width:33%;height:13%;" title="Do blood work: blood work guide" aria-label="Do blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button><button type="button" class="bg-hot" style="left:10%;top:66%;width:22%;height:22%;" title="Research only: terms of use" aria-label="Research only: terms of use" onclick="vpnBadgeGo('terms')"></button><button type="button" class="bg-hot" style="left:62%;top:64%;width:27%;height:24%;" title="Not for human consumption: terms of use" aria-label="Not for human consumption: terms of use" onclick="vpnBadgeGo('terms')"></button><button type="button" class="bg-hot" style="left:44%;top:82%;width:12%;height:10%;" title="Peptide index" aria-label="Peptide index" onclick="vpnBadgeGo('all-peptides')"></button></div></div>
     </div>
   </section>
 
@@ -25568,7 +25591,7 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
                   </div>
                 </div>
                 <div style="padding:0.8rem 1rem;background:rgba(255,45,120,0.06);border:1px solid rgba(255,45,120,0.3);border-left:4px solid #ff2d78;border-radius:6px;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ff2d78;margin-bottom:0.5rem;">🚨 HOW TO SPOT A FAKE VENDOR OR SCAM COA</div>
+                  <div id="gm-fake-coa" style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.12em;color:#ff2d78;margin-bottom:0.5rem;scroll-margin-top:90px;">🚨 HOW TO SPOT A FAKE VENDOR OR SCAM COA</div>
                   <p style="margin:0 0 0.65rem;color:rgba(255,200,220,0.85);">Fraud in this space is rampant. These are the exact red flags that separate legitimate research suppliers from outright scammers:</p>
                   <div style="display:grid;grid-template-columns:1fr;gap:0.5rem;margin-bottom:0.75rem;">
                     <div style="padding:0.5rem 0.7rem;background:rgba(255,45,120,0.07);border:1px solid rgba(255,45,120,0.2);border-radius:5px;font-size:0.85rem;color:rgba(255,200,215,0.9);line-height:1.5;"><strong style="color:#ff2d78;display:block;margin-bottom:2px;">🔴 Hidden shipping fee after order</strong>Legitimate vendors show all costs upfront. Any vendor who contacts you after payment asking for an extra "customs fee," "insurance fee," or "release fee" to deliver your package is running a classic scam — cut contact immediately.</div>
