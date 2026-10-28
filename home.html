@@ -4621,6 +4621,7 @@ document.addEventListener('keydown', function(e){
   <!-- MAIN -->
   <div class="sb-section">Start here</div>
   <button class="sb-item sb-active" data-view="home" onclick="showView('home');setSbActive(this)"><span class="sb-icon">🏠</span>Home</button>
+  <a href="latest-news.html" class="sb-item"><span class="sb-icon">📰</span>Latest News<span class="vpn-here-tag" style="background:linear-gradient(90deg,#ff9a1f,#ff2fa8);color:#fff;">New</span></a>
   <button class="sb-item" data-view="glp" onclick="showView('glp');setSbActive(this)"><span class="sb-icon">💉</span>GLP Hub</button>
   <button class="sb-item" data-view="graymarket" onclick="showView('graymarket');setSbActive(this)"><span class="sb-icon">⚠️</span>Gray Market Risks</button>
   <button class="sb-item" data-view="bloodwork" onclick="showView('bloodwork');setSbActive(this)"><span class="sb-icon">🩸</span>Blood Work</button>
@@ -4656,7 +4657,6 @@ document.addEventListener('keydown', function(e){
 
   <div class="sb-section">Research &amp; news</div>
   <button class="sb-item" data-view="studies" onclick="showView('studies');setSbActive(this)"><span class="sb-icon">📊</span>Research Studies</button>
-  <a href="latest-news.html" class="sb-item"><span class="sb-icon">📡</span>Latest News</a>
   <button class="sb-item" data-view="videos" onclick="showView('videos');setSbActive(this)"><span class="sb-icon">▶️</span>Doctor Videos</button>
   <button class="sb-item" data-view="cheatsheets" onclick="showView('cheatsheets');setSbActive(this)"><span class="sb-icon">🗄️</span>Cheat Sheet Vault</button>
 
@@ -8973,6 +8973,7 @@ document.addEventListener('keydown', function(e){
 
   <div id="vh2-h-safety" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Safety first</div><h2>Read these before researching any peptide</h2><p>Research and education only. Not medical advice, not for human consumption, and we don't sell peptides or provide COAs. Work with a licensed doctor, get baseline blood work, and verify every claim yourself.</p></div></div></div>
 
+  <style>/* Latest news sits right under the main hero so it gets seen */ html body #site-hero > #vh2-current{order:1 !important;}</style>
   <section id="vh2-current" class="vh2" data-vt-skip aria-label="Stay current">
     <div class="vh2-h"><div><div class="k">Stay current</div><h2>Latest research news</h2></div></div>
     <div class="vh2-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));">
@@ -25353,14 +25354,112 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
   </div>
 
   <div class="view" id="view-graymarket">
-    <div class="view-hero" style="--vh1:#ff0080;--vh2:#ffb300;">
-      <div class="vh-inner">
-        <div class="vh-icon">⚠️</div>
+    <!-- GRAY MARKET RISKS — designed page (same layout as Crypto 101) -->
+    <style>
+      #view-graymarket{--ink:#f1f3fb;--sub:rgba(214,220,240,0.78);--dim:rgba(190,198,225,0.6);--card:#0f0d1a;--card2:#15131f;--line:rgba(255,255,255,0.10);}
+      #view-graymarket .gx, #view-graymarket .gx *{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;}
+      #gm-hero{position:relative;overflow:hidden;border-radius:22px;padding:clamp(1.3rem,3.4vw,2.4rem);margin:0 0 1.1rem;border:1px solid var(--line);color:var(--ink);
+        background:radial-gradient(640px 320px at 90% 0%,rgba(255,63,90,0.24),transparent 60%),radial-gradient(560px 320px at 0% 100%,rgba(255,177,42,0.14),transparent 60%),linear-gradient(160deg,#120a14,#0b0912);}
+      #gm-hero .hg{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,0.7fr);gap:1.6rem;align-items:center;}
+      #gm-hero .k{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:linear-gradient(90deg,#ff3f5a,#ffb12a);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+      #gm-hero h2{margin:0.5rem 0 0.7rem;font-size:clamp(2rem,5vw,3.2rem) !important;font-weight:800;letter-spacing:-0.035em;line-height:1.03 !important;color:var(--ink);}
+      #gm-hero h2 span{background:linear-gradient(90deg,#ff3f5a,#ffb12a);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+      #gm-hero p{margin:0;max-width:600px;font-size:1.02rem !important;line-height:1.6 !important;color:var(--sub);}
+      #gm-hero .cta{display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:1.2rem;}
+      .gm-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.8rem 1.15rem;border-radius:12px;font:700 0.93rem 'Inter',system-ui,sans-serif;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:var(--ink);}
+      .gm-btn.pri{border:none;color:#fff;background:linear-gradient(90deg,#ff3f5a,#ff7a2f);box-shadow:0 10px 28px -12px rgba(255,63,90,0.7);}
+      #gm-hero .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.5rem;margin-top:1.3rem;max-width:520px;}
+      #gm-hero .stats div{padding:0.65rem 0.8rem;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,0.035);}
+      #gm-hero .stats b{display:block;font-size:1.2rem;font-weight:800;color:var(--ink);}
+      #gm-hero .stats small{font-size:0.76rem !important;font-weight:600;color:var(--dim);}
+      #gm-hero .shield{justify-self:center;width:min(220px,100%);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:clamp(4rem,10vw,6.5rem);
+        background:radial-gradient(circle at 35% 30%,#ffb3a3,#ff3f5a 48%,#7a0f24);box-shadow:0 0 0 10px rgba(255,63,90,0.10),0 30px 60px -20px rgba(255,63,90,0.6);}
+      .gx-h{margin:1.5rem 0 0.7rem;} .gx-h .kk{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#ff6b7f;}
+      .gx-h h3{margin:0.25rem 0 0;font-size:clamp(1.3rem,2.6vw,1.65rem) !important;font-weight:800;letter-spacing:-0.02em;line-height:1.2 !important;color:var(--ink);}
+      .gx-h p{margin:0.3rem 0 0;font-size:0.95rem !important;color:var(--sub);}
+      .gx-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.7rem;list-style:none;margin:0;padding:0;counter-reset:s;}
+      .gx-steps li{counter-increment:s;position:relative;padding:1rem 1rem 1rem 3.4rem;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);}
+      .gx-steps li::before{content:counter(s);position:absolute;left:1rem;top:1rem;width:1.8rem;height:1.8rem;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#ff3f5a,#ff7a2f);}
+      .gx-steps b{display:block;font-size:1rem;font-weight:700;} .gx-steps small{display:block;margin-top:0.25rem;font-size:0.88rem !important;line-height:1.45 !important;color:var(--sub);}
+      .gx-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.7rem;}
+      .gx-alert{display:flex;gap:0.8rem;align-items:flex-start;padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(255,63,90,0.45);background:linear-gradient(135deg,rgba(255,63,90,0.12),#0f0d1a);}
+      .gx-alert .ic{font-size:1.5rem;line-height:1;} .gx-alert b{display:block;font-size:1rem;font-weight:800;color:#ff8a9a;}
+      .gx-alert p{margin:0.3rem 0 0;font-size:0.92rem !important;line-height:1.5 !important;color:var(--sub);}
+      .gx-card{padding:1rem 1.1rem;border-radius:16px;border:1px solid var(--line);background:var(--card);}
+      .gx-card h4{margin:0 0 0.45rem;font-size:1rem !important;font-weight:800;color:var(--ink);}
+      .gx-card ul{margin:0;padding-left:1.1rem;} .gx-card li{margin:0.25rem 0;font-size:0.92rem !important;line-height:1.5 !important;color:var(--sub);}
+      .gx-card.bad{border-color:rgba(255,63,90,0.4);} .gx-card.good{border-color:rgba(46,230,166,0.4);}
+      .gx-tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.6rem;}
+      .gx-tests div{padding:0.9rem;border-radius:14px;border:1px solid var(--line);background:var(--card2);}
+      .gx-tests b{display:block;font-size:0.98rem;font-weight:800;color:var(--ink);} .gx-tests small{display:block;margin-top:0.2rem;font-size:0.84rem !important;line-height:1.4 !important;color:var(--sub);}
+      .gx-more{margin:2rem 0 0.4rem;padding-top:1.2rem;border-top:1px solid var(--line);}
+      @media(max-width:860px){ #gm-hero .hg{grid-template-columns:1fr;} #gm-hero .shield{order:-1;width:130px;font-size:4rem;} .gx-steps,.gx-grid,.gx-tests{grid-template-columns:1fr;} }
+      @media(max-width:520px){ #gm-hero .cta .gm-btn{flex:1 1 100%;justify-content:center;} }
+      html[data-theme="light"] #view-graymarket{--ink:#14112a;--sub:#4a4566;--dim:#6f6a8a;--card:#fff;--card2:#f7f5ff;--line:rgba(30,20,70,0.12);}
+      html[data-theme="light"] #gm-hero{background:radial-gradient(640px 320px at 90% 0%,rgba(255,63,90,0.14),transparent 60%),linear-gradient(160deg,#fff,#fdf3f2);}
+      html[data-theme="light"] #view-graymarket .gx *{-webkit-text-fill-color:currentColor;}
+      html[data-theme="light"] #gm-hero .k,html[data-theme="light"] #gm-hero h2 span{-webkit-text-fill-color:transparent;}
+      html[data-theme="light"] .gx-alert{background:linear-gradient(135deg,rgba(255,63,90,0.08),#fff);}
+    </style>
+
+    <div class="gx" data-vt-skip data-px-skip data-cg-skip>
+    <section id="gm-hero">
+      <div class="hg">
         <div>
-          <div class="vh-title">GRAY MARKET RISKS</div>
-          <div class="vh-sub">Everything on this site about the gray market in one place — the risks you're accepting, how to spot fake COAs and vendors, every gray-market guide picture, and a full archive of the Stairway to Gray beginner guides (credited).</div>
+          <div class="k">Start here · before you buy</div>
+          <h2>Gray market risks: <span>know what you're accepting.</span></h2>
+          <p>There is no FDA, no recall and no refund here. This page shows the real risks, how to spot fake vendors and fake COAs, and the checks that protect you before you ever pay.</p>
+          <div class="cta">
+            <button type="button" class="gm-btn pri" onclick="document.getElementById('gx-steps').scrollIntoView({behavior:'smooth',block:'start'})">▶ Show me the 3 checks</button>
+            <button type="button" class="gm-btn" onclick="showView('crypto');window.scrollTo({top:0});">🪙 Crypto 101</button>
+          </div>
+          <div class="stats"><div><b>3</b><small>checks before you pay</small></div><div><b>6</b><small>scam red flags</small></div><div><b>0</b><small>guarantees</small></div></div>
         </div>
+        <div class="shield" aria-hidden="true">🛡️</div>
       </div>
+    </section>
+
+    <div class="gx-h" id="gx-steps"><div class="kk">Every order, every time</div><h3>Three checks before you pay</h3></div>
+    <ol class="gx-steps">
+      <li><b>Check the vendor</b><small>Years of real reviews in the community, clear pricing and shipping, and answers to your questions before you pay.</small></li>
+      <li><b>Check the COA</b><small>It must name an independent lab, the test method (HPLC, MS), the lot number and the date. Confirm it with the lab directly, not from a screenshot.</small></li>
+      <li><b>Test it yourself</b><small>Independent testing is the only way to know what's in the vial. Group tests split the cost. Do blood work before and after.</small></li>
+    </ol>
+
+    <div class="gx-h"><div class="kk">Read this first</div><h3>The risks you are accepting</h3></div>
+    <div class="gx-grid">
+      <div class="gx-alert"><span class="ic">🧪</span><div><b>Purity is not guaranteed</b><p>Vials can be underdosed, overdosed, contaminated or a different compound entirely. Sterility is never promised.</p></div></div>
+      <div class="gx-alert"><span class="ic">🚫</span><div><b>No oversight, no recourse</b><p>No FDA, no batch testing rules and no recall. If a batch is bad, there is no consumer protection. You are on your own.</p></div></div>
+    </div>
+
+    <div class="gx-h"><div class="kk">Vendors</div><h3>Red flags vs green flags</h3></div>
+    <div class="gx-grid">
+      <div class="gx-card bad"><h4>🔴 Walk away if you see</h4><ul>
+        <li>An extra "customs" or "release" fee after you've paid.</li>
+        <li>A COA with no lab name, method, lot number or date.</li>
+        <li>No history: brand-new accounts with perfect reviews.</li>
+        <li>Prices far below everyone else.</li>
+        <li>Pressure to pay fast, or no order confirmation.</li>
+        <li>Telegram DMs from strangers offering "insider deals".</li>
+      </ul></div>
+      <div class="gx-card good"><h4>🟢 Signs of a trustworthy vendor</h4><ul>
+        <li>COA links from named third-party labs.</li>
+        <li>A community reputation going back two years or more.</li>
+        <li>Responsive support before you pay.</li>
+        <li>A clear reship or return policy.</li>
+        <li>No pressure tactics.</li>
+        <li>All costs, shipping included, shown at checkout.</li>
+      </ul></div>
+    </div>
+
+    <div class="gx-h"><div class="kk">Testing</div><h3>The 3 tests you'll usually see</h3><p>Rarer tests (sterility, endotoxin, heavy metals) exist but are rarely included; you can pay for them yourself.</p></div>
+    <div class="gx-tests">
+      <div><b>Identity (LC-MS)</b><small>Is it actually the peptide on the label?</small></div>
+      <div><b>Quantity</b><small>How many milligrams are really in the vial?</small></div>
+      <div><b>Purity (HPLC)</b><small>How much of it is the peptide, and how much is something else?</small></div>
+    </div>
+
+    <div class="gx-h gx-more"><div class="kk">Go deeper</div><h3>Full guides, picture guides and the archive</h3><p>Everything else on the gray market: scam examples, fake COA examples, every picture guide and the Stairway to Gray archive.</p></div>
     </div>
 
     <div class="section-header" data-vt-skip><div class="section-title">⚠️ The risks you are accepting</div><span class="section-count">Fake COAs · bad vendors · what to check</span></div>
