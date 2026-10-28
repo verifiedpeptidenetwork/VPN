@@ -4640,8 +4640,7 @@ document.addEventListener('keydown', function(e){
   <div class="sb-section">Tools</div>
   <a href="peptide-suggestion.html" class="sb-item"><span class="sb-icon">🧬</span>Peptide Match</a>
   <a href="pokeme-dex.html" class="sb-item"><span class="sb-icon">💉</span>PokeMe-Dex Tracker</a>
-  <button class="sb-item" data-view="calculator" onclick="showView('calculator');setSbActive(this)"><span class="sb-icon">🧮</span>Recon Calculator</button>
-  <button class="sb-item" data-view="klow-glow" onclick="showView('klow-glow');setSbActive(this)"><span class="sb-icon">⚗️</span>KLOW &amp; GLOW Calc</button>
+  <button class="sb-item" data-view="calculator" onclick="showView('calculator');setSbActive(this)"><span class="sb-icon">🧮</span>Calculators</button>
   <button class="sb-item" data-view="templates" onclick="showView('templates');setSbActive(this)"><span class="sb-icon">🏷️</span>Label Templates</button>
 
   <div class="sb-divider"></div>
@@ -5113,7 +5112,7 @@ document.addEventListener('keydown', function(e){
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
                   <span onclick="showView('all-peptides');setSbActive(document.querySelector('[data-view=all-peptides]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">PEPTIDE INDEX ↗</span>
                   <span onclick="showView('studies');setSbActive(document.querySelector('[data-view=studies]'));" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff1450;border:1px solid rgba(255,20,80,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,20,80,0.07);">STUDIES ↗</span>
-                  <span onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=klow-glow]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#cc44ff;border:1px solid rgba(204,68,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(204,68,255,0.07);">⚗️ KLOW &amp; GLOW CALC ↗</span>
+                  <span onclick="showView('klow-glow');setSbActive(document.querySelector('[data-view=calculator]'));window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#cc44ff;border:1px solid rgba(204,68,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(204,68,255,0.07);">⚗️ KLOW &amp; GLOW CALC ↗</span>
                   <a href="peptide-suggestion.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#ff2d78;border:1px solid rgba(255,45,120,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(255,45,120,0.07);text-decoration:none;">🧬 PEPTIDE MATCH ↗</a>
                   <a href="latest-news.html" style="cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.12em;color:#00f5ff;border:1px solid rgba(0,245,255,0.4);padding:0.25rem 0.7rem;border-radius:4px;white-space:nowrap;background:rgba(0,245,255,0.07);text-decoration:none;">📡 LATEST NEWS ↗</a>
                 </div>
@@ -8969,11 +8968,14 @@ document.addEventListener('keydown', function(e){
   #vh2-hero .badge{position:relative;}
   #vh2-hero .badge .bg-hots{position:absolute;inset:4px;border-radius:50%;}
   #vh2-hero .badge .bg-hot{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
-    border:1.5px solid rgba(255,255,255,0.55) !important;background:rgba(255,255,255,0.06);box-shadow:0 0 10px rgba(154,92,255,0.55) !important;transition:background .15s,box-shadow .15s,border-color .15s;animation:bgPulse 2.6s ease-in-out infinite;}
-  #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.16);border-color:#fff !important;box-shadow:0 0 0 2px rgba(255,255,255,0.9),0 0 22px rgba(154,92,255,0.95) !important;outline:none;animation:none;}
+    box-shadow:none !important;transition:background .2s,box-shadow .2s;}
+  #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.12);box-shadow:0 0 0 2px rgba(255,255,255,0.8),0 0 20px rgba(154,92,255,0.9) !important;outline:none;}
   #vh2-hero .badge .bg-hot:active{background:rgba(255,255,255,0.18);}
+  #vh2-hero .badge .bg-hot::before{content:'';position:absolute;inset:-6%;border-radius:999px;pointer-events:none;background:radial-gradient(ellipse at center,rgba(255,255,255,0.28),rgba(154,92,255,0.18) 45%,transparent 72%);opacity:0.35;animation:bgBreathe 3s ease-in-out infinite;}
+  #vh2-hero .badge .bg-hot:nth-child(2)::before{animation-delay:.75s;} #vh2-hero .badge .bg-hot:nth-child(3)::before{animation-delay:1.5s;} #vh2-hero .badge .bg-hot:nth-child(4)::before{animation-delay:2.25s;}
+  @keyframes bgBreathe{0%,100%{opacity:0.25;}50%{opacity:0.9;}}
+  @media (prefers-reduced-motion: reduce){ #vh2-hero .badge .bg-hot::before{animation:none;opacity:0.5;} }
   @keyframes bgPulse{0%,100%{box-shadow:0 0 6px rgba(154,92,255,0.45);border-color:rgba(255,255,255,0.45);}50%{box-shadow:0 0 16px rgba(47,180,255,0.85),0 0 0 2px rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.85);}}
-  #vh2-hero .badge .bg-hot:nth-child(2n){animation-delay:.6s;} #vh2-hero .badge .bg-hot:nth-child(3n){animation-delay:1.2s;}
   @keyframes bgHint{0%{box-shadow:0 0 0 0 rgba(255,255,255,0);}35%{box-shadow:0 0 0 2px rgba(255,255,255,0.55),0 0 16px rgba(154,92,255,0.7);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
   @media (prefers-reduced-motion: reduce){ #vh2-hero .badge .bg-hot{animation:none;} }
 </style>
@@ -9006,7 +9008,7 @@ window.vpnBadgeGo = function(view, id){
           <div><b>100%</b><small>Free, no paywall</small></div>
         </div>
       </div>
-      <div class="badge"><img src="VPNNEWLOGO.png?v=5" alt="Verified Peptides Network badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:35%;top:8%;width:30%;height:9%;" title="Verify information: research studies" aria-label="Verify information: research studies" onclick="vpnBadgeGo('studies')"></button><button type="button" class="bg-hot" style="left:8%;top:14%;width:22%;height:17%;" title="Verify COAs: how to check a COA" aria-label="Verify COAs: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:70%;top:14%;width:23%;height:18%;" title="Identify fake COAs: how to spot a fake" aria-label="Identify fake COAs: how to spot a fake" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:16%;top:37%;width:23%;height:12%;" title="Verify everything: latest news" aria-label="Verify everything: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:61%;top:38%;width:23%;height:11%;" title="Work with your doctor: blood work guide" aria-label="Work with your doctor: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button><button type="button" class="bg-hot" style="left:34%;top:68%;width:33%;height:13%;" title="Do blood work: blood work guide" aria-label="Do blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button><button type="button" class="bg-hot" style="left:10%;top:66%;width:22%;height:22%;" title="Research only: terms of use" aria-label="Research only: terms of use" onclick="vpnBadgeGo('terms')"></button><button type="button" class="bg-hot" style="left:62%;top:64%;width:27%;height:24%;" title="Not for human consumption: terms of use" aria-label="Not for human consumption: terms of use" onclick="vpnBadgeGo('terms')"></button><button type="button" class="bg-hot" style="left:44%;top:82%;width:12%;height:10%;" title="Peptide index" aria-label="Peptide index" onclick="vpnBadgeGo('all-peptides')"></button></div></div>
+      <div class="badge"><img src="VPNNEWLOGO.png?v=5" alt="Verified Peptides Network badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:8%;top:14%;width:22%;height:17%;" title="Verify COAs: how to check a COA" aria-label="Verify COAs: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:70%;top:14%;width:23%;height:18%;" title="Identify fake COAs: how to spot a fake" aria-label="Identify fake COAs: how to spot a fake" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:16%;top:37%;width:23%;height:12%;" title="Verify everything: latest news" aria-label="Verify everything: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:34%;top:68%;width:33%;height:13%;" title="Do blood work: blood work guide" aria-label="Do blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
     </div>
   </section>
 
@@ -30952,7 +30954,7 @@ function vpnBuildIndex() {
   _vpnIdx.push({ e:'⚗️', cat:'vsr-tool', lbl:'KLOW/GLOW CALC',
     title: 'KLOW & GLOW Blend Reconstitution Calculator',
     kw: 'klow glow blend calculator reconstitution bpc 157 kpv tb500 tb 500 ghkcu ghk-cu bac water concentration dose units per injection blend peptide stack recon math',
-    go: function(){ showView('klow-glow'); setSbActive(document.querySelector('[data-view=klow-glow]')); window.scrollTo({top:0,behavior:'smooth'}); }
+    go: function(){ showView('klow-glow'); setSbActive(document.querySelector('[data-view=calculator]')); window.scrollTo({top:0,behavior:'smooth'}); }
   });
 }
 
