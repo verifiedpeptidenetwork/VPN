@@ -788,44 +788,53 @@
     props.forEach(function(p){ if (!(p in el.__cgSaved)) el.__cgSaved[p] = [el.style.getPropertyValue(p), el.style.getPropertyPriority(p)]; });
   }
   function set(el, p, v){ el.style.setProperty(p, v, 'important'); }
+  // Runs in small slices (about 10 ms each) so switching to light mode never freezes the page,
+  // and skips anything already checked while visible, so later re-checks (taps, opened sections) stay cheap.
+  var fixJob = 0, seenGen = 1, again = false;
   function fix(){
-    if (document.documentElement.getAttribute('data-theme') !== 'light' || busy) return;
+    if (document.documentElement.getAttribute('data-theme') !== 'light') return;
+    if (busy) { again = true; return; }
     busy = true;
-    if (document.documentElement.hasAttribute('data-darkbg')) {
+    var job = ++fixJob, gen = seenGen;
+    var darkbg = document.documentElement.hasAttribute('data-darkbg');
+    if (darkbg) {
       // pages that keep their dark background in light mode: page + containers stay see-through over it
       remember(document.body, ['background-color', 'background-image']); set(document.body, 'background-color', '#07060e'); set(document.body, 'background-image', 'none');
       var shells = document.querySelectorAll('#site-hero, .view');
       for (var si = 0; si < shells.length; si++) { remember(shells[si], ['background-color', 'background-image']); set(shells[si], 'background-color', 'transparent'); set(shells[si], 'background-image', 'none'); }
-      // white cards become pearl with a lavender border
-      var cards = document.body.querySelectorAll('div, section, article, aside, details, summary, figure, a, button, li, nav, header, footer');
-      for (var ci = 0; ci < cards.length; ci++) {
-        var el = cards[ci];
-        if (el.__cgPearl || el.closest('#vpn-sidebar, svg, [data-cg-skip]') || /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) continue;
-        if (!el.getClientRects().length) continue;
-        var ecs = getComputedStyle(el), ebg = parse(ecs.backgroundColor);
-        if (!ebg || ebg.a < 0.9 || ebg.r < 240 || ebg.g < 238 || ebg.b < 236 || chroma(ebg) > 14) continue;
-        if (el.getBoundingClientRect().width < 120) continue;
-        el.__cgPearl = true;
-        remember(el, ['background-color', 'border-color', 'box-shadow']);
-        set(el, 'background-color', '#faf7f2');
-        if (parseFloat(ecs.borderTopWidth) + parseFloat(ecs.borderLeftWidth) > 0) set(el, 'border-color', 'rgba(124,58,237,0.24)');
-        if (el.getBoundingClientRect().height > 60) set(el, 'box-shadow', '0 1px 0 rgba(255,255,255,0.6) inset, 0 14px 34px -22px rgba(0,0,0,0.65)');
-      }
     }
+    // white cards become pearl with a lavender border
+    var cards = darkbg ? document.body.querySelectorAll('div, section, article, aside, details, summary, figure, a, button, li, nav, header, footer') : [];
     var els = document.body.querySelectorAll('*');
-    for (var i = 0; i < els.length; i++){
-      var e = els[i];
-      if (/^(SCRIPT|STYLE|SVG|PATH|VIDEO|CANVAS|IMG|IFRAME|OPTION)$/i.test(e.tagName) || e.closest('svg,[data-cg-skip],#vpn-sidebar')) continue; // the sidebar has its own light styles
+    var ci = 0, i = 0;
+    function card(el){
+      if (el.__cgPearl || el.__cgCard === gen || /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) return;
+      if (!el.getClientRects().length) return; // hidden for now: checked when it shows
+      el.__cgCard = gen;
+      if (el.closest('#vpn-sidebar, svg, [data-cg-skip]')) return;
+      var ecs = getComputedStyle(el), ebg = parse(ecs.backgroundColor);
+      if (!ebg || ebg.a < 0.9 || ebg.r < 240 || ebg.g < 238 || ebg.b < 236 || chroma(ebg) > 14) return;
+      if (el.getBoundingClientRect().width < 120) return;
+      el.__cgPearl = true;
+      remember(el, ['background-color', 'border-color', 'box-shadow']);
+      set(el, 'background-color', '#faf7f2');
+      if (parseFloat(ecs.borderTopWidth) + parseFloat(ecs.borderLeftWidth) > 0) set(el, 'border-color', 'rgba(124,58,237,0.24)');
+      if (el.getBoundingClientRect().height > 60) set(el, 'box-shadow', '0 1px 0 rgba(255,255,255,0.6) inset, 0 14px 34px -22px rgba(0,0,0,0.65)');
+    }
+    function text(e){
+      if (e.__cgText === gen || /^(SCRIPT|STYLE|SVG|PATH|VIDEO|CANVAS|IMG|IFRAME|OPTION)$/i.test(e.tagName)) return;
       var has = false;
       for (var n = e.firstChild; n; n = n.nextSibling) if (n.nodeType === 3 && /[A-Za-z0-9]{2}/.test(n.textContent)) { has = true; break; }
-      if (!has || !e.getClientRects().length) continue;
+      if (!has || !e.getClientRects().length) return;
+      e.__cgText = gen;
+      if (e.closest('svg,[data-cg-skip],#vpn-sidebar')) return; // the sidebar has its own light styles
       var cs = getComputedStyle(e);
-      if (cs.visibility === 'hidden' || +cs.opacity < 0.3) continue;
+      if (cs.visibility === 'hidden' || +cs.opacity < 0.3) { e.__cgText = 0; return; }
       var fc = parse(cs.webkitTextFillColor && !/rgba\(0, 0, 0, 0\)/.test(cs.webkitTextFillColor) ? cs.webkitTextFillColor : cs.color);
-      if (!fc || fc.a < 0.2) continue; // gradient text (transparent fill) is left alone
-      var bd = backdrop(e); if (!bd || !bd.c) continue;
+      if (!fc || fc.a < 0.2) return; // gradient text (transparent fill) is left alone
+      var bd = backdrop(e); if (!bd || !bd.c) return;
       var fl = lum(fc), bl = lum(bd.c);
-      if (ratio(fl, bl) >= 3) continue;
+      if (ratio(fl, bl) >= 3) return;
       if (bl < 0.2 && chroma(bd.c) < 70 && bd.el !== document.body){
         // dark grey/black box in light mode → light card
         remember(bd.el, ['background-color', 'background-image', 'border-color']);
@@ -839,9 +848,18 @@
         remember(e, ['color', '-webkit-text-fill-color']); set(e, 'color', '#14112a'); set(e, '-webkit-text-fill-color', '#14112a');
       }
     }
-    busy = false;
+    (function step(){
+      if (job !== fixJob || document.documentElement.getAttribute('data-theme') !== 'light') { busy = false; return; }
+      var t0 = performance.now();
+      while (ci < cards.length && performance.now() - t0 < 10) card(cards[ci++]);
+      while (ci >= cards.length && i < els.length && performance.now() - t0 < 10) text(els[i++]);
+      if (ci < cards.length || i < els.length) { setTimeout(step, 0); return; }
+      busy = false;
+      if (again) { again = false; schedule(200); }
+    })();
   }
   function revert(){
+    fixJob++; seenGen++; busy = false; again = false; clearTimeout(timer);
     changed.forEach(function(el){ el.__cgPearl = false; });
     changed.forEach(function(el){
       var s = el.__cgSaved; if (!s) return;
