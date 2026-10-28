@@ -8969,9 +8969,11 @@ document.addEventListener('keydown', function(e){
   #vh2-hero .badge{position:relative;}
   #vh2-hero .badge .bg-hots{position:absolute;inset:4px;border-radius:50%;}
   #vh2-hero .badge .bg-hot{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
-    box-shadow:none !important;transition:background .15s,box-shadow .15s;animation:bgHint 2.4s ease-out 1.2s 1 both;}
-  #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.10);box-shadow:0 0 0 2px rgba(255,255,255,0.75),0 0 18px rgba(154,92,255,0.8) !important;outline:none;}
+    border:1.5px solid rgba(255,255,255,0.55) !important;background:rgba(255,255,255,0.06);box-shadow:0 0 10px rgba(154,92,255,0.55) !important;transition:background .15s,box-shadow .15s,border-color .15s;animation:bgPulse 2.6s ease-in-out infinite;}
+  #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.16);border-color:#fff !important;box-shadow:0 0 0 2px rgba(255,255,255,0.9),0 0 22px rgba(154,92,255,0.95) !important;outline:none;animation:none;}
   #vh2-hero .badge .bg-hot:active{background:rgba(255,255,255,0.18);}
+  @keyframes bgPulse{0%,100%{box-shadow:0 0 6px rgba(154,92,255,0.45);border-color:rgba(255,255,255,0.45);}50%{box-shadow:0 0 16px rgba(47,180,255,0.85),0 0 0 2px rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.85);}}
+  #vh2-hero .badge .bg-hot:nth-child(2n){animation-delay:.6s;} #vh2-hero .badge .bg-hot:nth-child(3n){animation-delay:1.2s;}
   @keyframes bgHint{0%{box-shadow:0 0 0 0 rgba(255,255,255,0);}35%{box-shadow:0 0 0 2px rgba(255,255,255,0.55),0 0 16px rgba(154,92,255,0.7);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
   @media (prefers-reduced-motion: reduce){ #vh2-hero .badge .bg-hot{animation:none;} }
 </style>
@@ -32473,6 +32475,12 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
     <span class="vpn-bnav-icon">🩸</span>
     <span class="vpn-bnav-label">BLOOD</span>
   </button>
+  <button class="vpn-bnav-btn" id="bnav-guides"
+    style="color:#2ee6a6;"
+    onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'));vpnBnavSetActive('bnav-guides')">
+    <span class="vpn-bnav-icon">🛠️</span>
+    <span class="vpn-bnav-label">GUIDES</span>
+  </button>
   <button class="vpn-bnav-btn" id="bnav-supplies"
     style="color:#ffcc00;"
     onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'));vpnBnavSetActive('bnav-supplies')">
@@ -32502,7 +32510,7 @@ function vpnBnavSetActive(id) {
   if (el) el.classList.add('vpn-bnav-active');
 }
 (function(){
-  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood',supplies:'bnav-supplies',calculator:'bnav-calc'};
+  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood','quick-guide':'bnav-guides',supplies:'bnav-supplies',calculator:'bnav-calc'};
   var orig = window.showView; if (typeof orig !== 'function') return;
   window.showView = function(v){ var r = orig.apply(this, arguments); document.querySelectorAll('.vpn-bnav-btn').forEach(function(b){ b.classList.toggle('vpn-bnav-active', b.id === map[v]); }); return r; };
 })();
