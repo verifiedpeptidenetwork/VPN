@@ -8407,7 +8407,29 @@ document.addEventListener('keydown', function(e){
     #vh2-whyhere .wh-cap b{display:block;font-size:1rem;font-weight:800;color:#f1f3fb;}
     #vh2-whyhere .wh-cap span{display:block;margin-top:0.15rem;font-size:0.88rem;line-height:1.45;color:rgba(214,220,240,0.78);}
     html[data-theme="light"] #vh2-whyhere .wh-cap{background:#f8f6fd;} html[data-theme="light"] #vh2-whyhere .wh-cap b{color:#14112a;} html[data-theme="light"] #vh2-whyhere .wh-cap span,html[data-theme="light"] #vh2-whyhere .wh-prev em{color:#4a4566;}
-    @media(max-width:600px){ #vh2-whyhere .wh-chev{width:38px;height:38px;} #vh2-whyhere .wh-prev i{width:46px;height:46px;} #vh2-whyhere .wh-prev i.v{width:70px;} #vh2-whyhere .wh-pbtn{width:62px;height:62px;margin:-31px 0 0 -31px;} #vh2-whyhere .wh-pbtn::before{left:25px;top:19px;border-left-width:18px;border-top-width:12px;border-bottom-width:12px;} #vh2-whyhere .wh-thumbs{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    #vh2-whyhere .wh-wall{position:relative;padding:1.1rem 1rem 1.2rem;border-radius:20px;border:1px solid rgba(255,47,168,0.28);
+      background:radial-gradient(500px 240px at 15% 0%,rgba(255,47,168,0.14),transparent 60%),radial-gradient(500px 240px at 90% 100%,rgba(255,177,42,0.12),transparent 60%),repeating-linear-gradient(135deg,rgba(255,255,255,0.025) 0 12px,transparent 12px 24px),#0b0912;}
+    #vh2-whyhere .wh-wall-k{font-size:0.72rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#ff6fb5;}
+    #vh2-whyhere .wh-wall h3{margin:0.25rem 0 0.35rem;font-size:clamp(1.25rem,3vw,1.7rem) !important;font-weight:900;letter-spacing:-0.02em;line-height:1.15 !important;color:#fff;-webkit-text-fill-color:#fff;}
+    #vh2-whyhere .wh-wall > p{margin:0 0 1rem;max-width:720px;font-size:0.95rem !important;line-height:1.55 !important;color:rgba(214,220,240,0.82);}
+    #vh2-whyhere .wh-posters{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),290px));justify-content:center;gap:1.4rem 1.6rem;padding:0.6rem 0.3rem 0.2rem;}
+    #vh2-whyhere .wh-poster{position:relative;margin:0;padding:8px 8px 0;background:#f4efe6;border-radius:4px;cursor:zoom-in;box-shadow:0 18px 36px -18px rgba(0,0,0,0.9),0 2px 0 rgba(0,0,0,0.3);transform:rotate(-1.6deg);transition:transform .2s;}
+    #vh2-whyhere .wh-poster:nth-child(2n){transform:rotate(1.4deg);}
+    #vh2-whyhere .wh-poster:hover{transform:rotate(0) scale(1.02);z-index:2;}
+    #vh2-whyhere .wh-poster::before,#vh2-whyhere .wh-poster::after{content:'';position:absolute;top:-10px;width:70px;height:22px;background:rgba(255,236,170,0.75);box-shadow:0 1px 2px rgba(0,0,0,0.25);}
+    #vh2-whyhere .wh-poster::before{left:14px;transform:rotate(-8deg);} #vh2-whyhere .wh-poster::after{right:14px;transform:rotate(7deg);}
+    #vh2-whyhere .wh-poster img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;object-position:top;border-radius:2px;background:#000;}
+    #vh2-whyhere .wh-poster figcaption{padding:0.55rem 0.3rem 0.65rem;font:800 0.86rem/1.3 'Inter',system-ui,sans-serif;color:#1d1626 !important;-webkit-text-fill-color:#1d1626;text-align:center !important;}
+    #vh2-whyhere .wh-poster figcaption small{display:block;margin-top:0.15rem;font-weight:600;font-size:0.76rem;color:#5b5368 !important;-webkit-text-fill-color:#5b5368;}
+    #vh2-whyhere .wh-says{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:0.55rem;margin-top:1.2rem;}
+    #vh2-whyhere .wh-says div{padding:0.7rem 0.85rem;border-radius:14px;border:1px solid rgba(255,255,255,0.09);border-left:3px solid var(--c);background:#121020;font-size:0.88rem;line-height:1.45;color:rgba(214,220,240,0.86);}
+    #vh2-whyhere .wh-says b{display:block;color:#fff;font-size:0.92rem;margin-bottom:0.15rem;}
+    #vh2-whyhere .wh-wall-note{margin:0.9rem 0 0;font-size:0.8rem !important;line-height:1.5 !important;color:rgba(214,220,240,0.6);}
+    html[data-theme="light"] #vh2-whyhere .wh-wall{background:repeating-linear-gradient(135deg,rgba(30,20,70,0.03) 0 12px,transparent 12px 24px),#fbf8f3;border-color:rgba(176,32,122,0.25);}
+    html[data-theme="light"] #vh2-whyhere .wh-wall h3{color:#14112a;-webkit-text-fill-color:#14112a;}
+    html[data-theme="light"] #vh2-whyhere .wh-wall > p,html[data-theme="light"] #vh2-whyhere .wh-says div,html[data-theme="light"] #vh2-whyhere .wh-wall-note{color:#4a4566;}
+    html[data-theme="light"] #vh2-whyhere .wh-says div{background:#fff;} html[data-theme="light"] #vh2-whyhere .wh-says b{color:#14112a;}
+    @media(prefers-reduced-motion:reduce){ #vh2-whyhere .wh-poster{transition:none;} }    @media(max-width:600px){ #vh2-whyhere .wh-chev{width:38px;height:38px;} #vh2-whyhere .wh-prev i{width:46px;height:46px;} #vh2-whyhere .wh-prev i.v{width:70px;} #vh2-whyhere .wh-pbtn{width:62px;height:62px;margin:-31px 0 0 -31px;} #vh2-whyhere .wh-pbtn::before{left:25px;top:19px;border-left-width:18px;border-top-width:12px;border-bottom-width:12px;} #vh2-whyhere .wh-thumbs{grid-template-columns:repeat(2,minmax(0,1fr));} }
     html[data-theme="light"] #vh2-whyhere{background:radial-gradient(620px 300px at 0% 0%,rgba(47,180,255,0.09),transparent 60%),#ffffff;border-color:rgba(30,20,70,0.12);color:#14112a;}
     html[data-theme="light"] #vh2-whyhere .wh-t,html[data-theme="light"] #vh2-whyhere .wh-card h3,html[data-theme="light"] #vh2-whyhere .wh-card strong{color:#14112a;-webkit-text-fill-color:#14112a;}
     html[data-theme="light"] #vh2-whyhere .wh-s,html[data-theme="light"] #vh2-whyhere .wh-card p,html[data-theme="light"] #vh2-whyhere .wh-thumbs figcaption,html[data-theme="light"] #vh2-whyhere .wh-vlabel{color:#4a4566;}
@@ -8429,6 +8451,21 @@ document.addEventListener('keydown', function(e){
       <figure class="wh-hero" onclick="openLightbox('cheatsheet/insuranceiswhywerehere.opt.jpg','Our Health Is In The Hands Of The Insurance Companies')">
         <img loading="lazy" decoding="async" data-src="cheatsheet/insuranceiswhywerehere.opt.jpg" alt="Our health is in the hands of the insurance companies">
       </figure>
+      <div class="wh-wall">
+        <div class="wh-wall-k">The system we're up against</div>
+        <h3>A healthy patient is a lost customer</h3>
+        <p>Why so many people end up researching on their own: a system that's paid to manage symptoms more than prevent them. Tap a poster to read it full size.</p>
+        <div class="wh-posters">
+          <figure class="wh-poster" onclick="openLightbox('cheatsheet/healthscare-healthy-patient-lost-customer.webp','Healthscare: A Healthy Patient Is a Lost Customer')"><img loading="lazy" decoding="async" data-src="cheatsheet/healthscare-healthy-patient-lost-customer.webp" alt="Healthscare: a healthy patient is a lost customer"><figcaption>Healthscare<small>A healthy patient is a lost customer</small></figcaption></figure>
+          <figure class="wh-poster" onclick="openLightbox('cheatsheet/pharmerica-symptoms-not-diseases.webp','Phar[m]erica: Why America Treats Symptoms and Not Diseases')"><img loading="lazy" decoding="async" data-src="cheatsheet/pharmerica-symptoms-not-diseases.webp" alt="Pharmerica: why America treats symptoms and not diseases"><figcaption>Phar[m]erica!<small>Why America treats symptoms, not diseases</small></figcaption></figure>
+        </div>
+        <div class="wh-says">
+          <div style="--c:#ff2fa8"><b>Sick care pays</b>Repeat prescriptions bring in money; prevention like sleep, food, movement and hormones mostly doesn't.</div>
+          <div style="--c:#ffb12a"><b>How it got this way</b>The 1910 Flexner Report reshaped medical schools around drug-based medicine, and natural approaches were pushed out.</div>
+          <div style="--c:#2ee6a6"><b>Your power</b>Research, learn, verify, protect your body. Question everything and take back your health.</div>
+        </div>
+        <p class="wh-wall-note">These posters argue a point of view. The "250,000 deaths a year from medical errors" figure comes from a 2016 Johns Hopkins estimate; other studies put the number lower. Read, verify, and decide for yourself.</p>
+      </div>
       <div class="wh-sp">
         <button type="button" class="wh-play" aria-label="Play the South Park clip" onclick="var w=this.parentNode;w.querySelector('.wh-frame').innerHTML='<iframe src=&quot;https://www.youtube.com/embed/VAfy26xs6e0?autoplay=1&amp;rel=0&quot; title=&quot;South Park: Navigating the American healthcare system&quot; allow=&quot;autoplay; encrypted-media; picture-in-picture&quot; allowfullscreen></iframe>';w.classList.add('on');">
           <img loading="lazy" decoding="async" data-src="https://i.ytimg.com/vi/VAfy26xs6e0/hqdefault.jpg" alt="South Park: Navigating the American healthcare system">
@@ -9119,7 +9156,7 @@ window.vpnBadgeGo = function(view, id){
   </style>
   <details id="vh2-kcomp" class="vh2-fold" data-vt-skip data-px-skip data-cg-skip aria-label="KCompounds launch" data-search="kcompounds launch suppliers prices testing scores lab reports coa checker vendors krysia substack">
     <summary>
-      <span class="vf-head"><span class="kc-tag"><i></i>Launching now · Oct 29</span>
+      <span class="vf-head"><span class="kc-tag"><i></i>New research tool · now live</span>
         <h2>KCompounds is live: <span>compare suppliers, prices &amp; lab reports.</span></h2>
         <p class="kc-lede">No more digging through Telegram chats and old screenshots. One place for supplier prices, testing scores and checked COAs, built by Krysia.</p></span>
       <span class="vf-chev" aria-hidden="true"></span>
