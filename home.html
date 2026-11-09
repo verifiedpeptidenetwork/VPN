@@ -34930,6 +34930,34 @@ window.addEventListener('appinstalled', function(){
   html[data-theme="light"] body #vpnSearchClear{background:#fff !important;color:#14112a !important;border-color:rgba(124,58,237,0.25) !important;}
   @media(max-width:600px){ html body #vpnSearchInput{height:48px !important;font-size:16px !important;} html body #hamburger-btn{width:44px !important;height:44px !important;} }
 </style>
+<!-- ══ CLOSE ALL OPEN CARDS (gear item + auto pill when 3+ are open) ══ -->
+<style>
+  #vpn-closeall{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:9994;padding:0.55rem 1rem;border-radius:999px;border:1px solid rgba(255,212,92,0.7);background:rgba(10,6,28,0.95);color:#ffd45c;font:700 0.95rem 'Rajdhani',sans-serif;letter-spacing:0.04em;cursor:pointer;box-shadow:0 8px 24px -10px rgba(0,0,0,0.8);}
+  #vpn-closeall[hidden]{display:none;}
+  @media(max-width:900px){ #vpn-closeall{bottom:calc(80px + env(safe-area-inset-bottom,0px));} }
+  html[data-theme="light"] #vpn-closeall{background:#fff;color:#7a4a00;border-color:rgba(122,74,0,0.5);}
+</style>
+<button id="vpn-closeall" type="button" hidden>📕 Close all open cards</button>
+<script>
+(function(){
+  var pill=document.getElementById('vpn-closeall');
+  function openOnes(){ return [].filter.call(document.querySelectorAll('details[open]'),function(d){ return !d.closest('#vpn-gear-panel') && d.offsetParent!==null; }); }
+  function idxOpen(){ return [].filter.call(document.querySelectorAll('.pep-idx-body'),function(b){ return b.style.display==='block'; }); }
+  function closeAll(){
+    openOnes().forEach(function(d){ d.open=false; });
+    idxOpen().forEach(function(b){ b.style.display='none'; var h=b.previousElementSibling, a=h&&h.querySelector('.pa'); if(a) a.textContent='▼'; });
+    update();
+  }
+  function update(){ var n=openOnes().length+idxOpen().length; pill.hidden=n<3; pill.textContent='📕 Close all open cards ('+n+')'; }
+  window.vpnCloseAllCards=closeAll;
+  pill.addEventListener('click',closeAll);
+  document.addEventListener('toggle',function(){ clearTimeout(update.t); update.t=setTimeout(update,80); },true);
+  document.addEventListener('click',function(){ clearTimeout(update.t); update.t=setTimeout(update,120); },true);
+  // gear menu item
+  function addGear(){ var gr=document.querySelector('#vpn-gear-panel .gr'); if(!gr||document.getElementById('vpn-gear-closeall')) return; var b=document.createElement('button'); b.type='button'; b.id='vpn-gear-closeall'; b.className='full'; b.textContent='📕 Close all open cards'; b.onclick=function(){ closeAll(); }; gr.insertBefore(b,gr.firstChild); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ addGear(); update(); }); else { addGear(); update(); }
+})();
+</script>
 </body>
 </html>
 
