@@ -9092,7 +9092,6 @@ window.vpnBadgeGo = function(view, id){
         <p class="lead"><b>VPN = Verify · Proof · Notate · Data.</b> One free hub for peptide research: a 110+ peptide index, the GLP-1 hub, PubMed-linked studies and news, reconstitution calculators, COA and lab-testing checks, gray-market safety guides, blood work and supplement guides — plus games to learn by playing. Research and education only, not medical advice.</p>
         <div class="cta">
           <button type="button" class="vh2-btn pri" onclick="var d=document.getElementById('vh2-whyhere');if(d){d.open=true;d.dispatchEvent(new Event('toggle'));d.scrollIntoView({behavior:'smooth',block:'start'});}">▶ Start here</button>
-          <a class="vh2-btn" href="peptide-suggestion.html">🧬 Find your peptides</a>
         </div>
         <div class="stats">
           <div><b>163</b><small>PubMed studies</small></div>
@@ -9100,10 +9099,92 @@ window.vpnBadgeGo = function(view, id){
           <div><b>1,000+</b><small>Infographics</small></div>
           <div><b>100%</b><small>Free, no paywall</small></div>
         </div>
+        <div class="vh2-tools" data-vt-skip data-px-skip>
+          <a class="vt-card vt-dex" href="pokeme-dex.html">
+            <div class="vt-head"><span class="vt-lens"></span><span class="vt-leds"><i></i><i></i><i></i></span><span class="vt-tag">PokeMe-Dex</span></div>
+            <b class="vt-title">Track your injection sites</b>
+            <span class="vt-sub">Log every dose and spot. It picks your next spot so you rotate.</span>
+            <div class="vt-map" aria-hidden="true">
+              <span class="vt-body"></span>
+              <i data-z="AL" style="left:14%;top:30%"></i><i data-z="AR" style="left:86%;top:30%"></i>
+              <i data-z="BUL" style="left:40%;top:44%"></i><i data-z="BUR" style="left:60%;top:44%"></i>
+              <i data-z="BLL" style="left:40%;top:58%"></i><i data-z="BLR" style="left:60%;top:58%"></i>
+              <i data-z="TL" style="left:38%;top:84%"></i><i data-z="TR" style="left:62%;top:84%"></i>
+            </div>
+            <span class="vt-next" id="vt-next">⭐ Next spot: Belly — Upper Left</span>
+            <span class="vt-go">Open PokeMe-Dex →</span>
+          </a>
+          <a class="vt-card vt-match" href="peptide-suggestion.html">
+            <div class="vt-head"><span class="vt-ic">🧬</span><span class="vt-tag">Peptide Match</span></div>
+            <b class="vt-title">Not sure where to start?</b>
+            <span class="vt-sub">Pick your goals and see which peptides research has looked at for them.</span>
+            <div class="vt-chips" aria-hidden="true"><span>🔥 Fat loss</span><span>🩹 Recovery</span><span>🌙 Sleep</span><span>🧠 Focus</span><span>🦴 Joints</span></div>
+            <span class="vt-go">Find my match →</span>
+          </a>
+        </div>
       </div>
       <div class="badge"><img src="VPNNEWLOGO-640.webp?v=1" alt="Verify · Proof · Notate · Data badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:8%;top:14%;width:22%;height:17%;" title="Verify COAs: how to check a COA" aria-label="Verify COAs: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:70%;top:14%;width:23%;height:18%;" title="Identify fake COAs: how to spot a fake" aria-label="Identify fake COAs: how to spot a fake" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:16%;top:37%;width:23%;height:12%;" title="Verify everything: latest news" aria-label="Verify everything: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:34%;top:68%;width:33%;height:13%;" title="Do blood work: blood work guide" aria-label="Do blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
     </div>
   </section>
+<style id="vh2-tools-css">
+  .vh2-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px;}
+  .vt-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;text-decoration:none !important;color:#f4f5fb !important;border:1px solid rgba(255,255,255,0.12);overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;}
+  .vt-card:hover{transform:translateY(-3px);}
+  .vt-dex{background:linear-gradient(155deg,rgba(232,50,63,0.30),rgba(120,10,25,0.35)),#140a12;border-color:rgba(255,90,100,0.35);}
+  .vt-dex:hover{border-color:#ff5a64;box-shadow:0 16px 40px -18px rgba(255,60,80,0.7);}
+  .vt-match{background:linear-gradient(155deg,rgba(154,92,255,0.28),rgba(47,180,255,0.14)),#0e0c1c;border-color:rgba(154,92,255,0.35);}
+  .vt-match:hover{border-color:#9a5cff;box-shadow:0 16px 40px -18px rgba(154,92,255,0.7);}
+  .vt-head{display:flex;align-items:center;gap:8px;}
+  .vt-lens{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bfe9ff 0 15%,#2fa4ff 45%,#0b5fb0);border:2px solid #fff;box-shadow:0 0 10px rgba(47,164,255,0.7);}
+  .vt-leds{display:flex;gap:4px;} .vt-leds i{width:7px;height:7px;border-radius:50%;background:#ff4d4d;} .vt-leds i:nth-child(2){background:#ffd23f;} .vt-leds i:nth-child(3){background:#4cd964;}
+  .vt-ic{font-size:20px;}
+  .vt-tag{margin-left:auto;white-space:nowrap;font:800 11px/1 'Inter',system-ui,sans-serif;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:99px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);}
+  .vt-title{font:800 17px/1.25 'Inter',system-ui,sans-serif !important;color:#fff !important;margin-top:4px;}
+  .vt-sub{font:500 13.5px/1.45 'Inter',system-ui,sans-serif !important;color:rgba(230,232,245,0.78) !important;}
+  .vt-go{margin-top:auto;padding-top:6px;font:800 14px/1 'Inter',system-ui,sans-serif;color:#ffcb05;}
+  .vt-match .vt-go{color:#c6a6ff;}
+  /* mini spot map: a simple body outline with the 8 PokeMe-Dex zones */
+  .vt-map{position:relative;height:92px;margin:4px 0 2px;border-radius:12px;background:rgba(0,0,0,0.28);}
+  .vt-body{position:absolute;left:50%;top:10%;width:46px;height:78%;transform:translateX(-50%);border-radius:22px 22px 14px 14px;border:2px solid rgba(255,255,255,0.22);}
+  .vt-body::before{content:'';position:absolute;left:50%;top:-14px;width:16px;height:16px;transform:translateX(-50%);border-radius:50%;border:2px solid rgba(255,255,255,0.22);}
+  .vt-map i{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:rgba(255,255,255,0.35);}
+  .vt-map i.used{background:rgba(255,120,120,0.55);}
+  .vt-map i.next{background:#4cd964;box-shadow:0 0 0 0 rgba(76,217,100,0.7);animation:vtPulse 1.6s infinite;}
+  @keyframes vtPulse{70%{box-shadow:0 0 0 10px rgba(76,217,100,0);}100%{box-shadow:0 0 0 0 rgba(76,217,100,0);}}
+  .vt-next{font:700 13px/1.3 'Inter',system-ui,sans-serif;color:#9dffb3;}
+  .vt-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px;}
+  .vt-chips span{font:700 12.5px/1 'Inter',system-ui,sans-serif;padding:8px 10px;border-radius:99px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);color:#fff;}
+  @media(prefers-reduced-motion:reduce){ .vt-map i.next{animation:none;} .vt-card:hover{transform:none;} }
+  @media(max-width:560px){ .vh2-tools{grid-template-columns:1fr;} }
+  html[data-theme="light"] .vt-dex{background:linear-gradient(155deg,#fff1f2,#ffe1e4);border-color:rgba(200,30,50,0.25);}
+  html[data-theme="light"] .vt-match{background:linear-gradient(155deg,#f4eeff,#e9f5ff);border-color:rgba(124,58,237,0.22);}
+  html[data-theme="light"] .vt-card,html[data-theme="light"] .vt-title{color:#14112a !important;}
+  html[data-theme="light"] .vt-sub{color:#4a4566 !important;}
+  html[data-theme="light"] .vt-tag{background:rgba(0,0,0,0.06);color:#3d3858;}
+  html[data-theme="light"] .vt-map{background:rgba(0,0,0,0.06);}
+  html[data-theme="light"] .vt-body,html[data-theme="light"] .vt-body::before{border-color:rgba(0,0,0,0.2);}
+  html[data-theme="light"] .vt-map i{background:rgba(0,0,0,0.2);}
+  html[data-theme="light"] .vt-next{color:#1f7a32;}
+  html[data-theme="light"] .vt-go{color:#c4142a;} html[data-theme="light"] .vt-match .vt-go{color:#6d28d9;}
+  html[data-theme="light"] .vt-chips span{background:#fff;border-color:rgba(0,0,0,0.1);color:#14112a;}
+</style>
+<script>
+(function(){
+  // show the visitor's own next injection spot from PokeMe-Dex (same rotation rule: least recently used)
+  var Z = [['BUL','Belly — Upper Left'],['BUR','Belly — Upper Right'],['BLL','Belly — Lower Left'],['BLR','Belly — Lower Right'],
+           ['AL','Back of Arm — Left'],['AR','Back of Arm — Right'],['TL','Outer Thigh — Left'],['TR','Outer Thigh — Right'],
+           ['GL','Upper Glute — Left'],['GR','Upper Glute — Right']];
+  var log = [], protos = [], doses = {};
+  try { log = JSON.parse(localStorage.getItem('guest_pmd_inj_log') || '[]'); protos = JSON.parse(localStorage.getItem('guest_pmd_active_protocols') || '[]'); } catch(e){}
+  var last = {}; log.forEach(function(e){ if (!last[e.zone]) last[e.zone] = e.date; });
+  var next = Z.filter(function(z){ return !last[z[0]]; })[0] || Z.slice().sort(function(a, b){ return last[a[0]] < last[b[0]] ? -1 : 1; })[0];
+  var map = document.querySelector('.vt-map'); if (!map) return;
+  [].forEach.call(map.querySelectorAll('i'), function(d){ var z = d.getAttribute('data-z'); if (last[z]) d.classList.add('used'); if (z === next[0]) d.classList.add('next'); });
+  var t = document.getElementById('vt-next');
+  if (t) t.textContent = '⭐ ' + (log.length ? 'Your next spot: ' : 'Next spot: ') + next[1] + (protos.length ? ' · ' + protos.length + ' peptide' + (protos.length === 1 ? '' : 's') + ' tracked' : '');
+})();
+</script>
+
 
   <section id="vh2-tools" class="vh2" data-vt-skip aria-label="Tools">
     <div class="vh2-h"><div><div class="k">Tools</div><h2>Research tools</h2></div></div>

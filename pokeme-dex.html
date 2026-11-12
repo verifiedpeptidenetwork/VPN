@@ -1040,19 +1040,32 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <a href="https://glowklowcalc.com" target="_blank" rel="noopener">GlowKlowCalc ↗</a>
     </div>
   </nav>
-  <div class="pmx-hero">
-    <img class="pmx-mascot" src="pokemedexlogo.opt.jpg" alt="PokeMe-Dex mascot — Glowrilla the Researcher">
-    <div>
-      <span class="pmx-kicker">FREE PEPTIDE DOSE TRACKER</span>
-      <h1>POKEME-DEX</h1>
-      <p class="pmx-lead">Keep every research peptide in one place. Pick a peptide, get a starting dose and schedule, tick off each dose as you go, and print your plan.</p>
-      <ul class="pmx-feats"><li>💉 Dose tracker</li><li>📅 Calendar</li><li>🔄 Injection-site rotation</li><li>🧮 Draw calculator</li><li>🖨 Printable plan</li></ul>
-      <div class="pmx-cta">
-        <a class="pmx-btn pri" href="#how-card" onclick="showTab('tracker');setTimeout(function(){document.getElementById('how-card').scrollIntoView({behavior:'smooth',block:'start'});},30);return false;">▶ START TRACKING</a>
+  <div class="pdx">
+    <div class="pdx-copy">
+      <span class="pdx-kick"><i></i>Free peptide dose tracker</span>
+      <h1 class="pdx-h1">PokeMe-Dex</h1>
+      <p class="pdx-lead">Your peptide log, Pokédex style. Answer a few quick questions once, then log every dose and injection spot with a tap.</p>
+      <div class="pdx-cta">
+        <a class="pdx-btn pri" href="#how-card" onclick="showTab('tracker');setTimeout(function(){var s=document.getElementById('peptide-search');document.getElementById('how-card').scrollIntoView({behavior:'smooth',block:'start'});if(s)setTimeout(function(){s.focus({preventScroll:true});},500);},30);return false;">Start tracking →</a>
+        <a class="pdx-btn" href="#how-card" onclick="var c=document.getElementById('how-card');c.open=true;c.scrollIntoView({behavior:'smooth',block:'start'});return false;">How it works</a>
       </div>
+      <ul class="pdx-trust"><li>Free</li><li>No account</li><li>Saved on this device</li><li>Save as PDF or to Notes</li></ul>
+    </div>
+    <div class="pdx-device" aria-label="Your PokeMe-Dex at a glance">
+      <div class="pdx-top"><span class="pdx-lens"></span><span class="pdx-led r"></span><span class="pdx-led y"></span><span class="pdx-led g"></span></div>
+      <div class="pdx-screen">
+        <img src="pokemedex-icon-192.png?v=1" alt="Glowrilla the Researcher, the PokeMe-Dex mascot" width="96" height="96">
+        <div class="pdx-entry"><small>No. 001 · Researcher</small><b>Glowrilla</b><span>Type: Dose tracker</span></div>
+      </div>
+      <div class="pdx-stats">
+        <div><b id="pdx-s1">0</b><small>Peptides</small></div>
+        <div><b id="pdx-s2">—</b><small>Done today</small></div>
+        <div><b id="pdx-s3">0</b><small>🔥 Streak</small></div>
+      </div>
+      <div class="pdx-pad" aria-hidden="true"><span class="pdx-dpad"></span><span class="pdx-ab"><i></i><i></i></span></div>
     </div>
   </div>
-  <div class="pmx-fine">Research use only · not medical advice · saved on this device, no account needed · Pokémon parody, not affiliated with Nintendo / Game Freak</div>
+  <div class="pmx-fine">Research use only · not medical advice · Pokémon parody, not affiliated with Nintendo / Game Freak</div>
 </header>
 <div class="rainbow-strip"></div>
 
@@ -3210,5 +3223,74 @@ function showTab(name){
 </script>
 
 <style id="pmd-no-extras">#tab-tracker > .step-head.more, #tab-tracker > details.pmd-more{display:none !important;}</style>
+<style id="pdx-hero-css">
+  /* PokeMe-Dex hero: clean two-column layout with a Pokédex-style device */
+  html body header.pmx{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 85% 10%,#e8323f 0%,#c4142a 45%,#8f0c1f 100%) !important;border-bottom:0 !important;box-shadow:none !important;}
+  html body header.pmx::before{content:'';position:absolute;right:-180px;top:50%;width:620px;height:620px;transform:translateY(-50%);border-radius:50%;border:26px solid rgba(255,255,255,0.06);pointer-events:none;}
+  html body header.pmx::after{content:'';position:absolute;right:-180px;top:50%;width:620px;height:26px;transform:translateY(-50%);background:rgba(255,255,255,0.06);pointer-events:none;}
+  header.pmx + .rainbow-strip{height:6px !important;background:repeating-linear-gradient(90deg,#1a1a1a 0 18px,#ffcb05 18px 36px) !important;}
+  .pdx{position:relative;z-index:1;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);gap:40px;align-items:center;padding:36px 22px 26px;}
+  .pdx-kick{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.22);font:700 13px/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.04em;color:#fff;}
+  .pdx-kick i{width:8px;height:8px;border-radius:50%;background:#7CFF9B;box-shadow:0 0 0 3px rgba(124,255,155,0.25);}
+  html body header.pmx h1.pdx-h1{margin:14px 0 10px !important;font:900 clamp(40px,6.2vw,64px)/1 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;letter-spacing:-0.035em !important;color:#fff !important;-webkit-text-fill-color:#fff !important;-webkit-text-stroke:0 !important;text-shadow:0 3px 0 rgba(0,0,0,0.18) !important;text-transform:none !important;}
+  html body header.pmx .pdx-lead{margin:0 0 22px !important;max-width:540px;font:500 clamp(16px,1.6vw,19px)/1.55 'Inter',system-ui,sans-serif !important;color:rgba(255,255,255,0.92) !important;}
+  .pdx-cta{display:flex;flex-wrap:wrap;gap:10px;}
+  .pdx-btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 22px;border-radius:14px;text-decoration:none !important;font:800 16px/1 'Inter',system-ui,sans-serif !important;letter-spacing:0;transition:transform .15s,box-shadow .15s,background .15s;}
+  .pdx-btn.pri{background:#ffcb05;color:#1d2a5b !important;box-shadow:0 4px 0 #c79c00,0 10px 24px -10px rgba(0,0,0,0.5);}
+  .pdx-btn.pri:hover{transform:translateY(-2px);box-shadow:0 6px 0 #c79c00,0 14px 28px -10px rgba(0,0,0,0.55);}
+  .pdx-btn:not(.pri){color:#fff !important;border:2px solid rgba(255,255,255,0.45);}
+  .pdx-btn:not(.pri):hover{background:rgba(255,255,255,0.12);}
+  .pdx-trust{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px;}
+  .pdx-trust li{display:flex;align-items:center;gap:7px;font:600 14px/1.2 'Inter',system-ui,sans-serif !important;color:rgba(255,255,255,0.9) !important;}
+  .pdx-trust li::before{content:'✓';display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.2);font-size:11px;font-weight:900;}
+  /* the device */
+  .pdx-device{justify-self:center;width:100%;max-width:340px;padding:16px;border-radius:22px 22px 22px 60px;background:linear-gradient(160deg,#ef3b46,#b5122a);box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),inset 0 -6px 0 rgba(0,0,0,0.18),0 30px 60px -20px rgba(0,0,0,0.6);border:3px solid #1a1a1a;transform:rotate(2deg);}
+  .pdx-top{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+  .pdx-lens{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bfe9ff 0 14%,#2fa4ff 40%,#0b5fb0 100%);border:4px solid #fff;box-shadow:0 0 0 3px #1a1a1a,0 0 18px rgba(47,164,255,0.7);margin-right:6px;}
+  .pdx-led{width:12px;height:12px;border-radius:50%;border:2px solid #1a1a1a;}
+  .pdx-led.r{background:#ff4d4d;} .pdx-led.y{background:#ffd23f;} .pdx-led.g{background:#4cd964;}
+  .pdx-screen{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:#0f1a2b;border:6px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;}
+  .pdx-screen img{width:84px;height:84px;border-radius:50%;flex-shrink:0;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,0.12);}
+  .pdx-entry small{display:block;font:700 11px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#7CFF9B;}
+  .pdx-entry b{display:block;margin:6px 0 4px;font:900 22px/1 'Inter',sans-serif;color:#fff;}
+  .pdx-entry span{font:600 13px/1.2 'Inter',sans-serif;color:rgba(255,255,255,0.7);}
+  .pdx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+  .pdx-stats div{padding:10px 6px;border-radius:10px;background:rgba(0,0,0,0.22);text-align:center;}
+  .pdx-stats b{display:block;font:900 22px/1 'Inter',sans-serif;color:#fff;}
+  .pdx-stats small{display:block;margin-top:5px;font:700 11px/1.2 'Inter',sans-serif;color:rgba(255,255,255,0.8);}
+  .pdx-pad{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding:0 6px;}
+  .pdx-dpad{position:relative;width:44px;height:44px;}
+  .pdx-dpad::before,.pdx-dpad::after{content:'';position:absolute;background:#1a1a1a;border-radius:4px;}
+  .pdx-dpad::before{left:15px;top:0;width:14px;height:44px;} .pdx-dpad::after{top:15px;left:0;width:44px;height:14px;}
+  .pdx-ab{display:flex;gap:10px;} .pdx-ab i{width:22px;height:22px;border-radius:50%;background:#1a1a1a;box-shadow:inset 0 2px 0 rgba(255,255,255,0.15);}
+  header.pmx .pmx-fine{position:relative;z-index:1;padding-top:4px !important;color:rgba(255,255,255,0.7) !important;}
+  @media(max-width:820px){
+    .pdx{grid-template-columns:1fr;gap:24px;padding:24px 16px 20px;}
+    .pdx-device{max-width:320px;transform:none;}
+    html body header.pmx::before,html body header.pmx::after{display:none;}
+  }
+  @media(max-width:600px){
+    html body header.pmx h1.pdx-h1{font-size:40px !important;}
+    .pdx-btn{flex:1 1 auto;height:50px;}
+    .pdx-pad{display:none;}
+    .pdx-device{padding:12px;border-radius:18px 18px 18px 40px;}
+    .pdx-screen img{width:64px;height:64px;}
+    header.pmx .pmx-fine{display:block !important;font-size:11px !important;}
+  }
+</style>
+<script>
+(function(){
+  // mirror the tracker numbers onto the device screen
+  var base = window.renderStats; if (typeof base !== 'function') return;
+  window.renderStats = function(){
+    base();
+    [['stat-active','pdx-s1'],['stat-today','pdx-s2'],['stat-done','pdx-s3']].forEach(function(p){
+      var a = document.getElementById(p[0]), b = document.getElementById(p[1]); if (a && b) b.textContent = a.textContent;
+    });
+  };
+  if (document.getElementById('stat-active')) window.renderStats();
+})();
+</script>
+
 </body>
 </html>
