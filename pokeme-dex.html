@@ -1037,7 +1037,6 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   <nav class="pmx-nav" aria-label="Site">
     <a class="pmx-home" href="home.html"><img src="icon-192.png" alt="VPN" width="30" height="30"><span>← VPN Home</span></a>
     <div class="pmx-links">
-      <a href="peptide-suggestion.html">Peptide Match</a>
       <a href="https://glowklowcalc.com" target="_blank" rel="noopener">GlowKlowCalc ↗</a>
     </div>
   </nav>
@@ -1050,7 +1049,6 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <ul class="pmx-feats"><li>💉 Dose tracker</li><li>📅 Calendar</li><li>🔄 Injection-site rotation</li><li>🧮 Draw calculator</li><li>🖨 Printable plan</li></ul>
       <div class="pmx-cta">
         <a class="pmx-btn pri" href="#how-card" onclick="showTab('tracker');setTimeout(function(){document.getElementById('how-card').scrollIntoView({behavior:'smooth',block:'start'});},30);return false;">▶ START TRACKING</a>
-        <a class="pmx-btn" href="peptide-suggestion.html">NOT SURE WHAT TO ADD? PEPTIDE MATCH →</a>
       </div>
     </div>
   </div>
@@ -1067,15 +1065,15 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   <details class="how-card" id="how-card" open>
     <summary>❓ HOW POKEME-DEX WORKS <span class="how-toggle"></span></summary>
     <div class="how-steps">
-      <div class="how-step"><div class="how-num">1</div><div><b>FIND A PEPTIDE</b><span>Type its name, or tap your goals (Fat Loss, Sleep…) and matching peptides appear.</span></div></div>
+      <div class="how-step"><div class="how-num">1</div><div><b>ADD A PEPTIDE</b><span>Type the name of a peptide you're already running.</span></div></div>
       <div class="how-step"><div class="how-num">2</div><div><b>TAP + ADD</b><span>It goes into <em>My Protocols</em> with a typical research starting dose and schedule filled in for you.</span></div></div>
       <div class="how-step"><div class="how-num">3</div><div><b>TICK OFF EACH DOSE</b><span>Each day, tap the circle next to a dose once you've taken it. The calendar shows what's coming up.</span></div></div>
       <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>Print it, save it as a PDF, or download it. You get doses, syringe units, a 14-day checklist and a shopping list.</span></div></div>
     </div>
-    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed. Not sure which peptide? <a href="peptide-suggestion.html" style="color:inherit;font-weight:700;">Try Peptide Match</a>.</div>
+    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed.</div>
   </details>
 
-  <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>FIND A PEPTIDE</h3><p>Search by name, or tap one or more goals below.</p></div></div>
+  <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>ADD A PEPTIDE</h3><p>Search by name to add one you're running.</p></div></div>
 
   <div style="margin-bottom:24px;">
     <div class="field-label">🔍 SEARCH BY NAME</div>
@@ -1088,13 +1086,6 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <button class="btn-secondary" style="margin-top:10px;" onclick="searchPeptide()">🔍 Search This Peptide</button>
   </div>
 
-  <!-- CONDITION / GOAL SELECTOR -->
-  <div class="goal-panel">
-    <div class="field-label">🎯 Or tap your goals (pick as many as you like)</div>
-    <div id="condition-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px,100%),1fr));gap:8px;margin-bottom:12px;"></div>
-    <div class="box-hint" style="margin:0 0 10px;">Matching peptides show up right below as you tap. Peptides that match more of your goals are listed first.</div>
-    <button class="btn-secondary" onclick="SELECTED_GOALS.clear();document.querySelectorAll('.cond-card').forEach(function(c){c.classList.remove('selected');});document.getElementById('suggestions-box').classList.remove('visible');" style="margin-top:4px;opacity:0.75;">✕ Clear goals</button>
-  </div>
 
   <div class="response-box" id="suggestions-box">
     <div class="response-label"><span class="pulse-dot"></span>RESULT</div>

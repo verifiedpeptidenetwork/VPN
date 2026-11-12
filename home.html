@@ -184,14 +184,14 @@
 
   /* === HEADER — offset right of sidebar on desktop === */
   @media(min-width:901px) {
-    .vpn-top-banner { margin-left: 242px; width: calc(100% - 242px); }
-    #no-coa-banner  { margin-left: 242px; width: calc(100% - 242px); box-sizing: border-box; } /* was covering the sidebar title */
-    .site-header    { margin-left: 242px; width: calc(100% - 242px); }
-    #vpnSearchBar   { margin-left: 242px; width: calc(100% - 242px); }
-    #vpn-global-results { left: 242px; width: calc(100% - 242px); }
-    .site-footer    { margin-left: 242px; width: calc(100% - 242px); }
-    .top-banner-img-wrap { margin-left: 242px; width: calc(100% - 242px); }
-    .hero#site-hero { margin-left: 242px; width: calc(100% - 242px); box-sizing: border-box; }
+    .vpn-top-banner { margin-left: 272px; width: calc(100% - 272px); }
+    #no-coa-banner  { margin-left: 272px; width: calc(100% - 272px); box-sizing: border-box; } /* was covering the sidebar title */
+    .site-header    { margin-left: 272px; width: calc(100% - 272px); }
+    #vpnSearchBar   { margin-left: 272px; width: calc(100% - 272px); }
+    #vpn-global-results { left: 272px; width: calc(100% - 272px); }
+    .site-footer    { margin-left: 272px; width: calc(100% - 272px); }
+    .top-banner-img-wrap { margin-left: 272px; width: calc(100% - 272px); }
+    .hero#site-hero { margin-left: 272px; width: calc(100% - 272px); box-sizing: border-box; }
 
     /* On desktop, hide the big logo header + banner image on non-home views (sidebar handles nav) */
     /* IMPORTANT: keep mobile unscoped so the hamburger/MORE menu stays reachable from all views */
@@ -203,8 +203,8 @@
     /* Views that live OUTSIDE #site-hero — give them the sidebar offset */
     #view-about, #view-contact, #view-intel-feed,
     #view-quick-guide, #view-workouts, #view-cheatsheets, #view-studies, #view-ruqyah {
-      margin-left: 242px !important;
-      width: calc(100% - 242px) !important;
+      margin-left: 272px !important;
+      width: calc(100% - 272px) !important;
       box-sizing: border-box;
       padding: 0 2rem 2rem !important;
     }
@@ -834,11 +834,11 @@
   .main {
     position: relative;
     z-index: 2;
-    margin-left: 242px;
+    margin-left: 272px;
     padding: 0 2.5rem 2rem;
     background: rgba(4,0,16,0.98);
     box-sizing: border-box;
-    width: calc(100% - 242px);
+    width: calc(100% - 272px);
     min-height: 100vh;
   }
   @media (max-width: 900px) {
@@ -856,11 +856,11 @@
     .qa-row-wrap,
     #vpn-hero-reta,
     .view.active {
-      margin-left: 242px;
+      margin-left: 272px;
       box-sizing: border-box;
     }
     .view.active {
-      width: calc(100% - 242px);
+      width: calc(100% - 272px);
       max-width: 1200px; /* caps content width on wide monitors so width:100% images/videos don't blow up past their native resolution */
     }
   }
@@ -2846,7 +2846,7 @@
     .hero-logo-img { width: 240px; height: 240px; }
     .feature-cards { max-width: 700px; margin-left: auto; margin-right: auto; }
   }
-  /* tablet WITH sidebar (901-1023px): main already has margin-left:242px from base rule */
+  /* tablet WITH sidebar (901-1023px): main already has margin-left:272px from base rule */
   @media (min-width: 769px) and (max-width: 900px) {
     .main { padding: 1.25rem 1.5rem; }
   }
@@ -4173,7 +4173,7 @@ document.addEventListener('keydown', function(e){
   @media(max-width:600px){ a.vpn-tg-banner{padding:0.4rem 0.7rem;} a.vpn-tg-banner .vpn-top-banner-inner{flex-wrap:nowrap;gap:0.55rem;justify-content:space-between;} .vpn-tg-text{font-size:13.5px;text-align:left;min-width:0;} .vpn-tg-text .tg-long,.vpn-tg-text span{display:none;} .vpn-tg-icon{width:26px;height:26px;} .vpn-tg-cta{font-size:12px;padding:5px 11px;letter-spacing:0.08em;} }
   /* prayer bar sits just below the hero (site-hero is a flex column ordered by order:) */
   #site-hero > #home-prayer{order:2 !important;}
-  @media(min-width:901px){ a.vpn-tg-banner { margin-left:242px; width:calc(100% - 242px); } }
+  @media(min-width:901px){ a.vpn-tg-banner { margin-left:272px; width:calc(100% - 272px); } }
 </style>
 <a class="vpn-top-banner vpn-tg-banner" href="https://t.me/ruivpndata" target="_blank" rel="noopener" aria-label="Join the RUI VPN Data Telegram image library">
   <div class="vpn-top-banner-inner">
@@ -4388,7 +4388,7 @@ document.addEventListener('keydown', function(e){
   #vpn-sidebar {
     position: fixed;
     top: 0; left: 0;
-    width: 242px;
+    width: 272px;
     height: 100vh;
     z-index: 9999;
     background: rgba(4,0,16,0.97);
@@ -33216,7 +33216,7 @@ body.vpnadmin-on [style*="cursor:zoom-in"]{position:relative;}
 #vpn-mp-chip .mpc-lbl{font:700 13px 'Rajdhani',sans-serif;letter-spacing:0.06em;background:none;}
 #vpn-mp-chip .mpc-x{background:rgba(255,45,80,0.18);color:#ff7b92;}
 @media(max-width:900px){ body:has(#vpn-bottom-nav) #vpn-mp-chip{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px));} }
-@media(min-width:901px){ body:has(#vpn-sidebar) #vpn-mp-chip{left:254px;} }
+@media(min-width:901px){ body:has(#vpn-sidebar) #vpn-mp-chip{left:284px;} }
 html[data-theme="light"] #vpn-mp-chip{background:#fff;border-color:#2e9e3f;} html[data-theme="light"] #vpn-mp-chip button{color:#1a6b2a;}
 @media(max-width:500px){
   #vpn-mp-panel{width:calc(100vw - 2rem);right:1rem;bottom:9.6rem;}
@@ -33672,11 +33672,11 @@ window.addEventListener('appinstalled', function(){
 <script src="theme-toggle.js?v=39" defer></script>
 <style id="vpn-layout-fix">
 /* ═══ LAYOUT FIX — one content column beside the sidebar, centered on wide screens ═══
-   Earlier rules capped .view.active at 1200px and added the 242px sidebar offset twice for
+   Earlier rules capped .view.active at 1200px and added the 272px sidebar offset twice for
    views nested in #site-hero, which left a big empty strip on wide monitors. These rules
    come last so they win. Percentages resolve against <body>, so the scrollbar is accounted for. */
 @media (min-width: 901px) {
-  :root { --vpn-sb: 242px; --vpn-max: 100vw; } /* no cap: every page uses the full width, like Home */
+  :root { --vpn-sb: 272px; --vpn-max: 100vw; } /* no cap: every page uses the full width, like Home */
   #vpnSearchBar { width: calc(100% - var(--vpn-sb)) !important; box-sizing: border-box; }
   /* Home + views that live inside #site-hero: hero holds the offset, gutters center the column */
   #site-hero {
@@ -34369,6 +34369,20 @@ window.addEventListener('appinstalled', function(){
   html body #vpn-sidebar .sb-item.sb-active .sb-icon{background:rgba(255,255,255,0.22) !important;border-color:rgba(255,255,255,0.35) !important;}
   html body #vpn-sidebar .sb-item .sb-icon{flex-shrink:0;width:1.6rem;height:1.6rem;display:grid;place-items:center;border-radius:8px;font-size:0.95rem;background:rgba(255,255,255,0.05);filter:none !important;margin:0 !important;}
   html body #vpn-sidebar .sb-section{font:700 0.68rem/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.12em !important;text-transform:uppercase !important;color:rgba(200,206,230,0.45) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;margin:1.1rem 0.75rem 0.4rem !important;padding:0 !important;border:none !important;background:none !important;}
+  /* sidebar sizing: fixed px so the 19px root font boost can't push labels past the 272px rail */
+  @media(min-width:901px){
+    html body #vpn-sidebar{width:272px !important;}
+    html body #vpn-sidebar .sb-item{font-size:14.5px !important;line-height:1.25 !important;min-height:36px;padding:7px 10px !important;gap:10px !important;white-space:nowrap !important;}
+    html body #vpn-sidebar .sb-item .sb-icon{width:26px !important;height:26px !important;font-size:14px !important;}
+    html body #vpn-sidebar .sb-section{font-size:11px !important;margin:18px 12px 6px !important;}
+    html body #vpn-sidebar .sb-search-wrap{margin:10px 12px !important;}
+    html body #vpn-sidebar .sb-search-input{width:100% !important;box-sizing:border-box !important;font-size:14px !important;}
+    html body #vpn-sidebar .sb-logo-inner{padding:14px 14px !important;}
+    html body #vpn-sidebar .vpn-lockup .vl-word{font-size:18px !important;}
+    html body #vpn-sidebar .vpn-lockup .vl-name{font-size:12px !important;}
+    html body #vpn-sidebar .vpn-lockup .vl-tag{font-size:10.5px !important;}
+    html body #vpn-sidebar .sb-item .vpn-here-tag{flex-shrink:0;overflow:visible !important;text-overflow:clip !important;font-size:9.5px !important;padding:3px 7px !important;}
+  }
   html[data-theme="light"] body #vpn-sidebar .sb-item:hover{background:rgba(30,20,70,0.05) !important;}
   html[data-theme="light"] body #vpn-sidebar .sb-item .sb-icon{background:rgba(30,20,70,0.06);}
   html[data-theme="light"] body #vpn-sidebar .sb-section{color:#8a85a5 !important;}
