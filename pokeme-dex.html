@@ -1165,9 +1165,15 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   <span id="tabbtn-tracker" hidden></span><span id="tabbtn-index" hidden></span>
 
   <div class="tab-panel active" id="tab-tracker">
-  <!-- ═══ APP SCREEN: today, peptides, injection sites, save, how it works ═══ -->
-  <div id="pdx-app">
-    <section class="pa-card pa-today" id="pa-today-card" aria-labelledby="pa-today-h">
+  <!-- ═══ APP SCREEN: Today · My Dex · Sites · More ═══ -->
+  <div id="pdx-app" data-tab="today">
+    <nav class="pa-tabs" id="pa-tabs" aria-label="PokeMe-Dex">
+      <button type="button" data-t="today"><span class="ti">📅</span><span>Today</span></button>
+      <button type="button" data-t="dex"><span class="ti">📟</span><span>My Dex</span></button>
+      <button type="button" data-t="sites"><span class="ti">📍</span><span>Sites</span></button>
+      <button type="button" data-t="more"><span class="ti">⋯</span><span>More</span></button>
+    </nav>
+    <section class="pa-card pa-today" id="pa-today-card" data-tab="today" aria-labelledby="pa-today-h">
       <div class="pa-h">
         <div><small class="pa-date" id="pa-date">Today</small><h2 id="pa-today-h">Today's doses</h2></div>
         <span class="pa-pill" id="pa-prog-txt">0 of 0</span>
@@ -1176,45 +1182,31 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div id="pa-today"></div>
     </section>
 
-    <section class="pa-card" aria-labelledby="pa-peps-h">
-      <div class="pa-h"><div><h2 id="pa-peps-h">My peptides</h2><p>Tap <b>Edit</b> to change a dose, vial or schedule.</p></div></div>
-      <div id="pa-peps"></div>
-      <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Add a peptide</button>
+    <section class="pa-card" id="pa-sys-card" data-tab="today" aria-labelledby="pa-sys-h" hidden>
+      <div class="pa-h"><div><h2 id="pa-sys-h">In your system</h2><p>A rough estimate from your logged doses and each drug's half-life.</p></div></div>
+      <div id="pa-sys"></div>
     </section>
 
-    <section class="pa-card" aria-labelledby="pa-inj-h">
-      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Tap a spot to log a dose there. L and R mean <b>your</b> left and right.</p></div></div>
+    <section class="pa-card" data-tab="dex" aria-labelledby="pa-peps-h">
+      <div class="pa-h"><div><h2 id="pa-peps-h">My Dex</h2><p>Every peptide you've caught, with what's left in the vial.</p></div><span class="pa-pill" id="pa-dex-count">0 caught</span></div>
+      <div id="pa-peps"></div>
+      <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Catch a new peptide</button>
+    </section>
+
+    <section class="pa-card" data-tab="sites" aria-labelledby="pa-inj-h">
+      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Tap a spot to log a dose there. Shown as if you're facing a mirror.</p></div></div>
       <div class="pa-next" id="pa-next"></div>
-      <div class="pa-bodies">
-        <figure class="pa-fig">
-          <figcaption>Front</figcaption>
-          <div class="pa-sil">
-            <svg viewBox="0 0 100 200" aria-hidden="true"><circle cx="50" cy="17" r="12"/><rect x="31" y="33" width="38" height="72" rx="14"/><rect x="17" y="37" width="11" height="62" rx="5.5"/><rect x="72" y="37" width="11" height="62" rx="5.5"/><rect x="32" y="100" width="16" height="88" rx="8"/><rect x="52" y="100" width="16" height="88" rx="8"/></svg>
-            <button type="button" class="pa-dot" data-z="BUL" style="left:39%;top:31%">L</button>
-            <button type="button" class="pa-dot" data-z="BUR" style="left:61%;top:31%">R</button>
-            <button type="button" class="pa-dot" data-z="BLL" style="left:39%;top:45%">L</button>
-            <button type="button" class="pa-dot" data-z="BLR" style="left:61%;top:45%">R</button>
-            <button type="button" class="pa-dot" data-z="TL" style="left:40%;top:66%">L</button>
-            <button type="button" class="pa-dot" data-z="TR" style="left:60%;top:66%">R</button>
-          </div>
-        </figure>
-        <figure class="pa-fig">
-          <figcaption>Back</figcaption>
-          <div class="pa-sil">
-            <svg viewBox="0 0 100 200" aria-hidden="true"><circle cx="50" cy="17" r="12"/><rect x="31" y="33" width="38" height="72" rx="14"/><rect x="17" y="37" width="11" height="62" rx="5.5"/><rect x="72" y="37" width="11" height="62" rx="5.5"/><rect x="32" y="100" width="16" height="88" rx="8"/><rect x="52" y="100" width="16" height="88" rx="8"/></svg>
-            <button type="button" class="pa-dot" data-z="AL" style="left:22.5%;top:32%">L</button>
-            <button type="button" class="pa-dot" data-z="AR" style="left:77.5%;top:32%">R</button>
-            <button type="button" class="pa-dot" data-z="GL" style="left:40%;top:50%">L</button>
-            <button type="button" class="pa-dot" data-z="GR" style="left:60%;top:50%">R</button>
-          </div>
-        </figure>
+      <div class="pa-body-ctl">
+        <div class="pa-seg" id="pa-sex" role="group" aria-label="Body"><button type="button" data-v="m">Male</button><button type="button" data-v="f">Female</button></div>
+        <div class="pa-seg" id="pa-side" role="group" aria-label="View"><button type="button" data-v="front">Front</button><button type="button" data-v="back">Back</button></div>
       </div>
+      <div class="pa-body" id="pa-body"></div>
       <div class="pa-legend"><span><i class="g"></i>Best next spot</span><span><i class="r"></i>Last 3 days</span><span><i class="a"></i>4–7 days ago</span><span><i></i>Rested</span></div>
       <h3 class="pa-sub">Recent</h3>
       <div id="pa-log"></div>
     </section>
 
-    <section class="pa-card" aria-labelledby="pa-save-h">
+    <section class="pa-card" data-tab="more" aria-labelledby="pa-save-h">
       <div class="pa-h"><div><h2 id="pa-save-h">Save your plan</h2><p>Doses, syringe units, a 14-day checklist and what to buy, on one page.</p></div></div>
       <div class="pa-btns">
         <button type="button" class="pa-btn pri" onclick="pmdPrintReport()">🖨 Save as PDF</button>
@@ -1224,7 +1216,23 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <p class="pa-tip">PDF: on the print screen choose <b>Save as PDF</b>. Notes / Keep: on a phone pick Keep or Notes from the share menu; on a computer it copies your plan and opens Keep.</p>
     </section>
 
-    <details class="pa-card pa-faq" id="pa-faq">
+    <section class="pa-card" data-tab="more" id="pa-backup-card" aria-labelledby="pa-bk-h">
+      <div class="pa-h"><div><h2 id="pa-bk-h">Back up your data</h2><p>PokeMe-Dex saves on this device. Clearing cookies keeps it, but <b>"Clear site data"</b>, clearing all browsing data, or a new phone erases it. Keep a backup file.</p></div></div>
+      <div class="pa-btns two">
+        <button type="button" class="pa-btn pri" onclick="pmdBackup()">⬇ Save backup file</button>
+        <button type="button" class="pa-btn" onclick="document.getElementById('pa-restore-in').click()">⬆ Restore from file</button>
+      </div>
+      <input type="file" id="pa-restore-in" accept=".json,application/json" hidden onchange="pmdRestore(this)">
+      <p class="pa-tip" id="pa-bk-last"></p>
+    </section>
+
+    <section class="pa-card" data-tab="more" id="pa-install-card" aria-labelledby="pa-ins-h">
+      <div class="pa-h"><div><h2 id="pa-ins-h">Get the app</h2><p>Install PokeMe-Dex on your home screen. It opens full screen like an app, with no app store needed.</p></div></div>
+      <button type="button" class="pa-btn pri wide" id="pa-install-btn" onclick="pmdInstall()">📲 Install PokeMe-Dex</button>
+      <p class="pa-tip" id="pa-install-tip"></p>
+    </section>
+
+    <details class="pa-card pa-faq" data-tab="more" id="pa-faq">
       <summary><span>How PokeMe-Dex works</span></summary>
       <ol>
         <li><b>Add a peptide.</b> Answer a few quick questions: vial, water, dose, how often and for how long.</li>
@@ -3676,6 +3684,416 @@ function showTab(name){
   if (cta[1]) cta[1].setAttribute('onclick', 'pmdHow();return false;');
 
   if (typeof renderDashboard === 'function') renderDashboard();
+})();
+</script>
+
+<!-- ═══ POKEME-DEX v2: tabs, body map, Dex cards, in-your-system, reminders, backup, install ═══ -->
+<style id="pdx-v2-css">
+  /* tabs: one simple screen at a time */
+  html body #pdx-app{padding-bottom:110px !important;}
+  #pdx-app > [data-tab]{display:none;}
+  #pdx-app[data-tab="today"] > [data-tab="today"],#pdx-app[data-tab="dex"] > [data-tab="dex"],#pdx-app[data-tab="sites"] > [data-tab="sites"],#pdx-app[data-tab="more"] > [data-tab="more"]{display:block;}
+  #pdx-app > [data-tab][hidden]{display:none !important;}
+  .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:min(460px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
+  .pa-tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px !important;border:none !important;border-radius:16px !important;background:transparent !important;color:#6b6356 !important;font:700 12px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .pa-tabs .ti{font-size:19px;line-height:1;filter:grayscale(1) opacity(.7);}
+  .pa-tabs button.on{background:#fff1ee !important;color:#d7261e !important;}
+  .pa-tabs button.on .ti{filter:none;}
+  body:has(#pa-tabs) #vt-dock{bottom:calc(92px + env(safe-area-inset-bottom,0px)) !important;}
+  body:has(#pa-tabs) #vt-top-btn,body:has(#pa-tabs) #vpn-close-cards{display:none !important;}
+  body.qz-lock .pa-tabs{display:none;}
+  /* shared bits */
+  html body #pdx-app .pa-btns.two{grid-template-columns:1fr 1fr;}
+  html body #pdx-app .pa-btn.wide{width:100%;}
+  html body #pdx-app .pa-seg{display:inline-flex;padding:3px;border-radius:12px;background:#f3eee5;}
+  html body #pdx-app .pa-seg button{padding:8px 14px !important;border:none !important;border-radius:9px !important;background:transparent !important;color:#6b6356 !important;font:700 13.5px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .pa-seg button.on{background:#fff !important;color:#1a1626 !important;box-shadow:0 1px 3px rgba(0,0,0,0.12) !important;}
+  /* body map */
+  html body #pdx-app .pa-body-ctl{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:14px 0 6px;}
+  html body #pdx-app .pa-body{position:relative;max-width:250px;margin:0 auto;}
+  @media(max-width:600px){ html body #pdx-app .pa-body{max-width:215px;} }
+  html body #pdx-app .pa-body svg{display:block;width:100%;height:auto;}
+  html body #pdx-app .pa-body::after{content:'';position:absolute;left:0;right:0;bottom:0;height:48px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);pointer-events:none;}
+  #pa-body .sk{fill:#efe5d6;stroke:#cbbca6;stroke-width:0.6;stroke-linejoin:round;}
+  #pa-body .hr{fill:#6b5a4a;}
+  #pa-body .ln{fill:none;stroke:#cbbca6;stroke-width:0.5;stroke-linecap:round;}
+  #pa-body .pz{cursor:pointer;}
+  #pa-body .pz rect{fill:#e9b98a;stroke:#fff;stroke-width:0.7;transition:fill .2s;}
+  #pa-body .pz text{font:800 4.2px 'Inter',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+  #pa-body .pz:hover rect{filter:brightness(1.08);}
+  #pa-body .pz.r rect{fill:#e2463a;} #pa-body .pz.a rect{fill:#f0a520;}
+  #pa-body .pz.g rect{fill:#2e9e3f;animation:pzPulse 1.6s ease-in-out infinite;}
+  @keyframes pzPulse{50%{stroke:#9ff0b0;stroke-width:1.6;}}
+  html body #pdx-app .pa-legend i{background:#e9b98a;}
+  html body #pdx-app .pa-logrow{align-items:center;}
+  html body #pdx-app .pa-logrow .del{flex-shrink:0;width:34px;height:34px;padding:0 !important;border-radius:10px !important;border:1px solid #efd3cd !important;background:#fff !important;color:#d7261e !important;font:800 15px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  /* Dex cards: each peptide as a caught entry */
+  .dx-card{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:14px;border-radius:18px;border:1px solid #e9e2d6;background:linear-gradient(180deg,#fff,#fffaf6);margin-top:10px;}
+  .dx-card:first-child{margin-top:0;}
+  .dx-vial{display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .dx-vial svg{width:58px;height:auto;display:block;}
+  .dx-vial small{font:800 11px/1 'Inter',sans-serif;color:#6b6356;}
+  .dx-vial small.warn{color:#d7261e;}
+  .dx-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .dx-no{font:800 11.5px/1 'Inter',sans-serif;letter-spacing:0.06em;color:#8a8170;}
+  .dx-type{font:800 11px/1 'Inter',sans-serif;padding:5px 8px;border-radius:99px;background:#fff1ee;color:#d7261e;}
+  .dx-type.oral{background:#eef4ff;color:#2a5bd7;}
+  .dx-name{display:block;margin:5px 0 3px;font:900 19px/1.15 'Inter',sans-serif;color:#1a1626;}
+  .dx-meta{font:500 13.5px/1.45 'Inter',sans-serif;color:#4a4335;}
+  .dx-meta b{color:#1a1626;}
+  .dx-prog{margin:9px 0 4px;}
+  .dx-prog div{display:flex;justify-content:space-between;font:700 12px/1 'Inter',sans-serif;color:#6b6356;margin-bottom:5px;}
+  .dx-prog i{display:block;height:6px;border-radius:99px;background:#f0ebe1;overflow:hidden;}
+  .dx-prog u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff5a3c,#d7261e);}
+  .dx-stock{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px;padding:8px 10px;border-radius:12px;background:#faf7f2;font:600 13px/1.35 'Inter',sans-serif;color:#4a4335;}
+  .dx-stock.low{background:#fff6e6;color:#7a4b00;} .dx-stock.out{background:#fff0ee;color:#b42318;}
+  .dx-spare{display:inline-flex;align-items:center;gap:6px;font:700 12.5px/1 'Inter',sans-serif;}
+  .dx-spare button{width:26px;height:26px;padding:0 !important;border-radius:8px !important;border:1px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .dx-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .dx-acts button{padding:9px 12px !important;border-radius:10px !important;border:1px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:700 13px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .dx-acts button.pri{border:none !important;background:#d7261e !important;color:#fff !important;}
+  .dx-acts button.done{border:none !important;background:#e8f6eb !important;color:#1f7a32 !important;}
+  .dx-acts button.del{color:#d7261e !important;border-color:#efd3cd !important;}
+  .dx-acts button.new{border-color:#d7261e !important;color:#d7261e !important;}
+  @media(max-width:400px){ .dx-card{grid-template-columns:52px 1fr;gap:10px;padding:12px;} .dx-vial svg{width:48px;} }
+  /* in your system */
+  .sy-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 0;border-top:1px solid #f0ebe1;}
+  .sy-row:first-child{border-top:none;padding-top:0;}
+  .sy-row small{display:block;font:800 11px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#8a8170;}
+  .sy-row b{display:block;margin:5px 0 3px;font:900 22px/1 'Inter',sans-serif;color:#1a1626;}
+  .sy-row b em{font-style:normal;font-size:13px;font-weight:600;color:#6b6356;margin-left:4px;}
+  .sy-row span{display:block;font:500 13px/1.35 'Inter',sans-serif;color:#6b6356;}
+  .sy-row svg{width:120px;height:42px;display:block;}
+  .sy-note{margin:8px 0 0 !important;font:500 12px/1.45 'Inter',sans-serif !important;color:#8a8170 !important;}
+  /* reminder sheet */
+  .rm{position:fixed;inset:0;z-index:100004;background:rgba(20,16,30,0.55);display:flex;align-items:flex-end;justify-content:center;}
+  @media(min-width:640px){ .rm{align-items:center;} }
+  .rm-card{width:100%;max-width:480px;background:#fffdf8;border-radius:22px 22px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));font-family:'Inter',system-ui,sans-serif;color:#1a1626;}
+  @media(min-width:640px){ .rm-card{border-radius:22px;} }
+  .rm-card h3{margin:0 0 4px !important;font:900 21px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;text-transform:none !important;letter-spacing:-0.01em !important;}
+  .rm-card p{margin:0 0 14px !important;font:500 14px/1.5 'Inter',sans-serif !important;color:#6b6356 !important;}
+  .rm-card label{display:block;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.06em;text-transform:uppercase;color:#8a8170;margin-bottom:6px;}
+  .rm-card input[type=time]{width:100%;height:56px;border-radius:14px;border:2px solid #e6dfd2;background:#fff;font:800 22px/1 'Inter',sans-serif;text-align:center;color:#1a1626;box-sizing:border-box;}
+  .rm-card .rm-btns{display:grid;gap:8px;margin-top:14px;}
+  .rm-card .rm-btns button{height:52px;border-radius:14px;border:1px solid #e0d8ca;background:#fff;color:#1a1626;font:800 15px/1 'Inter',sans-serif;cursor:pointer;}
+  .rm-card .rm-btns button.pri{border:none;background:#d7261e;color:#fff;}
+  .rm-card .rm-x{float:right;width:36px;height:36px;border-radius:50%;border:none;background:#f0ece4;font-size:16px;cursor:pointer;}
+</style>
+
+<script>
+(function(){
+  var app = document.getElementById('pdx-app'); if (!app) return;
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function ls(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+  function daysAgo(ds){ return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function zoneLabel(c){ var z = INJ_ZONES.find(function(x){ return x.code === c; }); return z ? z.label : c; }
+  function hhmm(t){ if (!t) return ''; var q = t.split(':'), h = +q[0]; return ((h % 12) || 12) + ':' + q[1] + (h < 12 ? ' AM' : ' PM'); }
+  function r1(v){ return Math.round(v * 10) / 10; }
+
+  /* ── tabs ── */
+  function setTab(t){
+    app.setAttribute('data-tab', t); ls('pmd_tab', t);
+    [].forEach.call(document.querySelectorAll('#pa-tabs button'), function(b){ b.classList.toggle('on', b.getAttribute('data-t') === t); });
+    if (t === 'sites') drawBody();
+    var top = app.getBoundingClientRect().top; if (top < 0) app.scrollIntoView({ block:'start' });
+  }
+  window.pmdTab = setTab;
+  document.getElementById('pa-tabs').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) setTab(b.getAttribute('data-t')); });
+
+  /* ── body map: realistic male / female, front / back ── */
+  function curve(pts){ // smooth line through points (Catmull-Rom)
+    var d = 'M' + pts[0][0] + ',' + pts[0][1];
+    for (var i = 0; i < pts.length - 1; i++) {
+      var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+      d += ' C' + r1(p1[0] + (p2[0] - p0[0]) / 6) + ',' + r1(p1[1] + (p2[1] - p0[1]) / 6) + ' ' + r1(p2[0] - (p3[0] - p1[0]) / 6) + ',' + r1(p2[1] - (p3[1] - p1[1]) / 6) + ' ' + p2[0] + ',' + p2[1];
+    }
+    return d;
+  }
+  function mirror(half){ return half.concat(half.slice(0, -1).reverse().map(function(p){ return [100 - p[0], p[1]]; })); }
+  var SHAPE = {
+    m:{ body:[[50,27],[55,28],[60,30],[67,33],[71,37],[70,46],[68,56],[66,66],[66,76],[68,86],[68,96],[66,112],[64,128],[63,140],[63,152],[61,170],[50,170]],
+        arm:[[70,36],[75,40],[77,50],[78,62],[79,76],[80,88],[81,100],[82,108],[80,113],[77,112],[76,104],[75,92],[73,78],[71,64],[69,52],[68,44],[70,36]] },
+    f:{ body:[[50,28],[54,29],[58,31],[64,34],[67,38],[67,46],[66,52],[64,60],[61,68],[62,76],[67,88],[69,98],[67,114],[64,130],[62,142],[62,154],[61,170],[50,170]],
+        arm:[[66,36],[71,40],[73,50],[74,62],[75,76],[76,88],[77,100],[78,108],[76,113],[73,112],[72,104],[71,92],[69,78],[67,64],[65,52],[64,44],[66,36]] }
+  };
+  var ZONES = {
+    m:{ front:{ BUL:[37,64,11,10], BUR:[52,64,11,10], BLL:[37,78,11,10], BLR:[52,78,11,10], TL:[36,112,10,22], TR:[54,112,10,22] },
+        back: { AL:[22,48,8,20], AR:[70,48,8,20], GL:[37,95,12,13], GR:[51,95,12,13] } },
+    f:{ front:{ BUL:[39,64,10,10], BUR:[51,64,10,10], BLL:[38,78,11,10], BLR:[51,78,11,10], TL:[35,112,10,22], TR:[55,112,10,22] },
+        back: { AL:[25,48,8,20], AR:[67,48,8,20], GL:[36,96,13,13], GR:[51,96,13,13] } }
+  };
+  var LBL = { BUL:'L', BUR:'R', BLL:'L', BLR:'R', TL:'L', TR:'R', AL:'L', AR:'R', GL:'L', GR:'R' };
+  function sex(){ return ls('pmd_body') === 'f' ? 'f' : 'm'; }
+  function side(){ return ls('pmd_side') === 'back' ? 'back' : 'front'; }
+  function drawBody(){
+    var host = document.getElementById('pa-body'); if (!host) return;
+    var sx = sex(), sd = side(), S = SHAPE[sx];
+    var torso = curve(mirror(S.body)) + ' Z';
+    var armR = curve(S.arm) + ' Z', armL = curve(S.arm.map(function(p){ return [100 - p[0], p[1]]; })) + ' Z';
+    var hairF = sx === 'f' ? '<path class="hr" d="M40.5,17 C40,5 47,2.5 50,2.5 C53,2.5 60,5 59.5,17 C60,24 61.5,29 60,32 C58,30 58,24 58.5,18 C57,12 53,10.5 50,10.5 C47,10.5 43,12 41.5,18 C42,24 42,30 40,32 C38.5,29 40,24 40.5,17 Z"/>'
+                           : '<path class="hr" d="M41.6,13 C42,6 46.5,3.6 50,3.6 C53.5,3.6 58,6 58.4,13 C56.5,10 53.5,9 50,9 C46.5,9 43.5,10 41.6,13 Z"/>';
+    var hairB = sx === 'f' ? '<path class="hr" d="M40.5,16 C40,5 47,2.5 50,2.5 C53,2.5 60,5 59.5,16 C60.5,24 61.5,30 59,34 C55,35.5 45,35.5 41,34 C38.5,30 39.5,24 40.5,16 Z"/>'
+                           : '<path class="hr" d="M41.5,15 C41.5,6 46.5,3.6 50,3.6 C53.5,3.6 58.5,6 58.5,15 C58,21 56,24.5 50,24.5 C44,24.5 42,21 41.5,15 Z"/>';
+    var details = sd === 'front'
+      ? '<circle cx="50" cy="76" r="0.9" fill="#cbbca6"/>' + (sx === 'f' ? '<path class="ln" d="M43,49 C45,53 48,53 49.5,51 M50.5,51 C52,53 55,53 57,49"/>' : '<path class="ln" d="M43,46 C46,49 49,48.5 50,47 C51,48.5 54,49 57,46"/>')
+      : '<path class="ln" d="M50,31 L50,86"/><path class="ln" d="M50,92 L50,104"/>';
+    var z = ZONES[sx][sd], next = suggestedZone(), map = {};
+    INJ_ZONES.forEach(function(q){ map[q.code] = lastUsedDateForZone(q.code); });
+    var patches = Object.keys(z).map(function(c){
+      var r = z[c], last = map[c], n = last ? daysAgo(last) : null;
+      var cls = c === next ? 'g' : (last == null ? '' : (n <= 3 ? 'r' : (n <= 7 ? 'a' : '')));
+      var tip = zoneLabel(c) + ' · ' + (last ? 'last used ' + (n === 0 ? 'today' : n === 1 ? 'yesterday' : n + ' days ago') : 'not used yet') + (c === next ? ' · best next spot' : '');
+      return '<g class="pz ' + cls + '" data-z="' + c + '" role="button" tabindex="0" aria-label="' + esc(tip) + '. Tap to log a dose here."><title>' + esc(tip) + '</title><rect x="' + r[0] + '" y="' + r[1] + '" width="' + r[2] + '" height="' + r[3] + '" rx="3.2"/><text x="' + (r[0] + r[2] / 2) + '" y="' + (r[1] + r[3] / 2) + '">' + LBL[c] + '</text></g>';
+    }).join('');
+    host.innerHTML = '<svg viewBox="12 0 76 150" role="img" aria-label="' + (sx === 'f' ? 'Female' : 'Male') + ' body, ' + sd + ' view, with injection spots">'
+      + '<path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/>'
+      + '<rect class="sk" x="46" y="21" width="8" height="9" rx="2"/><ellipse class="sk" cx="50" cy="15" rx="8.5" ry="10.5"/>'
+      + (sd === 'front' ? hairF : hairB) + '<path class="sk" d="' + torso + '"/>' + details + patches + '</svg>';
+    [].forEach.call(host.querySelectorAll('.pz'), function(g){
+      function go(){ logInjSite(g.getAttribute('data-z')); }
+      g.addEventListener('click', go); g.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+    [['pa-sex', sx], ['pa-side', sd]].forEach(function(q){ [].forEach.call(document.querySelectorAll('#' + q[0] + ' button'), function(b){ b.classList.toggle('on', b.getAttribute('data-v') === q[1]); }); });
+  }
+  document.getElementById('pa-sex').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) { ls('pmd_body', b.getAttribute('data-v')); drawBody(); } });
+  document.getElementById('pa-side').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) { ls('pmd_side', b.getAttribute('data-v')); drawBody(); } });
+
+  var baseInj = window.renderInjSites;
+  var showAll = false;
+  window.renderInjSites = function(){
+    var next = suggestedZone();
+    var nx = document.getElementById('pa-next');
+    if (nx) nx.innerHTML = '<span>⭐ Best next spot: <b>' + esc(zoneLabel(next)) + '</b></span><button type="button" onclick="logInjSite(\'' + next + '\')">Log here</button>';
+    // switch the view to where the best spot is, the first time
+    if (!ls('pmd_side')) ls('pmd_side', /^(AL|AR|GL|GR)$/.test(next) ? 'back' : 'front');
+    drawBody();
+    var log = document.getElementById('pa-log'); if (!log) return;
+    if (!INJ_LOG.length) { log.innerHTML = '<div class="pa-empty" style="padding:8px 0;text-align:left;">No injections logged yet.</div>'; return; }
+    var list = showAll ? INJ_LOG : INJ_LOG.slice(0, 5);
+    log.innerHTML = list.map(function(e){
+      var n = daysAgo(e.date);
+      return '<div class="pa-logrow"><div><b>' + esc(zoneLabel(e.zone)) + '</b>' + (e.name ? '<br><span>' + esc(e.name) + (e.mg ? ' · ' + e.mg + ' mg' : '') + '</span>' : '') + '</div>'
+        + '<div style="display:flex;align-items:center;gap:10px;"><time>' + (n === 0 ? 'today' : n === 1 ? 'yesterday' : e.date) + (e.time ? '<br>' + hhmm(e.time) : '') + '</time>'
+        + '<button type="button" class="del" aria-label="Delete this entry" onclick="pmdDelLog(\'' + e.id + '\')">✕</button></div></div>';
+    }).join('') + (INJ_LOG.length > 5 ? '<button type="button" class="pa-more" onclick="pmdToggleLog()">' + (showAll ? 'Show less' : 'Show all ' + INJ_LOG.length) + '</button>' : '');
+  };
+  window.pmdToggleLog = function(){ showAll = !showAll; renderInjSites(); };
+  window.pmdDelLog = function(id){
+    var e = INJ_LOG.find(function(x){ return x.id === id; }); if (!e) return;
+    var rec = e.pid && DOSE_LOG[e.date] && DOSE_LOG[e.date][e.pid];
+    var linked = rec && (typeof rec !== 'object' || !rec.site || rec.site === e.zone);
+    if (!confirm('Are you sure you want to delete this entry?\n\n' + zoneLabel(e.zone) + (e.name ? ' · ' + e.name : '') + ' · ' + e.date + (linked ? '\n\nThe dose logged with it will be removed too.' : ''))) return;
+    INJ_LOG = INJ_LOG.filter(function(x){ return x.id !== id; }); saveInjLog();
+    if (linked) { delete DOSE_LOG[e.date][e.pid]; saveDoseLog(); }
+    renderDashboard(); pmdToast('🗑 Entry deleted.');
+  };
+
+  /* ── delete always asks first ── */
+  var baseRemove = window.removeProtocol;
+  window.removeProtocol = function(id){
+    var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
+    if (!confirm('Are you sure you want to delete ' + p.name + ' from your Dex?\n\nIts schedule is removed. Your past doses and injection log stay.')) return;
+    baseRemove(id); pmdToast('🗑 ' + esc(p.name) + ' deleted.');
+  };
+
+  /* ── vial / bottle stock, worked out from your log ── */
+  function openedAt(p){ return p.vialOpened || ((p.mixed || p.startDateTime.split('T')[0]) + 'T00:00'); }
+  function usedSince(p){
+    var o = openedAt(p), od = o.split('T')[0], ot = o.split('T')[1] || '00:00', used = 0;
+    Object.keys(DOSE_LOG).forEach(function(d){
+      var rec = DOSE_LOG[d] && DOSE_LOG[d][p.id]; if (!rec || d < od) return;
+      var r = typeof rec === 'object' ? rec : {};
+      if (d === od && r.time && r.time < ot) return;
+      used += (r.mg || p.dose);
+    });
+    return used;
+  }
+  function stock(p){
+    var oral = pmdOral(p), used = usedSince(p);
+    if (oral) {
+      var per = p.dose / pmdPill(p) * pmdPerDay(p), total = p.bottle || 30, left = Math.max(0, Math.round((total - used / pmdPill(p) * pmdPerDay(p)) * 10) / 10);
+      return { oral:true, total:total, left:left, unit:'pills', doses: per ? Math.floor(left / per) : 0, frac: total ? left / total : 0 };
+    }
+    var leftMg = Math.max(0, r1(p.vial - used));
+    return { oral:false, total:p.vial, left:leftMg, unit:'mg', doses: p.dose ? Math.floor(leftMg / p.dose + 1e-6) : 0, frac: p.vial ? leftMg / p.vial : 0 };
+  }
+  function vialSvg(p, st){
+    var h = Math.max(0, Math.min(1, st.frac)), oral = st.oral;
+    var color = oral ? '#8a4b16' : '#7fd3b0';
+    if (oral) return '<svg viewBox="0 0 60 96" aria-hidden="true"><rect x="12" y="4" width="36" height="12" rx="3" fill="#f2efe8" stroke="#bdb4a3"/><rect x="8" y="16" width="44" height="76" rx="8" fill="#b8651f" stroke="#7a3f10"/><rect x="8" y="' + (16 + 76 * (1 - h)) + '" width="44" height="' + (76 * h) + '" rx="8" fill="#8a4b16" opacity=".55"/><rect x="12" y="40" width="36" height="26" rx="3" fill="#fff"/><text x="30" y="53" font-size="' + (p.name.split(/[ (]/)[0].length > 5 ? 6.5 : 8.5) + '" font-weight="900" text-anchor="middle" dominant-baseline="central" fill="#1a1626" font-family="Inter,sans-serif">' + esc(p.name.split(/[ (]/)[0].slice(0, 7).toUpperCase()) + '</text></svg>';
+    var liqTop = 30 + 58 * (1 - h);
+    return '<svg viewBox="0 0 60 96" aria-hidden="true"><rect x="16" y="2" width="28" height="12" rx="3" fill="#9aa3ad" stroke="#6d7680"/><rect x="20" y="13" width="20" height="8" fill="#c7ccd2"/><path d="M14,24 C14,21 16,20 19,20 L41,20 C44,20 46,21 46,24 L46,86 C46,90 43,92 39,92 L21,92 C17,92 14,90 14,86 Z" fill="#eef3f6" stroke="#b9c3cc"/>'
+      + (h > 0 ? '<path d="M14,' + liqTop + ' L46,' + liqTop + ' L46,86 C46,90 43,92 39,92 L21,92 C17,92 14,90 14,86 Z" fill="' + color + '" opacity=".75"/>' : '')
+      + '<rect x="14" y="44" width="32" height="24" rx="2" fill="#fff" stroke="#d8d2c6"/><text x="30" y="52" font-size="' + (p.name.split(/[ (]/)[0].length > 5 ? 5.8 : 7.5) + '" font-weight="900" text-anchor="middle" dominant-baseline="central" fill="#1a1626" font-family="Inter,sans-serif">' + esc(p.name.split(/[ (]/)[0].replace(/[^A-Za-z0-9-]/g, '').slice(0, 7).toUpperCase()) + '</text><text x="30" y="61" font-size="5.5" font-weight="700" text-anchor="middle" dominant-baseline="central" fill="#6b6356" font-family="Inter,sans-serif">' + p.vial + ' mg</text><path d="M18,26 L18,84" stroke="#fff" stroke-width="2" opacity=".7" stroke-linecap="round"/></svg>';
+  }
+  window.pmdSpare = function(id, d){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return; p.spare = Math.max(0, (p.spare || 0) + d); saveProtocols(); renderProtocolsList(); };
+  window.pmdNewVial = function(id){
+    var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
+    var oral = pmdOral(p);
+    if (oral) {
+      var n = prompt('How many pills are in the new bottle?', String(p.bottle || 30)); if (n === null) return;
+      n = Math.max(1, Math.round(+n || 30)); p.bottle = n;
+    } else if (!confirm('Start a new ' + p.vial + ' mg vial of ' + p.name + ' today?' + ((p.spare || 0) > 0 ? '\n\nThis uses 1 of your ' + p.spare + ' spare vials.' : ''))) return;
+    if ((p.spare || 0) > 0) p.spare--;
+    p.vialOpened = nowDateTimeLocal(); if (!oral) p.mixed = todayStr();
+    saveProtocols(); renderDashboard(); pmdToast('✓ New ' + (oral ? 'bottle' : 'vial') + ' started for <b>' + esc(p.name) + '</b>.');
+  };
+  window.renderProtocolsList = function(){
+    var out = document.getElementById('pa-peps'); if (!out) return;
+    var cnt = document.getElementById('pa-dex-count'); if (cnt) cnt.textContent = ACTIVE_PROTOCOLS.length + ' caught';
+    if (!ACTIVE_PROTOCOLS.length) { out.innerHTML = '<div class="pa-empty"><b>Your Dex is empty.</b><br>Catch your first peptide below.</div>'; return; }
+    var t = todayStr();
+    out.innerHTML = ACTIVE_PROTOCOLS.map(function(p, i){
+      var oral = pmdOral(p), st = stock(p), day = Math.min(p.durationDays, Math.max(1, daysSinceStart(p) + 1)), pct = Math.round(day / p.durationDays * 100);
+      var due = isDoseDueToday(p), done = !!(DOSE_LOG[t] && DOSE_LOG[t][p.id]);
+      var u = pmdUnits(p), when = p.timeLabel.split(' (')[0].replace('Either — No Strong Preference', 'Any time').replace('Evening / Before Bed', 'Evening');
+      var cls = st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : '');
+      var stockTxt = st.left <= 0 ? '⚠ ' + (oral ? 'Bottle' : 'Vial') + ' empty' : (oral ? st.left + ' of ' + st.total + ' pills left' : st.left + ' of ' + st.total + ' mg left') + ' · ~' + st.doses + ' dose' + (st.doses === 1 ? '' : 's');
+      var mixedTxt = !oral && p.mixed ? (function(a){ return ' · mixed ' + (a === 0 ? 'today' : a === 1 ? 'yesterday' : a + ' days ago') + (a >= 28 ? ' ⚠' : ''); })(daysAgo(p.mixed)) : '';
+      return '<div class="dx-card">'
+        + '<div class="dx-vial">' + vialSvg(p, st) + '<small class="' + (cls ? 'warn' : '') + '">' + (st.left <= 0 ? 'Empty' : Math.round(st.frac * 100) + '%') + '</small></div>'
+        + '<div><div class="dx-top"><span class="dx-no">No. ' + String(i + 1).padStart(3, '0') + '</span><span class="dx-type' + (oral ? ' oral' : '') + '">' + (oral ? '💊 Pill' : '💉 Injection') + '</span></div>'
+        + '<b class="dx-name">' + esc(p.name) + '</b>'
+        + '<div class="dx-meta"><b>' + p.dose + ' mg</b> · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '×/day' : '') + ' · ' + when + (oral ? ' · ' + pmdPillTxt(p) : ' · <b>' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units</b>') + '</div>'
+        + '<div class="dx-prog"><div><span>Day ' + day + ' of ' + p.durationDays + '</span><span>' + daysRemaining(p) + ' left</span></div><i><u style="width:' + pct + '%"></u></i></div>'
+        + '<div class="dx-stock ' + cls + '"><span>' + stockTxt + mixedTxt + '</span><span class="dx-spare">Spare <button type="button" aria-label="One less spare" onclick="pmdSpare(\'' + p.id + '\',-1)">−</button>' + (p.spare || 0) + '<button type="button" aria-label="One more spare" onclick="pmdSpare(\'' + p.id + '\',1)">+</button></span></div>'
+        + '<div class="dx-acts">'
+        + (due ? (done ? '<button type="button" class="done" onclick="toggleDoseDone(\'' + p.id + '\')">✓ Done today</button>' : '<button type="button" class="pri" onclick="toggleDoseDone(\'' + p.id + '\')">Log dose</button>') : '')
+        + (cls ? '<button type="button" class="new" onclick="pmdNewVial(\'' + p.id + '\')">＋ New ' + (oral ? 'bottle' : 'vial') + '</button>' : '')
+        + '<button type="button" onclick="pmdRemind(\'' + p.id + '\')">🔔' + (p.remind ? ' ' + hhmm(p.remind) : ' Remind') + '</button>'
+        + '<button type="button" onclick="pmdEditProtocol(\'' + p.id + '\')">Edit</button>'
+        + '<button type="button" class="del" onclick="removeProtocol(\'' + p.id + '\')">Delete</button>'
+        + '</div></div></div>';
+    }).join('');
+  };
+
+  /* ── in your system: rough estimate from half-life ── */
+  var HALF = { reta:144, tirz:120, sema:168, cagri:168 };
+  function halfOf(p){ if (HALF[p.key]) return HALF[p.key]; var n = (p.name || '').toLowerCase(); return /retatrutide/.test(n) ? 144 : /tirzepatide/.test(n) ? 120 : /semaglutide/.test(n) ? 168 : /cagrilintide/.test(n) ? 168 : 0; }
+  function dosesOf(p){
+    var out = [];
+    Object.keys(DOSE_LOG).forEach(function(d){ var rec = DOSE_LOG[d] && DOSE_LOG[d][p.id]; if (!rec) return; var r = typeof rec === 'object' ? rec : {}; out.push({ t: new Date(d + 'T' + (r.time || '09:00')).getTime(), mg: r.mg || p.dose }); });
+    return out.sort(function(a, b){ return a.t - b.t; });
+  }
+  function level(ds, half, T){ var s = 0; ds.forEach(function(x){ if (x.t <= T) s += x.mg * Math.pow(0.5, (T - x.t) / 3600000 / half); }); return s; }
+  function renderSys(){
+    var card = document.getElementById('pa-sys-card'), out = document.getElementById('pa-sys'); if (!card || !out) return;
+    var now = Date.now(), rows = [];
+    ACTIVE_PROTOCOLS.forEach(function(p){
+      var half = halfOf(p); if (!half) return;
+      var ds = dosesOf(p); if (!ds.length) return;
+      var cur = level(ds, half, now), last = ds[ds.length - 1].t, h = Math.round((now - last) / 3600000);
+      var since = h < 24 ? h + 'h' : Math.floor(h / 24) + 'd ' + (h % 24) + 'h';
+      var trend = (now - last) < 24 * 3600000 ? 'Peaking' : 'Falling';
+      var W = 120, H = 42, from = now - 14 * 864e5, to = now + 7 * 864e5, N = 60, pts = [], mx = 0.0001;
+      for (var i = 0; i <= N; i++) { var T = from + (to - from) * i / N, v = level(ds, half, T); pts.push([T, v]); if (v > mx) mx = v; }
+      function xy(q){ return r1((q[0] - from) / (to - from) * W) + ',' + r1(H - 4 - q[1] / mx * (H - 8)); }
+      var past = pts.filter(function(q){ return q[0] <= now; }).map(xy).join(' '), fut = pts.filter(function(q){ return q[0] >= now; }).map(xy).join(' ');
+      rows.push('<div class="sy-row"><div><small>' + esc(p.name) + '</small><b>' + cur.toFixed(2) + ' mg<em>on board</em></b><span>' + trend + ' · ' + since + ' since last dose</span></div>'
+        + '<svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><polyline points="' + past + '" fill="none" stroke="#d7261e" stroke-width="2" stroke-linejoin="round"/><polyline points="' + fut + '" fill="none" stroke="#d7261e" stroke-width="2" stroke-dasharray="3 3" opacity=".55"/><line x1="' + r1((now - from) / (to - from) * W) + '" y1="2" x2="' + r1((now - from) / (to - from) * W) + '" y2="' + (H - 2) + '" stroke="#e6dfd2"/></svg></div>');
+    });
+    card.hidden = !rows.length;
+    out.innerHTML = rows.join('') + '<p class="sy-note">Estimate only, from each drug\'s published half-life (about 5–7 days). Real levels depend on absorption and your body. Dotted line = if you skip your next dose.</p>';
+  }
+
+  /* ── reminders: added to your phone's own calendar so they ring even when the app is closed ── */
+  function defTime(p){ return p.remind || (p.timeOfDay === 'pm' ? '21:00' : (p.timeOfDay === 'any' ? '12:00' : '08:00')); }
+  function rrule(p){
+    var end = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); end.setDate(end.getDate() + p.durationDays - 1);
+    var until = end.getFullYear() + String(end.getMonth() + 1).padStart(2, '0') + String(end.getDate()).padStart(2, '0') + 'T235959';
+    var DAYS = ['SU','MO','TU','WE','TH','FR','SA'];
+    if (p.frequencyType === 'daily') return 'FREQ=DAILY;UNTIL=' + until;
+    if (p.frequencyType === 'weekly') return 'FREQ=WEEKLY;BYDAY=' + DAYS[new Date(p.startDateTime.split('T')[0] + 'T00:00:00').getDay()] + ';UNTIL=' + until;
+    return 'FREQ=WEEKLY;BYDAY=' + (p.weekdays || []).map(function(d){ return DAYS[d]; }).join(',') + ';UNTIL=' + until;
+  }
+  function firstDate(p){ // the next day a dose is actually due
+    var s = p.startDateTime.split('T')[0], t = todayStr(), d = new Date((s > t ? s : t) + 'T00:00:00');
+    for (var i = 0; i < 400; i++) { var ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); if (isDoseDueOnDate(p, ds)) return ds; d.setDate(d.getDate() + 1); }
+    return s > t ? s : t;
+  }
+  function stamp(ds, tm){ return ds.replace(/-/g, '') + 'T' + tm.replace(':', '') + '00'; }
+  function summary(p){ return (pmdOral(p) ? '💊 ' : '💉 ') + p.name + ' · ' + p.dose + ' mg' + (pmdOral(p) ? ' (' + pmdPillTxt(p) + ')' : ' (' + (function(u){ return u % 1 === 0 ? u : u.toFixed(1); })(pmdUnits(p)) + ' units)'); }
+  function ics(p, tm){
+    var ds = firstDate(p), now = new Date(), dt = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PokeMe-Dex//Dose reminder//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+      'UID:pokemedex-' + p.id + '-' + Date.now() + '@pokemedex','DTSTAMP:' + dt,'DTSTART:' + stamp(ds, tm),'DURATION:PT10M','RRULE:' + rrule(p),
+      'SUMMARY:' + summary(p),'DESCRIPTION:Time for your ' + p.name + ' dose. Open PokeMe-Dex to log it.',
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + summary(p),'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  }
+  window.pmdRemind = function(id){
+    var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
+    var el = document.createElement('div'); el.className = 'rm'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+    el.innerHTML = '<div class="rm-card"><button type="button" class="rm-x" aria-label="Close">✕</button><h3>🔔 Dose reminder</h3><p>' + esc(summary(p)) + ' · ' + frequencyLabel(p) + '. Your phone\'s calendar will alert you at this time, even when PokeMe-Dex is closed.</p>'
+      + '<label for="rm-time">Remind me at</label><input type="time" id="rm-time" value="' + defTime(p) + '">'
+      + '<div class="rm-btns"><button type="button" class="pri" data-a="ics">📅 Add to my phone calendar</button><button type="button" data-a="g">Use Google Calendar instead</button></div></div>';
+    document.body.appendChild(el);
+    function close(){ el.remove(); }
+    el.addEventListener('click', function(e){
+      if (e.target === el || e.target.closest('.rm-x')) return close();
+      var b = e.target.closest('[data-a]'); if (!b) return;
+      var tm = document.getElementById('rm-time').value || defTime(p);
+      p.remind = tm; saveProtocols(); renderProtocolsList();
+      if (b.getAttribute('data-a') === 'ics') {
+        var blob = new Blob([ics(p, tm)], { type:'text/calendar;charset=utf-8' }), url = URL.createObjectURL(blob);
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) location.href = url;
+        else { var a = document.createElement('a'); a.href = url; a.download = 'pokemedex-' + p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-reminder.ics'; document.body.appendChild(a); a.click(); a.remove(); }
+        pmdToast('📅 Open the downloaded file and tap <b>Add</b> to save your ' + esc(p.name) + ' reminders.');
+      } else {
+        var ds = firstDate(p), st = stamp(ds, tm), end = new Date(ds + 'T' + tm + ':00'); end.setMinutes(end.getMinutes() + 10);
+        var en = stamp(end.getFullYear() + '-' + String(end.getMonth() + 1).padStart(2, '0') + '-' + String(end.getDate()).padStart(2, '0'), String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0'));
+        var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){}
+        window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(summary(p)) + '&dates=' + st + '/' + en + '&recur=' + encodeURIComponent('RRULE:' + rrule(p)) + '&details=' + encodeURIComponent('Time for your ' + p.name + ' dose. Open PokeMe-Dex to log it.') + (tz ? '&ctz=' + encodeURIComponent(tz) : ''), '_blank', 'noopener');
+      }
+      close();
+    });
+  };
+
+  /* ── backup / restore ── */
+  window.pmdBackup = function(){
+    var data = { app:'PokeMe-Dex', version:2, saved:new Date().toISOString(), protocols:ACTIVE_PROTOCOLS, doseLog:DOSE_LOG, injLog:INJ_LOG };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'pokemedex-backup-' + todayStr() + '.json'; document.body.appendChild(a); a.click(); a.remove();
+    ls('pmd_last_backup', todayStr()); bkNote(); pmdToast('⬇ Backup saved. Keep it in your Files, Drive or email.');
+  };
+  window.pmdRestore = function(input){
+    var f = input.files && input.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var d = JSON.parse(rd.result);
+        if (!d || !Array.isArray(d.protocols)) throw new Error('not a PokeMe-Dex backup');
+        if (!confirm('Are you sure? This replaces what\'s on this device with the backup from ' + String(d.saved || '').slice(0, 10) + ' (' + d.protocols.length + ' peptides).')) return;
+        ACTIVE_PROTOCOLS = d.protocols; DOSE_LOG = d.doseLog || {}; INJ_LOG = d.injLog || [];
+        saveProtocols(); saveDoseLog(); saveInjLog(); renderDashboard(); pmdToast('✓ Backup restored.');
+      } catch(e){ alert('That file isn\'t a PokeMe-Dex backup.'); }
+      input.value = '';
+    };
+    rd.readAsText(f);
+  };
+  function bkNote(){ var el = document.getElementById('pa-bk-last'); if (!el) return; var d = ls('pmd_last_backup'); el.textContent = d ? 'Last backup: ' + d + '.' : 'No backup yet. Saving one takes a second.'; }
+
+  /* ── install as an app ── */
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
+  window.pmdInstall = function(){
+    var tip = document.getElementById('pa-install-tip');
+    if (standalone) { tip.textContent = '✓ You\'re already using the app.'; return; }
+    if (deferred) { deferred.prompt(); deferred.userChoice.then(function(){ deferred = null; }); return; }
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) tip.innerHTML = 'On iPhone: tap the <b>Share</b> button (square with ↑) in Safari, then <b>Add to Home Screen</b>.';
+    else tip.innerHTML = 'Open your browser menu (<b>⋮</b>) and tap <b>Install app</b> or <b>Add to Home screen</b>.';
+  };
+  if (standalone) { var ib = document.getElementById('pa-install-btn'); if (ib) { ib.textContent = '✓ Installed'; ib.disabled = true; } }
+
+  /* ── wire it all into the existing refresh ── */
+  var baseDash = window.renderDashboard;
+  window.renderDashboard = function(){ baseDash.apply(this, arguments); renderSys(); bkNote(); };
+  // hero buttons go to the right tab
+  window.pmdStart = function(){ if (!ACTIVE_PROTOCOLS.length) pmdAddNew(); else { setTab('today'); } };
+  window.pmdHow = function(){ setTab('more'); var f = document.getElementById('pa-faq'); f.open = true; f.scrollIntoView({ behavior:'smooth', block:'start' }); };
+
+  setTab(ls('pmd_tab') || 'today');
+  renderDashboard();
 })();
 </script>
 
