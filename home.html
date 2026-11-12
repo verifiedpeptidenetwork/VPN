@@ -9113,14 +9113,17 @@ window.vpnBadgeGo = function(view, id){
             </div>
             <div class="vt-dev-pad"><span class="vt-dpad" aria-hidden="true"></span><span class="vt-dev-go">Open PokeMe-Dex →</span></div>
           </a>
-          <a class="vt-res" href="peptide-suggestion.html" aria-label="Open Peptide Match: pick your goals and see matching peptides">
-            <div class="vt-res-h">🧬 Peptide Match · example results</div>
-            <div class="vt-res-goals">🌀 Gut · ✨ Skin · 🌡️ Inflammation</div>
-            <div class="vt-res-row best"><span class="n">1</span><span class="t"><b>BPC-157 <em>Best match</em></b><small>Gut · Skin · Inflammation</small></span><span class="m"><b>3 of 3</b><i><u style="width:100%"></u></i></span></div>
-            <div class="vt-res-row"><span class="n">2</span><span class="t"><b>KPV</b><small>Gut · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
-            <div class="vt-res-row"><span class="n">3</span><span class="t"><b>GHK-Cu</b><small>Skin · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
-            <div class="vt-res-f">+ why each matches · starting protocol · what to buy</div>
-            <span class="vt-res-go">Find my match →</span>
+          <a class="vt-lab" href="peptide-suggestion.html" aria-label="Open Peptide Match: pick your goals and see matching peptides">
+            <div class="vt-lab-top"><span class="vt-lab-dot"></span><b>MATCH LAB</b><span class="vt-lab-tag">Peptide Match</span></div>
+            <div class="vt-lab-chips" aria-hidden="true"><span>🔥 Fat loss</span><span class="on">🌀 Gut</span><span class="on">🌡️ Inflammation</span><span>😴 Sleep</span><span class="on">✨ Skin</span></div>
+            <div class="vt-lab-core">
+              <div class="vt-ring"><div><b>3/3</b><small>goals</small></div></div>
+              <div class="vt-lab-best"><small>Top match</small><b>BPC-157</b><span>Gut · Skin · Inflammation</span></div>
+            </div>
+            <div class="vt-lab-row"><span class="n">2</span><span class="t"><b>KPV</b><small>Gut · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
+            <div class="vt-lab-row"><span class="n">3</span><span class="t"><b>GHK-Cu</b><small>Skin · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
+            <span class="vt-lab-go">Find my match →</span>
+            <span class="vt-lab-scan" aria-hidden="true"></span>
           </a>
         </div>
       </div>
@@ -9171,6 +9174,38 @@ window.vpnBadgeGo = function(view, id){
   .vt-res-row .m u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);}
   .vt-res-f{font:500 12.5px/1.4 'Inter',sans-serif;color:rgba(200,206,230,0.65);}
   .vt-res-go{margin-top:auto;padding-top:4px;font:800 14px/1 'Inter',sans-serif;color:#ff8fd1;}
+
+  /* Peptide Match as a mini Match Lab (same look as the Peptide Match page) */
+  .vt-lab{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:9px;padding:14px;border-radius:18px;min-width:0;background:radial-gradient(120% 80% at 100% 0%,rgba(154,92,255,0.22),transparent 60%),radial-gradient(90% 70% at 0% 100%,rgba(255,47,168,0.18),transparent 60%),#0c0b18;border:1px solid rgba(255,255,255,0.12);box-shadow:0 0 0 1px rgba(255,47,168,0.15),0 24px 48px -26px rgba(154,92,255,0.75);color:#f4f5fb !important;font-family:'Inter',system-ui,sans-serif;}
+  .vt-lab::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0.7;}
+  .vt-lab:hover{box-shadow:0 0 0 1px rgba(255,47,168,0.35),0 28px 54px -24px rgba(154,92,255,0.9);}
+  .vt-lab-top{display:flex;align-items:center;gap:8px;font:800 11.5px/1 'Inter',sans-serif;letter-spacing:0.14em;color:rgba(230,232,245,0.9);}
+  .vt-lab-dot{width:8px;height:8px;border-radius:50%;background:#ff2fa8;box-shadow:0 0 10px #ff2fa8;}
+  .vt-lab-tag{margin-left:auto;white-space:nowrap;padding:5px 8px;border-radius:99px;background:rgba(255,255,255,0.08);font:800 10.5px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.85);}
+  .vt-lab-chips{display:flex;flex-wrap:wrap;gap:5px;}
+  .vt-lab-chips span{padding:6px 9px;border-radius:99px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);font:700 11.5px/1 'Inter',sans-serif;color:rgba(230,232,245,0.8);}
+  .vt-lab-chips span.on{background:linear-gradient(90deg,rgba(255,47,168,0.28),rgba(154,92,255,0.28));border-color:#ff5cbd;color:#fff;}
+  .vt-lab-core{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);}
+  .vt-ring{position:relative;width:64px;height:64px;flex-shrink:0;border-radius:50%;background:conic-gradient(from -90deg,#ff2fa8,#9a5cff 50%,#2fb4ff 100%);box-shadow:0 0 20px -4px rgba(154,92,255,0.75);}
+  .vt-ring > div{position:absolute;inset:6px;border-radius:50%;background:#0c0b18;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .vt-ring b{font:900 17px/1 'Inter',sans-serif;color:#fff;} .vt-ring small{margin-top:2px;font:700 10px/1 'Inter',sans-serif;color:rgba(230,232,245,0.7);}
+  .vt-lab-best{min-width:0;}
+  .vt-lab-best small{display:block;font:800 10.5px/1 'Inter',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#ff8fd1;}
+  .vt-lab-best b{display:block;margin:5px 0 3px;font:900 18px/1.1 'Inter',sans-serif !important;color:#fff !important;}
+  .vt-lab-best span{display:block;font:500 12px/1.3 'Inter',sans-serif;color:rgba(230,232,245,0.72);}
+  .vt-lab-row{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:11px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);}
+  .vt-lab-row .n{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;flex-shrink:0;font:800 11px/1 'Inter',sans-serif;border:1px solid rgba(255,255,255,0.2);color:#fff;}
+  .vt-lab-row .t{flex:1;min-width:0;}
+  .vt-lab-row .t b{display:block;font:800 13.5px/1.2 'Inter',sans-serif !important;color:#fff !important;}
+  .vt-lab-row .t small{display:block;margin-top:2px;font:500 11.5px/1.2 'Inter',sans-serif;color:rgba(230,232,245,0.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .vt-lab-row .m{width:58px;flex-shrink:0;text-align:right;}
+  .vt-lab-row .m b{display:block;font:800 11.5px/1 'Inter',sans-serif;color:#fff;margin-bottom:5px;}
+  .vt-lab-row .m i{display:block;height:5px;border-radius:99px;background:rgba(255,255,255,0.1);overflow:hidden;}
+  .vt-lab-row .m u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);}
+  .vt-lab-go{margin-top:auto;display:flex;align-items:center;justify-content:center;height:44px;border-radius:12px;background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;font:800 14px/1 'Inter',sans-serif;box-shadow:0 10px 22px -12px rgba(255,47,168,0.85);}
+  .vt-lab-scan{position:absolute;left:0;right:0;top:-30%;height:30%;background:linear-gradient(180deg,transparent,rgba(154,92,255,0.10),transparent);animation:vtScan 4.5s linear infinite;pointer-events:none;}
+  @keyframes vtScan{to{transform:translateY(430%);}}
+  @media(prefers-reduced-motion:reduce){ .vt-lab-scan{display:none;} }
   @media(prefers-reduced-motion:reduce){ .vh2-tools a:hover{transform:none;} }
   @media(max-width:620px){ .vh2-tools{grid-template-columns:minmax(0,1fr);} }
   .vh2 .hg > div{min-width:0;}

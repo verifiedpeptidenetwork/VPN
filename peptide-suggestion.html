@@ -1055,12 +1055,16 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
         <span><b>80+</b> peptides</span><span><b>20</b> goals</span><span><b>~60 sec</b> to results</span><span><b>Print · PDF · Notes</b></span>
       </div>
     </div>
-    <div class="pm-hero-demo" aria-hidden="true">
-      <div class="pm-demo-head"><span>Example results</span><span class="pm-demo-goals">🌀 Gut · ✨ Skin · 🌡️ Inflammation</span></div>
-      <div class="pm-demo-row best"><span class="r">1</span><div class="t"><b>BPC-157 <em>Best match</em></b><small>Gut · Skin · Inflammation</small></div><div class="f"><small>3 of 3</small><i style="--w:100%"></i></div></div>
-      <div class="pm-demo-row"><span class="r">2</span><div class="t"><b>KPV</b><small>Gut · Skin</small></div><div class="f"><small>2 of 3</small><i style="--w:67%"></i></div></div>
-      <div class="pm-demo-row"><span class="r">3</span><div class="t"><b>GHK-Cu</b><small>Skin · Inflammation</small></div><div class="f"><small>2 of 3</small><i style="--w:67%"></i></div></div>
-      <div class="pm-demo-foot">+ why each matches · starting protocol · what to buy</div>
+    <div class="pm-lab" id="pm-lab" aria-label="Match Lab: tap goals to preview your matches">
+      <div class="pm-lab-top"><span class="pm-lab-dot"></span><b>MATCH LAB</b><span class="pm-lab-live">LIVE</span></div>
+      <div class="pm-lab-chips" id="pm-lab-chips" role="group" aria-label="Goals"></div>
+      <div class="pm-lab-core">
+        <div class="pm-ring" id="pm-ring" style="--p:100"><div><b id="pm-ring-n">3/3</b><small>goals</small></div></div>
+        <div class="pm-lab-best"><small>Top match</small><b id="pm-lab-best">BPC-157</b><span id="pm-lab-why">Gut · Skin · Inflammation</span></div>
+      </div>
+      <div class="pm-lab-rows" id="pm-lab-rows"></div>
+      <button type="button" class="pm-lab-go" id="pm-lab-go">Continue with these goals →</button>
+      <div class="pm-lab-scan" aria-hidden="true"></div>
     </div>
   </div>
   <ol class="pm-how">
@@ -2757,5 +2761,107 @@ function pmDownloadReport(){
 </script>
 
 <script src="theme-toggle.js?v=39" defer></script><script src="readable.js?v=4" defer></script>
+<style id="pm-lab-css">
+  /* Match Lab: Peptide Match's signature scanner */
+  .pm-lab{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:22px;background:radial-gradient(120% 80% at 100% 0%,rgba(154,92,255,0.22),transparent 60%),radial-gradient(90% 70% at 0% 100%,rgba(255,47,168,0.18),transparent 60%),#0c0b18;border:1px solid rgba(255,255,255,0.12);box-shadow:0 0 0 1px rgba(255,47,168,0.15),0 30px 60px -28px rgba(154,92,255,0.7);color:#f4f5fb;font-family:'Inter',system-ui,sans-serif;min-width:0;}
+  .pm-lab::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0.7;}
+  .pm-lab-top{display:flex;align-items:center;gap:8px;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.14em;color:rgba(230,232,245,0.9);}
+  .pm-lab-dot{width:9px;height:9px;border-radius:50%;background:#ff2fa8;box-shadow:0 0 10px #ff2fa8;}
+  .pm-lab-live{margin-left:auto;padding:4px 8px;border-radius:99px;background:rgba(124,255,155,0.12);color:#7CFF9B;font-size:10.5px;letter-spacing:0.12em;}
+  .pm-lab-chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .pm-lab-chips button{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border-radius:99px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:rgba(230,232,245,0.85);font:700 12.5px/1 'Inter',sans-serif;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}
+  .pm-lab-chips button:hover{border-color:rgba(255,255,255,0.35);}
+  .pm-lab-chips button[aria-pressed="true"]{background:linear-gradient(90deg,rgba(255,47,168,0.28),rgba(154,92,255,0.28));border-color:#ff5cbd;color:#fff;}
+  .pm-lab-core{display:flex;align-items:center;gap:14px;padding:12px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);}
+  .pm-ring{--p:0;position:relative;width:86px;height:86px;flex-shrink:0;border-radius:50%;background:conic-gradient(from -90deg,#ff2fa8,#9a5cff calc(var(--p)*0.5%),#2fb4ff calc(var(--p)*1%),rgba(255,255,255,0.08) 0);transition:--p .4s;box-shadow:0 0 24px -4px rgba(154,92,255,0.7);}
+  .pm-ring > div{position:absolute;inset:8px;border-radius:50%;background:#0c0b18;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .pm-ring b{font:900 22px/1 'Inter',sans-serif;color:#fff;}
+  .pm-ring small{margin-top:3px;font:700 11px/1 'Inter',sans-serif;color:rgba(230,232,245,0.7);}
+  .pm-lab-best{min-width:0;}
+  .pm-lab-best small{display:block;font:800 11px/1 'Inter',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:#ff8fd1;}
+  .pm-lab-best b{display:block;margin:6px 0 4px;font:900 22px/1.1 'Inter',sans-serif;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pm-lab-best span{display:block;font:500 13px/1.35 'Inter',sans-serif;color:rgba(230,232,245,0.72);}
+  .pm-lab-rows{display:flex;flex-direction:column;gap:6px;}
+  .pm-lab-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);}
+  .pm-lab-row .n{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;flex-shrink:0;font:800 11.5px/1 'Inter',sans-serif;border:1px solid rgba(255,255,255,0.2);}
+  .pm-lab-row .t{flex:1;min-width:0;}
+  .pm-lab-row .t b{display:block;font:800 14px/1.2 'Inter',sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pm-lab-row .t small{display:block;margin-top:2px;font:500 12px/1.2 'Inter',sans-serif;color:rgba(230,232,245,0.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pm-lab-row .m{width:64px;flex-shrink:0;text-align:right;}
+  .pm-lab-row .m b{display:block;font:800 12px/1 'Inter',sans-serif;margin-bottom:6px;}
+  .pm-lab-row .m i{display:block;height:5px;border-radius:99px;background:rgba(255,255,255,0.1);overflow:hidden;}
+  .pm-lab-row .m u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);transition:width .35s ease;}
+  .pm-lab-empty{padding:10px 4px;font:500 13.5px/1.4 'Inter',sans-serif;color:rgba(230,232,245,0.7);}
+  .pm-lab-go{height:50px;border:none;border-radius:14px;background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;font:800 15.5px/1 'Inter',sans-serif;cursor:pointer;box-shadow:0 12px 26px -12px rgba(255,47,168,0.8);transition:transform .15s;}
+  .pm-lab-go:hover{transform:translateY(-1px);}
+  .pm-lab-go:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+  .pm-lab-scan{position:absolute;left:0;right:0;top:-30%;height:30%;background:linear-gradient(180deg,transparent,rgba(154,92,255,0.10),transparent);animation:pmScan 4.5s linear infinite;pointer-events:none;}
+  @keyframes pmScan{to{transform:translateY(430%);}}
+  @property --p{syntax:'<number>';inherits:false;initial-value:0;}
+  @media(prefers-reduced-motion:reduce){ .pm-lab-scan{display:none;} }
+  /* phones: keep everything inside the screen */
+  .pm-hero-grid{min-width:0;} .pm-hero-grid > *{min-width:0;}
+  @media(max-width:860px){ .pm-hero-grid{grid-template-columns:minmax(0,1fr) !important;} }
+  @media(max-width:600px){
+    .pm-pill{white-space:normal !important;}
+    .pm-btn{white-space:normal !important;text-align:center;}
+    .pm-lab{padding:14px;border-radius:18px;}
+    .pm-ring{width:74px;height:74px;} .pm-ring b{font-size:19px;}
+    .pm-lab-best b{font-size:19px;}
+  }
+  html, body{overflow-x:hidden;}
+</style>
+<script>
+(function(){
+  var lab = document.getElementById('pm-lab'); if (!lab || typeof pmCompute !== 'function') return;
+  var CHIPS = [['fatloss','🔥','Fat loss'],['recovery','🩹','Recovery'],['gut','🌀','Gut'],['inflammation','🌡️','Inflammation'],['sleep','😴','Sleep'],['skin','✨','Skin'],['cognitive','🧠','Focus'],['muscle','💪','Muscle']];
+  var pick = new Set(['gut','skin','inflammation']);
+  var host = document.getElementById('pm-lab-chips');
+  host.innerHTML = CHIPS.map(function(c){ return '<button type="button" data-g="' + c[0] + '" aria-pressed="' + pick.has(c[0]) + '"><span>' + c[1] + '</span>' + c[2] + '</button>'; }).join('');
+  function compute(){
+    // run the page's own ranking on the lab's goals without touching the wizard's choices
+    var saveG = new Set(SELECTED_GOALS), saveS = SELECTED_GENDER;
+    SELECTED_GOALS.clear(); pick.forEach(function(g){ SELECTED_GOALS.add(g); }); SELECTED_GENDER = null;
+    var r = pmCompute();
+    SELECTED_GOALS.clear(); saveG.forEach(function(g){ SELECTED_GOALS.add(g); }); SELECTED_GENDER = saveS;
+    return r;
+  }
+  function draw(){
+    var total = pick.size, res = total ? compute() : [], top = res[0];
+    var ring = document.getElementById('pm-ring');
+    ring.style.setProperty('--p', top ? Math.round(top.count / total * 100) : 0);
+    document.getElementById('pm-ring-n').textContent = top ? top.count + '/' + total : '0';
+    document.getElementById('pm-lab-best').textContent = top ? PEPTIDES[top.key].name : 'Pick a goal';
+    document.getElementById('pm-lab-why').textContent = top ? top.goals.map(pmLabel).join(' · ') : 'Tap one or more goals above.';
+    var rows = res.slice(1, 3).map(function(it, i){
+      var w = Math.round(it.count / total * 100);
+      return '<div class="pm-lab-row"><span class="n">' + (i + 2) + '</span><span class="t"><b>' + pmEsc(PEPTIDES[it.key].name) + '</b><small>' + pmEsc(it.goals.map(pmLabel).join(' · ')) + '</small></span><span class="m"><b>' + it.count + ' of ' + total + '</b><i><u style="width:' + w + '%"></u></i></span></div>';
+    }).join('');
+    document.getElementById('pm-lab-rows').innerHTML = rows || (total ? '' : '');
+    var go = document.getElementById('pm-lab-go');
+    go.disabled = !total;
+    go.textContent = total ? ('See all ' + res.length + ' matches →') : 'Pick a goal to start';
+  }
+  host.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    var g = b.getAttribute('data-g');
+    if (pick.has(g)) pick.delete(g); else pick.add(g);
+    b.setAttribute('aria-pressed', pick.has(g));
+    draw();
+  });
+  document.getElementById('pm-lab-go').addEventListener('click', function(){
+    // carry the lab's goals into the wizard, then start at step 1 (who it's for)
+    SELECTED_GOALS.clear(); pick.forEach(function(g){ SELECTED_GOALS.add(g); });
+    document.querySelectorAll('#pm-goal-groups .pm-goal').forEach(function(b){ b.classList.toggle('sel', SELECTED_GOALS.has(b.getAttribute('data-g'))); });
+    var n = SELECTED_GOALS.size;
+    var cnt = document.getElementById('pm-goal-count'); if (cnt) cnt.textContent = n + ' goal' + (n > 1 ? 's' : '') + ' selected';
+    var nx = document.getElementById('pm-next-2'); if (nx) nx.disabled = n === 0;
+    pmGo(PM_SEX_SET ? 2 : 1);
+    document.getElementById('pm-wizard').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+  draw();
+})();
+</script>
+
 </body>
 </html>
