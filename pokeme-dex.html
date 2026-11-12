@@ -4092,8 +4092,162 @@ function showTab(name){
   window.pmdStart = function(){ if (!ACTIVE_PROTOCOLS.length) pmdAddNew(); else { setTab('today'); } };
   window.pmdHow = function(){ setTab('more'); var f = document.getElementById('pa-faq'); f.open = true; f.scrollIntoView({ behavior:'smooth', block:'start' }); };
 
+  window.pmdStock = stock;
   setTab(ls('pmd_tab') || 'today');
   renderDashboard();
+})();
+</script>
+
+<!-- ═══ HERO DEVICE: digital Dex readout of your own peptides ═══ -->
+<style id="pdx-lcd-css">
+  header.pmx .pdx-screen{position:relative;cursor:pointer;min-height:112px;}
+  header.pmx .pdx-screen.lcd{display:block;padding:12px 14px;background:radial-gradient(120% 90% at 50% 0%,#12302a,#07160f 70%);}
+  header.pmx .pdx-screen.lcd::before{content:'';position:absolute;inset:0;border-radius:6px;background:repeating-linear-gradient(180deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px);pointer-events:none;z-index:2;}
+  header.pmx .pdx-screen.lcd::after{content:'';position:absolute;inset:0;border-radius:6px;box-shadow:inset 0 0 22px rgba(124,255,155,0.18);pointer-events:none;}
+  .lcd-body{position:relative;z-index:1;font-family:'Share Tech Mono',ui-monospace,'Cascadia Mono','Courier New',monospace;color:#8dffae;text-shadow:0 0 6px rgba(124,255,155,0.55);animation:lcdIn .28s steps(4) both;}
+  .lcd-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.85;}
+  .lcd-name{display:flex;align-items:center;gap:8px;margin:6px 0 5px;font-size:21px;line-height:1.05;letter-spacing:0.02em;color:#d8ffe2;text-shadow:0 0 8px rgba(124,255,155,0.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lcd-name img{width:26px;height:26px;border-radius:50%;flex-shrink:0;filter:sepia(1) hue-rotate(70deg) saturate(2.4) brightness(.95);opacity:.85;}
+  .lcd-line{font-size:13px;line-height:1.5;letter-spacing:0.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lcd-line.due{color:#fff36b;text-shadow:0 0 8px rgba(255,243,107,0.7);animation:lcdBlink 1.1s steps(2) infinite;}
+  .lcd-meter{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:12px;letter-spacing:0.06em;}
+  .lcd-meter i{display:inline-flex;gap:2px;}
+  .lcd-meter i b{width:9px;height:9px;border:1px solid rgba(141,255,174,0.55);background:transparent;}
+  .lcd-meter i b.on{background:#8dffae;box-shadow:0 0 5px rgba(124,255,155,0.8);}
+  .lcd-meter.low i b.on{background:#fff36b;border-color:#fff36b;box-shadow:0 0 5px rgba(255,243,107,0.8);} .lcd-meter.low{color:#fff36b;}
+  .lcd-meter.out i b{border-color:#ff7a7a;} .lcd-meter.out{color:#ff9b9b;}
+  .lcd-hint{position:absolute;right:10px;bottom:6px;z-index:3;font:700 10px/1 'Share Tech Mono',monospace;color:rgba(141,255,174,0.6);letter-spacing:0.1em;}
+  @keyframes lcdIn{0%{opacity:0;filter:blur(2px);}100%{opacity:1;filter:none;}}
+  @keyframes lcdBlink{50%{opacity:.35;}}
+  @keyframes lensBlink{0%,100%{filter:none;}40%{filter:brightness(1.9);box-shadow:0 0 0 3px #1a1a1a,0 0 30px 10px rgba(47,164,255,0.9);}}
+  header.pmx .pdx-lens.blink{animation:lensBlink .45s ease;}
+  /* the d-pad and A button now do something */
+  header.pmx .pdx-pad{position:relative;}
+  header.pmx .pdx-pad button{position:absolute;padding:0 !important;border:none !important;background:transparent !important;cursor:pointer;box-shadow:none !important;}
+  header.pmx .pdx-pad .dp-l{left:0;top:0;width:24px;height:44px;} header.pmx .pdx-pad .dp-r{left:24px;top:0;width:24px;height:44px;}
+  header.pmx .pdx-pad .ab-a{right:0;top:8px;width:30px;height:30px;}
+  header.pmx .pdx-pad button:focus-visible{outline:2px solid #ffcb05;outline-offset:2px;border-radius:6px;}
+  header.pmx .pdx-dpad:active,header.pmx .pdx-pad:active .pdx-dpad{transform:scale(.96);}
+  @media(max-width:600px){
+    html body header.pmx .pdx-pad{display:flex !important;margin-top:10px;}
+    html body header.pmx .pdx-dpad{transform:scale(.82);transform-origin:left center;}
+    .lcd-name{font-size:18px;}
+  }
+  .lcd-wrap{position:relative;z-index:1;display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;}
+  .lcd-badge{position:relative;width:64px;height:64px;border-radius:50%;}
+  .lcd-badge img{width:100%;height:100%;border-radius:50%;display:block;box-shadow:0 0 0 2px rgba(141,255,174,0.65),0 0 14px rgba(124,255,155,0.55);}
+  .lcd-badge::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:#8dffae;border-right-color:rgba(141,255,174,0.35);animation:lcdScanRing 1.8s linear infinite;}
+  @keyframes lcdScanRing{to{transform:rotate(360deg);}}
+  .pdx-holo{position:absolute;z-index:3;top:-34px;right:-30px;width:118px;height:118px;border-radius:50%;transform:rotate(9deg);animation:holoFloat 4s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,0.45));pointer-events:none;}
+  .pdx-holo img{width:100%;height:100%;border-radius:50%;display:block;box-shadow:0 0 0 4px #fff,0 0 0 7px #1a1a1a;}
+  .pdx-holo::after{content:'';position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.0) 38%,rgba(255,255,255,0.55) 46%,rgba(120,220,255,0.35) 50%,rgba(255,120,220,0.3) 54%,transparent 62%);background-size:260% 100%;animation:holoSheen 3.6s ease-in-out infinite;mix-blend-mode:screen;}
+  @keyframes holoSheen{0%{background-position:130% 0;}60%,100%{background-position:-60% 0;}}
+  @keyframes holoFloat{0%,100%{transform:rotate(9deg) translateY(0);}50%{transform:rotate(6deg) translateY(-6px);}}
+  header.pmx .pdx-device{position:relative;overflow:visible;}
+  header.pmx .pdx-screen:not(.lcd) > img{display:none;}
+  header.pmx .pdx-screen:not(.lcd){padding-right:70px;}
+  @media(max-width:820px){ .pdx-holo{top:-26px;right:-12px;width:92px;height:92px;} }
+  @media(max-width:600px){ .pdx-holo{top:-22px;right:-6px;width:78px;height:78px;} .lcd-wrap{grid-template-columns:52px minmax(0,1fr);gap:10px;} .lcd-badge{width:52px;height:52px;} }
+  @media(prefers-reduced-motion:reduce){ .lcd-body,.lcd-line.due,header.pmx .pdx-lens.blink,.lcd-badge::after,.pdx-holo,.pdx-holo::after{animation:none !important;} }
+</style>
+<script>
+(function(){
+  var dev = document.querySelector('header.pmx .pdx-device'); if (!dev) return;
+  var scr = dev.querySelector('.pdx-screen'), lens = dev.querySelector('.pdx-lens'), pad = dev.querySelector('.pdx-pad');
+  dev.insertAdjacentHTML('afterbegin', '<span class="pdx-holo" aria-hidden="true"><img src="pokemedex-icon-192.png?v=2" alt=""></span>');
+  var idle = scr.innerHTML, idx = 0, timer = null;
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function hhmm(t){ if (!t) return ''; var q = t.split(':'), h = +q[0]; return ((h % 12) || 12) + ':' + q[1] + (h < 12 ? 'AM' : 'PM'); }
+  function nextDose(p){
+    var t = todayStr(), d = new Date(t + 'T00:00:00');
+    if (isDoseDueOnDate(p, t) && !(DOSE_LOG[t] && DOSE_LOG[t][p.id])) return { due:true, txt:'▶ DUE NOW · LOG IT' };
+    d.setDate(d.getDate() + 1);
+    for (var i = 0; i < 400; i++) {
+      var ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      if (isDoseDueOnDate(p, ds)) return { due:false, txt:'NEXT ' + (i === 0 ? 'TOMORROW' : d.toLocaleDateString('en', { weekday:'short' }).toUpperCase() + ' ' + (d.getMonth() + 1) + '/' + d.getDate()) + (p.remind ? ' ' + hhmm(p.remind) : '') };
+      d.setDate(d.getDate() + 1);
+    }
+    return { due:false, txt:'CYCLE COMPLETE' };
+  }
+  // pad buttons: ◀ ▶ flip entries, A opens it in My Dex
+  pad.removeAttribute('aria-hidden');
+  pad.insertAdjacentHTML('beforeend', '<button type="button" class="dp-l" aria-label="Previous peptide"></button><button type="button" class="dp-r" aria-label="Next peptide"></button><button type="button" class="ab-a" aria-label="Open this peptide in My Dex"></button>');
+  function blink(){ lens.classList.remove('blink'); void lens.offsetWidth; lens.classList.add('blink'); }
+  function draw(){
+    var list = (typeof ACTIVE_PROTOCOLS !== 'undefined' && ACTIVE_PROTOCOLS) || [];
+    if (!list.length) {
+      scr.className = 'pdx-screen'; scr.innerHTML = idle;
+      var e = scr.querySelector('.pdx-entry'); if (e) e.innerHTML = '<small>No. 000 · Empty Dex</small><b>Glowrilla</b><span>Tap to catch your first peptide</span>';
+      return;
+    }
+    if (idx >= list.length) idx = 0; if (idx < 0) idx = list.length - 1;
+    var p = list[idx], oral = pmdOral(p), st = window.pmdStock ? pmdStock(p) : null, nx = nextDose(p);
+    var u = pmdUnits(p), amt = oral ? pmdPillTxt(p).toUpperCase() : (u % 1 === 0 ? u : u.toFixed(1)) + ' UNITS';
+    var blocks = '', on = st ? Math.round(Math.max(0, Math.min(1, st.frac)) * 8) : 0;
+    for (var i = 0; i < 8; i++) blocks += '<b class="' + (i < on ? 'on' : '') + '"></b>';
+    var mcls = !st ? '' : (st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : ''));
+    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (mcls === 'low' ? ' LOW' : ''));
+    scr.className = 'pdx-screen lcd';
+    scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-icon-192.png?v=2" alt=""></span><div class="lcd-body">'
+      + '<div class="lcd-row"><span>No. ' + String(idx + 1).padStart(3, '0') + ' / ' + String(list.length).padStart(3, '0') + '</span><span>' + (oral ? '💊 PILL' : '💉 INJ') + '</span></div>'
+      + '<div class="lcd-name">' + esc(p.name.toUpperCase()) + '</div>'
+      + '<div class="lcd-line">' + p.dose + ' MG · ' + amt + '</div>'
+      + '<div class="lcd-line' + (nx.due ? ' due' : '') + '">' + esc(nx.txt) + '</div>'
+      + '<div class="lcd-meter ' + mcls + '">' + (oral ? 'BTL' : 'VIAL') + ' <i>' + blocks + '</i> ' + mtxt + '</div>'
+      + '</div></div>' + (list.length > 1 ? '<span class="lcd-hint">◀ ▶</span>' : '');
+  }
+  function go(d){ idx += d; blink(); draw(); restart(); }
+  function restart(){ clearInterval(timer); timer = setInterval(function(){ var n = (ACTIVE_PROTOCOLS || []).length; if (n > 1 && !document.hidden) { idx++; blink(); draw(); } }, 5000); }
+  function open(){
+    var list = ACTIVE_PROTOCOLS || [];
+    if (!list.length) { pmdAddNew(); return; }
+    if (window.pmdTab) pmdTab('dex');
+    var cards = document.querySelectorAll('#pa-peps .dx-card'), c = cards[idx] || cards[0];
+    if (c) setTimeout(function(){ c.scrollIntoView({ behavior:'smooth', block:'center' }); c.animate && c.animate([{ boxShadow:'0 0 0 3px #d7261e' }, { boxShadow:'0 0 0 0 transparent' }], { duration:1200 }); }, 80);
+  }
+  pad.querySelector('.dp-l').addEventListener('click', function(e){ e.stopPropagation(); go(-1); });
+  pad.querySelector('.dp-r').addEventListener('click', function(e){ e.stopPropagation(); go(1); });
+  pad.querySelector('.ab-a').addEventListener('click', function(e){ e.stopPropagation(); open(); });
+  scr.setAttribute('role', 'button'); scr.setAttribute('tabindex', '0'); scr.setAttribute('aria-label', 'Your Dex. Tap to open.');
+  scr.addEventListener('click', open);
+  scr.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+  // swipe on the screen
+  var sx = null; scr.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, { passive:true });
+  scr.addEventListener('touchend', function(e){ if (sx == null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); sx = null; });
+  var base = window.renderDashboard;
+  window.renderDashboard = function(){ var r = base.apply(this, arguments); draw(); return r; };
+  draw(); restart();
+})();
+</script>
+
+<!-- ═══ QUICK SETTINGS: one vial-shaped button instead of loose corner buttons ═══ -->
+<style id="pdx-vialgear-css">
+  /* every screen size: hide the loose buttons, use the single dock */
+  html body #vt-toggle-btn,html body #vt-text-ctrl,html body #vpn-back-top{display:none !important;}
+  html body #vt-dock{display:flex !important;flex-direction:column;align-items:flex-end;gap:10px;position:fixed;right:14px;bottom:calc(92px + env(safe-area-inset-bottom,0px)) !important;z-index:9001;}
+  html body #vt-dock-btn{width:52px !important;height:52px !important;border-radius:50% !important;border:3px solid #1a1a1a !important;background:linear-gradient(160deg,#ef3b46,#b5122a) !important;color:#fff !important;box-shadow:inset 0 2px 0 rgba(255,255,255,0.3),0 8px 20px -6px rgba(181,18,42,0.7) !important;padding:0 !important;display:flex;align-items:center;justify-content:center;font:900 20px/1 'Inter',sans-serif !important;transition:transform .15s;}
+  html body #vt-dock-btn:hover{transform:translateY(-2px) rotate(-6deg);}
+  html body #vt-dock-btn svg{width:26px;height:26px;display:block;}
+  html body #vt-dock-panel{background:#fffdf8 !important;border:1px solid #e3dccf !important;border-radius:18px !important;box-shadow:0 18px 40px -16px rgba(26,22,38,0.45) !important;padding:10px !important;min-width:210px;font-family:'Inter',system-ui,sans-serif !important;}
+  html body #vt-dock-panel .vt-dock-item{width:100%;text-align:left;padding:12px 14px !important;border-radius:12px !important;border:1px solid #ece5d8 !important;background:#fff !important;color:#1a1626 !important;font:700 14.5px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;text-shadow:none !important;}
+  html body #vt-dock-panel .vt-dock-item:hover{border-color:#d7261e !important;}
+  html body #vt-dock-panel .vt-dock-row{display:flex;align-items:center;gap:8px;padding:6px 8px !important;background:#faf7f2 !important;border:1px solid #ece5d8 !important;border-radius:12px !important;}
+  html body #vt-dock-panel .vt-dock-lbl{font:800 11px/1 'Inter',sans-serif !important;letter-spacing:0.1em;color:#8a8170 !important;margin-right:auto;}
+  html body #vt-dock-panel .vt-dock-sm{width:40px;height:36px;border-radius:10px !important;border:1px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;text-shadow:none !important;}
+  html body #vt-dock-panel #vt-dock-pct{min-width:44px;text-align:center;font:800 13px/1 'Inter',sans-serif !important;color:#1a1626 !important;text-shadow:none !important;}
+  body.qz-lock #vt-dock{display:none !important;}
+</style>
+<script>
+(function(){
+  var VIAL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="1.5" width="8" height="4" rx="1" fill="#fff"/><rect x="9" y="5.5" width="6" height="2" fill="#ffd6db"/><path d="M7 9.2c0-1 .8-1.7 1.8-1.7h6.4c1 0 1.8.7 1.8 1.7v11.1c0 1.2-1 2.2-2.2 2.2H9.2c-1.2 0-2.2-1-2.2-2.2z" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M8.6 14h6.8v6.1c0 .5-.4.9-.9.9H9.5c-.5 0-.9-.4-.9-.9z" fill="#7CFF9B"/><rect x="8.6" y="10.4" width="6.8" height="2.4" rx=".5" fill="#fff"/></svg>';
+  function dress(){
+    var b = document.getElementById('vt-dock-btn'); if (!b) return false;
+    function fix(){ if (b.textContent === '⚙') { b.innerHTML = VIAL; b.setAttribute('aria-label', 'Settings'); } }
+    fix();
+    new MutationObserver(fix).observe(b, { childList:true, characterData:true, subtree:true });
+    return true;
+  }
+  if (!dress()) { var n = 0, t = setInterval(function(){ if (dress() || ++n > 40) clearInterval(t); }, 150); }
 })();
 </script>
 
