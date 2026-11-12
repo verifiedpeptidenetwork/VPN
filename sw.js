@@ -1,4 +1,4 @@
-const CACHE = 'vpn-v6';
+const CACHE = 'vpn-v7';
 const PRECACHE = ['./home.html', './VPNNEWLOGO-640.webp'];
 
 self.addEventListener('install', e => {
@@ -11,6 +11,8 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  // videos and audio stream in pieces (range requests); let the browser fetch them directly
+  if (e.request.headers.has('range') || /\.(mp4|m4v|webm|mov|mp3|m4a|wav)(\?|$)/i.test(e.request.url)) return;
   // pages always check the server for the latest version; the saved copy is only for offline
   if (e.request.mode === 'navigate') {
     e.respondWith(

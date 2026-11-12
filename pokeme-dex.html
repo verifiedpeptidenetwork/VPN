@@ -1516,7 +1516,7 @@ function searchPeptide(){
     key = Object.keys(PEPTIDES).find(function(k){ return PEPTIDES[k].name.toLowerCase().indexOf(query) !== -1 || k.toLowerCase().indexOf(query) !== -1; });
   }
   if (!key){
-    document.getElementById('suggestions-list').innerHTML = '<div class="pep-result-desc">No peptide found matching "' + input.value + '". Try a different spelling, or browse by selecting a goal above.</div>';
+    document.getElementById('suggestions-list').innerHTML = '<div class="pep-result-desc">No peptide found matching "' + input.value + '". Try a different spelling.</div>';
     document.getElementById('suggestions-box').classList.add('visible');
     document.getElementById('copy-suggestions-btn').style.display = 'none';
     document.getElementById('suggestions-box').scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -2819,5 +2819,396 @@ function showTab(name){
   var calc = document.getElementById('recon-box-1'); if (rh && calc) calc.parentNode.insertBefore(rh, calc);
   var hr = document.querySelector('#tab-tracker > hr.divider'); if (hr) hr.remove();
 })();
-</script></body>
+</script><!-- ═══ GUIDED QUESTIONS: add a peptide and log a dose one simple question at a time ═══ -->
+<style id="pmd-quiz">
+  body.qz-lock{overflow:hidden !important;}
+  body.qz-lock #vt-dock, body.qz-lock #vt-top-btn, body.qz-lock #vpn-close-cards{display:none !important;}
+  body.qz-lock #pmd-toast{z-index:100003 !important;}
+  .qz{position:fixed;inset:0;z-index:100002;background:rgba(20,16,30,0.55);display:flex;align-items:flex-end;justify-content:center;padding:0;}
+  .qz[hidden]{display:none !important;}
+  @media(min-width:640px){ .qz{align-items:center;padding:24px;} }
+  .qz-card{width:100%;max-width:560px;max-height:92dvh;overflow:auto;background:#fffdf8;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,0.25);padding:18px 20px 0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#1a1626;display:flex;flex-direction:column;}
+  @media(min-width:640px){ .qz-card{border-radius:22px;} }
+  .qz-top{display:flex;align-items:center;gap:12px;}
+  .qz-x{border:none !important;background:#f0ece4 !important;color:#1a1626 !important;width:36px;height:36px;border-radius:50% !important;font-size:16px !important;cursor:pointer;flex-shrink:0;padding:0 !important;box-shadow:none !important;}
+  .qz-bar{flex:1;height:8px;border-radius:99px;background:#eee7da;overflow:hidden;}
+  .qz-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff5a3c,#d7261e);border-radius:99px;transition:width .3s ease;}
+  .qz-count{font-size:13px !important;font-weight:700;color:#8a8170;white-space:nowrap;}
+  .qz-kicker{margin-top:18px;font-size:13px !important;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#d7261e;}
+  .qz-q{margin:6px 0 4px !important;font:800 clamp(22px,5.4vw,28px)/1.2 'Inter',system-ui,sans-serif !important;letter-spacing:-0.02em !important;color:#1a1626 !important;-webkit-text-fill-color:#1a1626 !important;text-transform:none !important;text-shadow:none !important;}
+  .qz-help{margin:0 0 14px !important;font-size:15px !important;line-height:1.45 !important;color:#6b6356 !important;}
+  .qz-body{display:flex;flex-direction:column;gap:10px;padding-bottom:16px;}
+  .qz-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(130px,100%),1fr));gap:10px;}
+  .qz-chips.wide{grid-template-columns:1fr;}
+  .qz-chip{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:14px 16px !important;border-radius:14px !important;border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;font:700 17px/1.2 'Inter',system-ui,sans-serif !important;cursor:pointer;box-shadow:none !important;transition:border-color .12s,background .12s,transform .12s;min-height:56px;width:100%;}
+  .qz-chip small{font:600 13px/1.3 'Inter',system-ui,sans-serif !important;color:#8a8170 !important;}
+  .qz-chip:hover{border-color:#d7261e !important;transform:translateY(-1px);}
+  .qz-chip.on{border-color:#d7261e !important;background:#fff1ee !important;}
+  .qz-chip.best{border-color:#2e9e3f !important;}
+  .qz-chip.best::after{content:'⭐ Best next spot';font:800 12px/1 'Inter',sans-serif;color:#2e9e3f;margin-top:4px;}
+  .qz-num{display:flex;align-items:center;gap:10px;}
+  .qz-num button{width:52px;height:52px;border-radius:14px !important;border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;font:800 24px/1 'Inter',sans-serif !important;cursor:pointer;flex-shrink:0;padding:0 !important;box-shadow:none !important;}
+  .qz-num input,.qz-in{flex:1;min-width:0;height:56px;border-radius:14px !important;border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;font:800 22px/1 'Inter',sans-serif !important;text-align:center;padding:0 10px !important;box-sizing:border-box;}
+  .qz-in{font-size:18px !important;text-align:left;padding:0 14px !important;width:100%;}
+  .qz-num input:focus,.qz-in:focus{outline:none;border-color:#d7261e !important;}
+  .qz-unit{font:800 18px/1 'Inter',sans-serif;color:#6b6356;flex-shrink:0;}
+  .qz-hint{padding:12px 14px;border-radius:12px;background:#f3f8f2;border:1px solid #cfe6cd;color:#1f5f2a;font:700 15px/1.45 'Inter',sans-serif;}
+  .qz-hint.warn{background:#fff6e6;border-color:#f3d39a;color:#7a4b00;}
+  .qz-hint:empty{display:none;}
+  .qz-label{font:800 13px/1 'Inter',sans-serif;letter-spacing:0.06em;text-transform:uppercase;color:#8a8170;margin-top:6px;}
+  .qz-review{display:flex;flex-direction:column;border:2px solid #e6dfd2;border-radius:14px;overflow:hidden;background:#fff;}
+  .qz-review div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid #f0ebe1;font-size:15px;}
+  .qz-review div:first-child{border-top:none;}
+  .qz-review b{color:#1a1626;text-align:right;}
+  .qz-review span{color:#6b6356;}
+  .qz-nav{position:sticky;bottom:0;display:flex;gap:10px;padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(255,253,248,0),#fffdf8 30%);margin-top:auto;}
+  .qz-nav button{height:54px;border-radius:14px !important;font:800 17px/1 'Inter',sans-serif !important;cursor:pointer;padding:0 18px !important;box-shadow:none !important;}
+  .qz-back{border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;}
+  .qz-next{flex:1;border:none !important;background:#d7261e !important;color:#fff !important;}
+  .qz-next:disabled{opacity:0.45;cursor:not-allowed;}
+  .qz-shake{animation:qzShake .3s;}
+  @keyframes qzShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  /* tracker cards */
+  .pmd-pcard{border:2px solid #1a1a1a;border-radius:14px;background:#fff;padding:14px 16px;margin-top:10px;}
+  .pmd-pcard-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .pmd-pcard-name{font:800 19px/1.2 'Inter',sans-serif;color:#1a1626;}
+  .pmd-tag{font:800 12px/1 'Inter',sans-serif;padding:5px 8px;border-radius:99px;background:#fff1ee;color:#d7261e;}
+  .pmd-tag.oral{background:#eef4ff;color:#2a5bd7;}
+  .pmd-pcard-line{font:600 15px/1.45 'Inter',sans-serif;color:#4a4335;margin-top:6px;}
+  .pmd-pcard-line.warn{color:#9a5b00;}
+  .pmd-pcard-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .pmd-pcard-btns button{border-radius:10px !important;padding:8px 14px !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .pmd-edit{border:2px solid #1a1a1a !important;background:#fff !important;color:#1a1a1a !important;}
+  .pmd-del{border:2px solid #f0c2bb !important;background:#fff !important;color:#d7261e !important;}
+  .pmd-drow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:2px solid #e6dfd2 !important;border-radius:14px !important;background:#fff !important;padding:12px 14px !important;margin-top:10px;cursor:pointer;box-shadow:none !important;color:#1a1626 !important;}
+  .pmd-drow:hover{border-color:#d7261e !important;}
+  .pmd-drow .ck{width:34px;height:34px;border-radius:50%;border:3px solid #d7261e;flex-shrink:0;display:grid;place-items:center;font:900 18px/1 sans-serif;color:#fff;}
+  .pmd-drow.done{background:#f3f8f2 !important;border-color:#cfe6cd !important;}
+  .pmd-drow.done .ck{background:#2e9e3f;border-color:#2e9e3f;}
+  .pmd-drow .nm{font:800 17px/1.2 'Inter',sans-serif;}
+  .pmd-drow .mt{font:600 14px/1.35 'Inter',sans-serif;color:#6b6356;margin-top:3px;}
+  .pmd-drow .go{margin-left:auto;font:800 14px/1 'Inter',sans-serif;color:#d7261e;white-space:nowrap;}
+  .pmd-drow.done .go{color:#2e9e3f;}
+</style>
+
+<div id="qz" class="qz" hidden role="dialog" aria-modal="true" aria-labelledby="qz-q">
+  <div class="qz-card">
+    <div class="qz-top"><button type="button" class="qz-x" aria-label="Close">✕</button><div class="qz-bar"><i></i></div><div class="qz-count"></div></div>
+    <div class="qz-kicker"></div>
+    <h2 class="qz-q" id="qz-q"></h2>
+    <p class="qz-help"></p>
+    <div class="qz-body"></div>
+    <div class="qz-nav"><button type="button" class="qz-back">← Back</button><button type="button" class="qz-next">Next →</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var el = document.getElementById('qz'); if (!el) return;
+  var $ = function(s){ return el.querySelector(s); };
+  var Q = { steps:[], i:0, st:null, done:null, kicker:'' };
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function num(v){ v = parseFloat(v); return isFinite(v) ? v : 0; }
+  function r2(v){ return Math.round(v * 100) / 100; }
+  function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function daysAgo(ds){ if (!ds) return null; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function agoTxt(n){ return n === 0 ? 'today' : (n === 1 ? 'yesterday' : n + ' days ago'); }
+  function hhmm(t){ if (!t) return ''; var p = t.split(':'), h = +p[0], m = p[1]; return ((h % 12) || 12) + ':' + m + (h < 12 ? ' AM' : ' PM'); }
+  function nowHM(){ var d = new Date(); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+  function units(vial, water, dose){ var c = vial / water; return c > 0 ? dose / c * 100 : 0; }
+  function zoneLabel(code){ var z = INJ_ZONES.find(function(x){ return x.code === code; }); return z ? z.label : code; }
+
+  // ── engine
+  function shown(i){ var s = Q.steps[i]; return !(s.skip && s.skip(Q.st)); }
+  function open(steps, st, done, kicker){
+    Q.steps = steps; Q.st = st; Q.done = done; Q.kicker = kicker; Q.i = 0;
+    while (Q.i < steps.length - 1 && !shown(Q.i)) Q.i++;
+    el.hidden = false; document.body.classList.add('qz-lock'); render();
+  }
+  function close(){ el.hidden = true; document.body.classList.remove('qz-lock'); }
+  function isLast(){ for (var j = Q.i + 1; j < Q.steps.length; j++) if (shown(j)) return false; return true; }
+  function next(){
+    var s = Q.steps[Q.i];
+    if (s.valid && !s.valid(Q.st)) { var c = $('.qz-body'); c.classList.remove('qz-shake'); void c.offsetWidth; c.classList.add('qz-shake'); return; }
+    if (isLast()) { var d = Q.done; close(); d(Q.st); return; }
+    Q.i++; while (Q.i < Q.steps.length - 1 && !shown(Q.i)) Q.i++;
+    render();
+  }
+  function back(){
+    var j = Q.i - 1; while (j >= 0 && !shown(j)) j--;
+    if (j < 0) { close(); return; }
+    Q.i = j; render();
+  }
+  function render(){
+    var vis = Q.steps.filter(function(_, j){ return shown(j); }), pos = vis.indexOf(Q.steps[Q.i]) + 1;
+    var s = Q.steps[Q.i], st = Q.st;
+    $('.qz-bar i').style.width = Math.round(pos / vis.length * 100) + '%';
+    $('.qz-count').textContent = pos + ' of ' + vis.length;
+    $('.qz-kicker').textContent = typeof Q.kicker === 'function' ? Q.kicker(st) : Q.kicker;
+    $('.qz-q').textContent = typeof s.q === 'function' ? s.q(st) : s.q;
+    var h = typeof s.help === 'function' ? s.help(st) : (s.help || ''); $('.qz-help').textContent = h; $('.qz-help').style.display = h ? '' : 'none';
+    var body = $('.qz-body'); body.innerHTML = ''; s.render(st, body);
+    var last = isLast(); $('.qz-next').textContent = last ? (s.cta || 'Save') : 'Next →';
+    $('.qz-back').textContent = Q.i === 0 || !Q.steps.slice(0, Q.i).some(function(_, j){ return shown(j); }) ? 'Cancel' : '← Back';
+    var f = body.querySelector('input'); if (f && window.matchMedia && matchMedia('(pointer:fine)').matches) f.focus();
+    $('.qz-card').scrollTop = 0;
+  }
+  $('.qz-x').onclick = close; $('.qz-back').onclick = back; $('.qz-next').onclick = next;
+  el.addEventListener('click', function(e){ if (e.target === el) close(); });
+  document.addEventListener('keydown', function(e){ if (el.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); next(); } });
+
+  // ── building blocks
+  function chips(body, opts, isOn, pick, o){
+    o = o || {};
+    var g = document.createElement('div'); g.className = 'qz-chips' + (o.wide ? ' wide' : '');
+    opts.forEach(function(op){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'qz-chip' + (isOn(op.v) ? ' on' : '') + (op.best ? ' best' : '');
+      b.innerHTML = esc(op.t) + (op.s ? '<small>' + esc(op.s) + '</small>' : '');
+      b.onclick = function(){ pick(op.v); if (o.auto) next(); else render(); };
+      g.appendChild(b);
+    });
+    body.appendChild(g); return g;
+  }
+  function hintBox(body){ var d = document.createElement('div'); d.className = 'qz-hint'; body.appendChild(d); return d; }
+  function numField(body, label, val, unit, step, onChange){
+    if (label) { var l = document.createElement('div'); l.className = 'qz-label'; l.textContent = label; body.appendChild(l); }
+    var w = document.createElement('div'); w.className = 'qz-num';
+    w.innerHTML = '<button type="button" aria-label="Less">−</button><input type="number" inputmode="decimal" min="0"><span class="qz-unit"></span><button type="button" aria-label="More">+</button>';
+    var inp = w.querySelector('input'); inp.value = val === '' || val == null ? '' : r2(val); inp.step = step; w.querySelector('.qz-unit').textContent = unit;
+    function set(v){ v = Math.max(0, r2(v)); inp.value = v; onChange(v); }
+    w.children[0].onclick = function(){ set(num(inp.value) - step); };
+    w.children[3].onclick = function(){ set(num(inp.value) + step); };
+    inp.oninput = function(){ onChange(num(inp.value)); };
+    body.appendChild(w); return inp;
+  }
+  function dateField(body, label, val, onChange){
+    if (label) { var l = document.createElement('div'); l.className = 'qz-label'; l.textContent = label; body.appendChild(l); }
+    var i = document.createElement('input'); i.type = 'date'; i.className = 'qz-in'; i.value = val || ''; i.max = todayStr();
+    i.oninput = function(){ onChange(i.value); }; body.appendChild(i); return i;
+  }
+  function stepFor(v){ return v >= 100 ? 50 : (v >= 10 ? 1 : (v >= 1 ? 0.25 : 0.05)); }
+
+  // ── ADD / EDIT A PEPTIDE
+  function addSteps(){
+    return [
+      { q: function(s){ return 'How many mg are in your ' + s.name + ' vial?'; }, help: 'Look at the label on the vial.', skip: function(s){ return s.oral; },
+        valid: function(s){ return s.vial > 0; },
+        render: function(s, b){
+          chips(b, [2,5,10,15,20,30,50].map(function(v){ return { v:v, t:v + ' mg' }; }), function(v){ return s.vial === v; }, function(v){ s.vial = v; }, { auto:true });
+          numField(b, 'Or type it', s.vial, 'mg', 1, function(v){ s.vial = v; });
+        } },
+      { q: 'How much bacteriostatic water did you add?', help: 'The water you mixed into the vial.', skip: function(s){ return s.oral; },
+        valid: function(s){ return s.water > 0; },
+        render: function(s, b){
+          chips(b, [0.5,1,1.5,2,2.5,3,5].map(function(v){ return { v:v, t:v + ' mL' }; }), function(v){ return s.water === v; }, function(v){ s.water = v; }, { auto:true });
+          var h; numField(b, 'Or type it', s.water, 'mL', 0.5, function(v){ s.water = v; paint(); });
+          h = hintBox(b);
+          function paint(){ h.textContent = s.vial > 0 && s.water > 0 ? ('That makes ' + r2(s.vial / s.water) + ' mg in every 1 mL.') : ''; }
+          paint();
+        } },
+      { q: 'When did you mix this vial?', help: 'Mixed peptides are kept in the fridge and usually used within about 4 weeks. We\'ll show you how old it is.', skip: function(s){ return s.oral; },
+        render: function(s, b){
+          var y = new Date(); y.setDate(y.getDate() - 1);
+          chips(b, [{ v:todayStr(), t:'Today' }, { v:ymd(y), t:'Yesterday' }, { v:'', t:'Not mixed yet' }], function(v){ return (s.mixed || '') === v; }, function(v){ s.mixed = v; }, {});
+          dateField(b, 'Or pick the date', s.mixed, function(v){ s.mixed = v; });
+        } },
+      { q: function(s){ return 'How many mg is each ' + s.name + ' pill?'; }, help: 'Check the bottle label.', skip: function(s){ return !s.oral; },
+        valid: function(s){ return s.pill > 0; },
+        render: function(s, b){
+          var def = (PEPTIDES[s.key] || {}).pill, list = [def, def / 2, def * 2].filter(function(v, k, a){ return v > 0 && a.indexOf(v) === k; });
+          chips(b, list.map(function(v){ return { v:r2(v), t:r2(v) + ' mg' }; }), function(v){ return s.pill === v; }, function(v){ s.pill = v; }, { auto:true });
+          numField(b, 'Or type it', s.pill, 'mg', stepFor(s.pill || 1), function(v){ s.pill = v; });
+        } },
+      { q: 'How much is each dose?', help: 'We filled in a typical research starting dose. Change it to what you take.',
+        valid: function(s){ return s.dose > 0; },
+        render: function(s, b){
+          var h; numField(b, '', s.dose, 'mg', stepFor(s.dose || 1), function(v){ s.dose = v; paint(); });
+          h = hintBox(b);
+          function paint(){
+            h.className = 'qz-hint';
+            if (!(s.dose > 0)) { h.textContent = ''; return; }
+            if (s.oral) { var n = r2(s.dose / (s.pill || s.dose)); h.textContent = '💊 That\'s ' + n + ' pill' + (n === 1 ? '' : 's') + ' each time.'; return; }
+            var u = units(s.vial, s.water, s.dose);
+            if (u > 100) { h.className = 'qz-hint warn'; h.textContent = '⚠ That\'s ' + Math.round(u) + ' units, more than a 1 mL syringe holds. Add more water to the vial or split the dose.'; return; }
+            h.textContent = '💉 Pull the syringe to ' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units (' + (u / 100).toFixed(2) + ' mL) on a U-100 insulin syringe.';
+          }
+          paint();
+        } },
+      { q: 'How many times a day?', help: 'Larazotide trials used 3 times a day, before meals.', skip: function(s){ return !s.oral; },
+        render: function(s, b){ chips(b, [1,2,3].map(function(v){ return { v:v, t:v === 1 ? 'Once a day' : (v + ' times a day') }; }), function(v){ return s.perDay === v; }, function(v){ s.perDay = v; }, { auto:true, wide:true }); } },
+      { q: 'How often do you take it?', valid: function(s){ return s.freq !== 'custom' || s.weekdays.length > 0; },
+        help: function(s){ return s.freq === 'custom' ? 'Tap every day you take it.' : ''; },
+        render: function(s, b){
+          chips(b, [{ v:'daily', t:'Every day' }, { v:'weekly', t:'Once a week', s:'Same day each week' }, { v:'custom', t:'Pick days', s:'e.g. Mon / Wed / Fri' }],
+            function(v){ return s.freq === v; }, function(v){ s.freq = v; }, { auto:false, wide:true });
+          if (s.freq === 'custom') {
+            var names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            chips(b, [1,2,3,4,5,6,0].map(function(d){ return { v:d, t:names[d] }; }), function(d){ return s.weekdays.indexOf(d) !== -1; },
+              function(d){ var k = s.weekdays.indexOf(d); if (k === -1) s.weekdays.push(d); else s.weekdays.splice(k, 1); }, {});
+          }
+        } },
+      { q: 'What time of day?',
+        render: function(s, b){ chips(b, [{ v:'morning', t:'☀️ Morning' }, { v:'pm', t:'🌙 Evening / bedtime' }, { v:'any', t:'🕐 Any time' }], function(v){ return s.time === v; }, function(v){ s.time = v; }, { auto:true, wide:true }); } },
+      { q: 'How long is this cycle?', help: 'Pick or type how many weeks, and the day you start (or started).', valid: function(s){ return s.weeks >= 1; },
+        render: function(s, b){
+          chips(b, [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks' }; }), function(v){ return s.weeks === v; }, function(v){ s.weeks = v; }, {});
+          numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); });
+          dateField(b, 'Start date', s.start, function(v){ s.start = v || todayStr(); }).removeAttribute('max');
+        } },
+      { q: 'Look good?', help: 'You can edit this any time from My Peptides.', cta: '✓ Save to My Peptides',
+        render: function(s, b){
+          var names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+          var how = s.freq === 'daily' ? 'Every day' : (s.freq === 'weekly' ? 'Once a week' : s.weekdays.slice().sort().map(function(d){ return names[d]; }).join(' / '));
+          var rows = [['Peptide', s.name]];
+          if (s.oral) { rows.push(['Pill size', s.pill + ' mg']); rows.push(['Each dose', s.dose + ' mg (' + r2(s.dose / s.pill) + ' pill' + (r2(s.dose / s.pill) === 1 ? '' : 's') + ')']); rows.push(['Times a day', s.perDay]); }
+          else { var u = units(s.vial, s.water, s.dose); rows.push(['Vial', s.vial + ' mg + ' + s.water + ' mL water']); rows.push(['Each dose', s.dose + ' mg = ' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units']); rows.push(['Mixed', s.mixed ? agoTxt(daysAgo(s.mixed)) : 'Not yet']); }
+          rows.push(['How often', how]); rows.push(['Time', timeOfDayLabel(s.time).split(' (')[0]]); rows.push(['Cycle', s.weeks + ' weeks from ' + s.start]);
+          var d = document.createElement('div'); d.className = 'qz-review';
+          d.innerHTML = rows.map(function(r){ return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+          b.appendChild(d);
+        } }
+    ];
+  }
+  function saveProto(s){
+    var keepTime = s.startTime || nowDateTimeLocal().split('T')[1];
+    var p = { id: s.id || ('p' + Date.now() + Math.floor(Math.random() * 1000)), key: s.key, name: s.name, oral: !!s.oral,
+      vial: s.oral ? 0 : s.vial, water: s.oral ? 0 : s.water, pill: s.oral ? s.pill : undefined, perDay: s.oral ? s.perDay : undefined,
+      mixed: s.oral ? '' : (s.mixed || ''), dose: s.dose, startDateTime: s.start + 'T' + keepTime, durationDays: s.weeks * 7,
+      frequencyType: s.freq, weekdays: s.freq === 'custom' ? s.weekdays.slice() : [], timeOfDay: s.time, timeLabel: timeOfDayLabel(s.time) };
+    var k = ACTIVE_PROTOCOLS.findIndex(function(x){ return x.id === p.id; });
+    if (k === -1) ACTIVE_PROTOCOLS.push(p); else ACTIVE_PROTOCOLS[k] = p;
+    saveProtocols(); renderDashboard();
+    pmdToast('✓ <b>' + esc(p.name) + '</b> ' + (k === -1 ? 'added' : 'updated') + '. Tap it under <b>Today\'s Doses</b> when you take it.');
+    var box = document.getElementById('active-protocols-box'); if (box && k === -1) box.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  window.useForSchedule = function(key, ev){
+    if (ev) ev.stopPropagation();
+    var d = PEPTIDES[key]; if (!d) return;
+    var st = { key:key, name:d.name, oral:!!d.oral, vial:d.vial || 0, water:d.water || 0, pill:d.pill || 0, perDay:d.perDay || 1, mixed:todayStr(),
+      dose:d.start, freq: d.freq >= 7 ? 'daily' : (d.freq === 1 ? 'weekly' : 'custom'), weekdays: d.freq === 3 ? [1,3,5] : (d.freq === 5 ? [1,2,3,4,5] : (d.freq === 2 ? [1,4] : [])),
+      time: d.time === 'pm' ? 'pm' : (d.time === 'any' ? 'any' : 'morning'), weeks: d.weeks && d.weeks >= 4 ? Math.min(16, d.weeks * (d.step > 0 ? 3 : 1)) : 8, start: todayStr() };
+    if ([4,6,8,12,16].indexOf(st.weeks) === -1) st.weeks = 8;
+    open(addSteps(), st, saveProto, 'Add ' + d.name);
+  };
+  window.pmdEditProtocol = function(id){
+    var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
+    var st = { id:p.id, key:p.key, name:p.name, oral:pmdOral(p), vial:p.vial, water:p.water, pill:pmdPill(p), perDay:pmdPerDay(p), mixed:p.mixed || '',
+      dose:p.dose, freq:p.frequencyType, weekdays:(p.weekdays || []).slice(), time:p.timeOfDay || 'morning',
+      weeks: Math.max(1, Math.round(p.durationDays / 7)), start: p.startDateTime.split('T')[0], startTime: p.startDateTime.split('T')[1] };
+    open(addSteps(), st, saveProto, 'Edit ' + p.name);
+  };
+
+  // ── LOG A DOSE
+  function logSteps(){
+    return [
+      { q: 'Which one did you take?', skip: function(L){ return !!L.pid; }, valid: function(L){ return !!L.pid; },
+        render: function(L, b){
+          var due = ACTIVE_PROTOCOLS.filter(function(p){ return !L.siteOnly || !pmdOral(p); });
+          chips(b, due.map(function(p){ return { v:p.id, t:p.name, s:p.dose + ' mg' }; }), function(v){ return L.pid === v; }, function(v){ L.pid = v; var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === v; }); L.mg = p.dose; }, { auto:true, wide:true });
+        } },
+      { q: 'Where did you inject?', help: 'Rotating spots helps avoid soreness and lumps.', valid: function(L){ return !!L.site; },
+        skip: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return L.sitePreset || (p && pmdOral(p)); },
+        render: function(L, b){
+          var best = suggestedZone();
+          chips(b, INJ_ZONES.map(function(z){ var last = lastUsedDateForZone(z.code); return { v:z.code, t:z.label, s: last ? 'Last used ' + agoTxt(daysAgo(last)) : 'Not used yet', best: z.code === best }; }),
+            function(v){ return L.site === v; }, function(v){ L.site = v; }, { auto:true });
+        } },
+      { q: 'How much did you take?', valid: function(L){ return L.mg > 0; },
+        render: function(L, b){
+          var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }) || {};
+          var h; numField(b, '', L.mg, 'mg', stepFor(L.mg || 1), function(v){ L.mg = v; paint(); });
+          h = hintBox(b);
+          function paint(){
+            if (!(L.mg > 0)) { h.textContent = ''; return; }
+            if (pmdOral(p)) { var n = r2(L.mg / pmdPill(p)); h.textContent = '💊 ' + n + ' pill' + (n === 1 ? '' : 's'); return; }
+            var u = units(p.vial, p.water, L.mg); h.textContent = '💉 ' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units on a U-100 syringe';
+          }
+          paint();
+        } },
+      { q: 'What time?', cta: '✓ Log this dose',
+        render: function(L, b){
+          chips(b, [{ v:'now', t:'Just now' }], function(){ return L.time === nowHM(); }, function(){ L.time = nowHM(); }, {});
+          var l = document.createElement('div'); l.className = 'qz-label'; l.textContent = 'Or set the time'; b.appendChild(l);
+          var i = document.createElement('input'); i.type = 'time'; i.className = 'qz-in'; i.value = L.time; i.oninput = function(){ L.time = i.value; }; b.appendChild(i);
+        } }
+    ];
+  }
+  function saveLog(L){
+    var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); if (!p) return;
+    var oral = pmdOral(p);
+    if (!DOSE_LOG[L.date]) DOSE_LOG[L.date] = {};
+    DOSE_LOG[L.date][p.id] = { mg: L.mg, site: oral ? '' : L.site, time: L.time };
+    saveDoseLog();
+    if (!oral && L.site) { INJ_LOG.unshift({ id:'i' + Date.now() + Math.floor(Math.random() * 1000), zone:L.site, date:L.date, time:L.time, pid:p.id, name:p.name, mg:L.mg }); saveInjLog(); }
+    renderDashboard();
+    var t = todayStr(), due = ACTIVE_PROTOCOLS.filter(isDoseDueToday);
+    var left = due.filter(function(x){ return !(DOSE_LOG[t] && DOSE_LOG[t][x.id]); }).length;
+    var nx = !oral ? INJ_ZONES.find(function(z){ return z.code === suggestedZone(); }) : null;
+    if (L.date === t && due.length && !left) { var s = pmdStreak(); pmdToast('🎉 <b>All of today\'s doses done!</b> ' + (s > 1 ? '🔥 ' + s + '-day streak. ' : '') + 'Gotta track \'em all.'); pmdConfetti(); }
+    else pmdToast('✓ <b>' + esc(p.name) + '</b> logged: ' + L.mg + ' mg' + (oral ? '' : ' in ' + esc(zoneLabel(L.site))) + '.' + (nx ? ' Next spot: <b>' + esc(nx.label) + '</b>.' : ''));
+  }
+  function startLog(pid, date, site){
+    var p = pid ? ACTIVE_PROTOCOLS.find(function(x){ return x.id === pid; }) : null;
+    var L = { pid: pid || '', date: date || todayStr(), mg: p ? p.dose : 0, site: site || '', sitePreset: !!site, siteOnly: !!site, time: nowHM() };
+    open(logSteps(), L, saveLog, function(L){ var q = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return 'Log a dose' + (q ? ' · ' + q.name : ''); });
+  }
+  window.pmdLogDose = startLog;
+  window.toggleDoseDone = function(protocolId, dateStr){
+    var t = dateStr || todayStr();
+    if (DOSE_LOG[t] && DOSE_LOG[t][protocolId]) {
+      if (!confirm('Undo this dose? It will be removed from your log.')) return;
+      delete DOSE_LOG[t][protocolId]; saveDoseLog();
+      var k = INJ_LOG.findIndex(function(e){ return e.pid === protocolId && e.date === t; }); if (k !== -1) { INJ_LOG.splice(k, 1); saveInjLog(); }
+      renderDashboard(); return;
+    }
+    startLog(protocolId, t);
+  };
+  window.logInjSite = function(code){
+    var inj = ACTIVE_PROTOCOLS.filter(function(p){ return !pmdOral(p); });
+    if (!inj.length) { INJ_LOG.unshift({ id:'i' + Date.now(), zone:code, date:todayStr(), time:nowHM() }); saveInjLog(); renderInjSites(); pmdToast('💉 Logged <b>' + esc(zoneLabel(code)) + '</b>.'); return; }
+    startLog(inj.length === 1 ? inj[0].id : '', todayStr(), code);
+  };
+
+  // ── nicer lists
+  window.renderProtocolsList = function(){
+    var out = document.getElementById('protocols-list'); if (!out) return;
+    if (!ACTIVE_PROTOCOLS.length) { out.innerHTML = '<div class="empty-state">Nothing here yet. Search a peptide in step 1 and tap <b>+ ADD</b>. We\'ll ask a few quick questions.</div>'; return; }
+    out.innerHTML = ACTIVE_PROTOCOLS.map(function(p){
+      var oral = pmdOral(p), left = daysRemaining(p), lines = [];
+      lines.push(p.dose + ' mg · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '× a day' : '') + ' · ' + p.timeLabel.split(' (')[0].replace('Either — No Strong Preference', 'Any time'));
+      if (oral) lines.push('💊 ' + pmdPillTxt(p) + ' (' + pmdPill(p) + ' mg pills)');
+      else { var u = pmdUnits(p); lines.push('💉 ' + p.vial + ' mg vial + ' + p.water + ' mL water · pull to <b>' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units</b>'); }
+      var html = lines.map(function(l){ return '<div class="pmd-pcard-line">' + l + '</div>'; }).join('');
+      if (!oral && p.mixed) { var a = daysAgo(p.mixed); html += '<div class="pmd-pcard-line' + (a >= 28 ? ' warn' : '') + '">🧪 Mixed ' + agoTxt(a) + (a >= 28 ? ': over 4 weeks, check it\'s still good' : '') + '</div>'; }
+      html += '<div class="pmd-pcard-line">📅 ' + left + ' day' + (left === 1 ? '' : 's') + ' left in this cycle</div>';
+      return '<div class="pmd-pcard"><div class="pmd-pcard-top"><span class="pmd-pcard-name">' + esc(p.name) + '</span><span class="pmd-tag' + (oral ? ' oral' : '') + '">' + (oral ? '💊 PILL' : '💉 INJECTION') + '</span></div>' + html
+        + '<div class="pmd-pcard-btns"><button type="button" class="pmd-edit" onclick="pmdEditProtocol(\'' + p.id + '\')">✏️ Edit</button><button type="button" class="pmd-del" onclick="removeProtocol(\'' + p.id + '\')">Remove ✕</button></div></div>';
+    }).join('');
+  };
+  window.renderTodayDoses = function(){
+    var out = document.getElementById('today-doses-list'); if (!out) return;
+    var t = todayStr(), due = ACTIVE_PROTOCOLS.filter(isDoseDueToday);
+    if (!due.length) { out.innerHTML = '<div class="empty-state">' + (ACTIVE_PROTOCOLS.length ? 'Nothing due today. Enjoy the day off. 🦍' : 'Add a peptide above and your doses show up here.') + '</div>'; return; }
+    out.innerHTML = due.map(function(p){
+      var rec = DOSE_LOG[t] && DOSE_LOG[t][p.id], oral = pmdOral(p), meta;
+      if (rec) { var r = typeof rec === 'object' ? rec : {}; meta = (r.mg || p.dose) + ' mg' + (r.site ? ' · ' + esc(zoneLabel(r.site)) : '') + (r.time ? ' · ' + hhmm(r.time) : ''); }
+      else { meta = p.dose + ' mg · ' + (oral ? '💊 ' + pmdPillTxt(p) : '💉 ' + (function(u){ return (u % 1 === 0 ? u : u.toFixed(1)); })(pmdUnits(p)) + ' units') + ' · ' + p.timeLabel.split(' (')[0].replace('Either — No Strong Preference', 'Any time'); }
+      return '<button type="button" class="pmd-drow' + (rec ? ' done' : '') + '" onclick="toggleDoseDone(\'' + p.id + '\')"><span class="ck">' + (rec ? '✓' : '') + '</span><span><div class="nm">' + esc(p.name) + '</div><div class="mt">' + meta + '</div></span><span class="go">' + (rec ? 'Done ✓' : 'Log it →') + '</span></button>';
+    }).join('');
+  };
+  var baseInj = window.renderInjSites;
+  window.renderInjSites = function(){
+    baseInj();
+    var out = document.getElementById('inj-log-list'); if (!out || !INJ_LOG.length) return;
+    out.innerHTML = INJ_LOG.slice(0, 15).map(function(e){
+      return '<div class="inj-log-row"><span class="inj-log-zone">' + esc(zoneLabel(e.zone)) + (e.name ? ' · ' + esc(e.name) + (e.mg ? ' ' + e.mg + ' mg' : '') : '') + '</span><span class="inj-log-date">' + e.date + (e.time ? ' ' + hhmm(e.time) : '') + '</span></div>';
+    }).join('');
+  };
+  // load what this visitor saved before (the old sign-in step that used to do this never runs)
+  if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker(typeof pmdUid === 'function' ? pmdUid() : 'guest');
+})();
+</script>
+
+<style id="pmd-no-extras">#tab-tracker > .step-head.more, #tab-tracker > details.pmd-more{display:none !important;}</style>
+</body>
 </html>
