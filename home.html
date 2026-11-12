@@ -4647,8 +4647,7 @@ document.addEventListener('keydown', function(e){
 
   <div class="sb-section">Learn</div>
   <button class="sb-item" data-view="all-peptides" onclick="showView('all-peptides');setSbActive(this)"><span class="sb-icon">🔬</span>Peptide Index</button>
-  <button class="sb-item" data-view="tgk" onclick="showView('tgk');setSbActive(this)"><span class="sb-icon">🧬</span>Tesa · GHK · KPV</button>
-  <button class="sb-item" data-view="mito" onclick="showView('vitamins');setSbActive(this);setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},80);"><span class="sb-icon">⚡</span>Urolithin · SS-31 · MOTS-c</button>
+  <button class="sb-item" data-view="tgk" onclick="showView('tgk');setSbActive(this)"><span class="sb-icon">⚡</span>Mito &amp; Recovery</button>
   <button class="sb-item" data-view="winter" onclick="showView('winter');setSbActive(this)"><span class="sb-icon">❄️</span>Winter &amp; Immune</button>
   <button class="sb-item" data-view="cancer" onclick="showView('cancer');setSbActive(this)"><span class="sb-icon">🎗️</span>Cancer &amp; Peptides</button>
 
@@ -24899,13 +24898,36 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
     <div class="vh-inner">
       <div class="vh-icon">🧬</div>
       <div>
-        <div class="vh-title">TESA · GHK-Cu · KPV</div>
+        <div class="vh-title">MITO &amp; RECOVERY</div>
         <div class="vh-sub">Information guides for tesamorelin (visceral fat &amp; IGF-1), GHK-Cu (skin, hair &amp; repair) and KPV (gut &amp; inflammation) — what they are, what the research actually shows, and what to monitor.</div>
         <div class="vh-badges"><span class="vh-badge">TESAMORELIN</span><span class="vh-badge">GHK-Cu</span><span class="vh-badge">KPV</span><span class="vh-badge">PUBMED LINKED</span></div>
       </div>
     </div>
     <div class="vh-accent-line"></div>
   </div>
+  <!-- Mito & Recovery: one menu item, two clear paths -->
+  <div class="mr-switch" data-vt-skip>
+    <a class="mr-card mr-on" href="#view-tgk" onclick="return false;">
+      <span class="mr-ic">🔥</span>
+      <span><b>Repair &amp; Inflammation</b><small>Tesa · GHK-Cu · KPV · you're here</small></span>
+    </a>
+    <a class="mr-card" href="#" onclick="showView('vitamins');setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},80);return false;">
+      <span class="mr-ic">⚡</span>
+      <span><b>Mitochondria &amp; Energy</b><small>Urolithin A · SS-31 · MOTS-c →</small></span>
+    </a>
+  </div>
+  <style>
+    .mr-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 8px;}
+    .mr-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);text-decoration:none !important;color:inherit;transition:transform .15s,border-color .15s;}
+    .mr-card:hover{transform:translateY(-2px);border-color:#9a5cff;}
+    .mr-card.mr-on{border-color:#ff2fa8;background:linear-gradient(90deg,rgba(255,47,168,0.14),rgba(154,92,255,0.08));cursor:default;}
+    .mr-card .mr-ic{font-size:26px;flex-shrink:0;}
+    .mr-card b{display:block;font:800 16px/1.25 'Inter',system-ui,sans-serif;color:#f4f5fb;}
+    .mr-card small{display:block;font:600 13px/1.3 'Inter',system-ui,sans-serif;color:rgba(200,206,230,0.75);margin-top:2px;}
+    html[data-theme="light"] .mr-card b{color:#14112a;} html[data-theme="light"] .mr-card small{color:#4a4566;}
+    html[data-theme="light"] .mr-card{border-color:rgba(30,20,70,0.14);background:#fff;}
+    @media(max-width:560px){ .mr-switch{grid-template-columns:1fr;} }
+  </style>
 
 <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b"><b>This whole page in kid words:</b><br>💉 <b>Tesamorelin</b> pushes your brain's growth-hormone button, which shrinks deep belly fat around your organs. Too much growth hormone can raise blood sugar and make you puffy, so you check your blood (IGF-1, sugar).<br>✨ <b>GHK-Cu</b> is a tiny copper "repair note" that tells skin and tissue to make more collagen — like ordering new bricks for a wall. It can sting when injected.<br>🌿 <b>KPV</b> is a tiny "calm down" message that slips into irritated gut cells and turns down inflammation.<br>🩹 <b>Healing peptides</b> (BPC-157, TB-500, B7-33, ARA-290) help animals heal tendons, nerves and scars — human proof is still small.<br>⚖️ <b>TNF blockers vs peptides:</b> when your immune system attacks your joints, proven medicines come first; peptides are experiments.</div></details>
   <div class="glp-note" style="font-family:'Rajdhani',sans-serif;font-size:0.86rem;font-weight:600;color:rgba(255,220,150,0.85);background:rgba(255,170,0,0.07);border:1px solid rgba(255,170,0,0.3);border-radius:8px;padding:0.55rem 0.8rem;margin:0 0 1rem;line-height:1.55;">⚠ Research and education only — not medical advice. Tesamorelin is a prescription drug; GHK-Cu (as an injectable) and KPV are research compounds with little or no human trial data. Work with your doctor, especially on labs.</div>

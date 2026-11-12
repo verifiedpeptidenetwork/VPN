@@ -876,7 +876,7 @@ main { max-width: 860px; margin: 0 auto; padding: 36px 20px 80px; }
 .how-card{background:#fff;border:3px solid #1a1a1a;border-radius:14px;box-shadow:4px 4px 0 rgba(0,0,0,0.2);margin-bottom:26px;overflow:hidden;}
 .how-card > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--purple);color:#fff;font-family:var(--orb);font-weight:900;font-size:1.05rem;letter-spacing:0.06em;}
 .how-card > summary::-webkit-details-marker{display:none;}
-.how-card > summary .how-toggle{margin-left:auto;font-family:var(--mono);font-size:0.8rem;letter-spacing:0.1em;opacity:0.85;}
+.how-card > summary .how-toggle{margin-left:auto;color:#fff !important;font-family:var(--mono);font-size:0.8rem;letter-spacing:0.1em;opacity:0.85;}
 .how-card[open] > summary .how-toggle::after{content:'HIDE ▲';} .how-card:not([open]) > summary .how-toggle::after{content:'SHOW ▼';}
 .how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px;padding:16px 18px 6px;}
 .how-step{display:flex;gap:12px;align-items:flex-start;}
@@ -1065,15 +1065,15 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   <details class="how-card" id="how-card" open>
     <summary>❓ HOW POKEME-DEX WORKS <span class="how-toggle"></span></summary>
     <div class="how-steps">
-      <div class="how-step"><div class="how-num">1</div><div><b>ADD A PEPTIDE</b><span>Type the name of a peptide you're already running.</span></div></div>
-      <div class="how-step"><div class="how-num">2</div><div><b>TAP + ADD</b><span>It goes into <em>My Protocols</em> with a typical research starting dose and schedule filled in for you.</span></div></div>
-      <div class="how-step"><div class="how-num">3</div><div><b>TICK OFF EACH DOSE</b><span>Each day, tap the circle next to a dose once you've taken it. The calendar shows what's coming up.</span></div></div>
-      <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>Print it, save it as a PDF, or download it. You get doses, syringe units, a 14-day checklist and a shopping list.</span></div></div>
+      <div class="how-step"><div class="how-num">1</div><div><b>ADD YOUR PEPTIDE</b><span>Search its name and tap <b>+ ADD</b>. Dose and schedule fill in for you.</span></div></div>
+      <div class="how-step"><div class="how-num">2</div><div><b>TICK OFF EACH DOSE</b><span>Tap the circle when you've taken it. Keep your 🔥 streak going.</span></div></div>
+      <div class="how-step"><div class="how-num">3</div><div><b>LOG YOUR SPOT</b><span>Tap where you injected. PokeMe-Dex picks your next spot so you rotate.</span></div></div>
+      <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>One tap for a PDF, a copy to share, or a download.</span></div></div>
     </div>
     <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed.</div>
   </details>
 
-  <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>ADD A PEPTIDE</h3><p>Search by name to add one you're running.</p></div></div>
+  <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>ADD YOUR PEPTIDE</h3><p>Type the name, then tap <b>+ ADD</b>.</p></div></div>
 
   <div style="margin-bottom:24px;">
     <div class="field-label">🔍 SEARCH BY NAME</div>
@@ -1093,34 +1093,49 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <button class="btn-secondary" id="copy-suggestions-btn" style="display:none; margin-top:14px;" onclick="copySuggestionsText()">📋 Copy as Text</button>
   </div>
 
-  <div class="step-head"><div class="how-num">2</div><div><h3>MY PROTOCOLS</h3><p>Everything you've added. Tap <b>REMOVE</b> to stop tracking one.</p></div></div>
+  <div class="step-head"><div class="how-num">2</div><div><h3>MY PEPTIDES</h3><p>Everything you're tracking. Tap <b>REMOVE</b> to stop one.</p></div></div>
 
   <div class="stats-row">
-    <div class="stat-box"><div class="stat-num" id="stat-active">0</div><div class="stat-label">Active Protocols</div></div>
-    <div class="stat-box"><div class="stat-num" id="stat-today">0</div><div class="stat-label">Doses Today</div></div>
-    <div class="stat-box"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Completed Today</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-active">0</div><div class="stat-label">Peptides</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-today">0</div><div class="stat-label">Done today</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-done">0</div><div class="stat-label">🔥 Day streak</div></div>
   </div>
 
   <div class="response-box visible" id="active-protocols-box">
     <div class="response-label" style="justify-content:space-between;">
-      <span><span class="pulse-dot"></span>ACTIVE PROTOCOLS</span>
+      <span><span class="pulse-dot"></span>MY PEPTIDES</span>
       <span style="cursor:pointer;color:var(--pink);" onclick="clearProtocols()">CLEAR ALL ✕</span>
     </div>
-    <div class="box-hint">Each line shows the dose, how often, the time of day and the days left. The doses are typical research starting points, not medical advice.</div>
+    <div class="box-hint">Doses are typical research starting points, not medical advice.</div>
     <div id="protocols-list"></div>
   </div>
 
-  <div class="step-head"><div class="how-num">3</div><div><h3>TICK OFF TODAY'S DOSES</h3><p>Tap the circle once you've taken a dose. Tap again to undo.</p></div></div>
+  <div class="step-head"><div class="how-num">3</div><div><h3>TICK OFF TODAY'S DOSES</h3><p>Tap the circle once you've taken a dose. Finish them all for a 🔥 streak.</p></div></div>
 
   <div class="response-box visible" id="today-doses-box" style="margin-top:12px;">
     <div class="response-label"><span class="pulse-dot"></span>TODAY'S DOSES</div>
     <div id="today-doses-list"></div>
   </div>
 
-  <div class="step-head"><div class="how-num">4</div><div><h3>SAVE YOUR PLAN</h3><p>A clean one-page plan you can print, keep as a PDF, or download.</p></div></div>
+  <div class="step-head"><div class="how-num">4</div><div><h3>WHERE DID YOU INJECT?</h3><p>Tap today's spot. The green one is your best next pick.</p></div></div>
+  <div class="response-box visible" id="inj-site-box">
+    <div class="response-label" style="justify-content:space-between;">
+      <span><span class="pulse-dot"></span>💉 INJECTION SITE ROTATION</span>
+      <span style="cursor:pointer;color:var(--pink);" onclick="clearInjLog()">CLEAR LOG ✕</span>
+    </div>
+    <p style="font-family:var(--bar);font-size:0.95rem;color:var(--muted);margin-bottom:14px;">Tap the zone you're injecting into today to log it and rotate sites — helps avoid soreness and scar tissue from reusing the same spot.</p>
+    <div id="inj-next-suggestion" style="margin-bottom:14px;"></div>
+    <div class="inj-zone-grid" id="inj-zone-grid"></div>
+    <div class="field-label" style="margin-top:18px;">RECENT INJECTIONS</div>
+    <div id="inj-log-list"></div>
+    <button class="btn-secondary" style="margin-top:14px;" onclick="copyInjLogText()">📋 Copy Injection Log as Text</button>
+  </div>
+
+
+  <div class="step-head"><div class="how-num">5</div><div><h3>SAVE YOUR PLAN</h3><p>Everything on one clean page: doses, syringe units, a 14-day checklist and what to buy.</p></div></div>
   <div class="plan-band">
-    <div class="plan-band-txt"><b>📄 My Plan report</b><span>Your protocols with doses and <b>syringe units</b>, a <b>14-day tick-box checklist</b>, a shopping list and your injection-site history.</span></div>
-    <div class="plan-band-btns"><button class="btn-primary" onclick="pmdPrintReport()">🖨 PRINT / SAVE PDF</button><button class="btn-secondary" onclick="pmdShareNotes()">📝 SAVE TO NOTES / KEEP</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ DOWNLOAD</button></div>
+    <div class="plan-band-txt"><b>📄 My Plan</b><span><b>PDF:</b> on the print screen pick <b>Save as PDF</b>. <b>Notes / Keep:</b> on a phone, pick Google Keep or Notes from the share menu; on a computer it copies your plan and opens Keep so you can paste it.</span></div>
+    <div class="plan-band-btns"><button class="btn-primary" onclick="pmdPrintReport()">🖨 SAVE AS PDF</button><button class="btn-secondary" onclick="pmdShareNotes()">📝 SAVE TO NOTES / GOOGLE KEEP</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ DOWNLOAD</button></div>
   </div>
 
   <div class="step-head more"><div class="how-num">+</div><div><h3>MORE TOOLS (OPTIONAL)</h3><p>Calendar · injection-site rotation · shopping list · draw calculators</p></div></div>
@@ -1139,30 +1154,11 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <div id="calendar-day-detail"></div>
   </div>
 
-  <div class="response-box visible" id="inj-site-box">
-    <div class="response-label" style="justify-content:space-between;">
-      <span><span class="pulse-dot"></span>💉 INJECTION SITE ROTATION</span>
-      <span style="cursor:pointer;color:var(--pink);" onclick="clearInjLog()">CLEAR LOG ✕</span>
-    </div>
-    <p style="font-family:var(--bar);font-size:0.95rem;color:var(--muted);margin-bottom:14px;">Tap the zone you're injecting into today to log it and rotate sites — helps avoid soreness and scar tissue from reusing the same spot.</p>
-    <div id="inj-next-suggestion" style="margin-bottom:14px;"></div>
-    <div class="inj-zone-grid" id="inj-zone-grid"></div>
-    <div class="field-label" style="margin-top:18px;">RECENT INJECTIONS</div>
-    <div id="inj-log-list"></div>
-    <button class="btn-secondary" style="margin-top:14px;" onclick="copyInjLogText()">📋 Copy Injection Log as Text</button>
-  </div>
-
   <div class="response-box visible" id="schedule-box">
     <div class="response-label" style="justify-content:space-between;">
-      <span><span class="pulse-dot"></span>SCHEDULE / SHOPPING TOOLS</span>
+      <span><span class="pulse-dot"></span>🛒 WHAT TO BUY</span>
     </div>
-    <div class="box-hint" style="margin-top:-6px;"><b>Shopping List</b> works out how many vials you need. <b>PDF</b> or <b>Copy</b> saves your schedule to keep or share.</div>
-    <div id="schedule-actions" style="display:flex; margin-top:0; gap:10px; flex-wrap:wrap;">
-      <button class="btn-secondary" onclick="showShoppingList()">🛒 Shopping List</button>
-      <button class="btn-secondary" onclick="pmdPrintReport()">🖨 Print / Save PDF</button><button class="btn-secondary" onclick="pmdShareNotes()">📝 Save to Notes / Keep</button><button class="btn-secondary" onclick="pmdDownloadReport()">⬇ Download My Plan</button>
-      <button class="btn-secondary" id="copy-schedule-btn" onclick="copyScheduleText()">📋 Copy Schedule as Text</button>
-    </div>
-    <div class="pdf-tip" id="schedule-pdf-tip">Tip: a print screen will open. Where it says <strong>"Printer"</strong> or <strong>"Destination"</strong>, tap the dropdown and select <strong>"Save as PDF"</strong> — then hit Save/Download to get your PDF. If your device doesn't have that option, hit <strong>Copy as Text</strong> instead and paste it into Notes (phone) or Notepad (desktop).</div>
+    <div class="box-hint" style="margin-top:-6px;">Vials and bacteriostatic water for each peptide's full schedule. Buy a little extra for spills.</div>
     <div id="shopping-list-box" style="display:none; margin-top:18px;"></div>
   </div>
 
@@ -1536,7 +1532,7 @@ function searchPeptide(){
     +   '</div>'
     + '</div>'
     + '<div class="pep-result-desc">' + p.desc + '</div>'
-    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
+    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + pmdKit(p) + ' · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
     + '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">ADD AS ACTIVE PROTOCOL →</button>'
     + '</div>';
   document.getElementById('copy-suggestions-btn').style.display = 'none';
@@ -1620,6 +1616,8 @@ var PEPTIDES = {
   cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
   aod:    { name:'AOD-9604', desc:'A small piece of growth hormone that has been studied for helping the body burn fat — without the muscle-building effects of full growth hormone. Usually injected daily, 5 days a week, for 8-12 weeks.', vial:5, water:2, start:0.3, step:0.1, weeks:8, freq:5 },
   mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
+  atx:    { name:'ATX-304', oral:true, pill:400, perDay:1, desc:'An oral AMPK activator (the body\'s "low fuel" sensor that exercise also switches on). In its first human trial (2026) 400 mg a day for 8 weeks lowered liver fat, visceral fat and triglycerides, with little weight loss. Investigational, not approved. Don\'t stack with MOTS-c (both hit AMPK).', start:400, step:0, weeks:8, freq:7, time:'morning' },
+  lara:   { name:'Larazotide', oral:true, pill:0.5, perDay:3, desc:'An oral tight-junction regulator studied for "leaky gut" and celiac disease, and explored for long COVID. Trials used 0.5 mg three times a day, about 15 minutes before meals. Investigational, not approved.', start:0.5, step:0, weeks:12, freq:7, time:'any' },
   bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
   tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
   cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
@@ -1894,7 +1892,7 @@ function renderSuggestions(){
       + '<div class="pep-result-desc">' + p.desc + '</div>'
       + '<div class="pep-result-desc" style="color:var(--cyan);"><strong>Why we suggest this:</strong> Matches your selected goal' + (matchedGoals[key].length>1?'s':'') + ' — ' + matchedGoals[key].map(function(g){ return GOAL_LABELS[g] || g; }).join(', ') + '. ' + matchedGoals[key].map(function(g){ return (GOAL_REASONS[g] && GOAL_REASONS[g][key]) || ''; }).filter(Boolean).join(' ') + ' As always, do your own independent research and verify with a licensed doctor before using.</div>'
       + '<div class="pep-result-detail">'
-      +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
+      +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + pmdKit(p) + ' · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
       +   '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">ADD AS ACTIVE PROTOCOL →</button>'
       + '</div>'
       + '</div>';
@@ -1903,7 +1901,7 @@ function renderSuggestions(){
   document.getElementById('copy-suggestions-btn').style.display = sorted.length ? 'inline-block' : 'none';
   LAST_SUGGESTIONS = sorted.map(function(key){
     var p = PEPTIDES[key];
-    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
+    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + pmdKit(p) + ' · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
   });
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
@@ -2109,6 +2107,43 @@ function toggleDoseDone(protocolId, dateStr){
   DOSE_LOG[t][protocolId] = !DOSE_LOG[t][protocolId];
   saveDoseLog();
   renderDashboard();
+  if (DOSE_LOG[t][protocolId] && t === todayStr()) {
+    var due = ACTIVE_PROTOCOLS.filter(isDoseDueToday);
+    var left = due.filter(function(p){ return !(DOSE_LOG[t] && DOSE_LOG[t][p.id]); }).length;
+    if (due.length && !left) { var st = pmdStreak(); pmdToast('🎉 <b>All of today\'s doses done!</b> ' + (st > 1 ? '🔥 ' + st + '-day streak. ' : '') + 'Gotta track \'em all.'); pmdConfetti(); }
+    else pmdToast('✓ Dose ticked. ' + left + ' left today.');
+  }
+}
+
+// Days in a row where every due dose was ticked (today counts once it's finished)
+function pmdDayStr(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function pmdStreak(){
+  if (!ACTIVE_PROTOCOLS.length) return 0;
+  var n = 0, d = new Date();
+  for (var i = 0; i < 400; i++) {
+    var ds = pmdDayStr(d);
+    var due = ACTIVE_PROTOCOLS.filter(function(p){ return isDoseDueOnDate(p, ds); });
+    if (due.length) {
+      var all = due.every(function(p){ return !!(DOSE_LOG[ds] && DOSE_LOG[ds][p.id]); });
+      if (all) n++; else if (i > 0) break;
+    }
+    d.setDate(d.getDate() - 1);
+  }
+  return n;
+}
+
+function pmdConfetti(){
+  try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch(e){}
+  var bits = ['🎉','✨','💉','⭐','🦍','💪'];
+  for (var i = 0; i < 22; i++) {
+    var c = document.createElement('span'); c.className = 'pmd-confetti';
+    c.textContent = bits[i % bits.length];
+    c.style.left = (Math.random() * 100) + 'vw';
+    c.style.animationDelay = (Math.random() * 0.4) + 's';
+    c.style.fontSize = (18 + Math.random() * 16) + 'px';
+    document.body.appendChild(c);
+    setTimeout(function(el){ return function(){ el.remove(); }; }(c), 2600);
+  }
 }
 
 function renderProtocolsList(){
@@ -2151,8 +2186,8 @@ function renderStats(){
   var due = ACTIVE_PROTOCOLS.filter(isDoseDueToday);
   var done = due.filter(function(p){ return !!(DOSE_LOG[t] && DOSE_LOG[t][p.id]); });
   document.getElementById('stat-active').textContent = ACTIVE_PROTOCOLS.length;
-  document.getElementById('stat-today').textContent = due.length;
-  document.getElementById('stat-done').textContent = done.length;
+  document.getElementById('stat-today').textContent = due.length ? (done.length + '/' + due.length) : '—';
+  document.getElementById('stat-done').textContent = pmdStreak();
 }
 
 function renderDashboard(){
@@ -2168,6 +2203,8 @@ function logInjSite(code){
   INJ_LOG.unshift({ id: 'i' + Date.now() + Math.floor(Math.random()*1000), zone: code, date: todayStr() });
   saveInjLog();
   renderInjSites();
+  var z = INJ_ZONES.find(function(x){ return x.code === code; }), nx = INJ_ZONES.find(function(x){ return x.code === suggestedZone(); });
+  pmdToast('💉 Logged <b>' + (z ? z.label : code) + '</b>.' + (nx ? ' Next time try <b>' + nx.label + '</b>.' : ''));
 }
 
 function clearInjLog(){
@@ -2313,10 +2350,11 @@ function renderCalendarDayDetail(){
 
 function showShoppingList(){
   var box = document.getElementById('shopping-list-box');
-  if (ACTIVE_PROTOCOLS.length === 0){ box.style.display='none'; alert('Add at least one active protocol above, then try again.'); return; }
+  if (ACTIVE_PROTOCOLS.length === 0){ box.style.display='block'; box.innerHTML='<div class="empty-state">Add a peptide in step 1 and your shopping list shows up here.</div>'; return; }
 
   var html = '<div class="response-label">🛒 SHOPPING LIST — HOW MUCH TO BUY</div>';
   ACTIVE_PROTOCOLS.forEach(function(s){
+    if (pmdOral(s)) { var pills = pmdPillsTotal(s); html += '<div class="shopping-item" style="border-bottom:1px solid var(--border);"><span>' + s.name + ' — ' + pmdPill(s) + ' mg pills (whole cycle)</span><span class="qty">' + pills + ' pills</span></div>'; return; }
     var totalMg = s.dose * countDosesInRange(s);
     var vialsNeeded = Math.ceil(totalMg / s.vial) || 1;
     var waterNeeded = vialsNeeded * s.water;
@@ -2377,7 +2415,7 @@ function copyScheduleText(){
   ACTIVE_PROTOCOLS.forEach(function(s){
     var concentration = s.vial / s.water;
     var remaining = daysRemaining(s);
-    lines.push(s.name + ' — ' + s.dose + ' mg per dose · ' + concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL) · ' + frequencyLabel(s) + ' · Take in the: ' + s.timeLabel + ' · ' + remaining + ' day' + (remaining===1?'':'s') + ' remaining');
+    lines.push(s.name + ' — ' + s.dose + ' mg per dose · ' + (pmdOral(s) ? ('by mouth, ' + pmdPillTxt(s)) : (concentration.toFixed(2) + ' mg/mL (' + s.vial + 'mg in ' + s.water + 'mL)')) + ' · ' + frequencyLabel(s) + ' · Take in the: ' + s.timeLabel + ' · ' + remaining + ' day' + (remaining===1?'':'s') + ' remaining');
     lines.push('  This is a general reference, not a prescription. Adjust based on tolerance and research literature for ' + s.name + '. Educational reference only.');
     lines.push('');
   });
@@ -2388,6 +2426,7 @@ function copyShoppingText(){
   if (ACTIVE_PROTOCOLS.length === 0){ alert('Add at least one active protocol above, then try again.'); return; }
   var lines = ['SHOPPING LIST', ''];
   ACTIVE_PROTOCOLS.forEach(function(s){
+    if (pmdOral(s)) { lines.push(s.name + ' — ' + pmdPill(s) + ' mg pills: ' + pmdPillsTotal(s) + ' pills'); return; }
     var totalMg = s.dose * countDosesInRange(s);
     var vialsNeeded = Math.ceil(totalMg / s.vial) || 1;
     var waterNeeded = vialsNeeded * s.water;
@@ -2524,12 +2563,21 @@ renderDashboard();
 function pmdEsc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 function pmdFmtDate(str){ var d = new Date(str + 'T00:00:00'); return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' }); }
 function pmdEndDate(p){ var s = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); s.setDate(s.getDate() + p.durationDays - 1); return dateToStr(s); }
-function pmdUnits(p){ var c = p.vial / p.water; return c > 0 ? (p.dose / c * 100) : 0; }
+function pmdDef(p){ return (p && p.key && typeof PEPTIDES !== 'undefined' && PEPTIDES[p.key]) || {}; }
+function pmdOral(p){ return !!(p && (p.oral || pmdDef(p).oral)); }
+function pmdPill(p){ return p.pill || pmdDef(p).pill || p.dose || p.start || 1; }
+function pmdPerDay(p){ return p.perDay || pmdDef(p).perDay || 1; }
+function pmdPillTxt(p){ var d = p.dose != null ? p.dose : p.start; var n = Math.round(d / pmdPill(p) * 100) / 100; return n + ' pill' + (n === 1 ? '' : 's') + (pmdPerDay(p) > 1 ? (', ' + pmdPerDay(p) + '× a day') : ''); }
+function pmdPillsTotal(s){ return Math.ceil(countDosesInRange(s) * pmdPerDay(s) * s.dose / pmdPill(s)); }
+function pmdKit(p){ return pmdOral(p) ? ('💊 ' + pmdPill(p) + ' mg pills, by mouth' + (pmdPerDay(p) > 1 ? ', ' + pmdPerDay(p) + '× a day' : '')) : (p.vial + ' mg vial + ' + p.water + ' mL BAC water'); }
+function pmdUnits(p){ if (pmdOral(p)) return 0; var c = p.vial / p.water; return c > 0 ? (p.dose / c * 100) : 0; }
 
 // totals for the shopping list: vials per peptide plus water, syringes and swabs
 function pmdBuyList(){
   var items = ACTIVE_PROTOCOLS.map(function(s){
-    var doses = countDosesInRange(s), mg = s.dose * doses, vials = Math.max(1, Math.ceil(mg / s.vial));
+    var doses = countDosesInRange(s), mg = s.dose * doses;
+    if (pmdOral(s)) return { name:s.name, oral:true, pills:pmdPillsTotal(s), vialMg:0, vials:0, mg:mg * pmdPerDay(s), water:0, doses:0 };
+    var vials = Math.max(1, Math.ceil(mg / s.vial));
     return { name:s.name, vialMg:s.vial, vials:vials, mg:mg, water:vials * s.water, doses:doses };
   });
   var doses = items.reduce(function(a,i){ return a + i.doses; }, 0), water = items.reduce(function(a,i){ return a + i.water; }, 0);
@@ -2540,8 +2588,8 @@ function pmdBuyList(){
   var protos = ACTIVE_PROTOCOLS.slice();
   var rows = protos.map(function(p){
     var u = pmdUnits(p);
-    return '<tr><td><b>' + pmdEsc(p.name) + '</b><br><small>' + p.vial + ' mg vial + ' + p.water + ' mL BAC water</small></td>'
-      + '<td>' + p.dose + ' mg</td><td><b>' + (u % 1 === 0 ? u.toFixed(0) : u.toFixed(1)) + ' units</b><br><small>' + (u/100).toFixed(3) + ' mL</small></td>'
+    return '<tr><td><b>' + pmdEsc(p.name) + '</b><br><small>' + pmdKit(p) + '</small></td>'
+      + '<td>' + p.dose + ' mg</td><td>' + (pmdOral(p) ? ('<b>' + pmdPillTxt(p) + '</b><br><small>by mouth</small>') : ('<b>' + (u % 1 === 0 ? u.toFixed(0) : u.toFixed(1)) + ' units</b><br><small>' + (u/100).toFixed(3) + ' mL</small>')) + '</td>'
       + '<td>' + frequencyLabel(p) + '</td><td>' + pmdEsc(p.timeLabel) + '</td>'
       + '<td>' + pmdFmtDate(p.startDateTime.split('T')[0]) + ' → ' + pmdFmtDate(pmdEndDate(p)) + '<br><small>' + daysRemaining(p) + ' days left</small></td></tr>';
   }).join('');
@@ -2560,6 +2608,7 @@ function pmdBuyList(){
   }).join('');
 
   var shop = protos.map(function(s){
+    if (pmdOral(s)) return '<tr><td>' + pmdEsc(s.name) + '</td><td>' + pmdPillsTotal(s) + ' × ' + pmdPill(s) + ' mg pills</td><td>—</td><td>by mouth</td></tr>';
     var totalMg = s.dose * countDosesInRange(s), vials = Math.ceil(totalMg / s.vial) || 1;
     return '<tr><td>' + pmdEsc(s.name) + '</td><td>' + vials + ' × ' + s.vial + ' mg vial' + (vials>1?'s':'') + '</td><td>~' + (vials * s.water) + ' mL BAC water</td><td>' + totalMg.toFixed(1) + ' mg total</td></tr>';
   }).join('');
@@ -2625,8 +2674,8 @@ function pmdReportText(){
   lines.push('MY PROTOCOLS');
   ACTIVE_PROTOCOLS.forEach(function(p){
     var u = pmdUnits(p);
-    lines.push('• ' + p.name + ' — ' + p.dose + ' mg = ' + u.toFixed(1) + ' units (' + (u/100).toFixed(3) + ' mL) · ' + frequencyLabel(p) + ' · ' + p.timeLabel.split(' (')[0]);
-    lines.push('   ' + p.vial + ' mg vial + ' + p.water + ' mL BAC water · ' + pmdFmtDate(p.startDateTime.split('T')[0]) + ' → ' + pmdFmtDate(pmdEndDate(p)) + ' (' + daysRemaining(p) + ' days left)');
+    lines.push('• ' + p.name + ' — ' + p.dose + ' mg = ' + (pmdOral(p) ? pmdPillTxt(p) + ' by mouth' : (u.toFixed(1) + ' units (' + (u/100).toFixed(3) + ' mL)')) + ' · ' + frequencyLabel(p) + ' · ' + p.timeLabel.split(' (')[0]);
+    lines.push('   ' + pmdKit(p) + ' · ' + pmdFmtDate(p.startDateTime.split('T')[0]) + ' → ' + pmdFmtDate(pmdEndDate(p)) + ' (' + daysRemaining(p) + ' days left)');
   });
   lines.push('', 'NEXT 7 DAYS');
   for (var i = 0; i < 7; i++){
@@ -2640,6 +2689,7 @@ function pmdReportText(){
   }
   lines.push('', 'WHAT TO BUY');
   ACTIVE_PROTOCOLS.forEach(function(s){
+    if (pmdOral(s)) { lines.push('• ' + s.name + ': ' + pmdPillsTotal(s) + ' × ' + pmdPill(s) + ' mg pills'); return; }
     var totalMg = s.dose * countDosesInRange(s), vials = Math.ceil(totalMg / s.vial) || 1;
     lines.push('• ' + s.name + ': ' + vials + ' × ' + s.vial + ' mg vial' + (vials>1?'s':'') + ', ~' + (vials * s.water) + ' mL BAC water');
   });
@@ -2655,10 +2705,13 @@ function pmdReportText(){
 function pmdShareNotes(){
   if (!pmdNeedProtocols()) return;
   var text = pmdReportText(), title = 'PokeMe-Dex — My Plan';
-  if (navigator.share) {
+  var touch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  if (navigator.share && touch) {
     navigator.share({ title: title, text: text }).catch(function(err){ if (err && err.name !== 'AbortError') copyToClipboard(text); });
   } else {
-    copyToClipboard(text);
+    try { navigator.clipboard.writeText(text); } catch(e){}
+    pmdToast('📋 <b>Plan copied.</b> Google Keep is opening: click <b>Take a note</b> and paste (Ctrl+V).');
+    window.open('https://keep.google.com/', '_blank', 'noopener');
   }
 }
 // old buttons now produce the full report
@@ -2703,6 +2756,11 @@ function showTab(name){
 <script src="theme-toggle.js?v=39" defer></script><script src="readable.js?v=4" defer></script>
 <!-- ═══ EASY MODE: one page, compact on phones, extra tools folded away ═══ -->
 <style id="pmd-easy">
+  html body details#how-card > summary{background:#d7261e !important;color:#fff !important;-webkit-text-fill-color:#fff !important;border:none !important;}
+  html body details#how-card > summary *{color:#fff !important;-webkit-text-fill-color:#fff !important;}
+  html body details#how-card > summary::after, html body details#how-card > summary::before{display:none !important;content:none !important;}
+  .pmd-confetti{position:fixed;top:-40px;z-index:100000;pointer-events:none;animation:pmdFall 2.2s cubic-bezier(.3,.6,.5,1) forwards;}
+  @keyframes pmdFall{to{transform:translateY(110vh) rotate(540deg);opacity:.2;}}
   #tab-index{display:none !important;}
   .pmd-more{margin-top:12px;border:3px solid #1a1a1a;border-radius:14px;background:#fff;box-shadow:4px 4px 0 rgba(0,0,0,0.2);overflow:hidden;}
   .pmd-more > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-family:var(--orb);font-weight:700;font-size:15px;color:var(--text);}
@@ -2740,8 +2798,7 @@ function showTab(name){
   // fold the optional tools into tap-to-open rows
   var groups = [
     ['calendar-box', '📅', 'Dose calendar', 'See which doses are due on any day'],
-    ['inj-site-box', '💉', 'Injection-site rotation', 'Log where you inject and get the next spot'],
-    ['schedule-box', '🛒', 'Shopping list &amp; copy schedule', 'How many vials and how much water to buy'],
+    ['schedule-box', '🛒', 'What to buy', 'Vials and water for your full schedule'],
     [['recon-box-1','recon-box-2'], '🧮', 'Draw calculator', 'How many units to pull into the syringe']
   ];
   var more = document.querySelector('.step-head.more');
@@ -2755,6 +2812,7 @@ function showTab(name){
     var body = d.querySelector('.pmd-more-body');
     els[0].parentNode.insertBefore(d, els[0]);
     els.forEach(function(e){ body.appendChild(e); });
+    if (ids[0] === 'schedule-box') d.addEventListener('toggle', function(){ if (d.open && typeof showShoppingList === 'function') showShoppingList(); });
   });
   // the old "Figure out your draw amount" heading now lives inside the calculator row
   var rh = [].slice.call(document.querySelectorAll('#tab-tracker > .section-heading')).filter(function(h){ return /POKEME-RECON/.test(h.textContent); })[0];
