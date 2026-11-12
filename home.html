@@ -4234,7 +4234,7 @@ document.addEventListener('keydown', function(e){
       <button class="mnav-card" style="color:#9ff3ff;border-color:rgba(0,200,255,0.45);" onclick="mobileNav('winter')"><span class="mnav-icon">❄️</span><span class="mnav-label">WINTER &amp; IMMUNE</span></button>
       <button class="mnav-card" style="color:#ffd45c;border-color:rgba(255,212,92,0.4);" onclick="mobileNav('cancer')"><span class="mnav-icon">🎗</span><span class="mnav-label">CANCER</span></button>
       <button class="mnav-card" style="color:#ff0080;border-color:rgba(255,0,128,0.45);" onclick="mobileNav('graymarket')"><span class="mnav-icon">⚠️</span><span class="mnav-label">GRAY<br>MARKET</span></button>
-      <button class="mnav-card" style="color:#ffb300;border-color:rgba(255,179,0,0.4);" onclick="mobileNav('vitamins');setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},120);"><span class="mnav-icon">⚡</span><span class="mnav-label">MITOCHONDRIA</span></button>
+      <button class="mnav-card" style="color:#ffb300;border-color:rgba(255,179,0,0.4);" onclick="mobileNav('tgk');setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},120);"><span class="mnav-icon">⚡</span><span class="mnav-label">MITOCHONDRIA</span></button>
       <button class="mnav-card" style="color:#9d00ff;border-color:rgba(255,230,0,0.4);" onclick="mobileNav('cheatsheets')"><span class="mnav-icon">🗄</span><span class="mnav-label">VAULT</span></button>
     </div>
     <div class="mnav-section-label">🛠 GUIDES</div>
@@ -4724,7 +4724,7 @@ document.addEventListener('keydown', function(e){
         <button class="rtab rtab-green" onclick="showView('studies');setRTab(this)">📊 STUDIES</button>
         <button class="rtab rtab-cyan" onclick="showView('winter');setRTab(this)">❄ WINTER &amp; IMMUNE</button>
         <button class="rtab rtab-pink" onclick="showView('cancer');setRTab(this)">🎗 CANCER</button>
-        <button class="rtab rtab-yellow" onclick="showView('vitamins');setSbActive(this);setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},80);">⚡ MITOCHONDRIA</button>
+        <button class="rtab rtab-yellow" onclick="showView('tgk');setSbActive(document.querySelector('#vpn-sidebar [data-view=tgk]'));setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},80);">⚡ MITOCHONDRIA</button>
       </div>
       <div class="rnav-group" style="order:1;">
         <span class="rnav-group-label">TOOLS</span>
@@ -25104,29 +25104,42 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
     </div>
     <div class="vh-accent-line"></div>
   </div>
-  <!-- Mito & Recovery: one menu item, two clear paths -->
-  <div class="mr-switch" data-vt-skip>
-    <a class="mr-card mr-on" href="#view-tgk" onclick="return false;">
-      <span class="mr-ic">🔥</span>
-      <span><b>Repair &amp; Inflammation</b><small>Tesa · GHK-Cu · KPV · you're here</small></span>
-    </a>
-    <a class="mr-card" href="#" onclick="showView('vitamins');setTimeout(function(){var d=document.getElementById('vit-urolithin');if(d){d.open=true;d.scrollIntoView({block:'start'});setTimeout(function(){d.scrollIntoView({block:'start'});},700);}},80);return false;">
-      <span class="mr-ic">⚡</span>
-      <span><b>Mitochondria &amp; Energy</b><small>Urolithin A · SS-31 · MOTS-c →</small></span>
-    </a>
-  </div>
-  <style>
-    .mr-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 8px;}
-    .mr-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);text-decoration:none !important;color:inherit;transition:transform .15s,border-color .15s;}
-    .mr-card:hover{transform:translateY(-2px);border-color:#9a5cff;}
-    .mr-card.mr-on{border-color:#ff2fa8;background:linear-gradient(90deg,rgba(255,47,168,0.14),rgba(154,92,255,0.08));cursor:default;}
-    .mr-card .mr-ic{font-size:26px;flex-shrink:0;}
-    .mr-card b{display:block;font:800 16px/1.25 'Inter',system-ui,sans-serif;color:#f4f5fb;}
-    .mr-card small{display:block;font:600 13px/1.3 'Inter',system-ui,sans-serif;color:rgba(200,206,230,0.75);margin-top:2px;}
-    html[data-theme="light"] .mr-card b{color:#14112a;} html[data-theme="light"] .mr-card small{color:#4a4566;}
-    html[data-theme="light"] .mr-card{border-color:rgba(30,20,70,0.14);background:#fff;}
-    @media(max-width:560px){ .mr-switch{grid-template-columns:1fr;} }
-  </style>
+  <!-- ═══ MITO & RECOVERY HUB ═══ -->
+  <section class="mr-hero" data-vt-skip data-px-skip aria-labelledby="mr-h1">
+    <span class="mr-kick"><i></i>Peptide guides · PubMed-linked</span>
+    <h1 id="mr-h1">Mito <span>&amp;</span> Recovery</h1>
+    <p class="mr-lead">Two ways research peptides are studied for feeling and recovering better: <b>calming inflammation and repairing tissue</b>, and <b>helping your mitochondria</b>, the parts of your cells that make energy. Pick a path to see what each compound is, what the studies actually show, and what to watch for.</p>
+    <div class="mr-paths">
+      <a class="mr-path" style="--c1:#ff5a3c;--c2:#ff2fa8;" href="#mr-sec-repair" onclick="mrGo('mr-sec-repair');return false;">
+        <span class="mr-path-ic">🔥</span>
+        <span class="mr-path-k">Path 1</span>
+        <b>Repair &amp; Inflammation</b>
+        <span class="mr-path-sub">Belly fat, skin and tissue repair, gut and skin inflammation.</span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('tgk-tesa');"><em>Tesamorelin</em><small>Visceral &amp; liver fat</small><i class="ev hi">Human trials · FDA-approved</i></span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('tgk-ghk');"><em>GHK-Cu</em><small>Skin, hair &amp; wound repair</small><i class="ev mid">Mostly topical &amp; lab</i></span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('tgk-kpv');"><em>KPV</em><small>Gut &amp; skin inflammation</small><i class="ev lo">Lab &amp; animal</i></span>
+        <span class="mr-path-go">Open guide ↓</span>
+      </a>
+      <a class="mr-path" style="--c1:#2fb4ff;--c2:#2ee6a0;" href="#mr-sec-mito" onclick="mrGo('mr-sec-mito');return false;">
+        <span class="mr-path-ic">⚡</span>
+        <span class="mr-path-k">Path 2</span>
+        <b>Mitochondria &amp; Energy</b>
+        <span class="mr-path-sub">Cell energy, mitochondria cleanup, muscle endurance and metabolism.</span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('mr-sec-mito');"><em>Urolithin A</em><small>Mitochondria cleanup, endurance</small><i class="ev hi">Human trials</i></span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('mr-sec-mito');"><em>SS-31</em><small>Protects the mitochondria's inner wall</small><i class="ev mid">Human trials · rare disease</i></span>
+        <span class="mr-cmp" onclick="event.preventDefault();event.stopPropagation();mrGo('mr-sec-mito');"><em>MOTS-c</em><small>Metabolism &amp; exercise signals</small><i class="ev lo">Mostly animal</i></span>
+        <span class="mr-path-go">Open guide ↓</span>
+      </a>
+    </div>
+    <p class="mr-legend"><span><i class="ev hi"></i>Human trials</span><span><i class="ev mid"></i>Limited human data</span><span><i class="ev lo"></i>Mostly lab or animal</span></p>
+  </section>
+
+  <nav class="mr-tabs" id="mr-tabs" data-vt-skip aria-label="Mito & Recovery sections">
+    <button type="button" data-t="mr-sec-repair" class="on" onclick="mrGo('mr-sec-repair')">🔥 Repair<span class="mr-l"> &amp; Inflammation</span></button>
+    <button type="button" data-t="mr-sec-mito" onclick="mrGo('mr-sec-mito')">⚡ Mitochondria<span class="mr-l"> &amp; Energy</span></button>
+  </nav>
+
+  <div class="mr-sec-h" id="mr-sec-repair"><span class="mr-sec-ic" style="--c1:#ff5a3c;--c2:#ff2fa8;">🔥</span><div><small>Path 1</small><h2>Repair &amp; Inflammation</h2><p>Tesamorelin · GHK-Cu · KPV</p></div></div>
 
 <details class="eli5"><summary><span class="e5-ic">🧒</span> Explain it like I'm 5</summary><div class="e5-b"><b>This whole page in kid words:</b><br>💉 <b>Tesamorelin</b> pushes your brain's growth-hormone button, which shrinks deep belly fat around your organs. Too much growth hormone can raise blood sugar and make you puffy, so you check your blood (IGF-1, sugar).<br>✨ <b>GHK-Cu</b> is a tiny copper "repair note" that tells skin and tissue to make more collagen — like ordering new bricks for a wall. It can sting when injected.<br>🌿 <b>KPV</b> is a tiny "calm down" message that slips into irritated gut cells and turns down inflammation.<br>🩹 <b>Healing peptides</b> (BPC-157, TB-500, B7-33, ARA-290) help animals heal tendons, nerves and scars — human proof is still small.<br>⚖️ <b>TNF blockers vs peptides:</b> when your immune system attacks your joints, proven medicines come first; peptides are experiments.</div></details>
   <div class="glp-note" style="font-family:'Rajdhani',sans-serif;font-size:0.86rem;font-weight:600;color:rgba(255,220,150,0.85);background:rgba(255,170,0,0.07);border:1px solid rgba(255,170,0,0.3);border-radius:8px;padding:0.55rem 0.8rem;margin:0 0 1rem;line-height:1.55;">⚠ Research and education only — not medical advice. Tesamorelin is a prescription drug; GHK-Cu (as an injectable) and KPV are research compounds with little or no human trial data. Work with your doctor, especially on labs.</div>
@@ -25296,6 +25309,9 @@ html[data-theme="light"] body #glp-hero .gh-stat span{color:#14112a !important;}
     #view-tgk .tgk-img span{display:block;padding:0.45rem 0.7rem;font-family:'Bebas Neue',sans-serif;font-size:0.92rem;letter-spacing:0.08em;color:#00ff64;}
     html[data-theme="light"] #view-tgk .tgk-card,html[data-theme="light"] #view-tgk .tgk-img{background:#fffdf8;}
   </style>
+  <div class="mr-sec-h" id="mr-sec-mito"><span class="mr-sec-ic" style="--c1:#2fb4ff;--c2:#2ee6a0;">⚡</span><div><small>Path 2</small><h2>Mitochondria &amp; Energy</h2><p>Urolithin A · SS-31 · MOTS-c</p></div></div>
+  <div id="mr-mito-slot"></div>
+  <div class="mr-note">⚠️ MOTS-c and ATX-304 both switch on AMPK, so they shouldn't be stacked. Research and education only, not medical advice; talk to your doctor and get blood work first.</div>
 </div>
 
 <!-- ═══════════ CANCER & PEPTIDES ═══════════ -->
@@ -31322,8 +31338,8 @@ function vpnBuildIndex() {
   // New sections — static entries
   [
     ['💉','GLP HUB','GLP Hub — Reta, Tirz, Cagri, Survo, Eloralintide, switching, coming off, MEN2, eye stroke','glp hub glp-1 glp1 retatrutide reta tirzepatide tirz cagrilintide cagri cagrisema survodutide survo eloralintide elora orforglipron mazdutide semaglutide sema switching switch coming off taper stop regain men2 pancreatitis thyroid naion eye stroke dose escalation pe2-288 heartburn','glp',null],
-    ['🧬','TESA · GHK · KPV','Tesamorelin, GHK-Cu & KPV — information guides','tesamorelin tesa egrifta igf-1 igf1 visceral fat ghk-cu ghk copper peptide kpv gut inflammation colitis 5-amino-1mq','tgk',null],
-    ['⚡','MITOCHONDRIA','Urolithin A · SS-31 · MOTS-c — mitochondria guide','urolithin urolithin a mitopure mitophagy mitochondria ss-31 ss31 elamipretide mots-c motsc energy workflow nad','vitamins','vit-urolithin'],
+    ['⚡','MITO & RECOVERY','Mito & Recovery — Tesamorelin, GHK-Cu, KPV, Urolithin A, SS-31, MOTS-c','tesamorelin tesa egrifta igf-1 igf1 visceral fat ghk-cu ghk copper peptide kpv gut inflammation colitis 5-amino-1mq','tgk',null],
+    ['⚡','MITOCHONDRIA','Urolithin A · SS-31 · MOTS-c — mitochondria guide','urolithin urolithin a mitopure mitophagy mitochondria ss-31 ss31 elamipretide mots-c motsc energy workflow nad','tgk','vit-urolithin'],
     ['🔑','TESTOSTERONE','Enclomiphene vs TRT — testosterone support, hematocrit & insulin resistance','enclomiphene enclo clomid clomiphene trt testosterone low t hematocrit erythrocytosis hypogonadism insulin resistance','vitamins','vit-testosterone'],
     ['📊','STUDIES','Research Studies — 163 PubMed-linked studies','studies research pubmed trial evidence atx-304 atx304 o304 urolithin eloralintide','studies',null],
     ['💊','VK2735','VK2735 — Viking GLP-1/GIP drug (injection &amp; pill)','vk2735 vk 2735 viking therapeutics glp-1 gip oral pill weight loss venture','glp','glp-vk2735'],
@@ -35200,6 +35216,96 @@ window.addEventListener('appinstalled', function(){
 <style>/* phone: keep the main hero inside the screen */ @media(max-width:700px){ #vh2-hero .hg{grid-template-columns:minmax(0,1fr) !important;} #vh2-hero .hg > *{min-width:0 !important;max-width:100% !important;} #vh2-hero h1,#vh2-hero .lead,#vh2-hero .kick{overflow-wrap:anywhere;} #vh2-hero .cta{flex-wrap:wrap !important;} #vh2-hero .cta > *{flex:1 1 100% !important;min-width:0 !important;} #vh2-hero .stats{grid-template-columns:repeat(2,minmax(0,1fr)) !important;} #vh2-hero .kick{white-space:normal !important;max-width:100% !important;display:inline-flex;flex-wrap:wrap;line-height:1.3;} }</style>
 <style>/* PHONE PERFORMANCE: blur effects are very costly to repaint while scrolling on phones; off-screen home sections skip layout until scrolled near */ @media(max-width:900px){ *,*::before,*::after{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;} #vpn-bottom-nav,#vpnSearchInput,#vpn-mp-chip,#vpn-mp-panel,#vpn-close-cards{background-color:rgba(8,5,22,0.97) !important;} html[data-theme="light"] #vpn-bottom-nav{background-color:rgba(255,253,248,0.98) !important;} #site-hero > .vh2:not(#vh2-hero):not(#vh2-quote):not(#vh2-current){content-visibility:auto;contain-intrinsic-size:auto 520px;} }</style>
 <script>/* load video players only when their section is actually visible (phones download hidden lazy iframes immediately) */(function(){ var list=[].slice.call(document.querySelectorAll('iframe[data-src]')); if(!list.length) return; function go(f){ if(f.dataset.src && !f.getAttribute('src')){ f.setAttribute('src',f.dataset.src); } } if(!('IntersectionObserver' in window)){ list.forEach(go); return; } var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ go(e.target); io.unobserve(e.target); } }); },{rootMargin:'300px 0px'}); list.forEach(function(f){ io.observe(f); }); })();</script>
+  <style id="mr-hub-css">
+    #view-tgk > .view-hero{display:none !important;}
+    #view-tgk .mr-hero{position:relative;overflow:hidden;margin:0 0 14px;padding:26px 22px 18px;border-radius:22px;background:radial-gradient(600px 300px at 0% 0%,rgba(255,90,60,0.16),transparent 60%),radial-gradient(600px 300px at 100% 100%,rgba(47,180,255,0.16),transparent 60%),#0d0b17;border:1px solid rgba(255,255,255,0.10);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#f1f3fb;}
+    #view-tgk .mr-kick{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);font:700 12.5px/1 'Inter',sans-serif;color:rgba(230,232,245,0.85);}
+    #view-tgk .mr-kick i{width:8px;height:8px;border-radius:50%;background:#2ee6a0;box-shadow:0 0 0 3px rgba(46,230,160,0.2);}
+    html body #view-tgk .mr-hero h1{margin:12px 0 8px !important;font:900 clamp(34px,5vw,52px)/1.05 'Inter',sans-serif !important;letter-spacing:-0.03em !important;color:#fff !important;-webkit-text-fill-color:#fff !important;text-transform:none !important;text-shadow:none !important;}
+    html body #view-tgk .mr-hero h1 span{background:linear-gradient(90deg,#ff5a3c,#ff2fa8,#9a5cff,#2fb4ff,#2ee6a0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent !important;color:transparent !important;}
+    html body #view-tgk .mr-lead{margin:0 0 18px !important;max-width:760px;font:500 16px/1.6 'Inter',sans-serif !important;color:rgba(214,220,240,0.85) !important;}
+    html body #view-tgk .mr-lead b{color:#fff;}
+    #view-tgk .mr-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+    #view-tgk .mr-path{position:relative;display:flex;flex-direction:column;gap:8px;padding:18px;border-radius:18px;text-decoration:none !important;color:#f1f3fb !important;background:linear-gradient(160deg,color-mix(in srgb,var(--c1) 16%,transparent),rgba(13,11,23,0.6) 55%),#121020;border:1px solid color-mix(in srgb,var(--c1) 40%,transparent);transition:transform .18s,box-shadow .18s,border-color .18s;min-width:0;}
+    #view-tgk .mr-path:hover{transform:translateY(-3px);border-color:var(--c1);box-shadow:0 18px 40px -22px var(--c1);}
+    #view-tgk .mr-path-ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 8px 20px -8px var(--c1);}
+    #view-tgk .mr-path-k{font:800 11.5px/1 'Inter',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:var(--c1);margin-top:4px;}
+    html body #view-tgk .mr-path > b{font:900 21px/1.15 'Inter',sans-serif !important;color:#fff !important;}
+    #view-tgk .mr-path-sub{font:500 14px/1.45 'Inter',sans-serif;color:rgba(214,220,240,0.78);margin-bottom:4px;}
+    #view-tgk .mr-cmp{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:background .15s;}
+    #view-tgk .mr-cmp:hover{background:rgba(255,255,255,0.08);}
+    #view-tgk .mr-cmp em{grid-row:1;grid-column:1 / -1;font:800 15px/1.2 'Inter',sans-serif;font-style:normal;color:#fff;}
+    #view-tgk .mr-cmp small{grid-row:2;grid-column:1;font:500 13px/1.35 'Inter',sans-serif;color:rgba(214,220,240,0.72);margin-top:3px;}
+    #view-tgk .mr-cmp .ev{grid-row:2;grid-column:2;justify-self:end;margin-top:3px;}
+    #view-tgk .ev{display:inline-flex;align-items:center;gap:5px;font:700 11px/1.2 'Inter',sans-serif;font-style:normal;padding:4px 8px;border-radius:99px;white-space:nowrap;}
+    #view-tgk .ev::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;}
+    #view-tgk .ev.hi{background:rgba(46,230,160,0.12);color:#5af0b6;}
+    #view-tgk .ev.mid{background:rgba(255,190,40,0.12);color:#ffcf6b;}
+    #view-tgk .ev.lo{background:rgba(255,120,120,0.12);color:#ff9b9b;}
+    #view-tgk .mr-path-go{margin-top:auto;padding-top:6px;font:800 14px/1 'Inter',sans-serif;color:var(--c1);}
+    #view-tgk .mr-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 0 !important;font:600 12.5px/1.2 'Inter',sans-serif !important;color:rgba(214,220,240,0.7) !important;}
+    #view-tgk .mr-legend span{display:flex;align-items:center;gap:6px;}
+    #view-tgk .mr-legend .ev{padding:0;background:none !important;}
+    #view-tgk .mr-tabs{position:sticky;top:8px;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 0 16px;padding:4px;border-radius:14px;background:rgba(13,11,23,0.92);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);}
+    #view-tgk .mr-tabs button{height:44px;border:none;border-radius:10px;background:transparent;color:rgba(214,220,240,0.75);font:700 14.5px/1.1 'Inter',sans-serif;cursor:pointer;padding:0 8px;}
+    #view-tgk .mr-tabs button.on{background:linear-gradient(90deg,rgba(255,90,60,0.25),rgba(255,47,168,0.25));color:#fff;}
+    #view-tgk .mr-tabs button[data-t="mr-sec-mito"].on{background:linear-gradient(90deg,rgba(47,180,255,0.25),rgba(46,230,160,0.25));}
+    #view-tgk .mr-sec-h{display:flex;align-items:center;gap:14px;margin:26px 0 14px;scroll-margin-top:72px;font-family:'Inter',sans-serif;}
+    #view-tgk .mr-sec-ic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex-shrink:0;font-size:24px;background:linear-gradient(135deg,var(--c1),var(--c2));}
+    #view-tgk .mr-sec-h small{display:block;font:800 11.5px/1 'Inter',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:rgba(214,220,240,0.6);}
+    html body #view-tgk .mr-sec-h h2{margin:5px 0 3px !important;font:900 24px/1.15 'Inter',sans-serif !important;color:#fff !important;-webkit-text-fill-color:#fff !important;text-transform:none !important;letter-spacing:-0.01em !important;}
+    #view-tgk .mr-sec-h p{margin:0 !important;font:600 14px/1.3 'Inter',sans-serif !important;color:rgba(214,220,240,0.7) !important;}
+    #view-tgk [id^="tgk-"]{scroll-margin-top:72px;}
+    #view-tgk #mr-mito-slot > details > summary{display:none !important;}
+    #view-tgk .mr-note{margin:14px 0 6px;padding:12px 14px;border-radius:12px;border-left:4px solid #ffb300;background:rgba(255,179,0,0.08);font:500 14px/1.5 'Inter',sans-serif;color:rgba(255,236,200,0.9);}
+    @media(max-width:760px){
+      #view-tgk .mr-paths{grid-template-columns:1fr;}
+      #view-tgk .mr-hero{padding:20px 16px 16px;border-radius:18px;}
+      #view-tgk .mr-tabs button{font-size:14px;}
+      #view-tgk .mr-tabs .mr-l{display:none;}
+    }
+    html[data-theme="light"] #view-tgk .mr-hero{background:radial-gradient(600px 300px at 0% 0%,rgba(255,90,60,0.10),transparent 60%),radial-gradient(600px 300px at 100% 100%,rgba(47,180,255,0.10),transparent 60%),#fff;border-color:rgba(30,20,70,0.12);color:#14112a;}
+    html[data-theme="light"] body #view-tgk .mr-hero h1,html[data-theme="light"] body #view-tgk .mr-path > b,html[data-theme="light"] body #view-tgk .mr-sec-h h2{color:#14112a !important;-webkit-text-fill-color:#14112a !important;}
+    html[data-theme="light"] body #view-tgk .mr-lead,html[data-theme="light"] #view-tgk .mr-path-sub,html[data-theme="light"] #view-tgk .mr-cmp small{color:#4a4566 !important;}
+    html[data-theme="light"] body #view-tgk .mr-lead b,html[data-theme="light"] #view-tgk .mr-cmp em{color:#14112a;}
+    html[data-theme="light"] #view-tgk .mr-path{background:#fff;color:#14112a !important;}
+    html[data-theme="light"] #view-tgk .mr-cmp{background:#faf8ff;border-color:rgba(30,20,70,0.08);}
+    html[data-theme="light"] #view-tgk .mr-kick{background:#f4f1fb;color:#3d3858;border-color:rgba(30,20,70,0.1);}
+    html[data-theme="light"] #view-tgk .mr-tabs{background:rgba(255,255,255,0.95);border-color:rgba(30,20,70,0.12);}
+    html[data-theme="light"] #view-tgk .mr-tabs button{color:#4a4566;} html[data-theme="light"] #view-tgk .mr-tabs button.on{color:#14112a;}
+    html[data-theme="light"] #view-tgk .ev.hi{color:#0f7a52;} html[data-theme="light"] #view-tgk .ev.mid{color:#8a5a00;} html[data-theme="light"] #view-tgk .ev.lo{color:#b42318;}
+    html[data-theme="light"] #view-tgk .mr-legend{color:#4a4566 !important;}
+    html[data-theme="light"] #view-tgk .mr-note{color:#5a4100;}
+  </style>
+  <script>
+  (function(){
+    // the Urolithin A / SS-31 / MOTS-c guide lives in Vitamins; show it here while this page is open
+    var home = null;
+    function mount(){
+      var d = document.getElementById('vit-urolithin'), slot = document.getElementById('mr-mito-slot');
+      if (!d || !slot || slot.contains(d)) return;
+      if (!home) { home = document.createElement('span'); home.id = 'vit-urolithin-home'; home.hidden = true; d.parentNode.insertBefore(home, d); }
+      slot.appendChild(d); d.open = true;
+    }
+    function unmount(){
+      var d = document.getElementById('vit-urolithin'), slot = document.getElementById('mr-mito-slot');
+      if (d && home && slot && slot.contains(d)) home.parentNode.insertBefore(d, home);
+    }
+    var base = window.showView;
+    if (typeof base === 'function') window.showView = function(v){ if (v === 'tgk') mount(); else unmount(); return base.apply(this, arguments); };
+    if (document.getElementById('view-tgk').classList.contains('active')) mount();
+    window.mrGo = function(id){ mount(); var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior:'smooth', block:'start' }); };
+    // highlight the tab for the section on screen
+    var tabs = document.querySelectorAll('#mr-tabs button');
+    function spy(){
+      var m = document.getElementById('mr-sec-mito'); if (!m || !document.getElementById('view-tgk').classList.contains('active')) return;
+      var onMito = m.getBoundingClientRect().top < 140;
+      tabs.forEach(function(b){ b.classList.toggle('on', (b.getAttribute('data-t') === 'mr-sec-mito') === onMito); });
+    }
+    window.addEventListener('scroll', spy, { passive:true }); document.addEventListener('scroll', spy, { passive:true, capture:true });
+  })();
+  </script>
+
 </body>
 </html>
 
