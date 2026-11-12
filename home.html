@@ -9100,26 +9100,27 @@ window.vpnBadgeGo = function(view, id){
           <div><b>100%</b><small>Free, no paywall</small></div>
         </div>
         <div class="vh2-tools" data-vt-skip data-px-skip>
-          <a class="vt-card vt-dex" href="pokeme-dex.html">
-            <div class="vt-head"><span class="vt-lens"></span><span class="vt-leds"><i></i><i></i><i></i></span><span class="vt-tag">PokeMe-Dex</span></div>
-            <b class="vt-title">Track your injection sites</b>
-            <span class="vt-sub">Log every dose and spot. It picks your next spot so you rotate.</span>
-            <div class="vt-map" aria-hidden="true">
-              <span class="vt-body"></span>
-              <i data-z="AL" style="left:14%;top:30%"></i><i data-z="AR" style="left:86%;top:30%"></i>
-              <i data-z="BUL" style="left:40%;top:44%"></i><i data-z="BUR" style="left:60%;top:44%"></i>
-              <i data-z="BLL" style="left:40%;top:58%"></i><i data-z="BLR" style="left:60%;top:58%"></i>
-              <i data-z="TL" style="left:38%;top:84%"></i><i data-z="TR" style="left:62%;top:84%"></i>
+          <a class="vt-dev" href="pokeme-dex.html" aria-label="Open PokeMe-Dex, the free injection-site and dose tracker">
+            <div class="vt-dev-top"><span class="vt-lens"></span><span class="vt-leds"><i></i><i></i><i></i></span><span class="vt-dev-tag">PokeMe-Dex</span></div>
+            <div class="vt-dev-screen">
+              <img src="pokemedex-icon-192.png?v=1" alt="" width="64" height="64">
+              <div><small>No. 001 · Dose tracker</small><b>Track your injection sites</b><span id="vt-next">⭐ Next spot: Belly — Upper Left</span></div>
             </div>
-            <span class="vt-next" id="vt-next">⭐ Next spot: Belly — Upper Left</span>
-            <span class="vt-go">Open PokeMe-Dex →</span>
+            <div class="vt-dev-stats">
+              <div><b id="vt-s1">0</b><small>Peptides</small></div>
+              <div><b id="vt-s2">—</b><small>Done today</small></div>
+              <div><b id="vt-s3">0</b><small>🔥 Streak</small></div>
+            </div>
+            <div class="vt-dev-pad"><span class="vt-dpad" aria-hidden="true"></span><span class="vt-dev-go">Open PokeMe-Dex →</span></div>
           </a>
-          <a class="vt-card vt-match" href="peptide-suggestion.html">
-            <div class="vt-head"><span class="vt-ic">🧬</span><span class="vt-tag">Peptide Match</span></div>
-            <b class="vt-title">Not sure where to start?</b>
-            <span class="vt-sub">Pick your goals and see which peptides research has looked at for them.</span>
-            <div class="vt-chips" aria-hidden="true"><span>🔥 Fat loss</span><span>🩹 Recovery</span><span>🌙 Sleep</span><span>🧠 Focus</span><span>🦴 Joints</span></div>
-            <span class="vt-go">Find my match →</span>
+          <a class="vt-res" href="peptide-suggestion.html" aria-label="Open Peptide Match: pick your goals and see matching peptides">
+            <div class="vt-res-h">🧬 Peptide Match · example results</div>
+            <div class="vt-res-goals">🌀 Gut · ✨ Skin · 🌡️ Inflammation</div>
+            <div class="vt-res-row best"><span class="n">1</span><span class="t"><b>BPC-157 <em>Best match</em></b><small>Gut · Skin · Inflammation</small></span><span class="m"><b>3 of 3</b><i><u style="width:100%"></u></i></span></div>
+            <div class="vt-res-row"><span class="n">2</span><span class="t"><b>KPV</b><small>Gut · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
+            <div class="vt-res-row"><span class="n">3</span><span class="t"><b>GHK-Cu</b><small>Skin · Inflammation</small></span><span class="m"><b>2 of 3</b><i><u style="width:66%"></u></i></span></div>
+            <div class="vt-res-f">+ why each matches · starting protocol · what to buy</div>
+            <span class="vt-res-go">Find my match →</span>
           </a>
         </div>
       </div>
@@ -9127,61 +9128,95 @@ window.vpnBadgeGo = function(view, id){
     </div>
   </section>
 <style id="vh2-tools-css">
-  .vh2-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px;}
-  .vt-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;text-decoration:none !important;color:#f4f5fb !important;border:1px solid rgba(255,255,255,0.12);overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;}
-  .vt-card:hover{transform:translateY(-3px);}
-  .vt-dex{background:linear-gradient(155deg,rgba(232,50,63,0.30),rgba(120,10,25,0.35)),#140a12;border-color:rgba(255,90,100,0.35);}
-  .vt-dex:hover{border-color:#ff5a64;box-shadow:0 16px 40px -18px rgba(255,60,80,0.7);}
-  .vt-match{background:linear-gradient(155deg,rgba(154,92,255,0.28),rgba(47,180,255,0.14)),#0e0c1c;border-color:rgba(154,92,255,0.35);}
-  .vt-match:hover{border-color:#9a5cff;box-shadow:0 16px 40px -18px rgba(154,92,255,0.7);}
-  .vt-head{display:flex;align-items:center;gap:8px;}
-  .vt-lens{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bfe9ff 0 15%,#2fa4ff 45%,#0b5fb0);border:2px solid #fff;box-shadow:0 0 10px rgba(47,164,255,0.7);}
-  .vt-leds{display:flex;gap:4px;} .vt-leds i{width:7px;height:7px;border-radius:50%;background:#ff4d4d;} .vt-leds i:nth-child(2){background:#ffd23f;} .vt-leds i:nth-child(3){background:#4cd964;}
-  .vt-ic{font-size:20px;}
-  .vt-tag{margin-left:auto;white-space:nowrap;font:800 11px/1 'Inter',system-ui,sans-serif;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:99px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);}
-  .vt-title{font:800 17px/1.25 'Inter',system-ui,sans-serif !important;color:#fff !important;margin-top:4px;}
-  .vt-sub{font:500 13.5px/1.45 'Inter',system-ui,sans-serif !important;color:rgba(230,232,245,0.78) !important;}
-  .vt-go{margin-top:auto;padding-top:6px;font:800 14px/1 'Inter',system-ui,sans-serif;color:#ffcb05;}
-  .vt-match .vt-go{color:#c6a6ff;}
-  /* mini spot map: a simple body outline with the 8 PokeMe-Dex zones */
-  .vt-map{position:relative;height:92px;margin:4px 0 2px;border-radius:12px;background:rgba(0,0,0,0.28);}
-  .vt-body{position:absolute;left:50%;top:10%;width:46px;height:78%;transform:translateX(-50%);border-radius:22px 22px 14px 14px;border:2px solid rgba(255,255,255,0.22);}
-  .vt-body::before{content:'';position:absolute;left:50%;top:-14px;width:16px;height:16px;transform:translateX(-50%);border-radius:50%;border:2px solid rgba(255,255,255,0.22);}
-  .vt-map i{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:rgba(255,255,255,0.35);}
-  .vt-map i.used{background:rgba(255,120,120,0.55);}
-  .vt-map i.next{background:#4cd964;box-shadow:0 0 0 0 rgba(76,217,100,0.7);animation:vtPulse 1.6s infinite;}
-  @keyframes vtPulse{70%{box-shadow:0 0 0 10px rgba(76,217,100,0);}100%{box-shadow:0 0 0 0 rgba(76,217,100,0);}}
-  .vt-next{font:700 13px/1.3 'Inter',system-ui,sans-serif;color:#9dffb3;}
-  .vt-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px;}
-  .vt-chips span{font:700 12.5px/1 'Inter',system-ui,sans-serif;padding:8px 10px;border-radius:99px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);color:#fff;}
-  @media(prefers-reduced-motion:reduce){ .vt-map i.next{animation:none;} .vt-card:hover{transform:none;} }
-  @media(max-width:560px){ .vh2-tools{grid-template-columns:1fr;} }
-  html[data-theme="light"] .vt-dex{background:linear-gradient(155deg,#fff1f2,#ffe1e4);border-color:rgba(200,30,50,0.25);}
-  html[data-theme="light"] .vt-match{background:linear-gradient(155deg,#f4eeff,#e9f5ff);border-color:rgba(124,58,237,0.22);}
-  html[data-theme="light"] .vt-card,html[data-theme="light"] .vt-title{color:#14112a !important;}
-  html[data-theme="light"] .vt-sub{color:#4a4566 !important;}
-  html[data-theme="light"] .vt-tag{background:rgba(0,0,0,0.06);color:#3d3858;}
-  html[data-theme="light"] .vt-map{background:rgba(0,0,0,0.06);}
-  html[data-theme="light"] .vt-body,html[data-theme="light"] .vt-body::before{border-color:rgba(0,0,0,0.2);}
-  html[data-theme="light"] .vt-map i{background:rgba(0,0,0,0.2);}
-  html[data-theme="light"] .vt-next{color:#1f7a32;}
-  html[data-theme="light"] .vt-go{color:#c4142a;} html[data-theme="light"] .vt-match .vt-go{color:#6d28d9;}
-  html[data-theme="light"] .vt-chips span{background:#fff;border-color:rgba(0,0,0,0.1);color:#14112a;}
+  .vh2-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px;align-items:stretch;}
+  .vh2-tools a{text-decoration:none !important;transition:transform .18s,box-shadow .18s;}
+  .vh2-tools a:hover{transform:translateY(-3px);}
+  /* PokeMe-Dex as a Pokédex device */
+  .vt-dev{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:18px 18px 18px 44px;background:linear-gradient(160deg,#ef3b46,#b5122a);border:3px solid #1a1a1a;box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),inset 0 -5px 0 rgba(0,0,0,0.18),0 22px 44px -22px rgba(255,40,60,0.75);color:#fff !important;}
+  .vt-dev:hover{box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),inset 0 -5px 0 rgba(0,0,0,0.18),0 26px 50px -20px rgba(255,40,60,0.9);}
+  .vt-dev-top{display:flex;align-items:center;gap:8px;}
+  .vt-lens{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bfe9ff 0 15%,#2fa4ff 45%,#0b5fb0);border:3px solid #fff;box-shadow:0 0 0 2px #1a1a1a,0 0 12px rgba(47,164,255,0.7);margin-right:2px;}
+  .vt-leds{display:flex;gap:5px;} .vt-leds i{width:9px;height:9px;border-radius:50%;border:1.5px solid #1a1a1a;background:#ff4d4d;} .vt-leds i:nth-child(2){background:#ffd23f;} .vt-leds i:nth-child(3){background:#4cd964;}
+  .vt-dev-tag{margin-left:auto;white-space:nowrap;font:800 11px/1 'Inter',system-ui,sans-serif;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:99px;background:rgba(0,0,0,0.25);color:#fff;}
+  .vt-dev-screen{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:#0f1a2b;border:5px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;}
+  .vt-dev-screen img{width:58px;height:58px;border-radius:50%;flex-shrink:0;background:#fff;}
+  .vt-dev-screen small{display:block;font:800 10.5px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#7CFF9B;}
+  .vt-dev-screen b{display:block;margin:5px 0 4px;font:900 16px/1.2 'Inter',sans-serif !important;color:#fff !important;}
+  .vt-dev-screen span{display:block;font:600 12.5px/1.3 'Inter',sans-serif;color:#9dffb3;}
+  .vt-dev-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .vt-dev-stats div{padding:8px 4px;border-radius:10px;background:rgba(0,0,0,0.22);text-align:center;}
+  .vt-dev-stats b{display:block;font:900 19px/1 'Inter',sans-serif;color:#fff;}
+  .vt-dev-stats small{display:block;margin-top:4px;font:700 11px/1.2 'Inter',sans-serif;color:rgba(255,255,255,0.85);}
+  .vt-dev-pad{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;}
+  .vt-dpad{position:relative;width:34px;height:34px;flex-shrink:0;}
+  .vt-dpad::before,.vt-dpad::after{content:'';position:absolute;background:#1a1a1a;border-radius:3px;}
+  .vt-dpad::before{left:12px;top:0;width:10px;height:34px;} .vt-dpad::after{top:12px;left:0;width:34px;height:10px;}
+  .vt-dev-go{padding:10px 14px;border-radius:12px;background:#ffcb05;color:#1d2a5b;font:800 14px/1 'Inter',sans-serif;box-shadow:0 3px 0 #c79c00;white-space:nowrap;}
+  /* Peptide Match as an example results panel */
+  .vt-res{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:18px;background:linear-gradient(170deg,rgba(255,47,168,0.08),rgba(154,92,255,0.06) 40%,rgba(10,9,20,0.9)),#0e0c18;border:1px solid rgba(255,255,255,0.12);color:#f4f5fb !important;box-shadow:0 22px 44px -24px rgba(255,47,168,0.55);}
+  .vt-res:hover{border-color:rgba(255,47,168,0.5);}
+  .vt-res-h{font:800 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:rgba(200,206,230,0.7);}
+  .vt-res-goals{font:700 14px/1.3 'Inter',sans-serif;color:#fff;margin-bottom:2px;}
+  .vt-res-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);}
+  .vt-res-row.best{border-color:rgba(255,47,168,0.7);background:rgba(255,47,168,0.08);}
+  .vt-res-row .n{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;flex-shrink:0;font:800 12px/1 'Inter',sans-serif;border:1px solid rgba(255,255,255,0.2);color:#fff;}
+  .vt-res-row.best .n{background:#ff2fa8;border-color:#ff2fa8;}
+  .vt-res-row .t{flex:1;min-width:0;}
+  .vt-res-row .t b{display:block;font:800 14.5px/1.2 'Inter',sans-serif !important;color:#fff !important;}
+  .vt-res-row .t em{display:inline-block;white-space:nowrap;font-style:normal;margin-left:6px;padding:2px 6px;border-radius:6px;background:rgba(255,47,168,0.18);color:#ff5cbd;font:800 10.5px/1.4 'Inter',sans-serif;letter-spacing:0.04em;text-transform:uppercase;vertical-align:middle;}
+  .vt-res-row .t small{display:block;margin-top:3px;font:500 12.5px/1.2 'Inter',sans-serif;color:rgba(200,206,230,0.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .vt-res-row .m{flex-shrink:0;width:70px;text-align:right;}
+  .vt-res-row .m b{display:block;font:800 12.5px/1 'Inter',sans-serif;color:#fff;margin-bottom:6px;}
+  .vt-res-row .m i{display:block;height:5px;border-radius:99px;background:rgba(255,255,255,0.12);overflow:hidden;}
+  .vt-res-row .m u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);}
+  .vt-res-f{font:500 12.5px/1.4 'Inter',sans-serif;color:rgba(200,206,230,0.65);}
+  .vt-res-go{margin-top:auto;padding-top:4px;font:800 14px/1 'Inter',sans-serif;color:#ff8fd1;}
+  @media(prefers-reduced-motion:reduce){ .vh2-tools a:hover{transform:none;} }
+  @media(max-width:620px){ .vh2-tools{grid-template-columns:minmax(0,1fr);} }
+  .vh2 .hg > div{min-width:0;}
+  .vt-dev,.vt-res{min-width:0;}
+  .vt-dev-screen > div{min-width:0;}
+  html[data-theme="light"] .vt-res{background:#fff;border-color:rgba(124,58,237,0.18);color:#14112a !important;box-shadow:0 18px 40px -24px rgba(124,58,237,0.45);}
+  html[data-theme="light"] .vt-res-h,html[data-theme="light"] .vt-res-f,html[data-theme="light"] .vt-res-row .t small{color:#6a6585;}
+  html[data-theme="light"] .vt-res-goals,html[data-theme="light"] .vt-res-row .t b,html[data-theme="light"] .vt-res-row .m b{color:#14112a !important;}
+  html[data-theme="light"] .vt-res-row{background:#faf8ff;border-color:rgba(124,58,237,0.14);}
+  html[data-theme="light"] .vt-res-row .n{color:#14112a;border-color:rgba(0,0,0,0.15);} html[data-theme="light"] .vt-res-row.best .n{color:#fff;}
+  html[data-theme="light"] .vt-res-row .m i{background:rgba(0,0,0,0.08);}
+  html[data-theme="light"] .vt-res-go{color:#c4147e;}
 </style>
 <script>
 (function(){
-  // show the visitor's own next injection spot from PokeMe-Dex (same rotation rule: least recently used)
+  // fill the device with this visitor's own PokeMe-Dex data (saved on this device)
   var Z = [['BUL','Belly — Upper Left'],['BUR','Belly — Upper Right'],['BLL','Belly — Lower Left'],['BLR','Belly — Lower Right'],
            ['AL','Back of Arm — Left'],['AR','Back of Arm — Right'],['TL','Outer Thigh — Left'],['TR','Outer Thigh — Right'],
            ['GL','Upper Glute — Left'],['GR','Upper Glute — Right']];
   var log = [], protos = [], doses = {};
-  try { log = JSON.parse(localStorage.getItem('guest_pmd_inj_log') || '[]'); protos = JSON.parse(localStorage.getItem('guest_pmd_active_protocols') || '[]'); } catch(e){}
+  try {
+    log = JSON.parse(localStorage.getItem('guest_pmd_inj_log') || '[]');
+    protos = JSON.parse(localStorage.getItem('guest_pmd_active_protocols') || '[]');
+    doses = JSON.parse(localStorage.getItem('guest_pmd_dose_log') || '{}');
+  } catch(e){}
+  function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function due(p, ds){
+    var n = Math.round((new Date(ds + 'T00:00:00') - new Date(String(p.startDateTime).split('T')[0] + 'T00:00:00')) / 86400000);
+    if (!(n >= 0 && n < p.durationDays)) return false;
+    if (p.frequencyType === 'daily') return true;
+    if (p.frequencyType === 'weekly') return n % 7 === 0;
+    return (p.weekdays || []).indexOf(new Date(ds + 'T00:00:00').getDay()) !== -1;
+  }
+  var t = ymd(new Date()), dueToday = protos.filter(function(p){ return due(p, t); });
+  var doneToday = dueToday.filter(function(p){ return doses[t] && doses[t][p.id]; }).length;
+  var streak = 0, d = new Date();
+  for (var i = 0; i < 400 && protos.length; i++) {
+    var ds = ymd(d), dd = protos.filter(function(p){ return due(p, ds); });
+    if (dd.length) { if (dd.every(function(p){ return doses[ds] && doses[ds][p.id]; })) streak++; else if (i > 0) break; }
+    d.setDate(d.getDate() - 1);
+  }
   var last = {}; log.forEach(function(e){ if (!last[e.zone]) last[e.zone] = e.date; });
   var next = Z.filter(function(z){ return !last[z[0]]; })[0] || Z.slice().sort(function(a, b){ return last[a[0]] < last[b[0]] ? -1 : 1; })[0];
-  var map = document.querySelector('.vt-map'); if (!map) return;
-  [].forEach.call(map.querySelectorAll('i'), function(d){ var z = d.getAttribute('data-z'); if (last[z]) d.classList.add('used'); if (z === next[0]) d.classList.add('next'); });
-  var t = document.getElementById('vt-next');
-  if (t) t.textContent = '⭐ ' + (log.length ? 'Your next spot: ' : 'Next spot: ') + next[1] + (protos.length ? ' · ' + protos.length + ' peptide' + (protos.length === 1 ? '' : 's') + ' tracked' : '');
+  function set(id, v){ var e = document.getElementById(id); if (e) e.textContent = v; }
+  set('vt-s1', protos.length); set('vt-s2', dueToday.length ? doneToday + '/' + dueToday.length : '—'); set('vt-s3', streak);
+  set('vt-next', '⭐ ' + (log.length ? 'Your next spot: ' : 'Next spot: ') + next[1]);
 })();
 </script>
 

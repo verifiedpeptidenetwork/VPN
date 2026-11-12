@@ -1074,6 +1074,76 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   <span id="tabbtn-tracker" hidden></span><span id="tabbtn-index" hidden></span>
 
   <div class="tab-panel active" id="tab-tracker">
+  <!-- ═══ APP SCREEN: today, peptides, injection sites, save, how it works ═══ -->
+  <div id="pdx-app">
+    <section class="pa-card pa-today" id="pa-today-card" aria-labelledby="pa-today-h">
+      <div class="pa-h">
+        <div><small class="pa-date" id="pa-date">Today</small><h2 id="pa-today-h">Today's doses</h2></div>
+        <span class="pa-pill" id="pa-prog-txt">0 of 0</span>
+      </div>
+      <div class="pa-bar" aria-hidden="true"><i id="pa-prog"></i></div>
+      <div id="pa-today"></div>
+    </section>
+
+    <section class="pa-card" aria-labelledby="pa-peps-h">
+      <div class="pa-h"><div><h2 id="pa-peps-h">My peptides</h2><p>Tap <b>Edit</b> to change a dose, vial or schedule.</p></div></div>
+      <div id="pa-peps"></div>
+      <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Add a peptide</button>
+    </section>
+
+    <section class="pa-card" aria-labelledby="pa-inj-h">
+      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Tap a spot to log a dose there. L and R mean <b>your</b> left and right.</p></div></div>
+      <div class="pa-next" id="pa-next"></div>
+      <div class="pa-bodies">
+        <figure class="pa-fig">
+          <figcaption>Front</figcaption>
+          <div class="pa-sil">
+            <svg viewBox="0 0 100 200" aria-hidden="true"><circle cx="50" cy="17" r="12"/><rect x="31" y="33" width="38" height="72" rx="14"/><rect x="17" y="37" width="11" height="62" rx="5.5"/><rect x="72" y="37" width="11" height="62" rx="5.5"/><rect x="32" y="100" width="16" height="88" rx="8"/><rect x="52" y="100" width="16" height="88" rx="8"/></svg>
+            <button type="button" class="pa-dot" data-z="BUL" style="left:39%;top:31%">L</button>
+            <button type="button" class="pa-dot" data-z="BUR" style="left:61%;top:31%">R</button>
+            <button type="button" class="pa-dot" data-z="BLL" style="left:39%;top:45%">L</button>
+            <button type="button" class="pa-dot" data-z="BLR" style="left:61%;top:45%">R</button>
+            <button type="button" class="pa-dot" data-z="TL" style="left:40%;top:66%">L</button>
+            <button type="button" class="pa-dot" data-z="TR" style="left:60%;top:66%">R</button>
+          </div>
+        </figure>
+        <figure class="pa-fig">
+          <figcaption>Back</figcaption>
+          <div class="pa-sil">
+            <svg viewBox="0 0 100 200" aria-hidden="true"><circle cx="50" cy="17" r="12"/><rect x="31" y="33" width="38" height="72" rx="14"/><rect x="17" y="37" width="11" height="62" rx="5.5"/><rect x="72" y="37" width="11" height="62" rx="5.5"/><rect x="32" y="100" width="16" height="88" rx="8"/><rect x="52" y="100" width="16" height="88" rx="8"/></svg>
+            <button type="button" class="pa-dot" data-z="AL" style="left:22.5%;top:32%">L</button>
+            <button type="button" class="pa-dot" data-z="AR" style="left:77.5%;top:32%">R</button>
+            <button type="button" class="pa-dot" data-z="GL" style="left:40%;top:50%">L</button>
+            <button type="button" class="pa-dot" data-z="GR" style="left:60%;top:50%">R</button>
+          </div>
+        </figure>
+      </div>
+      <div class="pa-legend"><span><i class="g"></i>Best next spot</span><span><i class="r"></i>Last 3 days</span><span><i class="a"></i>4–7 days ago</span><span><i></i>Rested</span></div>
+      <h3 class="pa-sub">Recent</h3>
+      <div id="pa-log"></div>
+    </section>
+
+    <section class="pa-card" aria-labelledby="pa-save-h">
+      <div class="pa-h"><div><h2 id="pa-save-h">Save your plan</h2><p>Doses, syringe units, a 14-day checklist and what to buy, on one page.</p></div></div>
+      <div class="pa-btns">
+        <button type="button" class="pa-btn pri" onclick="pmdPrintReport()">🖨 Save as PDF</button>
+        <button type="button" class="pa-btn" onclick="pmdShareNotes()">📝 Notes / Google Keep</button>
+        <button type="button" class="pa-btn" onclick="pmdDownloadReport()">⬇ Download</button>
+      </div>
+      <p class="pa-tip">PDF: on the print screen choose <b>Save as PDF</b>. Notes / Keep: on a phone pick Keep or Notes from the share menu; on a computer it copies your plan and opens Keep.</p>
+    </section>
+
+    <details class="pa-card pa-faq" id="pa-faq">
+      <summary><span>How PokeMe-Dex works</span></summary>
+      <ol>
+        <li><b>Add a peptide.</b> Answer a few quick questions: vial, water, dose, how often and for how long.</li>
+        <li><b>Log each dose.</b> Tap <b>Log it</b>, pick where you injected, confirm the amount. Finish the day for a 🔥 streak.</li>
+        <li><b>Rotate spots.</b> The body map shows which spots are resting and which one to use next.</li>
+        <li><b>Save your plan</b> as a PDF, to Notes / Google Keep, or as a download.</li>
+      </ol>
+      <p class="pa-note">Everything is saved on this phone or computer only. No account needed. Research use only, not medical advice.</p>
+    </details>
+  </div>
 
   <details class="how-card" id="how-card" open>
     <summary>❓ HOW POKEME-DEX WORKS <span class="how-toggle"></span></summary>
@@ -2879,6 +2949,14 @@ function showTab(name){
   .qz-back{border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;}
   .qz-next{flex:1;border:none !important;background:#d7261e !important;color:#fff !important;}
   .qz-next:disabled{opacity:0.45;cursor:not-allowed;}
+  .qz-plist{display:flex;flex-direction:column;gap:8px;max-height:52dvh;overflow:auto;margin:2px -4px 0;padding:2px 4px;}
+  .qz-prow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px !important;border-radius:14px !important;border:2px solid #e6dfd2 !important;background:#fff !important;color:#1a1626 !important;cursor:pointer;box-shadow:none !important;}
+  .qz-prow:hover,.qz-prow.on{border-color:#d7261e !important;background:#fff8f6 !important;}
+  .qz-pic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#f6f1e8;font-size:18px;flex-shrink:0;}
+  .qz-ptxt{min-width:0;}
+  .qz-ptxt b{display:block;font:800 16px/1.2 'Inter',sans-serif !important;}
+  .qz-ptxt small{display:block;margin-top:3px;font:500 13px/1.35 'Inter',sans-serif !important;color:#7a7163 !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .qz-empty{padding:18px;text-align:center;font:600 15px/1.4 'Inter',sans-serif;color:#7a7163;}
   .qz-shake{animation:qzShake .3s;}
   @keyframes qzShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
   /* tracker cards */
@@ -3004,6 +3082,35 @@ function showTab(name){
   // ── ADD / EDIT A PEPTIDE
   function addSteps(){
     return [
+      { q: 'Which peptide are you adding?', help: 'Search by name or pick from the list.', skip: function(s){ return !!s.fixed; }, valid: function(s){ return !!s.key; },
+        render: function(s, b){
+          var POP = ['reta','tirz','sema','cagri','bpc','tb500','ghk','mots','nad','tesa','cjcipa','ss31','kpv','atx','lara'].filter(function(k){ return PEPTIDES[k]; });
+          var inp = document.createElement('input'); inp.type = 'search'; inp.className = 'qz-in'; inp.placeholder = 'Search, e.g. BPC-157'; inp.setAttribute('aria-label', 'Search peptides'); inp.autocomplete = 'off'; b.appendChild(inp);
+          var list = document.createElement('div'); list.className = 'qz-plist'; b.appendChild(list);
+          function norm(t){ return String(t).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+          function label(t){ var h = document.createElement('div'); h.className = 'qz-label'; h.textContent = t; list.appendChild(h); }
+          function row(k){
+            var d = PEPTIDES[k], btn = document.createElement('button'); btn.type = 'button'; btn.className = 'qz-prow' + (s.key === k ? ' on' : '');
+            btn.innerHTML = '<span class="qz-pic">' + (d.oral ? '💊' : '💉') + '</span><span class="qz-ptxt"><b>' + esc(d.name) + '</b><small>' + esc(String(d.desc || '').split('. ')[0]) + '</small></span>';
+            btn.onclick = function(){ Object.assign(s, stFromDef(k)); s.fixed = false; next(); };
+            list.appendChild(btn);
+          }
+          function draw(){
+            var q = norm(inp.value); list.innerHTML = '';
+            if (!q) {
+              label('Popular'); POP.forEach(row);
+              label('All peptides A–Z');
+              Object.keys(PEPTIDES).filter(function(k){ return POP.indexOf(k) === -1; }).sort(function(a, c){ return PEPTIDES[a].name.localeCompare(PEPTIDES[c].name); }).forEach(row);
+              return;
+            }
+            var hits = Object.keys(PEPTIDES).filter(function(k){ return norm(PEPTIDES[k].name).indexOf(q) !== -1 || norm(k).indexOf(q) !== -1; });
+            if (!hits.length) { list.innerHTML = '<div class="qz-empty">No match. Try a shorter name, like "bpc" or "reta".</div>'; return; }
+            hits.forEach(row);
+          }
+          inp.oninput = draw;
+          inp.onkeydown = function(e){ if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); var f = list.querySelector('.qz-prow'); if (f) f.click(); } };
+          draw();
+        } },
       { q: function(s){ return 'How many mg are in your ' + s.name + ' vial?'; }, help: 'Look at the label on the vial.', skip: function(s){ return s.oral; },
         valid: function(s){ return s.vial > 0; },
         render: function(s, b){
@@ -3094,14 +3201,22 @@ function showTab(name){
     pmdToast('✓ <b>' + esc(p.name) + '</b> ' + (k === -1 ? 'added' : 'updated') + '. Tap it under <b>Today\'s Doses</b> when you take it.');
     var box = document.getElementById('active-protocols-box'); if (box && k === -1) box.scrollIntoView({ behavior:'smooth', block:'start' });
   }
-  window.useForSchedule = function(key, ev){
-    if (ev) ev.stopPropagation();
-    var d = PEPTIDES[key]; if (!d) return;
+  function stFromDef(key){
+    var d = PEPTIDES[key];
     var st = { key:key, name:d.name, oral:!!d.oral, vial:d.vial || 0, water:d.water || 0, pill:d.pill || 0, perDay:d.perDay || 1, mixed:todayStr(),
       dose:d.start, freq: d.freq >= 7 ? 'daily' : (d.freq === 1 ? 'weekly' : 'custom'), weekdays: d.freq === 3 ? [1,3,5] : (d.freq === 5 ? [1,2,3,4,5] : (d.freq === 2 ? [1,4] : [])),
       time: d.time === 'pm' ? 'pm' : (d.time === 'any' ? 'any' : 'morning'), weeks: d.weeks && d.weeks >= 4 ? Math.min(16, d.weeks * (d.step > 0 ? 3 : 1)) : 8, start: todayStr() };
     if ([4,6,8,12,16].indexOf(st.weeks) === -1) st.weeks = 8;
-    open(addSteps(), st, saveProto, 'Add ' + d.name);
+    return st;
+  }
+  window.useForSchedule = function(key, ev){
+    if (ev) ev.stopPropagation();
+    if (!PEPTIDES[key]) return;
+    var st = stFromDef(key); st.fixed = true;
+    open(addSteps(), st, saveProto, function(s){ return 'Add ' + s.name; });
+  };
+  window.pmdAddNew = function(){
+    open(addSteps(), { key:'', name:'', weekdays:[], fixed:false }, saveProto, function(s){ return s.name ? 'Add ' + s.name : 'Add a peptide'; });
   };
   window.pmdEditProtocol = function(id){
     var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
@@ -3289,6 +3404,187 @@ function showTab(name){
     });
   };
   if (document.getElementById('stat-active')) window.renderStats();
+})();
+</script>
+
+<style id="pdx-app-css">
+  /* the old tracker blocks stay in the page (their scripts still run) but only the app screen shows */
+  #tab-tracker > :not(#pdx-app){display:none !important;}
+  html body #pdx-app{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:16px;padding:20px 0 40px;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:#1a1626;}
+  html body #pdx-app *{font-family:inherit;letter-spacing:normal;text-transform:none;text-shadow:none;}
+  html body #pdx-app .pa-card{background:#fff;border:1px solid #e9e2d6;border-radius:20px;box-shadow:0 1px 2px rgba(26,22,38,0.04),0 8px 24px -16px rgba(26,22,38,0.25);padding:18px;}
+  html body #pdx-app .pa-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
+  html body #pdx-app h2{margin:0 !important;font:800 20px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;-webkit-text-fill-color:#1a1626 !important;}
+  html body #pdx-app .pa-h p{margin:4px 0 0 !important;font:500 14px/1.45 'Inter',sans-serif !important;color:#6b6356 !important;}
+  html body #pdx-app .pa-date{display:block;font:700 12px/1 'Inter',sans-serif !important;color:#d7261e;text-transform:uppercase !important;letter-spacing:0.08em !important;margin-bottom:5px;}
+  html body #pdx-app .pa-pill{flex-shrink:0;padding:7px 11px;border-radius:99px;background:#f6f1e8;font:800 13px/1 'Inter',sans-serif !important;color:#4a4335;}
+  html body #pdx-app .pa-pill.done{background:#e8f6eb;color:#1f7a32;}
+  html body #pdx-app .pa-bar{height:8px;border-radius:99px;background:#f0ebe1;overflow:hidden;margin:-2px 0 14px;}
+  html body #pdx-app .pa-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ff5a3c,#d7261e);transition:width .35s ease;}
+  html body #pdx-app .pa-bar i.full{background:linear-gradient(90deg,#3fbf5a,#2e9e3f);}
+  /* rows and cards */
+  html body #pdx-app .pmd-drow{margin-top:8px;border:1px solid #e9e2d6 !important;border-radius:16px !important;padding:12px 14px !important;}
+  html body #pdx-app .pmd-drow:first-child{margin-top:0;}
+  html body #pdx-app .pmd-drow .nm{font:800 16px/1.2 'Inter',sans-serif !important;}
+  html body #pdx-app .pmd-drow .mt{font:500 13.5px/1.35 'Inter',sans-serif !important;}
+  html body #pdx-app .pmd-drow .go{font:800 14px/1 'Inter',sans-serif !important;padding:9px 12px;border-radius:10px;background:#d7261e;color:#fff !important;}
+  html body #pdx-app .pmd-drow.done .go{background:#e8f6eb;color:#1f7a32 !important;}
+  html body #pdx-app .pmd-pcard{border:1px solid #e9e2d6 !important;border-radius:16px;padding:14px;margin-top:10px;}
+  html body #pdx-app .pmd-pcard:first-child{margin-top:0;}
+  html body #pdx-app .pmd-pcard-name{font:800 17px/1.2 'Inter',sans-serif !important;}
+  html body #pdx-app .pmd-pcard-line{font:500 14px/1.45 'Inter',sans-serif !important;margin-top:5px;}
+  html body #pdx-app .pmd-pcard-btns button{font:700 13.5px/1 'Inter',sans-serif !important;padding:9px 14px !important;border-radius:10px !important;border-width:1px !important;}
+  html body #pdx-app .pmd-edit{border-color:#d9d0c1 !important;}
+  html body #pdx-app .pa-empty{padding:18px 6px;text-align:center;font:500 15px/1.5 'Inter',sans-serif !important;color:#6b6356 !important;}
+  html body #pdx-app .pa-empty b{color:#1a1626;}
+  html body #pdx-app .pa-add{display:flex;align-items:center;justify-content:center;width:100%;height:54px;margin-top:12px;border-radius:14px !important;border:2px dashed #e0a59b !important;background:#fff8f6 !important;color:#d7261e !important;font:800 16px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .pa-add:hover{border-style:solid !important;}
+  html body #pdx-app .pa-add.big{height:60px;border:none !important;background:#d7261e !important;color:#fff !important;margin-top:4px;}
+  /* injection map */
+  html body #pdx-app .pa-next{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:#eef8f0;border:1px solid #cfe6cd;font:600 14.5px/1.4 'Inter',sans-serif;color:#1f5f2a;}
+  html body #pdx-app .pa-next b{color:#164a20;}
+  html body #pdx-app .pa-next button{border:none !important;border-radius:10px !important;padding:9px 12px !important;background:#2e9e3f !important;color:#fff !important;font:800 13.5px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .pa-bodies{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 10px;}
+  html body #pdx-app .pa-fig{margin:0;padding:10px 6px 6px;border-radius:16px;background:#faf7f2;border:1px solid #efe8dc;text-align:center;}
+  html body #pdx-app .pa-fig figcaption{font:800 12px/1 'Inter',sans-serif !important;letter-spacing:0.08em !important;text-transform:uppercase !important;color:#8a8170;margin-bottom:6px;}
+  html body #pdx-app .pa-sil{position:relative;width:100%;max-width:150px;margin:0 auto;aspect-ratio:1/2;}
+  html body #pdx-app .pa-sil svg{width:100%;height:100%;display:block;}
+  html body #pdx-app .pa-sil svg *{fill:#ece5d8;stroke:#d8cfbf;stroke-width:1.2;}
+  html body #pdx-app .pa-dot{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0 !important;border-radius:50% !important;border:2px solid #fff !important;background:#b9b0a1 !important;color:#fff !important;font:800 12px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2) !important;transition:transform .12s;}
+  html body #pdx-app .pa-dot:hover{transform:scale(1.12);}
+  html body #pdx-app .pa-dot.r{background:#e2463a !important;}
+  html body #pdx-app .pa-dot.a{background:#f0a520 !important;}
+  html body #pdx-app .pa-dot.g{background:#2e9e3f !important;animation:paPulse 1.8s infinite;}
+  @keyframes paPulse{0%{box-shadow:0 0 0 0 rgba(46,158,63,0.55),0 2px 6px rgba(0,0,0,0.2);}70%{box-shadow:0 0 0 12px rgba(46,158,63,0),0 2px 6px rgba(0,0,0,0.2);}100%{box-shadow:0 0 0 0 rgba(46,158,63,0),0 2px 6px rgba(0,0,0,0.2);}}
+  html body #pdx-app .pa-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font:600 12.5px/1.2 'Inter',sans-serif;color:#6b6356;}
+  html body #pdx-app .pa-legend span{display:flex;align-items:center;gap:6px;}
+  html body #pdx-app .pa-legend i{width:11px;height:11px;border-radius:50%;background:#b9b0a1;}
+  html body #pdx-app .pa-legend i.g{background:#2e9e3f;} html body #pdx-app .pa-legend i.r{background:#e2463a;} html body #pdx-app .pa-legend i.a{background:#f0a520;}
+  html body #pdx-app .pa-sub{margin:18px 0 8px !important;font:800 14px/1 'Inter',sans-serif !important;color:#1a1626 !important;}
+  html body #pdx-app .pa-logrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #f0ebe1;font:500 14px/1.35 'Inter',sans-serif;}
+  html body #pdx-app .pa-logrow:first-child{border-top:none;}
+  html body #pdx-app .pa-logrow b{font-weight:700;color:#1a1626;}
+  html body #pdx-app .pa-logrow span{color:#6b6356;}
+  html body #pdx-app .pa-logrow time{flex-shrink:0;color:#8a8170;font-size:13px;text-align:right;}
+  html body #pdx-app .pa-more{margin-top:6px;border:none !important;background:none !important;padding:6px 0 !important;color:#d7261e !important;font:700 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  /* save */
+  html body #pdx-app .pa-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  html body #pdx-app .pa-btn{height:52px;border-radius:14px !important;border:1px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:700 14.5px/1.2 'Inter',sans-serif !important;cursor:pointer;padding:0 10px !important;box-shadow:none !important;}
+  html body #pdx-app .pa-btn.pri{border:none !important;background:#d7261e !important;color:#fff !important;}
+  html body #pdx-app .pa-tip{margin:10px 0 0 !important;font:500 13px/1.5 'Inter',sans-serif !important;color:#7a7163 !important;}
+  /* faq */
+  html body #pdx-app .pa-faq{padding:0;}
+  html body #pdx-app .pa-faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;font:800 16px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;background:none !important;border:none !important;}
+  html body #pdx-app .pa-faq summary::-webkit-details-marker{display:none;}
+  html body #pdx-app .pa-faq summary::after{content:'＋';color:#d7261e;font-size:20px;}
+  html body #pdx-app .pa-faq[open] summary::after{content:'－';}
+  html body #pdx-app .pa-faq ol{margin:0 !important;padding:0 18px 4px 38px !important;}
+  html body #pdx-app .pa-faq li{margin:0 0 10px !important;font:500 14.5px/1.5 'Inter',sans-serif !important;color:#4a4335 !important;}
+  html body #pdx-app .pa-note{margin:0 !important;padding:0 18px 16px !important;font:500 13px/1.5 'Inter',sans-serif !important;color:#7a7163 !important;}
+  @media(max-width:600px){
+    html body #pdx-app{padding:14px 0 90px;gap:12px;}
+    html body #pdx-app .pa-card{padding:16px 14px;border-radius:18px;}
+    html body #pdx-app .pa-btns{grid-template-columns:1fr;}
+    html body #pdx-app .pmd-drow .go{padding:9px 10px;}
+    html body #pdx-app .pa-sil{max-width:150px;}
+    html body #pdx-app .pa-bodies{gap:8px;}
+    html body #pdx-app .pa-dot{width:28px;height:28px;margin:-14px 0 0 -14px;}
+  }
+  @media(prefers-reduced-motion:reduce){ html body #pdx-app .pa-dot.g{animation:none;} }
+  /* hero: shorter on phones so Today is reachable fast */
+  @media(max-width:600px){
+    html body header.pmx .pdx{gap:18px;padding:18px 16px 16px;}
+    html body header.pmx h1.pdx-h1{font-size:36px !important;margin:10px 0 8px !important;}
+    html body header.pmx .pdx-lead{font-size:15.5px !important;margin-bottom:16px !important;}
+    html body header.pmx .pdx-trust{margin-top:14px;gap:6px 12px;}
+    html body header.pmx .pdx-trust li{font-size:13px !important;}
+    html body header.pmx .pdx-trust li:nth-child(4){display:none;}
+    html body header.pmx .pdx-device{max-width:none;padding:10px;border-radius:16px;}
+    html body header.pmx .pdx-top{display:none;}
+    html body header.pmx .pdx-screen{padding:10px;gap:10px;border-width:4px;}
+    html body header.pmx .pdx-screen img{width:48px;height:48px;}
+    html body header.pmx .pdx-entry b{font-size:17px;margin:4px 0 2px;}
+    html body header.pmx .pdx-stats{margin-top:8px;}
+    html body header.pmx .pdx-stats b{font-size:19px;}
+  }
+</style>
+<script>
+(function(){
+  var app = document.getElementById('pdx-app'); if (!app) return;
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function daysAgo(ds){ if (!ds) return null; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function agoTxt(n){ return n === 0 ? 'today' : (n === 1 ? 'yesterday' : n + ' days ago'); }
+  function hhmm(t){ if (!t) return ''; var p = t.split(':'), h = +p[0]; return ((h % 12) || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
+  function zoneLabel(c){ var z = INJ_ZONES.find(function(x){ return x.code === c; }); return z ? z.label : c; }
+  function u1(u){ return u % 1 === 0 ? u : u.toFixed(1); }
+  function when(p){ return p.timeLabel.split(' (')[0].replace('Either — No Strong Preference', 'Any time').replace('Evening / Before Bed', 'Evening'); }
+  var showAll = false;
+
+  window.renderTodayDoses = function(){
+    var out = document.getElementById('pa-today'); if (!out) return;
+    var t = todayStr(), due = ACTIVE_PROTOCOLS.filter(isDoseDueToday);
+    var done = due.filter(function(p){ return DOSE_LOG[t] && DOSE_LOG[t][p.id]; }).length;
+    var d = new Date(); document.getElementById('pa-date').textContent = d.toLocaleDateString(undefined, { weekday:'long', month:'short', day:'numeric' });
+    var bar = document.getElementById('pa-prog'), pill = document.getElementById('pa-prog-txt');
+    bar.style.width = due.length ? Math.round(done / due.length * 100) + '%' : '0%';
+    bar.classList.toggle('full', due.length > 0 && done === due.length);
+    pill.textContent = due.length ? (done === due.length ? '✓ All done' : done + ' of ' + due.length + ' done') : 'Nothing due';
+    pill.classList.toggle('done', due.length > 0 && done === due.length);
+    if (!ACTIVE_PROTOCOLS.length) { out.innerHTML = '<div class="pa-empty"><b>Let\'s set up your first peptide.</b><br>It takes about 30 seconds.</div><button type="button" class="pa-add big" onclick="pmdAddNew()">＋ Add your first peptide</button>'; return; }
+    if (!due.length) { out.innerHTML = '<div class="pa-empty">No doses due today. Enjoy the rest day. 🦍</div>'; return; }
+    out.innerHTML = due.map(function(p){
+      var rec = DOSE_LOG[t] && DOSE_LOG[t][p.id], oral = pmdOral(p), meta;
+      if (rec) { var r = typeof rec === 'object' ? rec : {}; meta = (r.mg || p.dose) + ' mg' + (r.site ? ' · ' + esc(zoneLabel(r.site)) : '') + (r.time ? ' · ' + hhmm(r.time) : ''); }
+      else meta = p.dose + ' mg · ' + (oral ? '💊 ' + pmdPillTxt(p) : '💉 ' + u1(pmdUnits(p)) + ' units') + ' · ' + when(p);
+      return '<button type="button" class="pmd-drow' + (rec ? ' done' : '') + '" onclick="toggleDoseDone(\'' + p.id + '\')" aria-label="' + (rec ? 'Undo ' : 'Log ') + esc(p.name) + '"><span class="ck">' + (rec ? '✓' : '') + '</span><span><div class="nm">' + esc(p.name) + '</div><div class="mt">' + meta + '</div></span><span class="go">' + (rec ? 'Done' : 'Log it') + '</span></button>';
+    }).join('');
+  };
+
+  window.renderProtocolsList = function(){
+    var out = document.getElementById('pa-peps'); if (!out) return;
+    if (!ACTIVE_PROTOCOLS.length) { out.innerHTML = '<div class="pa-empty">No peptides yet.</div>'; return; }
+    out.innerHTML = ACTIVE_PROTOCOLS.map(function(p){
+      var oral = pmdOral(p), left = daysRemaining(p), lines = [];
+      lines.push('<b>' + p.dose + ' mg</b> · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '× a day' : '') + ' · ' + when(p));
+      if (oral) lines.push('💊 ' + pmdPillTxt(p) + ' (' + pmdPill(p) + ' mg pills)');
+      else lines.push('💉 ' + p.vial + ' mg vial + ' + p.water + ' mL water · pull to <b>' + u1(pmdUnits(p)) + ' units</b>');
+      var html = lines.map(function(l){ return '<div class="pmd-pcard-line">' + l + '</div>'; }).join('');
+      if (!oral && p.mixed) { var a = daysAgo(p.mixed); html += '<div class="pmd-pcard-line' + (a >= 28 ? ' warn' : '') + '">🧪 Mixed ' + agoTxt(a) + (a >= 28 ? ': over 4 weeks, check it\'s still good' : '') + '</div>'; }
+      html += '<div class="pmd-pcard-line">📅 ' + left + ' day' + (left === 1 ? '' : 's') + ' left in this cycle</div>';
+      return '<div class="pmd-pcard"><div class="pmd-pcard-top"><span class="pmd-pcard-name">' + esc(p.name) + '</span><span class="pmd-tag' + (oral ? ' oral' : '') + '">' + (oral ? '💊 Pill' : '💉 Injection') + '</span></div>' + html
+        + '<div class="pmd-pcard-btns"><button type="button" class="pmd-edit" onclick="pmdEditProtocol(\'' + p.id + '\')">Edit</button><button type="button" class="pmd-del" onclick="removeProtocol(\'' + p.id + '\')">Remove</button></div></div>';
+    }).join('');
+  };
+
+  window.renderInjSites = function(){
+    var next = suggestedZone(), map = {};
+    INJ_ZONES.forEach(function(z){ map[z.code] = lastUsedDateForZone(z.code); });
+    [].forEach.call(app.querySelectorAll('.pa-dot'), function(b){
+      var c = b.getAttribute('data-z'), last = map[c], n = daysAgo(last);
+      b.className = 'pa-dot' + (c === next ? ' g' : (last == null ? '' : (n <= 3 ? ' r' : (n <= 7 ? ' a' : ''))));
+      var tip = zoneLabel(c) + ' · ' + (last ? 'last used ' + agoTxt(n) : 'not used yet') + (c === next ? ' · best next spot' : '');
+      b.title = tip; b.setAttribute('aria-label', tip + '. Tap to log a dose here.');
+      b.onclick = function(){ logInjSite(c); };
+    });
+    var nx = document.getElementById('pa-next');
+    if (nx) nx.innerHTML = '<span>⭐ Best next spot: <b>' + esc(zoneLabel(next)) + '</b></span><button type="button" onclick="logInjSite(\'' + next + '\')">Log here</button>';
+    var log = document.getElementById('pa-log'); if (!log) return;
+    if (!INJ_LOG.length) { log.innerHTML = '<div class="pa-empty" style="padding:8px 0;text-align:left;">No injections logged yet.</div>'; return; }
+    var list = showAll ? INJ_LOG.slice(0, 60) : INJ_LOG.slice(0, 5);
+    log.innerHTML = list.map(function(e){
+      return '<div class="pa-logrow"><div><b>' + esc(zoneLabel(e.zone)) + '</b>' + (e.name ? '<br><span>' + esc(e.name) + (e.mg ? ' · ' + e.mg + ' mg' : '') + '</span>' : '') + '</div><time>' + (daysAgo(e.date) <= 1 ? agoTxt(daysAgo(e.date)) : e.date) + (e.time ? '<br>' + hhmm(e.time) : '') + '</time></div>';
+    }).join('') + (INJ_LOG.length > 5 ? '<button type="button" class="pa-more" onclick="pmdToggleLog()">' + (showAll ? 'Show less' : 'Show all ' + INJ_LOG.length) + '</button>' : '');
+  };
+  window.pmdToggleLog = function(){ showAll = !showAll; renderInjSites(); };
+
+  // hero buttons go straight into the app
+  window.pmdStart = function(){ if (!ACTIVE_PROTOCOLS.length) pmdAddNew(); else document.getElementById('pa-today-card').scrollIntoView({ behavior:'smooth', block:'start' }); };
+  window.pmdHow = function(){ var f = document.getElementById('pa-faq'); f.open = true; f.scrollIntoView({ behavior:'smooth', block:'start' }); };
+  var cta = document.querySelectorAll('header.pmx .pdx-btn');
+  if (cta[0]) cta[0].setAttribute('onclick', 'pmdStart();return false;');
+  if (cta[1]) cta[1].setAttribute('onclick', 'pmdHow();return false;');
+
+  if (typeof renderDashboard === 'function') renderDashboard();
 })();
 </script>
 
