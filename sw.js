@@ -1,4 +1,4 @@
-const CACHE = 'vpn-v7';
+const CACHE = 'vpn-v8';
 const PRECACHE = ['./home.html', './VPNNEWLOGO-640.webp'];
 
 self.addEventListener('install', e => {
