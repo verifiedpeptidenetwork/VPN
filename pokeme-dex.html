@@ -1171,6 +1171,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <button type="button" data-t="today"><span class="ti">📅</span><span>Today</span></button>
       <button type="button" data-t="dex"><span class="ti">📟</span><span>My Dex</span></button>
       <button type="button" data-t="sites"><span class="ti">📍</span><span>Sites</span></button>
+      <a class="pa-tab-link" href="peptide-dex.html"><span class="ti">📖</span><span>Index</span></a>
       <button type="button" data-t="more"><span class="ti">⋯</span><span>More</span></button>
     </nav>
     <section class="pa-card pa-today" id="pa-today-card" data-tab="today" aria-labelledby="pa-today-h">
@@ -3694,9 +3695,11 @@ function showTab(name){
   #pdx-app > [data-tab]{display:none;}
   #pdx-app[data-tab="today"] > [data-tab="today"],#pdx-app[data-tab="dex"] > [data-tab="dex"],#pdx-app[data-tab="sites"] > [data-tab="sites"],#pdx-app[data-tab="more"] > [data-tab="more"]{display:block;}
   #pdx-app > [data-tab][hidden]{display:none !important;}
-  .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:min(460px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
+  .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:min(520px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
   .pa-tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px !important;border:none !important;border-radius:16px !important;background:transparent !important;color:#6b6356 !important;font:700 12px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
   .pa-tabs .ti{font-size:19px;line-height:1;filter:grayscale(1) opacity(.7);}
+  .pa-tabs .pa-tab-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:16px;color:#6b6356;font:700 12px/1 'Inter',sans-serif;text-decoration:none;}
+  .pa-tabs .pa-tab-link:hover{background:#faf6ef;}
   .pa-tabs button.on{background:#fff1ee !important;color:#d7261e !important;}
   .pa-tabs button.on .ti{filter:none;}
   body:has(#pa-tabs) #vt-dock{bottom:calc(92px + env(safe-area-inset-bottom,0px)) !important;}
@@ -4093,6 +4096,19 @@ function showTab(name){
   window.pmdHow = function(){ setTab('more'); var f = document.getElementById('pa-faq'); f.open = true; f.scrollIntoView({ behavior:'smooth', block:'start' }); };
 
   window.pmdStock = stock;
+  window.addEventListener('hashchange', function(){ if (/^#add=/.test(location.hash)) addFromDex(); });
+  addFromDex();
+  function addFromDex(){
+    var m = /^#add=(.+)$/.exec(location.hash); if (!m) return;
+    var want = decodeURIComponent(m[1]), norm = function(t){ return String(t).toLowerCase().replace(/\s*\(.*?\)/g, '').replace(/[^a-z0-9]/g, ''); };
+    var key = Object.keys(PEPTIDES).find(function(k){ return norm(PEPTIDES[k].name) === norm(want) || norm(k) === norm(want); });
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+    setTimeout(function(){
+      setTab('dex');
+      if (key) useForSchedule(key);
+      else { pmdAddNew(); setTimeout(function(){ var i = document.querySelector('#qz .qz-body input[type=search]'); if (i) { i.value = want.replace(/\s*\(.*?\)/g, ''); i.dispatchEvent(new Event('input')); } }, 120); }
+    }, 400);
+  }
   setTab(ls('pmd_tab') || 'today');
   renderDashboard();
 })();
