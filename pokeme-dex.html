@@ -934,28 +934,29 @@ html body details.pmd-more > summary, html body #pmd-easy details.pmd-more > sum
 html body details.pmd-more > summary *{-webkit-text-fill-color:currentColor !important;}
 html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
 </style>
+<style>/* faster intro (about half the time) + clean circular badge */ #pdx-intro .pi-dev{animation-duration:.2s !important;transition:transform .28s cubic-bezier(.6,0,.4,1),opacity .22s ease !important;} #pdx-intro .pi-lens{animation:piLens .25s ease .05s both !important;} #pdx-intro .pi-led.r{animation:piLedR .1s ease .1s both !important;} #pdx-intro .pi-led.y{animation:piLedY .1s ease .14s both !important;} #pdx-intro .pi-led.g{animation:piLedG .1s ease .18s both !important;} #pdx-intro .pi-screen::after{animation:piScan .3s linear .2s 1 !important;} #pdx-intro .pi-boot{animation:piOut .1s ease .48s both !important;} #pdx-intro .pi-title{animation:piType .16s steps(10) .2s both,piCaret .15s step-end .36s 2 !important;} #pdx-intro .pi-sub{animation:piFade .1s ease .28s both !important;} #pdx-intro .pi-bar i{animation:piBar .2s ease-in-out .28s both !important;} #pdx-intro .pi-id{animation:piPop .18s cubic-bezier(.2,1.5,.4,1) .5s both !important;} img[src^="pokemedex-badge"]{border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #fff,0 0 0 6px #2fb4ff,0 6px 18px -6px rgba(0,0,0,0.6);background:#fff;}</style>
 </head>
 <body>
 
 <!-- ═══ BOOT-UP INTRO: the PokeMe-Dex device powers on, then opens into the page ═══ -->
 <style id="pdx-intro-css">
   #pdx-intro{position:fixed;inset:0;z-index:2147483600;display:grid;place-items:center;overflow:hidden;cursor:pointer;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
-  #pdx-intro .pi-half{position:absolute;left:0;right:0;height:50.5%;background:radial-gradient(120% 100% at 50% 100%,#e8323f 0%,#b5122a 55%,#6e0817 100%);transition:transform .55s cubic-bezier(.7,0,.3,1);}
+  #pdx-intro .pi-half{position:absolute;left:0;right:0;height:50.5%;background:radial-gradient(120% 100% at 50% 100%,#e8323f 0%,#b5122a 55%,#6e0817 100%);transition:transform .4s cubic-bezier(.7,0,.3,1);}
   #pdx-intro .pi-top{top:0;border-bottom:4px solid #1a1a1a;}
   #pdx-intro .pi-bot{bottom:0;background:radial-gradient(120% 100% at 50% 0%,#e8323f 0%,#b5122a 55%,#6e0817 100%);border-top:4px solid #1a1a1a;}
-  #pdx-intro .pi-dev{position:relative;z-index:2;width:min(300px,78vw);padding:16px;border-radius:24px 24px 24px 56px;background:linear-gradient(160deg,#ef3b46,#b5122a);border:3px solid #1a1a1a;box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),inset 0 -6px 0 rgba(0,0,0,0.18),0 30px 70px -20px rgba(0,0,0,0.7);animation:piIn .5s cubic-bezier(.2,1.4,.4,1) both;transition:transform .5s cubic-bezier(.6,0,.4,1),opacity .4s ease;}
+  #pdx-intro .pi-dev{position:relative;z-index:2;width:min(300px,78vw);padding:16px;border-radius:24px 24px 24px 56px;background:linear-gradient(160deg,#ef3b46,#b5122a);border:3px solid #1a1a1a;box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),inset 0 -6px 0 rgba(0,0,0,0.18),0 30px 70px -20px rgba(0,0,0,0.7);animation:piIn .3s cubic-bezier(.2,1.4,.4,1) both;transition:transform .5s cubic-bezier(.6,0,.4,1),opacity .4s ease;}
   #pdx-intro .pi-top-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-  #pdx-intro .pi-lens{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6f1ff 0 12%,#2fa4ff 42%,#0b5fb0 100%);border:4px solid #fff;box-shadow:0 0 0 3px #1a1a1a;margin-right:6px;animation:piLens .9s ease .35s both;}
+  #pdx-intro .pi-lens{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6f1ff 0 12%,#2fa4ff 42%,#0b5fb0 100%);border:4px solid #fff;box-shadow:0 0 0 3px #1a1a1a;margin-right:6px;animation:piLens .5s ease .15s both;}
   #pdx-intro .pi-led{width:12px;height:12px;border-radius:50%;border:2px solid #1a1a1a;background:#5a1a1a;}
-  #pdx-intro .pi-led.r{animation:piLedR .25s ease .55s both;} #pdx-intro .pi-led.y{animation:piLedY .25s ease .7s both;} #pdx-intro .pi-led.g{animation:piLedG .25s ease .85s both;}
+  #pdx-intro .pi-led.r{animation:piLedR .15s ease .25s both;} #pdx-intro .pi-led.y{animation:piLedY .15s ease .32s both;} #pdx-intro .pi-led.g{animation:piLedG .15s ease .39s both;}
   #pdx-intro .pi-screen{position:relative;overflow:hidden;display:grid;min-height:150px;padding:14px;border-radius:12px;background:#0f1a2b;border:6px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;color:#fff;}
-  #pdx-intro .pi-screen::after{content:'';position:absolute;left:0;right:0;top:-40%;height:40%;background:linear-gradient(180deg,transparent,rgba(124,255,155,0.12),transparent);animation:piScan 1.2s linear .9s 2;}
-  #pdx-intro .pi-boot{grid-area:1 / 1;display:flex;flex-direction:column;justify-content:center;gap:10px;animation:piOut .2s ease 1.85s both;}
-  #pdx-intro .pi-title{font:900 22px/1 'Inter',sans-serif;letter-spacing:0.04em;white-space:nowrap;overflow:hidden;width:0;border-right:2px solid #7CFF9B;animation:piType .5s steps(10) .9s both,piCaret .5s step-end 1.4s 3;}
-  #pdx-intro .pi-sub{font:700 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#7CFF9B;opacity:0;animation:piFade .2s ease 1.2s both;}
+  #pdx-intro .pi-screen::after{content:'';position:absolute;left:0;right:0;top:-40%;height:40%;background:linear-gradient(180deg,transparent,rgba(124,255,155,0.12),transparent);animation:piScan .6s linear .45s 1;}
+  #pdx-intro .pi-boot{grid-area:1 / 1;display:flex;flex-direction:column;justify-content:center;gap:10px;animation:piOut .15s ease .95s both;}
+  #pdx-intro .pi-title{font:900 22px/1 'Inter',sans-serif;letter-spacing:0.04em;white-space:nowrap;overflow:hidden;width:0;border-right:2px solid #7CFF9B;animation:piType .3s steps(10) .45s both,piCaret .3s step-end .75s 2;}
+  #pdx-intro .pi-sub{font:700 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#7CFF9B;opacity:0;animation:piFade .15s ease .6s both;}
   #pdx-intro .pi-bar{height:8px;border-radius:99px;background:rgba(255,255,255,0.12);overflow:hidden;}
-  #pdx-intro .pi-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#7CFF9B,#2fb4ff);animation:piBar .6s ease-in-out 1.2s both;}
-  #pdx-intro .pi-id{grid-area:1 / 1;display:flex;align-items:center;gap:12px;opacity:0;animation:piPop .35s cubic-bezier(.2,1.5,.4,1) 1.95s both;}
+  #pdx-intro .pi-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#7CFF9B,#2fb4ff);animation:piBar .35s ease-in-out .6s both;}
+  #pdx-intro .pi-id{grid-area:1 / 1;display:flex;align-items:center;gap:12px;opacity:0;animation:piPop .25s cubic-bezier(.2,1.5,.4,1) 1s both;}
   #pdx-intro .pi-id img{width:76px;height:76px;border-radius:50%;background:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(124,255,155,0.5),0 0 22px rgba(124,255,155,0.5);}
   #pdx-intro .pi-id small{display:block;font:800 11px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#7CFF9B;}
   #pdx-intro .pi-id b{display:block;margin:6px 0 4px;font:900 19px/1.1 'Inter',sans-serif;}
@@ -994,7 +995,7 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
     <div class="pi-top-row"><span class="pi-lens"></span><span class="pi-led r"></span><span class="pi-led y"></span><span class="pi-led g"></span></div>
     <div class="pi-screen">
       <div class="pi-boot"><div class="pi-title">POKEME-DEX</div><div class="pi-sub">Booting dose tracker…</div><div class="pi-bar"><i></i></div></div>
-      <div class="pi-id"><img src="pokemedex-icon-192.png?v=2" alt="" width="76" height="76"><div><small>Researcher detected ✓</small><b id="pi-name">Welcome!</b><span id="pi-msg">Let's set you up.</span></div></div>
+      <div class="pi-id"><img src="pokemedex-badge-256.webp?v=1" alt="" width="76" height="76"><div><small>Researcher detected ✓</small><b id="pi-name">Welcome!</b><span id="pi-msg">Let's set you up.</span></div></div>
     </div>
     <div class="pi-pad"><span class="pi-dpad"></span><span class="pi-ab"><i></i><i></i></span></div>
   </div>
@@ -1020,9 +1021,9 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
   function finish(){
     if (done) return; done = true;
     el.classList.add('open');
-    setTimeout(function(){ el.remove(); }, 650);
+    setTimeout(function(){ el.remove(); }, 260);
   }
-  var t = force ? null : setTimeout(finish, 2700);
+  var t = force ? null : setTimeout(finish, 760);
   el.addEventListener('click', function(){ clearTimeout(t); finish(); });
   document.addEventListener('keydown', function k(e){ if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') { clearTimeout(t); finish(); document.removeEventListener('keydown', k); } });
 })();
@@ -1145,7 +1146,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <div class="pdx-device" aria-label="Your PokeMe-Dex at a glance">
       <div class="pdx-top"><span class="pdx-lens"></span><span class="pdx-led r"></span><span class="pdx-led y"></span><span class="pdx-led g"></span></div>
       <div class="pdx-screen">
-        <img src="pokemedex-icon-192.png?v=2" alt="Glowrilla the Researcher, the PokeMe-Dex mascot" width="96" height="96">
+        <img src="pokemedex-badge-256.webp?v=1" alt="Glowrilla the Researcher, the PokeMe-Dex mascot" width="96" height="96">
         <div class="pdx-entry"><small>No. 001 · Researcher</small><b>Glowrilla</b><span>Type: Dose tracker</span></div>
       </div>
       <div class="pdx-stats">
@@ -2815,7 +2816,7 @@ function pmdBuyList(){
     + '.disc{margin-top:22px;padding:12px 14px;border-radius:10px;background:#fff7d6;border:2px solid #1a1a1a;border-left:6px solid #ffcc00;color:#5c4a00;font-size:12px}footer{margin-top:14px;text-align:center;color:#6b6256;font-size:11.5px}'
     + '@media print{body{padding:0}}@media(max-width:640px){body{padding:14px}.kpis{grid-template-columns:1fr}table{font-size:12px}}'
     + '</style></head><body>'
-    + '<header><img src="' + location.origin + '/pokemedex-icon-192.png?v=2" alt="PokeMe-Dex"><div><h1>PokeMe-Dex · My Plan</h1><p>Verify · Proof · Notate · Data · printed ' + dateLong + '</p></div></header>'
+    + '<header><img src="' + location.origin + '/pokemedex-badge-256.webp?v=1" alt="PokeMe-Dex"><div><h1>PokeMe-Dex · My Plan</h1><p>Verify · Proof · Notate · Data · printed ' + dateLong + '</p></div></header>'
     + '<div class="kpis"><div><b>' + protos.length + '</b><span>Active protocols</span></div><div><b>' + protos.filter(isDoseDueToday).length + '</b><span>Doses due today</span></div><div><b>' + pmdEsc(sug) + '</b><span>Next injection site</span></div></div>'
     + '<h2>My protocols</h2><table><tr><th>Peptide</th><th>Dose</th><th>Draw (U-100 syringe)</th><th>How often</th><th>When</th><th>Dates</th></tr>' + rows + '</table>'
     + '<p class="note">Units assume a U-100 insulin syringe (100 units = 1 mL). Double-check every draw with your own math.</p>'
@@ -4170,7 +4171,7 @@ function showTab(name){
 (function(){
   var dev = document.querySelector('header.pmx .pdx-device'); if (!dev) return;
   var scr = dev.querySelector('.pdx-screen'), lens = dev.querySelector('.pdx-lens'), pad = dev.querySelector('.pdx-pad');
-  dev.insertAdjacentHTML('afterbegin', '<span class="pdx-holo" aria-hidden="true"><img src="pokemedex-icon-192.png?v=2" alt=""></span>');
+  dev.insertAdjacentHTML('afterbegin', '<span class="pdx-holo" aria-hidden="true"><img src="pokemedex-badge-256.webp?v=1" alt=""></span>');
   var idle = scr.innerHTML, idx = 0, timer = null;
   function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function hhmm(t){ if (!t) return ''; var q = t.split(':'), h = +q[0]; return ((h % 12) || 12) + ':' + q[1] + (h < 12 ? 'AM' : 'PM'); }
@@ -4204,7 +4205,7 @@ function showTab(name){
     var mcls = !st ? '' : (st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : ''));
     var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (mcls === 'low' ? ' LOW' : ''));
     scr.className = 'pdx-screen lcd';
-    scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-icon-192.png?v=2" alt=""></span><div class="lcd-body">'
+    scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-badge-256.webp?v=1" alt=""></span><div class="lcd-body">'
       + '<div class="lcd-row"><span>No. ' + String(idx + 1).padStart(3, '0') + ' / ' + String(list.length).padStart(3, '0') + '</span><span>' + (oral ? '💊 PILL' : '💉 INJ') + '</span></div>'
       + '<div class="lcd-name">' + esc(p.name.toUpperCase()) + '</div>'
       + '<div class="lcd-line">' + p.dose + ' MG · ' + amt + '</div>'
