@@ -4292,6 +4292,8 @@ function showTab(name){
         + '<div class="dx-meta"><b>' + p.dose + ' mg</b> · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '×/day' : '') + ' · ' + when + (oral ? ' · ' + pmdPillTxt(p) : ' · <b>' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units</b>') + '</div>'
         + '<div class="dx-prog"><div><span>Day ' + day + ' of ' + p.durationDays + '</span><span>' + daysRemaining(p) + ' left</span></div><i><u style="width:' + pct + '%"></u></i></div>'
         + '<div class="dx-stock ' + cls + '"><span>' + stockTxt + mixedTxt + '</span><span class="dx-spare">Spare <button type="button" aria-label="One less spare" onclick="pmdSpare(\'' + p.id + '\',-1)">−</button>' + (p.spare || 0) + '<button type="button" aria-label="One more spare" onclick="pmdSpare(\'' + p.id + '\',1)">+</button></span></div>'
+        + (window.pmdCycleClock ? pmdCycleClock(p) : '')
+        + (window.pmdVialClock ? pmdVialClock(p, st, life) : '')
         + warns.map(function(w){ return '<div class="dx-warn">' + w + '</div>'; }).join('') + cycTxt
         + '<div class="dx-acts">'
         + (due ? (done ? '<button type="button" class="done" onclick="toggleDoseDone(\'' + p.id + '\')">✓ Done today</button>' : '<button type="button" class="pri" onclick="toggleDoseDone(\'' + p.id + '\')">Log dose</button>') : '')
@@ -4586,7 +4588,9 @@ function showTab(name){
     for (var i = 0; i < 8; i++) blocks += '<b class="' + (i < on ? 'on' : '') + '"></b>';
     var mcls = !st ? '' : (st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : ''));
     var lf = st && window.pmdVialLife ? pmdVialLife(p, st) : null;
-    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (lf ? ' · ' + lf.days + 'D' : '') + (mcls === 'low' ? ' LOW' : ''));
+    var nv = st && window.pmdVialNext ? pmdVialNext(p, st, lf) : null;
+    if (nv && !nv.unmixed && nv.days <= 7 && !mcls) mcls = 'low';
+    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (nv && !nv.unmixed ? (nv.days <= 0 ? ' · NEW VIAL NOW' : ' · NEW IN ' + nv.days + 'D') : (lf ? ' · ' + lf.days + 'D' : '')));
     scr.className = 'pdx-screen lcd';
     scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-badge-256.webp?v=1" alt=""></span><div class="lcd-body">'
       + '<div class="lcd-row"><span>No. ' + String(idx + 1).padStart(3, '0') + ' / ' + String(list.length).padStart(3, '0') + '</span><span>' + (oral ? '💊 PILL' : '💉 INJ') + '</span></div>'
@@ -5266,6 +5270,85 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   var base = window.renderInjSites;
   window.renderInjSites = function(){ base.apply(this, arguments); render(); };
   render();
+})();
+</script>
+<style id="pdx-vialclock-css">
+  /* the 6-week vial countdown on every Dex card */
+  html body #pdx-app .vc{margin-top:8px;padding:10px 12px;border-radius:12px;background:radial-gradient(120% 140% at 50% 0%,#12302a,#07160f 75%);box-shadow:inset 0 0 0 1px rgba(141,255,174,0.25),0 0 0 2px #1a1a1a;color:#b9ffcc;font:400 13.5px/1.4 'Share Tech Mono',ui-monospace,monospace;}
+  html body #pdx-app .vc-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  html body #pdx-app .vc-top b{font:400 16px/1.2 'Share Tech Mono',ui-monospace,monospace;color:#d8ffe2;text-shadow:0 0 6px rgba(124,255,155,0.55);}
+  html body #pdx-app .vc-top span{color:#8dffae;font-size:12px;letter-spacing:0.08em;white-space:nowrap;}
+  html body #pdx-app .vc-bar{position:relative;height:8px;margin:8px 0 6px;border-radius:6px;background:rgba(141,255,174,0.14);overflow:hidden;}
+  html body #pdx-app .vc-bar u{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:#8dffae;box-shadow:0 0 8px rgba(124,255,155,0.7);}
+  html body #pdx-app .vc-sub{font-size:12.5px;color:#9fe8b4;}
+  html body #pdx-app .vc.soon{box-shadow:inset 0 0 0 1px rgba(255,243,107,0.45),0 0 0 2px #1a1a1a;}
+  html body #pdx-app .vc.soon .vc-top b{color:#fff36b;text-shadow:0 0 6px rgba(255,243,107,0.6);} html body #pdx-app .vc.soon .vc-bar u{background:#fff36b;}
+  html body #pdx-app .vc.over{box-shadow:inset 0 0 0 1px rgba(255,122,122,0.55),0 0 0 2px #1a1a1a;}
+  html body #pdx-app .vc.over .vc-top b{color:#ff9b9b;text-shadow:0 0 6px rgba(255,122,122,0.6);} html body #pdx-app .vc.over .vc-bar u{background:#ff7a7a;}
+</style>
+<script>
+(function(){
+  function ymdOf(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function nice(ds){ return new Date(ds + 'T00:00:00').toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' }); }
+  function ago(ds){ return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  // how many days until a new vial is needed: the 6-week (42-day) limit after mixing, or running out, whichever comes first
+  window.pmdVialNext = function(p, st, life){
+    if (pmdOral(p)) return null;
+    var mixed = p.mixed || '';
+    if (!mixed) return { unmixed:true };
+    var a = Math.max(0, ago(mixed)), lim = new Date(mixed + 'T00:00:00'); lim.setDate(lim.getDate() + 42);
+    var ageLeft = 42 - a, out = life && st && st.left > 0 ? life.days : null;
+    var useOut = out != null && out < ageLeft;
+    var days = useOut ? out : ageLeft, date = useOut ? life.date : ymdOf(lim);
+    return { age:a, ageLeft:ageLeft, days:days, date:date, why: useOut ? 'runs out' : '6-week limit', limit:ymdOf(lim) };
+  };
+  window.pmdVialClock = function(p, st, life){
+    var v = pmdVialNext(p, st, life); if (!v) return '';
+    if (v.unmixed) return '<div class="vc"><div class="vc-top"><b>🧪 Not mixed yet</b><span>6-WEEK CLOCK</span></div><div class="vc-sub">The 6-week clock starts the day you mix this vial. Tap <b>Edit</b> to add the mix date.</div></div>';
+    var cls = v.days <= 0 ? 'over' : (v.days <= 7 ? 'soon' : ''), pct = Math.min(100, Math.round(v.age / 42 * 100));
+    var head = v.days <= 0 ? '⚠ New vial needed now' : '🧪 New vial in ' + v.days + ' day' + (v.days === 1 ? '' : 's');
+    var sub = v.days <= 0
+      ? (v.why === 'runs out' ? 'This vial is used up.' : 'This vial is over 6 weeks old (mixed ' + v.age + ' days ago).') + ' Mix a new one before your next dose.'
+      : 'By ' + nice(v.date) + (v.why === 'runs out' ? ', when this vial runs out (before its 6-week limit on ' + nice(v.limit) + ').' : ', when this vial reaches 6 weeks since mixing.');
+    return '<div class="vc ' + cls + '"><div class="vc-top"><b>' + head + '</b><span>DAY ' + v.age + ' / 42</span></div><div class="vc-bar"><u style="width:' + pct + '%"></u></div><div class="vc-sub">' + sub + '</div></div>';
+  };
+  if (typeof renderDashboard === 'function') renderDashboard();
+})();
+</script>
+<style id="pdx-cycleclock-css">
+  html body #pdx-app .dx-prog{display:none;} /* replaced by the cycle countdown */
+  html body #pdx-app .vc.cy .vc-bar u{background:#7fc8ff;box-shadow:0 0 8px rgba(127,200,255,0.7);}
+  html body #pdx-app .vc.cy .vc-top b{color:#d8f0ff;text-shadow:0 0 6px rgba(127,200,255,0.55);}
+  html body #pdx-app .vc.cy .vc-top span{color:#9fd4ff;}
+  html body #pdx-app .vc.cy .vc-sub{color:#b5ddff;}
+  html body #pdx-app .vc.cy.done .vc-bar u{background:#8dffae;}
+</style>
+<script>
+(function(){
+  function ymdOf(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function nice(ds){ return new Date(ds + 'T00:00:00').toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' }); }
+  function diff(a, b){ return Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000); }
+  // countdown for the whole cycle / course of this protocol
+  window.pmdCycleClock = function(p){
+    var start = p.startDateTime.split('T')[0], total = p.durationDays, t = todayStr();
+    var end = new Date(start + 'T00:00:00'); end.setDate(end.getDate() + total - 1); var endS = ymdOf(end);
+    var wk = Math.round(total / 7), weeks = wk + ' week' + (wk === 1 ? '' : 's');
+    var head, sub, top, pct, cls = 'vc cy';
+    if (t < start) {
+      var n = diff(t, start);
+      head = '📅 Cycle starts in ' + n + ' day' + (n === 1 ? '' : 's'); top = weeks.toUpperCase(); pct = 0;
+      sub = 'Starts ' + nice(start) + ', runs ' + weeks + ' to ' + nice(endS) + '.';
+    } else if (t > endS) {
+      head = '✅ Cycle complete'; top = weeks.toUpperCase(); pct = 100; cls += ' done';
+      sub = 'Finished ' + nice(endS) + '. Edit it to start a new cycle, or delete it.';
+    } else {
+      var day = diff(start, t) + 1, left = total - day + 1;
+      head = '📅 ' + left + ' day' + (left === 1 ? '' : 's') + ' left in this cycle'; top = 'DAY ' + day + ' / ' + total; pct = Math.round(day / total * 100);
+      sub = 'Ends ' + nice(endS) + ' (' + weeks + ' total' + (left > 7 ? ', about ' + Math.round(left / 7) + ' week' + (Math.round(left / 7) === 1 ? '' : 's') + ' to go' : '') + ').';
+    }
+    return '<div class="' + cls + '"><div class="vc-top"><b>' + head + '</b><span>' + top + '</span></div><div class="vc-bar"><u style="width:' + pct + '%"></u></div><div class="vc-sub">' + sub + '</div></div>';
+  };
+  if (typeof renderDashboard === 'function') renderDashboard();
 })();
 </script>
 </body>
