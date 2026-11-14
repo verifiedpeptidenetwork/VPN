@@ -4165,7 +4165,8 @@ function showTab(name){
   function drawGuide(g){
     var box = document.getElementById('pa-guide'); if (!box) return;
     guideFor = g; var s = SITE_INFO[g];
-    box.innerHTML = '<div class="pg-chips" role="tablist" aria-label="Injection site guides">' + Object.keys(SITE_INFO).map(function(k){ return '<button type="button" role="tab" aria-selected="' + (k === g) + '" data-g="' + k + '"' + (k === g ? ' class="on"' : '') + '>' + SITE_INFO[k].ic + ' ' + SITE_INFO[k].t.split(' (')[0].split(' / ')[0] + '</button>'; }).join('') + '</div>'
+    box.innerHTML = '<label class="pg-sel"><span>📖 Site guide</span><select aria-label="Choose a site guide">' + Object.keys(SITE_INFO).map(function(k){ return '<option value="' + k + '"' + (k === g ? ' selected' : '') + '>' + SITE_INFO[k].ic + ' ' + SITE_INFO[k].t.split(' (')[0].split(' / ')[0] + '</option>'; }).join('') + '</select></label>'
+      + '<div class="pg-chips" role="tablist" aria-label="Injection site guides">' + Object.keys(SITE_INFO).map(function(k){ return '<button type="button" role="tab" aria-selected="' + (k === g) + '" data-g="' + k + '"' + (k === g ? ' class="on"' : '') + '>' + SITE_INFO[k].ic + ' ' + SITE_INFO[k].t.split(' (')[0].split(' / ')[0] + '</button>'; }).join('') + '</div>'
       + '<div class="pg-body"><h3>' + s.ic + ' ' + s.t + '</h3><p class="pg-kind">' + s.kind + '</p>'
       + '<div class="pg-cols"><div><h4>How to find it</h4><ol>' + s.find.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ol></div>'
       + '<div><h4>How to rotate</h4><ul>' + s.rotate.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div></div>'
@@ -4192,6 +4193,7 @@ function showTab(name){
     host.addEventListener('click', hide);
     window.addEventListener('scroll', hide, { passive:true });
     guide.addEventListener('click', function(e){ var b = e.target.closest('[data-g]'); if (b) drawGuide(b.getAttribute('data-g')); });
+    guide.addEventListener('change', function(e){ if (e.target.closest('.pg-sel select')) drawGuide(e.target.value); });
     drawGuide(siteGroup(suggestedZone() || 'BUL'));
   })();
 
@@ -4580,7 +4582,7 @@ function showTab(name){
   // real controls: D-pad (◀▲ previous, ▶▼ next), SETTINGS, B = log a dose, A = open in My Dex
   pad.innerHTML = '<div class="pdc-dpad" role="group" aria-label="Browse your peptides"><button type="button" class="u dp-l" aria-label="Previous peptide"></button><button type="button" class="l dp-l" aria-label="Previous peptide"></button><span class="c" aria-hidden="true"></span><button type="button" class="r dp-r" aria-label="Next peptide"></button><button type="button" class="d dp-r" aria-label="Next peptide"></button></div>'
     + '<button type="button" class="pdc-set" aria-label="Settings and more"><span class="ic" aria-hidden="true">⚙</span><span class="tx">SETTINGS</span></button>'
-    + '<div class="pdc-ab"><button type="button" class="pdc-b ab-b" aria-label="Log a dose for this peptide"><b>B</b><small>LOG</small></button><button type="button" class="pdc-a ab-a" aria-label="Open this peptide in My Dex"><b>A</b><small>OPEN</small></button></div>';
+    + '<div class="pdc-ab"><button type="button" class="pdc-b ab-b" aria-label="Log a dose for this peptide"><b>B</b><small>LOG<br>DOSE</small></button><button type="button" class="pdc-a ab-a" aria-label="Open this peptide in My Dex"><b>A</b><small>MY<br>DEX</small></button></div>';
   function blink(){ lens.classList.remove('blink'); void lens.offsetWidth; lens.classList.add('blink'); }
   function draw(){
     var list = (typeof ACTIVE_PROTOCOLS !== 'undefined' && ACTIVE_PROTOCOLS) || [];
@@ -5275,13 +5277,18 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   function render(){
     var box = document.getElementById('ps-list'); if (!box) return;
     var next = suggestedZone();
+    var phone = window.matchMedia && matchMedia('(max-width:600px)').matches;
     box.innerHTML = GROUPS.map(function(g){
-      return '<div class="ps-grp"><div class="ps-grp-h"><span>' + g[0] + '</span>' + g[1] + '<small>' + (g[3] === 'back' ? 'Back view' : 'Front view') + '</small></div><div class="ps-row">' + g[2].map(function(c){
+      var hasNext = g[2].indexOf(next) !== -1;
+      var head = phone
+        ? '<details class="ps-grp ps-acc"' + (hasNext ? ' open' : '') + ' data-px-skip><summary class="ps-grp-h"><span>' + g[0] + '</span>' + g[1] + '<small>' + (hasNext ? '⭐ Best next' : g[2].length + ' spots') + '</small><i class="ps-chev" aria-hidden="true"></i></summary><div class="ps-row">'
+        : '<div class="ps-grp"><div class="ps-grp-h"><span>' + g[0] + '</span>' + g[1] + '<small>' + (g[3] === 'back' ? 'Back view' : 'Front view') + '</small></div><div class="ps-row">';
+      return head + g[2].map(function(c){
         var last = lastUsedDateForZone(c), n = last ? days(last) : null;
         var cls = c === next ? 'g' : (last == null ? '' : (n <= 3 ? 'r' : (n <= 7 ? 'a' : '')));
         var st = c === next ? '⭐ Best next spot' : (last == null ? 'Not used yet' : (n === 0 ? 'Used today' : n === 1 ? 'Yesterday' : n + ' days ago'));
         return '<button type="button" class="ps-spot ' + cls + '" data-z="' + c + '" data-side="' + g[3] + '" aria-label="' + esc(full(c) + ', ' + st + '. Log a dose here.') + '"><i></i><span><b>' + esc(lbl(c)) + '</b><small>' + st + '</small></span></button>';
-      }).join('') + '</div></div>';
+      }).join('') + '</div>' + (phone ? '</details>' : '</div>');
     }).join('');
   }
   function hl(c, on){ var g = document.querySelector('#pa-body .pz[data-z="' + c + '"]'); if (g) g.classList.toggle('hl', on); }
@@ -5540,11 +5547,11 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
 </script>
 <style id="pdx-ab2-css">
   /* A / B: clean console buttons, labels printed on the device body underneath */
-  html body header.pmx .pdx-pad .pdc-ab{transform:none;gap:14px;align-items:flex-start;padding-bottom:16px;}
+  html body header.pmx .pdx-pad .pdc-ab{transform:none;gap:14px;align-items:flex-start;padding-bottom:26px;}
   html body header.pmx .pdx-pad .pdc-ab button{position:relative !important;width:46px;height:46px;background:radial-gradient(circle at 34% 28%,#4b4b4f 0%,#202023 55%,#111113 100%) !important;box-shadow:0 3px 0 #050505,0 5px 10px -4px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.16) !important;}
   html body header.pmx .pdx-pad .pdc-ab button.pdc-b{margin-top:16px;}
   html body header.pmx .pdx-pad .pdc-ab b{font:700 15px/1 'Inter',system-ui,sans-serif;color:#d9d9de;letter-spacing:0;text-shadow:0 1px 0 rgba(0,0,0,0.6);}
-  html body header.pmx .pdx-pad .pdc-ab small{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);font:800 9px/1 'Inter',sans-serif;letter-spacing:0.16em;color:rgba(40,0,6,0.62);text-shadow:0 1px 0 rgba(255,255,255,0.12);white-space:nowrap;pointer-events:none;}
+  html body header.pmx .pdx-pad .pdc-ab small{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);font:800 9px/1.15 'Inter',sans-serif !important;letter-spacing:0.1em;color:rgba(40,0,6,0.62) !important;text-shadow:0 1px 0 rgba(255,255,255,0.12);white-space:nowrap;text-align:center;pointer-events:none;}
   html body header.pmx .pdx-pad .pdc-ab button:hover{background:radial-gradient(circle at 34% 28%,#58585d 0%,#26262a 55%,#141416 100%) !important;}
   html body header.pmx .pdx-pad .pdc-ab button:active{transform:translateY(2px);box-shadow:0 1px 0 #050505,inset 0 1px 0 rgba(255,255,255,0.1) !important;}
   html body header.pmx .pdx-pad button:focus{outline:none !important;}
@@ -5559,5 +5566,33 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     html body header.pmx .pdx-pad .pdc-ab button.pdc-b{margin-top:14px;}
   }
 </style>
+<style id="pdx-psacc-css">
+  html body #pdx-app .pg-sel{display:none;}
+  @media(max-width:600px){
+    /* site guide: one dropdown instead of a row of chips */
+    html body #pdx-app .pg-chips{display:none !important;}
+    html body #pdx-app .pg-sel{display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #ece5d8;background:#f7f2e9;}
+    html body #pdx-app .pg-sel span{flex:0 0 auto;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.05em;color:#6b6356;}
+    html body #pdx-app .pg-sel select{flex:1 1 auto;min-width:0;height:44px;padding:0 36px 0 12px;border-radius:12px;border:2px solid #1a1626;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a1626' stroke-width='2.4' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;font:800 15px/1 'Inter',sans-serif;color:#1a1626;-webkit-appearance:none;appearance:none;}
+    /* all spots: each body area is a dropdown, the one with your best next spot opens first */
+    html body #pdx-app .ps-acc{margin-bottom:8px;border:1.5px solid #ece5d8;border-radius:14px;background:#fff;overflow:hidden;}
+    html body #pdx-app .ps-acc > summary{list-style:none;display:flex;align-items:center;gap:8px;margin:0;padding:13px 14px;cursor:pointer;}
+    html body #pdx-app .ps-acc > summary::-webkit-details-marker{display:none;}
+    html body #pdx-app .ps-acc > summary small{margin-left:auto;font-size:12px;}
+    html body #pdx-app .ps-acc[open] > summary{border-bottom:1px solid #f0ebe1;}
+    html body #pdx-app .ps-acc .ps-chev{flex:0 0 auto;width:8px;height:8px;border-right:2.5px solid #1a1626;border-bottom:2.5px solid #1a1626;transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s;}
+    html body #pdx-app .ps-acc[open] .ps-chev{transform:rotate(225deg) translate(-2px,-2px);}
+    html body #pdx-app .ps-acc .ps-row{padding:8px;}
+    html body #pdx-app .ps-acc:has(.ps-spot.g){border-color:#2e9e3f;}
+  }
+</style>
+<script>
+(function(){ // re-draw the spot list when switching between phone and wide layouts
+  if (!window.matchMedia) return;
+  var mq = matchMedia('(max-width:600px)');
+  function redo(){ if (window.renderInjSites) renderInjSites(); }
+  if (mq.addEventListener) mq.addEventListener('change', redo); else mq.addListener(redo);
+})();
+</script>
 </body>
 </html>

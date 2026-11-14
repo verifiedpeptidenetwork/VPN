@@ -36,10 +36,28 @@
   .dx-search input{width:100%;height:54px;border-radius:16px;border:3px solid #1a1a1a;background:#fff;padding:0 16px 0 46px;font:700 16px/1 'Inter',sans-serif;color:var(--ink);box-shadow:0 6px 0 rgba(0,0,0,0.18);}
   .dx-search input:focus{outline:none;border-color:#ffcb05;}
   .dx-search::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;}
-  .dx-types{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none;}
-  .dx-types::-webkit-scrollbar{display:none;}
-  .dx-types button{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border-radius:99px;border:2px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.18);color:#fff;font:800 13px/1 'Inter',sans-serif;cursor:pointer;}
-  .dx-types button.on{background:#fff;color:var(--ink);border-color:#fff;}
+  .dx-head{overflow-x:clip;overflow-y:visible;z-index:5;}
+  .dx-find{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:10px;align-items:start;margin:14px 0 16px;}
+  .dx-find .dx-search{margin:0;}
+  .dx-types{position:relative;}
+  .dx-types .dd-btn{display:flex;align-items:center;gap:10px;width:100%;height:54px;padding:0 14px;border-radius:16px;border:3px solid #1a1a1a;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,0.18);text-align:left;}
+  .dx-types .dd-btn:focus-visible{outline:none;border-color:#ffcb05;}
+  .dx-types .dd-k{padding:4px 7px;border-radius:6px;background:#07160f;color:#8dffae;font:400 11px/1 'Share Tech Mono',ui-monospace,monospace;letter-spacing:0.1em;}
+  .dx-types .dd-l{flex:1 1 auto;min-width:0;font:800 15px/1.2 'Inter',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dx-types .dd-n{font:800 12px/1 'Inter',sans-serif;color:var(--sub);background:#f1ece3;border-radius:99px;padding:4px 8px;}
+  .dx-types .dd-c{width:9px;height:9px;border-right:3px solid #1a1a1a;border-bottom:3px solid #1a1a1a;transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s;}
+  .dx-types.open .dd-c{transform:rotate(225deg) translate(-2px,-2px);}
+  .dx-types.set .dd-btn{border-color:#ffcb05;}
+  .dx-types .dd-menu{position:absolute;right:0;left:0;top:calc(100% + 10px);z-index:60;max-height:min(62vh,460px);overflow-y:auto;padding:6px;border-radius:16px;border:3px solid #1a1a1a;background:#fffdf8;box-shadow:0 22px 50px -18px rgba(26,22,38,0.6);}
+  .dx-types .dd-menu[hidden]{display:none;}
+  .dx-types .dd-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:none;border-radius:11px;background:transparent;color:var(--ink);font:700 14.5px/1.2 'Inter',sans-serif;cursor:pointer;text-align:left;}
+  .dx-types .dd-menu button:hover,.dx-types .dd-menu button:focus-visible{background:#f4efe6;outline:none;}
+  .dx-types .dd-menu button.on{background:#07160f;color:#d8ffe2;font-family:'Share Tech Mono',ui-monospace,monospace;font-weight:400;}
+  .dx-types .dd-menu button.on em{color:#8dffae;background:rgba(141,255,174,0.14);}
+  .dx-types .dd-dot{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 22%,transparent);flex:0 0 auto;}
+  .dx-types .dd-ot{flex:1 1 auto;}
+  .dx-types .dd-menu em{font-style:normal;font:800 12px/1 'Inter',sans-serif;color:var(--sub);background:#f1ece3;border-radius:99px;padding:4px 8px;}
+  @media(max-width:700px){ .dx-find{grid-template-columns:minmax(0,1fr);} }
   /* ── layout: list + entry ── */
   .dx-main{max-width:1180px;margin:0 auto;padding:18px 16px 60px;display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:18px;align-items:start;}
   .dx-count{font:800 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:var(--sub);margin:0 2px 10px;}
@@ -162,8 +180,10 @@
   <div class="dx-wrap">
     <nav class="dx-nav"><a href="pokeme-dex.html"><img src="pokemedex-icon-192.png?v=2" alt="">‹ PokeMe-Dex tracker</a><a href="https://ruivpndata.com/home.html">VPN Home ↗</a></nav>
     <div class="dx-title"><span class="dx-lens" aria-hidden="true"></span><div><h1>Peptide Dex</h1><p><b id="dx-n">0</b> peptides: what each one is for, explained simply, with doses and the latest studies.</p></div><span class="dx-leds" aria-hidden="true"><i></i><i></i><i></i></span></div>
-    <label class="dx-search"><input id="dx-q" type="search" placeholder="Search a peptide or a goal, e.g. BPC-157, sleep, fat loss" aria-label="Search peptides" autocomplete="off"></label>
-    <div class="dx-types" id="dx-types" role="group" aria-label="Filter by type"></div>
+    <div class="dx-find">
+      <label class="dx-search"><input id="dx-q" type="search" placeholder="Search a peptide or a goal, e.g. BPC-157, sleep, fat loss" aria-label="Search peptides" autocomplete="off"></label>
+      <div class="dx-types" id="dx-types"></div>
+    </div>
   </div>
 </header>
 
@@ -207,8 +227,26 @@
 
   /* ── filters ── */
   var tHost = document.getElementById('dx-types');
-  tHost.innerHTML = '<button type="button" data-t="" class="on">All</button>' + Object.keys(TYPES).map(function(k){ return '<button type="button" data-t="' + k + '">' + TYPES[k].e + ' ' + TYPES[k].t + '</button>'; }).join('');
-  tHost.addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; typeF = b.getAttribute('data-t'); [].forEach.call(tHost.children, function(x){ x.classList.toggle('on', x === b); }); list(); });
+  // type filter as a dropdown (phone and desktop)
+  function tCount(k){ return k ? DATA.filter(function(p){ return p.types.indexOf(k) !== -1; }).length : DATA.length; }
+  function tLabel(k){ return k ? TYPES[k].e + ' ' + TYPES[k].t : '🧬 All types'; }
+  tHost.innerHTML = '<button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Filter by type"><span class="dd-k">TYPE</span><span class="dd-l">' + tLabel('') + '</span><span class="dd-n">' + DATA.length + '</span><i class="dd-c" aria-hidden="true"></i></button>'
+    + '<div class="dd-menu" role="listbox" aria-label="Filter by type" hidden>'
+    + ['' ].concat(Object.keys(TYPES)).map(function(k){ return '<button type="button" role="option" data-t="' + k + '" aria-selected="' + (k === '') + '"' + (k === '' ? ' class="on"' : '') + '><span class="dd-dot" style="--c:' + (k ? TYPES[k].c : '#1a1a1a') + '"></span><span class="dd-ot">' + tLabel(k) + '</span><em>' + tCount(k) + '</em></button>'; }).join('')
+    + '</div>';
+  var ddBtn = tHost.querySelector('.dd-btn'), ddMenu = tHost.querySelector('.dd-menu');
+  function ddOpen(o){ ddMenu.hidden = !o; ddBtn.setAttribute('aria-expanded', o); tHost.classList.toggle('open', o); if (o) { var on = ddMenu.querySelector('.on'); if (on) on.focus(); } }
+  ddBtn.addEventListener('click', function(e){ e.stopPropagation(); ddOpen(ddMenu.hidden); });
+  ddMenu.addEventListener('click', function(e){
+    var b = e.target.closest('[data-t]'); if (!b) return;
+    typeF = b.getAttribute('data-t');
+    [].forEach.call(ddMenu.children, function(x){ var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
+    ddBtn.querySelector('.dd-l').textContent = tLabel(typeF); ddBtn.querySelector('.dd-n').textContent = tCount(typeF);
+    tHost.classList.toggle('set', !!typeF);
+    ddOpen(false); ddBtn.focus(); list();
+  });
+  document.addEventListener('click', function(e){ if (!ddMenu.hidden && !tHost.contains(e.target)) ddOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !ddMenu.hidden) { ddOpen(false); ddBtn.focus(); } });
   document.getElementById('dx-q').addEventListener('input', function(){ q = this.value.trim().toLowerCase(); list(); });
 
   function matches(p){
