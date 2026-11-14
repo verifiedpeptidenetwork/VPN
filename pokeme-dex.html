@@ -4036,7 +4036,7 @@ function showTab(name){
   function mirror(half){ return half.concat(half.slice(0, -1).reverse().map(function(p){ return [100 - p[0], p[1]]; })); }
   var SHAPE = { // m = Researcher Glowrilla (gorilla), f = Researcher Wrex (T-rex). Half outline, mirrored; legs separate below the hips
     m:{ body:[[50,24],[55,25],[61,26.5],[68,29],[73,33],[75,39],[74,47],[71.5,55],[69,63],[68,72],[68.5,82],[69,92],[68,101],[66,110],[66,120],[66.5,130],[66,140],[64,148],[58,149],[54,147],[52.5,138],[52,126],[51.5,116],[50,110]],
-        arm:[[66,28],[72,29.5],[77,33],[80,39],[81.5,47],[82,56],[82.5,66],[83.5,78],[84.5,90],[85,100],[85.5,110],[85,118],[83,122],[80,122],[78.5,118],[78.5,110],[78,100],[77,90],[75.5,80],[74,70],[72.5,60],[71,50],[69.5,42],[66,28]] },
+        arm:[[66,28],[72,29.5],[77,33],[80,39],[81.5,47],[82,56],[82.6,64],[84.4,74],[85.8,86],[86.3,98],[86.1,108],[85.6,116],[84.6,121],[81.6,123],[78.4,122],[77.2,117],[77,108],[76.4,98],[75.2,86],[73.6,74],[72.6,64],[71.2,55],[70,47],[68.6,40],[66,28]] },
     f:{ body:[[50,26],[55,26.5],[60,28.5],[64,31.5],[67,35.5],[69,42],[70,50],[70.5,60],[70.5,70],[70.2,80],[69.8,90],[69.2,100],[68.5,110],[68,120],[67.5,130],[67,140],[66.5,149],[60,150],[54,149],[52.5,138],[52,126],[51.5,116],[50,111]],
         arm:[[64,37],[69,37.5],[73.5,40],[76,44],[76.5,49.5],[75.5,54.5],[73.5,57.5],[71.8,56.8],[72.2,53],[72.2,49.5],[70.8,46.8],[67.8,46],[64,45.5]] }
   };
@@ -4050,8 +4050,8 @@ function showTab(name){
   function sex(){ return ls('pmd_body') === 'f' ? 'f' : 'm'; }
   function side(){ return ls('pmd_side') === 'back' ? 'back' : 'front'; }
   var CHAR = {
-    m:{ name:'Researcher Glowrilla', fur:'#1f4fa8', hi:'#4a92f2', edge:'#123270' },
-    f:{ name:'Researcher Wrex', fur:'#4f9a47', hi:'#82c76f', edge:'#2f6a2b' }
+    m:{ name:'Researcher Glowrilla', fur:'#1a347a', hi:'#3a66c8', edge:'#0e1f4d' },
+    f:{ name:'Researcher Wrex', fur:'#3d5a2c', hi:'#6e8c4a', edge:'#1f3318' }
   };
   /* ── lab coats with the VPN logo (open at the front, rolled-up sleeves, cropped at the waist so every spot stays visible) ── */
   var COAT = {
@@ -4059,89 +4059,96 @@ function showTab(name){
         inner:[[64.6,90.5],[64.4,80],[64.2,70],[63.6,58],[61,46],[57.4,35],[53.5,25.4]],
         lapel:'M54,26.4 L61.6,33.4 L59.4,43.4 L57.4,35 Z',
         sleeve:[[67,28.4],[72.4,29.4],[77.4,33],[80.4,39],[82,46.4],[81.4,49],[76,49.6],[71,49],[69.6,42.6],[67.4,34.6]],
-        cuff:'M70.6,46 L82,46.2 L81.4,49.2 L71,49 Z', logo:[66.6,41.5,3.3], pocket:[29.6,46.5,7,5.2], hem:90.5 },
+        cuff:'M70.6,46 L82,46.2 L81.4,49.2 L71,49 Z', logo:[66.6,41.5,3.3], pocket:[29.6,47.5,7,5.2], tag:[26.4,38.2,13,3.6,'GLOWRILLA',1.9], hem:90.5 },
     f:{ outer:[[54,26.6],[60.4,28.4],[64.6,31.2],[67.8,35.2],[70,42],[71,50],[71.5,60],[71.5,70],[71.2,80],[71,90]],
         inner:[[63.8,90],[63.6,80],[63.4,70],[62.6,58],[60,46],[57,35],[54,26.6]],
         lapel:'M54.4,27.4 L61.4,32.4 L59.6,41 L57,35 Z',
         sleeve:[[63.6,36.4],[69,36.8],[73.9,39.4],[75.8,42.8],[73.4,45],[70.6,47.4],[67.6,46.4],[63.6,46]],
-        cuff:'M74.2,40.6 L76.6,43.4 L71.4,48 L69.4,45.8 Z', logo:[66.3,53.5,3], pocket:[30.2,53.5,6.6,5], hem:90 }
+        cuff:'M74.2,40.6 L76.6,43.4 L71.4,48 L69.4,45.8 Z', logo:[66.3,53.5,3], pocket:[30.2,52.5,6.6,5], tag:[29.4,60,7.8,3.4,'WREX',1.9], hem:90 }
   };
   function mx(pts){ return pts.map(function(p){ return [r1(100 - p[0]), p[1]]; }); }
   function mxPath(d){ return d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, function(_, x, y){ return r1(100 - +x) + ',' + y; }); }
   function panel(outer, inner){ return curve(outer) + ' ' + curve(inner).replace(/^M/, 'L') + ' Z'; }
   function logoImg(id, c){ return '<clipPath id="' + id + '"><circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + c[2] + '"/></clipPath><circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (c[2] + 0.45) + '" fill="#0b0b12"/><image href="VPNNEWLOGO-640.webp?v=1" x="' + (c[0] - c[2]) + '" y="' + (c[1] - c[2]) + '" width="' + (c[2] * 2) + '" height="' + (c[2] * 2) + '" clip-path="url(#' + id + ')" preserveAspectRatio="xMidYMid slice"/>'; }
-  function sleeves(sx){ var K = COAT[sx]; return '<path class="ct" d="' + curve(mx(K.sleeve)) + ' Z"/><path class="ct" d="' + curve(K.sleeve) + ' Z"/><path class="cf" d="' + mxPath(K.cuff) + '"/><path class="cf" d="' + K.cuff + '"/>'; }
+  function sleeves(sx){ var K = COAT[sx]; return '<g filter="url(#pdxCloth)"><path class="ct" d="' + curve(mx(K.sleeve)) + ' Z"/><path class="ct" d="' + curve(K.sleeve) + ' Z"/><path class="cf" d="' + mxPath(K.cuff) + '"/><path class="cf" d="' + K.cuff + '"/></g>'; }
   function coatFront(sx){
-    var K = COAT[sx], p = K.pocket;
-    return '<path class="ct" d="' + panel(mx(K.outer), mx(K.inner)) + '"/><path class="ct" d="' + panel(K.outer, K.inner) + '"/>'
-      + '<path class="lp" d="' + mxPath(K.lapel) + '"/><path class="lp" d="' + K.lapel + '"/>'
-      + '<rect x="' + (p[0] + 1.6) + '" y="' + (p[1] - 2.6) + '" width="0.9" height="3.4" rx="0.4" fill="#d7261e"/><rect x="' + (p[0] + 3.2) + '" y="' + (p[1] - 2.2) + '" width="0.9" height="3" rx="0.4" fill="#2f6fe0"/>'
+    var K = COAT[sx], p = K.pocket, t = K.tag;
+    return '<ellipse cx="50" cy="' + (K.hem + 1.6) + '" rx="20" ry="2.4" fill="#000" opacity="0.28" filter="url(#pdxSoft)"/>' // shadow under the hem
+      + '<g filter="url(#pdxCloth)"><path class="ct" d="' + panel(mx(K.outer), mx(K.inner)) + '"/><path class="ct" d="' + panel(K.outer, K.inner) + '"/>'
+      + '<path class="lp" d="' + mxPath(K.lapel) + '"/><path class="lp" d="' + K.lapel + '"/></g>'
+      + '<path d="' + curve(K.inner) + '" fill="none" stroke="#7d8aa0" stroke-width="1.1" opacity="0.35" filter="url(#pdxSoft)"/><path d="' + curve(mx(K.inner)) + '" fill="none" stroke="#7d8aa0" stroke-width="1.1" opacity="0.35" filter="url(#pdxSoft)"/>'
+      + '<path d="M' + r1(100 - K.outer[6][0] + 2) + ',' + K.outer[6][1] + ' q1.4,9 0.4,22 M' + r1(K.outer[6][0] - 2) + ',' + K.outer[6][1] + ' q-1.4,9 -0.4,22" fill="none" stroke="#9aa6b8" stroke-width="0.35" opacity="0.6"/>' // fabric folds
+      + '<rect x="' + (p[0] + 1.6) + '" y="' + (p[1] - 2.6) + '" width="0.9" height="3.4" rx="0.4" fill="#1f3b73"/><rect x="' + (p[0] + 3.2) + '" y="' + (p[1] - 2.2) + '" width="0.9" height="3" rx="0.4" fill="#3b3f48"/>'
       + '<rect class="pk" x="' + p[0] + '" y="' + p[1] + '" width="' + p[2] + '" height="' + p[3] + '" rx="0.6"/>'
+      + '<rect x="' + t[0] + '" y="' + t[1] + '" width="' + t[2] + '" height="' + t[3] + '" rx="0.8" fill="#1b2335"/><text x="' + (t[0] + t[2] / 2) + '" y="' + (t[1] + t[3] / 2 + 0.1) + '" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="' + t[5] + '" letter-spacing="0.08" fill="#f2f5fa" text-anchor="middle" dominant-baseline="central">' + t[4] + '</text>'
       + logoImg('pdxLogoF', K.logo);
   }
   function coatBack(sx){
     var K = COAT[sx], half = [[50, K.outer[0][1] + 0.6]].concat(K.outer).concat([[50, K.hem]]);
-    return '<path class="ct" d="' + curve(mirror(half)) + ' Z"/>'
-      + '<path d="M50,' + (K.hem - 9) + ' L50,' + K.hem + '" stroke="#b9c3d1" stroke-width="0.45"/>'
-      + '<path d="M40,30.5 C44,33 56,33 60,30.5" fill="none" stroke="#b9c3d1" stroke-width="0.5"/>'
+    return '<ellipse cx="50" cy="' + (K.hem + 1.6) + '" rx="20" ry="2.4" fill="#000" opacity="0.28" filter="url(#pdxSoft)"/>'
+      + '<g filter="url(#pdxCloth)"><path class="ct" d="' + curve(mirror(half)) + ' Z"/></g>'
+      + '<path d="M50,' + (K.hem - 9) + ' L50,' + K.hem + '" stroke="#9aa6b8" stroke-width="0.45"/>'
+      + '<path d="M40,30.5 C44,33 56,33 60,30.5" fill="none" stroke="#9aa6b8" stroke-width="0.5"/><path d="M36,70 q2,8 1,18 M64,70 q-2,8 -1,18" fill="none" stroke="#9aa6b8" stroke-width="0.35" opacity="0.6"/>'
       + logoImg('pdxLogoB', [50, 57, 9.5]);
   }
-  function furOver(d){ return '<path d="' + d + '" fill="url(#pdxTex)" stroke="none" pointer-events="none"/>'; }
-  function eye(x, y, r){ return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="#0d0f18"/><circle cx="' + (x + r * 0.35) + '" cy="' + (y - r * 0.35) + '" r="' + (r * 0.32) + '" fill="#fff"/>'; }
-  function glasses(lx, rx, y, r, earL, earR){
-    return '<g fill="rgba(200,235,255,0.22)" stroke="#11131c" stroke-width="0.6"><circle cx="' + lx + '" cy="' + y + '" r="' + r + '"/><circle cx="' + rx + '" cy="' + y + '" r="' + r + '"/></g>'
-      + '<path d="M' + (lx + r) + ',' + y + ' Q50,' + (y - 1) + ' ' + (rx - r) + ',' + y + ' M' + (lx - r) + ',' + y + ' L' + earL + ',' + (y + 0.4) + ' M' + (rx + r) + ',' + y + ' L' + earR + ',' + (y + 0.4) + '" fill="none" stroke="#11131c" stroke-width="0.6" stroke-linecap="round"/>';
+  function shades(cx, y, w){ // slim dark-tinted rectangular glasses
+    var lw = (w - 1.6) / 2, h = 3.6, L = cx - w / 2, R = cx + 0.8;
+    function lens(x){ return '<rect x="' + r1(x) + '" y="' + y + '" width="' + r1(lw) + '" height="' + h + '" rx="1.1" fill="url(#pdxLens)" stroke="#0e1117" stroke-width="0.45"/><path d="M' + r1(x + 0.7) + ',' + r1(y + 0.9) + ' l' + r1(lw * 0.45) + ',0" stroke="rgba(255,255,255,0.45)" stroke-width="0.3" stroke-linecap="round"/>'; }
+    return lens(L) + lens(R) + '<path d="M' + r1(L + lw) + ',' + r1(y + 0.9) + ' q0.8,-0.6 1.6,0" fill="none" stroke="#0e1117" stroke-width="0.45"/>';
+  }
+  function gorillaHead(sd){
+    var crest = 'M44,8 C45,4.6 47,2 49.4,0.4 C49.6,2 50.2,2.4 51.2,0.8 C52.2,2.4 53,3 54.6,1.6 C54.8,4 55.6,5.6 56.6,7.6 Z';
+    var head = 'M50,3.6 C53.8,3.6 57.8,6.4 59.3,11.2 C60.7,16.2 60.1,22 57,26.1 C55,28.7 52.6,29.7 50,29.7 C47.4,29.7 45,28.7 43,26.1 C39.9,22 39.3,16.2 40.7,11.2 C42.2,6.4 46.2,3.6 50,3.6 Z';
+    var s = '<g filter="url(#pdxFurF)"><circle class="sk" cx="40" cy="17.5" r="2"/><circle class="sk" cx="60" cy="17.5" r="2"/><path class="sk" d="' + crest + '"/><path class="sk" d="' + head + '"/></g>';
+    if (sd !== 'front') return s + '<path d="M42.4,18.4 L40.6,18.8 M57.6,18.4 L59.4,18.8" stroke="#0e1117" stroke-width="0.45" stroke-linecap="round"/>';
+    return s
+      + '<path d="M43,13.6 C45.4,11.6 54.6,11.6 57,13.6 C58.2,17 58,20.8 56.8,23.8 C55.6,27.2 52.8,28.6 50,28.6 C47.2,28.6 44.4,27.2 43.2,23.8 C42,20.8 41.8,17 43,13.6 Z" fill="url(#pdxFace)"/>'
+      + '<path d="M42.6,14.2 C45.6,11.8 54.4,11.8 57.4,14.2 C56.4,15.6 54.6,15.6 50,15.2 C45.4,15.6 43.6,15.6 42.6,14.2 Z" fill="#111a33"/>' // heavy brow ridge
+      + '<path d="M45.4,19.4 C46.6,18.6 48.4,18.6 49.2,19.6 C48.6,21.4 51.4,21.4 50.8,19.6 C51.6,18.6 53.4,18.6 54.6,19.4 C55.6,21 55,23.8 52.8,24.2 C51.6,24.4 50.6,23.8 50,23.8 C49.4,23.8 48.4,24.4 47.2,24.2 C45,23.8 44.4,21 45.4,19.4 Z" fill="#26375e"/>' // broad nose
+      + '<ellipse cx="47.9" cy="22.6" rx="1.1" ry="0.75" fill="#0a1022"/><ellipse cx="52.1" cy="22.6" rx="1.1" ry="0.75" fill="#0a1022"/>'
+      + '<path d="M46.6,20.2 C47.6,19.6 48.4,19.8 48.8,20.4 M53.4,20.2 C52.4,19.6 51.6,19.8 51.2,20.4" fill="none" stroke="#4a6396" stroke-width="0.3"/>'
+      + '<path d="M46.4,26.2 Q50,27.6 53.6,26.2" fill="none" stroke="#0a1022" stroke-width="0.55" stroke-linecap="round"/><path d="M47.6,27.4 Q50,28.2 52.4,27.4" fill="none" stroke="#3a4f7e" stroke-width="0.3"/>'
+      + shades(50, 14.6, 15.2) + '<path d="M42.4,15.4 L40.4,16.6 M57.6,15.4 L59.6,16.6" stroke="#0e1117" stroke-width="0.45" stroke-linecap="round"/>';
   }
   function gorilla(sd, armL, armR, torso){
-    var head = 'M50,3.6 C53.6,3.6 57.6,6.2 59.2,11.2 C60.6,16.2 60,22 57,26 C55,28.6 52.6,29.6 50,29.6 C47.4,29.6 45,28.6 43,26 C40,22 39.4,16.2 40.8,11.2 C42.4,6.2 46.4,3.6 50,3.6 Z';
-    var s = '<g filter="url(#pdxGlow)"><path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/><path class="sk" d="' + torso + '"/></g>'
-      + furOver(armL) + furOver(armR) + furOver(torso) + sleeves('m');
-    if (sd === 'front') {
-      s += '<ellipse cx="50" cy="76" rx="12.5" ry="16" fill="#23498f" opacity="0.55"/>' + coatFront('m')
-        + '<circle class="sk" cx="40" cy="17.5" r="1.9"/><circle class="sk" cx="60" cy="17.5" r="1.9"/><path class="sk" d="' + head + '"/>' + furOver(head)
-        + '<path d="M43.2,14 C45.5,12.2 54.5,12.2 56.8,14 C57.8,17 57.6,20.5 56.6,23.5 C55.4,27 52.6,28.4 50,28.4 C47.4,28.4 44.6,27 43.4,23.5 C42.4,20.5 42.2,17 43.2,14 Z" fill="#33456b"/>'
-        + '<path d="M43.4,14.3 C44.8,15.6 46.4,15.8 47.8,15 M52.2,15 C53.6,15.8 55.2,15.6 56.6,14.3" fill="none" stroke="#5a6f9b" stroke-width="0.35"/>'
-        + '<path d="M43,14.4 C46,12.3 54,12.3 57,14.4" fill="none" stroke="#162441" stroke-width="1.5" stroke-linecap="round"/>'
-        + eye(46.6, 16.9, 0.95) + eye(53.4, 16.9, 0.95)
-        + '<ellipse cx="50" cy="22.6" rx="4.4" ry="2.9" fill="#42577f"/><path d="M47.4,20.6 C48.6,19.8 51.4,19.8 52.6,20.6" fill="none" stroke="#2a3b60" stroke-width="0.35"/>'
-        + '<ellipse cx="48.5" cy="22.1" rx="0.95" ry="0.62" fill="#141c30"/><ellipse cx="51.5" cy="22.1" rx="0.95" ry="0.62" fill="#141c30"/>'
-        + '<path d="M47.2,25.7 Q50,26.9 52.8,25.7" fill="none" stroke="#141c30" stroke-width="0.5" stroke-linecap="round"/>'
-        + glasses(46.6, 53.4, 16.9, 2.5, 41.6, 58.4);
-    } else {
-      s += coatBack('m')
-        + '<circle class="sk" cx="40" cy="17.5" r="1.9"/><circle class="sk" cx="60" cy="17.5" r="1.9"/><path class="sk" d="' + head + '"/>' + furOver(head)
-        + '<path d="M50,5 C49,9 49.4,12 50,14" fill="none" stroke="#173a75" stroke-width="0.4" opacity="0.6"/>'
-        + '<path d="M42.6,18.6 L41.4,18.9 M57.4,18.6 L58.6,18.9" stroke="#11131c" stroke-width="0.6" stroke-linecap="round"/>';
-    }
+    var knuckles = function(flip){ var o = ''; [79, 80.9, 82.8, 84.6].forEach(function(x, i){ var X = flip ? 100 - x : x; o += '<ellipse cx="' + X + '" cy="' + (121.4 - Math.abs(i - 1.5) * 0.4) + '" rx="0.95" ry="1.2" fill="#18233f"/>'; }); return o; };
+    var s = '<g filter="url(#pdxFurF)"><path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/><path class="sk" d="' + torso + '"/></g>'
+      + '<ellipse cx="50" cy="120" rx="15" ry="9" fill="url(#pdxShade)"/>' + knuckles(false) + knuckles(true);
+    if (sd === 'front') s += '<path d="M39.5,30 C43,40 42,56 40.5,64 C38.6,76 40.4,86 44,92 L56,92 C59.6,86 61.4,76 59.5,64 C58,56 57,40 60.5,30 C56,32 44,32 39.5,30 Z" fill="url(#pdxChest)" filter="url(#pdxSkinF)"/>' + sleeves('m') + coatFront('m');
+    else s += sleeves('m') + coatBack('m');
+    return s + gorillaHead(sd);
+  }
+  function rexHead(){ // side profile, snout to the right
+    var skull = 'M40,9 C41,4.5 47,2.6 54,3.4 C60.4,4 66.4,6.4 70.8,9.6 C73.4,11.4 74,14.6 73.2,17.2 C72.6,19 71,19.8 69,19.9 L51.6,20.8 C50.4,21.6 50.6,22.4 51.6,22.6 L69.4,21.8 C71,22.6 70.6,24.8 68.4,25.8 C63.4,27.6 55.4,28 49.4,27.6 C45.8,27.4 42.2,26.2 40.6,23.8 C38.6,20.8 38.6,13.6 40,9 Z';
+    var s = '<g filter="url(#pdxScaleF)"><path class="sk" d="' + skull + '"/></g>'
+      + '<path d="M51.6,20.8 L69,19.9 C70.4,20.6 70.6,21.4 69.4,21.8 L51.6,22.6 C50.6,22.4 50.4,21.6 51.6,20.8 Z" fill="#5a1418"/>'; // mouth
+    for (var x = 53; x <= 68; x += 2.5) s += '<path d="M' + x + ',' + r1(20.75 - (x - 53) * 0.055) + ' l0.75,1.6 l0.75,-1.65 Z" fill="#f3ead2"/><path d="M' + (x + 1.2) + ',' + r1(22.55 - (x - 53) * 0.05) + ' l0.7,-1.3 l0.7,1.3 Z" fill="#e9dfc2"/>';
+    s += '<path d="M46,26.4 C54,27.8 62,27.2 68,25.6" fill="none" stroke="#1d3a1a" stroke-width="0.5" opacity="0.6"/>' // jaw line
+      + '<path d="M44.8,8.6 C48,6.6 53,6.6 56.4,8.4" fill="none" stroke="#1d3a1a" stroke-width="1.1" stroke-linecap="round"/>' // brow ridge
+      + '<ellipse cx="71.2" cy="12.6" rx="0.8" ry="0.55" fill="#132611"/>' // nostril
+      + '<ellipse cx="44" cy="20" rx="4.5" ry="4" fill="#000" opacity="0.18" filter="url(#pdxSoft)"/>' // jaw muscle shadow
+      + '<path d="M44.6,8.8 L57.6,9.4 C58.6,9.5 58.8,12.6 57.8,12.9 L45,12.8 C43.8,12.6 43.8,9 44.6,8.8 Z" fill="url(#pdxLens)" stroke="#0e1117" stroke-width="0.5"/><path d="M45.6,9.9 l6,0.25" stroke="rgba(255,255,255,0.45)" stroke-width="0.3" stroke-linecap="round"/>'
+      + '<path d="M43.9,10.6 L40,11.4" stroke="#0e1117" stroke-width="0.5" stroke-linecap="round"/>';
     return s;
   }
   function trex(sd, armL, armR, torso){
-    var head = 'M50,2.5 C57.5,2.5 63,5.5 63.5,12 C64,18.5 62,24.5 57.5,27.5 C55,29 52.5,29.5 50,29.5 C47.5,29.5 45,29 42.5,27.5 C38,24.5 36,18.5 36.5,12 C37,5.5 42.5,2.5 50,2.5 Z';
     var claws = function(flip){ var a = flip ? 100 - 72.6 : 72.6, b = flip ? 100 - 74.6 : 74.6, a2 = flip ? 100 - 72.1 : 72.1, b2 = flip ? 100 - 75.1 : 75.1;
-      return '<path d="M' + a + ',57.1 L' + a2 + ',59.6 M' + b + ',56.9 L' + b2 + ',59.3" stroke="#f4efe0" stroke-width="0.8" stroke-linecap="round"/>'; };
+      return '<path d="M' + a + ',57.1 L' + a2 + ',59.6 M' + b + ',56.9 L' + b2 + ',59.3" stroke="#e9e1c8" stroke-width="0.8" stroke-linecap="round"/>'; };
     var tailF = 'M60,98 C70,106 78,116 84,134 C85,138 82,139 80,136 C75,126 68,116 58,108 Z';
     var tailB = 'M44.5,92 C44,112 46.5,132 50,152 C53.5,132 56,112 55.5,92 C53.5,90 46.5,90 44.5,92 Z';
     var s = '';
     if (sd === 'front') {
-      s += '<path class="sk" d="' + tailF + '"/>' + furOver(tailF) + '<path class="sk" d="' + torso + '"/>' + furOver(torso)
-        + '<ellipse cx="50" cy="80" rx="14.5" ry="28" fill="#efe4b0"/>';
-      for (var y = 60; y <= 102; y += 7) { var w = 14.5 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 80) / 28, 2))); s += '<path d="M' + r1(50 - w + 1) + ',' + y + ' Q50,' + (y + 1.6) + ' ' + r1(50 + w - 1) + ',' + y + '" fill="none" stroke="#d6c88a" stroke-width="0.4"/>'; }
-      s += coatFront('f') + '<path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/>' + furOver(armL) + furOver(armR) + sleeves('f') + claws(false) + claws(true)
-        + '<path class="sk" d="' + head + '"/>' + furOver(head)
-        + '<path d="M40.4,9.2 Q43.8,7 47,9.2 M53,9.2 Q56.2,7 59.6,9.2" fill="none" stroke="#2f6a2b" stroke-width="1" stroke-linecap="round"/>'
-        + '<circle cx="43.8" cy="12" r="2" fill="#fff9e0"/><circle cx="56.2" cy="12" r="2" fill="#fff9e0"/>' + '<circle cx="44.2" cy="12.2" r="1.3" fill="#d39a1c"/><circle cx="55.8" cy="12.2" r="1.3" fill="#d39a1c"/>' + '<ellipse cx="44.2" cy="12.2" rx="0.4" ry="1.05" fill="#0d0f18"/><ellipse cx="55.8" cy="12.2" rx="0.4" ry="1.05" fill="#0d0f18"/>'
-        + '<ellipse cx="48.2" cy="5.6" rx="0.75" ry="0.5" fill="#24521f"/><ellipse cx="51.8" cy="5.6" rx="0.75" ry="0.5" fill="#24521f"/>';
-      var teeth = '';
-      [42, 45, 48, 52, 55, 58].forEach(function(x){ var yy = r1(19 + 3.4 * (1 - Math.pow((x - 50) / 10.5, 2))); teeth += '<path d="M' + (x - 0.8) + ',' + (yy - 0.15) + ' L' + (x + 0.8) + ',' + (yy - 0.15) + ' L' + x + ',' + r1(yy + 1.4) + ' Z" fill="#fffbea" stroke="#3f7f3a" stroke-width="0.2"/>'; });
-      s += '<path d="M39.5,19 C44,23.5 56,23.5 60.5,19" fill="none" stroke="#24521f" stroke-width="0.7" stroke-linecap="round"/>' + teeth
-        + glasses(43.8, 56.2, 12, 3, 37.2, 62.8);
+      s += '<g filter="url(#pdxScaleF)"><path class="sk" d="' + tailF + '"/><path class="sk" d="' + torso + '"/></g>'
+        + '<ellipse cx="50" cy="120" rx="15" ry="9" fill="url(#pdxShade)"/>'
+        + '<g filter="url(#pdxScaleF)"><ellipse cx="50" cy="80" rx="14.5" ry="28" fill="url(#pdxBelly)"/></g>';
+      for (var y = 60; y <= 102; y += 5.2) { var w = 14.5 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 80) / 28, 2))); s += '<path d="M' + r1(50 - w + 1) + ',' + r1(y) + ' Q50,' + r1(y + 1.6) + ' ' + r1(50 + w - 1) + ',' + r1(y) + '" fill="none" stroke="#a8995c" stroke-width="0.35" opacity="0.7"/>'; }
+      s += coatFront('f') + '<g filter="url(#pdxScaleF)"><path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/></g>' + sleeves('f') + claws(false) + claws(true) + rexHead();
     } else {
-      s += '<path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/>' + sleeves('f') + '<path class="sk" d="' + torso + '"/>' + furOver(torso) + coatBack('f')
-        + '<path class="sk" d="' + tailB + '"/>' + furOver(tailB);
-      for (var k = 94; k <= 140; k += 7) s += '<path d="M48.6,' + (k + 2.6) + ' L51.4,' + (k + 2.6) + ' L50,' + (k - 0.8) + ' Z" fill="#2f6a2b"/>'; // tail spikes
-      s += '<path class="sk" d="' + head + '"/>' + furOver(head)
-        + '<path d="M41,14 C45,17 55,17 59,14 M43,20 C46,22.5 54,22.5 57,20" fill="none" stroke="#2f6a2b" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>'
-        + '<path d="M40.8,12.4 L37.2,12.8 M59.2,12.4 L62.8,12.8" stroke="#11131c" stroke-width="0.6" stroke-linecap="round"/>';
+      s += '<g filter="url(#pdxScaleF)"><path class="sk" d="' + armL + '"/><path class="sk" d="' + armR + '"/></g>' + sleeves('f')
+        + '<g filter="url(#pdxScaleF)"><path class="sk" d="' + torso + '"/></g>' + coatBack('f')
+        + '<g filter="url(#pdxScaleF)"><path class="sk" d="' + tailB + '"/></g>';
+      for (var k = 94; k <= 140; k += 6) s += '<path d="M48.7,' + (k + 2.4) + ' L51.3,' + (k + 2.4) + ' L50,' + (k - 0.9) + ' Z" fill="#1d3a1a"/>'; // tail spikes
+      s += rexHead();
     }
     return s;
   }
@@ -4150,13 +4157,18 @@ function showTab(name){
     var sx = sex(), sd = side(), S = SHAPE[sx], C = CHAR[sx];
     var torso = curve(mirror(S.body)) + ' Z';
     var armR = curve(S.arm) + ' Z', armL = curve(S.arm.map(function(p){ return [100 - p[0], p[1]]; })) + ' Z';
-    var tex = sx === 'm'
-      ? '<pattern id="pdxTex" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><path d="M0.3,0.2 l0.35,1.5 M1.4,0.9 l0.3,1.3" stroke="rgba(170,225,255,0.28)" stroke-width="0.22" stroke-linecap="round"/><path d="M0.9,0.1 l0.3,1.2" stroke="rgba(5,20,60,0.3)" stroke-width="0.22" stroke-linecap="round"/></pattern>'
-      : '<pattern id="pdxTex" width="2.2" height="1.9" patternUnits="userSpaceOnUse"><circle cx="0.55" cy="0.5" r="0.42" fill="rgba(20,70,20,0.22)"/><circle cx="1.65" cy="1.45" r="0.42" fill="rgba(20,70,20,0.22)"/><circle cx="0.45" cy="0.4" r="0.16" fill="rgba(255,255,255,0.18)"/></pattern>';
-    var defs = '<defs><linearGradient id="pdxFur" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="' + C.fur + '"/><stop offset="0.45" stop-color="' + C.hi + '"/><stop offset="1" stop-color="' + C.fur + '"/></linearGradient>'
-      + '<linearGradient id="pdxCoat" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#e3e9f2"/><stop offset="0.5" stop-color="#ffffff"/><stop offset="1" stop-color="#e3e9f2"/></linearGradient>'
-      + '<filter id="pdxGlow" x="-20%" y="-10%" width="140%" height="120%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feFlood flood-color="#36d2ff" flood-opacity="0.75"/><feComposite in2="b" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
-      + tex + '</defs>';
+    var defs = '<defs><linearGradient id="pdxFur" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="' + C.fur + '"/><stop offset="0.42" stop-color="' + C.hi + '"/><stop offset="1" stop-color="' + C.fur + '"/></linearGradient>'
+      + '<linearGradient id="pdxCoat" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#dfe5ee"/><stop offset="0.5" stop-color="#fbfcfe"/><stop offset="1" stop-color="#dfe5ee"/></linearGradient>'
+      + '<linearGradient id="pdxLens" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3a4558"/><stop offset="1" stop-color="#0a0d13"/></linearGradient>'
+      + '<radialGradient id="pdxFace" cx="0.5" cy="0.4" r="0.7"><stop offset="0" stop-color="#3b5186"/><stop offset="1" stop-color="#18264a"/></radialGradient>'
+      + '<linearGradient id="pdxChest" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1d2f5a"/><stop offset="1" stop-color="#15223f"/></linearGradient>'
+      + '<radialGradient id="pdxBelly" cx="0.45" cy="0.4" r="0.7"><stop offset="0" stop-color="#d8cb98"/><stop offset="1" stop-color="#a99a64"/></radialGradient>'
+      + '<radialGradient id="pdxShade"><stop offset="0" stop-color="#000" stop-opacity="0.3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>'
+      + '<filter id="pdxSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="0.8"/></filter>'
+      + '<filter id="pdxCloth" x="-5%" y="-5%" width="110%" height="115%"><feDropShadow dx="0" dy="0.5" stdDeviation="0.6" flood-color="#0b1020" flood-opacity="0.3"/></filter>'
+      + '<filter id="pdxFurF" x="-6%" y="-4%" width="112%" height="108%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="2.6 0.5" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0.75" xChannelSelector="R" yChannelSelector="G" result="d"/><feDiffuseLighting in="n" surfaceScale="1.3" diffuseConstant="1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="240" elevation="58"/></feDiffuseLighting><feComposite in="l" in2="d" operator="arithmetic" k1="1.05" k2="0" k3="0.12" k4="0" result="lit"/><feComposite in="lit" in2="d" operator="in"/></filter>'
+      + '<filter id="pdxScaleF" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="2" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="0.5" xChannelSelector="R" yChannelSelector="G" result="d"/><feDiffuseLighting in="n" surfaceScale="1.05" diffuseConstant="1" lighting-color="#ffffff" result="l"><feDistantLight azimuth="235" elevation="60"/></feDiffuseLighting><feComposite in="l" in2="d" operator="arithmetic" k1="1" k2="0" k3="0.18" k4="0" result="lit"/><feComposite in="lit" in2="d" operator="in"/></filter>'
+      + '</defs>';
     var z = ZONES[sx][sd], next = suggestedZone(), map = {};
     INJ_ZONES.forEach(function(q){ map[q.code] = lastUsedDateForZone(q.code); });
     var patches = Object.keys(z).map(function(c){
