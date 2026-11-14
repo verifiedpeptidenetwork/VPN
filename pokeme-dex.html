@@ -1130,7 +1130,7 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
     if (/unavailable|network/.test(c)) return 'No connection right now. It will sync next time you\'re online.';
     if (/popup-closed|cancelled-popup/.test(c)) return '';
     if (/popup-blocked/.test(c)) return 'Your browser blocked the sign-in window. Allow pop-ups, or use email instead.';
-    if (/unauthorized-domain|operation-not-allowed/.test(c)) return 'Google sign-in isn\'t switched on for this site yet. Use email for now.';
+    if (/unauthorized-domain|operation-not-allowed/.test(c)) return 'Google sign-in isn\'t available on this address yet. Sign in with your email instead: it works with any email (Gmail, Hotmail, Outlook, Yahoo, iCloud).';
     if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c)) return 'That email and password don\'t match. Try again or reset your password.';
     if (/email-already-in-use/.test(c)) return 'That email already has an account. Sign in instead.';
     if (/weak-password/.test(c)) return 'Use a password with at least 6 characters.';
@@ -1165,12 +1165,12 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
       });
       return;
     }
-    body.innerHTML = err + '<div class="pa-btns two"><button type="button" class="pa-btn pri" data-s="google"><span class="sy-g">G</span> Continue with Google</button><button type="button" class="pa-btn" data-s="email">✉ Use email</button></div><p class="pa-tip">Signing in merges what\'s already on this phone into your account, so nothing is lost.</p>';
+    body.innerHTML = err + '<div class="pa-btns two"><button type="button" class="pa-btn pri" data-s="google"><span class="sy-g">G</span> Continue with Google</button><button type="button" class="pa-btn" data-s="email">✉ Use any email</button></div><p class="pa-tip">Any email works: Gmail, Hotmail, Outlook, Yahoo, iCloud… Signing in merges what\'s already on this phone into your account, so nothing is lost.</p>';
   }
   document.addEventListener('click', async e => {
     const b = e.target.closest('#pa-sync-body [data-s]'); if (!b) return;
     const a = b.getAttribute('data-s');
-    if (a === 'google') { state.err = ''; try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(x){ state.err = errText(x); draw(); } return; }
+    if (a === 'google') { state.err = ''; try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(x){ state.err = errText(x); if (/unauthorized-domain|operation-not-allowed/.test((x && x.code) || '')) mode = 'email'; draw(); } return; }
     if (a === 'email' || a === 'new' || a === 'pick') { mode = a; state.err = ''; draw(); return; }
     if (a === 'reset') { const em = (document.getElementById('sy-email') || {}).value || ''; if (!em) { state.err = 'Type your email above first.'; draw(); return; } try { await sendPasswordResetEmail(auth, em.trim()); state.err = ''; draw(); alert('Reset email sent. Check your inbox.'); } catch(x){ state.err = errText(x); draw(); } return; }
     if (a === 'now' && state.user) { await push(state.user.uid); return; }
@@ -1358,8 +1358,8 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
 
     <section class="pa-card" data-tab="dex" aria-labelledby="pa-peps-h">
       <div class="pa-h"><div><h2 id="pa-peps-h">My Dex</h2><p>Every peptide you've caught, with what's left in the vial.</p></div><span class="pa-pill" id="pa-dex-count">0 caught</span></div>
+      <button type="button" class="pa-add pa-add-top" onclick="pmdAddNew()">＋ Catch a new peptide</button>
       <div id="pa-peps"></div>
-      <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Catch a new peptide</button>
       <button type="button" class="sx-open" onclick="pmdSaveDex()"><span class="sx-led" aria-hidden="true"></span><span class="sx-scr"><b>SAVE MY DEX</b><small>EMAIL · PDF · SHARE · BACKUP</small></span><span class="sx-go" aria-hidden="true">›</span></button>
     </section>
 
@@ -1975,9 +1975,9 @@ var GOAL_MAP = {
 
 // peptide info + default protocol values
 var PEPTIDES = {
-  reta:   { name:'Retatrutide', desc:'A strong fat-loss peptide that affects three different hunger/metabolism pathways at once. Still being studied in late-stage trials — one of the most powerful fat-loss compounds in research. Dosed once a week.', vial:10, water:2, start:1, step:1, weeks:4, freq:1 },
-  tirz:   { name:'Tirzepatide', desc:'Reduces appetite and helps the body manage blood sugar and fat. Usually started low and slowly increased over time, once a week.', vial:10, water:2, start:2.5, step:2.5, weeks:4, freq:1 },
-  cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
+  reta:   { name:'Retatrutide', desc:'A strong fat-loss peptide that affects three different hunger/metabolism pathways at once. Still being studied in late-stage trials — one of the most powerful fat-loss compounds in research. Dosed once a week.', vial:10, water:2, start:1, step:1, weeks:4, freq:1, glp:true, range:[12,104] },
+  tirz:   { name:'Tirzepatide', desc:'Reduces appetite and helps the body manage blood sugar and fat. Usually started low and slowly increased over time, once a week.', vial:10, water:2, start:2.5, step:2.5, weeks:4, freq:1, glp:true, range:[12,104] },
+  cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1, glp:true, range:[12,104] },
   aod:    { name:'AOD-9604', desc:'A small piece of growth hormone that has been studied for helping the body burn fat — without the muscle-building effects of full growth hormone. Usually injected daily, 5 days a week, for 8-12 weeks.', vial:5, water:2, start:0.3, step:0.1, weeks:8, freq:5 },
   mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
   atx:    { name:'ATX-304', oral:true, pill:200, pills:[100,200], perDay:1, desc:'An oral AMPK activator (the body\'s "low fuel" sensor that exercise also switches on). Comes as a 100 mg or 200 mg pill, taken as 1 pill. In its first human trial (2026) 400 mg a day for 8 weeks lowered liver fat, visceral fat and triglycerides, with little weight loss. Investigational, not approved. Don\'t stack with MOTS-c (both hit AMPK).', start:200, step:0, weeks:8, freq:7, time:'morning' },
@@ -2029,14 +2029,14 @@ var PEPTIDES = {
   carnitine:   { name:'L-Carnitine', desc:'An amino acid studied for fat metabolism, cellular energy production, and cardiovascular support. Taken orally with food daily, or via IV for an acute boost.', vial:10, water:2, start:500, step:0, weeks:8, freq:7 },
   livagen:     { name:'Livagen', desc:'A liver and immune bioregulator studied for DNA repair and immune support via gene-expression effects. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
   ll37:        { name:'LL-37', desc:'A broad-spectrum antimicrobial peptide studied for immune defense and wound healing. Used SC or applied topically for 2-4 week protocols.', vial:5, water:2, start:0.1, step:0, weeks:4, freq:7 },
-  mazd:        { name:'Mazdutide', desc:'A dual GLP-1/Glucagon agonist studied for metabolic health and fat loss, approved in China and in Phase 3 trials elsewhere. Dosed once weekly for 24-48 week protocols.', vial:10, water:2, start:3, step:0, weeks:8, freq:1 },
+  mazd:        { name:'Mazdutide', desc:'A dual GLP-1/Glucagon agonist studied for metabolic health and fat loss, approved in China and in Phase 3 trials elsewhere. Dosed once weekly for 24-48 week protocols.', vial:10, water:2, start:3, step:0, weeks:8, freq:1, glp:true, range:[12,104] },
   mt1:         { name:'Melanotan I', desc:'Studied for skin tanning and UV protection via increased melanin production, with fewer side effects than Melanotan II. Injected daily for 2-4 weeks to build/maintain a tan.', vial:10, water:2, start:0.5, step:0, weeks:3, freq:7 },
   mt2:         { name:'Melanotan II', desc:'Studied for tanning, libido enhancement, and appetite suppression. Start very low (nausea is common) — daily loading for 2-3 weeks, then 2-3x/week for maintenance.', vial:10, water:2, start:0.25, step:0, weeks:3, freq:7, gender:'both' },
   naepi:       { name:'Na Epitalon', desc:'A more bioavailable sodium form of Epitalon, studied for longevity and sleep-pattern support at the cellular level. Used daily (SC or intranasal) for a 10-day course, twice yearly.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
   naselank:    { name:'Na Selank', desc:'An N-acetylated, longer-acting version of Selank — studied for anxiety relief and cognitive support with once-daily dosing often being enough. Used intranasally for 2-3 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:7 },
   nasemax:     { name:'Na Semax', desc:'A more potent, N-acetylated version of Semax — studied for enhanced bioavailability as a nootropic. Start low and assess response; intranasal for 2-4 week cycles.', vial:10, water:2, start:0.2, step:0, weeks:3, freq:5 },
   neuroxelin:  { name:'Neuroxelin Blend', desc:'A neural-support blend studied for neuroprotection and cognitive enhancement. Vendor-specific formulation — check the individual peptide components for dosing details.', vial:10, water:2, start:0.2, step:0, weeks:6, freq:7, time:'am' },
-  orfo:        { name:'Orforglipron', desc:'An oral (non-injectable) GLP-1 agonist studied for weight loss without needing injections — currently in Phase 3 trials. Taken as a daily oral tablet.', vial:10, water:2, start:12, step:0, weeks:8, freq:7 },
+  orfo:        { name:'Orforglipron', desc:'An oral (non-injectable) GLP-1 agonist studied for weight loss without needing injections — currently in Phase 3 trials. Taken as a daily oral tablet.', vial:10, water:2, start:12, step:0, weeks:8, freq:7, glp:true, range:[12,104] },
   ovagen:      { name:'Ovagen', desc:'A liver-derived bioregulator studied for hepatic function and detoxification support — often stacked with NAD+. Oral daily for a 10-day course, 2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
   oxytocin:    { name:'Oxytocin', desc:'The "bonding hormone" — studied for social connection, stress relief, and recovery support. Used intranasally as needed, not intended for chronic daily use.', vial:10, water:2, start:10, step:0, weeks:4, freq:2 },
   pancragon:   { name:'Pancragon', desc:'A pancreatic bioregulator studied for blood sugar regulation and digestive enzyme support. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7 },
@@ -2044,11 +2044,11 @@ var PEPTIDES = {
   pinealon:    { name:'Pinealon', desc:'A pineal-gland bioregulator studied for sleep quality, longevity, and neuroprotection via the melatonin pathway. Used before sleep for a 10-day course, 2-3x/year.', vial:10, water:2, start:5, step:0, weeks:2, freq:7, time:'pm' },
   pnc27:       { name:'PNC-27', desc:'A highly experimental anticancer research peptide studied for selectively targeting cancer cells via a p53-linked mechanism. Preclinical research stage only — dosing protocols vary widely.', vial:5, water:2, start:1, step:0, weeks:4, freq:3 },
   prostamax:   { name:'Prostamax', desc:'A prostate-derived bioregulator studied for prostate health and male urinary function. Oral daily for a 10-day course, 1-2x/year.', vial:10, water:2, start:10, step:0, weeks:2, freq:7, gender:'male' },
-  sema:        { name:'Semaglutide', desc:'A well-known GLP-1 agonist studied for weight loss and blood sugar control. Started low and ramped up slowly, dosed once weekly for 68+ week protocols.', vial:5, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
+  sema:        { name:'Semaglutide', desc:'A well-known GLP-1 agonist studied for weight loss and blood sugar control. Started low and ramped up slowly, dosed once weekly for 68+ week protocols.', vial:5, water:2, start:0.25, step:0.25, weeks:4, freq:1, glp:true, range:[12,104] },
   sermorelin:  { name:'Sermorelin', desc:'A GHRH analog studied for natural growth-hormone stimulation and anti-aging support, mimicking the body\'s natural GH pulse. Injected at bedtime on an empty stomach for 6-12 month protocols.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
   slu332:      { name:'SLU-PP-332', desc:'An "exercise mimetic" studied for activating muscle and metabolic pathways similar to endurance training. Research-stage — dosing is not yet standardized.', vial:10, water:2, start:1, step:0, weeks:6, freq:5 },
   snap8:       { name:'SNAP-8', desc:'A cosmetic peptide studied for relaxing expression lines and reducing the appearance of wrinkles. Applied topically (4% cream/serum) 2x/day for continuous use.', vial:10, water:2, start:1, step:0, weeks:8, freq:7 },
-  survo:       { name:'Survodutide', desc:'A GLP-1/Glucagon agonist studied for obesity and NASH (fatty liver) in Phase 2/3 trials. Started low and titrated up, dosed once weekly.', vial:10, water:2, start:0.6, step:0.6, weeks:4, freq:1 },
+  survo:       { name:'Survodutide', desc:'A GLP-1/Glucagon agonist studied for obesity and NASH (fatty liver) in Phase 2/3 trials. Started low and titrated up, dosed once weekly.', vial:10, water:2, start:0.6, step:0.6, weeks:4, freq:1, glp:true, range:[12,104] },
   teripar:     { name:'Teriparatide', desc:'A parathyroid hormone analog studied (and FDA-approved) for bone formation and fracture repair. Daily SC injection, rotating injection sites, with a 24-month max protocol per FDA labeling.', vial:1, water:2, start:0.02, step:0, weeks:12, freq:7 },
   tesablend:   { name:'Tesa Blend', desc:'A Tesamorelin-based blend studied for growth-hormone release and visceral fat reduction. Daily SC injection for 12-26 weeks, with IGF-1 monitoring recommended.', vial:10, water:2, start:1, step:0, weeks:12, freq:7 },
   testagen:    { name:'Testagen', desc:'A testosterone-supporting bioregulator studied for maintaining natural T-levels. Oral daily for a 10-day course, 1-2x/year.', vial:20, water:2, start:20, step:0, weeks:2, freq:7, gender:'male' },
@@ -3480,7 +3480,10 @@ function showTab(name){
       { q: 'How long is this cycle?', help: 'Pick or type how many weeks, and the day you start (or started).', valid: function(s){ return s.weeks >= 1; },
         render: function(s, b){
           var rg = window.pmdCycleRange ? pmdCycleRange(s.key) : null, h;
-          chips(b, [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks', s: rg && v > rg[1] ? 'Longer than usual' : '' }; }), function(v){ return s.weeks === v; }, function(v){ s.weeks = v; paint(); }, {});
+          var glpC = (PEPTIDES[s.key] || {}).glp;
+          var opts = glpC ? [{ v:12, t:'3 months', s:'12 weeks' }, { v:26, t:'6 months', s:'26 weeks' }, { v:52, t:'1 year', s:'52 weeks' }, { v:104, t:'2 years', s:'104 weeks' }]
+                          : [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks', s: rg && v > rg[1] ? 'Longer than usual' : '' }; });
+          chips(b, opts, function(v){ return s.weeks === v; }, function(v){ s.weeks = v; paint(); }, {});
           numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); paint(); });
           dateField(b, 'Start date', s.start, function(v){ s.start = v || todayStr(); }).removeAttribute('max');
           h = hintBox(b);
@@ -3523,6 +3526,7 @@ function showTab(name){
       dose:d.start, freq: d.freq >= 7 ? 'daily' : (d.freq === 1 ? 'weekly' : 'custom'), weekdays: d.freq === 3 ? [1,3,5] : (d.freq === 5 ? [1,2,3,4,5] : (d.freq === 2 ? [1,4] : [])),
       time: d.time === 'pm' ? 'pm' : (d.time === 'any' ? 'any' : 'morning'), weeks: d.weeks && d.weeks >= 4 ? Math.min(16, d.weeks * (d.step > 0 ? 3 : 1)) : 8, start: todayStr() };
     if ([4,6,8,12,16].indexOf(st.weeks) === -1) st.weeks = 8;
+    if (d.glp) st.weeks = 52;
     return st;
   }
   window.useForSchedule = function(key, ev){
@@ -3547,7 +3551,8 @@ function showTab(name){
     if (!L.site) return;
     var c = L.site.charAt(0), ic = c === 'B' ? '🎯' : c === 'T' ? '🦵' : c === 'A' ? '💪' : '🍑';
     var d = document.createElement('div'); d.className = 'qz-spot';
-    d.innerHTML = '<span class="qz-spot-ic">' + ic + '</span><span><small>Injection spot</small><b>' + esc(zoneLabel(L.site)) + '</b></span>';
+    var joke = (c === 'G' && window.pmdButtLine) ? pmdButtLine() : null;
+    d.innerHTML = '<span class="qz-spot-ic">' + ic + '</span><span><small>Injection spot</small><b>' + esc(zoneLabel(L.site)) + '</b>' + (joke ? '<i class="qz-joke">' + esc(joke.name.replace('Researcher ', '')) + ': “' + esc(joke.text) + '”</i>' : '') + '</span>';
     b.insertBefore(d, b.firstChild);
   }
   function logSteps(){
@@ -3788,6 +3793,7 @@ function showTab(name){
   html body #pdx-app .pa-empty b{color:#1a1626;}
   html body #pdx-app .pa-add{display:flex;align-items:center;justify-content:center;width:100%;height:54px;margin-top:12px;border-radius:14px !important;border:2px dashed #e0a59b !important;background:#fff8f6 !important;color:#d7261e !important;font:800 16px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
   html body #pdx-app .pa-add:hover{border-style:solid !important;}
+  html body #pdx-app .pa-add.pa-add-top{margin:4px 0 14px;}
   html body #pdx-app .pa-add.big{height:60px;border:none !important;background:#d7261e !important;color:#fff !important;margin-top:4px;}
   /* injection map */
   html body #pdx-app .pa-next{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:#eef8f0;border:1px solid #cfe6cd;font:600 14.5px/1.4 'Inter',sans-serif;color:#1f5f2a;}
@@ -4643,7 +4649,7 @@ function showTab(name){
           var s0 = p.startDateTime.split('T')[0], t = todayStr(), tot = p.durationDays;
           var dd = Math.round((new Date(t + 'T00:00:00') - new Date(s0 + 'T00:00:00')) / 86400000), left = tot - dd, frac = Math.max(0, Math.min(1, (dd + 1) / tot)), cb = '', k;
           for (k = 0; k < 6; k++) cb += '<b class="' + (k < Math.round((1 - frac) * 6) ? 'on' : '') + '"></b>';
-          var txt = dd < 0 ? 'STARTS IN ' + (-dd) + 'D' : (left <= 0 ? 'COMPLETE' : left + 'D LEFT');
+          var txt = dd < 0 ? 'STARTS IN ' + (-dd) + 'D' : (left <= 0 ? 'COMPLETE' : (left >= 60 && window.pmdSpan ? pmdSpan(left).toUpperCase().replace(' YR', 'Y').replace(' MO', 'M') + ' LEFT' : left + 'D LEFT'));
           return '<div class="lcd-meter cyc' + (left > 0 && left <= 7 ? ' low' : '') + '">CYCLE <i>' + cb + '</i> ' + txt + '</div>';
         })()
       + '<div class="lcd-meter ' + mcls + '">' + (oral ? 'BTL' : 'VIAL') + ' <i>' + blocks + '</i> ' + mtxt + '</div>'
@@ -5012,8 +5018,8 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
         + '<div class="pl-btns"><button type="button" class="pl-b pri" data-a="sync">⟳ Sync now</button><button type="button" class="pl-b ghost" data-a="out">Sign out</button></div>';
     } else if (mode === 'pick') {
       h += '<h3>Log in to PokeMe-Dex</h3><p>Save your log to the cloud and use it on any phone or computer. Free, and the same account works on ruivpndata.com.</p>' + msg
-        + '<div class="pl-btns"><button type="button" class="pl-b pri" data-a="google"><span class="pl-g">G</span> Continue with Google</button><button type="button" class="pl-b" data-a="email">✉ Use email</button></div>'
-        + '<p class="pl-small">Signing in merges what\'s already on this device into your account, so nothing is lost.</p>';
+        + '<div class="pl-btns"><button type="button" class="pl-b pri" data-a="google"><span class="pl-g">G</span> Continue with Google</button><button type="button" class="pl-b" data-a="email">✉ Use any email</button></div>'
+        + '<p class="pl-small"><b>Any email works</b>: Gmail, Hotmail, Outlook, Yahoo, iCloud… Signing in merges what\'s already on this device into your account, so nothing is lost.</p>';
     } else {
       var isNew = mode === 'new';
       h += '<h3>' + (isNew ? 'Create your account' : 'Log in with email') + '</h3><p>' + (isNew ? 'Use any email and a password with at least 6 characters.' : 'Use the email and password for your PokeMe-Dex or ruivpndata.com account.') + '</p>' + msg
@@ -5030,7 +5036,7 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     var b = e.target.closest('[data-a]'); if (!b) return;
     var a = b.getAttribute('data-a'); note = '';
     if (a === 'pick' || a === 'email' || a === 'new') { mode = a; render(); return; }
-    if (a === 'google') { var m = await S().google(); note = m; noteOk = false; render(); return; }
+    if (a === 'google') { var m = await S().google(); note = m; noteOk = false; if (/isn.t available on this address/.test(m || '')) mode = 'email'; render(); return; }
     if (a === 'reset') {
       var v = (el.querySelector('#pl-em') || {}).value || '';
       if (!v.trim()) { note = 'Type your email above first.'; noteOk = false; render(); return; }
@@ -5063,12 +5069,12 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
       card.classList.toggle('on', !!u);
       card.innerHTML = u
         ? '<div class="plc-h"><b>☁️ Synced as ' + esc(who(u)) + '</b></div><p>Your log is backed up and follows you to every device. Last sync: ' + (S() ? S().ago(st.last) : '') + '.</p><div class="plc-btns"><button type="button" onclick="pmdLoginOpen()">Account &amp; sync</button></div>'
-        : '<div class="plc-h"><b>☁️ Never lose your log</b></div><p>Log in and your log saves to the cloud and follows you to any phone or computer. Free.</p><div class="plc-btns"><button type="button" class="pri" onclick="pmdLoginGo(\'google\')"><span class="pl-g">G</span> Continue with Google</button><button type="button" onclick="pmdLoginOpen(\'email\')">✉ Use email</button></div>';
+        : '<div class="plc-h"><b>☁️ Never lose your log</b></div><p>Log in and your log saves to the cloud and follows you to any phone or computer. Free.</p><div class="plc-btns"><button type="button" class="pri" onclick="pmdLoginGo(\'google\')"><span class="pl-g">G</span> Continue with Google</button><button type="button" onclick="pmdLoginOpen(\'email\')">✉ Use any email</button></div>';
     }
     if (el && u && mode !== 'account') { mode = 'account'; note = '✓ Signed in. Your log is syncing now.'; noteOk = true; }
     if (el) render();
   };
-  window.pmdLoginGo = async function(){ if (!S()) return pmdLoginOpen(); var m = await S().google(); if (m) { mode = 'pick'; note = m; noteOk = false; render(); } };
+  window.pmdLoginGo = async function(){ if (!S()) return pmdLoginOpen(); var m = await S().google(); if (m) { mode = /isn.t available on this address/.test(m) ? 'email' : 'pick'; note = m; noteOk = false; render(); } };
   pmdLoginDraw();
   var tries = 0, t = setInterval(function(){ if (S() || ++tries > 40) { clearInterval(t); pmdLoginDraw(); } }, 250);
 })();
@@ -5744,6 +5750,99 @@ function pmdRequestPeptide(name){
   var L = ['Hi! Please add this peptide to PokeMe-Dex / PepDex.', '', 'Peptide name: ' + n, 'What it is used for:', 'Dose used in the study (amount and how often):', 'Cycle length:', 'How it is taken (injection / oral / nasal / topical):', '', 'PROOF (required)', 'Study link (PubMed, DOI or journal page):', 'Study year and authors:', 'Who it was tested in (people, animals, lab):', 'Main results:', '', 'Anything else:'];
   location.href = 'mailto:verifiedpeptidenetwork@gmail.com?subject=' + encodeURIComponent('PepDex request: ' + (n || 'new peptide')) + '&body=' + encodeURIComponent(L.join(String.fromCharCode(10)));
 }
+</script>
+<script>
+(function(){
+  function months(days){ // "1 yr 7 mo", "7 mo", or days for short spans
+    if (days < 60) return days + ' day' + (days === 1 ? '' : 's');
+    var m = Math.round(days / 30.44), y = Math.floor(m / 12), r = m % 12;
+    return y ? (y + ' yr' + (r ? ' ' + r + ' mo' : '')) : (m + ' mo');
+  }
+  window.pmdSpan = months;
+  // one vial can't be used past 6 weeks after mixing, so long courses need a fresh vial at least every 6 weeks
+  var basePlan = window.pmdVialPlan;
+  window.pmdVialPlan = function(s){
+    var v = basePlan ? basePlan(s) : null; if (!v) return v;
+    var byAge = Math.ceil((s.weeks || 0) / 6);
+    v.days = Math.min(v.days, 42); v.vials = Math.max(v.vials, byAge); v.capped = v.vials === byAge && byAge > 1;
+    return v;
+  };
+  var baseNote = window.pmdCycleNote;
+  window.pmdCycleNote = function(s, box, review){
+    if (baseNote) baseNote(s, box, review);
+    var d = (typeof PEPTIDES !== 'undefined' && PEPTIDES[s.key]) || {};
+    if (d.glp && !review) box.innerHTML = box.innerHTML.replace(/✓ \d+ weeks is within the usual 12–104 week cycle for [^.<]+\./, '✓ ' + months(s.weeks * 7) + ' is a typical GLP course (they usually run 3 months to 2 years).');
+    if (!s.oral && (s.weeks || 0) > 6 && !review) {
+      box.innerHTML = box.innerHTML.replace(/<br>🧊 Mixed vials are best used within about 6 weeks\. We'll remind you to prepare a new one\./, '').replace(/ This cycle needs about \d+ vials?\./, '');
+      var vp = window.pmdVialPlan ? pmdVialPlan(s) : null;
+      box.innerHTML += '<br>🔁 ' + (d.glp ? 'GLP courses usually run 1–2 years. ' : 'This course is longer than one vial lasts. ')
+        + '<b>Each mixed vial is good for 6 weeks</b>, so you\'ll mix a fresh vial about every 6 weeks' + (vp ? ' (about ' + vp.vials + ' vials over ' + months(s.weeks * 7) + ')' : '') + '. We count down every vial for you in My Dex.';
+    }
+  };
+  // My Dex cycle countdown: long courses in months / years, called a "course"
+  var baseCycle = window.pmdCycleClock;
+  window.pmdCycleClock = function(p){
+    var html = baseCycle ? baseCycle(p) : '';
+    if (p.durationDays <= 84) return html;
+    var start = p.startDateTime.split('T')[0], t = todayStr();
+    var day = Math.round((new Date(t + 'T00:00:00') - new Date(start + 'T00:00:00')) / 86400000) + 1, left = p.durationDays - day + 1;
+    if (day < 1 || left <= 0) return html.replace('this cycle', 'this course');
+    return html.replace(/📅 \d+ days? left in this cycle/, '📅 ' + months(left) + ' left in this course').replace(/\(\d+ weeks total[^)]*\)/, '(' + months(p.durationDays) + ' course)');
+  };
+  // vial countdown: remind that a long course keeps going with a fresh vial
+  var baseVial = window.pmdVialClock;
+  window.pmdVialClock = function(p, st, life){
+    var html = baseVial ? baseVial(p, st, life) : '';
+    if (!html || p.durationDays <= 42) return html;
+    var left = p.durationDays - (Math.round((new Date(todayStr() + 'T00:00:00') - new Date(p.startDateTime.split('T')[0] + 'T00:00:00')) / 86400000) + 1) + 1;
+    if (left <= 42) return html;
+    return html.replace(/<\/div><\/div>$/, ' Your course keeps going: just mix a fresh vial and tap <b>＋ New vial</b>.</div></div>');
+  };
+  if (typeof renderDashboard === 'function') renderDashboard();
+})();
+</script>
+<style id="pdx-butt-css">
+  /* a little joke: hover the glutes and the researcher complains */
+  html body #pdx-app .pa-body{position:relative;}
+  .pdx-butt{position:absolute;left:50%;top:6%;z-index:5;transform:translate(-50%,-6px) scale(.9);opacity:0;pointer-events:none;max-width:86%;padding:10px 14px;border-radius:16px;border:3px solid #1a1a1a;background:#fff;color:#1a1626;font:900 15px/1.25 'Inter',system-ui,sans-serif;text-align:center;box-shadow:0 8px 20px -8px rgba(0,0,0,0.5);transition:opacity .15s,transform .2s cubic-bezier(.2,1.6,.4,1);}
+  .pdx-butt::after{content:'';position:absolute;left:50%;top:-11px;width:16px;height:16px;background:#fff;border-left:3px solid #1a1a1a;border-top:3px solid #1a1a1a;transform:translateX(-50%) rotate(45deg);}
+  .pdx-butt small{display:block;margin-top:2px;font:800 10.5px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#d7261e;}
+  .pdx-butt.show{opacity:1;transform:translate(-50%,0) scale(1);animation:pdxButtShake .45s ease-in-out;}
+  @keyframes pdxButtShake{0%,100%{rotate:0deg;}25%{rotate:-4deg;}50%{rotate:4deg;}75%{rotate:-2deg;}}
+  .qz-spot .qz-joke{display:block;margin-top:3px;font:700 12.5px/1.3 'Inter',sans-serif;color:#b3261e;font-style:italic;}
+  @media(prefers-reduced-motion:reduce){ .pdx-butt.show{animation:none;} }
+</style>
+<script>
+(function(){
+  var LINES = {
+    m:['Hey! Stop touching my butt! 🦍', 'Excuse me?! That\'s my glute, not a button! 🍑', 'Whoa, buy me a banana first! 🍌'],
+    f:['RAWR! Stop touching my butt! 🦖', 'My arms are too short to stop you… STOP touching my butt! 🦖', 'Hey! Eyes on the screen, not my tail end! 🍑']
+  };
+  function who(){ var f = false; try { f = localStorage.getItem('pmd_body') === 'f'; } catch(e){} return f ? 'f' : 'm'; }
+  var n = 0, timer = null;
+  window.pmdButtLine = function(){ var k = who(), l = LINES[k]; return { text: l[n++ % l.length], name: k === 'f' ? 'Researcher Wrex' : 'Researcher Glowrilla' }; };
+  function bubble(){
+    var host = document.getElementById('pa-body'); if (!host) return null;
+    var b = host.querySelector('.pdx-butt');
+    if (!b) { b = document.createElement('div'); b.className = 'pdx-butt'; b.setAttribute('aria-hidden', 'true'); host.appendChild(b); }
+    return b;
+  }
+  function show(g){
+    var b = bubble(); if (!b) return; var l = pmdButtLine();
+    var host = b.parentNode, hr = host.getBoundingClientRect(), gr = g.getBoundingClientRect();
+    b.style.top = Math.min(gr.bottom - hr.top + 16, host.clientHeight - 90) + 'px'; b.style.left = (gr.left + gr.width / 2 - hr.left) + 'px';
+    b.innerHTML = l.text + '<small>' + l.name + '</small>';
+    b.classList.remove('show'); void b.offsetWidth; b.classList.add('show');
+    clearTimeout(timer); timer = setTimeout(function(){ b.classList.remove('show'); }, 2200);
+  }
+  document.addEventListener('mouseover', function(e){
+    var g = e.target.closest && e.target.closest('#pa-body .pz'); if (!g) return;
+    if (!/^G[LR]$/.test(g.getAttribute('data-z') || '')) return;
+    if (e.relatedTarget && g.contains(e.relatedTarget)) return;
+    show(g);
+  });
+  document.addEventListener('focusin', function(e){ var g = e.target.closest && e.target.closest('#pa-body .pz'); if (g && /^G[LR]$/.test(g.getAttribute('data-z') || '')) show(g); });
+})();
 </script>
 </body>
 </html>
