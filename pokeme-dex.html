@@ -1980,19 +1980,20 @@ var PEPTIDES = {
   cagri:  { name:'Cagrilintide', desc:'An amylin-analog peptide studied for reducing appetite and food intake — often paired with GLP-1s like Tirzepatide or Semaglutide (sometimes called "CagriSema") for enhanced fat loss. Usually started low and slowly increased, once a week.', vial:10, water:2, start:0.25, step:0.25, weeks:4, freq:1 },
   aod:    { name:'AOD-9604', desc:'A small piece of growth hormone that has been studied for helping the body burn fat — without the muscle-building effects of full growth hormone. Usually injected daily, 5 days a week, for 8-12 weeks.', vial:5, water:2, start:0.3, step:0.1, weeks:8, freq:5 },
   mots:   { name:'MOTS-c', desc:'Helps support your cells’ energy production — studied for boosting metabolism, energy levels, and exercise performance. Commonly used 3 times a week for 8-12 weeks.', vial:10, water:2, start:5, step:0, weeks:8, freq:3 },
-  atx:    { name:'ATX-304', oral:true, pill:400, perDay:1, desc:'An oral AMPK activator (the body\'s "low fuel" sensor that exercise also switches on). In its first human trial (2026) 400 mg a day for 8 weeks lowered liver fat, visceral fat and triglycerides, with little weight loss. Investigational, not approved. Don\'t stack with MOTS-c (both hit AMPK).', start:400, step:0, weeks:8, freq:7, time:'morning' },
+  atx:    { name:'ATX-304', oral:true, pill:200, pills:[100,200], perDay:1, desc:'An oral AMPK activator (the body\'s "low fuel" sensor that exercise also switches on). Comes as a 100 mg or 200 mg pill, taken as 1 pill. In its first human trial (2026) 400 mg a day for 8 weeks lowered liver fat, visceral fat and triglycerides, with little weight loss. Investigational, not approved. Don\'t stack with MOTS-c (both hit AMPK).', start:200, step:0, weeks:8, freq:7, time:'morning' },
+  lacto:  { name:'Lactoferrin', oral:true, pill:300, perDay:1, desc:'An iron-binding milk protein studied for immune support, iron status and visceral fat. Research commonly uses about 300 mg a day (often split into 2 servings) for about 8 weeks, taken by mouth.', start:300, step:0, weeks:8, freq:7, time:'morning' },
   lara:   { name:'Larazotide', oral:true, pill:0.5, perDay:3, desc:'An oral tight-junction regulator studied for "leaky gut" and celiac disease, and explored for long COVID. Trials used 0.5 mg three times a day, about 15 minutes before meals. Investigational, not approved.', start:0.5, step:0, weeks:12, freq:7, time:'any' },
-  bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
+  bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7, forms:true, oralPill:0.5 },
   tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
   cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
   nad:    { name:'NAD+', desc:'A natural compound your cells need for energy — studied for anti-aging, brain function, and supporting overall cell health. Commonly dosed daily to a few times a week for 4-8 weeks.', vial:500, water:2, start:50, step:0, weeks:6, freq:5 },
-  ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7 },
+  ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7, forms:true, oralPill:1 },
   epi:    { name:'Epitalon', desc:'Studied for improving sleep patterns and supporting healthy aging at the cellular level. Used daily for a short 10-20 day course, then stopped.', vial:10, water:2, start:5, step:0, weeks:2, freq:7 },
   tesa:   { name:'Tesamorelin', desc:'Helps your body release more growth hormone — studied especially for reducing stubborn belly fat (visceral fat). Injected daily for 8-12 weeks.', vial:2, water:2, start:1, step:0, weeks:8, freq:7 },
   dsip:   { name:'DSIP', desc:'Short for "Delta Sleep-Inducing Peptide" — studied for helping you fall asleep and improving sleep quality. Used daily before bed for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, time:'pm' },
   semax:  { name:'Semax', desc:'A brain-focused peptide — studied for improving focus, memory, and protecting brain cells. Typically used daily for 2-4 weeks, often 5 days on / 2 days off.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:5 },
   selank: { name:'Selank', desc:'A calming brain-focused peptide — studied for reducing stress and anxiety while keeping your mind clear. Typically used daily for 2-4 weeks.', vial:10, water:2, start:0.3, step:0, weeks:4, freq:7 },
-  kpv:    { name:'KPV', desc:'A small anti-inflammatory peptide — studied for calming gut inflammation, helping skin heal, and reducing inflammation throughout the body. Often used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
+  kpv:    { name:'KPV', desc:'A small anti-inflammatory peptide — studied for calming gut inflammation, helping skin heal, and reducing inflammation throughout the body. Often used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7, forms:true, oralPill:0.5 },
   ss31:   { name:'SS-31 (Elamipretide)', desc:'Often paired with MOTS-c — studied for supporting your cells’ energy centers (mitochondria) and helping the body respond better to insulin. Commonly dosed daily for 4-8 weeks.', vial:10, water:2, start:1, step:0, weeks:6, freq:7 },
   pt141:  { name:'PT-141 (Bremelanotide)', desc:'Studied for boosting libido and sexual response — works for both men and women. Used as-needed, no more than a couple times a week.', vial:10, water:2, start:0.5, step:0, weeks:4, freq:2, gender:'both' },
   kisspeptin: { name:'Kisspeptin-10', desc:'Studied for naturally supporting testosterone and reproductive hormone levels — mostly researched in men. Commonly dosed daily for 4-8 weeks.', vial:5, water:2, start:0.1, step:0, weeks:6, freq:7, gender:'male' },
@@ -3405,6 +3406,13 @@ function showTab(name){
           inp.onkeydown = function(e){ if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); var f = list.querySelector('.qz-prow'); if (f) f.click(); } };
           draw();
         } },
+      { q: function(s){ return 'How do you take ' + s.name + '?'; }, help: 'It comes as an injection or as a pill / capsule.',
+        skip: function(s){ var d = PEPTIDES[s.key] || {}; return !d.forms; },
+        render: function(s, b){
+          var d = PEPTIDES[s.key] || {};
+          chips(b, [{ v:'inj', t:'💉 Injection', s:'Vial mixed with bacteriostatic water' }, { v:'oral', t:'💊 Pill / capsule', s:'Taken by mouth' }], function(v){ return (v === 'oral') === !!s.oral; },
+            function(v){ s.oral = v === 'oral'; if (s.oral) { s.pill = s.pill || d.oralPill || 0.5; s.perDay = s.perDay || 1; s.dose = s.pill; } else { s.dose = d.start; } }, { auto:true, wide:true });
+        } },
       { q: function(s){ return 'How many mg are in your ' + s.name + ' vial?'; }, help: 'Look at the label on the vial.', skip: function(s){ return s.oral; },
         valid: function(s){ return s.vial > 0; },
         render: function(s, b){
@@ -3429,7 +3437,13 @@ function showTab(name){
       { q: function(s){ return 'How many mg is each ' + s.name + ' pill?'; }, help: 'Check the bottle label.', skip: function(s){ return !s.oral; },
         valid: function(s){ return s.pill > 0; },
         render: function(s, b){
-          var def = (PEPTIDES[s.key] || {}).pill, list = [def, def / 2, def * 2].filter(function(v, k, a){ return v > 0 && a.indexOf(v) === k; });
+          var pd = PEPTIDES[s.key] || {}, def = pd.pill || pd.oralPill || s.pill;
+          if (pd.pills) { // fixed pill sizes, 1 pill per dose (e.g. ATX-304: 100 mg or 200 mg)
+            if (pd.pills.indexOf(s.pill) === -1) { s.pill = pd.pill; s.dose = pd.pill; }
+            chips(b, pd.pills.map(function(v){ return { v:v, t:'1 pill · ' + v + ' mg' }; }), function(v){ return s.pill === v; }, function(v){ s.pill = v; s.dose = v; }, { auto:true, wide:true });
+            return;
+          }
+          var list = [def, def / 2, def * 2].filter(function(v, k, a){ return v > 0 && a.indexOf(v) === k; });
           chips(b, list.map(function(v){ return { v:r2(v), t:r2(v) + ' mg' }; }), function(v){ return s.pill === v; }, function(v){ s.pill = v; }, { auto:true });
           numField(b, 'Or type it', s.pill, 'mg', stepFor(s.pill || 1), function(v){ s.pill = v; });
         } },
@@ -4313,7 +4327,7 @@ function showTab(name){
         + '<b class="dx-name">' + esc(p.name) + '</b>'
         + '<div class="dx-meta"><b>' + p.dose + ' mg</b> · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '×/day' : '') + ' · ' + when + (oral ? ' · ' + pmdPillTxt(p) : ' · <b>' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units</b>') + '</div>'
         + '<div class="dx-prog"><div><span>Day ' + day + ' of ' + p.durationDays + '</span><span>' + daysRemaining(p) + ' left</span></div><i><u style="width:' + pct + '%"></u></i></div>'
-        + '<div class="dx-stock ' + cls + '"><span>' + stockTxt + mixedTxt + '</span><span class="dx-spare">Spare <button type="button" aria-label="One less spare" onclick="pmdSpare(\'' + p.id + '\',-1)">−</button>' + (p.spare || 0) + '<button type="button" aria-label="One more spare" onclick="pmdSpare(\'' + p.id + '\',1)">+</button></span></div>'
+        + '<div class="dx-stock ' + cls + '"><span>' + stockTxt + mixedTxt + '</span><span class="dx-spare">' + (oral ? 'Spare bottles' : 'Spare vials') + ' <button type="button" class="sp-info" aria-label="What are spare ' + (oral ? 'bottles' : 'vials') + '?" onclick="pmdToast(\'' + (oral ? '💊 <b>Spare bottles</b> = unopened bottles you have in stock. When you tap <b>＋ New bottle</b>, one is used from this count.' : '🧪 <b>Spare vials</b> = unopened vials you have in stock. When you tap <b>＋ New vial</b>, one is used from this count, so you know when to reorder.') + '\')">?</button> <button type="button" aria-label="One less spare" onclick="pmdSpare(\'' + p.id + '\',-1)">−</button>' + (p.spare || 0) + '<button type="button" aria-label="One more spare" onclick="pmdSpare(\'' + p.id + '\',1)">+</button></span></div>'
         + (window.pmdCycleClock ? pmdCycleClock(p) : '')
         + (window.pmdVialClock ? pmdVialClock(p, st, life) : '')
         + warns.map(function(w){ return '<div class="dx-warn">' + w + '</div>'; }).join('') + cycTxt
