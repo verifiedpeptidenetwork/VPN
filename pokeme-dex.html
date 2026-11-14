@@ -3484,10 +3484,19 @@ function showTab(name){
           var opts = glpC ? [{ v:12, t:'3 months', s:'12 weeks' }, { v:26, t:'6 months', s:'26 weeks' }, { v:52, t:'1 year', s:'52 weeks' }, { v:104, t:'2 years', s:'104 weeks' }]
                           : [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks', s: rg && v > rg[1] ? 'Longer than usual' : '' }; });
           chips(b, opts, function(v){ return s.weeks === v; }, function(v){ s.weeks = v; paint(); }, {});
-          numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); paint(); });
+          var wkIn = numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); paint(); });
+          var spanEl = document.createElement('div'); spanEl.className = 'qz-span'; spanEl.setAttribute('aria-live', 'polite'); b.appendChild(spanEl);
           dateField(b, 'Start date', s.start, function(v){ s.start = v || todayStr(); }).removeAttribute('max');
           h = hintBox(b);
-          function paint(){ if (window.pmdCycleNote) pmdCycleNote(s, h); }
+          function paint(){
+            if (wkIn && document.activeElement !== wkIn) wkIn.value = s.weeks;
+            var w = s.weeks || 0, mo = Math.round(w * 7 / 30.44), y = Math.floor(mo / 12), r = mo % 12;
+            if (w < 8) { spanEl.hidden = true; } else {
+              spanEl.hidden = false;
+              spanEl.innerHTML = '📅 ' + w + ' weeks ≈ <b>' + mo + ' month' + (mo === 1 ? '' : 's') + '</b>' + (y ? ' = <b>' + y + ' year' + (y === 1 ? '' : 's') + (r ? ' ' + r + ' month' + (r === 1 ? '' : 's') : '') + '</b>' : '');
+            }
+            if (window.pmdCycleNote) pmdCycleNote(s, h);
+          }
           paint();
         } },
       { q: 'Look good?', help: 'You can edit this any time from My Peptides.', cta: '✓ Save to My Peptides',
@@ -3794,6 +3803,9 @@ function showTab(name){
   html body #pdx-app .pa-add{display:flex;align-items:center;justify-content:center;width:100%;height:54px;margin-top:12px;border-radius:14px !important;border:2px dashed #e0a59b !important;background:#fff8f6 !important;color:#d7261e !important;font:800 16px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
   html body #pdx-app .pa-add:hover{border-style:solid !important;}
   html body #pdx-app .pa-add.pa-add-top{margin:4px 0 14px;}
+  .qz-span{margin:8px 2px 2px;padding:9px 12px;border-radius:12px;background:#fff6d6;border:1.5px solid #f0d27a;color:#4a3b12;font:600 14.5px/1.35 'Inter',system-ui,sans-serif;}
+  .qz-span b{font-weight:800;color:#1a1626;}
+  .qz-span[hidden]{display:none;}
   html body #pdx-app .pa-add.big{height:60px;border:none !important;background:#d7261e !important;color:#fff !important;margin-top:4px;}
   /* injection map */
   html body #pdx-app .pa-next{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:#eef8f0;border:1px solid #cfe6cd;font:600 14.5px/1.4 'Inter',sans-serif;color:#1f5f2a;}
@@ -4226,6 +4238,8 @@ function showTab(name){
     host.addEventListener('focusin', function(e){ var g = e.target.closest('.pz'); if (g) show(g); });
     host.addEventListener('focusout', hide);
     host.addEventListener('click', hide);
+    host.addEventListener('mouseleave', hide);
+    document.addEventListener('pointerdown', function(e){ if (!host.contains(e.target)) hide(); }, true);
     window.addEventListener('scroll', hide, { passive:true });
     guide.addEventListener('click', function(e){ var b = e.target.closest('[data-g]'); if (b) drawGuide(b.getAttribute('data-g')); });
     guide.addEventListener('change', function(e){ if (e.target.closest('.pg-sel select')) drawGuide(e.target.value); });
