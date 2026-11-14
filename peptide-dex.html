@@ -188,7 +188,7 @@
 </header>
 
 <main class="dx-main">
-  <section aria-label="All entries"><div class="dx-count" id="dx-count"></div><div class="dx-list" id="dx-list"></div><div class="dx-ctrl"><div class="dpad" role="group" aria-label="Previous or next peptide"><button type="button" class="u" aria-label="Previous" onclick="dxStep(-1)"></button><button type="button" class="l" aria-label="Previous" onclick="dxStep(-1)"></button><span class="c"></span><button type="button" class="r" aria-label="Next" onclick="dxStep(1)"></button><button type="button" class="d" aria-label="Next" onclick="dxStep(1)"></button></div><div class="ab" aria-hidden="true"><i></i><i></i></div><div class="spk" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div></section>
+  <section aria-label="All entries"><div class="dx-count" id="dx-count"></div><div class="dx-list" id="dx-list"></div><button type="button" class="dx-req" onclick="pmdRequestPeptide(document.getElementById(&quot;dx-q&quot;).value)"><span>📧</span><span><b>Missing a peptide?</b><small>Email us the study as proof and we will add it.</small></span></button><div class="dx-ctrl"><div class="dpad" role="group" aria-label="Previous or next peptide"><button type="button" class="u" aria-label="Previous" onclick="dxStep(-1)"></button><button type="button" class="l" aria-label="Previous" onclick="dxStep(-1)"></button><span class="c"></span><button type="button" class="r" aria-label="Next" onclick="dxStep(1)"></button><button type="button" class="d" aria-label="Next" onclick="dxStep(1)"></button></div><div class="ab" aria-hidden="true"><i></i><i></i></div><div class="spk" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div></section>
   <article class="dx-entry" id="dx-entry" aria-live="polite"></article>
 </main>
 <p class="dx-foot">Research and education only, not medical advice. Doses are what's used in research, not recommendations for you. Talk to a licensed doctor and get blood work before starting anything. Pokémon parody, not affiliated with Nintendo / Game Freak.</p>
@@ -407,5 +407,18 @@
   @media(max-width:600px){ .pd-tabs{grid-template-columns:repeat(5,1fr);width:calc(100% - 24px);} .pd-tabs .pd-gear{display:flex;} }
   body.dx-open .pd-tabs{display:none;}
 </style>
+<style>
+  .dx-req{display:flex;align-items:center;gap:12px;width:100%;margin:10px 0 4px;padding:12px 14px;border-radius:14px;border:2px dashed #d7261e;background:#fff6f5;color:var(--ink);text-align:left;cursor:pointer;font-size:22px;}
+  .dx-req:hover{background:#ffecea;}
+  .dx-req b{display:block;font:800 15px/1.2 'Inter',sans-serif;color:#b3261e;}
+  .dx-req small{display:block;margin-top:2px;font:500 13px/1.35 'Inter',sans-serif;color:#5d5668;}
+</style>
+<script>
+function pmdRequestPeptide(name){
+  var n = String(name || '').trim();
+  var L = ['Hi! Please add this peptide to PokeMe-Dex / PepDex.', '', 'Peptide name: ' + n, 'What it is used for:', 'Dose used in the study (amount and how often):', 'Cycle length:', 'How it is taken (injection / oral / nasal / topical):', '', 'PROOF (required)', 'Study link (PubMed, DOI or journal page):', 'Study year and authors:', 'Who it was tested in (people, animals, lab):', 'Main results:', '', 'Anything else:'];
+  location.href = 'mailto:verifiedpeptidenetwork@gmail.com?subject=' + encodeURIComponent('PepDex request: ' + (n || 'new peptide')) + '&body=' + encodeURIComponent(L.join(String.fromCharCode(10)));
+}
+</script>
 </body>
 </html>

@@ -1984,7 +1984,6 @@ var PEPTIDES = {
   lara:   { name:'Larazotide', oral:true, pill:0.5, perDay:3, desc:'An oral tight-junction regulator studied for "leaky gut" and celiac disease, and explored for long COVID. Trials used 0.5 mg three times a day, about 15 minutes before meals. Investigational, not approved.', start:0.5, step:0, weeks:12, freq:7, time:'any' },
   bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
   tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
-  bb20:   { name:'BB20 (BPC-157 + TB-500)', desc:'A blend vial of BPC-157 10 mg + TB-500 10 mg (20 mg total), both studied for tissue repair and recovery. The dose is of the whole blend: 1 mg = 0.5 mg BPC-157 + 0.5 mg TB-500. Commonly run for 4-12 weeks.', vial:20, water:2, start:1, step:0, weeks:6, freq:7, range:[4,12] },
   cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
   nad:    { name:'NAD+', desc:'A natural compound your cells need for energy — studied for anti-aging, brain function, and supporting overall cell health. Commonly dosed daily to a few times a week for 4-8 weeks.', vial:500, water:2, start:50, step:0, weeks:6, freq:5 },
   ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7 },
@@ -3381,17 +3380,26 @@ function showTab(name){
             btn.onclick = function(){ Object.assign(s, stFromDef(k)); s.fixed = false; next(); };
             list.appendChild(btn);
           }
+          function reqRow(t){
+            var r = document.createElement('button'); r.type = 'button'; r.className = 'qz-req';
+            var tt = String(t || '').trim();
+            r.innerHTML = '<span class="qz-req-ic">📧</span><span><b>Missing a peptide?</b><small>Email us the study as proof and we will add it' + (tt ? ': ' + esc(tt) : '') + '.</small></span>';
+            r.onclick = function(){ pmdRequestPeptide(inp.value); };
+            list.appendChild(r);
+          }
           function draw(){
             var q = norm(inp.value); list.innerHTML = '';
             if (!q) {
               label('Popular'); POP.forEach(row);
               label('All peptides A–Z');
               Object.keys(PEPTIDES).filter(function(k){ return POP.indexOf(k) === -1; }).sort(function(a, c){ return PEPTIDES[a].name.localeCompare(PEPTIDES[c].name); }).forEach(row);
+              reqRow('');
               return;
             }
             var hits = Object.keys(PEPTIDES).filter(function(k){ return norm(PEPTIDES[k].name).indexOf(q) !== -1 || norm(k).indexOf(q) !== -1; });
-            if (!hits.length) { list.innerHTML = '<div class="qz-empty">No match. Try a shorter name, like "bpc" or "reta".</div>'; return; }
+            if (!hits.length) { list.innerHTML = '<div class="qz-empty">No match. Try a shorter name, like "bpc" or "reta".</div>'; reqRow(inp.value); return; }
             hits.forEach(row);
+            reqRow(inp.value);
           }
           inp.oninput = draw;
           inp.onkeydown = function(e){ if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); var f = list.querySelector('.qz-prow'); if (f) f.click(); } };
@@ -5708,6 +5716,20 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   var sel = document.querySelector('#pa-guide .pg-sel select');
   if (sel) sel.dispatchEvent(new Event('change', { bubbles:true }));
 })();
+</script>
+<style id="pdx-request-css">
+  .qz-req{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:12px 14px !important;border-radius:14px !important;border:2px dashed #d7261e !important;background:#fff6f5 !important;color:#1a1626 !important;text-align:left;cursor:pointer;}
+  .qz-req:hover{background:#ffecea !important;}
+  .qz-req .qz-req-ic{font-size:22px;}
+  .qz-req b{display:block;font:800 15px/1.2 'Inter',sans-serif;color:#b3261e;}
+  .qz-req small{display:block;margin-top:2px;font:500 13px/1.35 'Inter',sans-serif;color:#5d5668;}
+</style>
+<script>
+function pmdRequestPeptide(name){
+  var n = String(name || '').trim();
+  var L = ['Hi! Please add this peptide to PokeMe-Dex / PepDex.', '', 'Peptide name: ' + n, 'What it is used for:', 'Dose used in the study (amount and how often):', 'Cycle length:', 'How it is taken (injection / oral / nasal / topical):', '', 'PROOF (required)', 'Study link (PubMed, DOI or journal page):', 'Study year and authors:', 'Who it was tested in (people, animals, lab):', 'Main results:', '', 'Anything else:'];
+  location.href = 'mailto:verifiedpeptidenetwork@gmail.com?subject=' + encodeURIComponent('PepDex request: ' + (n || 'new peptide')) + '&body=' + encodeURIComponent(L.join(String.fromCharCode(10)));
+}
 </script>
 </body>
 </html>
