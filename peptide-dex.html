@@ -114,6 +114,35 @@
   .dx-row.on .no{color:#8dffae;}
   @media(max-width:600px){ .dx-dose div{border-left:none;border-top:1px dashed rgba(141,255,174,0.3);} .dx-dose div:first-child{border-top:none;} }
   @media(prefers-reduced-motion:reduce){ .dx-sec h3::after{animation:none;} }
+  /* ── the whole Dex is one big PokeMe-Dex device ── */
+  .dx-main{position:relative;width:calc(100% - 32px);box-sizing:border-box;margin:22px auto 40px;padding:22px 22px 26px;border-radius:30px 30px 30px 90px;border:4px solid #1a1a1a;background:radial-gradient(120% 90% at 20% 0%,#ef3b46 0%,#c4142a 45%,#9b0e22 100%);box-shadow:inset 0 3px 0 rgba(255,255,255,0.25),inset 0 -8px 0 rgba(0,0,0,0.18),0 30px 60px -30px rgba(26,22,38,0.7);gap:28px;}
+  .dx-main::before{content:'';position:absolute;top:-4px;left:40px;right:40px;height:8px;border-radius:0 0 8px 8px;background:#1a1a1a;opacity:0.85;}
+  .dx-main > section{position:relative;padding:12px;border-radius:20px;background:#e9e4dc;box-shadow:inset 0 0 0 3px #1a1a1a,0 4px 0 rgba(0,0,0,0.2);}
+  .dx-main > section::after{content:'';position:absolute;top:30px;bottom:30px;right:-21px;width:12px;border-radius:8px;background:linear-gradient(90deg,#7c0a18,#b5122a 45%,#7c0a18);box-shadow:inset 0 0 0 2px #1a1a1a;}
+  .dx-count{margin:0 0 10px;padding:9px 12px;border-radius:10px;background:radial-gradient(120% 140% at 50% 0%,#12302a,#07160f 75%);color:#8dffae;font:400 12.5px/1 'Share Tech Mono',ui-monospace,monospace;letter-spacing:0.1em;text-shadow:0 0 6px rgba(124,255,155,0.6);box-shadow:inset 0 0 0 1px rgba(141,255,174,0.25);}
+  .dx-list{max-height:calc(100vh - 230px);max-height:calc(100dvh - 230px);overflow-y:auto;padding:2px 4px 4px 2px;scrollbar-width:thin;scrollbar-color:#b9ad97 transparent;}
+  .dx-ctrl{display:flex;align-items:center;gap:18px;margin-top:14px;padding:12px 8px 4px;border-top:2px dashed rgba(26,26,26,0.15);}
+  .dx-ctrl .dpad{position:relative;width:74px;height:74px;flex:0 0 auto;}
+  .dx-ctrl .dpad button,.dx-ctrl .dpad .c{position:absolute;width:26px;height:26px;padding:0;border:none;background:#1a1a1a;cursor:pointer;}
+  .dx-ctrl .dpad .u{left:24px;top:0;border-radius:6px 6px 0 0;} .dx-ctrl .dpad .d{left:24px;bottom:0;border-radius:0 0 6px 6px;}
+  .dx-ctrl .dpad .l{left:0;top:24px;border-radius:6px 0 0 6px;} .dx-ctrl .dpad .r{right:0;top:24px;border-radius:0 6px 6px 0;}
+  .dx-ctrl .dpad .c{left:24px;top:24px;border-radius:0;cursor:default;}
+  .dx-ctrl .dpad button:hover,.dx-ctrl .dpad button:focus-visible{background:#3a3a3a;outline:none;}
+  .dx-ctrl .dpad button:active{transform:translateY(1px);}
+  .dx-ctrl .ab{display:flex;gap:10px;}
+  .dx-ctrl .ab i{width:26px;height:26px;border-radius:50%;background:#1a1a1a;box-shadow:inset 0 3px 0 rgba(255,255,255,0.15);}
+  .dx-ctrl .spk{margin-left:auto;display:flex;gap:5px;transform:rotate(-20deg);}
+  .dx-ctrl .spk i{width:5px;height:34px;border-radius:3px;background:#b9ad97;}
+  .dx-entry{border-radius:22px;}
+  .dx-screen{box-shadow:none;}
+  @media(max-width:900px){
+    .dx-main{width:calc(100% - 16px);margin:12px auto 30px;padding:12px;border-radius:22px 22px 22px 50px;}
+    .dx-main::before{left:24px;right:24px;}
+    .dx-main > section{padding:10px;}
+    .dx-main > section::after{display:none;}
+    .dx-list{max-height:none;overflow:visible;}
+    .dx-ctrl{display:none;}
+  }
   @media(max-width:900px){
     .dx-main{grid-template-columns:minmax(0,1fr);}
     .dx-entry{position:fixed;inset:0;max-height:none;border-radius:0;z-index:50;overflow:auto;background:var(--cream);padding:12px 12px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden;}
@@ -139,7 +168,7 @@
 </header>
 
 <main class="dx-main">
-  <section aria-label="All entries"><div class="dx-count" id="dx-count"></div><div class="dx-list" id="dx-list"></div></section>
+  <section aria-label="All entries"><div class="dx-count" id="dx-count"></div><div class="dx-list" id="dx-list"></div><div class="dx-ctrl"><div class="dpad" role="group" aria-label="Previous or next peptide"><button type="button" class="u" aria-label="Previous" onclick="dxStep(-1)"></button><button type="button" class="l" aria-label="Previous" onclick="dxStep(-1)"></button><span class="c"></span><button type="button" class="r" aria-label="Next" onclick="dxStep(1)"></button><button type="button" class="d" aria-label="Next" onclick="dxStep(1)"></button></div><div class="ab" aria-hidden="true"><i></i><i></i></div><div class="spk" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div></section>
   <article class="dx-entry" id="dx-entry" aria-live="polite"></article>
 </main>
 <p class="dx-foot">Research and education only, not medical advice. Doses are what's used in research, not recommendations for you. Talk to a licensed doctor and get blood work before starting anything. Pokémon parody, not affiliated with Nintendo / Game Freak.</p>
