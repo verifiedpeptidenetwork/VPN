@@ -1267,19 +1267,25 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
   </nav>
   <div class="pdx">
     <div class="pdx-copy">
-      <span class="pdx-kick"><i></i>Free peptide dose tracker</span>
       <h1 class="pdx-h1">PokeMe-Dex</h1>
-      <p class="pdx-lead">Your peptide log, Pokédex style. Answer a few quick questions once, then log every dose and injection spot with a tap.</p>
-      <div class="pdx-cta">
-        <a class="pdx-btn pri" href="#how-card" onclick="showTab('tracker');setTimeout(function(){var s=document.getElementById('peptide-search');document.getElementById('how-card').scrollIntoView({behavior:'smooth',block:'start'});if(s)setTimeout(function(){s.focus({preventScroll:true});},500);},30);return false;">Start tracking →</a>
-        <a class="pdx-btn" href="#how-card" onclick="var c=document.getElementById('how-card');c.open=true;c.scrollIntoView({behavior:'smooth',block:'start'});return false;">How it works</a>
-      </div>
-      <ul class="pdx-trust"><li>Free</li><li>No account needed</li><li>Syncs when you sign in</li><li>Save as PDF or to Notes</li></ul>
-      <button type="button" class="pdx-sync" id="pdx-sync" aria-describedby="pdx-sync-sub">
-        <span class="pdx-sync-ic" aria-hidden="true">☁️<span class="g">G</span></span>
-        <span class="pdx-sync-tx"><b id="pdx-sync-t">Never lose your log</b><small id="pdx-sync-sub">Sign in with Google: your doses follow you to every phone &amp; computer.</small></span>
-        <span class="pdx-sync-go" id="pdx-sync-go">Sign in →</span>
-      </button>
+      <details class="pdx-info" id="pdx-info">
+        <summary><span class="pi-led" aria-hidden="true"></span><span class="pi-tx"><b>How it works</b><small>4 quick steps · never lose your log · free</small></span><span class="pi-chev" aria-hidden="true"></span></summary>
+        <div class="pi-body">
+          <p class="pi-lead">Your peptide log, Pokédex style. Answer a few quick questions once, then log every dose and injection spot with a tap.</p>
+          <ol class="pi-steps">
+            <li><b>Add your peptide</b><span>Search its name and tap <b>+ ADD</b>. Dose and schedule fill in for you.</span></li>
+            <li><b>Tick off each dose</b><span>Tap the circle when you've taken it and keep your 🔥 streak going.</span></li>
+            <li><b>Log your spot</b><span>Tap where you injected. PokeMe-Dex picks your next spot so you rotate.</span></li>
+            <li><b>Save your plan</b><span>One tap for a PDF, a copy to share, or a download.</span></li>
+          </ol>
+          <button type="button" class="pdx-sync" id="pdx-sync" aria-describedby="pdx-sync-sub">
+            <span class="pdx-sync-ic" aria-hidden="true">☁️<span class="g">G</span></span>
+            <span class="pdx-sync-tx"><b id="pdx-sync-t">Never lose your log</b><small id="pdx-sync-sub">Sign in with Google: your doses follow you to every phone &amp; computer.</small></span>
+            <span class="pdx-sync-go" id="pdx-sync-go">Sign in →</span>
+          </button>
+          <ul class="pi-chips"><li>✓ Free</li><li>✓ No account needed</li><li>✓ Saved on this device</li><li>✓ Syncs when you sign in</li><li>✓ Save as PDF or to Notes</li></ul>
+        </div>
+      </details>
     </div>
     <div class="pdx-device" aria-label="Your PokeMe-Dex at a glance">
       <div class="pdx-top"><span class="pdx-lens"></span><span class="pdx-led r"></span><span class="pdx-led y"></span><span class="pdx-led g"></span></div>
@@ -1391,16 +1397,6 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     </details>
   </div>
 
-  <details class="how-card" id="how-card" open>
-    <summary>❓ HOW POKEME-DEX WORKS <span class="how-toggle"></span></summary>
-    <div class="how-steps">
-      <div class="how-step"><div class="how-num">1</div><div><b>ADD YOUR PEPTIDE</b><span>Search its name and tap <b>+ ADD</b>. Dose and schedule fill in for you.</span></div></div>
-      <div class="how-step"><div class="how-num">2</div><div><b>TICK OFF EACH DOSE</b><span>Tap the circle when you've taken it. Keep your 🔥 streak going.</span></div></div>
-      <div class="how-step"><div class="how-num">3</div><div><b>LOG YOUR SPOT</b><span>Tap where you injected. PokeMe-Dex picks your next spot so you rotate.</span></div></div>
-      <div class="how-step"><div class="how-num">4</div><div><b>SAVE YOUR PLAN</b><span>One tap for a PDF, a copy to share, or a download.</span></div></div>
-    </div>
-    <div class="how-note">💾 Everything saves on <b>this phone or computer only</b>, with no account needed.</div>
-  </details>
 
   <div class="step-head" style="margin-top:0;"><div class="how-num">1</div><div><h3>ADD YOUR PEPTIDE</h3><p>Type the name, then tap <b>+ ADD</b>.</p></div></div>
 
@@ -3185,6 +3181,10 @@ function showTab(name){
   .qz-hint.warn{background:#fff6e6;border-color:#f3d39a;color:#7a4b00;}
   .qz-hint:empty{display:none;}
   .qz-label{font:800 13px/1 'Inter',sans-serif;letter-spacing:0.06em;text-transform:uppercase;color:#8a8170;margin-top:6px;}
+  .qz-spot{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:10px 12px;border-radius:14px;background:#eef8f0;border:1px solid #cfe6cf;}
+  .qz-spot .qz-spot-ic{flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
+  .qz-spot small{display:block;font:800 11px/1.2 'Inter',sans-serif;letter-spacing:0.07em;text-transform:uppercase;color:#4f7a55;}
+  .qz-spot b{display:block;font:800 16px/1.25 'Inter',sans-serif;color:#164a20;}
   .qz-review{display:flex;flex-direction:column;border:2px solid #e6dfd2;border-radius:14px;overflow:hidden;background:#fff;}
   .qz-review div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid #f0ebe1;font-size:15px;}
   .qz-review div:first-child{border-top:none;}
@@ -3473,12 +3473,20 @@ function showTab(name){
   };
 
   // ── LOG A DOSE
+  function spotPill(L, b){ // shows the body spot that was tapped (arm, stomach, thigh, glute)
+    if (!L.site) return;
+    var c = L.site.charAt(0), ic = c === 'B' ? '🎯' : c === 'T' ? '🦵' : c === 'A' ? '💪' : '🍑';
+    var d = document.createElement('div'); d.className = 'qz-spot';
+    d.innerHTML = '<span class="qz-spot-ic">' + ic + '</span><span><small>Injection spot</small><b>' + esc(zoneLabel(L.site)) + '</b></span>';
+    b.insertBefore(d, b.firstChild);
+  }
   function logSteps(){
     return [
       { q: 'Which one did you take?', skip: function(L){ return !!L.pid; }, valid: function(L){ return !!L.pid; },
         render: function(L, b){
           var due = ACTIVE_PROTOCOLS.filter(function(p){ return !L.siteOnly || !pmdOral(p); });
           chips(b, due.map(function(p){ return { v:p.id, t:p.name, s:p.dose + ' mg' }; }), function(v){ return L.pid === v; }, function(v){ L.pid = v; var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === v; }); L.mg = p.dose; }, { auto:true, wide:true });
+          spotPill(L, b);
         } },
       { q: 'Where did you inject?', help: 'Rotating spots helps avoid soreness and lumps.', valid: function(L){ return !!L.site; },
         skip: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return L.sitePreset || (p && pmdOral(p)); },
@@ -3498,6 +3506,7 @@ function showTab(name){
             var u = units(p.vial, p.water, L.mg); h.textContent = '💉 ' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units on a U-100 syringe';
           }
           paint();
+          if (!pmdOral(p)) spotPill(L, b);
         } },
       { q: 'What time?', cta: '✓ Log this dose',
         render: function(L, b){
@@ -3524,7 +3533,7 @@ function showTab(name){
   function startLog(pid, date, site){
     var p = pid ? ACTIVE_PROTOCOLS.find(function(x){ return x.id === pid; }) : null;
     var L = { pid: pid || '', date: date || todayStr(), mg: p ? p.dose : 0, site: site || '', sitePreset: !!site, siteOnly: !!site, time: nowHM() };
-    open(logSteps(), L, saveLog, function(L){ var q = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return 'Log a dose' + (q ? ' · ' + q.name : ''); });
+    open(logSteps(), L, saveLog, function(L){ var q = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return 'Log a dose' + (q ? ' · ' + q.name : '') + (L.sitePreset ? ' · ' + zoneLabel(L.site) : ''); });
   }
   window.pmdLogDose = startLog;
   window.toggleDoseDone = function(protocolId, dateStr){
@@ -4651,25 +4660,34 @@ function showTab(name){
 </script>
 
 <style id="pdx-portrait">
-/* portrait phones: title → the Pokédex device (the star) → then the info, compact */
-@media (max-width:600px) and (orientation:portrait), (max-width:520px){
+/* hero: just the title + the Pokédex device; everything else lives in one "How it works" dropdown */
+html body header.pmx .pdx-info{margin-top:18px;max-width:520px;border-radius:18px;background:rgba(15,10,20,0.28);border:1px solid rgba(255,255,255,0.22);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);overflow:hidden;}
+html body header.pmx .pdx-info > summary{list-style:none;display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;color:#fff;}
+html body header.pmx .pdx-info > summary::-webkit-details-marker{display:none;}
+html body header.pmx .pdx-info .pi-led{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff3ff,#2fb6ff 45%,#0b5fa8 100%);border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,0.35),0 0 14px rgba(47,182,255,0.7);}
+html body header.pmx .pdx-info .pi-tx{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;}
+html body header.pmx .pdx-info .pi-tx b{font:800 16px/1.2 'Inter',system-ui,sans-serif !important;color:#fff !important;letter-spacing:0.01em;}
+html body header.pmx .pdx-info .pi-tx small{font:600 12.5px/1.3 'Inter',system-ui,sans-serif !important;color:rgba(255,255,255,0.82) !important;}
+html body header.pmx .pdx-info .pi-chev{flex:0 0 auto;width:30px;height:30px;border-radius:10px;background:#ffcb05;position:relative;transition:transform .2s;}
+html body header.pmx .pdx-info .pi-chev::after{content:'';position:absolute;left:50%;top:44%;width:8px;height:8px;border-right:3px solid #1d2a5b;border-bottom:3px solid #1d2a5b;transform:translate(-50%,-50%) rotate(45deg);}
+html body header.pmx .pdx-info[open] .pi-chev{transform:rotate(180deg);}
+html body header.pmx .pdx-info .pi-body{padding:4px 14px 14px;}
+html body header.pmx .pdx-info .pi-lead{margin:0 0 12px !important;font:500 14.5px/1.5 'Inter',system-ui,sans-serif !important;color:rgba(255,255,255,0.92) !important;}
+html body header.pmx .pi-steps{list-style:none;counter-reset:pi;margin:0 0 12px !important;padding:0 !important;display:grid;gap:8px;}
+html body header.pmx .pi-steps li{counter-increment:pi;position:relative;padding:10px 12px 10px 48px;border-radius:14px;background:#fffdf8;color:#1a1626;display:flex;flex-direction:column;gap:2px;}
+html body header.pmx .pi-steps li::before{content:counter(pi);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#d7261e;color:#fff;display:grid;place-items:center;font:900 13px/1 'Inter',sans-serif;box-shadow:0 0 0 2px #1a1a1a;}
+html body header.pmx .pi-steps li b{font:800 14.5px/1.25 'Inter',sans-serif !important;color:#1a1626 !important;}
+html body header.pmx .pi-steps li span{font:500 13px/1.4 'Inter',sans-serif !important;color:#5d5668 !important;}
+html body header.pmx .pi-steps li span b{font-size:13px !important;}
+html body header.pmx .pdx-info .pdx-sync{margin-top:0;max-width:none;}
+html body header.pmx .pi-chips{list-style:none;margin:12px 0 0 !important;padding:0 !important;display:flex;flex-wrap:wrap;gap:6px;}
+html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.25);font:700 12px/1.2 'Inter',sans-serif !important;color:#fff !important;}
+@media (max-width:820px){
   html body header.pmx .pdx{display:grid;grid-template-columns:minmax(0,1fr);gap:0 !important;padding:14px 16px 14px !important;}
   html body header.pmx .pdx > .pdx-copy{display:contents;}
-  html body header.pmx .pdx-kick{order:1;justify-self:start;font-size:11.5px !important;padding:5px 10px;}
-  html body header.pmx h1.pdx-h1{order:2;font-size:38px !important;margin:8px 0 0 !important;}
-  html body header.pmx .pdx-device{order:3;margin:30px 0 0;}
-  html body header.pmx .pdx-lead{order:4;margin:16px 0 12px !important;font-size:15px !important;line-height:1.5 !important;}
-  html body header.pmx .pdx-cta{order:5;display:grid;grid-template-columns:1.25fr 1fr;gap:8px;}
-  html body header.pmx .pdx-cta .pdx-btn{height:48px;padding:0 10px;font-size:15px !important;}
-  html body header.pmx .pdx-sync{order:6;margin-top:10px;max-width:none;padding:8px 10px 8px 8px;gap:10px;border-radius:14px;}
-  html body header.pmx .pdx-sync-ic{width:34px;height:34px;font-size:17px;border-radius:10px;}
-  html body header.pmx .pdx-sync-ic .g{width:17px;height:17px;font-size:10px;right:-4px;bottom:-4px;}
-  html body header.pmx .pdx-sync-tx b{font-size:14px !important;}
-  html body header.pmx .pdx-sync-tx small{font-size:11.5px !important;line-height:1.25 !important;}
-  html body header.pmx .pdx-sync-go{height:34px;padding:0 11px;font-size:12.5px !important;border-radius:10px;}
-  html body header.pmx .pdx-trust{order:7;margin:12px 0 0 !important;justify-content:center;gap:6px 14px;}
-  html body header.pmx .pdx-trust li{font-size:12.5px !important;}
-  html body header.pmx .pdx-trust li:nth-child(4){display:flex;}
+  html body header.pmx h1.pdx-h1{order:1;font-size:36px !important;margin:4px 0 0 !important;}
+  html body header.pmx .pdx-device{order:2;margin:28px auto 0;}
+  html body header.pmx .pdx-info{order:3;max-width:none;margin-top:14px;}
 }
 </style>
 </body>

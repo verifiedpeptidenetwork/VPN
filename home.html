@@ -31390,7 +31390,17 @@ _vpnIdx.push({ e:'💊', cat:'vsr-tool', lbl:'RESEARCH REF',
 _vpnIdx.push({ e:'🥛', cat:'vsr-tool', lbl:'VITAMIN / SUPPLEMENT',
   title:'Lactoferrin — Fat Loss, Immune & Iron Support',
   kw:'lactoferrin fat loss visceral fat immune iron support bovine supplement anti-cancer anemia pregnancy 300mg iron binding protein milk',
-  go:function(){ showView('vitamins'); setTimeout(function(){ var el=document.getElementById('vitamin-lactoferrin'); if(el){el.open=true; el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.outline='2px solid #00f5ff'; setTimeout(function(){el.style.outline='';},2500);} },350); }
+  go:function(){ showView('vitamins'); setTimeout(function(){ var el=document.getElementById('vitamin-lactoferrin'); if(el){el.open=true; el.scrollIntoView({behavior:'smooth',block:'center'});
+_vpnIdx.push({ e:'🌿', cat:'vsr-tool', lbl:'VITAMIN / SUPPLEMENT', boost:3,
+  title:'Slippery Elm (400 mg) — Soothes Gastritis & Gut Irritation',
+  kw:'slippery elm ulmus rubra gastritis stomach gut lining intestinal mucilage soothe acid reflux heartburn ibs ulcer h pylori nsaid 400mg 400 mg capsules powder supplement herb',
+  go:function(){ showView('vitamins'); setTimeout(function(){ var el=document.getElementById('vit-slippery-elm'); if(el){el.open=true; el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.outline='2px solid #00ff64'; setTimeout(function(){el.style.outline='';},2500);} },350); }
+});
+_vpnIdx.push({ e:'🫃', cat:'vsr-tool', lbl:'VITAMIN / SUPPLEMENT', boost:2,
+  title:'Gastritis & Gut Lining — causes, H. pylori, NSAIDs, what helps',
+  kw:'gastritis stomach inflammation gut lining h pylori pylori nsaid nsaids ibuprofen aspirin naproxen acid reflux heartburn ulcer stomach pain slippery elm',
+  go:function(){ showView('vitamins'); setTimeout(function(){ var el=document.getElementById('vit-gastritis-h'); if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); } },350); }
+}); el.style.outline='2px solid #00f5ff'; setTimeout(function(){el.style.outline='';},2500);} },350); }
 });
 // Hard-wired ATX-304 + Semaglutide muscle preservation study (lives on latest-news.html)
 _vpnIdx.push({ e:'📰', cat:'vsr-news', lbl:'NEWS',
@@ -31457,6 +31467,7 @@ function vpnBuildIndex() {
     var lbM = lbOnclick.match(/openLightbox\('([^']+)','([^']+)'\)/);
     var hEl = el.querySelector('.vpn-news-title,.vpn-card-title,summary,.glp-h,.tgk-h,.cx-h,h3,h4,[style*="Bebas Neue"]');
     var title = (imgEl && imgEl.alt) ? imgEl.alt : (hEl ? hEl.textContent.replace(/\s+/g,' ').trim() : '');
+    title = title.replace(/\s*(⧉\s*COPY|✓\s*COPIED|📋\s*COPY TEXT)\s*/gi,' ').trim();
     title = title ? title.substring(0,80) : (ds.split(' ').slice(0,5).join(' ') || 'Result');
     var viewEl = el.closest('[id^="view-"]');
     var viewId = viewEl ? viewEl.id.replace('view-','') : null;
@@ -31500,8 +31511,8 @@ function vpnBuildIndex() {
   // All <details> summaries (guides, blood work, vault sections)
   document.querySelectorAll('details').forEach(function(el) {
     var sum = el.querySelector('summary');
-    if (!sum) return;
-    var title = sum.textContent.trim().substring(0,100);
+    if (!sum || el.classList.contains('eli5') || el.closest('.eli5')) return;
+    var title = sum.textContent.replace(/\s*(⧉\s*COPY|✓\s*COPIED|📋\s*COPY TEXT)\s*/gi,' ').replace(/\s+/g,' ').trim().substring(0,100);
     if (!title || title.length < 3) return;
     var body = el.textContent.replace(sum.textContent,'').substring(0,500);
     // figure out which view this lives in so we can navigate first
@@ -31587,6 +31598,7 @@ function vpnSearch(q) {
     return;
   }
   vpnBuildIndex();
+  if (!window._vpnDeduped) { var _seen = {}; _vpnIdx = _vpnIdx.filter(function(it){ var k = String(it.title||'').toLowerCase().replace(/[^a-z0-9]+/g,''); if (!k) return true; if (_seen[k]) return false; _seen[k] = 1; return true; }); window._vpnDeduped = 1; }
   var ql = q.toLowerCase().trim();
   var terms = ql.split(/\s+/);
   // Typo tolerance: a term with no exact hits is swapped for the closest real word in the index
