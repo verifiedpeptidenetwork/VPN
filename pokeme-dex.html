@@ -5538,5 +5538,26 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   document.addEventListener('click', function(e){ var b = e.target.closest('.ps-switch button'); if (b) setPs(b.getAttribute('data-ps')); });
 })();
 </script>
+<style id="pdx-ab2-css">
+  /* A / B: clean console buttons, labels printed on the device body underneath */
+  html body header.pmx .pdx-pad .pdc-ab{transform:none;gap:14px;align-items:flex-start;padding-bottom:16px;}
+  html body header.pmx .pdx-pad .pdc-ab button{position:relative !important;width:46px;height:46px;background:radial-gradient(circle at 34% 28%,#4b4b4f 0%,#202023 55%,#111113 100%) !important;box-shadow:0 3px 0 #050505,0 5px 10px -4px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.16) !important;}
+  html body header.pmx .pdx-pad .pdc-ab button.pdc-b{margin-top:16px;}
+  html body header.pmx .pdx-pad .pdc-ab b{font:700 15px/1 'Inter',system-ui,sans-serif;color:#d9d9de;letter-spacing:0;text-shadow:0 1px 0 rgba(0,0,0,0.6);}
+  html body header.pmx .pdx-pad .pdc-ab small{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);font:800 9px/1 'Inter',sans-serif;letter-spacing:0.16em;color:rgba(40,0,6,0.62);text-shadow:0 1px 0 rgba(255,255,255,0.12);white-space:nowrap;pointer-events:none;}
+  html body header.pmx .pdx-pad .pdc-ab button:hover{background:radial-gradient(circle at 34% 28%,#58585d 0%,#26262a 55%,#141416 100%) !important;}
+  html body header.pmx .pdx-pad .pdc-ab button:active{transform:translateY(2px);box-shadow:0 1px 0 #050505,inset 0 1px 0 rgba(255,255,255,0.1) !important;}
+  html body header.pmx .pdx-pad button:focus{outline:none !important;}
+  html body header.pmx .pdx-pad button:focus-visible{outline:2px solid rgba(255,255,255,0.85) !important;outline-offset:3px;}
+  /* matching D-pad and settings finish */
+  html body header.pmx .pdx-pad .pdc-dpad button,html body header.pmx .pdx-pad .pdc-dpad .c{background:linear-gradient(180deg,#2a2a2e,#141416) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1) !important;}
+  html body header.pmx .pdx-pad .pdc-dpad{filter:drop-shadow(0 3px 0 #050505) drop-shadow(0 6px 8px rgba(0,0,0,0.35));}
+  html body header.pmx .pdx-pad .pdc-set{transform:none;background:#8f0c1f !important;border:1.5px solid rgba(0,0,0,0.6) !important;color:rgba(255,225,230,0.92) !important;font-size:10px;letter-spacing:0.18em;box-shadow:inset 0 1px 0 rgba(255,255,255,0.14),0 2px 0 rgba(0,0,0,0.35) !important;}
+  @media(max-width:600px){
+    html body header.pmx .pdx-pad .pdc-ab{gap:10px;}
+    html body header.pmx .pdx-pad .pdc-ab button{width:44px;height:44px;}
+    html body header.pmx .pdx-pad .pdc-ab button.pdc-b{margin-top:14px;}
+  }
+</style>
 </body>
 </html>
