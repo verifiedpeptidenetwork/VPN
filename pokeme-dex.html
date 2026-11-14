@@ -1038,7 +1038,7 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
@@ -1208,6 +1208,8 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
     emailNew: (e, p) => act(() => createUserWithEmailAndPassword(auth, e, p)),
     reset: (e) => act(() => sendPasswordResetEmail(auth, e)),
     syncNow: () => state.user ? push(state.user.uid) : null,
+    reviews: async () => { try { const q = await getDocs(query(collection(db, 'reviews'), orderBy('at', 'desc'), limit(60))); return q.docs.map((d) => { const r = d.data(); return { stars: r.stars || 0, text: r.text || '', at: r.at && r.at.toDate ? r.at.toDate() : null }; }); } catch(x){ return []; } },
+    rate: async (stars, text) => { try { await addDoc(collection(db, 'ratings'), { stars: stars, text: String(text || '').slice(0, 1000), uid: state.user ? state.user.uid : '', site: location.host || 'app', at: serverTimestamp() }); return ''; } catch(x){ return (x && x.code) || 'failed'; } },
     signOut: () => signOut(auth) };
   draw();
 
@@ -5109,11 +5111,13 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   var ITEMS = [
     { k:'acct', ic:'👤', t:'Log in', s:'Google or email · never lose your log' },
     { k:'how',  ic:'❓', t:'How it works', s:'4 quick steps' },
+    { k:'rate', ic:'⭐', t:'Rate PokeMe-Dex', s:'Tell us what you think' },
     { k:'save', ic:'📤', t:'Save my Dex', s:'Email, PDF, share or backup' },
     { k:'bac',  ic:'💧', t:'BAC water timer', s:'28-day throw-out countdown', sel:'#pa-bac-card', tab:'dex' },
     { k:'bk',   ic:'💾', t:'Back up / restore', s:'Keep a copy of your data', sel:'#pa-backup-card' },
     { k:'app',  ic:'📲', t:'Get the app', s:'Install on your phone', sel:'#pa-install-card' },
-    { k:'faq',  ic:'💬', t:'Questions & answers', s:'FAQ', sel:'#pa-faq' }
+    { k:'faq',  ic:'💬', t:'Questions & answers', s:'FAQ', sel:'#pa-faq' },
+    { k:'owner', ic:'🔑', t:'Owner login', s:'Approve ratings (owner only)' }
   ];
   function closeGear(){ var d = document.getElementById('vt-dock'); if (d && d.classList.contains('open')) { var b = document.getElementById('vt-dock-btn'); if (b) b.click(); else d.classList.remove('open'); } }
   function goCard(sel){
@@ -5130,6 +5134,8 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
       return;
     }
     if (k === 'save') { if (window.pmdSaveDex) pmdSaveDex(); return; }
+    if (k === 'rate') { if (window.pmdRateOpen) pmdRateOpen(); return; }
+    if (k === 'owner') { location.href = 'pokemedex-owner.html'; return; }
     var it = ITEMS.filter(function(x){ return x.k === k; })[0]; if (it && it.sel) goCard(it.sel);
   }
   function build(){
@@ -5856,6 +5862,140 @@ function pmdRequestPeptide(name){
     show(g);
   });
   document.addEventListener('focusin', function(e){ var g = e.target.closest && e.target.closest('#pa-body .pz'); if (g && /^G[LR]$/.test(g.getAttribute('data-z') || '')) show(g); });
+})();
+</script>
+<style id="pmd-rate-css">
+  #pmd-rate{position:fixed;inset:0;z-index:100010;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,16,30,0.55);padding:16px;}
+  #pmd-rate[hidden]{display:none;}
+  @media(min-width:640px){ #pmd-rate{align-items:center;} }
+  #pmd-rate .rt-card{width:100%;max-width:420px;border-radius:22px;background:#fffdf7;border:4px solid #d7261e;box-shadow:0 24px 60px -20px rgba(0,0,0,0.6);overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#1a1626;}
+  #pmd-rate .rt-top{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#d7261e;color:#fff;}
+  #pmd-rate .rt-led{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#bfefff,#2aa7e0 60%,#0d5f8a);border:2px solid #fff;flex:0 0 auto;}
+  #pmd-rate .rt-top b{flex:1;font:900 15px/1 'Inter',sans-serif;letter-spacing:0.06em;}
+  #pmd-rate .rt-x{width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,0.18);color:#fff;font:700 18px/1 'Inter',sans-serif;cursor:pointer;}
+  #pmd-rate .rt-body{padding:18px 18px 16px;}
+  #pmd-rate h3{margin:0 0 4px;font:800 20px/1.25 'Inter',sans-serif;}
+  #pmd-rate p{margin:0;font:500 14px/1.45 'Inter',sans-serif;color:#5d5668;}
+  #pmd-rate .rt-stars{display:flex;justify-content:center;gap:6px;margin:16px 0 4px;}
+  html body #pmd-rate .rt-star{width:52px !important;height:52px !important;min-width:0 !important;border:0 !important;background:none !important;box-shadow:none !important;padding:0 !important;cursor:pointer;font:400 44px/1 system-ui,sans-serif !important;color:#d9d2c3 !important;transition:transform .12s;}
+  html body #pmd-rate .rt-star.on{color:#ffcb05 !important;text-shadow:0 2px 0 #c99a00;}
+  html body #pmd-rate .rt-top b{font:900 15px/1.1 'Inter',sans-serif !important;letter-spacing:0.06em;text-transform:uppercase;}
+  html body #pmd-rate h3{font:800 20px/1.25 'Inter',sans-serif !important;letter-spacing:0 !important;}
+  #pmd-rate .rt-star.on{color:#ffcb05;text-shadow:0 2px 0 #c99a00;}
+  #pmd-rate .rt-star:hover{transform:scale(1.12);}
+  #pmd-rate .rt-word{text-align:center;min-height:20px;font:800 14px/1.3 'Inter',sans-serif;color:#d7261e;}
+  #pmd-rate textarea{width:100%;min-height:86px;margin-top:12px;padding:11px 12px;border-radius:12px;border:2px solid #e6dfd0;background:#fff;font:500 15px/1.4 'Inter',sans-serif;color:#1a1626;resize:vertical;box-sizing:border-box;}
+  #pmd-rate textarea:focus{outline:none;border-color:#d7261e;}
+  #pmd-rate .rt-go{width:100%;height:52px;margin-top:12px;border:0;border-radius:14px;background:#d7261e;color:#fff;font:800 16px/1 'Inter',sans-serif;cursor:pointer;}
+  #pmd-rate .rt-go:disabled{opacity:0.45;cursor:default;}
+  #pmd-rate .rt-alt{display:block;width:100%;margin-top:8px;padding:10px;border:0;background:none;color:#5d5668;font:700 14px/1 'Inter',sans-serif;cursor:pointer;}
+  #pmd-rate .rt-msg{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff1ef;color:#9b1c14;font:600 13.5px/1.4 'Inter',sans-serif;}
+  #pmd-rate .rt-done{text-align:center;padding:10px 0 4px;}
+  #pmd-rate .rt-card{max-height:calc(100vh - 32px);overflow-y:auto;}
+  #pmd-rate .rt-revs{margin-top:14px;padding-top:14px;border-top:1.5px dashed #e6dfd0;}
+  #pmd-rate .rt-revs[hidden]{display:none;}
+  #pmd-rate .rt-sum{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  #pmd-rate .rt-sum b{font:900 24px/1 'Inter',sans-serif;}
+  #pmd-rate .rt-sum small{color:#5d5668;font:700 13px/1 'Inter',sans-serif;}
+  #pmd-rate .rt-sst{color:#f0b400;font-size:16px;letter-spacing:1px;}
+  #pmd-rate .rt-sst i{color:#d9d2c3;font-style:normal;}
+  #pmd-rate .rt-rev{padding:9px 11px;margin-top:8px;border-radius:12px;background:#fff;border:1.5px solid #eee6d6;}
+  #pmd-rate .rt-rev p{margin:3px 0 0 !important;font:500 14px/1.4 'Inter',sans-serif !important;color:#1a1626 !important;word-break:break-word;}
+  #pmd-rate .rt-done .rt-big{font-size:46px;line-height:1;margin-bottom:8px;}
+  #pmd-rate-nudge{position:fixed;left:50%;bottom:92px;z-index:100009;transform:translateX(-50%);display:flex;align-items:center;gap:10px;width:calc(100% - 32px);max-width:400px;padding:10px 10px 10px 14px;border-radius:16px;background:#1a1626;color:#fff;box-shadow:0 16px 36px -14px rgba(0,0,0,0.6);font:600 14px/1.3 'Inter',system-ui,sans-serif;}
+  #pmd-rate-nudge span{flex:1;}
+  #pmd-rate-nudge button{border:0;border-radius:10px;padding:9px 12px;font:800 13.5px/1 'Inter',sans-serif;cursor:pointer;}
+  #pmd-rate-nudge .rn-go{background:#ffcb05;color:#1a1626;}
+  #pmd-rate-nudge .rn-no{background:transparent;color:#cfc8dc;}
+</style>
+<script>
+(function(){
+  var WORDS = ['', 'Needs a lot of work', 'Not great yet', "It's okay", 'Really good', 'Love it!'];
+  function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  var box, stars = 0;
+  function mailText(n, t){
+    return 'mailto:verifiedpeptidenetwork@gmail.com?subject=' + encodeURIComponent('PokeMe-Dex rating: ' + n + ' / 5')
+      + '&body=' + encodeURIComponent('My rating: ' + n + ' / 5' + String.fromCharCode(10, 10) + (t || ''));
+  }
+  function paintStars(){
+    box.querySelectorAll('.rt-star').forEach(function(b, i){ b.classList.toggle('on', i < stars); b.setAttribute('aria-pressed', i < stars ? 'true' : 'false'); });
+    box.querySelector('.rt-word').textContent = WORDS[stars];
+    box.querySelector('.rt-go').disabled = !stars;
+    var ta = box.querySelector('textarea');
+    ta.placeholder = stars && stars <= 3 ? 'What should we fix or add? (optional)' : 'What do you like? Anything we should add? (optional)';
+  }
+  function form(){
+    stars = 0;
+    box.querySelector('.rt-body').innerHTML = '<h3>How are you liking PokeMe-Dex?</h3><p>Tap the stars. Your rating helps us make the app better.</p>'
+      + '<div class="rt-stars" role="group" aria-label="Rating">' + [1,2,3,4,5].map(function(n){ return '<button type="button" class="rt-star" data-n="' + n + '" aria-label="' + n + ' star' + (n > 1 ? 's' : '') + '">★</button>'; }).join('') + '</div>'
+      + '<div class="rt-word" aria-live="polite"></div>'
+      + '<textarea maxlength="1000" aria-label="Comments"></textarea>'
+      + '<button type="button" class="rt-go" disabled>Send rating</button>'
+      + '<button type="button" class="rt-alt" data-close>Maybe later</button>'
+      + '<div class="rt-revs" hidden></div>';
+    paintStars(); showReviews();
+  }
+  async function showReviews(){
+    var el = box.querySelector('.rt-revs'); if (!el || !window.pmdSync || !pmdSync.reviews) return;
+    var list = await pmdSync.reviews(); if (!list.length || !box.contains(el)) return;
+    var avg = list.reduce(function(a, r){ return a + r.stars; }, 0) / list.length;
+    var withText = list.filter(function(r){ return r.text; }).slice(0, 5);
+    el.innerHTML = '<div class="rt-sum"><b>' + avg.toFixed(1) + '</b><span class="rt-sst">' + '★'.repeat(Math.round(avg)) + '<i>' + '★'.repeat(5 - Math.round(avg)) + '</i></span><small>' + list.length + ' rating' + (list.length === 1 ? '' : 's') + '</small></div>'
+      + withText.map(function(r){ return '<div class="rt-rev"><span class="rt-sst">' + '★'.repeat(r.stars) + '<i>' + '★'.repeat(5 - r.stars) + '</i></span><p>' + esc(r.text) + '</p></div>'; }).join('');
+    el.hidden = false;
+  }
+  function done(n){
+    store('pmd_rate', 'done');
+    box.querySelector('.rt-body').innerHTML = '<div class="rt-done"><div class="rt-big">' + (n >= 4 ? '🎉' : '🙏') + '</div><h3>Thanks for rating!</h3><p>' + (n >= 4 ? 'Glad you like it. Tell a friend who tracks peptides!' : "Thanks for being honest. We read every rating and we'll keep improving.") + '</p>'
+      + '<button type="button" class="rt-go" data-close>Done</button></div>';
+  }
+  async function send(){
+    var go = box.querySelector('.rt-go'), t = box.querySelector('textarea').value.trim(), n = stars;
+    go.disabled = true; go.textContent = 'Sending…';
+    var err = window.pmdSync && pmdSync.rate ? await pmdSync.rate(n, t) : 'offline';
+    if (!err) { done(n); return; }
+    go.disabled = false; go.textContent = 'Send rating';
+    var m = box.querySelector('.rt-msg'); if (!m) { m = document.createElement('div'); m.className = 'rt-msg'; go.parentNode.insertBefore(m, go.nextSibling); }
+    m.innerHTML = "Couldn't send it right now" + (navigator.onLine === false ? ' (you look offline)' : '') + '. <a href="' + esc(mailText(n, t)) + '" data-mail>Send it by email instead</a>.';
+  }
+  function build(){
+    if (box) return box;
+    box = document.createElement('div'); box.id = 'pmd-rate'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Rate PokeMe-Dex');
+    box.innerHTML = '<div class="rt-card"><div class="rt-top"><span class="rt-led" aria-hidden="true"></span><b>RATE POKEME-DEX</b><button type="button" class="rt-x" data-close aria-label="Close">✕</button></div><div class="rt-body"></div></div>';
+    document.body.appendChild(box);
+    box.addEventListener('click', function(e){
+      if (e.target === box || e.target.closest('[data-close]')) { close(); return; }
+      if (e.target.closest('[data-mail]')) { done(stars); return; }
+      var st = e.target.closest('.rt-star'); if (st) { stars = +st.getAttribute('data-n'); paintStars(); return; }
+      if (e.target.closest('.rt-go') && stars) send();
+    });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) close(); });
+    return box;
+  }
+  function close(){ if (box) box.hidden = true; }
+  window.pmdRateOpen = function(){ build(); form(); box.hidden = false; nudgeOff(); var f = box.querySelector('.rt-star'); if (f) f.focus(); };
+
+  // gentle nudge: once you've used the app on 3 different days, ask once (and again in 2 weeks if you say "Not now")
+  function nudgeOff(){ var n = document.getElementById('pmd-rate-nudge'); if (n) n.remove(); }
+  function nudge(){
+    var st = store('pmd_rate');
+    if (st === 'done') return;
+    if (st && /^\d+$/.test(st) && Date.now() < +st) return;
+    var days = []; try { days = JSON.parse(store('pmd_days') || '[]'); } catch(e){}
+    var today = new Date().toISOString().slice(0, 10);
+    if (days.indexOf(today) < 0) { days.push(today); days = days.slice(-10); store('pmd_days', JSON.stringify(days)); }
+    if (days.length < 3) return;
+    setTimeout(function(){
+      if (document.getElementById('pmd-rate-nudge') || (box && !box.hidden)) return;
+      var n = document.createElement('div'); n.id = 'pmd-rate-nudge'; n.setAttribute('role', 'status');
+      n.innerHTML = '<span>⭐ Enjoying PokeMe-Dex? Rate it in 5 seconds.</span><button type="button" class="rn-go">Rate</button><button type="button" class="rn-no" aria-label="Not now">Not now</button>';
+      document.body.appendChild(n);
+      n.querySelector('.rn-go').onclick = function(){ window.pmdRateOpen(); };
+      n.querySelector('.rn-no').onclick = function(){ store('pmd_rate', String(Date.now() + 14 * 86400000)); nudgeOff(); };
+    }, 20000);
+  }
+  nudge();
 })();
 </script>
 </body>

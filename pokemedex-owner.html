@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PokeMe-Dex Owner</title>
+<link rel="icon" href="pokemedex-icon-32.png?v=5" type="image/png" sizes="32x32">
+<style>
+  :root{--red:#d7261e;--ink:#1a1626;--mut:#5d5668;--bg:#f6f1e7;--card:#fffdf7;--line:#e6dfd0;--ok:#1f9d4b;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif;}
+  header{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--red);color:#fff;}
+  header .led{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#bfefff,#2aa7e0 60%,#0d5f8a);border:2px solid #fff;}
+  header b{flex:1;font:900 16px/1 Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;}
+  header button{border:0;border-radius:10px;padding:8px 12px;background:rgba(255,255,255,.2);color:#fff;font:700 13px/1 Inter,sans-serif;cursor:pointer;}
+  main{max-width:760px;margin:0 auto;padding:18px 16px 60px;}
+  .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;}
+  h1{margin:0 0 4px;font:800 22px/1.2 Inter,sans-serif;}
+  p.m{margin:0;color:var(--mut);}
+  label{display:block;margin:14px 0 6px;font:800 12px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8a8170;}
+  input{width:100%;height:48px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:#fff;font:600 16px/1 Inter,sans-serif;color:var(--ink);}
+  input:focus{outline:none;border-color:var(--red);}
+  .go{width:100%;height:50px;margin-top:16px;border:0;border-radius:14px;background:var(--red);color:#fff;font:800 16px/1 Inter,sans-serif;cursor:pointer;}
+  .err{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff1ef;color:#9b1c14;font-weight:600;}
+  .err:empty{display:none;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .stat{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px;text-align:center;}
+  .stat b{display:block;font:900 22px/1.1 Inter,sans-serif;}
+  .stat small{color:var(--mut);font-weight:700;font-size:12px;}
+  .tabs{display:flex;gap:6px;margin:6px 0 12px;flex-wrap:wrap;}
+  .tabs button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:700 14px/1 Inter,sans-serif;color:var(--ink);cursor:pointer;}
+  .tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .r{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;}
+  .r .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .r .st{color:#f0b400;font-size:20px;letter-spacing:1px;}
+  .r .st i{color:#d9d2c3;font-style:normal;}
+  .r .meta{color:var(--mut);font-size:13px;}
+  .r .badge{margin-left:auto;padding:4px 9px;border-radius:999px;font:800 11px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;background:#fff6d6;color:#7a5b00;}
+  .r .badge.approved{background:#e5f6ea;color:var(--ok);}
+  .r .badge.hidden{background:#eee;color:#666;}
+  .r .txt{margin:8px 0 0;white-space:pre-wrap;word-break:break-word;}
+  .r .txt.none{color:#a39b8c;font-style:italic;}
+  .r .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .r .acts button{flex:1;min-width:110px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:800 14px/1 Inter,sans-serif;cursor:pointer;}
+  .r .acts .ap{background:var(--ok);border-color:var(--ok);color:#fff;}
+  .r .acts .del{color:#9b1c14;}
+  .empty{text-align:center;color:var(--mut);padding:26px 10px;}
+  @media(max-width:520px){ .stats{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+<header><a href="pokeme-dex.html" id="back" style="color:#fff;text-decoration:none;font:800 20px/1 Inter,sans-serif;padding:4px 6px" aria-label="Back to PokeMe-Dex">‹</a><span class="led" aria-hidden="true"></span><b>PokeMe-Dex Owner</b><button type="button" id="out" hidden>Sign out</button></header>
+<main>
+  <section class="card" id="login" hidden>
+    <h1>Owner sign in</h1>
+    <p class="m">Approve ratings before they show in the app.</p>
+    <form id="lf">
+      <label for="u">Username</label><input id="u" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required>
+      <button class="go" type="submit">Sign in</button>
+      <div class="err" id="lerr"></div>
+    </form>
+  </section>
+  <section id="panel" hidden>
+    <div class="card">
+      <h1>Ratings</h1>
+      <p class="m">Approve a rating to show it in PokeMe-Dex. Hidden ones stay private.</p>
+      <div class="stats" style="margin-top:14px">
+        <div class="stat"><b id="s-avg">–</b><small>Average (all)</small></div>
+        <div class="stat"><b id="s-all">0</b><small>Ratings</small></div>
+        <div class="stat"><b id="s-new">0</b><small>Waiting</small></div>
+        <div class="stat"><b id="s-ok">0</b><small>Approved</small></div>
+      </div>
+    </div>
+    <div class="tabs" id="tabs">
+      <button type="button" data-f="new" class="on">Waiting</button>
+      <button type="button" data-f="approved">Approved</button>
+      <button type="button" data-f="hidden">Hidden</button>
+      <button type="button" data-f="all">All</button>
+    </div>
+    <div class="err" id="perr"></div>
+    <div id="list"></div>
+  </section>
+</main>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, setDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const app = initializeApp({
+    apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
+    authDomain: "vpnhub-data.firebaseapp.com",
+    projectId: "vpnhub-data",
+    storageBucket: "vpnhub-data.firebasestorage.app",
+    messagingSenderId: "519239456167",
+    appId: "1:519239456167:web:2ee7f62c48e17f07c75282"
+  }, 'owner');
+  const auth = getAuth(app), db = getFirestore(app);
+  // the owner account is a normal Firebase email/password user; the username "allah" means allah@pokemedex.com
+  const DOMAIN = '@pokemedex.com';
+  const $ = (id) => document.getElementById(id);
+  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  let rows = [], filter = 'new';
+
+  $('lf').addEventListener('submit', async (e) => {
+    e.preventDefault(); $('lerr').textContent = '';
+    let u = $('u').value.trim().toLowerCase(); if (u.indexOf('@') < 0) u += DOMAIN;
+    try { await signInWithEmailAndPassword(auth, u, $('p').value); }
+    catch (x) { $('lerr').textContent = /invalid-credential|wrong-password|user-not-found|invalid-email/.test(x.code || '') ? 'Wrong username or password.' : (/too-many/.test(x.code || '') ? 'Too many tries. Wait a few minutes.' : 'Could not sign in (' + (x.code || 'error') + ').'); }
+  });
+  $('out').onclick = () => signOut(auth);
+  $('tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f; document.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('on', x === b)); draw(); });
+
+  onAuthStateChanged(auth, (u) => {
+    $('login').hidden = !!u; $('panel').hidden = !u; $('out').hidden = !u;
+    if (u) load(); else { $('p').value = ''; }
+  });
+
+  async function load(){
+    $('perr').textContent = ''; $('list').innerHTML = '<div class="empty">Loading…</div>';
+    try {
+      const snap = await getDocs(query(collection(db, 'ratings'), orderBy('at', 'desc'), limit(500)));
+      rows = snap.docs.map((d) => Object.assign({ id: d.id }, d.data()));
+      draw();
+    } catch (x) {
+      $('list').innerHTML = '';
+      $('perr').textContent = /permission/.test(x.code || '') ? 'This account is not allowed to read ratings. Check the Firestore rules (owner email must be allah@pokemedex.com).' : 'Could not load ratings (' + (x.code || x.message) + ').';
+    }
+  }
+  function statusOf(r){ return r.status || 'new'; }
+  function draw(){
+    const all = rows.length, avg = all ? (rows.reduce((a, r) => a + (r.stars || 0), 0) / all) : 0;
+    $('s-avg').textContent = all ? avg.toFixed(1) + '★' : '–'; $('s-all').textContent = all;
+    $('s-new').textContent = rows.filter((r) => statusOf(r) === 'new').length;
+    $('s-ok').textContent = rows.filter((r) => statusOf(r) === 'approved').length;
+    const list = rows.filter((r) => filter === 'all' || statusOf(r) === filter);
+    if (!list.length) { $('list').innerHTML = '<div class="empty">' + (filter === 'new' ? 'Nothing waiting. You’re all caught up! 🎉' : 'Nothing here yet.') + '</div>'; return; }
+    $('list').innerHTML = list.map((r) => {
+      const n = Math.max(0, Math.min(5, r.stars || 0)), st = statusOf(r);
+      const when = r.at && r.at.toDate ? r.at.toDate().toLocaleString([], { dateStyle:'medium', timeStyle:'short' }) : '';
+      return '<div class="r" data-id="' + esc(r.id) + '"><div class="top"><span class="st">' + '★'.repeat(n) + '<i>' + '★'.repeat(5 - n) + '</i></span><span class="meta">' + esc(when) + (r.site ? ' · ' + esc(r.site) : '') + (r.uid ? ' · signed in' : '') + '</span><span class="badge ' + st + '">' + (st === 'new' ? 'Waiting' : st) + '</span></div>'
+        + (r.text ? '<p class="txt">' + esc(r.text) + '</p>' : '<p class="txt none">No comment, just stars.</p>')
+        + '<div class="acts">' + (st !== 'approved' ? '<button type="button" class="ap" data-a="approve">✓ Approve</button>' : '') + (st !== 'hidden' ? '<button type="button" data-a="hide">Hide</button>' : '') + '<button type="button" class="del" data-a="delete">Delete</button></div></div>';
+    }).join('');
+  }
+  $('list').addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    const id = b.closest('.r').dataset.id, r = rows.find((x) => x.id === id), a = b.dataset.a; if (!r) return;
+    if (a === 'delete' && !confirm('Delete this rating for good? This cannot be undone.')) return;
+    b.disabled = true; $('perr').textContent = '';
+    try {
+      if (a === 'approve') {
+        // the public copy only carries what the app shows: stars, comment and date
+        await setDoc(doc(db, 'reviews', id), { stars: r.stars || 0, text: r.text || '', at: r.at || null });
+        await updateDoc(doc(db, 'ratings', id), { status: 'approved' }); r.status = 'approved';
+      } else if (a === 'hide') {
+        await deleteDoc(doc(db, 'reviews', id));
+        await updateDoc(doc(db, 'ratings', id), { status: 'hidden' }); r.status = 'hidden';
+      } else {
+        await deleteDoc(doc(db, 'reviews', id));
+        await deleteDoc(doc(db, 'ratings', id)); rows = rows.filter((x) => x.id !== id);
+      }
+      draw();
+    } catch (x) { b.disabled = false; $('perr').textContent = 'That didn’t save (' + (x.code || x.message) + '). Check the Firestore rules.'; }
+  });
+</script>
+</body>
+</html>
