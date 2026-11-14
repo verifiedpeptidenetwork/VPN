@@ -3931,18 +3931,49 @@ function showTab(name){
   .sy-row svg{width:120px;height:42px;display:block;}
   .sy-note{margin:8px 0 0 !important;font:500 12px/1.45 'Inter',sans-serif !important;color:#8a8170 !important;}
   /* reminder sheet */
-  .rm{position:fixed;inset:0;z-index:100004;background:rgba(20,16,30,0.55);display:flex;align-items:flex-end;justify-content:center;}
+  .rm{position:fixed;inset:0;z-index:100004;background:rgba(20,16,30,0.6);display:flex;align-items:flex-end;justify-content:center;animation:rmFade .18s ease-out;}
+  @keyframes rmFade{from{opacity:0;}to{opacity:1;}}
+  @keyframes rmUp{from{transform:translateY(24px);opacity:0.6;}to{transform:none;opacity:1;}}
   @media(min-width:640px){ .rm{align-items:center;} }
-  .rm-card{width:100%;max-width:480px;background:#fffdf8;border-radius:22px 22px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));font-family:'Inter',system-ui,sans-serif;color:#1a1626;}
-  @media(min-width:640px){ .rm-card{border-radius:22px;} }
-  .rm-card h3{margin:0 0 4px !important;font:900 21px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;text-transform:none !important;letter-spacing:-0.01em !important;}
+  .rm-card{width:100%;max-width:500px;max-height:92vh;overflow-y:auto;background:#fffdf8;border-radius:24px 24px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px));font-family:'Inter',system-ui,sans-serif;color:#1a1626;box-sizing:border-box;animation:rmUp .22s ease-out;}
+  @media(min-width:640px){ .rm-card{border-radius:24px;padding:26px 26px 24px;} }
+  .rm-card h3{margin:0 0 6px !important;font:900 22px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;text-transform:none !important;letter-spacing:-0.01em !important;}
   .rm-card p{margin:0 0 14px !important;font:500 14px/1.5 'Inter',sans-serif !important;color:#6b6356 !important;}
-  .rm-card label{display:block;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.06em;text-transform:uppercase;color:#8a8170;margin-bottom:6px;}
-  .rm-card input[type=time]{width:100%;height:56px;border-radius:14px;border:2px solid #e6dfd2;background:#fff;font:800 22px/1 'Inter',sans-serif;text-align:center;color:#1a1626;box-sizing:border-box;}
-  .rm-card .rm-btns{display:grid;gap:8px;margin-top:14px;}
-  .rm-card .rm-btns button{height:52px;border-radius:14px;border:1px solid #e0d8ca;background:#fff;color:#1a1626;font:800 15px/1 'Inter',sans-serif;cursor:pointer;}
-  .rm-card .rm-btns button.pri{border:none;background:#d7261e;color:#fff;}
-  .rm-card .rm-x{float:right;width:36px;height:36px;border-radius:50%;border:none;background:#f0ece4;font-size:16px;cursor:pointer;}
+  .rm-card p b{color:#1a1626;}
+  .rm-card .rm-x{float:right;width:36px;height:36px;border-radius:50%;border:none;background:#f0ece4;font-size:16px;cursor:pointer;color:#1a1626;}
+  .rm-sum{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:14px;background:#fff3e6;border:1px solid #f5d9bb;margin-bottom:14px;}
+  .rm-sum > b{font:800 15px/1.3 'Inter',sans-serif;color:#1a1626;}
+  .rm-sum span{font:600 13px/1.4 'Inter',sans-serif;color:#7a5a36;}
+  .rm-card p.rm-warn{background:#fff6d9;border-left:4px solid #e0a800;border-radius:10px;padding:9px 12px;font-size:13px !important;color:#5d4b10 !important;}
+  .rm-lab{font:800 12px/1 'Inter',sans-serif;letter-spacing:0.07em;text-transform:uppercase;color:#8a8170;margin:16px 0 8px;}
+  .rm-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .rm-chip{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;border-radius:14px;border:2px solid #e6dfd2;background:#fff;color:#1a1626;font:800 14px/1.1 'Inter',sans-serif;cursor:pointer;transition:border-color .15s,background .15s;}
+  .rm-chip small{font:600 12px/1 'Inter',sans-serif;color:#8a8170;}
+  .rm-chip.on{border-color:#d7261e;background:#fff0ef;}
+  .rm-chip.on small{color:#d7261e;}
+  .rm-own{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:6px 6px 6px 14px;border-radius:14px;border:2px solid #e6dfd2;background:#fff;font:700 14px/1.2 'Inter',sans-serif;color:#4a4436;}
+  .rm-own input[type=time]{height:42px;border-radius:10px;border:1px solid #e6dfd2;background:#faf7f1;font:800 17px/1 'Inter',sans-serif;color:#1a1626;padding:0 8px;}
+  .rm-opts{display:grid;gap:8px;}
+  .rm-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;border:2px solid #e6dfd2;background:#fff;cursor:pointer;color:#1a1626;transition:transform .12s,border-color .15s;}
+  .rm-opt:hover{transform:translateY(-1px);border-color:#cfc5b4;}
+  .rm-opt.pri{border-color:#d7261e;background:linear-gradient(135deg,#fff,#fff3f2);box-shadow:0 3px 0 rgba(215,38,30,0.18);}
+  .rm-oi{flex:0 0 auto;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:#f4efe6;}
+  .rm-g{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#fff;color:#4285f4;font:900 16px/1 Arial,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,0.25);}
+  .rm-ot{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .rm-ot b{font:800 15px/1.2 'Inter',sans-serif;color:#1a1626;}
+  .rm-ot b em{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:999px;background:#d7261e;color:#fff;font:800 10px/1.3 'Inter',sans-serif;font-style:normal;letter-spacing:0.04em;text-transform:uppercase;vertical-align:2px;}
+  .rm-ot small{font:500 12.5px/1.35 'Inter',sans-serif;color:#7a7264;}
+  .rm-go{flex:0 0 auto;font:700 24px/1 'Inter',sans-serif;color:#b8ad9a;}
+  .rm-how{margin-top:14px;border-top:1px solid #eee6d8;padding-top:10px;}
+  .rm-how summary{cursor:pointer;font:700 13.5px/1.4 'Inter',sans-serif;color:#6b6356;}
+  .rm-how p{margin:8px 0 0 !important;font-size:13px !important;}
+  .rm-steps{list-style:none;counter-reset:r;margin:0 0 12px;padding:0;display:grid;gap:8px;}
+  .rm-steps li{counter-increment:r;position:relative;padding:10px 12px 10px 48px;border-radius:14px;background:#fff;border:1px solid #ece5d8;font:600 14.5px/1.4 'Inter',sans-serif;color:#1a1626;}
+  .rm-steps li::before{content:counter(r);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#d7261e;color:#fff;display:grid;place-items:center;font:900 13px/1 'Inter',sans-serif;}
+  .rm-card p.rm-note{background:#eef6ff;border-radius:12px;padding:10px 12px;font-size:13px !important;color:#2c4a6e !important;}
+  .rm-end{display:grid;gap:8px;margin-top:4px;}
+  .rm-done{height:52px;border-radius:14px;border:none;background:#d7261e;color:#fff;font:800 16px/1 'Inter',sans-serif;cursor:pointer;}
+  .rm-back{height:44px;border-radius:14px;border:none;background:transparent;color:#6b6356;font:700 14px/1 'Inter',sans-serif;cursor:pointer;}
 </style>
 
 <script>
@@ -4163,18 +4194,25 @@ function showTab(name){
 
   /* ── reminders: added to your phone's own calendar so they ring even when the app is closed ── */
   function defTime(p){ return p.remind || (p.timeOfDay === 'pm' ? '21:00' : (p.timeOfDay === 'any' ? '12:00' : '08:00')); }
+  function endDate(p){ var end = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); end.setDate(end.getDate() + p.durationDays - 1); return end; }
   function rrule(p){
-    var end = new Date(p.startDateTime.split('T')[0] + 'T00:00:00'); end.setDate(end.getDate() + p.durationDays - 1);
+    var end = endDate(p);
     var until = end.getFullYear() + String(end.getMonth() + 1).padStart(2, '0') + String(end.getDate()).padStart(2, '0') + 'T235959';
     var DAYS = ['SU','MO','TU','WE','TH','FR','SA'];
     if (p.frequencyType === 'daily') return 'FREQ=DAILY;UNTIL=' + until;
     if (p.frequencyType === 'weekly') return 'FREQ=WEEKLY;BYDAY=' + DAYS[new Date(p.startDateTime.split('T')[0] + 'T00:00:00').getDay()] + ';UNTIL=' + until;
     return 'FREQ=WEEKLY;BYDAY=' + (p.weekdays || []).map(function(d){ return DAYS[d]; }).join(',') + ';UNTIL=' + until;
   }
+  function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   function firstDate(p){ // the next day a dose is actually due
     var s = p.startDateTime.split('T')[0], t = todayStr(), d = new Date((s > t ? s : t) + 'T00:00:00');
-    for (var i = 0; i < 400; i++) { var ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); if (isDoseDueOnDate(p, ds)) return ds; d.setDate(d.getDate() + 1); }
+    for (var i = 0; i < 400; i++) { var ds = ymd(d); if (isDoseDueOnDate(p, ds)) return ds; d.setDate(d.getDate() + 1); }
     return s > t ? s : t;
+  }
+  function countLeft(p){ // how many reminders the calendar will create
+    var d = new Date(firstDate(p) + 'T00:00:00'), end = endDate(p), n = 0;
+    for (var i = 0; i < 800 && d <= end; i++) { if (isDoseDueOnDate(p, ymd(d))) n++; d.setDate(d.getDate() + 1); }
+    return n;
   }
   function stamp(ds, tm){ return ds.replace(/-/g, '') + 'T' + tm.replace(':', '') + '00'; }
   function summary(p){ return (pmdOral(p) ? '💊 ' : '💉 ') + p.name + ' · ' + p.dose + ' mg' + (pmdOral(p) ? ' (' + pmdPillTxt(p) + ')' : ' (' + (function(u){ return u % 1 === 0 ? u : u.toFixed(1); })(pmdUnits(p)) + ' units)'); }
@@ -4185,32 +4223,75 @@ function showTab(name){
       'SUMMARY:' + summary(p),'DESCRIPTION:Time for your ' + p.name + ' dose. Open PokeMe-Dex to log it.',
       'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + summary(p),'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
   }
+  function gcalUrl(p, tm){
+    var ds = firstDate(p), st = stamp(ds, tm), end = new Date(ds + 'T' + tm + ':00'); end.setMinutes(end.getMinutes() + 10);
+    var en = stamp(ymd(end), String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0'));
+    var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){}
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(summary(p)) + '&dates=' + st + '/' + en + '&recur=' + encodeURIComponent('RRULE:' + rrule(p)) + '&details=' + encodeURIComponent('Time for your ' + p.name + ' dose. Open PokeMe-Dex to log it.') + (tz ? '&ctz=' + encodeURIComponent(tz) : '');
+  }
+  function device(){ var u = navigator.userAgent; if (/iPad|iPhone|iPod/.test(u) || (/Macintosh/.test(u) && navigator.maxTouchPoints > 1)) return 'ios'; if (/Android/i.test(u)) return 'android'; return 'desktop'; }
+  function saveIcs(p, tm){
+    var blob = new Blob([ics(p, tm)], { type:'text/calendar;charset=utf-8' }), url = URL.createObjectURL(blob);
+    if (device() === 'ios') location.href = url;
+    else { var a = document.createElement('a'); a.href = url; a.download = 'pokemedex-' + p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-reminder.ics'; document.body.appendChild(a); a.click(); a.remove(); }
+  }
+  // what to do next, by where it was added
+  var NEXT = {
+    'ios-ics': { t:'Finish in Apple Calendar', s:['Your iPhone shows a calendar preview.', 'Tap <b>Add All</b> (top right).', 'Pick a calendar if it asks. That\'s it.'], note:'Nothing opened? Open PokeMe-Dex in <b>Safari</b> and try again, or use Google Calendar.' },
+    'android-ics': { t:'Finish in your calendar app', s:['Open the downloaded file (tap the download notice, or Files → Downloads).', 'Choose your calendar app, like Samsung Calendar or Outlook.', 'Tap <b>Save</b> or <b>Import</b>.'], note:'The Google Calendar app can\'t open these files. If you use Google Calendar, go back and pick <b>Google Calendar</b>.' },
+    'desktop-ics': { t:'Finish in your calendar', s:['Open the downloaded <b>.ics</b> file.', 'Outlook or Apple Calendar opens it.', 'Click <b>Save</b> or <b>Add</b>.'], note:'Use the same calendar account on your phone and the reminders ring there too.' },
+    'gcal': { t:'Finish in Google Calendar', s:['Google Calendar opens with everything filled in.', 'Check the account at the top is yours.', 'Tap <b>Save</b>.'], note:'Want it to ring exactly on time? Before saving, set the notification to <b>At time of event</b> (Google often defaults to 30 min before).' }
+  };
   window.pmdRemind = function(id){
     var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === id; }); if (!p) return;
-    var el = document.createElement('div'); el.className = 'rm'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
-    el.innerHTML = '<div class="rm-card"><button type="button" class="rm-x" aria-label="Close">✕</button><h3>🔔 Dose reminder</h3><p>' + esc(summary(p)) + ' · ' + frequencyLabel(p) + '. Your phone\'s calendar will alert you at this time, even when PokeMe-Dex is closed.</p>'
-      + '<label for="rm-time">Remind me at</label><input type="time" id="rm-time" value="' + defTime(p) + '">'
-      + '<div class="rm-btns"><button type="button" class="pri" data-a="ics">📅 Add to my phone calendar</button><button type="button" data-a="g">Use Google Calendar instead</button></div></div>';
+    var dev = device(), tm = defTime(p), n = countLeft(p), end = endDate(p);
+    var endTxt = end.toLocaleDateString('en', { month:'short', day:'numeric' });
+    var icsLabel = dev === 'ios' ? 'Apple Calendar' : (dev === 'android' ? 'Other calendar app' : 'Outlook / Apple Calendar');
+    var icsSub = dev === 'ios' ? 'Built into your iPhone · rings at the exact time' : (dev === 'android' ? 'Samsung Calendar, Outlook… (downloads a file)' : 'Downloads a calendar file you open once');
+    var opts = [
+      { a:'ics', ic:'📅', t:icsLabel, s:icsSub },
+      { a:'g', ic:'<span class="rm-g">G</span>', t:'Google Calendar', s:'Opens Google Calendar, ready to save' }
+    ];
+    if (dev !== 'ios') opts.reverse(); // Android & computers: Google first
+    var el = document.createElement('div'); el.className = 'rm'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'rm-h');
     document.body.appendChild(el);
     function close(){ el.remove(); }
+    function chip(v, label){ return '<button type="button" class="rm-chip' + (tm === v ? ' on' : '') + '" data-t="' + v + '">' + label + '<small>' + hhmm(v) + '</small></button>'; }
+    function pick(){
+      el.innerHTML = '<div class="rm-card"><button type="button" class="rm-x" aria-label="Close">✕</button>'
+        + '<h3 id="rm-h">🔔 Dose reminders</h3><p class="rm-lead">Add them to your calendar once. Your phone alerts you at dose time, even when PokeMe-Dex is closed. No app download needed.</p>'
+        + '<div class="rm-sum"><b>' + esc(summary(p)) + '</b><span>' + esc(frequencyLabel(p)) + ' · until ' + endTxt + ' · <b>' + n + ' reminder' + (n === 1 ? '' : 's') + '</b></span></div>'
+        + (p.remind ? '<p class="rm-warn">You already added reminders at ' + hhmm(p.remind) + '. Adding again makes a second set: delete the old one in your calendar first.</p>' : '')
+        + '<div class="rm-lab">1 · Pick a time</div>'
+        + '<div class="rm-chips">' + chip('08:00', '🌅 Morning') + chip('12:00', '☀️ Midday') + chip('21:00', '🌙 Evening') + '</div>'
+        + '<label class="rm-own" for="rm-time">Or set your own time <input type="time" id="rm-time" value="' + tm + '"></label>'
+        + '<div class="rm-lab">2 · Add to your calendar</div>'
+        + '<div class="rm-opts">' + opts.map(function(o, i){ return '<button type="button" class="rm-opt' + (i === 0 ? ' pri' : '') + '" data-a="' + o.a + '"><span class="rm-oi">' + o.ic + '</span><span class="rm-ot"><b>' + o.t + (i === 0 ? ' <em>Best for this device</em>' : '') + '</b><small>' + o.s + '</small></span><span class="rm-go">›</span></button>'; }).join('') + '</div>'
+        + '<details class="rm-how"><summary>Change or stop reminders later</summary><p>Open your calendar, tap any <b>' + esc(p.name) + '</b> reminder, tap <b>Delete</b>, then choose <b>All events</b> (or "Delete all future events"). Then come back here and add new ones.</p></details>'
+        + '</div>';
+    }
+    function done(key){
+      var s = NEXT[key];
+      el.innerHTML = '<div class="rm-card"><button type="button" class="rm-x" aria-label="Close">✕</button>'
+        + '<h3 id="rm-h">✅ ' + s.t + '</h3><p class="rm-lead">' + n + ' reminder' + (n === 1 ? '' : 's') + ' for <b>' + esc(p.name) + '</b> at <b>' + hhmm(tm) + '</b>. One last step:</p>'
+        + '<ol class="rm-steps">' + s.s.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ol>'
+        + '<p class="rm-note">💡 ' + s.note + '</p>'
+        + '<div class="rm-end"><button type="button" class="rm-done" data-a="close">Done</button><button type="button" class="rm-back" data-a="back">← Try the other option</button></div></div>';
+    }
+    pick();
     el.addEventListener('click', function(e){
-      if (e.target === el || e.target.closest('.rm-x')) return close();
+      if (e.target === el || e.target.closest('.rm-x') || e.target.closest('[data-a="close"]')) return close();
+      var c = e.target.closest('[data-t]'); if (c) { tm = c.getAttribute('data-t'); pick(); return; }
       var b = e.target.closest('[data-a]'); if (!b) return;
-      var tm = document.getElementById('rm-time').value || defTime(p);
+      var a = b.getAttribute('data-a');
+      if (a === 'back') { pick(); return; }
+      var inp = document.getElementById('rm-time'); if (inp && inp.value) tm = inp.value;
       p.remind = tm; saveProtocols(); renderProtocolsList();
-      if (b.getAttribute('data-a') === 'ics') {
-        var blob = new Blob([ics(p, tm)], { type:'text/calendar;charset=utf-8' }), url = URL.createObjectURL(blob);
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) location.href = url;
-        else { var a = document.createElement('a'); a.href = url; a.download = 'pokemedex-' + p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-reminder.ics'; document.body.appendChild(a); a.click(); a.remove(); }
-        pmdToast('📅 Open the downloaded file and tap <b>Add</b> to save your ' + esc(p.name) + ' reminders.');
-      } else {
-        var ds = firstDate(p), st = stamp(ds, tm), end = new Date(ds + 'T' + tm + ':00'); end.setMinutes(end.getMinutes() + 10);
-        var en = stamp(end.getFullYear() + '-' + String(end.getMonth() + 1).padStart(2, '0') + '-' + String(end.getDate()).padStart(2, '0'), String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0'));
-        var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){}
-        window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(summary(p)) + '&dates=' + st + '/' + en + '&recur=' + encodeURIComponent('RRULE:' + rrule(p)) + '&details=' + encodeURIComponent('Time for your ' + p.name + ' dose. Open PokeMe-Dex to log it.') + (tz ? '&ctz=' + encodeURIComponent(tz) : ''), '_blank', 'noopener');
-      }
-      close();
+      if (a === 'ics') { saveIcs(p, tm); done(dev + '-ics'); }
+      else { window.open(gcalUrl(p, tm), '_blank', 'noopener'); done('gcal'); }
     });
+    el.addEventListener('change', function(e){ if (e.target.id === 'rm-time' && e.target.value) { tm = e.target.value; el.querySelectorAll('.rm-chip').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-t') === tm); }); } });
+    document.addEventListener('keydown', function k(e){ if (e.key === 'Escape') { close(); document.removeEventListener('keydown', k); } });
   };
 
   /* ── backup / restore ── */
