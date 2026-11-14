@@ -1946,6 +1946,7 @@ var PEPTIDES = {
   lara:   { name:'Larazotide', oral:true, pill:0.5, perDay:3, desc:'An oral tight-junction regulator studied for "leaky gut" and celiac disease, and explored for long COVID. Trials used 0.5 mg three times a day, about 15 minutes before meals. Investigational, not approved.', start:0.5, step:0, weeks:12, freq:7, time:'any' },
   bpc:    { name:'BPC-157', desc:'Known as a "healing" peptide — studied for repairing the gut lining, tendons, ligaments, and general recovery from injury. Typically used once or twice daily for 4-8 weeks.', vial:5, water:2, start:0.25, step:0, weeks:6, freq:7 },
   tb500:  { name:'TB-500', desc:'Another well-known healing peptide — studied for repairing tissue, improving flexibility, and speeding up recovery from injuries. Often dosed 2x/week during an initial loading phase, then once weekly, for 4-6 weeks.', vial:5, water:2, start:2, step:0, weeks:6, freq:2 },
+  bb20:   { name:'BB20 (BPC-157 + TB-500)', desc:'A blend vial of BPC-157 10 mg + TB-500 10 mg (20 mg total), both studied for tissue repair and recovery. The dose is of the whole blend: 1 mg = 0.5 mg BPC-157 + 0.5 mg TB-500. Commonly run for 4-12 weeks.', vial:20, water:2, start:1, step:0, weeks:6, freq:7, range:[4,12] },
   cjcipa: { name:'CJC-1295 + Ipamorelin', desc:'A combo that encourages your body to release more of its own growth hormone — studied for better sleep, recovery, and body composition. Taken daily (usually at night) for 8-12 weeks.', vial:5, water:2, start:0.2, step:0, weeks:12, freq:7, time:'pm' },
   nad:    { name:'NAD+', desc:'A natural compound your cells need for energy — studied for anti-aging, brain function, and supporting overall cell health. Commonly dosed daily to a few times a week for 4-8 weeks.', vial:500, water:2, start:50, step:0, weeks:6, freq:5 },
   ghk:    { name:'GHK-Cu', desc:'A copper-based peptide — studied for boosting collagen, helping skin and hair look healthier, and repairing tissue. Usually used daily for 8-12 weeks.', vial:50, water:2, start:1, step:0, weeks:8, freq:7 },
@@ -3418,9 +3419,13 @@ function showTab(name){
         render: function(s, b){ chips(b, [{ v:'morning', t:'☀️ Morning' }, { v:'pm', t:'🌙 Evening / bedtime' }, { v:'any', t:'🕐 Any time' }], function(v){ return s.time === v; }, function(v){ s.time = v; }, { auto:true, wide:true }); } },
       { q: 'How long is this cycle?', help: 'Pick or type how many weeks, and the day you start (or started).', valid: function(s){ return s.weeks >= 1; },
         render: function(s, b){
-          chips(b, [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks' }; }), function(v){ return s.weeks === v; }, function(v){ s.weeks = v; }, {});
-          numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); });
+          var rg = window.pmdCycleRange ? pmdCycleRange(s.key) : null, h;
+          chips(b, [4,6,8,12,16].map(function(v){ return { v:v, t:v + ' weeks', s: rg && v > rg[1] ? 'Longer than usual' : '' }; }), function(v){ return s.weeks === v; }, function(v){ s.weeks = v; paint(); }, {});
+          numField(b, 'Or type the number of weeks', s.weeks, 'weeks', 1, function(v){ s.weeks = Math.max(1, Math.round(v)); paint(); });
           dateField(b, 'Start date', s.start, function(v){ s.start = v || todayStr(); }).removeAttribute('max');
+          h = hintBox(b);
+          function paint(){ if (window.pmdCycleNote) pmdCycleNote(s, h); }
+          paint();
         } },
       { q: 'Look good?', help: 'You can edit this any time from My Peptides.', cta: '✓ Save to My Peptides',
         render: function(s, b){
@@ -3430,9 +3435,11 @@ function showTab(name){
           if (s.oral) { rows.push(['Pill size', s.pill + ' mg']); rows.push(['Each dose', s.dose + ' mg (' + r2(s.dose / s.pill) + ' pill' + (r2(s.dose / s.pill) === 1 ? '' : 's') + ')']); rows.push(['Times a day', s.perDay]); }
           else { var u = units(s.vial, s.water, s.dose); rows.push(['Vial', s.vial + ' mg + ' + s.water + ' mL water']); rows.push(['Each dose', s.dose + ' mg = ' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units']); rows.push(['Mixed', s.mixed ? agoTxt(daysAgo(s.mixed)) : 'Not yet']); }
           rows.push(['How often', how]); rows.push(['Time', timeOfDayLabel(s.time).split(' (')[0]]); rows.push(['Cycle', s.weeks + ' weeks from ' + s.start]);
+          if (!s.oral && window.pmdVialPlan) { var vp = pmdVialPlan(s); if (vp) { rows.push(['One vial lasts', '~' + vp.days + ' days (' + vp.doses + ' doses)']); rows.push(['Vials for this cycle', '~' + vp.vials]); } }
           var d = document.createElement('div'); d.className = 'qz-review';
           d.innerHTML = rows.map(function(r){ return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
           b.appendChild(d);
+          if (window.pmdCycleNote) { var w = hintBox(b); pmdCycleNote(s, w, true); }
         } }
     ];
   }
@@ -3445,7 +3452,9 @@ function showTab(name){
     var k = ACTIVE_PROTOCOLS.findIndex(function(x){ return x.id === p.id; });
     if (k === -1) ACTIVE_PROTOCOLS.push(p); else ACTIVE_PROTOCOLS[k] = p;
     saveProtocols(); renderDashboard();
-    pmdToast('✓ <b>' + esc(p.name) + '</b> ' + (k === -1 ? 'added' : 'updated') + '. Tap it under <b>Today\'s Doses</b> when you take it.');
+    var crg = window.pmdCycleRange ? pmdCycleRange(p.key) : null, wks = Math.round(p.durationDays / 7);
+    if (crg && wks > crg[1]) pmdToast('⚠ <b>' + esc(p.name) + '</b> saved, but ' + wks + ' weeks is longer than its usual ' + crg[0] + '–' + crg[1] + ' week cycle. Double-check your cycle length.');
+    else pmdToast('✓ <b>' + esc(p.name) + '</b> ' + (k === -1 ? 'added' : 'updated') + '. Tap it under <b>Today\'s Doses</b> when you take it.');
     var box = document.getElementById('active-protocols-box'); if (box && k === -1) box.scrollIntoView({ behavior:'smooth', block:'start' });
   }
   function stFromDef(key){
@@ -4238,8 +4247,11 @@ function showTab(name){
       var due = isDoseDueToday(p), done = !!(DOSE_LOG[t] && DOSE_LOG[t][p.id]);
       var u = pmdUnits(p), when = p.timeLabel.split(' (')[0].replace('Either — No Strong Preference', 'Any time').replace('Evening / Before Bed', 'Evening');
       var cls = st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : '');
-      var stockTxt = st.left <= 0 ? '⚠ ' + (oral ? 'Bottle' : 'Vial') + ' empty' : (oral ? st.left + ' of ' + st.total + ' pills left' : st.left + ' of ' + st.total + ' mg left') + ' · ~' + st.doses + ' dose' + (st.doses === 1 ? '' : 's');
-      var mixedTxt = !oral && p.mixed ? (function(a){ return ' · mixed ' + (a === 0 ? 'today' : a === 1 ? 'yesterday' : a + ' days ago') + (a >= 28 ? ' ⚠' : ''); })(daysAgo(p.mixed)) : '';
+      var life = window.pmdVialLife ? pmdVialLife(p, st) : null, warns = window.pmdVialWarnings ? pmdVialWarnings(p, st, life) : [];
+      if (warns.length && !cls) cls = 'low';
+      var stockTxt = st.left <= 0 ? '⚠ ' + (oral ? 'Bottle' : 'Vial') + ' empty' : (oral ? st.left + ' of ' + st.total + ' pills left' : st.left + ' of ' + st.total + ' mg left') + ' · ~' + st.doses + ' dose' + (st.doses === 1 ? '' : 's') + (life ? ' · lasts ~' + life.days + ' day' + (life.days === 1 ? '' : 's') + ' (last dose ' + life.label + ')' : '');
+      var mixedTxt = !oral && p.mixed ? (function(a){ return ' · mixed ' + (a === 0 ? 'today' : a === 1 ? 'yesterday' : a + ' days ago'); })(daysAgo(p.mixed)) : '';
+      var cycTxt = (function(){ var rg = window.pmdCycleRange ? pmdCycleRange(p.key) : null, w = Math.round(p.durationDays / 7); return rg && w > rg[1] ? '<div class="dx-warn">⚠ ' + w + '-week cycle is longer than the usual ' + rg[0] + '–' + rg[1] + ' weeks. Double-check your cycle length.</div>' : ''; })();
       return '<div class="dx-card">'
         + '<div class="dx-vial">' + vialSvg(p, st) + '<small class="' + (cls ? 'warn' : '') + '">' + (st.left <= 0 ? 'Empty' : Math.round(st.frac * 100) + '%') + '</small></div>'
         + '<div><div class="dx-top"><span class="dx-no">No. ' + String(i + 1).padStart(3, '0') + '</span><span class="dx-type' + (oral ? ' oral' : '') + '">' + (oral ? '💊 Pill' : '💉 Injection') + '</span></div>'
@@ -4247,6 +4259,7 @@ function showTab(name){
         + '<div class="dx-meta"><b>' + p.dose + ' mg</b> · ' + frequencyLabel(p) + (oral && pmdPerDay(p) > 1 ? ' · ' + pmdPerDay(p) + '×/day' : '') + ' · ' + when + (oral ? ' · ' + pmdPillTxt(p) : ' · <b>' + (u % 1 === 0 ? u : u.toFixed(1)) + ' units</b>') + '</div>'
         + '<div class="dx-prog"><div><span>Day ' + day + ' of ' + p.durationDays + '</span><span>' + daysRemaining(p) + ' left</span></div><i><u style="width:' + pct + '%"></u></i></div>'
         + '<div class="dx-stock ' + cls + '"><span>' + stockTxt + mixedTxt + '</span><span class="dx-spare">Spare <button type="button" aria-label="One less spare" onclick="pmdSpare(\'' + p.id + '\',-1)">−</button>' + (p.spare || 0) + '<button type="button" aria-label="One more spare" onclick="pmdSpare(\'' + p.id + '\',1)">+</button></span></div>'
+        + warns.map(function(w){ return '<div class="dx-warn">' + w + '</div>'; }).join('') + cycTxt
         + '<div class="dx-acts">'
         + (due ? (done ? '<button type="button" class="done" onclick="toggleDoseDone(\'' + p.id + '\')">✓ Done today</button>' : '<button type="button" class="pri" onclick="toggleDoseDone(\'' + p.id + '\')">Log dose</button>') : '')
         + (cls ? '<button type="button" class="new" onclick="pmdNewVial(\'' + p.id + '\')">＋ New ' + (oral ? 'bottle' : 'vial') + '</button>' : '')
@@ -4539,7 +4552,8 @@ function showTab(name){
     var blocks = '', on = st ? Math.round(Math.max(0, Math.min(1, st.frac)) * 8) : 0;
     for (var i = 0; i < 8; i++) blocks += '<b class="' + (i < on ? 'on' : '') + '"></b>';
     var mcls = !st ? '' : (st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : ''));
-    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (mcls === 'low' ? ' LOW' : ''));
+    var lf = st && window.pmdVialLife ? pmdVialLife(p, st) : null;
+    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (lf ? ' · ' + lf.days + 'D' : '') + (mcls === 'low' ? ' LOW' : ''));
     scr.className = 'pdx-screen lcd';
     scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-badge-256.webp?v=1" alt=""></span><div class="lcd-body">'
       + '<div class="lcd-row"><span>No. ' + String(idx + 1).padStart(3, '0') + ' / ' + String(list.length).padStart(3, '0') + '</span><span>' + (oral ? '💊 PILL' : '💉 INJ') + '</span></div>'
@@ -4728,6 +4742,109 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   }
   place();
   if (mq.addEventListener) mq.addEventListener('change', place); else mq.addListener(place);
+})();
+</script>
+<style id="pdx-vialcycle-css">
+  /* vial / cycle warnings on Dex cards */
+  html body #pdx-app .dx-warn{margin-top:8px;padding:8px 10px;border-radius:10px;background:#fff6d9;border-left:4px solid #e0a800;font:600 13px/1.4 'Inter',sans-serif;color:#5d4b10;}
+  html body #pdx-app .dx-warn.bad{background:#fff0ef;border-left-color:#d7261e;color:#7a1d16;}
+  .qz-hint.cyc{background:#eef6ff;color:#1d3a5f;}
+  .qz-hint.cyc.warn{background:#fff6d9;color:#5d4b10;}
+  /* a bigger Pokédex screen */
+  header.pmx .pdx-device{max-width:420px;}
+  header.pmx .pdx-screen.lcd{padding:18px 18px 22px;min-height:178px;}
+  header.pmx .lcd-wrap{grid-template-columns:82px minmax(0,1fr);gap:16px;}
+  header.pmx .lcd-badge{width:82px;height:82px;}
+  header.pmx .lcd-row{font-size:13.5px;}
+  header.pmx .lcd-name{font-size:27px;margin:8px 0 7px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.1;}
+  header.pmx .lcd-line{font-size:15.5px;line-height:1.55;}
+  header.pmx .lcd-meter{font-size:14px;margin-top:6px;}
+  header.pmx .lcd-meter i b{width:11px;height:11px;}
+  @media(max-width:820px){
+    html body header.pmx .pdx-device{max-width:none;}
+  }
+  @media(max-width:600px){
+    header.pmx .pdx-screen.lcd{padding:14px 12px 18px;min-height:150px;}
+    header.pmx .lcd-wrap{grid-template-columns:62px minmax(0,1fr);gap:12px;}
+    header.pmx .lcd-badge{width:62px;height:62px;}
+    header.pmx .lcd-name{font-size:23px;}
+    header.pmx .lcd-line{font-size:14.5px;}
+    header.pmx .lcd-meter{font-size:13px;}
+    header.pmx .lcd-meter i b{width:9px;height:9px;}
+  }
+</style>
+<script>
+(function(){
+  function ymdOf(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function nice(ds){ return new Date(ds + 'T00:00:00').toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' }); }
+  function ago(ds){ return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function def(key){ return (typeof PEPTIDES !== 'undefined' && PEPTIDES[key]) || null; }
+
+  // usual cycle range in weeks, from the peptide's own info ("for 4-8 weeks", "8–12 weeks")
+  window.pmdCycleRange = function(key){
+    var d = def(key); if (!d) return null;
+    if (d.range) return d.range;
+    var m = /(\d+)\s*(?:-|–|to)\s*(\d+)\s*weeks/i.exec(d.desc || '');
+    return m ? [+m[1], +m[2]] : null;
+  };
+  function perWeek(s){ return s.freq === 'daily' ? 7 : s.freq === 'weekly' ? 1 : (s.weekdays || []).length; }
+  // while adding: how long one vial lasts and how many vials the cycle needs
+  window.pmdVialPlan = function(s){
+    if (s.oral || !(s.vial > 0) || !(s.dose > 0)) return null;
+    var doses = Math.floor(s.vial / s.dose + 1e-6), pw = perWeek(s); if (!doses || !pw) return null;
+    var days = Math.max(1, Math.round(doses / pw * 7)), need = Math.ceil((s.weeks || 0) * pw / doses);
+    return { doses:doses, days:days, vials:Math.max(1, need) };
+  };
+  window.pmdCycleNote = function(s, box, review){
+    var rg = pmdCycleRange(s.key), vp = pmdVialPlan(s), out = [], warn = false;
+    if (rg && s.weeks > rg[1]) { warn = true; out.push('⚠ ' + s.name + '\'s usual cycle is ' + rg[0] + '–' + rg[1] + ' weeks. ' + s.weeks + ' weeks is longer than that: double-check your cycle length.'); }
+    else if (rg && !review) out.push('✓ ' + s.weeks + ' weeks is within the usual ' + rg[0] + '–' + rg[1] + ' week cycle for ' + s.name + '.');
+    if (vp && !review) out.push('🧪 At this dose one ' + s.vial + ' mg vial = ' + vp.doses + ' doses, lasting about ' + vp.days + ' days. This cycle needs about ' + vp.vials + ' vial' + (vp.vials === 1 ? '' : 's') + '.');
+    if (!s.oral && !review) out.push('🧊 Mixed vials are best used within about 6 weeks. We\'ll remind you to prepare a new one.');
+    box.className = 'qz-hint cyc' + (warn ? ' warn' : '');
+    box.innerHTML = out.join('<br>');
+    box.style.display = out.length ? '' : 'none';
+  };
+
+  // on the Dex: how many days the current vial lasts, walking your real schedule
+  window.pmdVialLife = function(p, st){
+    if (!st || !(st.doses > 0)) return null;
+    var t = todayStr(), done = DOSE_LOG[t] && DOSE_LOG[t][p.id], n = st.doses, d = new Date(t + 'T00:00:00');
+    for (var i = 0; i < 730; i++) {
+      var ds = ymdOf(d);
+      if (isDoseDueOnDate(p, ds) && !(i === 0 && done)) { n--; if (n === 0) return { days:i + 1, label:nice(ds), date:ds }; }
+      d.setDate(d.getDate() + 1);
+    }
+    return null; // enough to finish this cycle
+  };
+  // "prepare a new vial" warnings: 6-week vial age and running out soon
+  window.pmdVialWarnings = function(p, st, life){
+    var w = [], oral = pmdOral(p);
+    if (!oral) {
+      var mixed = p.mixed || (p.vialOpened ? p.vialOpened.split('T')[0] : '');
+      if (mixed) {
+        var a = ago(mixed), six = new Date(mixed + 'T00:00:00'); six.setDate(six.getDate() + 42);
+        if (a >= 42) w.push('<b>⚠ Over 6 weeks since this vial was mixed.</b> Start a new vial.');
+        else if (a >= 35) w.push('<b>🧪 Prepare a new vial:</b> this one turns 6 weeks old on ' + nice(ymdOf(six)) + '.');
+      }
+    }
+    if (st && st.left > 0 && life && life.days <= 5) w.push('<b>🧪 Prepare a new ' + (oral ? 'bottle' : 'vial') + ':</b> this one runs out after ' + life.label + '.');
+    return w;
+  };
+
+  // once a day: a heads-up if any vial needs replacing soon
+  function headsUp(){
+    try {
+      if (!ACTIVE_PROTOCOLS.length || !window.pmdStock) return;
+      var k = 'pmd_vial_alert_' + todayStr(); if (localStorage.getItem(k)) return;
+      var names = ACTIVE_PROTOCOLS.filter(function(p){ var st = pmdStock(p); return pmdVialWarnings(p, st, pmdVialLife(p, st)).length; }).map(function(p){ return p.name; });
+      if (!names.length) return;
+      localStorage.setItem(k, '1');
+      setTimeout(function(){ pmdToast('🧪 <b>Prepare a new vial</b> for ' + names.map(function(n){ return '<b>' + n.replace(/</g, '&lt;') + '</b>'; }).join(', ') + '. Details in My Dex.'); }, 1800);
+    } catch(e){}
+  }
+  if (typeof renderDashboard === 'function') renderDashboard();
+  headsUp();
 })();
 </script>
 </body>
