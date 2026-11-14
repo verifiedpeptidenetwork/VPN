@@ -94,6 +94,26 @@
   .dx-nav-row button{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font:700 14px/1 'Inter',sans-serif;cursor:pointer;}
   .dx-close{display:none;}
   .dx-foot{max-width:1180px;margin:0 auto;padding:0 16px 40px;font:500 12.5px/1.6 'Inter',sans-serif;color:#8a8170;text-align:center;}
+  /* ── digital screen everywhere ── */
+  .dx-lcd .rd{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:9px;border-top:1px dashed rgba(141,255,174,0.35);font:400 13px/1.35 'Share Tech Mono',ui-monospace,monospace;color:#b9ffcc;}
+  .dx-lcd .rd span{min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dx-lcd .rd i{font-style:normal;margin-right:6px;padding:1px 6px;border-radius:4px;background:rgba(141,255,174,0.16);color:#8dffae;letter-spacing:0.08em;}
+  .dx-sec h3{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:9px;background:radial-gradient(120% 140% at 50% 0%,#12302a,#07160f 75%);box-shadow:inset 0 0 0 1px rgba(141,255,174,0.25),0 0 0 2px #1a1a1a;font:400 13.5px/1 'Share Tech Mono',ui-monospace,monospace !important;letter-spacing:0.1em;color:#8dffae !important;text-shadow:0 0 6px rgba(124,255,155,0.6);margin-bottom:10px;}
+  .dx-sec h3::after{content:'';width:7px;height:13px;background:#8dffae;box-shadow:0 0 6px rgba(124,255,155,0.8);animation:dxCur 1.1s steps(2) infinite;}
+  @keyframes dxCur{50%{opacity:0;}}
+  .dx-dose{position:relative;overflow:hidden;gap:0;border-radius:14px;border:5px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;background:radial-gradient(120% 90% at 50% 0%,#12302a,#07160f 70%);}
+  .dx-dose::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px);pointer-events:none;}
+  .dx-dose div{position:relative;background:transparent;border:none;border-radius:0;padding:14px;border-left:1px dashed rgba(141,255,174,0.3);}
+  .dx-dose div:first-child{border-left:none;}
+  .dx-dose small{font:400 11.5px/1 'Share Tech Mono',ui-monospace,monospace;letter-spacing:0.12em;color:#8dffae;opacity:0.85;}
+  .dx-dose b{font:400 15px/1.45 'Share Tech Mono',ui-monospace,monospace;color:#d8ffe2;text-shadow:0 0 6px rgba(124,255,155,0.45);}
+  .dx-study .y{display:inline-block;padding:3px 8px;border-radius:6px;background:#07160f;color:#8dffae !important;font:400 12px/1.2 'Share Tech Mono',ui-monospace,monospace !important;letter-spacing:0.06em;box-shadow:inset 0 0 0 1px rgba(141,255,174,0.3);}
+  .dx-row.on{background:radial-gradient(120% 140% at 50% 0%,#12302a,#07160f 75%);border-color:#1a1a1a;box-shadow:inset 4px 0 0 #8dffae,0 0 0 2px rgba(141,255,174,0.25);}
+  .dx-row.on b{color:#d8ffe2;font-family:'Share Tech Mono',ui-monospace,monospace;font-weight:400;letter-spacing:0.03em;text-shadow:0 0 6px rgba(124,255,155,0.55);}
+  .dx-row.on small{color:#9fe8b4;}
+  .dx-row.on .no{color:#8dffae;}
+  @media(max-width:600px){ .dx-dose div{border-left:none;border-top:1px dashed rgba(141,255,174,0.3);} .dx-dose div:first-child{border-top:none;} }
+  @media(prefers-reduced-motion:reduce){ .dx-sec h3::after{animation:none;} }
   @media(max-width:900px){
     .dx-main{grid-template-columns:minmax(0,1fr);}
     .dx-entry{position:fixed;inset:0;max-height:none;border-radius:0;z-index:50;overflow:auto;background:var(--cream);padding:12px 12px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden;}
@@ -190,7 +210,7 @@
     var pm = pubmed(p);
     document.getElementById('dx-entry').innerHTML =
       '<button type="button" class="dx-close" onclick="dxClose()">‹ Back to the Dex</button>'
-      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div></div></div>'
+      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div><div class="rd"><span><i>DOSE</i>' + esc(p.dose) + '</span><span><i>CYCLE</i>' + esc(p.duration) + '</span></div></div></div>'
       + '<div class="dx-badges">' + p.types.map(function(k){ return '<span class="dx-type" style="--c:' + TYPES[k].c + '">' + TYPES[k].e + ' ' + TYPES[k].t + '</span>'; }).join('') + '<span class="dx-stage" style="--sc:' + st.c + '" title="' + esc(st.d) + '"><i></i>' + st.t + '</span></div></div>'
       + '<div class="dx-body">'
       + '<div class="dx-sec"><h3>🧒 Explain it like I\'m 5</h3><p class="dx-eli5">' + esc(p.eli5) + '</p></div>'
