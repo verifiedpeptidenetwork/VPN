@@ -1338,7 +1338,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <nav class="pa-tabs" id="pa-tabs" aria-label="PokeMe-Dex">
       <button type="button" data-t="today"><span class="ti">📅</span><span>Today</span></button>
       <button type="button" data-t="dex"><span class="ti">📟</span><span>My Dex</span></button>
-      <button type="button" data-t="sites"><span class="ti">📍</span><span>Sites</span></button>
+      <button type="button" data-t="sites"><span class="ti">📍</span><span>Poke Sites</span></button>
       <a class="pa-tab-link" href="peptide-dex.html"><span class="ti">📖</span><span>Index</span></a>
       <a class="pa-tab-link pa-gear-tab" id="pa-gear-tab" href="#settings" role="button" aria-label="Settings and more"><span class="ti">⚙️</span><span>Settings</span></a>
     </nav>
@@ -1369,8 +1369,9 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     </section>
 
     <section class="pa-card" data-tab="sites" aria-labelledby="pa-inj-h">
-      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Pick a spot on the body or from the list to log a dose. Rotating spots helps avoid soreness and lumps. Shown as if you're facing a mirror.</p></div></div>
+      <div class="pa-h"><div><h2 id="pa-inj-h">📍 Poke Sites</h2><p>Pick a spot on the body or from the list to log a dose. Rotating spots helps avoid soreness and lumps. Shown as if you're facing a mirror.</p></div></div>
       <div class="pa-next" id="pa-next"></div>
+      <div class="ps-switch" role="tablist" aria-label="Show"><button type="button" role="tab" data-ps="map" aria-selected="true" class="on">🗺 Body map</button><button type="button" role="tab" data-ps="list" aria-selected="false">📋 All spots</button></div>
       <div class="ps-grid">
       <div class="ps-map">
       <div class="pa-body-ctl">
@@ -5502,6 +5503,39 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     var s = pmdBacState(), k = 'pmd_bac_alert_' + todayStr();
     if (s && s.left <= 3 && !localStorage.getItem(k)) { localStorage.setItem(k, '1'); setTimeout(function(){ pmdToast(s.left <= 0 ? '💧 <b>Throw out your BAC water.</b> It\'s been open over 28 days.' : '💧 <b>BAC water:</b> throw it out in ' + s.left + ' day' + (s.left === 1 ? '' : 's') + ' (' + nice(s.toss) + ').'); }, 3200); }
   } catch(e){}
+})();
+</script>
+<style id="pdx-pokesites-css">
+  html body #pdx-app .ps-switch{display:none;}
+  @media(max-width:600px){
+    /* phones: one view at a time, so the map and the list each get the whole width */
+    html body #pdx-app .ps-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:12px 0 0;padding:4px;border-radius:14px;background:#f1ece3;}
+    html body #pdx-app .ps-switch button{height:44px;border:none !important;border-radius:11px !important;background:transparent !important;color:#6b6356 !important;font:800 14.5px/1 'Inter',sans-serif !important;cursor:pointer;}
+    html body #pdx-app .ps-switch button.on{background:#fff !important;color:#1a1626 !important;box-shadow:0 2px 6px -2px rgba(0,0,0,0.25) !important;}
+    html body #pdx-app[data-ps="map"] .ps-side{display:none;}
+    html body #pdx-app[data-ps="list"] .ps-map{display:none;}
+    html body #pdx-app .ps-grid{margin-top:10px;gap:10px;}
+    html body #pdx-app .ps-map .pa-body-ctl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px !important;}
+    html body #pdx-app .ps-map .pa-seg{width:100%;}
+    html body #pdx-app .ps-map .pa-seg button{flex:1 1 0;justify-content:center;}
+    html body #pdx-app .pa-body.ph{max-width:300px !important;margin:0 auto;}
+    html body #pdx-app .pa-next{flex-wrap:nowrap;gap:8px;padding:10px 12px;}
+    html body #pdx-app .pa-next span{font-size:13.5px;line-height:1.3;}
+    html body #pdx-app .pa-next button{flex:0 0 auto;}
+    html body #pdx-app .ps-spot{padding:9px 10px !important;gap:8px;}
+    html body #pdx-app .ps-spot b{font-size:13.5px !important;}
+    html body #pdx-app .ps-spot small{font-size:11.5px !important;}
+    html body #pdx-app .ps-grp-h{font-size:11.5px;}
+  }
+</style>
+<script>
+(function(){
+  var app = document.getElementById('pdx-app'); if (!app) return;
+  function setPs(v){ app.setAttribute('data-ps', v); try { localStorage.setItem('pmd_ps', v); } catch(e){}
+    [].forEach.call(document.querySelectorAll('.ps-switch button'), function(b){ var on = b.getAttribute('data-ps') === v; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); }
+  var saved = 'map'; try { saved = localStorage.getItem('pmd_ps') || 'map'; } catch(e){}
+  setPs(saved === 'list' ? 'list' : 'map');
+  document.addEventListener('click', function(e){ var b = e.target.closest('.ps-switch button'); if (b) setPs(b.getAttribute('data-ps')); });
 })();
 </script>
 </body>
