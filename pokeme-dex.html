@@ -1277,6 +1277,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
         <summary aria-label="Helpful tools"><span class="pt-ic" aria-hidden="true">🧰</span><span class="pt-tx">Tools</span><span class="pt-chev" aria-hidden="true"></span></summary>
         <div class="pt-menu" role="menu">
           <div class="pt-h">Helpful tools</div>
+          <a role="menuitem" class="pt-it vpn" href="https://ruivpndata.com/home.html"><img src="icon-192.png" alt="" width="34" height="34"><span><b>RUIVPNData home</b><small>Peptide research hub · guides, news &amp; studies</small></span></a>
           <a role="menuitem" class="pt-it pfc" href="https://pepfitcoach.com/" target="_blank" rel="noopener"><img src="pepfitcoach-logo-192.webp?v=1" alt="" width="34" height="34"><span><b>PepFitCoach ↗</b><small>Peptide, fitness &amp; nutrition coaching plans</small></span></a>
           <a role="menuitem" class="pt-it" href="https://glowklowcalc.com" target="_blank" rel="noopener"><span class="pt-em" style="--c:#ff4fa8">🧪</span><span><b>GlowKlowCalc ↗</b><small>GLOW &amp; KLOW reconstitution calculator</small></span></a>
           <a role="menuitem" class="pt-it" href="peptide-dex.html"><span class="pt-em" style="--c:#2fb6ff">📖</span><span><b>Peptide Dex</b><small>113 peptides: uses, doses &amp; studies</small></span></a>
@@ -1340,7 +1341,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <button type="button" data-t="dex"><span class="ti">📟</span><span>My Dex</span></button>
       <button type="button" data-t="sites"><span class="ti">📍</span><span>Sites</span></button>
       <a class="pa-tab-link" href="peptide-dex.html"><span class="ti">📖</span><span>Index</span></a>
-      <button type="button" data-t="more"><span class="ti">⋯</span><span>More</span></button>
+      <a class="pa-tab-link pa-gear-tab" id="pa-gear-tab" href="#settings" role="button" aria-label="Settings and more"><span class="ti">⚙️</span><span>Settings</span></a>
     </nav>
     <section class="pa-card pa-today" id="pa-today-card" data-tab="today" aria-labelledby="pa-today-h">
       <div class="pa-h">
@@ -1360,21 +1361,30 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div class="pa-h"><div><h2 id="pa-peps-h">My Dex</h2><p>Every peptide you've caught, with what's left in the vial.</p></div><span class="pa-pill" id="pa-dex-count">0 caught</span></div>
       <div id="pa-peps"></div>
       <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Catch a new peptide</button>
+      <button type="button" class="sx-open" onclick="pmdSaveDex()"><span class="sx-led" aria-hidden="true"></span><span class="sx-scr"><b>SAVE MY DEX</b><small>EMAIL · PDF · SHARE · BACKUP</small></span><span class="sx-go" aria-hidden="true">›</span></button>
     </section>
 
     <section class="pa-card" data-tab="sites" aria-labelledby="pa-inj-h">
-      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Tap a spot to log a dose there. Shown as if you're facing a mirror.</p></div></div>
+      <div class="pa-h"><div><h2 id="pa-inj-h">Injection sites</h2><p>Pick a spot on the body or from the list to log a dose. Rotating spots helps avoid soreness and lumps. Shown as if you're facing a mirror.</p></div></div>
       <div class="pa-next" id="pa-next"></div>
+      <div class="ps-grid">
+      <div class="ps-map">
       <div class="pa-body-ctl">
         <div class="pa-seg" id="pa-sex" role="group" aria-label="Researcher"><button type="button" data-v="m">🦍 Glowrilla</button><button type="button" data-v="f">🦖 Wrex</button></div>
         <div class="pa-seg" id="pa-side" role="group" aria-label="View"><button type="button" data-v="front">Front</button><button type="button" data-v="back">Back</button></div>
       </div>
       <div class="pa-body ph" id="pa-body"></div>
-      <div id="pa-tip" role="tooltip" hidden></div>
       <div class="pa-legend"><span><i class="g"></i>Best next spot</span><span><i class="r"></i>Last 3 days</span><span><i class="a"></i>4–7 days ago</span><span><i></i>Rested</span></div>
+      </div>
+      <div class="ps-side">
+        <h3 class="pa-sub">All spots</h3>
+        <div class="ps-list" id="ps-list"></div>
+        <h3 class="pa-sub">Recent</h3>
+        <div id="pa-log"></div>
+      </div>
+      </div>
+      <div id="pa-tip" role="tooltip" hidden></div>
       <div class="pa-guide" id="pa-guide" aria-live="polite"></div>
-      <h3 class="pa-sub">Recent</h3>
-      <div id="pa-log"></div>
     </section>
 
     <section class="pa-card pa-howslot" data-tab="more" id="pa-how-slot" aria-label="How it works" data-px-skip hidden></section>
@@ -3901,7 +3911,7 @@ function showTab(name){
   #pdx-app > [data-tab]{display:none;}
   #pdx-app[data-tab="today"] > [data-tab="today"],#pdx-app[data-tab="dex"] > [data-tab="dex"],#pdx-app[data-tab="sites"] > [data-tab="sites"],#pdx-app[data-tab="more"] > [data-tab="more"]{display:block;}
   #pdx-app > [data-tab][hidden]{display:none !important;}
-  .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:min(520px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
+  .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:min(440px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
   .pa-tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px !important;border:none !important;border-radius:16px !important;background:transparent !important;color:#6b6356 !important;font:700 12px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
   .pa-tabs .ti{font-size:19px;line-height:1;filter:grayscale(1) opacity(.7);}
   .pa-tabs .pa-tab-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:16px;color:#6b6356;font:700 12px/1 'Inter',sans-serif;text-decoration:none;}
@@ -4128,20 +4138,20 @@ function showTab(name){
   /* ── what each spot is + how to find it (hover a spot, or pick a chip) ── */
   var SITE_INFO = {
     belly: { ic:'🎯', t:'Belly (abdomen)', kind:'Under the skin (subQ) · absorbs most consistently',
-      short:'2–3 finger-widths from your belly button, below the ribs, above the hip bones.',
-      find:['Picture a cross centred on your belly button: it splits your belly into 4 sections (upper left, upper right, lower right, lower left).', 'Stay at least <b>2 inches (2–3 finger-widths)</b> away from your belly button.', 'Stay <b>below your bottom ribs</b> and <b>above your hip bones</b>.'],
+      short:'2–3 finger-widths from your belly button, below the ribs, above the pelvic bones.',
+      find:['Picture a cross centred on your belly button: it splits your belly into 4 sections (upper left, upper right, lower right, lower left).', 'Stay at least <b>2 inches (2–3 finger-widths)</b> away from your belly button.', 'Stay <b>below your bottom ribs</b> and <b>above your pelvic bones</b>.'],
       rotate:['Use one section at a time and move <b>clockwise</b>: upper left → upper right → lower right → lower left.', 'Inside a section, put each new shot at least <b>1 inch (2 finger-widths)</b> from the last one.'] },
     thigh: { ic:'🦵', t:'Outer thigh (vastus lateralis)', kind:'Self-injection site · subQ or intramuscular',
       short:'Middle third of the outer-front thigh. Never the inner thigh.',
-      find:['Place one hand-width <b>below the top of your hip bone</b>.', 'Place one hand-width <b>above the top of your kneecap</b>.', 'Split the space between your hands into 3 and use the <b>middle third</b>.', 'Stay on the <b>outer front</b>: between the top middle of the thigh and the outer side. <b>Never inject the inner thigh.</b>'],
+      find:['Place one hand-width <b>below the bony point at the top outer side of your thigh</b>.', 'Place one hand-width <b>above the top of your kneecap</b>.', 'Split the space between your hands into 3 and use the <b>middle third</b>.', 'Stay on the <b>outer front</b>: between the top middle of the thigh and the outer side. <b>Never inject the inner thigh.</b>'],
       rotate:['Alternate left and right thighs.', 'Keep each new shot at least 1 inch from the last one.'] },
     arm: { ic:'💪', t:'Back of upper arm (triceps area)', kind:'Under the skin (subQ) · fatty tissue',
       short:'Fleshy back of the arm, 3 inches below the shoulder and 3 inches above the elbow.',
       find:['Aim for the <b>fleshy back or outer-back</b> of the upper arm.', 'Stay at least <b>3 inches below the shoulder</b> and <b>3 inches above the elbow</b>.', 'Easiest if someone helps, or rest your arm over the back of a chair.'],
       rotate:['Split the back of each arm into an <b>upper half</b> and a <b>lower half</b>.', 'Alternate left and right arms, and keep shots in the same arm at least 1 inch apart.'] },
-    glute: { ic:'🍑', t:'Hip / upper outer glute (ventrogluteal "V")', kind:'Usually used for intramuscular shots',
-      short:'Centre of the "V" your fingers make on the outer hip.',
-      find:['Put the <b>heel of your hand</b> on the outer hip bone where the thigh meets the buttock (left hand for the right hip, right hand for the left).', 'Point your <b>thumb toward the groin</b> and your <b>index finger toward the front hip bone</b>.', 'Spread your <b>middle finger back</b> along the hip crest to make a "V".', 'The spot is in the <b>centre of that V</b>, between your knuckles.'],
+    glute: { ic:'🍑', t:'Glutes (upper outer, ventrogluteal "V")', kind:'Usually used for intramuscular shots',
+      short:'Upper outer glute: the centre of the "V" your fingers make.',
+      find:['Put the <b>heel of your hand</b> on the bony point at the side, where the thigh meets the glute (left hand for the right side, right hand for the left).', 'Point your <b>thumb toward the groin</b> and your <b>index finger toward the bony point at the front of your pelvis</b>.', 'Spread your <b>middle finger back</b> along the top ridge of the pelvis to make a "V".', 'The spot is in the <b>centre of that V</b>, between your knuckles.'],
       rotate:['Alternate left and right sides.', 'Keep each new shot at least 1 inch from the last one.'] }
   };
   function siteGroup(c){ return c.charAt(0) === 'B' ? 'belly' : c.charAt(0) === 'T' ? 'thigh' : c.charAt(0) === 'A' ? 'arm' : 'glute'; }
@@ -5019,7 +5029,7 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   var ITEMS = [
     { k:'acct', ic:'👤', t:'Log in', s:'Google or email · never lose your log' },
     { k:'how',  ic:'❓', t:'How it works', s:'4 quick steps' },
-    { k:'save', ic:'📄', t:'Save my plan', s:'PDF, share or download', sel:'[aria-labelledby="pa-save-h"]' },
+    { k:'save', ic:'📤', t:'Save my Dex', s:'Email, PDF, share or backup' },
     { k:'bk',   ic:'💾', t:'Back up / restore', s:'Keep a copy of your data', sel:'#pa-backup-card' },
     { k:'app',  ic:'📲', t:'Get the app', s:'Install on your phone', sel:'#pa-install-card' },
     { k:'faq',  ic:'💬', t:'Questions & answers', s:'FAQ', sel:'#pa-faq' }
@@ -5038,6 +5048,7 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
       else { info.open = true; scrollTo({ top:0, behavior:'smooth' }); }
       return;
     }
+    if (k === 'save') { if (window.pmdSaveDex) pmdSaveDex(); return; }
     var it = ITEMS.filter(function(x){ return x.k === k; })[0]; if (it && it.sel) goCard(it.sel);
   }
   function build(){
@@ -5092,6 +5103,169 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   document.addEventListener('click', function(e){ if (t.open && !t.contains(e.target)) t.open = false; });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && t.open) { t.open = false; t.querySelector('summary').focus(); } });
   t.addEventListener('click', function(e){ if (e.target.closest('.pt-it')) setTimeout(function(){ t.open = false; }, 50); });
+})();
+</script>
+<style id="pdx-savedex-css">
+  /* "Save my Dex" button: a Pokédex cartridge with a green screen */
+  html body #pdx-app .sx-open{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:10px 12px;border-radius:16px;border:3px solid #1a1a1a;background:linear-gradient(160deg,#ef3b46,#b5122a);cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),0 4px 0 rgba(0,0,0,0.18);text-align:left;}
+  html body #pdx-app .sx-open:hover{transform:translateY(-1px);}
+  html body #pdx-app .sx-open .sx-led{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff3ff,#2fb6ff 45%,#0b5fa8 100%);border:3px solid #fff;box-shadow:0 0 0 2px #1a1a1a;}
+  html body #pdx-app .sx-open .sx-scr{flex:1 1 auto;min-width:0;padding:8px 12px;border-radius:10px;background:radial-gradient(120% 140% at 50% 0%,#12302a,#07160f 75%);box-shadow:inset 0 0 0 1px rgba(141,255,174,0.25),0 0 0 3px #e9e4dc;}
+  html body #pdx-app .sx-open .sx-scr b{display:block;font:400 15px/1.2 'Share Tech Mono',ui-monospace,monospace !important;letter-spacing:0.08em;color:#d8ffe2 !important;text-shadow:0 0 6px rgba(124,255,155,0.6);}
+  html body #pdx-app .sx-open .sx-scr small{display:block;margin-top:3px;font:400 12px/1.2 'Share Tech Mono',ui-monospace,monospace !important;color:#8dffae !important;opacity:0.85;}
+  html body #pdx-app .sx-open .sx-go{flex:0 0 auto;font:900 22px/1 'Inter',sans-serif;color:#fff;}
+  /* the save sheet looks like a Pokédex transfer screen */
+  .sx-sheet .rm-card{background:linear-gradient(160deg,#ef3b46,#b5122a) !important;border:4px solid #1a1a1a;color:#fff;}
+  .sx-sheet .rm-card h3{color:#fff !important;display:flex;align-items:center;gap:10px;}
+  .sx-sheet .rm-card h3 .sx-led{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff3ff,#2fb6ff 45%,#0b5fa8 100%);border:3px solid #fff;box-shadow:0 0 0 2px #1a1a1a;flex:0 0 auto;}
+  .sx-sheet .rm-card .rm-x{background:#1a1a1a;color:#fff;}
+  .sx-sheet .sx-lcd{margin:10px 0 14px;padding:12px 14px;border-radius:12px;border:5px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;background:radial-gradient(120% 90% at 50% 0%,#12302a,#07160f 70%);font:400 13.5px/1.55 'Share Tech Mono',ui-monospace,monospace;color:#b9ffcc;text-shadow:0 0 6px rgba(124,255,155,0.45);position:relative;overflow:hidden;}
+  .sx-sheet .sx-lcd::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px);pointer-events:none;}
+  .sx-sheet .sx-lcd b{color:#d8ffe2;font-weight:400;}
+  .sx-sheet .sx-lcd .sx-k{display:flex;justify-content:space-between;color:#8dffae;letter-spacing:0.1em;font-size:12px;margin-bottom:4px;}
+  .sx-sheet .sx-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .sx-sheet .sx-b{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px;border-radius:14px;border:3px solid #1a1a1a;background:#fffdf8;color:#1a1626;cursor:pointer;text-align:left;box-shadow:0 3px 0 rgba(0,0,0,0.25);}
+  .sx-sheet .sx-b:hover{background:#fff7d6;}
+  .sx-sheet .sx-b:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,0.25);}
+  .sx-sheet .sx-b .i{font-size:22px;line-height:1;}
+  .sx-sheet .sx-b b{font:800 15px/1.2 'Inter',sans-serif;color:#1a1626;}
+  .sx-sheet .sx-b small{font:500 12px/1.3 'Inter',sans-serif;color:#6b6356;}
+  .sx-sheet .sx-b.wide{grid-column:1 / -1;flex-direction:row;align-items:center;gap:12px;background:#ffcb05;}
+  .sx-sheet .sx-b.wide span{display:flex;flex-direction:column;gap:2px;}
+  .sx-sheet .sx-email{display:flex;gap:8px;margin:0 0 10px;}
+  .sx-sheet .sx-email input{flex:1 1 auto;min-width:0;height:46px;border-radius:12px;border:3px solid #1a1a1a;padding:0 12px;font:600 15px/1 'Inter',sans-serif;color:#1a1626;background:#fff;box-sizing:border-box;}
+  .sx-sheet .sx-note{margin:10px 0 0 !important;font-size:12.5px !important;color:rgba(255,255,255,0.88) !important;}
+  .sx-sheet .rm-card p{color:rgba(255,255,255,0.92) !important;}
+</style>
+<script>
+(function(){
+  var el = null;
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function count(){
+    var n = 0; Object.keys(DOSE_LOG || {}).forEach(function(d){ n += Object.keys(DOSE_LOG[d] || {}).length; });
+    return { peps: (ACTIVE_PROTOCOLS || []).length, doses: n, sites: (INJ_LOG || []).length };
+  }
+  function userEmail(){ try { var u = window.pmdSync && pmdSync.state().user; return (u && u.email) || ''; } catch(e){ return ''; } }
+
+  window.pmdSaveDex = function(){
+    if (!ACTIVE_PROTOCOLS.length) { pmdToast('Catch your first peptide first, then you can save your Dex.'); return; }
+    var c = count(), mail = userEmail(), today = new Date().toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+    el = document.createElement('div'); el.className = 'rm sx-sheet'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Save my Dex');
+    el.innerHTML = '<div class="rm-card"><button type="button" class="rm-x" aria-label="Close">✕</button>'
+      + '<h3><span class="sx-led" aria-hidden="true"></span>Save my Dex</h3>'
+      + '<div class="sx-lcd"><div class="sx-k"><span>TRANSFER</span><span>' + esc(today.toUpperCase()) + '</span></div>'
+      + '<b>' + c.peps + '</b> peptide' + (c.peps === 1 ? '' : 's') + ' · <b>' + c.doses + '</b> dose' + (c.doses === 1 ? '' : 's') + ' logged · <b>' + c.sites + '</b> site' + (c.sites === 1 ? '' : 's') + '<br>'
+      + ACTIVE_PROTOCOLS.slice(0, 4).map(function(p){ return '▸ ' + esc(p.name.toUpperCase()) + ' · ' + p.dose + ' MG'; }).join('<br>') + (ACTIVE_PROTOCOLS.length > 4 ? '<br>▸ +' + (ACTIVE_PROTOCOLS.length - 4) + ' MORE' : '') + '</div>'
+      + '<div class="sx-email"><input type="email" id="sx-to" placeholder="Your email" value="' + esc(mail) + '" autocomplete="email" aria-label="Email address"></div>'
+      + '<div class="sx-grid">'
+      + '<button type="button" class="sx-b wide" data-x="email"><span class="i">✉️</span><span><b>Email my Dex</b><small>Opens your email app with your full plan filled in</small></span></button>'
+      + '<button type="button" class="sx-b" data-x="pdf"><span class="i">🖨</span><b>Save as PDF</b><small>Doses, checklist & buy list</small></button>'
+      + '<button type="button" class="sx-b" data-x="share"><span class="i">📤</span><b>Share / Notes</b><small>Notes, Keep, Messages…</small></button>'
+      + '<button type="button" class="sx-b" data-x="copy"><span class="i">📋</span><b>Copy text</b><small>Paste it anywhere</small></button>'
+      + '<button type="button" class="sx-b" data-x="backup"><span class="i">💾</span><b>Backup file</b><small>Restore it on any device</small></button>'
+      + '</div><p class="sx-note">Research reference only, not medical advice. Your Dex stays private: nothing is sent anywhere unless you choose to.</p></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click', onClick);
+  };
+  function close(){ if (el) { el.remove(); el = null; } }
+  function copy(t){ try { navigator.clipboard.writeText(t); return true; } catch(e){ return false; } }
+  function onClick(e){
+    if (e.target === el || e.target.closest('.rm-x')) return close();
+    var b = e.target.closest('[data-x]'); if (!b) return;
+    var x = b.getAttribute('data-x'), text = pmdReportText();
+    if (x === 'email') {
+      var to = (el.querySelector('#sx-to') || {}).value || '', body = text;
+      if (body.length > 1800) { body = body.slice(0, 1750) + '\n…\n(Full plan: open PokeMe-Dex → Save my Dex → Save as PDF.)'; }
+      location.href = 'mailto:' + encodeURIComponent(to.trim()) + '?subject=' + encodeURIComponent('My PokeMe-Dex · ' + new Date().toLocaleDateString()) + '&body=' + encodeURIComponent(body);
+      pmdToast('✉️ Your email app is opening with your Dex filled in. Just tap <b>Send</b>.');
+      return;
+    }
+    if (x === 'pdf') { close(); pmdPrintReport(); return; }
+    if (x === 'share') { close(); pmdShareNotes(); return; }
+    if (x === 'copy') { copy(text); pmdToast('📋 <b>Dex copied.</b> Paste it in Notes, a message or an email.'); return; }
+    if (x === 'backup') { close(); pmdBackup(); return; }
+  }
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && el) close(); });
+})();
+</script>
+<style id="pdx-geartab-css">
+  .pa-tabs .pa-gear-tab{display:none !important;}
+  .pmx-tools .pt-it.vpn img{background:#14102a;box-shadow:0 0 0 2px #9a5cff;}
+  @media(max-width:600px){
+    html body #pdx-app .pa-tabs,html body .pa-tabs{grid-template-columns:repeat(5,1fr) !important;width:min(520px,calc(100% - 24px)) !important;}
+    .pa-tabs .pa-gear-tab{display:flex !important;}
+    .pa-tabs .pa-gear-tab.on{background:#fff1ee !important;color:#d7261e !important;}
+    html body #vt-dock-btn{display:none !important;}
+    html body #vt-dock{left:12px !important;right:12px !important;bottom:calc(88px + env(safe-area-inset-bottom,0px)) !important;}
+    html body #vt-dock-panel{width:auto !important;max-height:min(70vh,560px) !important;}
+  }
+</style>
+<script>
+(function(){ // phones: the Settings tab opens the gear menu
+  var tab = document.getElementById('pa-gear-tab'); if (!tab) return;
+  function dock(){ return document.getElementById('vt-dock'); }
+  function sync(){ var d = dock(); tab.classList.toggle('on', !!(d && d.classList.contains('open'))); }
+  tab.addEventListener('click', function(e){
+    e.preventDefault(); e.stopPropagation();
+    var b = document.getElementById('vt-dock-btn'); if (b) b.click();
+    setTimeout(sync, 30);
+  });
+  document.addEventListener('click', function(){ setTimeout(sync, 30); });
+})();
+</script>
+<style id="pdx-sites-css">
+  /* injection sites: body map + an easy "All spots" list */
+  html body #pdx-app .ps-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:12px;}
+  html body #pdx-app .ps-side .pa-sub:first-child{margin-top:0 !important;}
+  html body #pdx-app .ps-grp{margin-bottom:10px;}
+  html body #pdx-app .ps-grp-h{display:flex;align-items:center;gap:8px;margin:0 0 6px;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.07em;text-transform:uppercase;color:#6b6356;}
+  html body #pdx-app .ps-grp-h small{margin-left:auto;font:600 11.5px/1 'Inter',sans-serif;letter-spacing:0;text-transform:none;color:#8a8170;}
+  html body #pdx-app .ps-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+  html body #pdx-app .ps-spot{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px !important;border-radius:12px !important;border:1.5px solid #ece5d8 !important;background:#fff !important;color:#1a1626 !important;text-align:left;cursor:pointer;transition:border-color .15s,transform .12s,box-shadow .15s;}
+  html body #pdx-app .ps-spot:hover,html body #pdx-app .ps-spot:focus-visible{border-color:#d7261e !important;transform:translateY(-1px);box-shadow:0 6px 14px -10px rgba(0,0,0,0.4);outline:none;}
+  html body #pdx-app .ps-spot i{flex:0 0 auto;width:12px;height:12px;border-radius:50%;background:#c9a27a;box-shadow:0 0 0 3px rgba(201,162,122,0.2);}
+  html body #pdx-app .ps-spot.g i{background:#2e9e3f;box-shadow:0 0 0 3px rgba(46,158,63,0.22);} html body #pdx-app .ps-spot.r i{background:#d23b32;box-shadow:0 0 0 3px rgba(210,59,50,0.2);} html body #pdx-app .ps-spot.a i{background:#e79a1c;box-shadow:0 0 0 3px rgba(231,154,28,0.22);}
+  html body #pdx-app .ps-spot.g{border-color:#2e9e3f !important;background:#f2fbf4 !important;}
+  html body #pdx-app .ps-spot span{min-width:0;display:flex;flex-direction:column;gap:2px;}
+  html body #pdx-app .ps-spot b{font:800 14px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;}
+  html body #pdx-app .ps-spot small{font:600 12px/1.2 'Inter',sans-serif !important;color:#8a8170 !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  html body #pdx-app .ps-spot.g small{color:#1f7a35 !important;} html body #pdx-app .ps-spot.r small{color:#a8261e !important;}
+  #pa-body svg.photo .pz.hl rect{stroke:#ffcb05 !important;stroke-width:9 !important;}
+  html body #pdx-app .pa-legend{justify-content:center;margin-top:10px;}
+  @media(min-width:900px){
+    html body #pdx-app[data-tab="sites"]{max-width:980px;}
+    html body #pdx-app .ps-grid{grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:26px;align-items:start;}
+    html body #pdx-app .ps-map{position:sticky;top:12px;}
+  }
+</style>
+<script>
+(function(){
+  var GROUPS = [['🎯', 'Belly', ['BUL','BUR','BLL','BLR'], 'front'], ['🦵', 'Outer thighs', ['TL','TR'], 'front'], ['💪', 'Back of arms', ['AL','AR'], 'back'], ['🍑', 'Glutes', ['GL','GR'], 'back']];
+  function lbl(c){ var z = INJ_ZONES.find(function(x){ return x.code === c; }); return z ? (z.label.split('— ')[1] || z.label) : c; }
+  function full(c){ var z = INJ_ZONES.find(function(x){ return x.code === c; }); return z ? z.label : c; }
+  function days(ds){ return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(ch){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[ch]; }); }
+  function render(){
+    var box = document.getElementById('ps-list'); if (!box) return;
+    var next = suggestedZone();
+    box.innerHTML = GROUPS.map(function(g){
+      return '<div class="ps-grp"><div class="ps-grp-h"><span>' + g[0] + '</span>' + g[1] + '<small>' + (g[3] === 'back' ? 'Back view' : 'Front view') + '</small></div><div class="ps-row">' + g[2].map(function(c){
+        var last = lastUsedDateForZone(c), n = last ? days(last) : null;
+        var cls = c === next ? 'g' : (last == null ? '' : (n <= 3 ? 'r' : (n <= 7 ? 'a' : '')));
+        var st = c === next ? '⭐ Best next spot' : (last == null ? 'Not used yet' : (n === 0 ? 'Used today' : n === 1 ? 'Yesterday' : n + ' days ago'));
+        return '<button type="button" class="ps-spot ' + cls + '" data-z="' + c + '" data-side="' + g[3] + '" aria-label="' + esc(full(c) + ', ' + st + '. Log a dose here.') + '"><i></i><span><b>' + esc(lbl(c)) + '</b><small>' + st + '</small></span></button>';
+      }).join('') + '</div></div>';
+    }).join('');
+  }
+  function hl(c, on){ var g = document.querySelector('#pa-body .pz[data-z="' + c + '"]'); if (g) g.classList.toggle('hl', on); }
+  document.addEventListener('click', function(e){ var b = e.target.closest('#ps-list .ps-spot'); if (b) logInjSite(b.getAttribute('data-z')); });
+  document.addEventListener('mouseover', function(e){ var b = e.target.closest('#ps-list .ps-spot'); if (!b) return; var side = b.getAttribute('data-side'), cur = localStorage.getItem('pmd_side') === 'back' ? 'back' : 'front';
+    if (side !== cur) { try { localStorage.setItem('pmd_side', side); } catch(x){} var t = document.querySelector('#pa-side button[data-v="' + side + '"]'); if (t) t.click(); }
+    hl(b.getAttribute('data-z'), true); });
+  document.addEventListener('mouseout', function(e){ var b = e.target.closest('#ps-list .ps-spot'); if (b) hl(b.getAttribute('data-z'), false); });
+  var base = window.renderInjSites;
+  window.renderInjSites = function(){ base.apply(this, arguments); render(); };
+  render();
 })();
 </script>
 </body>
