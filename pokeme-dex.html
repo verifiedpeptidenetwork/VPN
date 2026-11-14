@@ -1279,10 +1279,9 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
           <div class="pt-h">Helpful tools</div>
           <a role="menuitem" class="pt-it vpn" href="https://ruivpndata.com/home.html"><img src="icon-192.png" alt="" width="34" height="34"><span><b>RUIVPNData home</b><small>Peptide research hub · guides, news &amp; studies</small></span></a>
           <a role="menuitem" class="pt-it pfc" href="https://pepfitcoach.com/" target="_blank" rel="noopener"><img src="pepfitcoach-logo-192.webp?v=1" alt="" width="34" height="34"><span><b>PepFitCoach ↗</b><small>Peptide, fitness &amp; nutrition coaching plans</small></span></a>
-          <a role="menuitem" class="pt-it" href="https://glowklowcalc.com" target="_blank" rel="noopener"><span class="pt-em" style="--c:#ff4fa8">🧪</span><span><b>GlowKlowCalc ↗</b><small>GLOW &amp; KLOW reconstitution calculator</small></span></a>
+          <a role="menuitem" class="pt-it" href="https://glowklowcalc.com" target="_blank" rel="noopener"><span class="pt-em" style="--c:#ff4fa8">🧪</span><span><b>GlowKlowCalc ↗</b><small>Dose &amp; mixing calculator for every peptide, and it prints your vial label</small></span></a>
           <a role="menuitem" class="pt-it" href="peptide-dex.html"><span class="pt-em" style="--c:#2fb6ff">📖</span><span><b>Peptide Dex</b><small>113 peptides: uses, doses &amp; studies</small></span></a>
           <a role="menuitem" class="pt-it" href="https://ruivpndata.com/peptide-suggestion.html" target="_blank" rel="noopener"><span class="pt-em" style="--c:#9a5cff">🎯</span><span><b>Peptide Match ↗</b><small>Find peptides that fit your goal</small></span></a>
-          <a role="menuitem" class="pt-it" href="https://ruivpndata.com/home.html#calculator" target="_blank" rel="noopener"><span class="pt-em" style="--c:#ffb12a">🧮</span><span><b>Dose calculators ↗</b><small>Water, units &amp; syringe math</small></span></a>
         </div>
       </details>
       <button type="button" class="pmx-login" id="pmx-login" onclick="pmdLoginOpen()" aria-label="Log in to save your log"><span class="pl-av" aria-hidden="true">👤</span><span class="pl-tx">Log in</span></button>
@@ -1362,6 +1361,11 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div id="pa-peps"></div>
       <button type="button" class="pa-add" onclick="pmdAddNew()">＋ Catch a new peptide</button>
       <button type="button" class="sx-open" onclick="pmdSaveDex()"><span class="sx-led" aria-hidden="true"></span><span class="sx-scr"><b>SAVE MY DEX</b><small>EMAIL · PDF · SHARE · BACKUP</small></span><span class="sx-go" aria-hidden="true">›</span></button>
+    </section>
+
+    <section class="pa-card" data-tab="dex" id="pa-bac-card" aria-labelledby="pa-bac-h">
+      <div class="pa-h"><div><h2 id="pa-bac-h">💧 BAC water timer</h2><p>Opened bacteriostatic water is good for 28 days. Start the clock when you first pierce the stopper.</p></div></div>
+      <div id="pa-bac"></div>
     </section>
 
     <section class="pa-card" data-tab="sites" aria-labelledby="pa-inj-h">
@@ -4555,7 +4559,7 @@ function showTab(name){
 (function(){
   var dev = document.querySelector('header.pmx .pdx-device'); if (!dev) return;
   var scr = dev.querySelector('.pdx-screen'), lens = dev.querySelector('.pdx-lens'), pad = dev.querySelector('.pdx-pad');
-  dev.insertAdjacentHTML('afterbegin', '<span class="pdx-holo" aria-hidden="true"><img src="pokemedex-badge-256.webp?v=1" alt=""></span>');
+  (document.querySelector('header.pmx .pdx-h1') || dev).insertAdjacentHTML('beforeend', '<span class="pdx-holo" aria-hidden="true"><img src="pokemedex-badge-256.webp?v=1" alt=""></span>'); // mascot badge sits on the title
   var idle = scr.innerHTML, idx = 0, timer = null;
   function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function hhmm(t){ if (!t) return ''; var q = t.split(':'), h = +q[0]; return ((h % 12) || 12) + ':' + q[1] + (h < 12 ? 'AM' : 'PM'); }
@@ -4572,7 +4576,10 @@ function showTab(name){
   }
   // pad buttons: ◀ ▶ flip entries, A opens it in My Dex
   pad.removeAttribute('aria-hidden');
-  pad.insertAdjacentHTML('beforeend', '<button type="button" class="dp-l" aria-label="Previous peptide"></button><button type="button" class="dp-r" aria-label="Next peptide"></button><button type="button" class="ab-a" aria-label="Open this peptide in My Dex"></button>');
+  // real controls: D-pad (◀▲ previous, ▶▼ next), SETTINGS, B = log a dose, A = open in My Dex
+  pad.innerHTML = '<div class="pdc-dpad" role="group" aria-label="Browse your peptides"><button type="button" class="u dp-l" aria-label="Previous peptide"></button><button type="button" class="l dp-l" aria-label="Previous peptide"></button><span class="c" aria-hidden="true"></span><button type="button" class="r dp-r" aria-label="Next peptide"></button><button type="button" class="d dp-r" aria-label="Next peptide"></button></div>'
+    + '<button type="button" class="pdc-set" aria-label="Settings and more"><span class="ic" aria-hidden="true">⚙</span><span class="tx">SETTINGS</span></button>'
+    + '<div class="pdc-ab"><button type="button" class="pdc-b ab-b" aria-label="Log a dose for this peptide"><b>B</b><small>LOG</small></button><button type="button" class="pdc-a ab-a" aria-label="Open this peptide in My Dex"><b>A</b><small>OPEN</small></button></div>';
   function blink(){ lens.classList.remove('blink'); void lens.offsetWidth; lens.classList.add('blink'); }
   function draw(){
     var list = (typeof ACTIVE_PROTOCOLS !== 'undefined' && ACTIVE_PROTOCOLS) || [];
@@ -4584,19 +4591,26 @@ function showTab(name){
     if (idx >= list.length) idx = 0; if (idx < 0) idx = list.length - 1;
     var p = list[idx], oral = pmdOral(p), st = window.pmdStock ? pmdStock(p) : null, nx = nextDose(p);
     var u = pmdUnits(p), amt = oral ? pmdPillTxt(p).toUpperCase() : (u % 1 === 0 ? u : u.toFixed(1)) + ' UNITS';
-    var blocks = '', on = st ? Math.round(Math.max(0, Math.min(1, st.frac)) * 8) : 0;
-    for (var i = 0; i < 8; i++) blocks += '<b class="' + (i < on ? 'on' : '') + '"></b>';
+    var blocks = '', on = st ? Math.round(Math.max(0, Math.min(1, st.frac)) * 6) : 0;
+    for (var i = 0; i < 6; i++) blocks += '<b class="' + (i < on ? 'on' : '') + '"></b>';
     var mcls = !st ? '' : (st.left <= 0 ? 'out' : (st.doses <= 2 ? 'low' : ''));
     var lf = st && window.pmdVialLife ? pmdVialLife(p, st) : null;
     var nv = st && window.pmdVialNext ? pmdVialNext(p, st, lf) : null;
     if (nv && !nv.unmixed && nv.days <= 7 && !mcls) mcls = 'low';
-    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : Math.round(st.frac * 100) + '%' + (nv && !nv.unmixed ? (nv.days <= 0 ? ' · NEW VIAL NOW' : ' · NEW IN ' + nv.days + 'D') : (lf ? ' · ' + lf.days + 'D' : '')));
+    var mtxt = !st ? '' : (st.left <= 0 ? 'EMPTY' : (nv && !nv.unmixed ? (nv.days <= 0 ? 'NEW VIAL NOW' : 'NEW IN ' + nv.days + 'D') : Math.round(st.frac * 100) + '%' + (lf ? ' · ' + lf.days + 'D' : '')));
     scr.className = 'pdx-screen lcd';
     scr.innerHTML = '<div class="lcd-wrap"><span class="lcd-badge"><img src="pokemedex-badge-256.webp?v=1" alt=""></span><div class="lcd-body">'
       + '<div class="lcd-row"><span>No. ' + String(idx + 1).padStart(3, '0') + ' / ' + String(list.length).padStart(3, '0') + '</span><span>' + (oral ? '💊 PILL' : '💉 INJ') + '</span></div>'
       + '<div class="lcd-name">' + esc(p.name.toUpperCase()) + '</div>'
       + '<div class="lcd-line">' + p.dose + ' MG · ' + amt + '</div>'
       + '<div class="lcd-line' + (nx.due ? ' due' : '') + '">' + esc(nx.txt) + '</div>'
+      + (function(){ // cycle countdown meter
+          var s0 = p.startDateTime.split('T')[0], t = todayStr(), tot = p.durationDays;
+          var dd = Math.round((new Date(t + 'T00:00:00') - new Date(s0 + 'T00:00:00')) / 86400000), left = tot - dd, frac = Math.max(0, Math.min(1, (dd + 1) / tot)), cb = '', k;
+          for (k = 0; k < 6; k++) cb += '<b class="' + (k < Math.round((1 - frac) * 6) ? 'on' : '') + '"></b>';
+          var txt = dd < 0 ? 'STARTS IN ' + (-dd) + 'D' : (left <= 0 ? 'COMPLETE' : left + 'D LEFT');
+          return '<div class="lcd-meter cyc' + (left > 0 && left <= 7 ? ' low' : '') + '">CYCLE <i>' + cb + '</i> ' + txt + '</div>';
+        })()
       + '<div class="lcd-meter ' + mcls + '">' + (oral ? 'BTL' : 'VIAL') + ' <i>' + blocks + '</i> ' + mtxt + '</div>'
       + '</div></div>' + (list.length > 1 ? '<span class="lcd-hint">◀ ▶</span>' : '');
   }
@@ -4609,9 +4623,16 @@ function showTab(name){
     var cards = document.querySelectorAll('#pa-peps .dx-card'), c = cards[idx] || cards[0];
     if (c) setTimeout(function(){ c.scrollIntoView({ behavior:'smooth', block:'center' }); c.animate && c.animate([{ boxShadow:'0 0 0 3px #d7261e' }, { boxShadow:'0 0 0 0 transparent' }], { duration:1200 }); }, 80);
   }
-  pad.querySelector('.dp-l').addEventListener('click', function(e){ e.stopPropagation(); go(-1); });
-  pad.querySelector('.dp-r').addEventListener('click', function(e){ e.stopPropagation(); go(1); });
+  [].forEach.call(pad.querySelectorAll('.dp-l'), function(b){ b.addEventListener('click', function(e){ e.stopPropagation(); go(-1); }); });
+  [].forEach.call(pad.querySelectorAll('.dp-r'), function(b){ b.addEventListener('click', function(e){ e.stopPropagation(); go(1); }); });
   pad.querySelector('.ab-a').addEventListener('click', function(e){ e.stopPropagation(); open(); });
+  pad.querySelector('.ab-b').addEventListener('click', function(e){
+    e.stopPropagation();
+    var list = ACTIVE_PROTOCOLS || [], p = list[idx] || list[0];
+    if (!p) { pmdAddNew(); return; }
+    if (window.pmdLogDose) pmdLogDose(p.id);
+  });
+  pad.querySelector('.pdc-set').addEventListener('click', function(e){ e.stopPropagation(); var b = document.getElementById('vt-dock-btn'); if (b) b.click(); });
   scr.setAttribute('role', 'button'); scr.setAttribute('tabindex', '0'); scr.setAttribute('aria-label', 'Your Dex. Tap to open.');
   scr.addEventListener('click', open);
   scr.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
@@ -5034,13 +5055,14 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     { k:'acct', ic:'👤', t:'Log in', s:'Google or email · never lose your log' },
     { k:'how',  ic:'❓', t:'How it works', s:'4 quick steps' },
     { k:'save', ic:'📤', t:'Save my Dex', s:'Email, PDF, share or backup' },
+    { k:'bac',  ic:'💧', t:'BAC water timer', s:'28-day throw-out countdown', sel:'#pa-bac-card', tab:'dex' },
     { k:'bk',   ic:'💾', t:'Back up / restore', s:'Keep a copy of your data', sel:'#pa-backup-card' },
     { k:'app',  ic:'📲', t:'Get the app', s:'Install on your phone', sel:'#pa-install-card' },
     { k:'faq',  ic:'💬', t:'Questions & answers', s:'FAQ', sel:'#pa-faq' }
   ];
   function closeGear(){ var d = document.getElementById('vt-dock'); if (d && d.classList.contains('open')) { var b = document.getElementById('vt-dock-btn'); if (b) b.click(); else d.classList.remove('open'); } }
   function goCard(sel){
-    if (window.pmdTab) pmdTab('more');
+    if (window.pmdTab) pmdTab(sel === '#pa-bac-card' ? 'dex' : 'more');
     setTimeout(function(){ var c = document.querySelector(sel); if (!c) return; if (c.tagName === 'DETAILS') c.open = true; c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80);
   }
   function act(k){
@@ -5349,6 +5371,137 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     return '<div class="' + cls + '"><div class="vc-top"><b>' + head + '</b><span>' + top + '</span></div><div class="vc-bar"><u style="width:' + pct + '%"></u></div><div class="vc-sub">' + sub + '</div></div>';
   };
   if (typeof renderDashboard === 'function') renderDashboard();
+})();
+</script>
+<style id="pdx-devctl-css">
+  /* mascot badge on the title instead of on the device */
+  html body header.pmx h1.pdx-h1{display:flex !important;align-items:center;gap:18px;}
+  html body header.pmx h1.pdx-h1 .pdx-holo{position:relative !important;top:auto !important;right:auto !important;flex:0 0 auto;width:96px !important;height:96px !important;transform:rotate(8deg);}
+  @media(max-width:820px){ html body header.pmx h1.pdx-h1{gap:12px;} html body header.pmx h1.pdx-h1 .pdx-holo{width:62px !important;height:62px !important;} }
+  /* device controls: big D-pad, SETTINGS, B and A */
+  html body header.pmx .pdx-pad{display:flex !important;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:0 4px;}
+  html body header.pmx .pdx-pad .pdc-dpad{position:relative;width:108px;height:108px;flex:0 0 auto;}
+  html body header.pmx .pdx-pad .pdc-dpad button,html body header.pmx .pdx-pad .pdc-dpad .c{position:absolute !important;width:38px;height:38px;padding:0 !important;border:none !important;background:#1a1a1a !important;box-shadow:inset 0 2px 0 rgba(255,255,255,0.14) !important;cursor:pointer;}
+  html body header.pmx .pdx-pad .pdc-dpad .u{left:35px !important;top:0 !important;border-radius:8px 8px 0 0 !important;}
+  html body header.pmx .pdx-pad .pdc-dpad .d{left:35px !important;top:70px !important;border-radius:0 0 8px 8px !important;}
+  html body header.pmx .pdx-pad .pdc-dpad .l{left:0 !important;top:35px !important;border-radius:8px 0 0 8px !important;}
+  html body header.pmx .pdx-pad .pdc-dpad .r{left:70px !important;top:35px !important;border-radius:0 8px 8px 0 !important;}
+  html body header.pmx .pdx-pad .pdc-dpad .c{left:35px !important;top:35px !important;cursor:default;border-radius:0 !important;}
+  html body header.pmx .pdx-pad .pdc-dpad button::after{content:'';position:absolute;left:50%;top:50%;width:0;height:0;border:7px solid transparent;transform:translate(-50%,-50%);}
+  html body header.pmx .pdx-pad .pdc-dpad .u::after{border-bottom-color:#5a5a5a;margin-top:-3px;} html body header.pmx .pdx-pad .pdc-dpad .d::after{border-top-color:#5a5a5a;margin-top:3px;}
+  html body header.pmx .pdx-pad .pdc-dpad .l::after{border-right-color:#5a5a5a;margin-left:-3px;} html body header.pmx .pdx-pad .pdc-dpad .r::after{border-left-color:#5a5a5a;margin-left:3px;}
+  html body header.pmx .pdx-pad .pdc-dpad button:hover{background:#2c2c2c !important;} html body header.pmx .pdx-pad .pdc-dpad button:active{background:#000 !important;transform:scale(0.96);}
+  html body header.pmx .pdx-pad .pdc-set{position:static !important;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px !important;border-radius:999px !important;border:2px solid #1a1a1a !important;background:#7c0a18 !important;color:#ffd7dc !important;font:800 11px/1 'Inter',sans-serif;letter-spacing:0.12em;cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,0.15) !important;transform:rotate(-8deg);}
+  html body header.pmx .pdx-pad .pdc-set span{font-size:14px;letter-spacing:0;}
+  html body header.pmx .pdx-pad .pdc-set:hover{background:#9b0e22 !important;}
+  html body header.pmx .pdx-pad .pdc-ab{display:flex;align-items:center;gap:12px;transform:rotate(-14deg);}
+  html body header.pmx .pdx-pad .pdc-ab button{position:static !important;width:54px;height:54px;padding:0 !important;border-radius:50% !important;border:none !important;background:#1a1a1a !important;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),0 3px 0 rgba(0,0,0,0.35) !important;}
+  html body header.pmx .pdx-pad .pdc-ab button.pdc-b{margin-top:22px;}
+  html body header.pmx .pdx-pad .pdc-ab b{font:900 17px/1 'Inter',sans-serif;color:#fff;}
+  html body header.pmx .pdx-pad .pdc-ab small{font:800 8.5px/1 'Inter',sans-serif;letter-spacing:0.1em;color:#bdbdbd;}
+  html body header.pmx .pdx-pad .pdc-ab button:hover{background:#2c2c2c !important;} html body header.pmx .pdx-pad .pdc-ab button:active{transform:translateY(2px);box-shadow:inset 0 3px 0 rgba(255,255,255,0.15),0 1px 0 rgba(0,0,0,0.35) !important;}
+  html body header.pmx .pdx-pad button:focus-visible{outline:3px solid #ffcb05 !important;outline-offset:2px;}
+  html body header.pmx .lcd-meter.cyc i b.on{background:#7fc8ff;border-color:#7fc8ff;box-shadow:0 0 5px rgba(127,200,255,0.8);}
+  html body header.pmx .lcd-meter.cyc{color:#b5ddff;}
+  html body header.pmx .lcd-meter{white-space:nowrap;font-size:13px;gap:5px;} html body header.pmx .lcd-meter i b{width:8px !important;height:9px !important;}
+  html body header.pmx .lcd-meter.cyc.low{color:#fff36b;} html body header.pmx .lcd-meter.cyc.low i b.on{background:#fff36b;border-color:#fff36b;}
+  @media(max-width:600px){
+    html body header.pmx .pdx-pad .pdc-dpad{width:96px;height:96px;}
+    html body header.pmx .pdx-pad .pdc-dpad button,html body header.pmx .pdx-pad .pdc-dpad .c{width:34px;height:34px;}
+    html body header.pmx .pdx-pad .pdc-dpad .u,html body header.pmx .pdx-pad .pdc-dpad .d,html body header.pmx .pdx-pad .pdc-dpad .c{left:31px !important;}
+    html body header.pmx .pdx-pad .pdc-dpad .l,html body header.pmx .pdx-pad .pdc-dpad .r,html body header.pmx .pdx-pad .pdc-dpad .c{top:31px !important;}
+    html body header.pmx .pdx-pad .pdc-dpad .r{left:62px !important;} html body header.pmx .pdx-pad .pdc-dpad .d{top:62px !important;}
+    html body header.pmx .pdx-pad .pdc-ab button{width:50px;height:50px;}
+    html body header.pmx .pdx-pad{gap:6px;padding:0;}
+    html body header.pmx .pdx-pad .pdc-set{width:40px;height:40px;padding:0 !important;justify-content:center;font-size:0 !important;border-radius:50% !important;transform:none;}
+    html body header.pmx .pdx-pad .pdc-set .tx{display:none;} html body header.pmx .pdx-pad .pdc-set .ic{font-size:19px;color:#fff;}
+    html body header.pmx .pdx-pad .pdc-ab{gap:8px;}
+  }
+</style>
+<style id="pdx-bac-css">
+  /* BAC water: 28-day throw-out counter */
+  html body #pdx-app .bac-dev{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center;padding:12px;border-radius:18px;border:3px solid #1a1a1a;background:linear-gradient(160deg,#2a8fd6,#155e9c);box-shadow:inset 0 2px 0 rgba(255,255,255,0.25),0 4px 0 rgba(0,0,0,0.18);}
+  html body #pdx-app .bac-dev svg{width:64px;height:auto;display:block;filter:drop-shadow(0 3px 4px rgba(0,0,0,0.3));}
+  html body #pdx-app .bac-lcd{padding:10px 12px;border-radius:12px;border:4px solid #e9e4dc;box-shadow:inset 0 0 0 2px #1a1a1a;background:radial-gradient(120% 90% at 50% 0%,#12302a,#07160f 70%);font:400 13px/1.45 'Share Tech Mono',ui-monospace,monospace;color:#b9ffcc;position:relative;overflow:hidden;}
+  html body #pdx-app .bac-lcd::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px);pointer-events:none;}
+  html body #pdx-app .bac-lcd .k{display:flex;justify-content:space-between;gap:8px;color:#8dffae;font-size:11.5px;letter-spacing:0.1em;}
+  html body #pdx-app .bac-lcd b{display:block;margin:4px 0 2px;font:400 19px/1.15 'Share Tech Mono',ui-monospace,monospace;color:#d8ffe2;text-shadow:0 0 8px rgba(124,255,155,0.6);}
+  html body #pdx-app .bac-lcd .bar{height:7px;margin:7px 0 5px;border-radius:5px;background:rgba(141,255,174,0.14);overflow:hidden;}
+  html body #pdx-app .bac-lcd .bar u{display:block;height:100%;border-radius:5px;background:#8dffae;box-shadow:0 0 8px rgba(124,255,155,0.7);}
+  html body #pdx-app .bac-lcd.soon b{color:#fff36b;} html body #pdx-app .bac-lcd.soon .bar u{background:#fff36b;}
+  html body #pdx-app .bac-lcd.over b{color:#ff9b9b;} html body #pdx-app .bac-lcd.over .bar u{background:#ff7a7a;}
+  html body #pdx-app .bac-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  html body #pdx-app .bac-acts button,html body #pdx-app .bac-acts label{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px !important;border-radius:12px !important;border:1px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;}
+  html body #pdx-app .bac-acts .pri{background:#155e9c !important;border-color:#155e9c !important;color:#fff !important;}
+  html body #pdx-app .bac-acts input[type=date]{border:none;background:transparent;font:700 14px/1 'Inter',sans-serif;color:#1a1626;width:132px;}
+  html body #pdx-app .bac-info{margin-top:12px;border-top:1px solid #ece5d8;padding-top:10px;}
+  html body #pdx-app .bac-info summary{cursor:pointer;font:800 14px/1.4 'Inter',sans-serif;color:#155e9c;}
+  html body #pdx-app .bac-tbl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+  html body #pdx-app .bac-tbl div{padding:10px 12px;border-radius:12px;background:#f2f8fd;border:1px solid #d5e6f4;}
+  html body #pdx-app .bac-tbl b{display:block;font:800 13.5px/1.3 'Inter',sans-serif;color:#155e9c;}
+  html body #pdx-app .bac-tbl span{display:block;margin-top:3px;font:500 13px/1.45 'Inter',sans-serif;color:#3a4658;}
+  html body #pdx-app .bac-info h4{margin:12px 0 6px !important;font:800 12px/1 'Inter',sans-serif !important;letter-spacing:0.07em;text-transform:uppercase;color:#8a8170 !important;}
+  html body #pdx-app .bac-info ul{margin:0 !important;padding-left:18px !important;}
+  html body #pdx-app .bac-info li{margin:0 0 5px !important;font:500 13.5px/1.5 'Inter',sans-serif !important;color:#3a3446 !important;}
+  @media(max-width:520px){ html body #pdx-app .bac-tbl{grid-template-columns:1fr;} html body #pdx-app .bac-dev{grid-template-columns:52px minmax(0,1fr);gap:10px;} html body #pdx-app .bac-dev svg{width:52px;} }
+</style>
+<script>
+(function(){
+  var DAYS = 28;
+  function key(){ return (window.PMD_UID || 'guest') + '_pmd_bac'; }
+  function get(){ try { return JSON.parse(localStorage.getItem(key()) || '{}'); } catch(e){ return {}; } }
+  function set(v){ try { localStorage.setItem(key(), JSON.stringify(v)); } catch(e){} }
+  function ymdOf(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function nice(ds){ return new Date(ds + 'T00:00:00').toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' }); }
+  function ago(ds){ return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(ds + 'T00:00:00')) / 86400000); }
+  function bottle(frac){
+    var h = Math.max(0, Math.min(1, frac)), top = 34 + 52 * (1 - h);
+    return '<svg viewBox="0 0 60 96" aria-hidden="true"><rect x="18" y="2" width="24" height="12" rx="3" fill="#cfd6dd" stroke="#1a1a1a" stroke-width="2"/><rect x="21" y="13" width="18" height="8" fill="#e9eef2" stroke="#1a1a1a" stroke-width="2"/><path d="M12,28 C12,23 16,21 20,21 L40,21 C44,21 48,23 48,28 L48,86 C48,91 45,94 40,94 L20,94 C15,94 12,91 12,86 Z" fill="#f4f8fb" stroke="#1a1a1a" stroke-width="2.5"/>'
+      + (h > 0 ? '<path d="M14.5,' + top + ' L45.5,' + top + ' L45.5,86 C45.5,89.5 43,91.5 40,91.5 L20,91.5 C17,91.5 14.5,89.5 14.5,86 Z" fill="#7cc4f2" opacity="0.85"/>' : '')
+      + '<rect x="15" y="44" width="30" height="22" rx="2" fill="#fff" stroke="#c9d6e2"/><text x="30" y="52" font-size="7.5" font-weight="900" text-anchor="middle" fill="#155e9c" font-family="Inter,sans-serif">BAC</text><text x="30" y="61" font-size="5.2" font-weight="700" text-anchor="middle" fill="#6b7785" font-family="Inter,sans-serif">WATER</text></svg>';
+  }
+  window.pmdBacState = function(){
+    var b = get(); if (!b.opened) return null;
+    var a = Math.max(0, ago(b.opened)), left = DAYS - a, toss = new Date(b.opened + 'T00:00:00'); toss.setDate(toss.getDate() + DAYS);
+    return { opened:b.opened, age:a, left:left, toss:ymdOf(toss) };
+  };
+  function render(){
+    var box = document.getElementById('pa-bac'); if (!box) return;
+    var s = pmdBacState(), lcd;
+    if (!s) {
+      lcd = '<div class="bac-lcd"><div class="k"><span>BAC WATER</span><span>28-DAY CLOCK</span></div><b>No bottle open</b>Tap "Opened a bottle" the day you first pierce the stopper.</div>';
+    } else {
+      var cls = s.left <= 0 ? 'over' : (s.left <= 5 ? 'soon' : ''), pct = Math.min(100, Math.round(s.age / DAYS * 100));
+      var head = s.left <= 0 ? '⚠ THROW IT OUT' : 'TOSS IN ' + s.left + ' DAY' + (s.left === 1 ? '' : 'S');
+      lcd = '<div class="bac-lcd ' + cls + '"><div class="k"><span>BAC WATER</span><span>DAY ' + s.age + ' / 28</span></div><b>' + head + '</b><div class="bar"><u style="width:' + pct + '%"></u></div>'
+        + (s.left <= 0 ? 'Opened ' + nice(s.opened) + ', over 28 days ago. Discard it, even if there is water left.' : 'Opened ' + nice(s.opened) + ' · throw out by ' + nice(s.toss) + '.') + '</div>';
+    }
+    box.innerHTML = '<div class="bac-dev">' + bottle(s ? Math.max(0, s.left) / DAYS : 1) + lcd + '</div>'
+      + '<div class="bac-acts"><button type="button" class="pri" data-bac="today">💧 Opened a bottle today</button><label>📅 Opened on <input type="date" data-bac="date" max="' + todayStr() + '" value="' + (s ? s.opened : '') + '"></label>' + (s ? '<button type="button" data-bac="clear">Clear</button>' : '') + '</div>'
+      + '<details class="bac-info" data-px-skip><summary>How long does BAC water last, and how should I store it?</summary>'
+      + '<div class="bac-tbl"><div><b>🔒 Unopened (sealed)</b><span>Good until the printed expiry date (usually 2–3 years). Store at room temperature, 20–25 °C (68–77 °F), somewhere dark and dry.</span></div>'
+      + '<div><b>💉 Opened (pierced)</b><span><b style="display:inline;color:#1a1626">28 days maximum</b> from the first needle puncture. Keep it in the fridge, 2–8 °C (35–46 °F). Write the opening date on the vial.</span></div></div>'
+      + '<h4>Why the 28-day rule is strict</h4><ul><li>The 0.9% benzyl alcohol stops bacteria multiplying but doesn\'t kill them.</li><li>Every puncture lets in air, and the preservative slowly breaks down until it can\'t hold back growth.</li><li>Contaminated water usually still looks clear, and repeated punctures can shed tiny bits of the rubber stopper.</li></ul>'
+      + '<h4>Storing it</h4><ul><li>Keep opened vials upright on an inside shelf, not the fridge door (temperature swings).</li><li><b>Never freeze it.</b> It can crack the glass, damage the seal and separate the preservative.</li></ul>'
+      + '<h4>Every time you use it</h4><ul><li>Wipe the stopper with a 70% alcohol pad and let it dry.</li><li>Always use a new needle and syringe.</li><li>Throw it out right away if it\'s cloudy, has particles, changes colour or smells odd, even before 28 days.</li><li>Mixed peptides have their own, often shorter, limits: see each peptide\'s vial countdown in My Dex.</li></ul>'
+      + '<p class="pa-tip" style="margin-top:8px">Research and education only, not medical advice. Follow the label on your water and your clinician\'s instructions.</p></details>';
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('#pa-bac [data-bac]'); if (!b || b.tagName === 'INPUT') return;
+    var a = b.getAttribute('data-bac');
+    if (a === 'today') { set({ opened: todayStr() }); pmdToast('💧 BAC water clock started. Throw it out in 28 days.'); }
+    if (a === 'clear') { if (!confirm('Clear the BAC water timer?')) return; set({}); }
+    render();
+  });
+  document.addEventListener('change', function(e){ var i = e.target.closest('#pa-bac input[data-bac="date"]'); if (i && i.value) { set({ opened: i.value }); render(); } });
+  var base = window.renderDashboard;
+  if (typeof base === 'function') window.renderDashboard = function(){ base.apply(this, arguments); render(); };
+  render();
+  // daily heads-up when the bottle is nearly due
+  try {
+    var s = pmdBacState(), k = 'pmd_bac_alert_' + todayStr();
+    if (s && s.left <= 3 && !localStorage.getItem(k)) { localStorage.setItem(k, '1'); setTimeout(function(){ pmdToast(s.left <= 0 ? '💧 <b>Throw out your BAC water.</b> It\'s been open over 28 days.' : '💧 <b>BAC water:</b> throw it out in ' + s.left + ' day' + (s.left === 1 ? '' : 's') + ' (' + nice(s.toss) + ').'); }, 3200); }
+  } catch(e){}
 })();
 </script>
 </body>
