@@ -1030,9 +1030,14 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
 })();
 </script>
 <div id="auth-gate-overlay" style="position:fixed;inset:0;z-index:99999;background:#04020a;display:flex;align-items:center;justify-content:center;color:#c9c9e8;font-family:'Share Tech Mono',monospace;letter-spacing:0.15em;">CHECKING ACCESS...</div>
+<script>
+  // PokeMe-Dex works without signing in, so never block it (this also keeps the offline app usable)
+  document.getElementById('auth-gate-overlay').style.display = 'none';
+  setTimeout(function(){ if (!window.pmdSync) { var b = document.getElementById('pa-sync-body'); if (b) b.innerHTML = '<p class="pa-tip">Sign-in needs an internet connection. Your log is safe on this device and will sync once you\'re online and signed in.</p>'; } }, 8000);
+</script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -1051,42 +1056,145 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
   window.vpnAuth = auth;
   window.vpnSignOut = function(){ signOut(auth).then(function(){ window.location.href = 'access.html'; }); };
 
-  // Cloud save for the PokeMe-Dex tracker — reuses the same Firestore doc ("trackers/{uid}")
-  // as tracker.html, just with its own field names, so a user's protocols/dose log follow
-  // their account across devices instead of staying stuck in one browser's localStorage.
-  var _pmdCloudTimer = null;
+  /* ── cloud sync: one record per account at trackers/{uid} ── */
+  const K = ['active_protocols', 'dose_log', 'inj_log'];
+  const ls = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } };
+  const read = (uid, k, def) => { try { return JSON.parse(ls(uid + '_pmd_' + k) || def); } catch(e){ return JSON.parse(def); } };
+  let state = { user:null, busy:false, err:'', last:0 };
+
+  async function push(uid){
+    if (!uid || uid === 'guest') return;
+    state.busy = true; draw();
+    try {
+      const stamp = Date.now();
+      await setDoc(doc(db, 'trackers', uid), {
+        pmd_active_protocols: read(uid, 'active_protocols', '[]'),
+        pmd_dose_log: read(uid, 'dose_log', '{}'),
+        pmd_inj_log: read(uid, 'inj_log', '[]'),
+        pmd_updated: stamp
+      }, { merge:true });
+      ls(uid + '_pmd_synced', String(stamp)); ls(uid + '_pmd_dirty', ''); state.err = ''; state.last = stamp;
+    } catch(e){ state.err = errText(e); console.warn('PokeMe-Dex cloud save failed:', e); }
+    state.busy = false; draw();
+  }
+  let timer = null;
+  // the tracker calls this after every change
   window.pmdCloudSave = function(uid){
-    if (!uid || uid === 'guest') return; // never sync anonymous visitors into one shared record
-    clearTimeout(_pmdCloudTimer);
-    _pmdCloudTimer = setTimeout(async function(){
-      try {
-        var payload = {
-          pmd_active_protocols: JSON.parse(localStorage.getItem(uid + '_pmd_active_protocols') || '[]'),
-          pmd_dose_log:         JSON.parse(localStorage.getItem(uid + '_pmd_dose_log') || '{}'),
-          pmd_inj_log:          JSON.parse(localStorage.getItem(uid + '_pmd_inj_log') || '[]'),
-          pmd_updated: Date.now()
-        };
-        await setDoc(doc(db, 'trackers', uid), payload, { merge: true });
-      } catch(e){ console.warn('PokeMe-Dex cloud save failed:', e); }
-    }, 1500);
+    if (!uid || uid === 'guest') return;
+    ls(uid + '_pmd_dirty', '1');
+    clearTimeout(timer); timer = setTimeout(() => push(uid), 1500);
   };
 
-  async function pmdCloudLoad(uid){
-    try {
-      var snap = await getDoc(doc(db, 'trackers', uid));
-      if (snap.exists()){
-        var d = snap.data();
-        if (d.pmd_active_protocols) localStorage.setItem(uid + '_pmd_active_protocols', JSON.stringify(d.pmd_active_protocols));
-        if (d.pmd_dose_log)         localStorage.setItem(uid + '_pmd_dose_log', JSON.stringify(d.pmd_dose_log));
-        if (d.pmd_inj_log)          localStorage.setItem(uid + '_pmd_inj_log', JSON.stringify(d.pmd_inj_log));
-      }
-    } catch(e){ console.warn('PokeMe-Dex cloud load failed — using local data:', e); }
+  // merge two copies without losing anything (used the first time a phone signs in)
+  function mergeLists(a, b){ const m = new Map(); (a || []).forEach(x => m.set(x.id, x)); (b || []).forEach(x => { if (!m.has(x.id)) m.set(x.id, x); }); return [...m.values()]; }
+  function mergeLog(a, b){ const out = JSON.parse(JSON.stringify(a || {})); Object.keys(b || {}).forEach(d => { out[d] = out[d] || {}; Object.keys(b[d] || {}).forEach(id => { if (!out[d][id]) out[d][id] = b[d][id]; }); }); return out; }
+
+  async function signedIn(user){
+    const uid = user.uid;
+    state.busy = true; state.user = user; draw();
+    let cloud = null;
+    try { const snap = await getDoc(doc(db, 'trackers', uid)); cloud = snap.exists() ? snap.data() : {}; state.err = ''; }
+    catch(e){ state.err = errText(e); console.warn('PokeMe-Dex cloud load failed:', e); }
+    const firstTime = ls(uid + '_pmd_joined') !== '1';
+    let P = read(uid, 'active_protocols', '[]'), D = read(uid, 'dose_log', '{}'), I = read(uid, 'inj_log', '[]');
+    if (cloud) {
+      const cP = cloud.pmd_active_protocols || [], cD = cloud.pmd_dose_log || {}, cI = cloud.pmd_inj_log || [];
+      const localDirty = ls(uid + '_pmd_dirty') === '1', cloudStamp = cloud.pmd_updated || 0, localStamp = +(ls(uid + '_pmd_synced') || 0);
+      if (firstTime || localDirty) { P = mergeLists(cP, P); D = mergeLog(cD, D); I = mergeLists(cI, I); }
+      else if (cloudStamp > localStamp) { P = cP; D = cD; I = cI; }
+    }
+    if (firstTime) { // bring in what this phone tracked before signing in
+      P = mergeLists(P, read('guest', 'active_protocols', '[]')); D = mergeLog(D, read('guest', 'dose_log', '{}')); I = mergeLists(I, read('guest', 'inj_log', '[]'));
+    }
+    I.sort((x, y) => (y.date + (y.time || '')).localeCompare(x.date + (x.time || '')));
+    ls(uid + '_pmd_active_protocols', JSON.stringify(P)); ls(uid + '_pmd_dose_log', JSON.stringify(D)); ls(uid + '_pmd_inj_log', JSON.stringify(I));
+    window.PMD_UID = uid;
     if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker(uid);
+    state.busy = false; state.last = +(ls(uid + '_pmd_synced') || 0); draw();
+    if (cloud && (firstTime || ls(uid + '_pmd_dirty') === '1' || !cloud.pmd_updated)) { ls(uid + '_pmd_joined', '1'); await push(uid); }
+    else if (cloud) ls(uid + '_pmd_joined', '1');
   }
+  function signedOut(){
+    state.user = null; state.err = ''; window.PMD_UID = null;
+    if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker('guest');
+    draw();
+  }
+  onAuthStateChanged(auth, u => { if (u) signedIn(u); else signedOut(); });
+  // coming back to the app: pick up changes made on another device
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.user && !state.busy && ls(state.user.uid + '_pmd_dirty') !== '1') signedIn(state.user); });
+
+  /* ── the More-tab card ── */
+  function errText(e){
+    const c = (e && e.code) || '';
+    if (/permission-denied/.test(c)) return 'The cloud refused to save (database rules). Your log is still safe on this device.';
+    if (/unavailable|network/.test(c)) return 'No connection right now. It will sync next time you\'re online.';
+    if (/popup-closed|cancelled-popup/.test(c)) return '';
+    if (/popup-blocked/.test(c)) return 'Your browser blocked the sign-in window. Allow pop-ups, or use email instead.';
+    if (/unauthorized-domain|operation-not-allowed/.test(c)) return 'Google sign-in isn\'t switched on for this site yet. Use email for now.';
+    if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c)) return 'That email and password don\'t match. Try again or reset your password.';
+    if (/email-already-in-use/.test(c)) return 'That email already has an account. Sign in instead.';
+    if (/weak-password/.test(c)) return 'Use a password with at least 6 characters.';
+    if (/invalid-email/.test(c)) return 'That email address doesn\'t look right.';
+    if (/too-many-requests/.test(c)) return 'Too many tries. Wait a minute and try again.';
+    return 'Something went wrong. Please try again.';
+  }
+  function ago(t){ if (!t) return 'not yet'; const s = Math.round((Date.now() - t) / 1000); return s < 60 ? 'just now' : s < 3600 ? Math.round(s / 60) + ' min ago' : s < 86400 ? Math.round(s / 3600) + ' h ago' : new Date(t).toLocaleDateString(); }
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  let mode = 'pick';
+  function draw(){
+    const body = document.getElementById('pa-sync-body'), sub = document.getElementById('pa-sync-sub'); if (!body) return;
+    const err = state.err ? '<p class="sy-err">⚠ ' + esc(state.err) + '</p>' : '';
+    if (state.user) {
+      const u = state.user;
+      sub.textContent = 'Your log is backed up to your account and stays in sync on every device you sign in on.';
+      body.innerHTML = '<div class="sy-who"><span class="sy-av">' + esc((u.displayName || u.email || '?').slice(0, 1).toUpperCase()) + '</span><div><b>' + esc(u.displayName || u.email) + '</b><small>' + (state.busy ? '⟳ Syncing…' : (state.err ? 'Not synced' : '✓ Synced · ' + ago(state.last))) + '</small></div></div>' + err
+        + '<div class="pa-btns two"><button type="button" class="pa-btn" data-s="now">⟳ Sync now</button><button type="button" class="pa-btn" data-s="out">Sign out</button></div>';
+      return;
+    }
+    sub.textContent = 'Sign in and your log saves to the cloud and follows you to any phone or computer. Free. Uses the same account as ruivpndata.com.';
+    if (mode === 'email' || mode === 'new') {
+      body.innerHTML = '<form class="sy-form" novalidate><input type="email" id="sy-email" placeholder="Email" autocomplete="email" required><input type="password" id="sy-pass" placeholder="Password (6+ characters)" autocomplete="' + (mode === 'new' ? 'new-password' : 'current-password') + '" required>'
+        + err + '<button type="submit" class="pa-btn pri wide">' + (mode === 'new' ? 'Create account & sync' : 'Sign in & sync') + '</button></form>'
+        + '<div class="sy-links"><button type="button" data-s="' + (mode === 'new' ? 'email' : 'new') + '">' + (mode === 'new' ? 'I already have an account' : 'New here? Create an account') + '</button>' + (mode === 'email' ? '<button type="button" data-s="reset">Forgot password?</button>' : '') + '<button type="button" data-s="pick">‹ Back</button></div>';
+      body.querySelector('form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const em = document.getElementById('sy-email').value.trim(), pw = document.getElementById('sy-pass').value;
+        state.err = ''; state.busy = true;
+        try { if (mode === 'new') await createUserWithEmailAndPassword(auth, em, pw); else await signInWithEmailAndPassword(auth, em, pw); }
+        catch(x){ state.err = errText(x); state.busy = false; draw(); }
+      });
+      return;
+    }
+    body.innerHTML = err + '<div class="pa-btns two"><button type="button" class="pa-btn pri" data-s="google"><span class="sy-g">G</span> Continue with Google</button><button type="button" class="pa-btn" data-s="email">✉ Use email</button></div><p class="pa-tip">Signing in merges what\'s already on this phone into your account, so nothing is lost.</p>';
+  }
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('#pa-sync-body [data-s]'); if (!b) return;
+    const a = b.getAttribute('data-s');
+    if (a === 'google') { state.err = ''; try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(x){ state.err = errText(x); draw(); } return; }
+    if (a === 'email' || a === 'new' || a === 'pick') { mode = a; state.err = ''; draw(); return; }
+    if (a === 'reset') { const em = (document.getElementById('sy-email') || {}).value || ''; if (!em) { state.err = 'Type your email above first.'; draw(); return; } try { await sendPasswordResetEmail(auth, em.trim()); state.err = ''; draw(); alert('Reset email sent. Check your inbox.'); } catch(x){ state.err = errText(x); draw(); } return; }
+    if (a === 'now' && state.user) { await push(state.user.uid); return; }
+    if (a === 'out') { if (confirm('Sign out? Your log stays saved in your account. This device will show its own offline log until you sign in again.')) { await signOut(auth); mode = 'pick'; } }
+  });
+  window.pmdSync = { state: () => state, draw };
+  draw();
 
   var overlay = document.getElementById('auth-gate-overlay');
   overlay.style.display = 'none';
 </script>
+<style id="pdx-sync-css">
+  .sy-who{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#f3faf4;border:1px solid #cfe6cd;margin-bottom:12px;font-family:'Inter',sans-serif;}
+  .sy-av{width:40px;height:40px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;background:#d7261e;color:#fff;font:900 17px/1 'Inter',sans-serif;}
+  .sy-who b{display:block;font:800 15px/1.2 'Inter',sans-serif;color:#1a1626;word-break:break-all;}
+  .sy-who small{display:block;margin-top:3px;font:600 13px/1.2 'Inter',sans-serif;color:#1f7a32;}
+  .sy-err{margin:0 0 12px !important;padding:10px 12px;border-radius:12px;background:#fff0ee;border:1px solid #f3c6bf;font:600 13.5px/1.45 'Inter',sans-serif !important;color:#9a2318 !important;}
+  .sy-form{display:grid;gap:10px;}
+  .sy-form input{height:52px;border-radius:14px;border:2px solid #e6dfd2;background:#fff;padding:0 14px;font:600 16px/1 'Inter',sans-serif;color:#1a1626;box-sizing:border-box;width:100%;}
+  .sy-form input:focus{outline:none;border-color:#d7261e;}
+  .sy-links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;}
+  .sy-links button{border:none !important;background:none !important;padding:4px 0 !important;color:#d7261e !important;font:700 13.5px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .sy-g{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#fff;color:#4285f4;font:900 14px/1 Arial,sans-serif;margin-right:4px;}
+</style>
 
 <style id="pmx-header-css">
 /* PokeMe-Dex header — product explainer in the Pokédex palette */
@@ -1207,6 +1315,11 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div class="pa-legend"><span><i class="g"></i>Best next spot</span><span><i class="r"></i>Last 3 days</span><span><i class="a"></i>4–7 days ago</span><span><i></i>Rested</span></div>
       <h3 class="pa-sub">Recent</h3>
       <div id="pa-log"></div>
+    </section>
+
+    <section class="pa-card" data-tab="more" id="pa-sync-card" aria-labelledby="pa-sync-h">
+      <div class="pa-h"><div><h2 id="pa-sync-h">☁️ Never lose your log</h2><p id="pa-sync-sub">Sign in and your log saves to the cloud and follows you to any phone or computer. Free.</p></div></div>
+      <div id="pa-sync-body"></div>
     </section>
 
     <section class="pa-card" data-tab="more" aria-labelledby="pa-save-h">
@@ -4295,6 +4408,7 @@ function showTab(name){
     var old = document.getElementById('pr-nudge'); if (old) old.remove();
     if (!ACTIVE_PROTOCOLS.length) return;
     persist();
+    if (window.pmdSync && window.pmdSync.state().user) return; // signed in: the cloud already keeps it
     var last = ls('pmd_last_backup'), snooze = ls('pmd_backup_snooze');
     if (snooze && daysSince(snooze) < 0) return;
     var need = daysSince(last) >= 7 && logged() >= 3;
@@ -4304,12 +4418,14 @@ function showTab(name){
     if (iosTip) msg += (msg ? ' ' : '') + 'On iPhone, Safari can erase a website\'s saved data after 7 days without a visit. Add PokeMe-Dex to your Home Screen (Share ⬆ → Add to Home Screen) to keep it safe.';
     var el = document.createElement('section'); el.id = 'pr-nudge'; el.className = 'pr-nudge'; el.setAttribute('data-tab', 'today');
     el.innerHTML = '<span class="ic">🛡️</span><div><b>Protect your log</b><p>' + msg + '</p><div class="row">'
-      + (need ? '<button type="button" class="pri" data-a="save">⬇ Save backup</button>' : '')
+      + '<button type="button" class="pri" data-a="sync">☁️ Sign in to sync</button>'
+      + (need ? '<button type="button" data-a="save">⬇ Save backup</button>' : '')
       + (iosTip ? '<button type="button" data-a="ios">Got it</button>' : '')
       + '<button type="button" data-a="later">Remind me later</button></div></div>';
     el.addEventListener('click', function(e){
       var b = e.target.closest('[data-a]'); if (!b) return; var a = b.getAttribute('data-a');
       if (a === 'save') pmdBackup();
+      if (a === 'sync') { pmdTab('more'); setTimeout(function(){ var c = document.getElementById('pa-sync-card'); if (c) c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 60); }
       if (a === 'ios') ls('pmd_ios_tip_done', '1');
       if (a === 'later') { var d = new Date(); d.setDate(d.getDate() + 7); ls('pmd_backup_snooze', d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')); }
       el.remove();
