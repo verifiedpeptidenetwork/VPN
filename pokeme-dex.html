@@ -4270,5 +4270,57 @@ function showTab(name){
 })();
 </script>
 
+<!-- ═══ PROTECT THE LOG: ask the browser to keep the data, and nudge a backup ═══ -->
+<style id="pdx-protect-css">
+  .pr-nudge{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:18px;background:#fff8e1;border:1px solid #f3dc8f;font-family:'Inter',system-ui,sans-serif;}
+  .pr-nudge .ic{font-size:24px;line-height:1;flex-shrink:0;}
+  .pr-nudge b{display:block;font:800 15.5px/1.3 'Inter',sans-serif;color:#3d3000;}
+  .pr-nudge p{margin:4px 0 10px !important;font:500 13.5px/1.5 'Inter',sans-serif !important;color:#5a4a10 !important;}
+  .pr-nudge .row{display:flex;gap:8px;flex-wrap:wrap;}
+  .pr-nudge button{height:40px;padding:0 14px !important;border-radius:11px !important;border:1px solid #e3cf86 !important;background:#fff !important;color:#3d3000 !important;font:800 13.5px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  .pr-nudge button.pri{border:none !important;background:#d7261e !important;color:#fff !important;}
+</style>
+<script>
+(function(){
+  var app = document.getElementById('pdx-app'); if (!app) return;
+  function ls(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
+  // 1) ask the browser to keep this site's data (not cleared when the phone is low on space)
+  function persist(){ try { if (navigator.storage && navigator.storage.persist) navigator.storage.persisted().then(function(ok){ if (!ok) navigator.storage.persist(); }); } catch(e){} }
+  // 2) a gentle backup reminder on the Today tab
+  function daysSince(d){ if (!d) return 9999; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(d + 'T00:00:00')) / 86400000); }
+  function logged(){ var n = 0; Object.keys(DOSE_LOG || {}).forEach(function(d){ n += Object.keys(DOSE_LOG[d] || {}).length; }); return n; }
+  function nudge(){
+    var old = document.getElementById('pr-nudge'); if (old) old.remove();
+    if (!ACTIVE_PROTOCOLS.length) return;
+    persist();
+    var last = ls('pmd_last_backup'), snooze = ls('pmd_backup_snooze');
+    if (snooze && daysSince(snooze) < 0) return;
+    var need = daysSince(last) >= 7 && logged() >= 3;
+    var iosTip = iOS && !standalone && !ls('pmd_ios_tip_done');
+    if (!need && !iosTip) return;
+    var msg = need ? (last ? 'Your last backup was ' + daysSince(last) + ' days ago.' : 'You haven\'t saved a backup yet.') + ' A backup file brings everything back if this phone is reset or its data is cleared.' : '';
+    if (iosTip) msg += (msg ? ' ' : '') + 'On iPhone, Safari can erase a website\'s saved data after 7 days without a visit. Add PokeMe-Dex to your Home Screen (Share ⬆ → Add to Home Screen) to keep it safe.';
+    var el = document.createElement('section'); el.id = 'pr-nudge'; el.className = 'pr-nudge'; el.setAttribute('data-tab', 'today');
+    el.innerHTML = '<span class="ic">🛡️</span><div><b>Protect your log</b><p>' + msg + '</p><div class="row">'
+      + (need ? '<button type="button" class="pri" data-a="save">⬇ Save backup</button>' : '')
+      + (iosTip ? '<button type="button" data-a="ios">Got it</button>' : '')
+      + '<button type="button" data-a="later">Remind me later</button></div></div>';
+    el.addEventListener('click', function(e){
+      var b = e.target.closest('[data-a]'); if (!b) return; var a = b.getAttribute('data-a');
+      if (a === 'save') pmdBackup();
+      if (a === 'ios') ls('pmd_ios_tip_done', '1');
+      if (a === 'later') { var d = new Date(); d.setDate(d.getDate() + 7); ls('pmd_backup_snooze', d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')); }
+      el.remove();
+    });
+    var today = document.getElementById('pa-today-card'); if (today) today.insertAdjacentElement('afterend', el);
+  }
+  var base = window.renderDashboard;
+  window.renderDashboard = function(){ var r = base.apply(this, arguments); nudge(); return r; };
+  nudge();
+})();
+</script>
+
 </body>
 </html>
