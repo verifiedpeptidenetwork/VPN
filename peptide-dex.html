@@ -81,6 +81,23 @@
   .dx-lcd .ill svg{width:62px;height:auto;}
   .dx-lcd .k{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;display:flex;justify-content:space-between;gap:8px;}
   .dx-lcd h2{margin:6px 0 6px;font:400 clamp(22px,3.4vw,32px)/1.05 'Share Tech Mono',monospace;color:#d8ffe2;text-shadow:0 0 10px rgba(124,255,155,0.7);word-break:break-word;}
+  .dx-lcd .dx-got{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:5px;border:1px solid rgba(255,226,122,0.6);color:#ffe27a;font-size:12px;letter-spacing:0.1em;text-shadow:0 0 6px rgba(255,226,122,0.55);}
+  .dx-lcd .dx-got.on{border-color:rgba(141,255,174,0.7);color:#8dffae;background:rgba(141,255,174,0.12);text-shadow:0 0 6px rgba(124,255,155,0.7);}
+  .dx-pad{display:grid;grid-template-columns:56px minmax(0,1fr) 56px;gap:10px;align-items:center;margin-top:10px;}
+  .dx-pad .dp{height:52px;border-radius:12px;border:0;background:#1a1a1a;color:#e9e4dc;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:inset 0 -3px 0 rgba(255,255,255,0.08),0 3px 0 #000;}
+  .dx-pad .dp:active{transform:translateY(2px);box-shadow:inset 0 -1px 0 rgba(255,255,255,0.08),0 1px 0 #000;}
+  .dx-catch{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:26px;background:#ffcb05;color:#1d2a5b;text-decoration:none;font:900 15px/1 'Inter',sans-serif;letter-spacing:0.06em;box-shadow:0 4px 0 #c79c00;}
+  .dx-catch b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#1a1a1a;color:#fff;font:900 14px/1 'Inter',sans-serif;}
+  .dx-catch:active{transform:translateY(2px);box-shadow:0 2px 0 #c79c00;}
+  .dx-catch.got{background:#1f9d4b;color:#fff;box-shadow:0 4px 0 #13693a;}
+  .dx-row .no{display:flex;align-items:center;gap:5px;}
+  .dx-row .ball,.dx-throw i{display:inline-block;width:12px;height:12px;border-radius:50%;border:1.5px solid #1a1a1a;background:linear-gradient(#e3350d 0 45%,#1a1a1a 45% 55%,#fff 55%);flex:0 0 auto;}
+  .dx-throw{position:fixed;inset:0;z-index:100;display:grid;place-items:center;align-content:center;gap:14px;background:rgba(10,16,12,0.55);pointer-events:none;animation:dxFade .9s ease forwards;}
+  .dx-throw i{width:84px;height:84px;border-width:5px;background:linear-gradient(#e3350d 0 45%,#1a1a1a 45% 55%,#fff 55%);box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:dxShake .8s ease-in-out;}
+  .dx-throw span{font:900 22px/1 'Inter',sans-serif;color:#ffcb05;text-shadow:0 2px 0 #1d2a5b;letter-spacing:0.04em;}
+  @keyframes dxShake{0%{transform:translateY(-120px) scale(.6);}35%{transform:translateY(0) scale(1);}50%{transform:rotate(-18deg);}65%{transform:rotate(14deg);}80%{transform:rotate(-8deg);}100%{transform:rotate(0);}}
+  @keyframes dxFade{0%{opacity:0;}15%,100%{opacity:1;}}
+  @media(max-width:560px){ .dx-pad{grid-template-columns:48px minmax(0,1fr) 48px;gap:8px;} .dx-pad .dp,.dx-catch{height:48px;} .dx-catch{font-size:14px;} }
   .dx-lcd .use{font-size:13.5px;line-height:1.4;color:#b9ffcc;}
   .dx-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
   .dx-type{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:99px;font:800 12px/1 'Inter',sans-serif;color:#fff;background:var(--c);border:2px solid #1a1a1a;}
@@ -212,6 +229,17 @@
   function slug(n){ return n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
   function no(i){ return 'No. ' + String(i + 1).padStart(3, '0'); }
   var cur = -1, typeF = '', q = '';
+  function NN(t){ return String(t || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  function caughtSet(){
+    var out = {};
+    try { for (var k = 0; k < localStorage.length; k++) { var key = localStorage.key(k); if (!/_pmd_active_protocols$/.test(key)) continue;
+      (JSON.parse(localStorage.getItem(key) || '[]') || []).forEach(function(x){ if (x && x.name) out[NN(x.name)] = 1; }); } } catch(e){}
+    return out;
+  }
+  var CAUGHT = caughtSet();
+  function isCaught(p){ var n = NN(p.name); if (CAUGHT[n]) return true; for (var c in CAUGHT) { if (c.length >= 4 && (n.indexOf(c) === 0 || c.indexOf(n) === 0)) return true; } return false; }
+  window.addEventListener('storage', function(){ CAUGHT = caughtSet(); list(); if (cur >= 0) show(cur); });
+  window.addEventListener('pageshow', function(){ CAUGHT = caughtSet(); list(); if (cur >= 0) show(cur); });
   document.getElementById('dx-n').textContent = DATA.length;
 
   // vial / pill illustration in LCD green
@@ -260,9 +288,10 @@
     host.innerHTML = DATA.map(function(p, i){
       if (!matches(p)) return '';
       shown++;
-      return '<button type="button" class="dx-row' + (i === cur ? ' on' : '') + '" data-i="' + i + '"><span class="no">' + no(i).replace('No. ', '#') + '</span><span style="min-width:0"><b>' + esc(p.name) + '</b><small>' + esc(p.use) + '</small></span><span class="dots">' + p.types.map(function(k){ return '<i title="' + TYPES[k].t + '" style="background:' + TYPES[k].c + '"></i>'; }).join('') + '</span></button>';
+      return '<button type="button" class="dx-row' + (i === cur ? ' on' : '') + (isCaught(p) ? ' got' : '') + '" data-i="' + i + '"><span class="no">' + (isCaught(p) ? '<i class="ball" title="In your Dex"></i>' : '') + no(i).replace('No. ', '#') + '</span><span style="min-width:0"><b>' + esc(p.name) + '</b><small>' + esc(p.use) + '</small></span><span class="dots">' + p.types.map(function(k){ return '<i title="' + TYPES[k].t + '" style="background:' + TYPES[k].c + '"></i>'; }).join('') + '</span></button>';
     }).join('') || '<div class="dx-empty">No peptides match. Try a shorter word, like "gut" or "sleep".</div>';
-    document.getElementById('dx-count').textContent = shown === DATA.length ? 'All ' + DATA.length + ' entries · A to Z' : shown + ' of ' + DATA.length + ' entries';
+    var got = DATA.filter(isCaught).length;
+    document.getElementById('dx-count').textContent = (shown === DATA.length ? 'All ' + DATA.length + ' entries · A to Z' : shown + ' of ' + DATA.length + ' entries') + (got ? ' · ◓ ' + got + ' caught' : '');
   }
   document.getElementById('dx-list').addEventListener('click', function(e){ var b = e.target.closest('.dx-row'); if (b) show(+b.getAttribute('data-i'), true); });
 
@@ -277,7 +306,10 @@
     var pm = pubmed(p);
     document.getElementById('dx-entry').innerHTML =
       '<button type="button" class="dx-close" onclick="dxClose()">‹ Back to the Dex</button>'
-      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div><div class="rd"><span><i>DOSE</i>' + esc(p.dose) + '</span><span><i>CYCLE</i>' + esc(p.duration) + '</span></div></div></div>'
+      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><div class="dx-got' + (isCaught(p) ? ' on' : '') + '">' + (isCaught(p) ? '✓ IN YOUR DEX' : '◓ NOT CAUGHT YET') + '</div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div><div class="rd"><span><i>DOSE</i>' + esc(p.dose) + '</span><span><i>CYCLE</i>' + esc(p.duration) + '</span></div></div></div>'
+      + '<div class="dx-pad"><button type="button" class="dp" onclick="dxStep(-1)" aria-label="Previous peptide">◀</button>'
+      + (isCaught(p) ? '<a class="dx-catch got" href="pokeme-dex.html?tab=dex"><b>A</b><span>VIEW IN MY DEX</span></a>' : '<a class="dx-catch" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '" onclick="return dxCatch(this)"><b>A</b><span>CATCH IT</span></a>')
+      + '<button type="button" class="dp" onclick="dxStep(1)" aria-label="Next peptide">▶</button></div>'
       + '<div class="dx-badges">' + p.types.map(function(k){ return '<span class="dx-type" style="--c:' + TYPES[k].c + '">' + TYPES[k].e + ' ' + TYPES[k].t + '</span>'; }).join('') + '<span class="dx-stage" style="--sc:' + st.c + '" title="' + esc(st.d) + '"><i></i>' + st.t + '</span></div></div>'
       + '<div class="dx-body">'
       + '<div class="dx-sec"><h3>🧒 Explain it like I\'m 5</h3><p class="dx-eli5">' + esc(p.eli5) + '</p></div>'
@@ -285,7 +317,7 @@
       + '<div class="dx-sec"><h3>💉 Typical research dose</h3><div class="dx-dose"><div><small>Dose</small><b>' + esc(p.dose) + '</b></div><div><small>How long</small><b>' + esc(p.duration) + '</b></div><div><small>How it\'s used</small><b>' + esc(p.protocol) + '</b></div></div><p class="dx-warn">Doses used in research, not a recommendation for you. ' + esc(st.d) + '</p></div>'
       + (p.pairs ? '<div class="dx-sec"><h3>🤝 Often paired with</h3><p>' + esc(p.pairs) + '</p></div>' : '')
       + '<div class="dx-sec"><h3>📚 Latest studies</h3>' + (studies || '<p>No curated studies yet for this one.</p>') + (pm ? '<a class="dx-pub" href="' + pm + '" target="_blank" rel="noopener">🔎 Newest studies on PubMed ↗</a>' : '') + '</div>'
-      + '<div class="dx-acts"><button type="button" class="pri" onclick="dxCard()">⬇ Download card</button><a class="y" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '">＋ Track in PokeMe-Dex</a><button type="button" onclick="dxShare()">📤 Share</button></div>'
+      + '<div class="dx-acts"><button type="button" class="pri" onclick="dxCard()">⬇ Download card</button>' + (isCaught(p) ? '<a class="y" href="pokeme-dex.html?tab=dex">✓ In your Dex</a>' : '<a class="y" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '" onclick="return dxCatch(this)">◓ Catch it</a>') + '<button type="button" onclick="dxShare()">📤 Share</button></div>'
       + '<div class="dx-nav-row"><button type="button" onclick="dxStep(-1)">‹ ' + esc(DATA[(i + DATA.length - 1) % DATA.length].name) + '</button><button type="button" onclick="dxStep(1)">' + esc(DATA[(i + 1) % DATA.length].name) + ' ›</button></div>'
       + '</div>';
     [].forEach.call(document.querySelectorAll('.dx-row'), function(r){ r.classList.toggle('on', +r.getAttribute('data-i') === i); });
@@ -297,6 +329,16 @@
     }
   }
   window.dxClose = function(){ document.body.classList.remove('dx-open'); };
+  window.dxCatch = function(a){
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+    var e = document.getElementById('dx-entry'), b = document.createElement('div'); b.className = 'dx-throw'; b.innerHTML = '<i></i><span>Gotcha!</span>';
+    e.appendChild(b); setTimeout(function(){ location.href = a.href; }, 900); return false;
+  };
+  // swipe the screen left / right to flip entries
+  (function(){ var sx = null, host = document.getElementById('dx-entry');
+    host.addEventListener('touchstart', function(e){ if (e.target.closest('.dx-lcd')) sx = e.touches[0].clientX; else sx = null; }, { passive:true });
+    host.addEventListener('touchend', function(e){ if (sx == null) return; var dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 50) dxStep(dx < 0 ? 1 : -1); }, { passive:true });
+  })();
   window.dxStep = function(d){ show((cur + d + DATA.length) % DATA.length, true); };
   window.dxShare = function(){
     var p = DATA[cur], url = location.href.split('#')[0] + '#' + slug(p.name);
