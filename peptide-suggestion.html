@@ -1025,6 +1025,59 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
 </style>
 
 <style id="vpn-logo-glow">@keyframes vpnLogoBreath{0%,100%{box-shadow:0 0 0 1.5px rgba(255,255,255,0.10),-5px -2px 12px 0 rgba(255,45,149,0.55),5px -2px 12px 0 rgba(64,140,255,0.55),-4px 5px 12px 0 rgba(255,150,40,0.38),3px 6px 12px 0 rgba(176,60,255,0.40);}50%{box-shadow:0 0 0 1.5px rgba(255,255,255,0.14),-6px -2px 16px 1px rgba(255,45,149,0.70),6px -2px 16px 1px rgba(64,140,255,0.70),-5px 6px 16px 1px rgba(255,150,40,0.48),4px 7px 16px 1px rgba(176,60,255,0.52);}} img[src^="ruivpnlogo.png"],img[src^="VPNNEWLOGO.png"]{border-radius:50%;animation:vpnLogoBreath 5s ease-in-out infinite !important;} @media(prefers-reduced-motion:reduce){img[src^="ruivpnlogo.png"],img[src^="VPNNEWLOGO.png"]{animation:none !important;box-shadow:-5px -2px 12px rgba(255,45,149,0.55),5px -2px 12px rgba(64,140,255,0.55),-4px 5px 12px rgba(255,150,40,0.38);}}</style>
+<style id="pm-friendly-css">
+  /* clearer selected answers */
+  .pm-opt.sel{ background:rgba(255,47,168,0.22) !important; border-color:var(--pm-acc) !important; box-shadow:0 0 0 3px rgba(255,47,168,0.35) !important; }
+  .pm-opt.sel::after{ content:'✓'; margin-left:auto; width:26px; height:26px; flex:0 0 auto; border-radius:50%; display:grid; place-items:center; background:var(--pm-acc); color:var(--pm-acc-ink,#fff); font-weight:900; }
+  .pm-goal.sel{ background:rgba(255,47,168,0.22) !important; box-shadow:0 0 0 2px rgba(255,47,168,0.4); }
+  .pm-goal[hidden]{ display:none !important; }
+  .pm-lab-chips button.demo{ opacity:.75; border-style:dashed !important; }
+  /* save menu */
+  .pm-save{ position:relative; display:inline-block; }
+  .pm-save > summary{ list-style:none; cursor:pointer; }
+  .pm-save > summary::-webkit-details-marker{ display:none; }
+  .pm-save-menu{ position:absolute; right:0; top:calc(100% + 6px); z-index:30; min-width:230px; display:grid; gap:4px; padding:6px; border-radius:14px; background:var(--pm-card,#16131f); border:1px solid var(--pm-line2,#333); box-shadow:0 18px 40px -16px rgba(0,0,0,.7); }
+  .pm-save-menu button{ text-align:left; padding:12px 12px; border-radius:10px; border:0; background:transparent; color:var(--pm-text,#fff); font:600 15px/1.2 var(--pm-font,inherit); cursor:pointer; }
+  .pm-save-menu button:hover{ background:rgba(255,255,255,0.06); }
+  /* compact result cards */
+  .pm-desc-short{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .pm-res:has(.pm-more[open]) .pm-desc-short{ -webkit-line-clamp:unset; display:block; }
+  .pm-more{ margin-top:10px; }
+  .pm-more > summary{ list-style:none; cursor:pointer; display:inline-flex; padding:8px 0; color:var(--pm-acc); font-weight:800; font-size:15px; }
+  .pm-more > summary::-webkit-details-marker{ display:none; }
+  .pm-more > summary .c{ display:none; } .pm-more[open] > summary .o{ display:none; } .pm-more[open] > summary .c{ display:inline; }
+  .pm-why-h{ display:block; margin:4px 0 6px; font-size:14px; }
+  .pm-more > summary::after, .pm-more > summary::before, .pm-save > summary::after, .pm-save > summary::before{ display:none !important; content:none !important; }
+  .pm-more{ border:0 !important; padding:0 !important; background:none !important; }
+  .pm-more .pm-why{ margin:6px 0 0; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,0.04); }
+  .pm-more .pm-why ul{ margin:0; padding-left:18px; }
+  .pm-track{ background:#ffcb05 !important; color:#1d2a5b !important; border-color:#ffcb05 !important; font-weight:800 !important; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
+  @media(max-width:640px){
+    /* two goals per row so Continue isn't buried */
+    .pm-goals{ grid-template-columns:1fr 1fr !important; gap:8px !important; }
+    .pm-goal{ min-height:54px !important; padding:10px 10px !important; font-size:15px !important; gap:8px !important; }
+    .pm-goal span{ font-size:19px !important; }
+    .pm-goal.sel::after{ width:18px !important; height:18px !important; font-size:11px !important; }
+    /* sticky Continue bar, clear of the round settings button */
+    body.pm-navfix .pm-step[data-step="2"]{ padding-bottom:120px; }
+    .pm-nav.pm-navfloat{ position:fixed; left:10px; right:10px; bottom:10px; z-index:60; margin:0 !important; display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:10px 12px 12px 14px !important; background:rgba(14,11,22,0.97); backdrop-filter:blur(6px); border:1px solid var(--pm-line2,#3a3550); border-radius:16px !important; box-shadow:0 14px 34px -10px rgba(0,0,0,.8); }
+    .pm-nav.pm-navfloat .pm-count{ order:-1; flex:1 1 100%; text-align:left !important; font-size:14px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#fff; }
+    .pm-nav.pm-navfloat .pm-btn{ flex:1 1 0 !important; min-height:48px; } .pm-nav.pm-navfloat .pm-btn.ghost{ flex:0 0 auto !important; }
+    .pm-step[data-step="2"] .pm-nav{ padding:10px 12px 12px 14px; background:linear-gradient(180deg,rgba(14,11,22,0.85),rgba(14,11,22,0.98)); backdrop-filter:blur(6px); border-top:1px solid var(--pm-line2,#333); border-radius:0 0 16px 16px; flex-wrap:wrap; gap:8px; }
+    .pm-step[data-step="2"] .pm-nav .pm-count{ order:-1; flex:1 1 100%; text-align:left !important; font-size:14px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .pm-step[data-step="2"] .pm-nav .pm-btn{ flex:1 1 0 !important; min-height:48px; }
+    .pm-step[data-step="2"] .pm-nav .pm-btn.ghost{ flex:0 0 auto !important; }
+    body.pm-navfix #vt-dock{ bottom:136px !important; } body.pm-navfix #vt-top-btn{ bottom:190px !important; }
+    .pm-res-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+    .pm-res-actions > .pm-btn, .pm-res-actions > .pm-save{ flex:1 1 0; }
+    .pm-save > summary{ width:100%; justify-content:center; }
+    .pm-save-menu{ left:0; right:0; min-width:0; }
+    .pm-res-foot{ display:grid !important; grid-template-columns:1fr 1fr; gap:8px; }
+    .pm-res-foot .pm-btn{ width:100%; min-height:46px; font-size:14px !important; padding:10px 8px !important; }
+    .pm-res-foot .pm-btn:nth-child(3){ grid-column:1 / -1; min-height:40px; background:transparent !important; border-style:dashed !important; }
+    .pm-res-foot .pm-note{ grid-column:1 / -1; }
+  }
+</style>
 </head>
 <body class="pm">
 
@@ -1127,9 +1180,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
     <div><h2 id="pm-res-title">Your matches</h2><p id="pm-res-sub"></p></div>
     <div class="pm-res-actions">
       <button class="pm-btn sm" onclick="pmEdit()">✎ Edit answers</button>
-      <button class="pm-btn sm" onclick="pmPrintReport()">🖨 Print / Save PDF</button>
-      <button class="pm-btn sm" onclick="pmShareNotes()">📝 Save to Notes</button>
-      <button class="pm-btn sm pri" onclick="pmDownloadReport()">⬇ Download report</button>
+      <details class="pm-save"><summary class="pm-btn sm pri">⬇ Save ▾</summary><div class="pm-save-menu"><button type="button" onclick="pmPrintReport()">🖨 Print / Save as PDF</button><button type="button" onclick="pmShareNotes()">📝 Save to Notes / Keep</button><button type="button" onclick="pmDownloadReport()">⬇ Download report</button></div></details>
     </div>
   </div>
   <div class="pm-filters" id="pm-filters"></div>
@@ -2426,20 +2477,41 @@ function pmIcon(g){ for (var i=0;i<PM_GROUPS.length;i++) for (var j=0;j<PM_GROUP
   host.addEventListener('click', function(e){
     var b = e.target.closest('.pm-goal'); if (!b) return;
     var g = b.getAttribute('data-g');
-    if (SELECTED_GOALS.has(g)) { SELECTED_GOALS.delete(g); b.classList.remove('sel'); } else { SELECTED_GOALS.add(g); b.classList.add('sel'); }
-    var n = SELECTED_GOALS.size;
-    document.getElementById('pm-goal-count').textContent = n ? (n + ' goal' + (n>1?'s':'') + ' selected') : 'No goals selected';
-    document.getElementById('pm-next-2').disabled = n === 0;
+    if (SELECTED_GOALS.has(g)) SELECTED_GOALS.delete(g); else SELECTED_GOALS.add(g);
+    pmSyncGoals();
   });
   document.getElementById('pm-sex').addEventListener('click', function(e){
     var b = e.target.closest('.pm-opt'); if (!b) return;
     document.querySelectorAll('#pm-sex .pm-opt').forEach(function(o){ o.classList.toggle('sel', o === b); });
-    SELECTED_GENDER = b.getAttribute('data-v') || null; PM_SEX_SET = true;
+    SELECTED_GENDER = b.getAttribute('data-v') || null; PM_SEX_SET = true; pmSexGoals();
     document.getElementById('pm-next-1').disabled = false;
     setTimeout(function(){ pmGo(2); }, 220);
   });
 })();
 
+function pmSyncGoals(){
+  document.querySelectorAll('#pm-goal-groups .pm-goal').forEach(function(b){ b.classList.toggle('sel', SELECTED_GOALS.has(b.getAttribute('data-g'))); });
+  var n = SELECTED_GOALS.size, names = []; SELECTED_GOALS.forEach(function(g){ names.push(pmLabel(g)); });
+  var cnt = document.getElementById('pm-goal-count'); if (cnt) cnt.textContent = n ? (n <= 3 ? names.join(', ') : n + ' goals selected') : 'Pick at least one goal';
+  var nx = document.getElementById('pm-next-2'); if (nx) { nx.disabled = n === 0; nx.textContent = n ? 'Continue (' + n + ') →' : 'Continue →'; }
+  if (window.pmLabDraw) pmLabDraw();
+}
+// goals that only apply to one sex are hidden for the other
+function pmSexGoals(){
+  var only = { pcos:'female' };
+  Object.keys(only).forEach(function(g){ var hide = SELECTED_GENDER && SELECTED_GENDER !== only[g]; var b = document.querySelector('.pm-goal[data-g="' + g + '"]'); if (b) b.hidden = !!hide; if (hide) SELECTED_GOALS.delete(g); });
+  pmSyncGoals();
+}
+function pmNavFix(){
+  var w = document.getElementById("pm-wizard"), st = document.querySelector(".pm-step.on"); if (!w || !st) return;
+  var r = w.getBoundingClientRect(), on = matchMedia("(max-width:640px)").matches && st.getAttribute("data-step") === "2" && r.top < innerHeight - 140 && r.bottom > 160;
+  document.body.classList.toggle("pm-navfix", on);
+  var nav = document.getElementById("pm-next-2") && document.getElementById("pm-next-2").closest(".pm-nav"); if (!nav) return;
+  var home = document.getElementById("pm-nav-home");
+  if (on && nav.parentNode !== document.body) { if (!home) { home = document.createElement("div"); home.id = "pm-nav-home"; nav.parentNode.insertBefore(home, nav); } document.body.appendChild(nav); nav.classList.add("pm-navfloat"); }
+  else if (!on && home && nav.parentNode === document.body) { home.parentNode.insertBefore(nav, home); nav.classList.remove("pm-navfloat"); }
+}
+addEventListener("scroll", pmNavFix, { passive:true }); addEventListener("resize", pmNavFix);
 function pmStart(){ document.getElementById('pm-wizard').scrollIntoView({behavior:'smooth', block:'start'}); }
 
 function pmGo(n){
@@ -2447,6 +2519,7 @@ function pmGo(n){
   document.getElementById('pm-prog-txt').textContent = 'Step ' + n + ' of 3';
   document.getElementById('pm-prog-bar').style.width = (n/3*100) + '%';
   if (n === 3) pmRenderSummary();
+  setTimeout(pmNavFix, 50);
   var w = document.getElementById('pm-wizard'); if (w.getBoundingClientRect().top < 0) w.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
@@ -2497,11 +2570,11 @@ function pmCard(item, rank, total){
     +     '<div class="pm-tags">' + item.goals.map(function(g){ return '<span class="pm-tag">' + pmIcon(g) + ' ' + pmLabel(g) + '</span>'; }).join('') + '</div></div>'
     +   (total ? '<div class="pm-score"><b>Matches ' + item.count + ' of ' + total + ' goal' + (total>1?'s':'') + '</b><small>' + pct + '% fit</small><div class="pm-meter"><i style="width:' + pct + '%"></i></div></div>' : '')
     + '</div>'
-    + '<p class="pm-desc">' + pmEsc(p.desc) + '</p>'
-    + (why.length ? '<details class="pm-why"' + (rank <= 1 ? ' open' : '') + '><summary>Why this was picked for you</summary><ul>'
-        + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></details>' : '')
-    + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div>'
-    + '<div class="pm-res-foot"><button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button><button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>'
+    + '<p class="pm-desc pm-desc-short">' + pmEsc(p.desc) + '</p>'
+    + '<details class="pm-more"' + (rank <= 1 ? ' open' : '') + '><summary><span class="o">Show why &amp; protocol</span><span class="c">Hide details</span></summary>'
+    + (why.length ? '<div class="pm-why"><b class="pm-why-h">Why this was picked for you</b><ul>' + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></div>' : '')
+    + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div></details>'
+    + '<div class="pm-res-foot"><button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button><a class="pm-btn sm pm-track" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '">＋ Track in PokeMe-Dex</a><button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>'
     +   '<span class="pm-note">A typical research starting point, not medical advice. Check with your doctor.</span></div>'
     + '</article>';
 }
@@ -2692,11 +2765,7 @@ function pmRenderBuyLive(){
   out.innerHTML = keys.map(function(k, i){ return pmCard({ key:k, count:0, goals:['inflammation'] }, i + 1, 0); }).join('');
 })();
 function pmStartWithGoal(g){
-  SELECTED_GOALS.add(g);
-  var b = document.querySelector('.pm-goal[data-g="' + g + '"]'); if (b) b.classList.add('sel');
-  var n = SELECTED_GOALS.size;
-  document.getElementById('pm-goal-count').textContent = n + ' goal' + (n>1?'s':'') + ' selected';
-  document.getElementById('pm-next-2').disabled = false;
+  SELECTED_GOALS.add(g); pmSyncGoals();
   pmGo(PM_SEX_SET ? 2 : 1);
   document.getElementById('pm-wizard').scrollIntoView({ behavior:'smooth', block:'start' });
 }/* section bar: highlight the section you're in */
@@ -2815,19 +2884,22 @@ function pmDownloadReport(){
 (function(){
   var lab = document.getElementById('pm-lab'); if (!lab || typeof pmCompute !== 'function') return;
   var CHIPS = [['fatloss','🔥','Fat loss'],['recovery','🩹','Recovery'],['gut','🌀','Gut'],['inflammation','🌡️','Inflammation'],['sleep','😴','Sleep'],['skin','✨','Skin'],['cognitive','🧠','Focus'],['muscle','💪','Muscle']];
-  var pick = new Set(['gut','skin','inflammation']);
+  var DEMO = new Set(['gut','skin','inflammation']);
+  function demo(){ return SELECTED_GOALS.size === 0; }
+  function cur(){ return demo() ? DEMO : SELECTED_GOALS; }
   var host = document.getElementById('pm-lab-chips');
-  host.innerHTML = CHIPS.map(function(c){ return '<button type="button" data-g="' + c[0] + '" aria-pressed="' + pick.has(c[0]) + '"><span>' + c[1] + '</span>' + c[2] + '</button>'; }).join('');
+  host.innerHTML = CHIPS.map(function(c){ return '<button type="button" data-g="' + c[0] + '" aria-pressed="false"><span>' + c[1] + '</span>' + c[2] + '</button>'; }).join('');
   function compute(){
     // run the page's own ranking on the lab's goals without touching the wizard's choices
-    var saveG = new Set(SELECTED_GOALS), saveS = SELECTED_GENDER;
-    SELECTED_GOALS.clear(); pick.forEach(function(g){ SELECTED_GOALS.add(g); }); SELECTED_GENDER = null;
-    var r = pmCompute();
-    SELECTED_GOALS.clear(); saveG.forEach(function(g){ SELECTED_GOALS.add(g); }); SELECTED_GENDER = saveS;
+    if (!demo()) return pmCompute();
+    var saveS = SELECTED_GENDER; DEMO.forEach(function(g){ SELECTED_GOALS.add(g); });
+    var r = pmCompute(); SELECTED_GOALS.clear(); SELECTED_GENDER = saveS;
     return r;
   }
   function draw(){
-    var total = pick.size, res = total ? compute() : [], top = res[0];
+    var pick = cur(), total = pick.size, res = total ? compute() : [], top = res[0];
+    [].forEach.call(host.querySelectorAll('button'), function(b){ var on = pick.has(b.getAttribute('data-g')); b.setAttribute('aria-pressed', on); b.classList.toggle('demo', on && demo()); });
+    var live = lab.querySelector('.pm-lab-live'); if (live) live.textContent = demo() ? 'EXAMPLE' : 'LIVE';
     var ring = document.getElementById('pm-ring');
     ring.style.setProperty('--p', top ? Math.round(top.count / total * 100) : 0);
     document.getElementById('pm-ring-n').textContent = top ? top.count + '/' + total : '0';
@@ -2839,26 +2911,23 @@ function pmDownloadReport(){
     }).join('');
     document.getElementById('pm-lab-rows').innerHTML = rows || (total ? '' : '');
     var go = document.getElementById('pm-lab-go');
-    go.disabled = !total;
-    go.textContent = total ? ('See all ' + res.length + ' matches →') : 'Pick a goal to start';
+    go.disabled = false;
+    go.textContent = demo() ? 'Tap your own goals, or start the quiz →' : ('See my ' + res.length + ' matches →');
   }
   host.addEventListener('click', function(e){
     var b = e.target.closest('button'); if (!b) return;
     var g = b.getAttribute('data-g');
-    if (pick.has(g)) pick.delete(g); else pick.add(g);
-    b.setAttribute('aria-pressed', pick.has(g));
+    if (SELECTED_GOALS.has(g)) SELECTED_GOALS.delete(g); else SELECTED_GOALS.add(g);
+    if (window.pmSyncGoals) pmSyncGoals();
     draw();
   });
   document.getElementById('pm-lab-go').addEventListener('click', function(){
-    // carry the lab's goals into the wizard, then start at step 1 (who it's for)
-    SELECTED_GOALS.clear(); pick.forEach(function(g){ SELECTED_GOALS.add(g); });
-    document.querySelectorAll('#pm-goal-groups .pm-goal').forEach(function(b){ b.classList.toggle('sel', SELECTED_GOALS.has(b.getAttribute('data-g'))); });
-    var n = SELECTED_GOALS.size;
-    var cnt = document.getElementById('pm-goal-count'); if (cnt) cnt.textContent = n + ' goal' + (n > 1 ? 's' : '') + ' selected';
-    var nx = document.getElementById('pm-next-2'); if (nx) nx.disabled = n === 0;
-    pmGo(PM_SEX_SET ? 2 : 1);
+    // same goals as the quiz: just take you to the next step you still need
+    if (window.pmSyncGoals) pmSyncGoals();
+    pmGo(!PM_SEX_SET ? 1 : (SELECTED_GOALS.size ? 3 : 2));
     document.getElementById('pm-wizard').scrollIntoView({ behavior:'smooth', block:'start' });
   });
+  window.pmLabDraw = draw;
   draw();
 })();
 </script>
