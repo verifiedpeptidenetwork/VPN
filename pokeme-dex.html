@@ -6510,6 +6510,9 @@ function pmdRequestPeptide(name){
   html body #pdx-app .il-sum small em{display:block;font-style:normal;font-size:15px;line-height:1.1;margin-bottom:2px;}
   html body #pdx-app .il-sum i{display:block;height:4px;margin:6px auto 0;border-radius:99px;background:#efe6d6;overflow:hidden;width:80%;}
   html body #pdx-app .il-sum i u{display:block;height:100%;background:#d7261e;border-radius:99px;}
+  html body #pdx-app .il-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px;}
+  html body #pdx-app .il-acts button{min-height:42px;border-radius:12px !important;border:1.5px solid #1a1626 !important;background:#fff !important;color:#1a1626 !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .il-acts button:first-child{background:#1a1626 !important;color:#fff !important;}
   html body #pdx-app .il-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font:700 12.5px/1.3 'Inter',sans-serif;color:#7a7163;}
   html body #pdx-app .il-top select{max-width:60%;height:auto !important;min-height:38px !important;padding-top:7px !important;padding-bottom:7px !important;line-height:1.3 !important;font-size:16px !important;padding:0 28px 0 10px;border-radius:10px;border:1.5px solid #e0d8ca;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231a1626' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 10px center;font:700 13.5px/1 'Inter',sans-serif;color:#1a1626;-webkit-appearance:none;appearance:none;}
   html body #pdx-app .il-day{margin:12px 0 6px;font:800 11.5px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#8a8170;}
@@ -6557,6 +6560,7 @@ function pmdRequestPeptide(name){
     var names = []; all.forEach(function(e){ if (e.name && names.indexOf(e.name) < 0) names.push(e.name); });
     if (who && names.indexOf(who) < 0) who = '';
     var list = who ? all.filter(function(e){ return e.name === who; }) : all;
+    html += '<div class="il-acts"><button type="button" data-il="pdf">🖨 Save as PDF</button><button type="button" data-il="mail">✉ Email it</button></div>';
     html += '<div class="il-top"><span>' + tot + ' in the last 30 days</span>' + (names.length > 1 ? '<select id="il-who" aria-label="Show injections for"><option value="">All peptides</option>' + names.map(function(n){ return '<option' + (n === who ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select>' : '') + '</div>';
     var last = '';
     list.slice(0, shown).forEach(function(e){
@@ -6569,13 +6573,49 @@ function pmdRequestPeptide(name){
     else if (shown > 10 && list.length > 10) html += '<button type="button" class="il-more" data-il="less">Show less</button>';
     box.innerHTML = html;
   };
+  function rows(){
+    var all = (INJ_LOG || []).slice().sort(function(a, b){ return (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')); });
+    return who ? all.filter(function(e){ return e.name === who; }) : all;
+  }
+  function nice(ds){ return new Date(ds + 'T00:00:00').toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric', year:'numeric' }); }
+  function summary(list){ var c = [0, 0, 0, 0]; list.forEach(function(e){ var a = Math.round((new Date(todayStr() + 'T00:00:00') - new Date(e.date + 'T00:00:00')) / 86400000), k = area(e.zone); if (a <= 30 && k >= 0) c[k]++; }); return c; }
+  function pdf(){
+    var list = rows(), c = summary(list), w = window.open('', '_blank'); if (!w) { alert('Allow pop-ups to save the PDF.'); return; }
+    var body = list.map(function(e){ var u = units(e); return '<tr><td>' + esc(nice(e.date)) + '</td><td>' + esc(e.time ? hm(e.time) : '') + '</td><td>' + esc(label(e.zone)) + '</td><td>' + esc(e.name || '') + '</td><td>' + (e.mg ? e.mg + ' mg' : '') + (u ? '<br><small>' + u + '</small>' : '') + '</td></tr>'; }).join('');
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Injection log · PokeMe-Dex</title><style>body{font:14px/1.45 -apple-system,Segoe UI,Inter,Arial,sans-serif;color:#1a1626;margin:28px;}h1{margin:0 0 2px;font-size:22px;color:#d7261e;}p{margin:0 0 14px;color:#5d5668;}.sum{display:flex;gap:10px;margin:0 0 16px;}.sum div{flex:1;border:1px solid #e3dccf;border-radius:10px;padding:8px 10px;text-align:center;}.sum b{display:block;font-size:20px;}table{width:100%;border-collapse:collapse;}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #eee6d6;vertical-align:top;}th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8a8170;}small{color:#7a7163;}.foot{margin-top:16px;font-size:12px;color:#7a7163;}@media print{body{margin:12mm;}}</style></head><body>'
+      + '<h1>💉 Injection log</h1><p>' + (who ? esc(who) + ' · ' : '') + list.length + ' injection' + (list.length === 1 ? '' : 's') + ' · made ' + esc(nice(todayStr())) + ' with PokeMe-Dex</p>'
+      + '<div class="sum">' + AREAS.map(function(x, i){ return '<div><b>' + c[i] + '</b>' + x[0] + ' ' + x[1] + '<br><small>last 30 days</small></div>'; }).join('') + '</div>'
+      + '<table><thead><tr><th>Date</th><th>Time</th><th>Spot</th><th>Peptide</th><th>Dose</th></tr></thead><tbody>' + body + '</tbody></table>'
+      + '<p class="foot">Research log only, not medical advice. Spots are shown as if you are facing a mirror.</p></body></html>');
+    w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 350);
+  }
+  function mail(){
+    var list = rows(), c = summary(list), NL = String.fromCharCode(10), max = 60;
+    var L = ['My injection log (PokeMe-Dex)' + (who ? ' · ' + who : ''), list.length + ' injections · made ' + nice(todayStr()), '', 'Last 30 days: ' + AREAS.map(function(x, i){ return x[1] + ' ' + c[i]; }).join(' · '), ''];
+    var last = '';
+    list.slice(0, max).forEach(function(e){ if (e.date !== last) { L.push(nice(e.date)); last = e.date; } var u = units(e); L.push('  ' + (e.time ? hm(e.time) + ' · ' : '') + label(e.zone) + (e.name ? ' · ' + e.name : '') + (e.mg ? ' · ' + e.mg + ' mg' : '') + (u ? ' (' + u + ')' : '')); });
+    if (list.length > max) L.push('', '…plus ' + (list.length - max) + ' older. Use Save as PDF for the full log.');
+    location.href = 'mailto:?subject=' + encodeURIComponent('My injection log' + (who ? ' · ' + who : '')) + '&body=' + encodeURIComponent(L.join(NL));
+  }
   document.addEventListener('click', function(e){
     var b = e.target.closest && e.target.closest('#pa-log [data-il]'); if (!b) return;
-    shown = b.getAttribute('data-il') === 'more' ? shown + 20 : 10; renderInjSites();
+    var a = b.getAttribute('data-il');
+    if (a === 'pdf') { pdf(); return; } if (a === 'mail') { mail(); return; }
+    shown = a === 'more' ? shown + 20 : 10; renderInjSites();
   });
   document.addEventListener('change', function(e){ if (e.target && e.target.id === 'il-who') { who = e.target.value; shown = 10; renderInjSites(); } });
   if (typeof renderInjSites === 'function') renderInjSites();
 })();
 </script>
+<style id="pmd-gear-tight">
+  html body #vt-dock-panel{padding:8px !important;}
+  html body #vt-dock-panel .pg-grid{gap:4px !important;}
+  html body #vt-dock-panel .pg-it{padding:7px 10px !important;min-height:0 !important;gap:9px !important;border-radius:10px !important;}
+  html body #vt-dock-panel .pg-it .pg-t{display:block;font:800 14px/1.2 'Inter',sans-serif !important;color:#1a1626 !important;}
+  html body #vt-dock-panel .pg-it small,html body #vt-dock-panel .pg-it .pg-s{display:block;margin-top:1px !important;font:500 12px/1.25 'Inter',sans-serif !important;color:#8a8170 !important;letter-spacing:0 !important;}
+  html body #vt-dock-panel .pg-it .pg-ic{width:28px;height:28px;font-size:15px;}
+  html body #vt-dock-panel .pg-lbl{margin:6px 4px 4px !important;}
+  @media(min-width:700px){ html body #vt-dock-panel .pg-grid{grid-template-columns:1fr 1fr;} html body #vt-dock-panel{min-width:440px !important;} }
+</style>
 </body>
 </html>
