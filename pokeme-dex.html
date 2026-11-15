@@ -3593,17 +3593,37 @@ function showTab(name){
       { q: 'Which one did you take?', skip: function(L){ return !!L.pid; }, valid: function(L){ return !!L.pid; },
         render: function(L, b){
           var due = ACTIVE_PROTOCOLS.filter(function(p){ return !L.siteOnly || !pmdOral(p); });
-          chips(b, due.map(function(p){ return { v:p.id, t:p.name, s:p.dose + ' mg' }; }), function(v){ return L.pid === v; }, function(v){ L.pid = v; var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === v; }); L.mg = p.dose; }, { auto:true, wide:true });
+          chips(b, due.map(function(p){ return { v:p.id, t:p.name, s:p.dose + ' mg' }; }), function(v){ return L.pid === v; }, function(v){ L.pid = v; var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === v; }); L.mg = p.dose; if (!L.sitePreset) L.site = ''; }, { auto:true, wide:true });
           spotPill(L, b);
         } },
+      { q: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return p ? 'Log ' + p.name + '?' : 'Log this dose?'; },
+        help: 'Check it and tap ✓ Log it now. Or change the amount or time.', cta: '✓ Log it now',
+        skip: function(L){ return !!L.detailed; },
+        valid: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return !!p && (pmdOral(p) || !!L.site); },
+        render: function(L, b){
+          var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); if (!p) return;
+          var oral = pmdOral(p);
+          if (!oral && !L.site) L.site = suggestedZone();
+          var amt = oral ? '💊 ' + r2(L.mg / pmdPill(p)) + ' pill' + (r2(L.mg / pmdPill(p)) === 1 ? '' : 's') : '💉 ' + (function(u){ return u % 1 === 0 ? u : u.toFixed(1); })(units(p.vial, p.water, L.mg)) + ' units';
+          var card = document.createElement('div'); card.className = 'qz-quick';
+          card.innerHTML = '<div class="qq-row"><span>Amount</span><b>' + L.mg + ' mg · ' + amt + '</b></div><div class="qq-row"><span>When</span><b>' + (L.date === todayStr() ? 'Today' : esc(L.date)) + ' · ' + (L.time === nowHM() ? 'just now' : esc(hhmm(L.time))) + '</b></div>';
+          b.appendChild(card);
+          var ch = document.createElement('button'); ch.type = 'button'; ch.className = 'qz-more'; ch.textContent = '✎ Change amount or time';
+          ch.onclick = function(){ L.detailed = true; next(); }; b.appendChild(ch);
+          if (!oral) {
+            var lbl = document.createElement('div'); lbl.className = 'qz-label'; lbl.textContent = L.sitePreset ? 'Injection spot' : 'Injection spot (⭐ = best next spot, tap to change)'; b.appendChild(lbl);
+            if (L.sitePreset) spotPill(L, b);
+            else { var best = suggestedZone(); chips(b, INJ_ZONES.map(function(z){ var last = lastUsedDateForZone(z.code); return { v:z.code, t:z.label, s: last ? 'Last ' + agoTxt(daysAgo(last)) : 'Not used yet', best: z.code === best }; }), function(v){ return L.site === v; }, function(v){ L.site = v; }, {}); }
+          }
+        } },
       { q: 'Where did you inject?', help: 'Rotating spots helps avoid soreness and lumps.', valid: function(L){ return !!L.site; },
-        skip: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return L.sitePreset || (p && pmdOral(p)); },
+        skip: function(L){ var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }); return !L.detailed || !!L.site || L.sitePreset || (p && pmdOral(p)); },
         render: function(L, b){
           var best = suggestedZone();
           chips(b, INJ_ZONES.map(function(z){ var last = lastUsedDateForZone(z.code); return { v:z.code, t:z.label, s: last ? 'Last used ' + agoTxt(daysAgo(last)) : 'Not used yet', best: z.code === best }; }),
             function(v){ return L.site === v; }, function(v){ L.site = v; }, { auto:true });
         } },
-      { q: 'How much did you take?', valid: function(L){ return L.mg > 0; },
+      { q: 'How much did you take?', valid: function(L){ return L.mg > 0; }, skip: function(L){ return !L.detailed; },
         render: function(L, b){
           var p = ACTIVE_PROTOCOLS.find(function(x){ return x.id === L.pid; }) || {};
           var h; numField(b, '', L.mg, 'mg', stepFor(L.mg || 1), function(v){ L.mg = v; paint(); });
@@ -3616,7 +3636,7 @@ function showTab(name){
           paint();
           if (!pmdOral(p)) spotPill(L, b);
         } },
-      { q: 'When did you take it?', help: 'Pick the day and time, so you can also log a dose you took earlier.', cta: '✓ Log this dose',
+      { q: 'When did you take it?', help: 'Pick the day and time, so you can also log a dose you took earlier.', cta: '✓ Log this dose', skip: function(L){ return !L.detailed; },
         render: function(L, b){
           var y = new Date(); y.setDate(y.getDate() - 1);
           var ys = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
@@ -6324,11 +6344,82 @@ function pmdRequestPeptide(name){
     for (k = 0; k < 6; k++) cb += '<b class="' + (k < on ? 'on' : '') + '"></b>';
     return '<div class="lcd-meter bld ' + cls + '">BLOOD <i>' + cb + '</i> ' + txt + '</div>';
   };
+  window.pmdBloodStatus = function(){ var d = load(), l = last(d), due = nextDue(d); return { has: !!l, due: due, left: due ? daysBetween(today(), due) : null, no: !!d.noBaseline }; };
   window.pmdBloodDraw = draw;
   // redraw when the Dex changes (new peptides change the letter and the Today prompt)
   var baseRender = window.renderDashboard;
   if (typeof baseRender === 'function') window.renderDashboard = function(){ var r = baseRender.apply(this, arguments); try { draw(); } catch(e){} return r; };
   draw();
+})();
+</script>
+<style id="pmd-todo-css">
+  html body #pdx-app .qz-quick{display:grid;gap:6px;margin-bottom:14px;padding:12px 14px;border-radius:14px;background:#faf7f0;border:1.5px solid #ece4d4;}
+  html body #pdx-app .qz-quick .qq-row{display:flex;justify-content:space-between;gap:12px;font:500 14.5px/1.35 'Inter',sans-serif;color:#6b6356;}
+  html body #pdx-app .qz-quick .qq-row b{font-weight:800;color:#1a1626;text-align:right;}
+  .qz-quick{display:grid;gap:6px;margin-bottom:14px;padding:12px 14px;border-radius:14px;background:#faf7f0;border:1.5px solid #ece4d4;}
+  .qz-quick .qq-row{display:flex;justify-content:space-between;gap:12px;font:500 14.5px/1.35 'Inter',sans-serif;color:#6b6356;}
+  .qz-quick .qq-row b{font-weight:800;color:#1a1626;text-align:right;}
+  .qz-more{display:block;margin:-6px 0 6px auto;border:0 !important;background:none !important;color:#2a5bd7 !important;font:700 14.5px/1 'Inter',sans-serif !important;padding:8px !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .td-wrap{margin-top:16px;padding-top:14px;border-top:1.5px dashed #e9e2d6;}
+  html body #pdx-app .td-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#8a8170;}
+  html body #pdx-app .td-list{display:grid;gap:8px;}
+  html body #pdx-app .td-row{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 12px;border-radius:14px;background:#faf7f0;border:1.5px solid #ece4d4;}
+  html body #pdx-app .td-row.warn{background:#fff9e0;border-color:#f3d36b;}
+  html body #pdx-app .td-row.bad{background:#fff1ef;border-color:#f3b5ad;}
+  html body #pdx-app .td-ic{font-size:20px;flex:0 0 auto;}
+  html body #pdx-app .td-tx{flex:1;min-width:0;}
+  html body #pdx-app .td-tx b{display:block;font:800 14.5px/1.3 'Inter',sans-serif;color:#1a1626;}
+  html body #pdx-app .td-tx small{display:block;margin-top:1px;font:500 12.5px/1.35 'Inter',sans-serif;color:#6b6356;}
+  html body #pdx-app .td-go{flex:0 0 auto;min-height:38px;padding:0 12px;border-radius:10px !important;border:0 !important;background:#1a1626 !important;color:#fff !important;font:800 13px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;white-space:nowrap;}
+  html body #pdx-app .td-x{flex:0 0 auto;width:30px;height:30px;border-radius:50% !important;border:0 !important;background:transparent !important;color:#a39b8c !important;font:700 15px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app #pa-blood-today{display:none !important;} /* now part of the to-do list */
+</style>
+<script>
+(function(){
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function hideKey(){ return 'pmd_todo_hide_' + todayStr(); }
+  function hidden(){ try { return JSON.parse(localStorage.getItem(hideKey()) || '[]'); } catch(e){ return []; } }
+  function hide(k){ var h = hidden(); if (h.indexOf(k) < 0) h.push(k); try { localStorage.setItem(hideKey(), JSON.stringify(h)); } catch(e){} renderTodayDoses(); }
+  function dd(n){ return n <= 0 ? 'today' : (n === 1 ? 'tomorrow' : 'in ' + n + ' days'); }
+  function items(){
+    var out = [];
+    (ACTIVE_PROTOCOLS || []).forEach(function(p){
+      var oral = pmdOral(p), st = window.pmdStock ? pmdStock(p) : null;
+      var lf = st && window.pmdVialLife ? pmdVialLife(p, st) : null, nv = st && window.pmdVialNext ? pmdVialNext(p, st, lf) : null;
+      if (!oral && nv && !nv.unmixed && nv.days <= 3) out.push({ k:'vial-' + p.id, ic:'🧪', cls: nv.days <= 0 ? 'bad' : 'warn', t: nv.days <= 0 ? 'Mix a new ' + p.name + ' vial' : p.name + ': new vial ' + dd(nv.days), s: nv.why === 'runs out' ? 'This vial is running out.' : 'Mixed vials are good for 6 weeks.', go:'＋ New vial', act:function(){ pmdNewVial(p.id); } });
+      else if (st && st.left > 0 && st.doses <= 2) out.push({ k:'low-' + p.id, ic: oral ? '💊' : '🧪', cls:'warn', t: p.name + ': ' + st.doses + ' dose' + (st.doses === 1 ? '' : 's') + ' left', s: (p.spare || 0) ? 'You have ' + p.spare + ' spare. Open a new one when it runs out.' : 'No spares left. Time to reorder.', go:'Open', act:function(){ pmdTab('dex'); } });
+      else if (st && st.left <= 0) out.push({ k:'out-' + p.id, ic: oral ? '💊' : '🧪', cls:'bad', t: p.name + ' is empty', s: 'Start a new ' + (oral ? 'bottle' : 'vial') + ' to keep tracking.', go:'＋ New ' + (oral ? 'bottle' : 'vial'), act:function(){ pmdNewVial(p.id); } });
+      var left = daysRemaining(p);
+      if (left > 0 && left <= 7) out.push({ k:'cyc-' + p.id, ic:'📅', cls:'', t: p.name + ' cycle ends ' + dd(left), s:'Plan your break or your next course.', go:'Open', act:function(){ pmdTab('dex'); } });
+    });
+    var b = window.pmdBacState ? pmdBacState() : null;
+    if (b && b.left <= 3) out.push({ k:'bac', ic:'💧', cls: b.left <= 0 ? 'bad' : 'warn', t: b.left <= 0 ? 'Throw out your BAC water' : 'BAC water: throw out ' + dd(b.left), s:'Opened bacteriostatic water is good for 28 days.', go:'Open', act:function(){ pmdTab('dex'); setTimeout(function(){ var c = document.getElementById('pa-bac-card'); if (c) c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80); } });
+    var bl = window.pmdBloodStatus ? pmdBloodStatus() : null;
+    var toBlood = function(){ pmdTab('dex'); setTimeout(function(){ var c = document.getElementById('pa-blood-card'); if (c) c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80); };
+    if (bl && !bl.has && (ACTIVE_PROTOCOLS || []).length) out.push({ k:'blood0', ic:'🩸', cls:'', t: bl.no ? 'Get a baseline blood test' : 'Did you get a baseline blood test?', s:'Track your blood work every 3, 6 or 12 months.', go: bl.no ? 'Plan it' : 'Set it up', act: toBlood });
+    else if (bl && bl.has && bl.left <= 14) out.push({ k:'blood', ic:'🩸', cls: bl.left < 0 ? 'bad' : 'warn', t: bl.left < 0 ? 'Blood test overdue' : 'Blood test due ' + dd(bl.left), s:'Book it with Goodlabs, Rythm or your doctor.', go:'Open', act: toBlood });
+    var h = hidden();
+    return out.filter(function(x){ return h.indexOf(x.k) < 0; });
+  }
+  var acts = {};
+  var base = window.renderTodayDoses;
+  window.renderTodayDoses = function(){
+    base.apply(this, arguments);
+    var out = document.getElementById('pa-today'); if (!out) return;
+    var list = items(); acts = {};
+    if (!list.length) return;
+    var w = document.createElement('div'); w.className = 'td-wrap';
+    w.innerHTML = '<div class="td-h"><span>📋 Also on your list</span><span>' + list.length + '</span></div><div class="td-list">' + list.map(function(x){
+      acts[x.k] = x.act;
+      return '<div class="td-row ' + x.cls + '"><span class="td-ic" aria-hidden="true">' + x.ic + '</span><span class="td-tx"><b>' + esc(x.t) + '</b><small>' + esc(x.s) + '</small></span><button type="button" class="td-go" data-td="' + x.k + '">' + esc(x.go) + '</button><button type="button" class="td-x" data-tdx="' + x.k + '" aria-label="Hide for today">✕</button></div>';
+    }).join('') + '</div>';
+    out.appendChild(w);
+  };
+  document.addEventListener('click', function(e){
+    var g = e.target.closest && e.target.closest('#pa-today [data-td]'); if (g) { var f = acts[g.getAttribute('data-td')]; if (f) f(); return; }
+    var x = e.target.closest && e.target.closest('#pa-today [data-tdx]'); if (x) hide(x.getAttribute('data-tdx'));
+  });
+  if (typeof renderDashboard === 'function') renderDashboard();
 })();
 </script>
 </body>
