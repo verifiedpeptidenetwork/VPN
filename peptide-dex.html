@@ -91,9 +91,9 @@
   .dx-catch:active{transform:translateY(2px);box-shadow:0 2px 0 #c79c00;}
   .dx-catch.got{background:#1f9d4b;color:#fff;box-shadow:0 4px 0 #13693a;}
   .dx-row .no{display:flex;align-items:center;gap:5px;}
-  .dx-row .ball,.dx-throw i{display:inline-block;width:12px;height:12px;border-radius:50%;border:1.5px solid #1a1a1a;background:linear-gradient(#e3350d 0 45%,#1a1a1a 45% 55%,#fff 55%);flex:0 0 auto;}
-  .dx-throw{position:fixed;inset:0;z-index:100;display:grid;place-items:center;align-content:center;gap:14px;background:rgba(10,16,12,0.55);pointer-events:none;animation:dxFade .9s ease forwards;}
-  .dx-throw i{width:84px;height:84px;border-width:5px;background:linear-gradient(#e3350d 0 45%,#1a1a1a 45% 55%,#fff 55%);box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:dxShake .8s ease-in-out;}
+  .dx-row .ball,.dx-throw i{display:inline-block;width:10px;height:17px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23e3350d'/%3E%3Cstop offset='.47' stop-color='%23e3350d'/%3E%3Cstop offset='.47' stop-color='%231a1a1a'/%3E%3Cstop offset='.57' stop-color='%231a1a1a'/%3E%3Cstop offset='.57' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%23ffffff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='6.5' y='1' width='11' height='6' rx='1.6' fill='%231a1a1a'/%3E%3Crect x='8.2' y='7' width='7.6' height='3.2' fill='%23d9d9d9' stroke='%231a1a1a' stroke-width='1.1'/%3E%3Cpath d='M4.5 13.2C4.5 11.4 5.9 10 7.7 10h8.6c1.8 0 3.2 1.4 3.2 3.2v22.3c0 1.9-1.6 3.5-3.5 3.5H8c-1.9 0-3.5-1.6-3.5-3.5z' fill='url(%23g)' stroke='%231a1a1a' stroke-width='1.8'/%3E%3Ccircle cx='12' cy='25.6' r='3.3' fill='%23fff' stroke='%231a1a1a' stroke-width='1.8'/%3E%3Cpath d='M7.2 15v7' stroke='%23fff' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;flex:0 0 auto;}
+  .dx-throw{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;align-content:center;gap:14px;background:rgba(10,16,12,0.72);pointer-events:none;animation:dxFade .9s ease forwards;}
+  .dx-throw i{width:92px;height:154px;filter:drop-shadow(0 10px 18px rgba(0,0,0,0.5));animation:dxShake .8s ease-in-out;}
   .dx-throw span{font:900 22px/1 'Inter',sans-serif;color:#ffcb05;text-shadow:0 2px 0 #1d2a5b;letter-spacing:0.04em;}
   @keyframes dxShake{0%{transform:translateY(-120px) scale(.6);}35%{transform:translateY(0) scale(1);}50%{transform:rotate(-18deg);}65%{transform:rotate(14deg);}80%{transform:rotate(-8deg);}100%{transform:rotate(0);}}
   @keyframes dxFade{0%{opacity:0;}15%,100%{opacity:1;}}
@@ -242,6 +242,7 @@
   window.addEventListener('storage', function(){ CAUGHT = caughtSet(); list(); if (cur >= 0) show(cur); });
   window.addEventListener('pageshow', function(){ CAUGHT = caughtSet(); list(); if (cur >= 0) show(cur); });
   document.getElementById('dx-n').textContent = DATA.length;
+  if (matchMedia('(max-width:560px)').matches) document.getElementById('dx-q').placeholder = 'Search a peptide or goal';
 
   // vial / pill illustration in LCD green
   function ill(p){
@@ -292,7 +293,7 @@
       return '<button type="button" class="dx-row' + (i === cur ? ' on' : '') + (isCaught(p) ? ' got' : '') + '" data-i="' + i + '"><span class="no">' + (isCaught(p) ? '<i class="ball" title="In your Dex"></i>' : '') + no(i).replace('No. ', '#') + '</span><span style="min-width:0"><b>' + esc(p.name) + '</b><small>' + esc(p.use) + '</small></span><span class="dots">' + p.types.map(function(k){ return '<i title="' + TYPES[k].t + '" style="background:' + TYPES[k].c + '"></i>'; }).join('') + '</span></button>';
     }).join('') || '<div class="dx-empty">No peptides match. Try a shorter word, like "gut" or "sleep".</div>';
     var got = DATA.filter(isCaught).length;
-    document.getElementById('dx-count').textContent = (shown === DATA.length ? 'All ' + DATA.length + ' entries · A to Z' : shown + ' of ' + DATA.length + ' entries') + (got ? ' · ◓ ' + got + ' caught' : '');
+    document.getElementById('dx-count').textContent = (shown === DATA.length ? 'All ' + DATA.length + ' entries · A to Z' : shown + ' of ' + DATA.length + ' entries') + (got ? ' · ' + got + ' caught' : '');
   }
   document.getElementById('dx-list').addEventListener('click', function(e){ var b = e.target.closest('.dx-row'); if (b) show(+b.getAttribute('data-i'), true); });
 
@@ -307,7 +308,7 @@
     var pm = pubmed(p);
     document.getElementById('dx-entry').innerHTML =
       '<button type="button" class="dx-close" onclick="dxClose()">‹ Back to the Dex</button>'
-      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><div class="dx-got' + (isCaught(p) ? ' on' : '') + '">' + (isCaught(p) ? '✓ IN YOUR DEX' : '◓ NOT CAUGHT YET') + '</div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div><div class="rd"><span><i>DOSE</i>' + esc(p.dose) + '</span><span><i>CYCLE</i>' + esc(p.duration) + '</span></div></div></div>'
+      + '<div class="dx-screen"><div class="dx-lcd"><div class="ill">' + ill(p) + '</div><div><div class="k"><span>' + no(i) + ' / ' + String(DATA.length).padStart(3, '0') + '</span><span>' + p.route + '</span></div><div class="dx-got' + (isCaught(p) ? ' on' : '') + '">' + (isCaught(p) ? '✓ IN YOUR DEX' : 'NOT CAUGHT YET') + '</div><h2>' + esc(p.name.toUpperCase()) + '</h2><div class="use">' + esc(p.use) + '</div><div class="rd"><span><i>DOSE</i>' + esc(p.dose) + '</span><span><i>CYCLE</i>' + esc(p.duration) + '</span></div></div></div>'
       + '<div class="dx-pad"><button type="button" class="dp" onclick="dxStep(-1)" aria-label="Previous peptide">◀</button>'
       + (isCaught(p) ? '<a class="dx-catch got" href="pokeme-dex.html?tab=dex"><b>A</b><span>VIEW IN MY DEX</span></a>' : '<a class="dx-catch" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '" onclick="return dxCatch(this)"><b>A</b><span>CATCH IT</span></a>')
       + '<button type="button" class="dp" onclick="dxStep(1)" aria-label="Next peptide">▶</button></div>'
@@ -318,7 +319,7 @@
       + '<div class="dx-sec"><h3>💉 Typical research dose</h3><div class="dx-dose"><div><small>Dose</small><b>' + esc(p.dose) + '</b></div><div><small>How long</small><b>' + esc(p.duration) + '</b></div><div><small>How it\'s used</small><b>' + esc(p.protocol) + '</b></div></div><p class="dx-warn">Doses used in research, not a recommendation for you. ' + esc(st.d) + '</p></div>'
       + (p.pairs ? '<div class="dx-sec"><h3>🤝 Often paired with</h3><p>' + esc(p.pairs) + '</p></div>' : '')
       + '<div class="dx-sec"><h3>📚 Latest studies</h3>' + (studies || '<p>No curated studies yet for this one.</p>') + (pm ? '<a class="dx-pub" href="' + pm + '" target="_blank" rel="noopener">🔎 Newest studies on PubMed ↗</a>' : '') + '</div>'
-      + '<div class="dx-acts"><button type="button" class="pri" onclick="dxCard()">⬇ Download card</button>' + (isCaught(p) ? '<a class="y" href="pokeme-dex.html?tab=dex">✓ In your Dex</a>' : '<a class="y" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '" onclick="return dxCatch(this)">◓ Catch it</a>') + '<button type="button" onclick="dxShare()">📤 Share</button></div>'
+      + '<div class="dx-acts"><button type="button" class="pri" onclick="dxCard()">⬇ Download card</button>' + (isCaught(p) ? '<a class="y" href="pokeme-dex.html?tab=dex">✓ In your Dex</a>' : '<a class="y" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '" onclick="return dxCatch(this)">＋ Catch it</a>') + '<button type="button" onclick="dxShare()">📤 Share</button></div>'
       + '<div class="dx-nav-row"><button type="button" onclick="dxStep(-1)">‹ ' + esc(DATA[(i + DATA.length - 1) % DATA.length].name) + '</button><button type="button" onclick="dxStep(1)">' + esc(DATA[(i + 1) % DATA.length].name) + ' ›</button></div>'
       + '</div>';
     [].forEach.call(document.querySelectorAll('.dx-row'), function(r){ r.classList.toggle('on', +r.getAttribute('data-i') === i); });
@@ -333,7 +334,7 @@
   window.dxCatch = function(a){
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
     var e = document.getElementById('dx-entry'), b = document.createElement('div'); b.className = 'dx-throw'; b.innerHTML = '<i></i><span>Gotcha!</span>';
-    e.appendChild(b); setTimeout(function(){ location.href = a.href; }, 900); return false;
+    document.body.appendChild(b); setTimeout(function(){ location.href = a.href; }, 900); return false;
   };
   // swipe the screen left / right to flip entries
   (function(){ var sx = null, host = document.getElementById('dx-entry');
