@@ -64,6 +64,17 @@
   </section>
   <section id="panel" hidden>
     <div class="card">
+      <h1>People</h1>
+      <p class="m">Everyone who has signed in to PokeMe-Dex (Google or email).</p>
+      <div class="stats" style="margin-top:14px">
+        <div class="stat"><b id="m-all">–</b><small>Signed up</small></div>
+        <div class="stat"><b id="m-day">–</b><small>Active today</small></div>
+        <div class="stat"><b id="m-wk">–</b><small>Active 7 days</small></div>
+        <div class="stat"><b id="m-new">–</b><small>New 7 days</small></div>
+      </div>
+      <p class="m" id="m-note" style="margin-top:10px;font-size:13px"></p>
+    </div>
+    <div class="card">
       <h1>Ratings</h1>
       <p class="m">Approve a rating to show it in PokeMe-Dex. Hidden ones stay private.</p>
       <div class="stats" style="margin-top:14px">
@@ -86,7 +97,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, getDocs, doc, updateDoc, setDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, updateDoc, setDoc, deleteDoc, query, orderBy, limit, where, getCountFromServer, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   const app = initializeApp({
     apiKey: "AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20",
     authDomain: "vpnhub-data.firebaseapp.com",
@@ -113,7 +124,7 @@
 
   onAuthStateChanged(auth, (u) => {
     $('login').hidden = !!u; $('panel').hidden = !u; $('out').hidden = !u;
-    if (u) load(); else { $('p').value = ''; }
+    if (u) { load(); people(); } else { $('p').value = ''; }
   });
 
   async function load(){
@@ -125,6 +136,17 @@
     } catch (x) {
       $('list').innerHTML = '';
       $('perr').textContent = /permission/.test(x.code || '') ? 'This account is not allowed to read ratings. Check the Firestore rules (owner email must be allah@pokemedex.com).' : 'Could not load ratings (' + (x.code || x.message) + ').';
+    }
+  }
+  async function people(){
+    const col = collection(db, 'members'), ago = (d) => Timestamp.fromMillis(Date.now() - d * 86400000);
+    const cnt = async (q) => (await getCountFromServer(q)).data().count;
+    try {
+      const [all, day, wk, nw] = await Promise.all([cnt(col), cnt(query(col, where('last', '>=', ago(1)))), cnt(query(col, where('last', '>=', ago(7)))), cnt(query(col, where('since', '>=', ago(7))))]);
+      $('m-all').textContent = all; $('m-day').textContent = day; $('m-wk').textContent = wk; $('m-new').textContent = nw;
+      $('m-note').textContent = 'People are counted the first time they open the app while signed in. Active today means the last 24 hours.';
+    } catch (x) {
+      $('m-note').textContent = /permission/.test(x.code || '') ? 'Add the members rule to your Firestore rules to see these numbers.' : 'Could not load people (' + (x.code || x.message) + ').';
     }
   }
   function statusOf(r){ return r.status || 'new'; }
