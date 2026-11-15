@@ -97,6 +97,7 @@
   .dx-throw span{font:900 22px/1 'Inter',sans-serif;color:#ffcb05;text-shadow:0 2px 0 #1d2a5b;letter-spacing:0.04em;}
   @keyframes dxShake{0%{transform:translateY(-120px) scale(.6);}35%{transform:translateY(0) scale(1);}50%{transform:rotate(-18deg);}65%{transform:rotate(14deg);}80%{transform:rotate(-8deg);}100%{transform:rotate(0);}}
   @keyframes dxFade{0%{opacity:0;}15%,100%{opacity:1;}}
+  @media(min-width:901px){ .dx-pad{grid-template-columns:64px minmax(0,380px) 64px;justify-content:center;gap:16px;margin-top:14px;} .dx-pad .dp{height:56px;} .dx-catch{height:56px;font-size:16px;} .dx-catch::after{content:"press A";margin-left:4px;padding:3px 7px;border-radius:6px;background:rgba(29,42,91,0.12);font:700 11px/1 'Inter',sans-serif;letter-spacing:0.04em;} .dx-catch.got::after{background:rgba(255,255,255,0.18);} }
   @media(max-width:560px){ .dx-pad{grid-template-columns:48px minmax(0,1fr) 48px;gap:8px;} .dx-pad .dp,.dx-catch{height:48px;} .dx-catch{font-size:14px;} }
   .dx-lcd .use{font-size:13.5px;line-height:1.4;color:#b9ffcc;}
   .dx-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
@@ -348,6 +349,7 @@
   document.addEventListener('keydown', function(e){
     if (e.target.tagName === 'INPUT') return;
     if (e.key === 'Escape') dxClose();
+    if ((e.key === 'a' || e.key === 'A') && !e.ctrlKey && !e.metaKey) { var c = document.querySelector('#dx-entry .dx-catch'); if (c) c.click(); }
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); dxStep(1); }
     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); dxStep(-1); }
   });
