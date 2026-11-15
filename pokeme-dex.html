@@ -1071,6 +1071,7 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
         pmd_active_protocols: read(uid, 'active_protocols', '[]'),
         pmd_dose_log: read(uid, 'dose_log', '{}'),
         pmd_inj_log: read(uid, 'inj_log', '[]'),
+        pmd_blood: read(uid, 'blood', '{}'),
         pmd_updated: stamp
       }, { merge:true });
       ls(uid + '_pmd_synced', String(stamp)); ls(uid + '_pmd_dirty', ''); state.err = ''; state.last = stamp;
@@ -1096,20 +1097,23 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
     try { const snap = await getDoc(doc(db, 'trackers', uid)); cloud = snap.exists() ? snap.data() : {}; state.err = ''; }
     catch(e){ state.err = errText(e); console.warn('PokeMe-Dex cloud load failed:', e); }
     const firstTime = ls(uid + '_pmd_joined') !== '1';
-    let P = read(uid, 'active_protocols', '[]'), D = read(uid, 'dose_log', '{}'), I = read(uid, 'inj_log', '[]');
+    let P = read(uid, 'active_protocols', '[]'), D = read(uid, 'dose_log', '{}'), I = read(uid, 'inj_log', '[]'), B = read(uid, 'blood', '{}');
+    const mergeBlood = (a, b) => Object.assign({}, b || {}, a || {}, { tests: mergeLists((a || {}).tests, (b || {}).tests) });
     if (cloud) {
       const cP = cloud.pmd_active_protocols || [], cD = cloud.pmd_dose_log || {}, cI = cloud.pmd_inj_log || [];
       const localDirty = ls(uid + '_pmd_dirty') === '1', cloudStamp = cloud.pmd_updated || 0, localStamp = +(ls(uid + '_pmd_synced') || 0);
-      if (firstTime || localDirty) { P = mergeLists(cP, P); D = mergeLog(cD, D); I = mergeLists(cI, I); }
-      else if (cloudStamp > localStamp) { P = cP; D = cD; I = cI; }
+      const cB = cloud.pmd_blood || {};
+      if (firstTime || localDirty) { P = mergeLists(cP, P); D = mergeLog(cD, D); I = mergeLists(cI, I); B = mergeBlood(B, cB); }
+      else if (cloudStamp > localStamp) { P = cP; D = cD; I = cI; B = cB; }
     }
     if (firstTime) { // bring in what this phone tracked before signing in
-      P = mergeLists(P, read('guest', 'active_protocols', '[]')); D = mergeLog(D, read('guest', 'dose_log', '{}')); I = mergeLists(I, read('guest', 'inj_log', '[]'));
+      P = mergeLists(P, read('guest', 'active_protocols', '[]')); D = mergeLog(D, read('guest', 'dose_log', '{}')); I = mergeLists(I, read('guest', 'inj_log', '[]')); B = mergeBlood(B, read('guest', 'blood', '{}'));
     }
     I.sort((x, y) => (y.date + (y.time || '')).localeCompare(x.date + (x.time || '')));
-    ls(uid + '_pmd_active_protocols', JSON.stringify(P)); ls(uid + '_pmd_dose_log', JSON.stringify(D)); ls(uid + '_pmd_inj_log', JSON.stringify(I));
+    ls(uid + '_pmd_active_protocols', JSON.stringify(P)); ls(uid + '_pmd_dose_log', JSON.stringify(D)); ls(uid + '_pmd_inj_log', JSON.stringify(I)); ls(uid + '_pmd_blood', JSON.stringify(B));
     window.PMD_UID = uid;
     if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker(uid);
+    if (window.pmdBloodDraw) window.pmdBloodDraw();
     state.busy = false; state.last = +(ls(uid + '_pmd_synced') || 0); draw();
     if (cloud && (firstTime || ls(uid + '_pmd_dirty') === '1' || !cloud.pmd_updated)) { ls(uid + '_pmd_joined', '1'); await push(uid); }
     else if (cloud) ls(uid + '_pmd_joined', '1');
@@ -1117,6 +1121,7 @@ html body details.pmd-more[open] > summary{background:#faf8f3 !important;}
   function signedOut(){
     state.user = null; state.err = ''; window.PMD_UID = null;
     if (typeof window.initPokeMeDexTracker === 'function') window.initPokeMeDexTracker('guest');
+    if (window.pmdBloodDraw) window.pmdBloodDraw();
     draw();
   }
   async function member(u){
@@ -1364,6 +1369,7 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
       <div id="pa-today"></div>
     </section>
 
+    <div class="bw-today" id="pa-blood-today" data-tab="today" data-px-skip hidden></div>
     <section class="pa-card" id="pa-sys-card" data-tab="today" aria-labelledby="pa-sys-h" hidden>
       <div class="pa-h"><div><h2 id="pa-sys-h">In your system</h2><p>A rough estimate from your logged doses and each drug's half-life.</p></div></div>
       <div id="pa-sys"></div>
@@ -1379,6 +1385,11 @@ header.pmx{padding:0 !important;background:linear-gradient(180deg,var(--purple) 
     <section class="pa-card" data-tab="dex" id="pa-bac-card" aria-labelledby="pa-bac-h">
       <div class="pa-h"><div><h2 id="pa-bac-h">💧 BAC water timer</h2><p>Opened bacteriostatic water is good for 28 days. Start the clock when you first pierce the stopper.</p></div></div>
       <div id="pa-bac"></div>
+    </section>
+
+    <section class="pa-card" data-tab="dex" id="pa-blood-card" aria-labelledby="pa-blood-h" data-px-skip>
+      <div class="pa-h"><div><h2 id="pa-blood-h">🩸 Blood work</h2><p>Get a baseline before you start, then re-test every 3, 6 or 12 months so you can see what your research is doing.</p></div></div>
+      <div id="pa-blood"></div>
     </section>
 
     <section class="pa-card" data-tab="sites" aria-labelledby="pa-inj-h">
@@ -3973,7 +3984,7 @@ function showTab(name){
   /* tabs: one simple screen at a time */
   html body #pdx-app{padding-bottom:110px !important;}
   #pdx-app > [data-tab]{display:none;}
-  #pdx-app[data-tab="today"] > [data-tab="today"],#pdx-app[data-tab="dex"] > [data-tab="dex"],#pdx-app[data-tab="sites"] > [data-tab="sites"],#pdx-app[data-tab="more"] > [data-tab="more"]{display:block;}
+  #pdx-app[data-tab="today"] > [data-tab="today"]:not([hidden]),#pdx-app[data-tab="dex"] > [data-tab="dex"],#pdx-app[data-tab="sites"] > [data-tab="sites"],#pdx-app[data-tab="more"] > [data-tab="more"]{display:block;}
   #pdx-app > [data-tab][hidden]{display:none !important;}
   .pa-tabs{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9000;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:min(440px,calc(100% - 24px));padding:6px;border-radius:22px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border:1px solid #e3dccf;box-shadow:0 12px 34px -12px rgba(26,22,38,0.35);font-family:'Inter',system-ui,sans-serif;}
   .pa-tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px !important;border:none !important;border-radius:16px !important;background:transparent !important;color:#6b6356 !important;font:700 12px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
@@ -4680,6 +4691,7 @@ function showTab(name){
           return '<div class="lcd-meter cyc' + (left > 0 && left <= 7 ? ' low' : '') + '">CYCLE <i>' + cb + '</i> ' + txt + '</div>';
         })()
       + '<div class="lcd-meter ' + mcls + '">' + (oral ? 'BTL' : 'VIAL') + ' <i>' + blocks + '</i> ' + mtxt + '</div>'
+      + (window.pmdBloodLcd ? pmdBloodLcd() : '')
       + '</div></div>' + (list.length > 1 ? '<span class="lcd-hint">◀ ▶</span>' : '');
   }
   function go(d){ idx += d; blink(); draw(); restart(); }
@@ -5132,6 +5144,7 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
     { k:'rate', ic:'⭐', t:'Rate PokeMe-Dex', s:'Tell us what you think' },
     { k:'save', ic:'📤', t:'Save my Dex', s:'Email, PDF, share or backup' },
     { k:'bac',  ic:'💧', t:'BAC water timer', s:'28-day throw-out countdown', sel:'#pa-bac-card', tab:'dex' },
+    { k:'blood', ic:'🩸', t:'Blood work', s:'Test reminders · letter for your doctor', sel:'#pa-blood-card', tab:'dex' },
     { k:'bk',   ic:'💾', t:'Back up / restore', s:'Keep a copy of your data', sel:'#pa-backup-card' },
     { k:'app',  ic:'📲', t:'Get the app', s:'Install on your phone', sel:'#pa-install-card' },
     { k:'faq',  ic:'💬', t:'Questions & answers', s:'FAQ', sel:'#pa-faq' },
@@ -5139,7 +5152,7 @@ html body header.pmx .pi-chips li{padding:5px 10px;border-radius:999px;backgroun
   ];
   function closeGear(){ var d = document.getElementById('vt-dock'); if (d && d.classList.contains('open')) { var b = document.getElementById('vt-dock-btn'); if (b) b.click(); else d.classList.remove('open'); } }
   function goCard(sel){
-    if (window.pmdTab) pmdTab(sel === '#pa-bac-card' ? 'dex' : 'more');
+    if (window.pmdTab) pmdTab(sel === '#pa-bac-card' || sel === '#pa-blood-card' ? 'dex' : 'more');
     setTimeout(function(){ var c = document.querySelector(sel); if (!c) return; if (c.tagName === 'DETAILS') c.open = true; c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80);
   }
   function act(k){
@@ -6016,6 +6029,306 @@ function pmdRequestPeptide(name){
     }, 20000);
   }
   nudge();
+})();
+</script>
+<style id="pmd-blood-css">
+  /* 🩸 Blood work: baseline question, re-test countdown, where to test, letter for your doctor */
+  html body #pdx-app #pa-blood{font-family:'Inter',system-ui,sans-serif;color:#1a1626;}
+  html body #pdx-app .bw-q{padding:14px;border-radius:16px;background:#fff6f5;border:2px solid #f3c9c3;}
+  html body #pdx-app .bw-q b{display:block;font:800 16.5px/1.3 'Inter',sans-serif;}
+  html body #pdx-app .bw-q p{margin:4px 0 12px !important;font:500 14px/1.45 'Inter',sans-serif !important;color:#5d5668 !important;}
+  html body #pdx-app .bw-row{display:flex;gap:8px;flex-wrap:wrap;}
+  html body #pdx-app .bw-btn{flex:1 1 140px;min-height:46px;padding:0 14px;border-radius:12px !important;border:1.5px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:800 14.5px/1.2 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-btn.pri{border-color:#d7261e !important;background:#d7261e !important;color:#fff !important;}
+  html body #pdx-app .bw-btn.ok{border-color:#1f9d4b !important;background:#1f9d4b !important;color:#fff !important;}
+  html body #pdx-app .bw-lcd{padding:14px 16px;border-radius:16px;background:#101a14;border:4px solid #e9e2d6;color:#8ff0a4;font-family:'Share Tech Mono',ui-monospace,monospace;box-shadow:inset 0 0 24px rgba(0,0,0,0.6);}
+  html body #pdx-app .bw-lcd small{display:block;font:400 12px/1.3 'Share Tech Mono',monospace;letter-spacing:0.08em;color:#5fbf75;}
+  html body #pdx-app .bw-lcd b{display:block;margin:4px 0 8px;font:700 21px/1.2 'Share Tech Mono',monospace;letter-spacing:0.02em;color:#c9ffd4;}
+  html body #pdx-app .bw-lcd.due b{color:#ffd166;}
+  html body #pdx-app .bw-lcd.late b{color:#ff8a80;}
+  html body #pdx-app .bw-bar{height:8px;border-radius:99px;background:rgba(143,240,164,0.15);overflow:hidden;}
+  html body #pdx-app .bw-bar i{display:block;height:100%;background:#8ff0a4;border-radius:99px;}
+  html body #pdx-app .bw-lcd.due .bw-bar i{background:#ffd166;}
+  html body #pdx-app .bw-lcd.late .bw-bar i{background:#ff8a80;}
+  html body #pdx-app .bw-lbl{display:block;margin:16px 0 8px;font:800 12px/1 'Inter',sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:#8a8170;}
+  html body #pdx-app .bw-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  html body #pdx-app .bw-chip{min-height:44px;border-radius:12px !important;border:1.5px solid #e0d8ca !important;background:#fff !important;color:#1a1626 !important;font:800 14px/1.15 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-chip small{display:block;margin-top:2px;font:600 11.5px/1 'Inter',sans-serif;color:#8a8170;}
+  html body #pdx-app .bw-chip.on{border-color:#1a1626 !important;background:#1a1626 !important;color:#fff !important;}
+  html body #pdx-app .bw-chip.on small{color:#cfc8dc;}
+  html body #pdx-app .bw-chips > .bw-chip,html body #pdx-app .bw-seg > .bw-chip{min-width:0 !important;width:100% !important;padding:7px 4px !important;}
+  html body #pdx-app .bw-chip small{font:600 11px/1.15 'Inter',sans-serif !important;}
+  @media(max-width:420px){ html body #pdx-app .bw-chip{font-size:13px !important;} }
+  html body #pdx-app .bw-form{margin-top:12px;padding:12px;border-radius:14px;background:#faf7f0;border:1.5px solid #ece4d4;display:grid;gap:8px;}
+  html body #pdx-app .bw-form label{font:700 13px/1.2 'Inter',sans-serif;color:#5d5668;}
+  html body #pdx-app .bw-form input,html body #pdx-app .bw-form select{width:100%;height:44px;padding:0 10px;border-radius:10px;border:1.5px solid #e0d8ca;background:#fff;font:600 15px/1 'Inter',sans-serif;color:#1a1626;box-sizing:border-box;}
+  html body #pdx-app .bw-hist{list-style:none;margin:0;padding:0;display:grid;gap:6px;}
+  html body #pdx-app .bw-hist li{display:flex;align-items:center;gap:10px;padding:9px 10px 9px 12px;border-radius:12px;background:#faf7f0;border:1px solid #ece4d4;}
+  html body #pdx-app .bw-hist li span{flex:1;min-width:0;font:600 14px/1.3 'Inter',sans-serif;}
+  html body #pdx-app .bw-hist li small{display:block;font:500 12.5px/1.3 'Inter',sans-serif;color:#7a7163;}
+  html body #pdx-app .bw-x{width:32px;height:32px;border-radius:50% !important;border:0 !important;background:transparent !important;color:#9b8f7c !important;font:700 16px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-where{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  html body #pdx-app .bw-tile{display:flex;flex-direction:column;gap:3px;padding:12px;border-radius:14px;border:1.5px solid #e9e2d6;background:#fff;color:#1a1626 !important;text-decoration:none !important;text-align:left;cursor:pointer;font-family:'Inter',sans-serif;}
+  html body #pdx-app .bw-tile:hover{border-color:#d7261e;}
+  html body #pdx-app .bw-tile b{font:800 15px/1.2 'Inter',sans-serif;color:#1a1626;}
+  html body #pdx-app .bw-tile span{font:500 12.5px/1.35 'Inter',sans-serif;color:#5d5668;}
+  html body #pdx-app .bw-tile em{margin-top:auto;padding-top:4px;font:800 12.5px/1 'Inter',sans-serif;font-style:normal;color:#d7261e;}
+  html body #pdx-app .bw-letter{margin-top:12px;border-radius:16px;border:1.5px solid #e9e2d6;background:#fffdf7;overflow:hidden;}
+  html body #pdx-app .bw-letter > summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;font:800 15.5px/1.25 'Inter',sans-serif;}
+  html body #pdx-app .bw-letter > summary::-webkit-details-marker{display:none;}
+  html body #pdx-app .bw-letter > summary small{display:block;margin-top:2px;font:500 13px/1.35 'Inter',sans-serif !important;color:#6b6356 !important;}
+  html body #pdx-app .bw-letter > summary b{display:block;font:800 15.5px/1.25 'Inter',sans-serif;}
+  html body #pdx-app .bw-letter > summary::after{content:'▾';margin-left:auto;color:#d7261e;font-size:16px;transition:transform .2s;}
+  html body #pdx-app .bw-letter[open] > summary::after{transform:rotate(180deg);}
+  html body #pdx-app .bw-lbody{padding:0 14px 14px;}
+  html body #pdx-app .bw-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+  html body #pdx-app .bw-check{display:flex;align-items:center;gap:8px;margin:4px 0 10px;font:600 14px/1.3 'Inter',sans-serif;color:#1a1626;}
+  html body #pdx-app .bw-check input{width:20px;height:20px;accent-color:#d7261e;}
+  html body #pdx-app .bw-pre{max-height:320px;overflow:auto;margin:0 0 10px;padding:12px;border-radius:12px;background:#fff;border:1px solid #ece4d4;white-space:pre-wrap;font:500 13.5px/1.5 'Inter',sans-serif;color:#1a1626;}
+  html body #pdx-app .bw-plan{margin:10px 0 0 !important;padding:11px 13px;border-radius:12px;background:#f3f8ff;border:1.5px solid #cfe0f7;font:500 14px/1.45 'Inter',sans-serif !important;color:#24324a !important;}
+  html body #pdx-app .bw-plan b{color:#1a1626;}
+  html body #pdx-app .bw-res{margin-top:10px;padding:12px;border-radius:12px;background:#faf7f0;border:1.5px solid #ece4d4;}
+  html body #pdx-app .bw-res > span{display:block;margin-bottom:8px;font:800 14.5px/1.3 'Inter',sans-serif;}
+  html body #pdx-app .bw-auto{border:0 !important;background:none !important;padding:0 !important;color:#2a5bd7 !important;font:800 12px/1 'Inter',sans-serif !important;letter-spacing:0;text-transform:none;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-remind{margin-top:10px;padding:14px;border-radius:14px;background:#fff9e0;border:2px solid #ffcb05;display:grid;gap:6px;animation:bwPop .3s ease-out;}
+  html body #pdx-app .bw-remind > b{font:800 16px/1.3 'Inter',sans-serif;color:#1a1626;}
+  html body #pdx-app .bw-remind > span{font:500 13.5px/1.4 'Inter',sans-serif;color:#5d5668;margin-bottom:4px;}
+  html body #pdx-app .bw-skip{justify-self:center;border:0 !important;background:none !important;color:#6b6356 !important;font:700 13.5px/1 'Inter',sans-serif !important;padding:8px !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-form .bw-chips{margin-bottom:4px;}
+  @keyframes bwPop{from{transform:scale(.97);opacity:0;}to{transform:none;opacity:1;}}
+  html body #pdx-app .bw-note{margin:12px 0 0 !important;font:500 12.5px/1.45 'Inter',sans-serif !important;color:#7a7163 !important;}
+  html body #pdx-app .bw-today{margin:0;padding:12px 14px;border-radius:16px;background:#1a1626;color:#fff;display:flex !important;align-items:center;gap:12px;flex-wrap:wrap;font-family:'Inter',sans-serif;}
+  html body #pdx-app .bw-today[hidden]{display:none !important;}
+  html body #pdx-app .bw-today .bt-ic{font-size:24px;}
+  html body #pdx-app .bw-today .bt-tx{flex:1 1 200px;min-width:0;}
+  html body #pdx-app .bw-today b{display:block;font:800 15px/1.3 'Inter',sans-serif;color:#fff;}
+  html body #pdx-app .bw-today small{display:block;margin-top:2px;font:500 13px/1.35 'Inter',sans-serif;color:#d8d1e6;}
+  html body #pdx-app .bw-today button{min-height:40px;padding:0 14px;border-radius:10px !important;border:0 !important;font:800 14px/1 'Inter',sans-serif !important;cursor:pointer;box-shadow:none !important;}
+  html body #pdx-app .bw-today .bt-go{background:#ffcb05 !important;color:#1a1626 !important;}
+  html body #pdx-app .bw-today .bt-no{background:transparent !important;color:#cfc8dc !important;}
+  @media(max-width:560px){
+    html body #pdx-app .bw-where{grid-template-columns:1fr;}
+    html body #pdx-app .bw-tile{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:8px;}
+    html body #pdx-app .bw-tile span{flex:1 1 100%;}
+    html body #pdx-app .bw-tile em{padding-top:2px;}
+    html body #pdx-app .bw-lcd b{font-size:18px;}
+  }
+</style>
+<script>
+(function(){
+  var NL = String.fromCharCode(10);
+  function uid(){ return window.PMD_UID || 'guest'; }
+  function key(){ return uid() + '_pmd_blood'; }
+  function load(){ try { var d = JSON.parse(localStorage.getItem(key()) || '{}'); d.tests = d.tests || []; return d; } catch(e){ return { tests: [] }; } }
+  function save(d){ try { localStorage.setItem(key(), JSON.stringify(d)); } catch(e){} if (window.pmdCloudSave) pmdCloudSave(uid()); draw(); if (typeof renderDashboard === 'function') { try { renderDashboard(); } catch(e){} } }
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function today(){ var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function parse(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function nice(s){ return parse(s).toLocaleDateString([], { month:'short', day:'numeric', year:'numeric' }); }
+  function addMonths(s, m){ var d = parse(s), day = d.getDate(); d.setDate(1); d.setMonth(d.getMonth() + m); var last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate(); d.setDate(Math.min(day, last)); return iso(d); }
+  function daysBetween(a, b){ return Math.round((parse(b) - parse(a)) / 86400000); }
+  function last(d){ return d.tests.slice().sort(function(x, y){ return y.date.localeCompare(x.date); })[0] || null; }
+  // suggested plan: baseline → 3-month check-in (online test is fine) → if all normal, once a year with your doctor; if something was off, see your doctor and re-check in 3 months
+  function suggested(d){ var l = last(d); if (!l) return 3; if (l.result === 'off') return 3; if (d.tests.length >= 2 && l.result === 'good') return 12; return 3; }
+  function every(d){ return d.every || suggested(d); }
+  function planNote(d){
+    var l = last(d); if (!l) return '';
+    if (l.result === 'off') return '<b>⚠️ Something was off:</b> share your results with your doctor so they can follow up. Then re-check in 3 months.';
+    if (d.tests.length >= 2 && l.result === 'good') return '<b>✓ All normal.</b> From now on, once a year with your doctor is enough. Take the full-panel letter below.';
+    if (d.tests.length === 1) return '<b>Next: a 3-month check-in.</b> An online test like Rythm or Goodlabs is enough to check the standard markers. If something looks off, report it to your doctor to follow up. If all is well, then once a year with your doctor.';
+    return '<b>Next check-in in 3 months.</b> When your results are in, mark them as normal or off to plan the next one.';
+  }
+  function nextDue(d){ var l = last(d); return l ? addMonths(l.date, every(d)) : null; }
+  function protos(){ try { return JSON.parse(localStorage.getItem(uid() + '_pmd_active_protocols') || '[]'); } catch(e){ return []; } }
+  function span(n){ n = Math.abs(n); if (n < 60) return n + ' day' + (n === 1 ? '' : 's'); var m = Math.round(n / 30.44); return m + ' months'; }
+  var ui = { form: false, letterSex: null, mention: true };
+
+  var WHERE = [
+    { t:'Goodlabs', s:'Order tests online, then get your blood drawn at a Quest or Labcorp near you.', u:'https://goodlabs.com/book-tests', a:'Order tests ↗' },
+    { t:'Rythm', s:'At-home blood testing that tracks 20+ biomarkers. No lab visit.', u:'https://rythmhealth.com/', a:'See Rythm ↗' },
+    { t:'Your doctor', s:'Ask for a full panel. Use the ready-made letter below.', u:'', a:'Open the letter ↓' }
+  ];
+
+  function letter(sex, mention){
+    var P = protos(), names = P.map(function(p){ return p.name; }).filter(Boolean);
+    var glp = P.some(function(p){ var d = (typeof PEPTIDES !== 'undefined' && PEPTIDES[p.key]) || {}; return d.glp; });
+    var L = [];
+    L.push('Dear Dr. ________,', '');
+    L.push('I would like to request a comprehensive blood panel to set a baseline and keep an eye on my health over time. I plan to repeat it every ' + (every(load()) === 12 ? 'year' : every(load()) + ' months') + '.');
+    if (mention && names.length) L.push('', 'So you have the full picture: I am currently using or researching ' + names.join(', ') + '.');
+    L.push('', 'If possible, please order these as a fasting, morning blood draw:', '');
+    L.push('GENERAL HEALTH', '• CBC with differential', '• Comprehensive metabolic panel (CMP): glucose, electrolytes, kidney and liver markers', '• Urinalysis', '');
+    L.push('HEART AND CHOLESTEROL', '• Lipid panel (total, LDL, HDL, triglycerides)', '• ApoB and lipoprotein(a)', '');
+    L.push('BLOOD SUGAR AND INSULIN RESISTANCE', '• Fasting glucose and HbA1c', '• Fasting insulin (to calculate HOMA-IR)', '');
+    L.push('LIVER', '• ALT, AST, alkaline phosphatase, bilirubin, albumin', '• GGT', '');
+    L.push('KIDNEYS', '• Creatinine, eGFR, BUN', '• Cystatin C', '');
+    L.push('THYROID', '• TSH, free T4, free T3', '• TPO and thyroglobulin antibodies', '');
+    L.push('INFLAMMATION', '• hs-CRP', '• Homocysteine', '• ESR', '');
+    if (sex === 'f') L.push('HORMONES', '• Estradiol and progesterone (around cycle day 19–22 if I still have a cycle)', '• LH and FSH', '• Total and free testosterone, SHBG', '• Prolactin and DHEA-S', '• Morning cortisol', '• AMH (optional, for fertility planning)', '');
+    else L.push('HORMONES', '• Total and free testosterone, SHBG', '• Estradiol (sensitive assay)', '• LH and FSH', '• Prolactin and DHEA-S', '• Morning cortisol', '• PSA (if age 40 or older)', '');
+    L.push('GROWTH HORMONE', '• IGF-1', '');
+    L.push('VITAMINS AND IRON', '• Vitamin D (25-OH)', '• Vitamin B12 and folate', '• Ferritin and iron panel (iron, TIBC, % saturation)', '• Magnesium', '');
+    if (glp) L.push('BECAUSE I AM ON A GLP-1 MEDICATION', '• Lipase (baseline)', '');
+    L.push('I am happy to talk about which of these make sense for me. Thank you for your help.', '', 'Sincerely,', '', 'Name: ____________________', 'Date of birth: ____________', 'Phone: ____________________');
+    return L.join(NL);
+  }
+
+  function calUrl(due){
+    var a = due.replace(/-/g, ''), b = iso(new Date(parse(due).getTime() + 86400000)).replace(/-/g, '');
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('🩸 Blood test due (PokeMe-Dex)')
+      + '&dates=' + a + '/' + b + '&details=' + encodeURIComponent('Time for your blood work. Open PokeMe-Dex → My Dex → Blood work for where to test and the letter for your doctor.');
+  }
+  function icsFile(due){
+    var a = due.replace(/-/g, ''), b = iso(new Date(parse(due).getTime() + 86400000)).replace(/-/g, '');
+    var t = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PokeMe-Dex//Blood work//EN', 'BEGIN:VEVENT', 'UID:pmd-blood-' + a + '@pokemedex', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z'),
+      'DTSTART;VALUE=DATE:' + a, 'DTEND;VALUE=DATE:' + b, 'SUMMARY:Blood test due (PokeMe-Dex)', 'DESCRIPTION:Time for your blood work. Open PokeMe-Dex for where to test and the letter for your doctor.',
+      'BEGIN:VALARM', 'TRIGGER:-P7D', 'ACTION:DISPLAY', 'DESCRIPTION:Blood test due in a week', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    var url = URL.createObjectURL(new Blob([t], { type:'text/calendar;charset=utf-8' })), x = document.createElement('a');
+    x.href = url; x.download = 'blood-test-reminder.ics'; document.body.appendChild(x); x.click(); x.remove(); setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  }
+
+  function draw(){
+    var box = document.getElementById('pa-blood'); if (!box) return;
+    var d = load(), l = last(d), due = nextDue(d), h = '';
+    if (!l) {
+      if (!d.noBaseline) {
+        h += '<div class="bw-q"><b>Did you get a blood test before starting your peptide research?</b><p>A baseline shows where you started, so you can tell what changes later. Hormones, thyroid, blood sugar, liver and more.</p>'
+          + '<div class="bw-row"><button type="button" class="bw-btn ok" data-bw="yes">✓ Yes, log the date</button><button type="button" class="bw-btn" data-bw="no">Not yet</button></div></div>';
+      } else {
+        h += '<div class="bw-q"><b>Want to get a baseline now?</b><p>Best done before you start, or as soon as you can. A standard online test like Rythm or Goodlabs is a quick way to do it, or take the letter below to your doctor for a full panel. Log it here and we\'ll suggest a 3-month check-in.</p>'
+          + '<div class="bw-row"><button type="button" class="bw-btn pri" data-bw="log">＋ I got it done, log the date</button><button type="button" class="bw-btn" data-bw="letter">✉️ Doctor letter</button></div></div>';
+      }
+    } else {
+      var left = daysBetween(today(), due), total = Math.max(1, daysBetween(l.date, due)), used = Math.min(1, Math.max(0, daysBetween(l.date, today()) / total));
+      var cls = left < 0 ? 'late' : (left <= 14 ? 'due' : '');
+      var big = left < 0 ? 'OVERDUE BY ' + span(left).toUpperCase() : (left === 0 ? 'DUE TODAY' : 'NEXT TEST IN ' + span(left).toUpperCase());
+      h += '<div class="bw-lcd ' + cls + '"><small>LAST TEST ' + esc(nice(l.date).toUpperCase()) + ' · EVERY ' + (every(d) === 12 ? '12 MONTHS' : every(d) + ' MONTHS') + '</small><b>' + big + '</b><div class="bw-bar"><i style="width:' + Math.round(used * 100) + '%"></i></div><small style="margin-top:8px">DUE ' + esc(nice(due).toUpperCase()) + '</small></div>'
+        + '<p class="bw-plan">' + planNote(d) + '</p>'
+        + (!l.result ? '<div class="bw-res"><span>How did your last results look?</span><div class="bw-row"><button type="button" class="bw-btn ok" data-res="good">✓ All normal</button><button type="button" class="bw-btn" data-res="off">⚠️ Something was off</button></div></div>' : '')
+        + (ui.justSaved ? '<div class="bw-remind" id="bw-remind"><b>✓ Saved. Want a reminder on ' + esc(nice(due)) + '?</b><span>Pick your calendar and we\'ll put it there' + (every(d) === 12 ? ' (in 1 year).' : ' (in ' + every(d) + ' months).') + '</span>'
+          + '<div class="bw-row"><a class="bw-btn pri" data-bw="gcal" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="' + esc(calUrl(due)) + '" target="_blank" rel="noopener">📅 Google Calendar</a><button type="button" class="bw-btn pri" data-bw="ics">🔔 iPhone / phone calendar</button></div>'
+          + '<button type="button" class="bw-skip" data-bw="nothanks">No thanks</button></div>' : '')
+        + (ui.remDone ? '<p class="bw-plan" style="background:#eef8f0;border-color:#bfe3c8">🔔 Reminder added for ' + esc(nice(due)) + '. We\'ll also show it on your Today screen when it\'s close.</p>' : '')
+        + '<div class="bw-row" style="margin-top:10px"><button type="button" class="bw-btn pri" data-bw="log">＋ Log a blood test</button><button type="button" class="bw-btn" data-bw="letter">✉️ Doctor letter</button></div>'
+        + (ui.justSaved ? '' : '<div class="bw-row" style="margin-top:8px"><a class="bw-btn" data-bw="gcal" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="' + esc(calUrl(due)) + '" target="_blank" rel="noopener">📅 Remind me (Google)</a><button type="button" class="bw-btn" data-bw="ics">🔔 Remind me (phone)</button></div>');
+    }
+    if (ui.form) {
+      h += '<div class="bw-form"><label for="bw-date">Date of the blood draw</label><input type="date" id="bw-date" value="' + today() + '" max="' + today() + '">'
+        + '<label for="bw-where">Where</label><select id="bw-where"><option>Goodlabs</option><option>Rythm (at home)</option><option>My doctor</option><option>Other lab</option></select>'
+        + '<label for="bw-res">How did the results look?</label><select id="bw-res"><option value="">Don\'t have results yet</option><option value="good">All normal</option><option value="off">Something was off</option></select>'
+        + '<label for="bw-note">Note (optional)</label><input id="bw-note" maxlength="140" placeholder="e.g. baseline, full panel, before starting Retatrutide">'
+        + '<label>🔔 Remind me to test again in</label><div class="bw-chips" id="bw-rem">' + [[3, '3 months'], [6, '6 months'], [12, '1 year']].map(function(o){ var pick = ui.rem || (d.tests.length ? 12 : 3); return '<button type="button" class="bw-chip' + (pick === o[0] ? ' on' : '') + '" data-rem="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>'
+        + '<div class="bw-row"><button type="button" class="bw-btn ok" data-bw="save">Save</button><button type="button" class="bw-btn" data-bw="cancel">Cancel</button></div></div>';
+    }
+    var sug = suggested(d);
+    h += '<span class="bw-lbl">Re-test every' + (d.every && d.every !== sug ? ' · <button type="button" class="bw-auto" data-bw="auto">↺ use suggested plan</button>' : '') + '</span><div class="bw-chips">' + [[3, '3 months', 'Check-in'], [6, '6 months', 'In between'], [12, '1 year', 'All normal']].map(function(o){
+      return '<button type="button" class="bw-chip' + (every(d) === o[0] ? ' on' : '') + '" data-ev="' + o[0] + '">' + o[1] + '<small>' + (o[0] === sug ? '★ Suggested' : o[2]) + '</small></button>'; }).join('') + '</div>';
+    if (d.tests.length) {
+      h += '<span class="bw-lbl">Your blood tests</span><ul class="bw-hist">' + d.tests.slice().sort(function(x, y){ return y.date.localeCompare(x.date); }).map(function(t){
+        return '<li><span>🩸 ' + esc(nice(t.date)) + (t.where ? ' · ' + esc(t.where) : '') + (t.result === 'good' ? ' · ✓ normal' : (t.result === 'off' ? ' · ⚠️ off' : '')) + (t.note ? '<small>' + esc(t.note) + '</small>' : '') + '</span><button type="button" class="bw-x" data-del="' + esc(t.id) + '" aria-label="Remove this test">✕</button></li>'; }).join('') + '</ul>';
+    }
+    h += '<span class="bw-lbl">Where to get tested</span><div class="bw-where">' + WHERE.map(function(w){
+      return w.u ? '<a class="bw-tile" href="' + w.u + '" target="_blank" rel="noopener"><b>' + w.t + '</b><span>' + w.s + '</span><em>' + w.a + '</em></a>'
+                 : '<button type="button" class="bw-tile" data-bw="letter"><b>' + w.t + '</b><span>' + w.s + '</span><em>' + w.a + '</em></button>'; }).join('') + '</div>';
+    var sex = ui.letterSex || d.sex || 'm';
+    h += '<details class="bw-letter" id="bw-letter"' + (ui.letterOpen ? ' open' : '') + '><summary><span>✉️</span><span>Letter for your doctor<small>A full panel: hormones, thyroid, insulin resistance, liver, kidneys, inflammation and more</small></span></summary><div class="bw-lbody">'
+      + '<div class="bw-seg"><button type="button" class="bw-chip' + (sex === 'm' ? ' on' : '') + '" data-sex="m">♂ Male</button><button type="button" class="bw-chip' + (sex === 'f' ? ' on' : '') + '" data-sex="f">♀ Female</button></div>'
+      + (protos().length ? '<label class="bw-check"><input type="checkbox" id="bw-mention"' + (ui.mention ? ' checked' : '') + '> Tell my doctor which peptides are in my Dex</label>' : '')
+      + '<pre class="bw-pre" id="bw-pre">' + esc(letter(sex, ui.mention)) + '</pre>'
+      + '<div class="bw-row"><button type="button" class="bw-btn pri" data-bw="copy">📋 Copy</button><button type="button" class="bw-btn" data-bw="print">🖨 Print / PDF</button><button type="button" class="bw-btn" data-bw="mail">✉ Email it</button></div></div></details>';
+    h += '<p class="bw-note">Education only, not medical advice. Your doctor decides which tests are right for you. Prices and test menus are set by each lab.</p>';
+    box.innerHTML = h;
+    drawToday(d, l, due);
+  }
+
+  function drawToday(d, l, due){
+    var t = document.getElementById('pa-blood-today'); if (!t) return;
+    var P = protos(), h = '', snooze = d.snooze && today() < d.snooze;
+    if (!l && !d.noBaseline && P.length && !snooze) {
+      h = '<span class="bt-ic">🩸</span><span class="bt-tx"><b>Did you get a blood test before starting?</b><small>Track your blood work every 3, 6 or 12 months.</small></span><button type="button" class="bt-go" data-bt="go">Set it up</button><button type="button" class="bt-no" data-bt="later">Later</button>';
+    } else if (l && due && !snooze) {
+      var left = daysBetween(today(), due);
+      if (left <= 14) h = '<span class="bt-ic">🩸</span><span class="bt-tx"><b>' + (left < 0 ? 'Blood test overdue by ' + span(left) : (left === 0 ? 'Blood test due today' : 'Blood test due in ' + span(left))) + '</b><small>Book it with Goodlabs, Rythm or your doctor.</small></span><button type="button" class="bt-go" data-bt="go">Open</button><button type="button" class="bt-no" data-bt="later">Later</button>';
+    }
+    t.innerHTML = h; t.hidden = !h;
+  }
+
+  function copy(text, btn){
+    function ok(){ var o = btn.textContent; btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = o; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+    function fallback(){ var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch(e){} ta.remove(); }
+  }
+  function printLetter(text){
+    var w = window.open('', '_blank'); if (!w) return;
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Blood work request</title><style>body{font:15px/1.6 Georgia,serif;color:#111;max-width:680px;margin:40px auto;padding:0 24px;white-space:pre-wrap;}@media print{body{margin:0 auto;}}</style></head><body>' + esc(text) + '</body></html>');
+    w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 300);
+  }
+
+  document.addEventListener('click', function(e){
+    var box = document.getElementById('pa-blood'), tday = document.getElementById('pa-blood-today');
+    var bt = tday && e.target.closest('#pa-blood-today [data-bt]');
+    if (bt) {
+      var dd = load();
+      if (bt.getAttribute('data-bt') === 'later') { var x = parse(today()); x.setDate(x.getDate() + 3); dd.snooze = iso(x); save(dd); return; }
+      if (window.pmdTab) pmdTab('dex');
+      setTimeout(function(){ var c = document.getElementById('pa-blood-card'); if (c) c.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80);
+      return;
+    }
+    if (!box || !box.contains(e.target)) return;
+    var d = load(), b = e.target.closest('[data-bw],[data-ev],[data-del],[data-sex],[data-res],[data-rem]'); if (!b) return;
+    if (b.hasAttribute('data-rem')) { ui.rem = +b.getAttribute('data-rem'); [].forEach.call(document.querySelectorAll('#bw-rem .bw-chip'), function(x){ x.classList.toggle('on', x === b); }); return; }
+    if (b.hasAttribute('data-res')) { var lt = last(d); if (lt) { d.tests.forEach(function(t){ if (t.id === lt.id) t.result = b.getAttribute('data-res'); }); delete d.every; save(d); } return; }
+    if (b.hasAttribute('data-ev')) { d.every = +b.getAttribute('data-ev'); save(d); return; }
+    if (b.hasAttribute('data-del')) { if (!confirm('Remove this blood test from your log?')) return; var id = b.getAttribute('data-del'); d.tests = d.tests.filter(function(t){ return t.id !== id; }); save(d); return; }
+    if (b.hasAttribute('data-sex')) { ui.letterSex = b.getAttribute('data-sex'); ui.letterOpen = true; d.sex = ui.letterSex; save(d); return; }
+    var a = b.getAttribute('data-bw');
+    if (a === 'yes' || a === 'log') { ui.form = true; ui.rem = null; ui.justSaved = false; draw(); var f = document.getElementById('bw-date'); if (f) f.focus(); return; }
+    if (a === 'no') { d.noBaseline = true; save(d); return; }
+    if (a === 'cancel') { ui.form = false; draw(); return; }
+    if (a === 'save') {
+      var dt = (document.getElementById('bw-date') || {}).value || today();
+      d.tests.push({ id: 'bw' + Date.now().toString(36), date: dt, where: (document.getElementById('bw-where') || {}).value || '', result: (document.getElementById('bw-res') || {}).value || '', note: ((document.getElementById('bw-note') || {}).value || '').trim() });
+      d.noBaseline = false; delete d.snooze; delete d.every;
+      var rem = ui.rem || (d.tests.length > 1 ? 12 : 3); if (rem !== suggested(d)) d.every = rem;
+      ui.form = false; ui.rem = null; ui.justSaved = true; save(d);
+      setTimeout(function(){ var r = document.getElementById('bw-remind'); if (r) r.scrollIntoView({ behavior:'smooth', block:'center' }); }, 60); return;
+    }
+    if (a === 'auto') { delete d.every; save(d); return;
+    }
+    if (a === 'ics') { var due = nextDue(d); if (due) icsFile(due); if (ui.justSaved) { ui.justSaved = false; ui.remDone = true; draw(); } return; }
+    if (a === 'gcal') { if (ui.justSaved) { ui.justSaved = false; ui.remDone = true; setTimeout(draw, 300); } return; }
+    if (a === 'nothanks') { ui.justSaved = false; draw(); return; }
+    if (a === 'letter') { ui.letterOpen = true; draw(); var L = document.getElementById('bw-letter'); if (L) L.scrollIntoView({ behavior:'smooth', block:'start' }); return; }
+    var text = letter(ui.letterSex || d.sex || 'm', ui.mention);
+    if (a === 'copy') { copy(text, b); return; }
+    if (a === 'print') { printLetter(text); return; }
+    if (a === 'mail') { location.href = 'mailto:?subject=' + encodeURIComponent('Request for a full blood panel') + '&body=' + encodeURIComponent(text); return; }
+  });
+  document.addEventListener('change', function(e){
+    if (e.target && e.target.id === 'bw-mention') { ui.mention = e.target.checked; ui.letterOpen = true; draw(); }
+  });
+  document.addEventListener('toggle', function(e){ if (e.target && e.target.id === 'bw-letter') ui.letterOpen = e.target.open; }, true);
+
+  // Pokédex screen: a BLOOD countdown under CYCLE and VIAL
+  window.pmdBloodLcd = function(){
+    var d = load(), l = last(d), due = nextDue(d), cb = '', k, on = 0, cls = '', txt;
+    if (!l) { cls = 'low'; txt = 'NO BASELINE'; }
+    else {
+      var left = daysBetween(today(), due), tot = Math.max(1, daysBetween(l.date, due));
+      on = Math.max(0, Math.min(6, Math.round(left / tot * 6)));
+      if (left < 0) { cls = 'out'; txt = 'TEST OVERDUE'; }
+      else if (left <= 14) { cls = 'low'; txt = left === 0 ? 'TEST TODAY' : 'TEST IN ' + left + 'D'; }
+      else txt = (left >= 60 ? Math.round(left / 30.44) + 'M' : left + 'D') + ' TO TEST';
+    }
+    for (k = 0; k < 6; k++) cb += '<b class="' + (k < on ? 'on' : '') + '"></b>';
+    return '<div class="lcd-meter bld ' + cls + '">BLOOD <i>' + cb + '</i> ' + txt + '</div>';
+  };
+  window.pmdBloodDraw = draw;
+  // redraw when the Dex changes (new peptides change the letter and the Today prompt)
+  var baseRender = window.renderDashboard;
+  if (typeof baseRender === 'function') window.renderDashboard = function(){ var r = baseRender.apply(this, arguments); try { draw(); } catch(e){} return r; };
+  draw();
 })();
 </script>
 </body>
