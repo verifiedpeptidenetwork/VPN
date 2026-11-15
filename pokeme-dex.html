@@ -4111,6 +4111,12 @@ function showTab(name){
   .sy-row b{display:block;margin:5px 0 3px;font:900 22px/1 'Inter',sans-serif;color:#1a1626;}
   .sy-row b em{font-style:normal;font-size:13px;font-weight:600;color:#6b6356;margin-left:4px;}
   .sy-row span{display:block;font:500 13px/1.35 'Inter',sans-serif;color:#6b6356;}
+  .sy-row b.sy-mid{font-size:19px;}
+  .sy-row .sy-bar{height:6px;margin-top:8px;border-radius:99px;background:#efe8db;overflow:hidden;max-width:220px;}
+  .sy-row .sy-bar i{display:block;height:100%;border-radius:99px;background:#d7261e;}
+  .sy-row .sy-tag{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#f4efe6;color:#8a8170;font:900 16px/1 'Inter',sans-serif;}
+  .sy-row .sy-tag.on{background:#fff1ef;color:#d7261e;}
+  @media(max-width:480px){ .sy-row svg{width:96px;height:auto;} .sy-row b{font-size:20px;} }
   .sy-row svg{width:120px;height:42px;display:block;}
   .sy-note{margin:8px 0 0 !important;font:500 12px/1.45 'Inter',sans-serif !important;color:#8a8170 !important;}
   /* reminder sheet */
@@ -4407,7 +4413,8 @@ function showTab(name){
   };
 
   /* ── in your system: rough estimate from half-life ── */
-  var HALF = { reta:144, tirz:120, sema:168, cagri:168 };
+  var HALF = { reta:144, tirz:120, sema:168, cagri:168, orfo:36, cjcdac:156, hcg:33, tesa:0.5, tesablend:0.5, ipam:2, sermorelin:0.2, pt141:2.7, thymalpha:2, teripar:1, abalo:1.7, oxytocin:0.1, ghrp2:0.5, ghrp6:0.4, cjcnodac:0.5 };
+  function hlTxt(h){ return h < 1 ? Math.round(h * 60) + ' min' : (h < 48 ? (Math.round(h * 10) / 10) + ' h' : Math.round(h / 24 * 10) / 10 + ' days'); }
   function halfOf(p){ if (HALF[p.key]) return HALF[p.key]; var n = (p.name || '').toLowerCase(); return /retatrutide/.test(n) ? 144 : /tirzepatide/.test(n) ? 120 : /semaglutide/.test(n) ? 168 : /cagrilintide/.test(n) ? 168 : 0; }
   function dosesOf(p){
     var out = [];
@@ -4419,8 +4426,20 @@ function showTab(name){
     var card = document.getElementById('pa-sys-card'), out = document.getElementById('pa-sys'); if (!card || !out) return;
     var now = Date.now(), rows = [];
     ACTIVE_PROTOCOLS.forEach(function(p){
-      var half = halfOf(p); if (!half) return;
+      var half = halfOf(p);
       var ds = dosesOf(p); if (!ds.length) return;
+      var lastT = ds[ds.length - 1].t, hrs = (now - lastT) / 3600000, ago = hrs < 1 ? Math.max(1, Math.round(hrs * 60)) + ' min' : (hrs < 24 ? Math.round(hrs) + 'h' : Math.floor(hrs / 24) + 'd ' + Math.round(hrs % 24) + 'h');
+      var wk = ds.filter(function(x){ return now - x.t <= 7 * 864e5; }).length, kind = pmdOral(p) ? '💊 ' : '💉 ';
+      if (!half) { // not studied in people: be honest, show the log instead
+        rows.push('<div class="sy-row sy-q"><div><small>' + kind + esc(p.name) + '</small><b class="sy-mid">' + ago + '<em>since last dose</em></b><span>' + wk + ' dose' + (wk === 1 ? '' : 's') + ' logged this week · half-life in people not well studied</span></div><span class="sy-tag">?</span></div>');
+        return;
+      }
+      if (half < 12) { // short-acting: show where it is between active and cleared
+        var lives = hrs / half, pct = Math.max(0, Math.min(100, Math.round(100 - lives / 5 * 100))), clear = lives >= 5;
+        rows.push('<div class="sy-row"><div><small>' + kind + esc(p.name) + '</small><b class="sy-mid">' + (clear ? 'Cleared' : 'Active') + '<em>' + ago + ' since last dose</em></b><span>Short-acting: half-life about ' + hlTxt(half) + ', ' + (clear ? 'mostly gone from your system now.' : 'clears within about ' + hlTxt(half * 5) + '.') + '</span>'
+          + '<div class="sy-bar"><i style="width:' + pct + '%"></i></div></div><span class="sy-tag' + (clear ? '' : ' on') + '">' + (clear ? '✓' : '⚡') + '</span></div>');
+        return;
+      }
       var cur = level(ds, half, now), last = ds[ds.length - 1].t, h = Math.round((now - last) / 3600000);
       var since = h < 24 ? h + 'h' : Math.floor(h / 24) + 'd ' + (h % 24) + 'h';
       var trend = (now - last) < 24 * 3600000 ? 'Peaking' : 'Falling';
@@ -4428,11 +4447,11 @@ function showTab(name){
       for (var i = 0; i <= N; i++) { var T = from + (to - from) * i / N, v = level(ds, half, T); pts.push([T, v]); if (v > mx) mx = v; }
       function xy(q){ return r1((q[0] - from) / (to - from) * W) + ',' + r1(H - 4 - q[1] / mx * (H - 8)); }
       var past = pts.filter(function(q){ return q[0] <= now; }).map(xy).join(' '), fut = pts.filter(function(q){ return q[0] >= now; }).map(xy).join(' ');
-      rows.push('<div class="sy-row"><div><small>' + esc(p.name) + '</small><b>' + cur.toFixed(2) + ' mg<em>on board</em></b><span>' + trend + ' · ' + since + ' since last dose</span></div>'
+      rows.push('<div class="sy-row"><div><small>' + kind + esc(p.name) + '</small><b>' + cur.toFixed(2) + ' mg<em>on board</em></b><span>' + trend + ' · ' + since + ' since last dose</span></div>'
         + '<svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><polyline points="' + past + '" fill="none" stroke="#d7261e" stroke-width="2" stroke-linejoin="round"/><polyline points="' + fut + '" fill="none" stroke="#d7261e" stroke-width="2" stroke-dasharray="3 3" opacity=".55"/><line x1="' + r1((now - from) / (to - from) * W) + '" y1="2" x2="' + r1((now - from) / (to - from) * W) + '" y2="' + (H - 2) + '" stroke="#e6dfd2"/></svg></div>');
     });
     card.hidden = !rows.length;
-    out.innerHTML = rows.join('') + '<p class="sy-note">Estimate only, from each drug\'s published half-life (about 5–7 days). Real levels depend on absorption and your body. Dotted line = if you skip your next dose.</p>';
+    out.innerHTML = rows.join('') + '<p class="sy-note">Estimates only, from each drug\'s published half-life in people. Real levels depend on absorption and your body. Dotted line = if you skip your next dose. <b>?</b> = not enough human data for an estimate.</p>';
   }
 
   /* ── reminders: added to your phone's own calendar so they ring even when the app is closed ── */
