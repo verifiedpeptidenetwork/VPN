@@ -1755,8 +1755,8 @@ function searchPeptide(){
     + '<div class="pep-result-desc">' + p.desc + '</div>'
     + buildWhyBlock(key, allGoals)
     + '<div class="pep-result-detail">'
-    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
-    + '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
+    + '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + pmProtoText(p) + '</div>'
+    + (p.route === 'inject' ? '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>' : '')
     + '</div>'
     + '</div>';
   document.getElementById('copy-suggestions-btn').style.display = 'none';
@@ -1882,6 +1882,23 @@ var PEPTIDES = {
   vip:         { name:'VIP (Vasoactive Intestinal Peptide)', desc:'Studied for inflammation, immune balance, and gut health — used in protocols for conditions like MCAS/dysautonomia. Short half-life; often split into AM/PM SC or IV doses for 4-12 weeks.', vial:5, water:2, start:0.025, step:0, weeks:6, freq:7 },
   wolv:        { name:'Wolverine Stack', desc:'A comprehensive healing stack — often BPC-157 + TB-500 plus extras — studied for rapid recovery and tissue repair. Used once daily for 4-12 weeks.', vial:10, water:2, start:0.2, step:0, weeks:8, freq:7, time:'pm' }
 };
+
+/* How each compound is taken. Anything not listed is an injectable that is mixed from a vial.
+   Oral and topical products are never mixed with water, so they get no vial / water / mixing math. */
+var PM_ROUTE = {
+  amino1mq:'oral', carnitine:'oral', orfo:'oral',
+  bronchogen:'oral', cardiogen:'oral', cartalax:'oral', chonluten:'oral', cortagen:'oral', crystagen:'oral',
+  livagen:'oral', ovagen:'oral', pancragon:'oral', prostamax:'oral', testagen:'oral', vesugen:'oral', vilon:'oral',
+  snap8:'topical'
+};
+Object.keys(PEPTIDES).forEach(function(k){ PEPTIDES[k].key = k; PEPTIDES[k].route = PM_ROUTE[k] || 'inject'; });
+function pmFreqText(p){ return p.freq >= 7 ? 'every day' : (p.freq === 1 ? 'once a week' : p.freq + ' times a week'); }
+/* One-line protocol used in the lookup result, copy text and reports */
+function pmProtoText(p){
+  if (p.route === 'oral') return 'Taken by mouth (capsule or tablet), no mixing needed · ' + p.start + ' mg ' + pmFreqText(p) + ' · about ' + p.weeks + ' week' + (p.weeks>1?'s':'') + '. Follow the product label.';
+  if (p.route === 'topical') return 'Applied to the skin as a cream or serum, no mixing needed · ' + pmFreqText(p) + '. Follow the product label.';
+  return p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
+}
 
 // goals that pull in gender-specific peptides
 var GENDER_GOAL_MAP = {
@@ -2157,8 +2174,8 @@ function renderSuggestions(){
       + '<div class="pep-result-desc">' + p.desc + '</div>'
       + buildWhyBlock(key, goals)
       + '<div class="pep-result-detail">'
-      +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.</div>'
-      +   '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>'
+      +   '<div class="pep-result-desc"><strong style="color:var(--cyan)">Typical research starting protocol:</strong> ' + pmProtoText(p) + '</div>'
+      +   (p.route === 'inject' ? '<button class="btn-primary" style="margin-top:12px;" onclick="useForSchedule(\'' + key + '\', event)">USE THIS FOR SCHEDULE BUILDER →</button>' : '')
       + '</div>'
       + '</div>';
   }).join('');
@@ -2166,7 +2183,7 @@ function renderSuggestions(){
   document.getElementById('copy-suggestions-btn').style.display = sorted.length ? 'inline-block' : 'none';
   LAST_SUGGESTIONS = sorted.map(function(key){
     var p = PEPTIDES[key];
-    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + p.vial + 'mg vial · ' + p.water + 'mL BAC water · ' + p.start + 'mg start dose · ' + (p.step>0 ? ('+' + p.step + 'mg every ' + p.weeks + ' wks') : ('flat dose, ' + p.weeks + ' wk blocks')) + ' · ' + p.freq + 'x/week.';
+    return p.name + ' — ' + p.desc + ' | Typical research starting protocol: ' + pmProtoText(p);
   });
   box.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
@@ -2236,6 +2253,12 @@ function onVialWaterInput(changed){
 updateBacRatioLabel();
 
 function useForSchedule(key, ev){
+  /* Oral / topical products are not mixed from a vial, so they have no injection schedule */
+  if (PEPTIDES[key] && PEPTIDES[key].route !== 'inject') {
+    if (ev) ev.stopPropagation();
+    alert(PEPTIDES[key].name + ' is ' + (PEPTIDES[key].route === 'oral' ? 'taken by mouth' : 'used on the skin') + ', so there is nothing to mix and no injection schedule. Follow the product label and check with your doctor.');
+    return;
+  }
   if (ev) {
     ev.stopPropagation();
     var btn = ev.target.closest('.add-btn');
@@ -2542,14 +2565,26 @@ function pmCompute(){
     });
   });
   Object.keys(counts).forEach(function(k){ var gg = PEPTIDES[k].gender; if (gg && gg !== 'both' && gg !== SELECTED_GENDER) delete counts[k]; });
-  return Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a] || PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); })
-    .map(function(k){ return { key:k, count:counts[k], goals:matched[k] }; });
+  /* Ties are broken by evidence, not the alphabet:
+     1) how many of the chosen goals have a specific, written research reason for this peptide,
+     2) how many goals overall the peptide is researched for (breadth of research),
+     then name only as a last resort. */
+  function specific(k){ return matched[k].filter(function(g){ return GOAL_REASONS[g] && GOAL_REASONS[g][k]; }).length; }
+  function breadth(k){ var n = 0; Object.keys(GOAL_MAP).forEach(function(g){ if ((GOAL_MAP[g]||[]).indexOf(k) !== -1) n++; }); return n; }
+  var list = Object.keys(counts).sort(function(a,b){
+    return counts[b]-counts[a] || specific(b)-specific(a) || breadth(b)-breadth(a) || PEPTIDES[a].name.localeCompare(PEPTIDES[b].name);
+  }).map(function(k){ return { key:k, count:counts[k], goals:matched[k] }; });
+  /* Only call the first one "Best match" when it really matches more of your goals than the next one */
+  if (list.length) list[0].best = list.length === 1 || list[0].count > list[1].count;
+  return list;
 }
 
 function pmProto(p){
   var freq = p.freq >= 7 ? 'Every day' : (p.freq === 1 ? 'Once a week' : p.freq + ' times a week');
   var time = p.time === 'pm' ? 'Evening' : p.time === 'am' ? 'Morning' : 'Any time';
   var titr = p.step > 0 ? ('Add ' + p.step + ' mg every ' + p.weeks + ' weeks') : ('Same dose, ' + p.weeks + ' weeks');
+  if (p.route === 'oral') return [['How you take it', 'By mouth'], ['Mixing', 'None needed'], ['Typical dose', p.start + ' mg'], ['How long', 'About ' + p.weeks + ' week' + (p.weeks>1?'s':'')], ['How often', freq], ['Best time', time]];
+  if (p.route === 'topical') return [['How you use it', 'On the skin'], ['Mixing', 'None needed'], ['Amount', 'Follow the label'], ['How often', freq], ['Best time', time]];
   return [['Vial size', p.vial + ' mg'], ['Water to add', p.water + ' mL'], ['First dose', p.start + ' mg'], ['How it goes up', titr], ['How often', freq], ['Best time', time]];
 }
 function pmWhy(key, goals){
@@ -2560,7 +2595,7 @@ function pmWhy(key, goals){
 }
 
 function pmCard(item, rank, total){
-  var p = PEPTIDES[item.key], best = rank === 1 && total > 0;
+  var p = PEPTIDES[item.key], best = rank === 1 && total > 0 && !!item.best;
   var pct = total ? Math.round(item.count/total*100) : 100;
   var why = pmWhy(item.key, item.goals);
   return '<article class="pm-res' + (best?' best':'') + '" data-goals="' + item.goals.join(' ') + '">'
@@ -2568,13 +2603,18 @@ function pmCard(item, rank, total){
     +   '<div class="pm-rank">' + rank + '</div>'
     +   '<div class="pm-res-name"><h3>' + pmEsc(p.name) + (best ? '<span class="pm-badge">Best match</span>' : '') + '</h3>'
     +     '<div class="pm-tags">' + item.goals.map(function(g){ return '<span class="pm-tag">' + pmIcon(g) + ' ' + pmLabel(g) + '</span>'; }).join('') + '</div></div>'
-    +   (total ? '<div class="pm-score"><b>Matches ' + item.count + ' of ' + total + ' goal' + (total>1?'s':'') + '</b><small>' + pct + '% fit</small><div class="pm-meter"><i style="width:' + pct + '%"></i></div></div>' : '')
+    +   (total ? '<div class="pm-score"><b>Matches ' + item.count + ' of ' + total + ' goal' + (total>1?'s':'') + '</b><div class="pm-meter" aria-hidden="true"><i style="width:' + pct + '%"></i></div></div>' : '')
     + '</div>'
     + '<p class="pm-desc pm-desc-short">' + pmEsc(p.desc) + '</p>'
     + '<details class="pm-more"' + (rank <= 1 ? ' open' : '') + '><summary><span class="o">Show why &amp; protocol</span><span class="c">Hide details</span></summary>'
     + (why.length ? '<div class="pm-why"><b class="pm-why-h">Why this was picked for you</b><ul>' + why.map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul></div>' : '')
     + '<div class="pm-proto">' + pmProto(p).map(function(x){ return '<div><b>' + x[1] + '</b>' + x[0] + '</div>'; }).join('') + '</div></details>'
-    + '<div class="pm-res-foot"><button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button><a class="pm-btn sm pm-track" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '">＋ Track in PokeMe-Dex</a><button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>'
+    + '<div class="pm-res-foot">'
+    + (p.route === 'inject'
+        ? '<button class="pm-btn sm pri pm-add" data-key="' + item.key + '" onclick="pmAdd(\'' + item.key + '\', this)">' + (PM_ADDED[item.key] ? '✓ In your plan' : '+ Add to plan') + '</button>'
+        : '<span class="pm-route">' + (p.route === 'oral' ? '💊 Taken by mouth, no mixing' : '🧴 Used on the skin, no mixing') + '</span>')
+    + '<a class="pm-btn sm pm-track" href="pokeme-dex.html#add=' + encodeURIComponent(p.name) + '">＋ Track in PokeMe-Dex</a>'
+    + (p.route === 'inject' ? '<button class="pm-btn sm" onclick="pmBuild(\'' + item.key + '\', this)">Adjust dose →</button>' : '')
     +   '<span class="pm-note">A typical research starting point, not medical advice. Check with your doctor.</span></div>'
     + '</article>';
 }
@@ -2585,7 +2625,7 @@ function pmShowResults(){
   var total = SELECTED_GOALS.size;
   document.getElementById('pm-res-title').textContent = PM_LAST.length ? (PM_LAST.length + ' peptides match your goals') : 'No matches yet';
   var names = []; SELECTED_GOALS.forEach(function(g){ names.push(pmLabel(g)); });
-  document.getElementById('pm-res-sub').textContent = 'Ranked by how many of your ' + total + ' goal' + (total>1?'s':'') + ' each one is researched for: ' + names.join(', ') + '.';
+  document.getElementById('pm-res-sub').textContent = 'Ranked by how many of your ' + total + ' goal' + (total>1?'s':'') + ' each one is researched for: ' + names.join(', ') + '. When peptides tie, the better-researched ones come first.';
   var f = '<button class="pm-filter on" data-f="all">All (' + PM_LAST.length + ')</button>';
   SELECTED_GOALS.forEach(function(g){
     var n = PM_LAST.filter(function(i){ return i.goals.indexOf(g) !== -1; }).length;
@@ -2724,7 +2764,7 @@ function pmRenderBuyLive(){
   var total = SELECTED_GOALS.size;
   var matches = PM_LAST.map(function(it, i){
     var p = PEPTIDES[it.key];
-    return '<section class="m"><h3><span>' + (i+1) + '</span>' + pmEsc(p.name) + (i===0?' <em>Best match</em>':'') + '<small>Matches ' + it.count + ' of ' + total + '</small></h3>'
+    return '<section class="m"><h3><span>' + (i+1) + '</span>' + pmEsc(p.name) + (it.best?' <em>Best match</em>':'') + '<small>Matches ' + it.count + ' of ' + total + '</small></h3>'
       + '<p>' + pmEsc(p.desc) + '</p>'
       + '<ul>' + pmWhy(it.key, it.goals).map(function(w){ return '<li><b>' + pmLabel(w.g) + ':</b> ' + pmEsc(w.t) + '</li>'; }).join('') + '</ul>'
       + '<table><tr>' + pmProto(p).map(function(x){ return '<th>' + x[0] + '</th>'; }).join('') + '</tr><tr>' + pmProto(p).map(function(x){ return '<td>' + x[1] + '</td>'; }).join('') + '</tr></table></section>';
@@ -2788,7 +2828,7 @@ function pmReportText(){
   if (goals.length) L.push('Goals: ' + goals.join(', '), '');
   PM_LAST.forEach(function(it, i){
     var p = PEPTIDES[it.key];
-    L.push((i+1) + '. ' + p.name + (i===0 ? ' (best match)' : '') + ' — matches ' + it.count + ' of ' + total);
+    L.push((i+1) + '. ' + p.name + (it.best ? ' (best match)' : '') + ' — matches ' + it.count + ' of ' + total);
     pmWhy(it.key, it.goals).forEach(function(w){ L.push('   • ' + pmLabel(w.g) + ': ' + w.t); });
     L.push('   Protocol: ' + pmProto(p).map(function(x){ return x[0] + ' ' + x[1]; }).join(' · '));
   });
@@ -2929,6 +2969,77 @@ function pmDownloadReport(){
   });
   window.pmLabDraw = draw;
   draw();
+})();
+</script>
+
+<!-- ═══ EASIER FOR ALL AGES: one thing at a time (tabs), bigger tap targets, clear labels ═══ -->
+<style id="pm-easy">
+  /* Tabs: Match (quiz + results) shows first; each other tool only when its tab is chosen */
+  body[data-pm-tab] #pm-search-sec,body[data-pm-tab] #pm-inflam,body[data-pm-tab] #pm-resources,body[data-pm-tab] #pm-builder-sec{display:none !important;}
+  body[data-pm-tab="pm-search-sec"] #pm-search-sec,
+  body[data-pm-tab="pm-inflam"] #pm-inflam,
+  body[data-pm-tab="pm-resources"] #pm-resources,
+  body[data-pm-tab="pm-builder-sec"] #pm-builder-sec,
+  body.pm-has-plan[data-pm-tab="pm-wizard"] #pm-builder-sec{display:block !important;}
+  body[data-pm-tab]:not([data-pm-tab="pm-wizard"]) #pm-wizard,
+  body[data-pm-tab]:not([data-pm-tab="pm-wizard"]) #pm-results{display:none !important;}
+  #pm-subnav a[data-sec]{display:inline-flex;align-items:center;min-height:44px;padding-left:14px;padding-right:14px;}
+  #pm-subnav a[data-sec].on{font-weight:800;}
+  .pm-tab-hint{margin:6px 0 0;font-size:14px;color:var(--pm-sub,#a9a6c0);}
+
+  /* Bigger, easier tap targets everywhere (44px is the recommended minimum) */
+  .pm-btn,.pm-btn.sm,.pm-filter,.pm-lab-chips button,.pm-top-links a,.add-btn,.btn-primary,.btn-secondary,
+  .pm-more > summary,.pm-more-btn{min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;}
+  .pm-more > summary{justify-content:flex-start;cursor:pointer;}
+  .pm-lab-chips button{padding-left:12px;padding-right:12px;}
+  .pm-route{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(46,230,160,0.12);border:1px solid rgba(46,230,160,0.4);color:#bff5e1;}
+  html[data-theme="light"] .pm-route{background:#e8fbf3;color:#0b6b4a;}
+  .pm-score b{font-size:15px;}
+</style>
+<script>
+(function(){
+  var TABS = ['pm-wizard','pm-search-sec','pm-inflam','pm-resources','pm-builder-sec'];
+  var body = document.body;
+  function setTab(id, scroll){
+    if (TABS.indexOf(id) === -1) return;
+    body.setAttribute('data-pm-tab', id);
+    document.querySelectorAll('#pm-subnav a[data-sec]').forEach(function(a){
+      var on = a.getAttribute('data-sec') === id; a.classList.toggle('on', on); a.setAttribute('aria-current', on ? 'page' : 'false');
+    });
+    if (scroll) { var nav = document.getElementById('pm-subnav'); (nav || document.getElementById(id)).scrollIntoView({behavior:'smooth', block:'start'}); }
+  }
+  /* Which tab panel holds an element? */
+  function panelOf(el){
+    for (var i = 0; i < TABS.length; i++){ var s = document.getElementById(TABS[i]); if (s && (s === el || s.contains(el))) return TABS[i]; }
+    if (document.getElementById('pm-results') && document.getElementById('pm-results').contains(el)) return 'pm-wizard';
+    return null;
+  }
+  /* Any built-in jump to a section (buttons, "Adjust dose", "Look up a peptide") opens the right tab first */
+  var orig = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function(){
+    var p = panelOf(this), cur = body.getAttribute('data-pm-tab');
+    if (p === 'pm-builder-sec' && cur === 'pm-wizard') body.classList.add('pm-has-plan');
+    else if (p && p !== cur) setTab(p, false);
+    return orig.apply(this, arguments);
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#pm-"]'); if (!a) return;
+    var id = a.getAttribute('href').slice(1), p = panelOf(document.getElementById(id) || document.body);
+    if (!p) return;
+    e.preventDefault();
+    if (p === 'pm-builder-sec' && a.closest('#pm-results')) { body.classList.add('pm-has-plan'); orig.call(document.getElementById('pm-builder-sec'), {behavior:'smooth', block:'start'}); return; }
+    setTab(p, true);
+  }, true);
+  /* Once something is in the plan, keep the schedule builder under the results */
+  var _add = window.pmAdd;
+  if (typeof _add === 'function') window.pmAdd = function(){ body.classList.add('pm-has-plan'); return _add.apply(this, arguments); };
+  var start = (location.hash || '').slice(1);
+  setTab(TABS.indexOf(start) !== -1 ? start : 'pm-wizard', false);
+  /* Hint under the tabs so first-time visitors know the other tools are one tap away */
+  var nav = document.getElementById('pm-subnav');
+  if (nav && !document.querySelector('.pm-tab-hint')) { var h = document.createElement('p'); h.className = 'pm-tab-hint pm-wrap'; h.textContent = 'Start with Match. Tap a tab above to see one tool at a time.'; nav.parentNode.insertBefore(h, nav.nextSibling); }
+  /* Give the one unlabelled button a name screen readers can read */
+  var cc = document.getElementById('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
 })();
 </script>
 
