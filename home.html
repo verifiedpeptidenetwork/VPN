@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html data-darkbg lang="en">
 <head>
 <meta name="theme-color" content="#0d0a1c"><style>html:not([data-theme=light]){background:#0d0a1c}</style>
@@ -3254,8 +3254,11 @@
       grid-template-rows:repeat(7,auto) 1fr;
       column-gap:48px;
       align-items:start;
-      align-content:center;
+      /* "safe": when content is taller than the window, start at the top instead of
+         centering it up past the top edge (that cut the logo off) */
+      align-content:safe center;
       min-height:calc(100vh - 5px);
+      flex-shrink:0; /* never squeeze the box to the window height — let #dg scroll */
     }
     /* Left column: logo + title + sub + divider + agree + button */
     #dg-logo{grid-column:1;grid-row:1;margin-bottom:28px;}
@@ -3296,7 +3299,7 @@
     <!-- Logo -->
     <div id="dg-logo">
       <div id="dg-logo-ring" style="position:relative;">
-        <img id="dg-logo-img" src="VPNNEWLOGO-640.webp?v=1" alt="VPN">
+        <img id="dg-logo-img" src="VPN-LOGO-DATA.jpg?v=1" alt="VPN">
       </div>
       <div>
         <div id="dg-logo-text">VERIFY · PROOF · NOTATE · DATA</div>
@@ -3703,7 +3706,7 @@ function dgEnter(){
       <!-- dark mask -->
       <div style="position:absolute;inset:0;border-radius:50%;background:#02010a;z-index:2;"></div>
       <!-- Logo image -->
-      <img src="VPNNEWLOGO-640.webp?v=1" alt="VPN Logo"
+      <img src="VPN-LOGO-DATA.jpg?v=1" alt="VPN Logo"
         style="position:relative;z-index:3;width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;animation:helixPulse 2.5s ease-in-out infinite;" />
     </div>
 
@@ -4164,6 +4167,29 @@ document.addEventListener('keydown', function(e){
   /* prayer bar sits just below the hero (site-hero is a flex column ordered by order:) */
   #site-hero > #home-prayer{order:2 !important;}
 </style>
+
+<!-- SAFETY TICKER — sliding doctor / bloodwork reminder -->
+<style>
+  .vpn-safety-ticker{position:relative;z-index:11;width:100%;box-sizing:border-box;overflow:hidden;
+    background:linear-gradient(90deg,#1a0010,#12002a 50%,#1a0010);
+    border-bottom:2px solid rgba(255,45,149,0.65);box-shadow:0 0 18px rgba(255,45,149,0.35);
+    padding:7px 0;white-space:nowrap;}
+  .vpn-safety-ticker .vst-track{display:inline-flex;width:max-content;animation:vstSlide 38s linear infinite;}
+  .vpn-safety-ticker:hover .vst-track{animation-play-state:paused;}
+  .vpn-safety-ticker .vst-item{font-family:'Bebas Neue',sans-serif;font-size:1.05rem !important;line-height:1.3 !important;letter-spacing:0.14em;
+    color:#fff;padding:0 1.6rem;text-shadow:0 0 8px rgba(255,45,149,0.9);}
+  .vpn-safety-ticker .vst-item b{color:#00f5ff;font-weight:normal;text-shadow:0 0 10px #00f5ff;}
+  .vpn-safety-ticker .vst-dot{color:#ff2d95;padding:0 0.2rem;}
+  @keyframes vstSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(min-width:901px){.vpn-safety-ticker{margin-left:272px;width:calc(100% - 272px);}}
+  @media(prefers-reduced-motion:reduce){.vpn-safety-ticker .vst-track{animation-duration:120s;}}
+</style>
+<div class="vpn-safety-ticker" role="marquee" aria-label="Work with your doctor. Do your bloodwork and inform your doctor before any research. Verify everything." data-vt-skip>
+  <div class="vst-track">
+    <span class="vst-item">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
+    <span class="vst-item" aria-hidden="true">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
+  </div>
+</div>
 
 <header class="site-header">
   <div class="header-inner">
@@ -4683,7 +4709,7 @@ document.addEventListener('keydown', function(e){
         <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:3;pointer-events:none;">
           <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.85),transparent);animation:vpnScanLine 3s ease-in-out infinite;"></div>
         </div>
-        <img src="VPNNEWLOGO-640.webp?v=1" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;">
+        <img src="VPN-LOGO-DATA.jpg?v=1" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;">
       </div>
       <div>
         <div class="retro-nav-logo-title">VERIFY · PROOF · NOTATE · DATA</div>
@@ -9113,7 +9139,7 @@ window.vpnBadgeGo = function(view, id){
           </a>
         </div>
       </div>
-      <div class="badge"><img src="VPNNEWLOGO-640.webp?v=1" alt="Verify · Proof · Notate · Data badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:8%;top:14%;width:22%;height:17%;" title="Verify COAs: how to check a COA" aria-label="Verify COAs: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:70%;top:14%;width:23%;height:18%;" title="Identify fake COAs: how to spot a fake" aria-label="Identify fake COAs: how to spot a fake" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:16%;top:37%;width:23%;height:12%;" title="Verify everything: latest news" aria-label="Verify everything: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:34%;top:68%;width:33%;height:13%;" title="Do blood work: blood work guide" aria-label="Do blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
+      <div class="badge"><img src="VPN-LOGO-DATA.jpg?v=1" alt="Verify · Proof · Notate · Data badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:14.5%;top:64%;width:22%;height:7.5%;" title="Verify: how to check a COA" aria-label="Verify: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:38%;top:64%;width:21%;height:7.5%;" title="Proof: how to spot a fake COA" aria-label="Proof: how to spot a fake COA" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:63%;top:64%;width:23%;height:7.5%;" title="Notate: latest news" aria-label="Notate: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:21%;top:78.5%;width:58%;height:5.5%;" title="Work with your doctor, do your blood work: blood work guide" aria-label="Work with your doctor, do your blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
     </div>
   </section>
 <style id="vh2-tools-css">
@@ -9481,7 +9507,7 @@ window.vpnBadgeGo = function(view, id){
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
       <canvas id="vpn-logo-matrix"></canvas>
-      <img src="VPNNEWLOGO-640.webp?v=1" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
+      <img src="VPN-LOGO-DATA.jpg?v=1" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
       <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
       <div class="vpn-logo-pulse-ring"></div>
       <div class="vpn-logo-pulse-ring"></div>
@@ -18272,7 +18298,7 @@ function csvFilter(cat, btn) {
       if(!inner) return;
       var logoWrap = document.createElement('div');
       logoWrap.className = 'vh-logo-wrap';
-      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="VPNNEWLOGO-640.webp?v=1" class="vh-logo-img" alt="VPN">';
+      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="VPN-LOGO-DATA.jpg?v=1" class="vh-logo-img" alt="VPN">';
       inner.insertBefore(logoWrap, inner.firstChild);
       // move text into content wrapper with eyebrow
       var titleEl = inner.querySelector('.vh-title');
@@ -31995,7 +32021,7 @@ function showToast(msg, color) {
       <div class="ms-logo-ring ms-lr2"></div>
       <div class="ms-logo-ring ms-lr3"></div>
       <div class="ms-logo-glow"></div>
-      <img src="VPNNEWLOGO-640.webp?v=1" alt="VPN" class="ms-logo-img">
+      <img src="VPN-LOGO-DATA.jpg?v=1" alt="VPN" class="ms-logo-img">
     </div>
     <!-- Text -->
     <div>
