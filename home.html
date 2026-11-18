@@ -9357,7 +9357,7 @@ window.vpnBadgeGo = function(view, id){
     </div>
   </section>
 
-  <div id="vh2-h-learn" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Learn</div><h2>Video guides &amp; the basics</h2><p>Three short videos, each with a clear purpose, then Peptides 101 in plain English.</p></div></div></div>
+  <div id="vh2-h-learn" class="vh2" data-vt-skip><div class="vh2-h"><div><div class="k">Learn</div><h2>Video guides</h2><p>Four short videos, each with a clear purpose. Start with the first two.</p></div></div></div>
 
   <!-- VIDEO GUIDES — each video says what it's for and when to watch it -->
   <style>
@@ -35863,6 +35863,133 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   document.addEventListener('scroll', spy, { passive:true, capture:true });
   window.addEventListener('scroll', spy, { passive:true });
   document.body.addEventListener('scroll', spy, { passive:true });
+})();
+</script>
+
+<!-- ═══ HOME DECLUTTER: fewer sections, mission + extras behind cards, calmer Must Read ═══ -->
+<style id="vh2-declutter">
+  /* 1. Clear order: hero → Must Read → tools → videos → news → mission → explore → footer */
+  html body #site-hero > #vh2-hero{order:0 !important;}
+  html body #site-hero > #vh2-h-safety{order:1 !important;}
+  html body #site-hero > section.vpn-rules.vpn-rules{order:2 !important;}
+  html body #site-hero > #vh2-tools{order:3 !important;}
+  html body #site-hero > #vh2-h-learn{order:4 !important;}
+  html body #site-hero > #vh2-videos{order:5 !important;}
+  html body #site-hero > #vh2-current{order:6 !important;}
+  html body #site-hero > #vh2-mission-card{order:7 !important;}
+  html body #site-hero > #vh2-whyhere{order:8 !important;}
+  html body #site-hero > #vh2-why{order:9 !important;}
+  html body #site-hero > #vh2-med{order:10 !important;}
+  html body #site-hero > #vh2-explore{order:11 !important;}
+  html body #site-hero > #vh2-kcomp{order:12 !important;}
+  html body #site-hero > #vpn-learn-play{order:13 !important;}
+  html body #site-hero > #vh2-community{order:14 !important;}
+  html body #site-hero > #home-prayer{order:15 !important;}
+  html body #site-hero > #vh2-foot{order:19 !important;}
+  html body #site-hero > #vpn-getapp{order:20 !important;}
+
+  /* 2. Duplicates removed from the home page (still available elsewhere on the site) */
+  html body #site-hero > #vh2-spike,
+  html body #site-hero > #vpn-watch-first,
+  html body #site-hero > #vh2-h-why{display:none !important;}
+
+  /* 3. Mission + extras stay hidden until their card is opened */
+  html body #site-hero:not(.vh2-show-mission) > #vh2-whyhere,
+  html body #site-hero:not(.vh2-show-mission) > #vh2-why,
+  html body #site-hero:not(.vh2-show-mission) > #vh2-med,
+  html body #site-hero:not(.vh2-show-kcomp) > #vh2-kcomp,
+  html body #site-hero:not(.vh2-show-learn) > #vpn-learn-play,
+  html body #site-hero:not(.vh2-show-community) > #vh2-community,
+  html body #site-hero:not(.vh2-show-prayer) > #home-prayer{display:none !important;}
+
+  /* 4. Must Read as a tidy grid: Step 1 full width, the rest two per row; an open card takes the full row */
+  html body #site-hero .vpn-musts .hero-btn-row{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px !important;align-items:start;}
+  html body #site-hero .vpn-musts .hero-btn-row > *{margin:0 !important;min-width:0;width:auto !important;}
+  html body #site-hero .vpn-musts .hero-btn-row > div:first-child,
+  html body #site-hero .vpn-musts .hero-btn-row > .open,
+  html body #site-hero .vpn-musts .hero-btn-row > .gl-panel,
+  html body #site-hero .vpn-musts .hero-btn-row > div:has(details[open]),
+  html body #site-hero .vpn-musts .hero-btn-row > #home-janoshik:has(#janoshik-body[style*="block"]){grid-column:1 / -1;}
+  @media(max-width:700px){ html body #site-hero .vpn-musts .hero-btn-row{grid-template-columns:minmax(0,1fr);} }
+
+  /* 5. Calmer: no pulsing/glowing bars in Must Read (logo + Start here keep their motion) */
+  html body #site-hero .vpn-musts .qa-trigger,
+  html body #site-hero .vpn-musts .sp-bar,
+  html body #site-hero .vpn-musts summary,
+  html body #site-hero .vpn-musts .sp-go,
+  html body #site-hero .vpn-musts summary.sp-bar.vpn-unread{animation:none !important;text-shadow:none !important;}
+  html body #site-hero .vpn-musts .sp-bar,html body #site-hero .vpn-musts .qa-trigger{box-shadow:none !important;}
+  html body #site-hero > .vh2{margin-top:clamp(18px,3vw,34px);}
+
+  /* Mission card + Explore tiles */
+  .vh2-mc,.vh2-ex{box-sizing:border-box;width:100%;font-family:'Inter',system-ui,sans-serif;}
+  .vh2-mc button{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;padding:16px 18px;border-radius:16px;
+    background:linear-gradient(135deg,rgba(255,63,128,0.10),rgba(154,92,255,0.08) 50%,rgba(47,180,255,0.08)),#0e0c18;border:1px solid rgba(255,255,255,0.12);color:#f4f5fb;transition:border-color .15s;}
+  .vh2-mc button:hover{border-color:rgba(255,63,128,0.6);}
+  .vh2-mc .ic{flex-shrink:0;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:rgba(255,63,128,0.15);}
+  .vh2-mc .tx{flex:1;min-width:0;}
+  .vh2-mc small.k{display:block;font:800 11px/1 'Inter',sans-serif !important;letter-spacing:0.12em;text-transform:uppercase;color:#ff7aa8;}
+  .vh2-mc b{display:block;margin:5px 0 3px;font:800 18px/1.2 'Inter',sans-serif !important;color:#fff;}
+  .vh2-mc span.d{display:block;font:500 13.5px/1.4 'Inter',sans-serif !important;color:rgba(214,220,240,0.75);}
+  .vh2-mc .go{flex-shrink:0;padding:8px 12px;border-radius:10px;font:800 13px/1 'Inter',sans-serif !important;color:#fff;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
+  .vh2-ex h2,.vh2-ex > p{text-align:left !important;}
+  .vh2-ex h2{margin:0 0 4px !important;font:800 20px/1.2 'Inter',sans-serif !important;color:#fff;}
+  .vh2-ex > p{margin:0 0 12px !important;font:500 14px/1.45 'Inter',sans-serif !important;color:rgba(214,220,240,0.7);}
+  .vh2-ex .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+  .vh2-ex .grid button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;cursor:pointer;padding:14px;border-radius:14px;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:#f4f5fb;transition:border-color .15s,transform .15s,background .15s;}
+  .vh2-ex .grid button:hover,.vh2-ex .grid button[aria-expanded="true"]{border-color:var(--c);background:rgba(255,255,255,0.07);transform:translateY(-2px);}
+  .vh2-ex .grid .ic{font-size:22px;line-height:1;}
+  .vh2-ex .grid b{font:800 15px/1.2 'Inter',sans-serif !important;color:#fff;}
+  .vh2-ex .grid small{font:500 12.5px/1.35 'Inter',sans-serif !important;color:rgba(214,220,240,0.7);}
+  .vh2-ex .grid em{position:absolute;top:10px;right:10px;font-style:normal;padding:3px 7px;border-radius:99px;font:800 10px/1 'Inter',sans-serif !important;letter-spacing:0.06em;color:#03213a;background:#3ad8ff;}
+  @media(max-width:900px){ .vh2-ex .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media(max-width:520px){ .vh2-mc .go{display:none;} .vh2-mc button{padding:14px;} }
+  html[data-theme="light"] .vh2-mc button{background:#fff;color:#14112a;border-color:rgba(124,58,237,0.18);}
+  html[data-theme="light"] .vh2-mc b,html[data-theme="light"] .vh2-ex h2,html[data-theme="light"] .vh2-ex .grid b{color:#14112a;}
+  html[data-theme="light"] .vh2-mc span.d,html[data-theme="light"] .vh2-ex > p,html[data-theme="light"] .vh2-ex .grid small{color:#5a5575;}
+  html[data-theme="light"] .vh2-mc .go{color:#14112a;background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);}
+  html[data-theme="light"] .vh2-ex .grid button{background:#fff;color:#14112a;border-color:rgba(124,58,237,0.16);}
+</style>
+<script>
+(function(){
+  var hero = document.getElementById('site-hero'); if (!hero) return;
+  var GROUPS = { mission:['vh2-whyhere','vh2-why','vh2-med'], kcomp:['vh2-kcomp'], learn:['vpn-learn-play'], community:['vh2-community'], prayer:['home-prayer'] };
+  function groupOf(el){
+    for (var g in GROUPS){ for (var i=0;i<GROUPS[g].length;i++){ var s=document.getElementById(GROUPS[g][i]); if (s && (s===el || s.contains(el))) return g; } }
+    return null;
+  }
+  function sync(){
+    document.querySelectorAll('[data-vh2-show]').forEach(function(b){ b.setAttribute('aria-expanded', hero.classList.contains('vh2-show-'+b.getAttribute('data-vh2-show')) ? 'true' : 'false'); });
+    var mb = document.querySelector('#vh2-mission-card .go'); if (mb) mb.textContent = hero.classList.contains('vh2-show-mission') ? 'Hide ▲' : 'Read ▼';
+  }
+  function show(g, scroll){
+    hero.classList.add('vh2-show-'+g); sync();
+    if (scroll){ var first=document.getElementById(GROUPS[g][0]); if (first){ setTimeout(function(){ first.scrollIntoView({behavior:'smooth',block:'start'}); },40); } }
+  }
+  /* Anything else on the site that scrolls to a now-hidden section reveals it first */
+  var orig = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function(){ var g = groupOf(this); if (g && !hero.classList.contains('vh2-show-'+g)) { hero.classList.add('vh2-show-'+g); sync(); } return orig.apply(this, arguments); };
+
+  var mc = document.createElement('div'); mc.id='vh2-mission-card'; mc.className='vh2 vh2-mc'; mc.setAttribute('data-vt-skip','');
+  mc.innerHTML = '<button type="button" data-vh2-show="mission"><span class="ic">💗</span><span class="tx"><small class="k">Our mission</small><b>Why VPN exists</b><span class="d">Why we\'re here, why people are turning to peptides, and why some bodies need medicine first.</span></span><span class="go">Read ▼</span></button>';
+  var ex = document.createElement('section'); ex.id='vh2-explore'; ex.className='vh2 vh2-ex'; ex.setAttribute('data-vt-skip',''); ex.setAttribute('aria-label','Explore more');
+  ex.innerHTML = '<h2>Explore more</h2><p>Everything else on VPN, one tap away.</p><div class="grid">'
+    + '<button type="button" data-vh2-show="kcomp" style="--c:#3ad8ff"><em>NEW</em><span class="ic">🔎</span><b>Compare suppliers</b><small>KCompounds: prices, suppliers and test results.</small></button>'
+    + '<button type="button" data-vh2-show="learn" style="--c:#2ee6a0"><span class="ic">🎮</span><b>Peptides 101 + Arcade</b><small>The basics in plain English, and games to learn by playing.</small></button>'
+    + '<button type="button" data-vh2-show="community" style="--c:#ff3f80"><span class="ic">🦍</span><b>Who we are</b><small>Our story and the community behind VPN.</small></button>'
+    + '<button type="button" data-vh2-show="prayer" style="--c:#ffb020"><span class="ic">☽</span><b>God is the Curer</b><small>A moment of faith and reflection.</small></button>'
+    + '</div>';
+  hero.appendChild(mc); hero.appendChild(ex);
+
+  document.querySelectorAll('[data-vh2-show]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var g = b.getAttribute('data-vh2-show');
+      if (hero.classList.contains('vh2-show-'+g)) { hero.classList.remove('vh2-show-'+g); sync(); (g==='mission'?mc:ex).scrollIntoView({behavior:'smooth',block:'start'}); }
+      else show(g, true);
+    });
+  });
+  sync();
 })();
 </script>
 
