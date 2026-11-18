@@ -9348,7 +9348,6 @@ window.vpnBadgeGo = function(view, id){
   <section id="vh2-tools" class="vh2" data-vt-skip aria-label="Tools">
     <div class="vh2-h"><div><div class="k">Tools</div><h2>Research tools</h2></div></div>
     <div class="vh2-grid">
-      <a class="vh2-card feat" style="--c:#ffcc00" href="pokeme-dex.html"><span class="ic">💉</span><b>PokeMe-Dex tracker</b><small>Track doses, see your calendar, rotate injection sites and print your plan.</small><span class="go">Open tracker →</span></a>
       <button type="button" class="vh2-card feat" style="--c:#2fb4ff" onclick="showView('all-peptides');window.scrollTo({top:0});"><span class="ic">🔬</span><b>Peptide index</b><small>Every compound A–Z with doses, cycles and a plain-English explanation. Download a card for each.</small><span class="go">Browse →</span></button>
       <button type="button" class="vh2-card" style="--c:#2ee6a0" onclick="showView('studies');window.scrollTo({top:0});"><span class="ic">📊</span><b>Research studies</b><small>163 PubMed-linked</small><span class="go">Read →</span></button>
       <button type="button" class="vh2-card" style="--c:#a855f7" onclick="showView('cheatsheets');window.scrollTo({top:0});"><span class="ic">🗄️</span><b>Cheat sheet vault</b><small>Every infographic in one grid</small><span class="go">Open →</span></button>
@@ -35958,6 +35957,10 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   html body #site-hero > #vh2-videos{order:5 !important;}
   html body #site-hero > #vh2-current{order:6 !important;}
   html body #site-hero > #vh2-mission-card{order:7 !important;}
+  /* Research tools: 5 cards → one even row on desktop; Peptide index full width + 2×2 on smaller screens */
+  html body #vh2-tools .vh2-grid{grid-template-columns:repeat(5,minmax(0,1fr));}
+  html body #vh2-tools .vh2-card.feat{grid-column:auto;}
+  @media(max-width:1100px){ html body #vh2-tools .vh2-grid{grid-template-columns:repeat(2,minmax(0,1fr));} html body #vh2-tools .vh2-card.feat{grid-column:1 / -1;} }
   html body #site-hero > #vh2-whyhere{order:8 !important;}
   html body #site-hero > #vh2-why{order:9 !important;}
   html body #site-hero > #vh2-med{order:10 !important;}
