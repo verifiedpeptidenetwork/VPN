@@ -9482,10 +9482,101 @@ window.vpnBadgeGo = function(view, id){
   </details>
   <style>/* Latest news sits right under the main hero so it gets seen */ html body #site-hero > #vh2-current{order:1 !important;}</style>
   <section id="vh2-current" class="vh2" data-vt-skip aria-label="Stay current">
-    <div class="vh2-h"><div><div class="k">Stay current</div><h2>Latest research news</h2></div></div>
-    <div class="vh2-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));">
-      <a class="vh2-card" style="--c:#ff9a1f" href="latest-news.html"><span class="ic">📰</span><b>Latest news</b><small>Trials, approvals and research updates, as they happen</small><span class="go">Read the news →</span></a>
-    </div>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap">
+    <style>
+      #vh2-news{--paper:#f3ecdc;--ink:#1b1712;--rule:#1b1712;--mute:#5d5546;--accent:#9b1c1c;
+        position:relative;box-sizing:border-box;width:100%;padding:clamp(16px,3vw,30px);border-radius:6px;color:var(--ink);
+        background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,0.35),transparent 60%),repeating-linear-gradient(0deg,rgba(0,0,0,0.018) 0 2px,transparent 2px 4px),var(--paper);
+        box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 24px 50px -24px rgba(0,0,0,0.85),0 0 0 1px rgba(0,0,0,0.25);font-family:'Source Serif 4',Georgia,'Times New Roman',serif;}
+      #vh2-news a{color:inherit;text-decoration:none !important;}
+      #vh2-news .np-top{display:flex;justify-content:space-between;gap:10px;font:600 11px/1.3 'Source Serif 4',Georgia,serif !important;letter-spacing:0.12em;text-transform:uppercase;color:var(--mute);}
+      #vh2-news .np-mast{margin:8px 0 6px;text-align:center;font-family:'UnifrakturMaguntia','Old English Text MT',Georgia,serif;font-weight:400;font-size:clamp(34px,6.4vw,72px) !important;line-height:1 !important;letter-spacing:0.01em;color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;background:none !important;text-shadow:none !important;text-transform:none !important;}
+      #vh2-news .np-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 0;border-top:3px double var(--rule);border-bottom:1px solid var(--rule);font:600 12px/1.3 'Source Serif 4',Georgia,serif !important;letter-spacing:0.08em;text-transform:uppercase;}
+      #vh2-news .np-bar em{font-style:italic;text-transform:none;letter-spacing:0;color:var(--mute);}
+      #vh2-news .np-body{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:0;margin-top:16px;}
+      #vh2-news .np-lead,#vh2-news .np-side,#vh2-news .np-side li,#vh2-news .np-side li span{text-align:left !important;}
+      #vh2-news .np-lead{padding-right:22px;border-right:1px solid rgba(27,23,18,0.45);}
+      #vh2-news .np-kick{display:inline-block;margin-bottom:8px;padding:3px 8px;background:var(--accent);color:#fff;font:700 11px/1.2 'Source Serif 4',Georgia,serif !important;letter-spacing:0.14em;text-transform:uppercase;}
+      #vh2-news .np-lead h3{margin:0 0 10px !important;font:900 clamp(24px,3.2vw,40px)/1.08 'Playfair Display',Georgia,serif !important;color:var(--ink) !important;letter-spacing:-0.01em;text-align:left !important;}
+      #vh2-news .np-lead p{margin:0 0 12px !important;font:400 16px/1.6 'Source Serif 4',Georgia,serif !important;color:#2c261d;text-align:justify;hyphens:auto;}
+      #vh2-news .np-lead p::first-letter{float:left;margin:4px 8px 0 0;font:900 52px/0.85 'Playfair Display',Georgia,serif;color:var(--accent);}
+      #vh2-news .np-more{display:inline-block;margin-top:2px;font:700 14px/1 'Source Serif 4',Georgia,serif !important;font-style:italic;color:var(--accent) !important;border-bottom:1px solid var(--accent);}
+      #vh2-news .np-side{padding-left:22px;}
+      #vh2-news .np-side h4{margin:0 0 6px !important;padding-bottom:6px;border-bottom:2px solid var(--rule);font:700 12px/1.2 'Source Serif 4',Georgia,serif !important;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink) !important;text-align:left !important;}
+      #vh2-news .np-side ol{list-style:none;margin:0 !important;padding:0 !important;counter-reset:np;}
+      #vh2-news .np-side li{counter-increment:np;display:flex;gap:10px;padding:10px 0 !important;border-bottom:1px solid rgba(27,23,18,0.25);margin:0 !important;}
+      #vh2-news .np-side li::before{content:counter(np);flex-shrink:0;font:900 22px/1 'Playfair Display',Georgia,serif;color:var(--accent);}
+      #vh2-news .np-side li a{font:700 15.5px/1.3 'Playfair Display',Georgia,serif !important;color:var(--ink) !important;}
+      #vh2-news .np-side li a:hover{text-decoration:underline !important;}
+      #vh2-news .np-side li small{display:block;margin-top:3px;font:italic 400 12.5px/1.35 'Source Serif 4',Georgia,serif !important;color:var(--mute);}
+      #vh2-news .np-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:10px;border-top:3px double var(--rule);}
+      #vh2-news .np-foot span{font:italic 400 13px/1.4 'Source Serif 4',Georgia,serif !important;color:var(--mute);}
+      #vh2-news .np-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--ink);color:var(--paper) !important;font:700 13px/1 'Source Serif 4',Georgia,serif !important;letter-spacing:0.12em;text-transform:uppercase;transition:background .15s;}
+      #vh2-news .np-btn:hover{background:var(--accent);}
+      @media(max-width:760px){
+        #vh2-news .np-body{grid-template-columns:minmax(0,1fr);}
+        #vh2-news .np-lead{padding-right:0;border-right:0;padding-bottom:14px;border-bottom:1px solid rgba(27,23,18,0.45);}
+        #vh2-news .np-side{padding-left:0;padding-top:14px;}
+        #vh2-news .np-top span:last-child{display:none;}
+        #vh2-news .np-lead p{text-align:left;}
+      }
+    </style>
+    <article id="vh2-news" aria-label="Latest research news">
+      <div class="np-top"><span>Free edition · No paywall</span><span>Research &amp; education only</span></div>
+      <h2 class="np-mast">The VPN Research Times</h2>
+      <div class="np-bar"><span id="np-date">Latest edition</span><em>Verify · Proof · Notate · Data</em><span>Peptide news</span></div>
+      <div class="np-body">
+        <div class="np-lead">
+          <span class="np-kick" id="np-lead-kick">Top story</span>
+          <h3><a href="latest-news.html" id="np-lead-title">Peptides for Long-COVID? Larazotide &amp; Leaky Gut</a></h3>
+          <p id="np-lead-text">Trials, approvals, crackdowns and new research on the peptides people are asking about, gathered in one place and written in plain English so you can verify before you act.</p>
+          <a class="np-more" href="latest-news.html">Continue reading →</a>
+        </div>
+        <aside class="np-side">
+          <h4>Also in this edition</h4>
+          <ol id="np-list">
+            <li><span><a href="latest-news.html">Myostatin Blockers + GLP-1: Protecting Muscle While Losing Fat</a></span></li>
+            <li><span><a href="latest-news.html">6 Out of 7 Peptides Approved: The Gray Market Just Got a Lot Smaller</a></span></li>
+            <li><span><a href="latest-news.html">Survodutide Phase III: Dual GLP-1/Glucagon Agonist Crushes Fat Loss Benchmarks</a></span></li>
+            <li><span><a href="latest-news.html">The Peptide Crackdown Has Begun</a></span></li>
+          </ol>
+        </aside>
+      </div>
+      <div class="np-foot"><span>Every story links to its sources. Not medical advice.</span><a class="np-btn" href="latest-news.html">Read the full edition →</a></div>
+    </article>
+    <script>
+    (function(){
+      try { document.getElementById('np-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); } catch(e){}
+      /* Pull the newest headlines from the news page so the front page stays current */
+      function clean(s){ return (s||'').replace(/\s+/g,' ').replace(/\s—\s/,': ').trim(); }
+      function load(){
+        fetch('latest-news.html',{cache:'no-cache'}).then(function(r){ return r.ok ? r.text() : ''; }).then(function(html){
+          if (!html) return;
+          var doc = new DOMParser().parseFromString(html,'text/html');
+          var cards = [].slice.call(doc.querySelectorAll('.vpn-news-card')).slice(0,5);
+          if (!cards.length) return;
+          var items = cards.map(function(c){
+            var t = c.querySelector('.vpn-news-title'), b = c.querySelector('.vpn-news-badge'), body = c.querySelector('.vpn-news-body p');
+            return { title: clean(t && t.textContent), kick: clean(b && b.textContent), text: clean(body && body.textContent) };
+          }).filter(function(i){ return i.title; });
+          if (!items.length) return;
+          var lead = items[0];
+          document.getElementById('np-lead-title').textContent = lead.title;
+          if (lead.kick) document.getElementById('np-lead-kick').textContent = lead.kick.replace(/[^\w\s&-]/g,'').trim() || 'Top story';
+          if (lead.text && lead.text.length > 60) document.getElementById('np-lead-text').textContent = lead.text.length > 260 ? lead.text.slice(0,260).replace(/\s+\S*$/,'') + '…' : lead.text;
+          var ol = document.getElementById('np-list'); ol.innerHTML = '';
+          items.slice(1,5).forEach(function(i){
+            var li = document.createElement('li'), sp = document.createElement('span'), a = document.createElement('a');
+            a.href = 'latest-news.html'; a.textContent = i.title; sp.appendChild(a);
+            if (i.kick) { var sm = document.createElement('small'); sm.textContent = i.kick.replace(/[^\w\s&-]/g,'').trim(); if (sm.textContent) sp.appendChild(sm); }
+            li.appendChild(sp); ol.appendChild(li);
+          });
+        }).catch(function(){});
+      }
+      var el = document.getElementById('vh2-news');
+      if ('IntersectionObserver' in window && el){ var io = new IntersectionObserver(function(es){ if (es[0].isIntersecting){ io.disconnect(); load(); } },{rootMargin:'400px'}); io.observe(el); } else load();
+    })();
+    </script>
   </section>
 
   <!-- HOME PAGE FLOW: what this is → start → stay safe → tools → stay current → learn → why it matters → community -->
