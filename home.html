@@ -8474,10 +8474,6 @@ document.addEventListener('keydown', function(e){
       <span class="wh-chev" aria-hidden="true"></span>
     </summary>
     <div class="wh-body">
-      <figure class="wh-quote">
-        <q>Patients are not reckless. <span>They are looking for hope in a system that has failed them.</span></q>
-        <p>Your doctors want to help, but insurance companies keep the tools they need out of reach, and compounding pharmacies are still expensive. So some people turn to the gray market. <strong>This site shows you how to be as safe and informed as possible.</strong></p>
-      </figure>
       <nav class="wh-toc" aria-label="In this section">
         <button type="button" data-go="wh-p1"><b>01</b>The problem</button>
         <button type="button" data-go="wh-p2"><b>02</b>Read this first</button>
@@ -8991,6 +8987,13 @@ document.addEventListener('keydown', function(e){
     #vh2-hero h1{margin:1rem 0 0.8rem;font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-0.035em;line-height:1.02;color:var(--ink);}
     #vh2-hero h1 span{background:linear-gradient(90deg,var(--a1),var(--a2) 50%,var(--a3));-webkit-background-clip:text;background-clip:text;color:transparent;}
     #vh2-hero .lead{margin:0;max-width:560px;font-size:clamp(1rem,1.6vw,1.12rem);line-height:1.6;color:var(--sub);}
+    #vh2-hero .mission{max-width:560px;margin:0 0 1rem;padding:0.9rem 1rem 0.95rem;border-radius:16px;border:1px solid var(--line);border-left:3px solid var(--a1);background:var(--card2);}
+    #vh2-hero .mission p{margin:0 !important;}
+    #vh2-hero .mission .m-q{font-size:clamp(1.05rem,1.9vw,1.25rem) !important;font-weight:800;letter-spacing:-0.02em;line-height:1.3 !important;color:var(--ink);}
+    #vh2-hero .mission .m-q span{background:linear-gradient(90deg,var(--a1),var(--a2) 50%,var(--a3));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+    #vh2-hero .mission .m-b{margin-top:0.5rem !important;font-size:0.95rem !important;line-height:1.55 !important;color:var(--sub);}
+    #vh2-hero .mission .m-b b{color:var(--ink);}
+    @media(max-width:900px){ #vh2-hero .mission{margin:0 auto 1rem;text-align:center;border-left:1px solid var(--line);border-top:3px solid var(--a1);} }
     #vh2-hero .cta{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.4rem;}
     .vh2-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;padding:0.85rem 1.25rem;border-radius:12px;font:700 0.95rem 'Inter',system-ui,sans-serif;text-decoration:none;cursor:pointer;border:1px solid var(--line);background:var(--card2);color:var(--ink);transition:transform .15s,border-color .15s,filter .15s;}
     .vh2-btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,0.3);}
@@ -9090,8 +9093,11 @@ window.vpnBadgeGo = function(view, id){
 </script><section id="vh2-hero" class="vh2" data-vt-skip aria-label="Verify · Proof · Notate · Data">
     <div class="hg">
       <div>
-        <span class="kick"><i></i>RUI · Research Unfiltered Information · free &amp; independent</span>
         <h1>Peptide research, <span>verified.</span></h1>
+        <div class="mission">
+          <p class="m-q">Patients are not reckless. <span>They are looking for hope in a system that has failed them.</span></p>
+          <p class="m-b">Your doctors want to help, but insurance companies keep the tools they need out of reach, and compounding pharmacies are still expensive. So some people turn to the gray market. <b>This site shows you how to be as safe and informed as possible.</b></p>
+        </div>
         <p class="lead"><b>VPN = Verify · Proof · Notate · Data.</b> One free hub for peptide research: a 110+ peptide index, the GLP-1 hub, PubMed-linked studies and news, reconstitution calculators, COA and lab-testing checks, gray-market safety guides, blood work and supplement guides — plus games to learn by playing. Research and education only, not medical advice.</p>
         <div class="cta">
           <button type="button" class="vh2-btn pri" onclick="var d=document.getElementById('vh2-whyhere');if(d){d.open=true;d.dispatchEvent(new Event('toggle'));d.scrollIntoView({behavior:'smooth',block:'start'});}">▶ Start here</button>
