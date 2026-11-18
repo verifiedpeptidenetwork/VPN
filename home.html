@@ -9024,6 +9024,17 @@ document.addEventListener('keydown', function(e){
     #vh2-hero .badge img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;background:#05030a;animation:none!important;box-shadow:none!important;}
     @media (min-width:1100px){ #vh2-hero .hg{grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);} #vh2-hero .badge{width:min(500px,100%);} }
     @media (min-width:1500px){ #vh2-hero .badge{width:min(560px,100%);} }
+    /* Living neon halo: rotating pink → purple → blue ring + big pulsing glow, matching the logo's border */
+    #vh2-hero .badge{position:relative;isolation:isolate;padding:6px;background:transparent !important;box-shadow:none !important;}
+    #vh2-hero .badge::before,#vh2-hero .badge::after{content:'';position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
+      background:conic-gradient(from 0deg,#ff2fa8,#c43cff,#7a4dff,#2f7bff,#2fd4ff,#7a4dff,#c43cff,#ff2fa8);
+      animation:vpnHaloSpin 6s linear infinite;}
+    #vh2-hero .badge::after{inset:0;}
+    #vh2-hero .badge::before{inset:-9%;filter:blur(38px);opacity:0.85;animation:vpnHaloSpin 6s linear infinite,vpnHaloPulse 3.2s ease-in-out infinite;}
+    #vh2-hero .badge img{position:relative;box-shadow:0 0 0 2px rgba(255,255,255,0.08),0 0 30px rgba(0,0,0,0.6) inset !important;}
+    @keyframes vpnHaloSpin{to{transform:rotate(360deg);}}
+    @keyframes vpnHaloPulse{0%,100%{opacity:0.6;filter:blur(34px);}50%{opacity:1;filter:blur(48px);}}
+    @media (prefers-reduced-motion: reduce){ #vh2-hero .badge::before,#vh2-hero .badge::after{animation:none;} }
     /* card grid (tools / current / community) */
     .vh2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.75rem;}
     .vh2-grid.three{grid-template-columns:repeat(3,minmax(0,1fr));}
@@ -9083,7 +9094,7 @@ document.addEventListener('keydown', function(e){
   <!-- hero badge: each label on the artwork is a link -->
 <style>
   #vh2-hero .badge{position:relative;}
-  #vh2-hero .badge .bg-hots{position:absolute;inset:4px;border-radius:50%;}
+  #vh2-hero .badge .bg-hots{position:absolute;inset:6px;border-radius:50%;}
   #vh2-hero .badge .bg-hot{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
     box-shadow:none !important;transition:background .2s,box-shadow .2s;}
   #vh2-hero .badge .bg-hot:hover,#vh2-hero .badge .bg-hot:focus-visible{background:rgba(255,255,255,0.12);box-shadow:0 0 0 2px rgba(255,255,255,0.8),0 0 20px rgba(154,92,255,0.9) !important;outline:none;}
@@ -9116,18 +9127,6 @@ window.vpnBadgeGo = function(view, id){
           <p class="m-q">Patients are not reckless. <span>They are looking for hope in a system that has failed them.</span></p>
           <p class="m-b">Your doctors want to help, but insurance companies keep the tools they need out of reach, and compounding pharmacies are still expensive. So some people turn to the gray market. <b>This site shows you how to be as safe and informed as possible.</b></p>
         </div>
-        <details class="mission about">
-          <summary><span class="m-q">VPN = <span>Verify · Proof · Notate · Data</span></span><span class="m-sub">What's on the site</span><i class="m-chev" aria-hidden="true"></i></summary>
-          <p class="m-b">One free hub for peptide research:</p>
-          <ul class="m-list">
-            <li><b>Peptide index</b> 110+ peptides with PubMed studies and news</li>
-            <li><b>GLP-1 hub</b> and reconstitution calculators</li>
-            <li><b>COA checks</b> and lab-testing guides</li>
-            <li><b>Safety guides</b> for the gray market, blood work and supplements</li>
-            <li><b>Games</b> to learn by playing</li>
-          </ul>
-          <p class="m-note">Research and education only. Not medical advice.</p>
-        </details>
         <div class="cta">
           <button type="button" class="vh2-btn pri" onclick="var d=document.getElementById('vh2-whyhere');if(d){d.open=true;d.dispatchEvent(new Event('toggle'));d.scrollIntoView({behavior:'smooth',block:'start'});}">▶ Start here</button>
         </div>
@@ -9334,6 +9333,8 @@ window.vpnBadgeGo = function(view, id){
     .vh2-vid dl{margin:0.2rem 0 0;display:grid;gap:0.35rem;}
     .vh2-vid dt{font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);}
     .vh2-vid dd{margin:0;font-size:0.88rem !important;line-height:1.45 !important;color:var(--ink);}
+    .vh2-vid .tag.d{background:linear-gradient(90deg,#0fae8f,#2bd4c4);color:#00201a;}
+    .vh2-vids{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;}
     @media(max-width:900px){ .vh2-vids{grid-template-columns:1fr;} }
   </style>
   <section id="vh2-videos" class="vh2" data-vt-skip aria-label="Video guides">
@@ -9345,6 +9346,15 @@ window.vpnBadgeGo = function(view, id){
           <h3>Welcome to VPN</h3>
           <p>A short introduction to Verify · Proof · Notate · Data: what the site is for, how it's laid out, and the safety mindset behind it.</p>
           <dl><dt>What it's for</dt><dd>Knowing where everything is and how to use the site safely.</dd><dt>When to watch</dt><dd>Your first visit, before you explore anything else.</dd></dl>
+        </div>
+      </article>
+      <article class="vh2-vid">
+        <video controls playsinline preload="metadata" poster="VPNNEWLOGO.png?v=5"><source src="whatarepeptides.mp4" type="video/mp4"></video>
+        <div class="vb">
+          <span class="tag d">The basics</span>
+          <h3>What are peptides?</h3>
+          <p>A clear, plain-language explanation of what peptides are, how they work in the body, and why they're being researched.</p>
+          <dl><dt>What it's for</dt><dd>Building a solid foundation before you look at any specific peptide.</dd><dt>When to watch</dt><dd>Right after the welcome video, if you're new to peptides.</dd></dl>
         </div>
       </article>
       <article class="vh2-vid">
@@ -35605,6 +35615,55 @@ html body .vh2-tools .vt-pfc .pfc-txt, html body .vh2-tools .vt-pfc .pfc-go{min-
 @media(min-width:701px) and (max-width:1400px){
  html body .vh2-tools .vt-pfc{column-gap:10px;padding:10px 12px 12px 6px;}
  html body .vh2-tools .vt-pfc .pfc-mascot{height:118px !important;max-width:90px;margin-bottom:-12px;}
+}
+/* ── Compact, professional tool tiles: capped width, fixed text sizes (immune to the global font boost),
+      tuned for desktop, tablet, phone portrait and phone landscape ── */
+html body .vh2-tools{max-width:1080px;margin-left:auto;margin-right:auto;gap:12px;align-items:stretch;}
+html body .vh2-tools .vt-dev{gap:8px;padding:12px;}
+html body .vh2-tools .vt-lens{width:24px;height:24px;}
+html body .vh2-tools .vt-dev-tag,html body .vh2-tools .vt-lab-tag{font:800 10px/1 'Inter',system-ui,sans-serif !important;padding:4px 8px;}
+html body .vh2-tools .vt-dev-screen{padding:9px 10px;gap:10px;border-width:4px;}
+html body .vh2-tools .vt-dev-screen img{width:46px;height:46px;}
+html body .vh2-tools .vt-dev-screen small{font:800 10px/1.2 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-dev-screen b{font:900 15px/1.2 'Inter',sans-serif !important;margin:4px 0 3px;}
+html body .vh2-tools .vt-dev-screen span{font:600 12px/1.3 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-dev-stats div{padding:7px 4px;}
+html body .vh2-tools .vt-dev-stats b{font:900 17px/1 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-dev-stats small{font:700 11px/1.2 'Inter',sans-serif !important;margin-top:4px;white-space:nowrap;}
+html body .vh2-tools .vt-lab{gap:8px;padding:12px;}
+html body .vh2-tools .vt-lab-top{font:800 10.5px/1 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-lab-core{padding:8px 10px;gap:10px;}
+html body .vh2-tools .vt-ring{width:54px;height:54px;}
+html body .vh2-tools .vt-ring > div{inset:5px;}
+html body .vh2-tools .vt-ring b{font:900 14px/1 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-ring small{font:700 9px/1 'Inter',sans-serif !important;margin-top:2px;}
+html body .vh2-tools .vt-lab-best small{font:800 10px/1 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-lab-best b{font:900 16px/1.1 'Inter',sans-serif !important;margin:4px 0 2px;}
+html body .vh2-tools .vt-lab-best span{font:500 11.5px/1.3 'Inter',sans-serif !important;}
+html body .vh2-tools .vt-lab-go{height:34px !important;}
+html body .vh2-tools .vt-pfc b{font-size:clamp(17px,1.4vw,20px) !important;}
+html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;}
+/* Phone portrait: one column, everything stacked and tight */
+@media(max-width:700px){
+ html body .vh2-tools{grid-template-columns:minmax(0,1fr) !important;gap:10px;}
+ html body .vh2-tools .vt-dev{grid-row:auto;border-radius:16px 16px 16px 32px;}
+ html body .vh2-tools .vt-pfc .pfc-mascot{height:96px !important;max-width:76px;margin-bottom:-12px;}
+ html body .vh2-tools .vt-pfc small{display:none !important;}
+ html body .vh2-tools .vt-pfc .pfc-go{display:inline-flex !important;}
+}
+/* Phone landscape / short screens: three tiles side by side, minimal height */
+@media(orientation:landscape) and (max-height:520px){
+ html body .vh2-tools{grid-template-columns:repeat(3,minmax(0,1fr)) !important;max-width:none;gap:10px;}
+ html body .vh2-tools .vt-dev{grid-row:auto;border-radius:16px 16px 16px 30px;}
+ html body .vh2-tools .vt-dev-top,html body .vh2-tools .vt-dev-pad .vt-dpad{display:none;}
+ html body .vh2-tools .vt-dev-screen img{width:38px;height:38px;}
+ html body .vh2-tools .vt-dev-screen span{display:none;}
+ html body .vh2-tools .vt-pfc{grid-template-columns:auto minmax(0,1fr);padding:8px 10px 10px 4px;}
+ html body .vh2-tools .vt-pfc .pfc-mascot{height:84px !important;max-width:66px;margin-bottom:-10px;}
+ html body .vh2-tools .vt-pfc small{display:none !important;}
+ html body .vh2-tools .vt-pfc b{font-size:16px !important;}
+ html body .vh2-tools .vt-lab-top{display:none;}
+ html body .vh2-tools .vt-ring{width:46px;height:46px;}
 }
 </style>
 <!-- ═══ TOOLS & GUIDES: organized by topic, with search and a sticky topic bar ═══ -->
