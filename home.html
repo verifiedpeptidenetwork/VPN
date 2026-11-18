@@ -7598,8 +7598,51 @@ document.addEventListener('keydown', function(e){
 
   <section class="vpn-rules" aria-label="Must-read safety guides and the 4 rules">
     <!-- MUST-READ SAFETY: GLP warning, gray market, protocols, spike protein + Janoshik lab testing -->
-    <div class="vpn-musts">
-      <div class="vpn-musts-head"><span class="vpn-musts-tag">MUST READ</span><span class="vpn-musts-t">Safety guides &amp; lab testing</span><span class="vpn-musts-sub">Tap any bar to open it</span></div>
+    <div class="vpn-musts" id="vpn-musts-anchor">
+      <div class="vpn-musts-head"><span class="vpn-musts-tag">MUST READ</span><span class="vpn-musts-t">Safety guides &amp; lab testing</span><span class="vpn-musts-sub">Tap any bar to open it</span><button type="button" class="vpn-close-all" data-vpn-close-all hidden>✕ Close all cards</button></div>
+      <button type="button" class="vpn-close-all vpn-close-float" data-vpn-close-all hidden aria-label="Close all open Must Read cards">✕ Close all cards</button>
+      <style>
+        #vpn-musts-anchor{scroll-margin-top:72px;}
+        .vpn-close-all{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;cursor:pointer;
+          font:800 12.5px/1 'Inter',system-ui,sans-serif !important;letter-spacing:0.02em;color:#fff;background:rgba(255,63,90,0.16);border:1px solid rgba(255,63,90,0.65);transition:background .15s,transform .15s;}
+        .vpn-close-all:hover{background:rgba(255,63,90,0.32);transform:translateY(-1px);}
+        .vpn-close-all[hidden]{display:none !important;}
+        .vpn-close-float{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9998;margin:0;padding:11px 18px;font-size:13.5px !important;
+          background:linear-gradient(90deg,#ff3f5a,#c43cff);border:0;box-shadow:0 10px 28px -8px rgba(255,63,90,0.75),0 0 0 1px rgba(255,255,255,0.12) inset;}
+        .vpn-close-float:hover{transform:translateX(-50%) translateY(-2px);background:linear-gradient(90deg,#ff3f5a,#c43cff);}
+        @media(max-width:640px){ .vpn-close-float{bottom:16px;padding:10px 16px;} }
+      </style>
+      <script>
+      (function(){
+        var root=document.getElementById('vpn-musts-anchor'); if(!root) return;
+        function openCards(){
+          var list=[].slice.call(root.querySelectorAll('details[open]'));
+          list=list.concat([].slice.call(root.querySelectorAll('.qa-dropdown.open,.gl-panel.open')));
+          var jb=document.getElementById('janoshik-body'); if(jb && jb.style.display==='block') list.push(jb);
+          return list;
+        }
+        var btns=[].slice.call(document.querySelectorAll('[data-vpn-close-all]'));
+        var inView=false;
+        function sync(){
+          var n=openCards().length;
+          btns.forEach(function(b){ b.hidden = n===0 || (b.classList.contains('vpn-close-float') && !inView); });
+        }
+        function closeAll(){
+          root.querySelectorAll('details[open]').forEach(function(d){ d.open=false; });
+          root.querySelectorAll('.qa-dropdown.open,.gl-panel.open').forEach(function(e){ e.classList.remove('open'); });
+          var jb=document.getElementById('janoshik-body'), jbtn=document.getElementById('janoshik-btn');
+          if(jb && jb.style.display==='block' && jbtn){ jbtn.click(); }
+          setTimeout(function(){ root.scrollIntoView({behavior:'smooth',block:'start'}); sync(); },30);
+        }
+        btns.forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); closeAll(); }); });
+        root.addEventListener('click',function(){ setTimeout(sync,60); });
+        root.addEventListener('toggle',function(){ setTimeout(sync,0); },true);
+        if('IntersectionObserver' in window){
+          new IntersectionObserver(function(es){ inView=es[0].isIntersecting; sync(); }).observe(root);
+        }
+        setTimeout(sync,500);
+      })();
+      </script>
     <div class="hero-btn-row">
 
       <!-- GLP SAFETY — full-width second row inside the button group -->
@@ -9027,13 +9070,13 @@ document.addEventListener('keydown', function(e){
     /* Living neon halo: rotating pink → purple → blue ring + big pulsing glow, matching the logo's border */
     #vh2-hero .badge{position:relative;isolation:isolate;padding:6px;background:transparent !important;box-shadow:none !important;}
     #vh2-hero .badge::before,#vh2-hero .badge::after{content:'';position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
-      background:conic-gradient(from 0deg,#ff2fa8,#c43cff,#7a4dff,#2f7bff,#2fd4ff,#7a4dff,#c43cff,#ff2fa8);
+      background:conic-gradient(from 0deg,#9a5cff,#3f7bff,#2fb4ff,#c43cff,#ff6a2a,#ffb12a,#ff3f80,#ff2fa8,#9a5cff);
       animation:vpnHaloSpin 6s linear infinite;}
     #vh2-hero .badge::after{inset:0;}
-    #vh2-hero .badge::before{inset:-9%;filter:blur(38px);opacity:0.85;animation:vpnHaloSpin 6s linear infinite,vpnHaloPulse 3.2s ease-in-out infinite;}
+    #vh2-hero .badge::before{inset:-2%;filter:blur(16px);opacity:0.9;animation:vpnHaloSpin 6s linear infinite,vpnHaloPulse 3.2s ease-in-out infinite;}
     #vh2-hero .badge img{position:relative;box-shadow:0 0 0 2px rgba(255,255,255,0.08),0 0 30px rgba(0,0,0,0.6) inset !important;}
     @keyframes vpnHaloSpin{to{transform:rotate(360deg);}}
-    @keyframes vpnHaloPulse{0%,100%{opacity:0.6;filter:blur(34px);}50%{opacity:1;filter:blur(48px);}}
+    @keyframes vpnHaloPulse{0%,100%{opacity:0.7;filter:blur(12px);}50%{opacity:1;filter:blur(20px);}}
     @media (prefers-reduced-motion: reduce){ #vh2-hero .badge::before,#vh2-hero .badge::after{animation:none;} }
     /* card grid (tools / current / community) */
     .vh2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.75rem;}
@@ -9128,7 +9171,7 @@ window.vpnBadgeGo = function(view, id){
           <p class="m-b">Your doctors want to help, but insurance companies keep the tools they need out of reach, and compounding pharmacies are still expensive. So some people turn to the gray market. <b>This site shows you how to be as safe and informed as possible.</b></p>
         </div>
         <div class="cta">
-          <button type="button" class="vh2-btn pri" onclick="var d=document.getElementById('vh2-whyhere');if(d){d.open=true;d.dispatchEvent(new Event('toggle'));d.scrollIntoView({behavior:'smooth',block:'start'});}">▶ Start here</button>
+          <button type="button" class="vh2-btn pri" onclick="var d=document.getElementById('vpn-musts-anchor')||document.querySelector('.vpn-musts');if(d){d.scrollIntoView({behavior:'smooth',block:'start'});}">▶ Start here</button>
         </div>
         <div class="stats">
           <div><b>163</b><small>PubMed studies</small></div>
