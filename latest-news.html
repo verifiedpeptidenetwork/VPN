@@ -2213,5 +2213,91 @@ window.addEventListener('scroll',function(){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
+
+<!-- ═══ NEWSPAPER THEME — matches "The VPN Research Times" front page on home ═══ -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style id="np-theme">
+  :root{--np-paper:#f3ecdc;--np-paper2:#ebe2cd;--np-ink:#1b1712;--np-ink2:#2c261d;--np-mute:#5d5546;--np-rule:rgba(27,23,18,0.35);--np-accent:#9b1c1c;}
+  html,html body{background:#e4dbc6 !important;color:var(--np-ink) !important;}
+  html body{font-family:'Source Serif 4',Georgia,'Times New Roman',serif !important;font-weight:400 !important;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,0.02) 0 2px,transparent 2px 4px),#e4dbc6 !important;}
+  html body::before,html body::after{display:none !important;}
+
+  /* Everything reads as ink on paper */
+  html body .lp-bar,html body .lp-hero,html body #ln-tools,html body #ln-top,html body .px-box,html body .np-section{color:var(--np-ink) !important;}
+  html body .lp-hero *,html body #ln-tools *,html body #ln-top *,html body .px-box *,html body .np-section *{
+    color:var(--np-ink2) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;
+    font-family:'Source Serif 4',Georgia,'Times New Roman',serif !important;animation:none !important;}
+  html body .lp-hero *,html body #ln-top *,html body .np-section *{box-shadow:none !important;}
+
+  /* Top bar */
+  html body .lp-bar{background:var(--np-ink) !important;border-bottom:3px double var(--np-paper) !important;}
+  html body .lp-bar *{color:var(--np-paper) !important;-webkit-text-fill-color:currentColor !important;font-family:'Source Serif 4',Georgia,serif !important;text-shadow:none !important;}
+  html body .lp-bar a,html body .lp-bar button{background:transparent !important;border:1px solid rgba(243,236,220,0.5) !important;border-radius:0 !important;}
+
+  /* Masthead (the hero) */
+  html body .lp-hero{background:var(--np-paper) !important;border:0 !important;border-top:6px solid var(--np-ink) !important;border-bottom:3px double var(--np-ink) !important;border-radius:0 !important;box-shadow:0 18px 40px -26px rgba(0,0,0,0.6) !important;}
+  html body .lp-hero h1{font-family:'Playfair Display',Georgia,serif !important;font-weight:900 !important;text-transform:uppercase;letter-spacing:0.03em;color:var(--np-ink) !important;text-align:center;}
+  html body .lp-hero h1 *{font-family:'Playfair Display',Georgia,serif !important;color:var(--np-accent) !important;background:none !important;}
+  html body .lp-hero [class*="stat"],html body .lp-hero a,html body .lp-hero button{background:var(--np-paper2) !important;border:1px solid var(--np-rule) !important;border-radius:0 !important;}
+  html body .lp-hero a:hover,html body .lp-hero button:hover{background:#fff8e8 !important;}
+
+  /* Search + filter chips */
+  html body #ln-tools input{background:#fffaf0 !important;border:1px solid var(--np-ink) !important;border-radius:0 !important;color:var(--np-ink) !important;}
+  html body #ln-tools input::placeholder{color:var(--np-mute) !important;}
+  html body #ln-tools button{background:transparent !important;border:1px solid var(--np-ink) !important;border-radius:0 !important;text-transform:uppercase;letter-spacing:0.06em;font-weight:700 !important;}
+  html body #ln-tools button.on,html body #ln-tools button[aria-pressed="true"],html body #ln-tools button.active{background:var(--np-ink) !important;}
+  html body #ln-tools button.on *,html body #ln-tools button[aria-pressed="true"] *,html body #ln-tools button.active *,
+  html body #ln-tools button.on,html body #ln-tools button[aria-pressed="true"],html body #ln-tools button.active{color:var(--np-paper) !important;}
+
+  /* Section headings ("Top Stories", "More") */
+  html body .ln-h,html body .px-head{border:0 !important;border-top:3px double var(--np-ink) !important;border-bottom:1px solid var(--np-ink) !important;background:none !important;}
+  html body .ln-h *,html body .ln-h,html body .px-head,html body .px-head *{font-family:'Source Serif 4',Georgia,serif !important;font-weight:700 !important;letter-spacing:0.16em !important;text-transform:uppercase !important;color:var(--np-ink) !important;}
+
+  /* Story cards */
+  html body .breaking-banner,html body .vpn-news-card,html body .px-box{background:var(--np-paper) !important;border:1px solid var(--np-rule) !important;border-top:3px solid var(--np-ink) !important;border-radius:0 !important;box-shadow:0 1px 0 rgba(255,255,255,0.5) inset,0 10px 24px -18px rgba(0,0,0,0.55) !important;}
+  html body .breaking-banner .bb-stripe{display:none !important;}
+  html body .breaking-banner > *,html body .vpn-news-summary{background:transparent !important;}
+  html body .bb-headline,html body .vpn-news-title,html body .px-box h2,html body .vx-head{font-family:'Playfair Display',Georgia,serif !important;font-weight:900 !important;color:var(--np-ink) !important;letter-spacing:-0.005em !important;line-height:1.12 !important;}
+  html body .bb-deck{font-style:italic !important;color:var(--np-mute) !important;}
+  html body .bb-badge,html body .vpn-news-badge,html body .bb-live{background:var(--np-accent) !important;color:#fff !important;border:0 !important;border-radius:0 !important;text-transform:uppercase;letter-spacing:0.12em;font-weight:700 !important;}
+  html body .bb-badge *,html body .vpn-news-badge *,html body .bb-live *{color:#fff !important;}
+  html body .bb-category{background:transparent !important;border:1px solid var(--np-ink) !important;border-radius:0 !important;color:var(--np-ink) !important;}
+  html body .bb-body,html body .vpn-news-body{background:transparent !important;border-color:var(--np-rule) !important;}
+  html body .bb-body p,html body .vpn-news-body p{font-size:1.02rem !important;line-height:1.7 !important;color:var(--np-ink2) !important;}
+  html body .bb-body strong,html body .vpn-news-body strong,html body .bb-body b{color:var(--np-ink) !important;font-weight:700 !important;}
+  html body #ln-top a,html body .np-section a,html body .px-box a{color:var(--np-accent) !important;text-decoration:underline !important;background:transparent !important;border-color:var(--np-accent) !important;}
+  html body .bb-toggle,html body .eli5,html body .ln-simple{background:transparent !important;border:1px solid var(--np-ink) !important;border-radius:0 !important;}
+  html body .breaking-banner [style*="background"],html body .vpn-news-card [style*="background"],html body .px-box [style*="background"]{background:transparent !important;}
+  html body .breaking-banner [style*="border"],html body .vpn-news-card [style*="border"],html body .px-box [style*="border"]{border-color:var(--np-rule) !important;}
+  html body .breaking-banner img,html body .vpn-news-card img,html body .px-box img{filter:sepia(0.15) contrast(1.02);border:1px solid var(--np-ink) !important;border-radius:0 !important;}
+  html body table,html body th,html body td{border-color:var(--np-rule) !important;background:transparent !important;}
+  html body th{background:var(--np-paper2) !important;}
+
+  /* Floating buttons */
+  html body #ln-top-btn,html body #vt-top-btn,html body #vt-toggle-btn,html body #vpn-close-cards{background:var(--np-ink) !important;color:var(--np-paper) !important;border-color:var(--np-ink) !important;box-shadow:none !important;}
+  html body #vt-text-ctrl button{background:var(--np-paper) !important;color:var(--np-ink) !important;border-color:var(--np-ink) !important;box-shadow:none !important;}
+  html body .np-watermark{display:none !important;}
+
+  /* Stronger overrides for the neon card/hero backgrounds and glow layers */
+  html body .lp-hero .lp-hero-in,html body .lp-hero .lp-hero-in.lp-hero-in{background:var(--np-paper) !important;background-image:none !important;border:0 !important;}
+  html body .lp-hero .lp-hero-in *:not(.lp-reta-go){background-image:none !important;}
+  html body .lp-hero .lp-reta-go{background:var(--np-accent) !important;background-image:none !important;border:0 !important;}
+  html body .lp-hero .lp-reta-go,html body .lp-hero .lp-reta-go *{color:#fff !important;text-decoration:none !important;}
+  html body .lp-hero h1{font-size:clamp(30px,5vw,60px) !important;line-height:1.02 !important;}
+  html body .lp-hero h1 + p,html body .lp-hero p{text-align:center;}
+  html body #ln-top .breaking-banner.breaking-banner,html body #ln-top .breaking-banner[class]{background:var(--np-paper) !important;background-image:none !important;}
+  html body #ln-top .breaking-banner::before,html body #ln-top .breaking-banner::after,
+  html body .vpn-news-card::before,html body .vpn-news-card::after,html body .ln-h::after,html body .lp-hero::before,html body .lp-hero::after,
+  html body .lp-hero-in::before,html body .lp-hero-in::after{display:none !important;background:none !important;}
+  html body .np-section .vpn-news-card.vpn-news-card{background:var(--np-paper) !important;background-image:none !important;border-color:var(--np-rule) !important;border-top:3px solid var(--np-ink) !important;}
+  html body .np-section{background:transparent !important;}
+  html body #ln-top .breaking-banner .bb-headline,html body #ln-top .bb-headline *{color:var(--np-ink) !important;-webkit-text-fill-color:var(--np-ink) !important;letter-spacing:-0.005em !important;}
+  html body #ln-top .breaking-banner .bb-headline,html body .np-section .vpn-news-title,html body .px-box .vx-head{font-family:'Playfair Display',Georgia,serif !important;font-weight:900 !important;}
+  html body #ln-top .breaking-banner .bb-deck,html body #ln-top .breaking-banner .bb-deck *{color:var(--np-mute) !important;-webkit-text-fill-color:var(--np-mute) !important;opacity:1 !important;font-style:italic !important;}
+  html body #ln-top .breaking-banner.breaking-banner,html body .np-section .vpn-news-card.vpn-news-card{border:1px solid var(--np-rule) !important;border-top:3px solid var(--np-ink) !important;box-shadow:0 10px 24px -18px rgba(0,0,0,0.55) !important;filter:none !important;}
+  html body #ln-top .breaking-banner *{opacity:1;}
+  html body #ln-top .breaking-banner [style*="color:#fff"],html body #ln-top .breaking-banner [style*="color: #fff"],html body #ln-top .breaking-banner [style*="color:white"]{color:var(--np-ink2) !important;}
+</style>
 </body>
 </html>
