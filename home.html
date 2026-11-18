@@ -9391,7 +9391,7 @@ window.vpnBadgeGo = function(view, id){
         </div>
       </article>
       <article class="vh2-vid">
-        <video controls playsinline preload="metadata" poster="VPNNEWLOGO.png?v=5"><source src="whatarepeptides.mp4" type="video/mp4"></video>
+        <video controls playsinline preload="none" poster="whatarepeptides-poster.jpg?v=1"><source src="whatarepeptides.mp4" type="video/mp4"></video>
         <div class="vb">
           <span class="tag d">The basics</span>
           <h3>What are peptides?</h3>
@@ -35940,6 +35940,15 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   html[data-theme="light"] .vh2-mc span.d,html[data-theme="light"] .vh2-ex > p,html[data-theme="light"] .vh2-ex .grid small{color:#5a5575;}
   html[data-theme="light"] .vh2-mc .go{color:#14112a;background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);}
   html[data-theme="light"] .vh2-ex .grid button{background:#fff;color:#14112a;border-color:rgba(124,58,237,0.16);}
+
+  /* Footer area: Flyers card first, then one footer bar (copyright + links left, Get the app right) */
+  html body #site-hero #home-flyers{order:18 !important;width:100%;box-sizing:border-box;margin:clamp(18px,3vw,34px) 0 0 !important;}
+  html body #home-flyers > summary::after,html body #home-flyers > summary::before{display:none !important;content:none !important;}
+  html body #site-hero > #vh2-foot.vh2-foot-bar{display:flex !important;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin-top:14px !important;}
+  #vh2-foot.vh2-foot-bar .vh2-foot-tx{flex:1 1 380px;min-width:0;}
+  #vh2-foot.vh2-foot-bar .vh2-foot-tx p{margin:0 0 6px !important;}
+  #vh2-foot.vh2-foot-bar #vpn-getapp{order:0 !important;flex:0 0 auto;margin:0 !important;width:auto !important;max-width:100%;}
+  @media(max-width:640px){ #vh2-foot.vh2-foot-bar{flex-direction:column;align-items:stretch;text-align:center;} #vh2-foot.vh2-foot-bar .vh2-foot-tx .links{justify-content:center;} #vh2-foot.vh2-foot-bar #vpn-getapp{align-self:center;} }
 </style>
 <script>
 (function(){
@@ -35971,6 +35980,15 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     + '<button type="button" data-vh2-show="prayer" style="--c:#ffb020"><span class="ic">☽</span><b>God is the Curer</b><small>A moment of faith and reflection.</small></button>'
     + '</div>';
   hero.appendChild(mc); hero.appendChild(ex);
+
+  /* Footer tidy: flyers become a normal section above the footer; Get the app joins the footer bar */
+  var ft = document.getElementById('vh2-foot'), ga = document.getElementById('vpn-getapp');
+  if (ft && !ft.querySelector('.vh2-foot-tx')) {
+    var tx = document.createElement('div'); tx.className = 'vh2-foot-tx';
+    while (ft.firstChild) tx.appendChild(ft.firstChild);
+    ft.appendChild(tx); ft.classList.add('vh2-foot-bar');
+    if (ga) ft.appendChild(ga);
+  }
 
   document.querySelectorAll('[data-vh2-show]').forEach(function(b){
     b.addEventListener('click', function(){
