@@ -36249,19 +36249,19 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
      One card style, one font, calmer glows, bigger tap targets, and a pinned "jump to" bar on each page ═══ -->
 <style id="vsec-polish">
   /* 1. One card style (keeps each card's own accent colour as a left stripe) */
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.px-box,details.px-det){
+  .view.vsec :is(.px-box,details.px-det){
     border:1px solid rgba(255,255,255,0.10) !important;border-left:3px solid var(--px-ac,#9a5cff) !important;border-radius:14px !important;
     box-shadow:0 10px 26px -20px rgba(0,0,0,0.9) !important;animation:none !important;}
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.px-box,details.px-det):hover{border-color:rgba(255,255,255,0.18) !important;border-left-color:var(--px-ac,#9a5cff) !important;}
+  .view.vsec :is(.px-box,details.px-det):hover{border-color:rgba(255,255,255,0.18) !important;border-left-color:var(--px-ac,#9a5cff) !important;}
   /* 2. One font: the old display fonts (Bebas / Rajdhani) become the site's Inter; glows and pulsing text removed */
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is([style*="Bebas"],[style*="Rajdhani"],.vx-head,.px-head,.vx-label,.section-header *){
+  .view.vsec :is([style*="Bebas"],[style*="Rajdhani"],.vx-head,.px-head,.vx-label,.section-header *){
     font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;font-weight:800;letter-spacing:0.01em !important;text-shadow:none !important;}
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.vx-glow,[style*="animation"]:not(.view-hero *),.section-header,.section-header *){animation:none !important;text-shadow:none !important;}
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) .section-header{border-radius:14px !important;box-shadow:none !important;}
+  .view.vsec :is(.vx-glow,[style*="animation"]:not(.view-hero *),.section-header,.section-header *){animation:none !important;text-shadow:none !important;}
+  .view.vsec .section-header{border-radius:14px !important;box-shadow:none !important;}
   /* Jumps land below the pinned bar instead of underneath it */
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(details,section,.px-box,.section-header,.vx-label,.csv-group-sep,[id]){scroll-margin-top:84px;}
+  .view.vsec :is(details,section,.px-box,.section-header,.vx-label,.csv-group-sep,[id]){scroll-margin-top:84px;}
   /* 3. Bigger, easier tap targets */
-  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(summary,.px-tog-bar){min-height:48px;box-sizing:border-box;}
+  .view.vsec :is(summary,.px-tog-bar){min-height:48px;box-sizing:border-box;}
   .view .vh2-chips .vh2-go{min-height:36px;display:inline-flex;align-items:center;padding:0 12px !important;cursor:pointer;}
   /* 4. Supplies: two-column grid of shop cards instead of one long column */
   #view-supplies .sup-grid{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch;}
@@ -36276,6 +36276,25 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   @media(max-width:700px){ #view-supplies .sup-grid{grid-template-columns:minmax(0,1fr);} }
   /* 5. Label Templates: the repeated group label above each card is hidden (the card already shows the same title) */
   #view-templates .csv-group-sep.vsec-dup{height:0 !important;min-height:0 !important;margin:0 !important;padding:0 !important;border:0 !important;overflow:hidden !important;opacity:0;scroll-margin-top:150px;}
+  /* Research Studies: each peptide is a tidy collapsible group; everything opens while searching */
+  #view-studies .study-peptide-block.sp-collapsed > .study-card{display:none !important;}
+  #view-studies.sp-searching .study-peptide-block.sp-collapsed > .study-card{display:revert !important;}
+  #view-studies .study-peptide-header.sp-toggle{display:flex !important;align-items:center;gap:10px;min-height:52px;cursor:pointer;user-select:none;border-radius:12px;}
+  #view-studies .study-peptide-header.sp-toggle:hover{background:rgba(255,255,255,0.05) !important;}
+  #view-studies .study-peptide-header .sp-count{margin-left:auto;font:700 12.5px/1 'Inter',system-ui,sans-serif !important;color:rgba(214,220,240,0.7);white-space:nowrap;}
+  #view-studies .study-peptide-header .sp-chev{font-size:12px;opacity:0.75;transition:transform .2s;}
+  #view-studies .study-peptide-block:not(.sp-collapsed) .sp-chev{transform:rotate(180deg);}
+  #view-studies .study-peptide-block{margin-bottom:8px !important;}
+  /* keep the search box and topic filters in reach */
+  #view-studies .sp-sticky{position:sticky;z-index:59;padding:10px;margin:0 0 12px;border-radius:14px;background:rgba(12,10,24,0.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);}
+  #view-studies .sp-sticky .qg-search{margin:0 0 8px !important;}
+  #view-studies .sp-sticky .qg-filter-bar{margin:0 !important;flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none;}
+  #view-studies .sp-sticky .qg-filter-bar::-webkit-scrollbar{display:none;}
+  #view-studies .sp-sticky .qg-filter{flex:0 0 auto;min-height:38px;}
+  #view-studies .sp-tools{display:flex;gap:8px;margin-top:8px;}
+  #view-studies .sp-tools button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:#e9e7f5;font:700 12.5px/1 'Inter',system-ui,sans-serif;cursor:pointer;}
+  #view-studies .sp-tools button:hover{border-color:#ff2fa8;}
+  #view-studies.vsec .vsn{display:none !important;} /* the pinned search bar already does this job here */
   /* 6. Pinned section bar: title + jump chips + close all + top, shown once the page header scrolls away */
   .vsn{position:sticky;z-index:60;display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:8px 10px;border-radius:14px;
     background:rgba(12,10,24,0.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);
@@ -36294,7 +36313,11 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
 </style>
 <script>
 (function(){
-  var VIEWS = ['vitamins','workouts','supplies','quick-guide','calculator','templates'];
+  var VIEWS = ['vitamins','workouts','supplies','quick-guide','calculator','templates',
+               'tgk','winter','cancer','videos','ruqyah','bloodwork','cheatsheets','studies'];
+  /* Mark these pages so the shared card / font / tap-target polish applies to them */
+  function mark(){ VIEWS.forEach(function(id){ var v = document.getElementById('view-' + id); if (v) v.classList.add('vsec'); }); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mark); else mark();
   /* The site styles some of these pages only when they are opened, so the page-specific tidy-ups run on open */
   function tidy(id){
     if (id === 'supplies') {
@@ -36302,6 +36325,51 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
       /* the container that directly holds the shop links (3+ link cards as direct children) */
       var box = sv && [].slice.call(sv.querySelectorAll('div')).find(function(d){ return [].filter.call(d.children, function(c){ return c.tagName === 'A'; }).length >= 3; });
       if (box) box.classList.add('sup-grid');
+    }
+    if (id === 'studies') {
+      var st = document.getElementById('view-studies');
+      if (st && !st.dataset.spDone) {
+        st.dataset.spDone = '1';
+        /* The site redraws the study list (on open and when filtering), so decorate whatever is there now
+           and again after every redraw. Opened groups are remembered by name. */
+        var OPEN = {}, ALL_OPEN = false;
+        function nameOf(h){ return (h.firstChild && h.firstChild.nodeType === 3 ? h.firstChild.textContent : h.textContent).trim(); }
+        function decorate(){
+          st.querySelectorAll('.study-peptide-block').forEach(function(b){
+            var h = b.querySelector('.study-peptide-header'); if (!h || h.dataset.sp) return;
+            h.dataset.sp = '1';
+            var n = b.querySelectorAll(':scope > .study-card').length;
+            var nm = nameOf(h); b.classList.toggle('sp-collapsed', !(ALL_OPEN || OPEN[nm]));
+            h.classList.add('sp-toggle'); h.setAttribute('role', 'button'); h.setAttribute('tabindex', '0');
+            h.setAttribute('aria-expanded', b.classList.contains('sp-collapsed') ? 'false' : 'true');
+            var c = document.createElement('span'); c.className = 'sp-count'; c.textContent = n + ' stud' + (n === 1 ? 'y' : 'ies');
+            var ch = document.createElement('span'); ch.className = 'sp-chev'; ch.textContent = '▼'; ch.setAttribute('aria-hidden', 'true');
+            h.appendChild(c); h.appendChild(ch);
+          });
+        }
+        function toggle(h){
+          var b = h.closest('.study-peptide-block'); if (!b) return;
+          var open = b.classList.toggle('sp-collapsed') === false; OPEN[nameOf(h)] = open; h.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        st.addEventListener('click', function(e){ var h = e.target.closest('.study-peptide-header.sp-toggle'); if (h && st.contains(h)) toggle(h); });
+        st.addEventListener('keydown', function(e){ var h = e.target.closest && e.target.closest('.study-peptide-header.sp-toggle'); if (h && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(h); } });
+        var pending = 0;
+        new MutationObserver(function(){ if (pending) return; pending = setTimeout(function(){ pending = 0; decorate(); }, 30); }).observe(st, { childList:true, subtree:true });
+        decorate();
+        st.__spSetAll = function(open){ ALL_OPEN = open; OPEN = {}; st.querySelectorAll('.study-peptide-block').forEach(function(b){ b.classList.toggle('sp-collapsed', !open); var hh = b.querySelector('.sp-toggle'); if (hh) hh.setAttribute('aria-expanded', open ? 'true' : 'false'); }); };
+        /* pin the search box + topic filters together, with Open all / Close all */
+        var q = document.getElementById('studies-search'), fb = document.getElementById('studies-filters');
+        if (q && fb && q.parentElement === fb.parentElement) {
+          var wrap = document.createElement('div'); wrap.className = 'sp-sticky';
+          q.parentElement.insertBefore(wrap, q); wrap.appendChild(q); wrap.appendChild(fb);
+          var tools = document.createElement('div'); tools.className = 'sp-tools';
+          tools.innerHTML = '<button type="button" data-a="open">▼ Open all</button><button type="button" data-a="close">▲ Close all</button>';
+          tools.addEventListener('click', function(e){ var a = e.target.closest('button'); if (!a) return; st.__spSetAll(a.dataset.a === 'open'); });
+          wrap.appendChild(tools);
+          wrap.style.top = topOffset() + 'px';
+          q.addEventListener('input', function(){ st.classList.toggle('sp-searching', !!q.value.trim()); });
+        }
+      }
     }
     if (id === 'templates') {
       /* Hide a group label when the card right after it repeats the same title */

@@ -1,0 +1,28 @@
+/* vpn-modern.css — brings older standalone pages in line with the main site's look:
+   the site font (Inter), no glowing / flickering text, softer rounded boxes and comfortable tap targets.
+   Linked from: COA_Upload_Guide.html, VPN_Peptide_Research_Guide.html, shop.html, vendor-vault.html */
+
+html body,
+html body *:not(code):not(pre):not(kbd):not(samp):not(svg):not(svg *){
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif !important;
+  text-shadow:none !important;
+}
+html body{-webkit-font-smoothing:antialiased;line-height:1.6;}
+
+/* Headings: bold and tight like the main site, instead of wide-spaced display type */
+html body :is(h1,h2,h3,h4,[class*="title"],[class*="Title"],[class*="head"],[class*="Head"]){
+  font-weight:800 !important;letter-spacing:-0.01em !important;line-height:1.2 !important;
+}
+html body :is(h1,[class*="hero"] [class*="title"]){letter-spacing:-0.02em !important;}
+/* Small uppercase labels keep a little tracking so they stay readable */
+html body :is([class*="eyebrow"],[class*="label"],[class*="kicker"],[class*="tag"],small){letter-spacing:0.06em !important;}
+
+/* No flicker / pulse / glow loops on text and boxes (motion stays on progress bars and spinners) */
+html body :is(h1,h2,h3,h4,p,span,div,a,button,li,section,header)[style*="animation"],
+html body :is(h1,h2,h3,h4,[class*="title"],[class*="head"],[class*="glow"],[class*="neon"],[class*="flicker"]){animation:none !important;}
+
+/* Softer, rounded boxes and inputs */
+html body :is(section,article,details,fieldset,[class*="card"],[class*="box"],[class*="panel"],[class*="step"]):not(html):not(body){border-radius:14px;}
+html body :is(input,select,textarea){border-radius:12px !important;min-height:44px;}
+html body :is(button,[role="button"],.btn,a[class*="btn"]){border-radius:12px !important;min-height:44px;}
+html body details > summary{min-height:44px;cursor:pointer;}
