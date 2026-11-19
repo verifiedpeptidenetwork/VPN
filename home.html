@@ -36295,6 +36295,23 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   #view-studies .sp-tools button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:#e9e7f5;font:700 12.5px/1 'Inter',system-ui,sans-serif;cursor:pointer;}
   #view-studies .sp-tools button:hover{border-color:#ff2fa8;}
   #view-studies.vsec .vsn{display:none !important;} /* the pinned search bar already does this job here */
+  /* Dropdowns: each tall section gets a tap-to-open header; the section itself stays where it is */
+  .vdd-closed{display:none !important;}
+  .vdd-lbl{display:none !important;}
+  .vdd-head{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;min-height:56px;margin:0 0 10px;padding:12px 16px;cursor:pointer;text-align:left;
+    border-radius:14px;border:1px solid rgba(255,255,255,0.10);border-left:3px solid var(--vdd-ac,#9a5cff);background:#0e0c18;color:#f1f2fa;
+    font:800 16px/1.3 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;transition:border-color .15s,background .15s;scroll-margin-top:84px;}
+  .vdd-head:hover{background:#14112a;border-color:rgba(255,255,255,0.18);border-left-color:var(--vdd-ac,#9a5cff);}
+  .vdd-head .vdd-t{flex:1;min-width:0;}
+  .vdd-head .vdd-hint{flex:0 0 auto;font:600 12.5px/1 'Inter',system-ui,sans-serif !important;color:rgba(214,220,240,0.6);}
+  .vdd-head .vdd-chev{flex:0 0 auto;font-size:12px;opacity:0.8;transition:transform .2s;}
+  .vdd-head[aria-expanded="true"]{margin-bottom:8px;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}
+  .vdd-head[aria-expanded="true"] .vdd-chev{transform:rotate(180deg);}
+  .vdd-head[aria-expanded="true"] .vdd-hint{display:none;}
+  @media(max-width:640px){ .vdd-head{font-size:15px !important;padding:12px 14px;} .vdd-head .vdd-hint{display:none;} }
+  html[data-theme="light"] .vdd-head{background:#fff;color:#14112a;border-color:rgba(0,0,0,0.12);}
+  .vsn .vsn-act.open{display:none;}
+  .vsn.has-dd .vsn-act.open{display:inline-block;}
   /* 6. Pinned section bar: title + jump chips + close all + top, shown once the page header scrolls away */
   .vsn{position:sticky;z-index:60;display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:8px 10px;border-radius:14px;
     background:rgba(12,10,24,0.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);
@@ -36411,12 +36428,15 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     bar.appendChild(chips);
     var close = document.createElement('button'); close.type = 'button'; close.className = 'vsn-act'; close.textContent = '✕ Close all';
     close.addEventListener('click', function(){
+      setAllDropdowns(view, false);
       view.querySelectorAll('details[open]').forEach(function(d){ d.open = false; });
       view.querySelectorAll('.px-tog-bar').forEach(function(t){ var box = t.parentElement, body = box && box.querySelector('[id$="-body"]'); if (body && body.style.display !== 'none' && body.style.display !== '') t.click(); });
     });
     var top = document.createElement('button'); top.type = 'button'; top.className = 'vsn-act top'; top.textContent = '↑ Top';
     top.addEventListener('click', function(){ hero.scrollIntoView({ behavior:'smooth', block:'start' }); });
-    bar.appendChild(close); bar.appendChild(top);
+    var openAll = document.createElement('button'); openAll.type = 'button'; openAll.className = 'vsn-act open'; openAll.textContent = '▼ Open all';
+    openAll.addEventListener('click', function(){ setAllDropdowns(view, true); });
+    bar.appendChild(openAll); bar.appendChild(close); bar.appendChild(top);
     hero.parentNode.insertBefore(bar, hero.nextSibling);
     function place(){ bar.style.top = topOffset() + 'px'; }
     place(); window.addEventListener('resize', place);
@@ -36424,7 +36444,97 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
       new IntersectionObserver(function(es){ var gone = !es[0].isIntersecting && es[0].boundingClientRect.top < 0; bar.classList.toggle('show', gone); if (gone) place(); }).observe(hero);
     } else bar.classList.add('show');
   }
-  function prep(id){ if (VIEWS.indexOf(id) === -1) return; setTimeout(function(){ tidy(id); build(id); }, 120); }
+  /* ── Dropdowns for every tall section ── */
+  var DD_SKIP = /(^|\s)(view-hero|vsn|vdd-head|mr-hero|sup-grid|pfw|sp-sticky|vv-app|cs-action-bar|vpn-search-wrap|qg-filter-bar|qg-search|study-|eli5)/;
+  var DD_SKIP_ID = { 'calc-duo':1, 'calc-klowglow':1 };
+  var HEAD_SEL = 'h2,h3,.section-header,.vx-head,.px-head,.wi-h,.rq-h,[class*="title"],[class*="-h "],[class$="-h"]';
+  function cleanTitle(s){ return (s || '').replace(/\s+/g,' ').replace(/[▼▲⧉]/g,'').trim(); }
+  /* Biggest short, block-level piece of text near the top of an element (its visual title) */
+  function biggestText(el, within){
+    var top = el.getBoundingClientRect().top, best = null, bestSize = 0;
+    var cand = el.querySelectorAll('h1,h2,h3,h4,div,p,summary,b,strong');
+    for (var i = 0; i < cand.length && i < 400; i++){
+      var e = cand[i]; if (e.closest('.vdd-head')) continue;
+      var cs = getComputedStyle(e); if (cs.display === 'inline' || cs.display === 'none') continue;
+      var r = e.getBoundingClientRect(); if (!r.height || r.top - top > within) continue;
+      var own = [].some.call(e.childNodes, function(n){ return n.nodeType === 3 && n.textContent.trim().length > 1; }); if (!own) continue;
+      var t = cleanTitle(e.textContent); if (t.length < 3 || t.length > 80 || /:$/.test(t)) continue;
+      var fs = parseFloat(cs.fontSize) * (parseInt(cs.fontWeight, 10) >= 700 ? 1.15 : 1);
+      if (fs > bestSize + 0.5) { best = t; bestSize = fs; }
+    }
+    return best && bestSize >= 17 ? best : null;
+  }
+  function titleFor(c){
+    if (/b3-gal/.test(c.className)) { var n = c.querySelectorAll('img').length; return { t:'🖼️ Infographics' + (n > 1 ? ' (' + n + ')' : '') }; }
+    /* 1. A short title box right above the section (e.g. a peptide name card) names it */
+    var prev = c.previousElementSibling;
+    if (prev && prev.tagName !== 'STYLE' && prev.tagName !== 'SCRIPT' && !/view-hero|vsn|vdd-head/.test(prev.className)) {
+      var ph = prev.getBoundingClientRect().height;
+      if (ph > 0 && ph < 170) { var pt = biggestText(prev, 170) || cleanTitle(prev.textContent); if (pt && pt.length >= 3 && pt.length <= 80) return ph < 90 && pt === cleanTitle(prev.textContent) ? { t:pt, lbl:prev } : { t:pt + ' — details' }; }
+    }
+    /* A section that is mostly a list of videos is named by what it holds */
+    var vids = c.querySelectorAll('iframe, video, a[href*="youtu"], a[href*="rumble"], [class*="vid-card"], [class*="video-card"]').length;
+    if (vids >= 4) return { t:'🎥 All videos (' + vids + ')' };
+    /* 2. Otherwise the biggest heading near the top of the section itself */
+    var own = biggestText(c, 260); if (own) return { t:own };
+    var hs = c.querySelectorAll(HEAD_SEL);
+    for (var j = 0; j < hs.length; j++){ var t2 = cleanTitle(hs[j].textContent); if (t2.length >= 3 && t2.length <= 80 && hs[j].offsetParent !== null) return { t:t2 }; }
+    var p = c.previousElementSibling;
+    if (p && !p.classList.contains('vdd-head') && !/view-hero|vsn/.test(p.className) && p.tagName !== 'DETAILS') {
+      var pt = cleanTitle(p.textContent), ph = p.getBoundingClientRect().height;
+      if (pt.length >= 3 && pt.length <= 70 && ph > 0 && ph < 90) return { t:pt, lbl:p };
+    }
+    if (/b3-gal/.test(c.className)) return { t:'🖼️ Infographics' };
+    return { t:'More details' };
+  }
+  function setOne(head, body, open){ body.classList.toggle('vdd-closed', !open); head.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  function setAllDropdowns(view, open){ view.querySelectorAll('.vdd-head').forEach(function(h){ var b = h.__vddBody; if (b) setOne(h, b, open); }); }
+  function dropdowns(id){
+    if (id === 'studies') return;                       /* studies has its own collapsible groups */
+    var view = document.getElementById('view-' + id); if (!view || view.dataset.vdd) return;
+    var kids = [].slice.call(view.children).filter(function(c){
+      if (c.tagName === 'STYLE' || c.tagName === 'SCRIPT' || c.tagName === 'DETAILS') return false;
+      if (DD_SKIP.test(' ' + c.className) || DD_SKIP_ID[c.id]) return false;
+      var hgt = c.getBoundingClientRect().height;
+      /* images may not have loaded yet, so galleries / picture blocks count even while they look short */
+      return hgt > 350 || /b3-gal/.test(c.className) || (hgt > 100 && c.querySelectorAll('img').length >= 2);
+    });
+    if (!kids.length) return;
+    view.dataset.vdd = '1';
+    kids.forEach(function(c){
+      var info = titleFor(c);
+      var ac = getComputedStyle(c).getPropertyValue('--px-ac').trim();
+      var head = document.createElement('button'); head.type = 'button'; head.className = 'vdd-head';
+      if (ac) head.style.setProperty('--vdd-ac', ac);
+      head.innerHTML = '<span class="vdd-t"></span><span class="vdd-hint">Tap to open</span><span class="vdd-chev" aria-hidden="true">▼</span>';
+      head.querySelector('.vdd-t').textContent = info.t;
+      head.__vddBody = c;
+      if (info.lbl) info.lbl.classList.add('vdd-lbl');
+      c.parentNode.insertBefore(head, c);
+      setOne(head, c, false);
+      head.addEventListener('click', function(){ setOne(head, c, c.classList.contains('vdd-closed')); });
+    });
+    var bar = view.querySelector('.vsn'); if (bar) bar.classList.add('has-dd');
+  }
+  /* Anything that scrolls to something inside a closed dropdown (jump chips, links) opens it first */
+  var _siv = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = function(){
+    var target = this, topChild = null;
+    for (var e = this; e && e !== document.body; e = e.parentElement){
+      if (e.classList && e.classList.contains('vdd-closed')) { var h = e.previousElementSibling; if (h && h.classList.contains('vdd-head')) setOne(h, e, true); else e.classList.remove('vdd-closed'); }
+      if (e.parentElement && e.parentElement.classList && e.parentElement.classList.contains('view')) topChild = e;
+    }
+    /* Jumping to a section's title box (or its hidden label) opens the dropdown right below it */
+    if (topChild) {
+      var nx = topChild.nextElementSibling;
+      if (nx && nx.classList.contains('vdd-head') && nx.__vddBody) {
+        setOne(nx, nx.__vddBody, true);
+        if (topChild.classList.contains('vdd-lbl')) target = nx;
+      }
+    }
+    return _siv.apply(target, arguments);
+  };
+  function prep(id){ if (VIEWS.indexOf(id) === -1) return; setTimeout(function(){ tidy(id); build(id); dropdowns(id); }, 160); }
   function hook(){
     if (typeof window.showView === 'function' && !window.showView.__vsn) {
       var orig = window.showView;

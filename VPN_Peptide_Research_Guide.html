@@ -741,5 +741,39 @@
   </div>
 
 </div>
+<!-- Each category is a dropdown: tap the category bar to show its table. Printing / PDF always shows everything. -->
+<style>
+  .cat-header.cat-dd{cursor:pointer;display:flex;align-items:center;gap:10px;min-height:48px;user-select:none;}
+  .cat-header.cat-dd::after{content:'▼';margin-left:auto;font-size:12px;opacity:0.8;transition:transform .2s;}
+  .cat-header.cat-dd.open::after{transform:rotate(180deg);}
+  .cat-header.cat-dd .cat-n{font-size:12px;font-weight:600;opacity:0.75;letter-spacing:0.02em;}
+  .cat-dd-hidden{display:none !important;}
+  .cat-tools{display:flex;gap:8px;margin:10px 0 14px;}
+  .cat-tools button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:inherit;font-weight:700;cursor:pointer;}
+  @media print{ .cat-dd-hidden{display:table !important;} .cat-header.cat-dd::after,.cat-tools{display:none !important;} }
+</style>
+<script>
+(function(){
+  var heads = [].slice.call(document.querySelectorAll('.cat-header'));
+  if (!heads.length) return;
+  function tableOf(h){ var n = h.nextElementSibling; return n && n.tagName === 'TABLE' ? n : null; }
+  function set(h, open){ var t = tableOf(h); if (!t) return; t.classList.toggle('cat-dd-hidden', !open); h.classList.toggle('open', open); h.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  heads.forEach(function(h){
+    var t = tableOf(h); if (!t) return;
+    var n = t.querySelectorAll('tbody tr').length;
+    h.classList.add('cat-dd'); h.setAttribute('role', 'button'); h.setAttribute('tabindex', '0');
+    var s = document.createElement('span'); s.className = 'cat-n'; s.textContent = n + ' compound' + (n === 1 ? '' : 's'); h.appendChild(s);
+    set(h, false);
+    h.addEventListener('click', function(){ set(h, !h.classList.contains('open')); });
+    h.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(h, !h.classList.contains('open')); } });
+  });
+  var bar = document.createElement('div'); bar.className = 'cat-tools';
+  bar.innerHTML = '<button type="button" data-o="1">▼ Open all</button><button type="button" data-o="0">▲ Close all</button>';
+  bar.addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; heads.forEach(function(h){ set(h, b.dataset.o === '1'); }); });
+  heads[0].parentNode.insertBefore(bar, heads[0]);
+  /* Printing or saving as PDF shows every table */
+  window.addEventListener('beforeprint', function(){ heads.forEach(function(h){ var t = tableOf(h); if (t) t.classList.remove('cat-dd-hidden'); }); });
+})();
+</script>
 </body>
 </html>
