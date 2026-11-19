@@ -68,6 +68,7 @@
     var list = menu.querySelector('.cm-list'), val = menu.querySelector('.cm-v');
     row.parentNode.insertBefore(menu, row);
     row.classList.add('cm-hidden');
+    row.style.setProperty('display', 'none', 'important');   /* inline beats any page rule that forces the row visible */
     row.__cm = menu;
 
     function rebuild(){

@@ -36321,10 +36321,39 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     .view.vsec :is(button,[role="button"],a[class*="btn"],a[class*="-go"]):not(.cm-item):not(.vdd-head){display:inline-flex;align-items:center;justify-content:center;}
     .view.vsec input:not([type="checkbox"]):not([type="radio"]),.view.vsec select{min-height:44px;font-size:16px !important;}  /* 16px stops iPhone zooming in */
     .view.vsec .vdd-head{min-height:52px;}
+    /* shorter page headers on phones: the stat boxes are nice on desktop but push content a screen down */
+    .view .view-hero .vh2-stats{display:none !important;}
+    /* Label Templates & other download links: a proper 44px "Save" button on phones */
+    .view.vsec a[download]{display:inline-flex !important;align-items:center;justify-content:center;min-height:44px;min-width:72px;padding:0 12px !important;box-sizing:border-box;font-size:14px !important;}
+    .view .view-hero .vh-sub{font-size:15px !important;line-height:1.5 !important;}
     .view.vsec table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
     .vsn{gap:6px;} .vsn .vsn-act{padding:0 10px;font-size:12px;}
   }
   .vsn .vsn-act.open{display:none;}
+  /* Phone held sideways: screen height is tight, so the pinned bars get slimmer and stop sticking where they'd eat the view */
+  @media(orientation:landscape) and (max-height:500px){
+    .vsn{padding:4px 8px;margin-bottom:8px;} .vsn b{display:none;}
+    .vsn .vsn-act,.vsn .cm > summary{min-height:34px !important;}
+    .ct-tabs,#view-studies .sp-sticky{position:static !important;}
+    .vdd-head{min-height:46px;padding:8px 14px;}
+  }
+  /* Phones: the floating ⚙ text-size and ↑ top buttons sit lighter over the content */
+  @media(max-width:640px),(orientation:landscape) and (max-height:500px){
+    #vt-toggle-btn,#vt-top-btn{opacity:0.8;transform:scale(0.88);transform-origin:bottom right;}
+    #vt-toggle-btn:active,#vt-top-btn:active{opacity:1;}
+  }
+  /* Calculators on phones / tablets: one calculator at a time, picked with tabs (desktop keeps them side by side) */
+  .ct-tabs{display:none;}
+  @media(max-width:900px){
+    .ct-tabs{display:flex;gap:6px;position:sticky;z-index:58;margin:0 0 12px;padding:6px;border-radius:14px;background:rgba(12,10,24,0.94);
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);}
+    .ct-tabs button{flex:1;min-height:44px;padding:0 8px;border-radius:10px;border:0;background:transparent;color:rgba(230,232,245,0.8);
+      font:700 13px/1.2 'Inter',system-ui,sans-serif;cursor:pointer;}
+    .ct-tabs button.on{background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;}
+    #view-calculator[data-ct="main"] :is(#calc-duo .cd-or,#calc-duo .cd-alt,#calc-klowglow),
+    #view-calculator[data-ct="alt"] :is(#calc-duo .cd-main,#calc-duo .cd-or,#calc-klowglow),
+    #view-calculator[data-ct="klow"] #calc-duo{display:none !important;}
+  }
   .vsn.has-dd .vsn-act.open{display:inline-block;}
   /* 6. Pinned section bar: title + jump chips + close all + top, shown once the page header scrolls away */
   .vsn{position:sticky;z-index:60;display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:8px 10px;border-radius:14px;
@@ -36356,6 +36385,19 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
       /* the container that directly holds the shop links (3+ link cards as direct children) */
       var box = sv && [].slice.call(sv.querySelectorAll('div')).find(function(d){ return [].filter.call(d.children, function(c){ return c.tagName === 'A'; }).length >= 3; });
       if (box) box.classList.add('sup-grid');
+    }
+    if (id === 'calculator') {
+      var cv = document.getElementById('view-calculator'), duo = document.getElementById('calc-duo');
+      if (cv && duo && !cv.querySelector('.ct-tabs')) {
+        var tabs = document.createElement('div'); tabs.className = 'ct-tabs'; tabs.setAttribute('role', 'tablist');
+        tabs.innerHTML = '<button type="button" data-t="main">💧 Calculator</button><button type="button" data-t="alt">🧮 Alternate</button><button type="button" data-t="klow">⚗️ KLOW &amp; GLOW</button>';
+        duo.parentNode.insertBefore(tabs, duo);
+        function pick(t){ cv.setAttribute('data-ct', t); tabs.querySelectorAll('button').forEach(function(b){ var on = b.dataset.t === t; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); }); }
+        tabs.addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; pick(b.dataset.t); tabs.scrollIntoView({ behavior:'smooth', block:'start' }); });
+        tabs.style.top = topOffset() + 'px';
+        pick('main');
+        cv.__ctPick = pick;
+      }
     }
     if (id === 'studies') {
       var st = document.getElementById('view-studies');
@@ -36461,7 +36503,8 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     } else bar.classList.add('show');
   }
   /* ── Dropdowns for every tall section ── */
-  var DD_SKIP = /(^|\s)(view-hero|vsn|vdd-head|mr-hero|sup-grid|pfw|sp-sticky|vv-app|cs-action-bar|vpn-search-wrap|qg-filter-bar|qg-search|study-|eli5)/;
+  /* px-warn = safety / "not medical advice" notices: always stay visible */
+  var DD_SKIP = /(^|\s)(view-hero|vsn|vdd-head|mr-hero|sup-grid|pfw|sp-sticky|vv-app|cs-action-bar|vpn-search-wrap|qg-filter-bar|qg-search|study-|eli5|px-warn)/;
   var DD_SKIP_ID = { 'calc-duo':1, 'calc-klowglow':1 };
   var HEAD_SEL = 'h2,h3,.section-header,.vx-head,.px-head,.wi-h,.rq-h,[class*="title"],[class*="-h "],[class$="-h"]';
   function cleanTitle(s){ return (s || '').replace(/\s+/g,' ').replace(/[▼▲⧉]/g,'').trim(); }
@@ -36544,6 +36587,13 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
       if (e.classList && e.classList.contains('vdd-closed')) { var h = e.previousElementSibling; if (h && h.classList.contains('vdd-head')) setOne(h, e, true); else e.classList.remove('vdd-closed'); }
       if (e.parentElement && e.parentElement.classList && e.parentElement.classList.contains('view')) topChild = e;
     }
+    /* Jumping to a calculator that sits behind a tab (phones) switches to that tab first */
+    var cv = document.getElementById('view-calculator');
+    if (cv && cv.__ctPick && cv.contains(this)) {
+      if (this.closest && this.closest('#calc-klowglow')) cv.__ctPick('klow');
+      else if (this.closest && this.closest('#calc-duo .cd-alt')) cv.__ctPick('alt');
+      else if (this.closest && this.closest('#calc-duo .cd-main')) cv.__ctPick('main');
+    }
     /* Jumping to a section's title box (or its hidden label) opens the dropdown right below it */
     if (topChild) {
       var nx = topChild.nextElementSibling;
@@ -36562,11 +36612,20 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     view.querySelectorAll('.vpn-search-tags').forEach(function(r){ vpnChipMenu(r, { kind:'tags', label:'Popular searches' }); });
   }
   window.vpnChipMenusFor = chipMenus;
+  /* Cards that the page opens by default start closed (once per page), so long pages start short;
+     safety notices and "explain it like I'm 5" boxes are left as they are */
+  function closeDefaultOpen(view){
+    if (!view || view.dataset.vdo) return; view.dataset.vdo = '1';
+    view.querySelectorAll('details[open]').forEach(function(d){
+      if (d.classList.contains('cm') || d.classList.contains('eli5') || d.closest('.view-hero, .vsn, .px-warn')) return;
+      if (d.getBoundingClientRect().height > 300) d.open = false;
+    });
+  }
   function prep(id){
     var v = document.getElementById('view-' + id);
     setTimeout(function(){ chipMenus(v); }, 200);          /* chip rows on any page, not only the polished ones */
     if (VIEWS.indexOf(id) === -1) return;
-    setTimeout(function(){ tidy(id); build(id); dropdowns(id); chipMenus(v); }, 160);
+    setTimeout(function(){ tidy(id); build(id); dropdowns(id); chipMenus(v); closeDefaultOpen(v); }, 160);
   }
   function hook(){
     if (typeof window.showView === 'function' && !window.showView.__vsn) {
