@@ -36171,7 +36171,11 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   /* Footer area: Flyers card first, then one footer bar (copyright + links left, Get the app right) */
   html body #site-hero #home-flyers{order:18 !important;width:100%;box-sizing:border-box;margin:clamp(18px,3vw,34px) 0 0 !important;}
   html body #home-flyers > summary::after,html body #home-flyers > summary::before{display:none !important;content:none !important;}
-  html body #site-hero > #vh2-foot.vh2-foot-bar{display:flex !important;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin-top:14px !important;}
+  /* Footer bar layout only applies on the home view; other views keep hiding home sections as before */
+  html body #site-hero > #vh2-foot.vh2-foot-bar{align-items:center;}
+  body:has(#view-home.active) #site-hero > #vh2-foot.vh2-foot-bar{display:flex !important;}
+  body:not(:has(#view-home.active)) #site-hero > #vh2-foot{display:none !important;}
+  html body #site-hero > #vh2-foot.vh2-foot-bar{justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin-top:14px !important;}
   #vh2-foot.vh2-foot-bar .vh2-foot-tx{flex:1 1 380px;min-width:0;}
   #vh2-foot.vh2-foot-bar .vh2-foot-tx p{margin:0 0 6px !important;}
   #vh2-foot.vh2-foot-bar #vpn-getapp{order:0 !important;flex:0 0 auto;margin:0 !important;width:auto !important;max-width:100%;}
@@ -36238,6 +36242,132 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     });
   });
   sync();
+})();
+</script>
+
+<!-- ═══ SECTION POLISH: Vitamins, Workouts, Supplies, Tools & Guides, Calculators, Label Templates
+     One card style, one font, calmer glows, bigger tap targets, and a pinned "jump to" bar on each page ═══ -->
+<style id="vsec-polish">
+  /* 1. One card style (keeps each card's own accent colour as a left stripe) */
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.px-box,details.px-det){
+    border:1px solid rgba(255,255,255,0.10) !important;border-left:3px solid var(--px-ac,#9a5cff) !important;border-radius:14px !important;
+    box-shadow:0 10px 26px -20px rgba(0,0,0,0.9) !important;animation:none !important;}
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.px-box,details.px-det):hover{border-color:rgba(255,255,255,0.18) !important;border-left-color:var(--px-ac,#9a5cff) !important;}
+  /* 2. One font: the old display fonts (Bebas / Rajdhani) become the site's Inter; glows and pulsing text removed */
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is([style*="Bebas"],[style*="Rajdhani"],.vx-head,.px-head,.vx-label,.section-header *){
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;font-weight:800;letter-spacing:0.01em !important;text-shadow:none !important;}
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(.vx-glow,[style*="animation"]:not(.view-hero *),.section-header,.section-header *){animation:none !important;text-shadow:none !important;}
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) .section-header{border-radius:14px !important;box-shadow:none !important;}
+  /* Jumps land below the pinned bar instead of underneath it */
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(details,section,.px-box,.section-header,.vx-label,.csv-group-sep,[id]){scroll-margin-top:84px;}
+  /* 3. Bigger, easier tap targets */
+  :is(#view-vitamins,#view-workouts,#view-supplies,#view-quick-guide,#view-calculator,#view-templates) :is(summary,.px-tog-bar){min-height:48px;box-sizing:border-box;}
+  .view .vh2-chips .vh2-go{min-height:36px;display:inline-flex;align-items:center;padding:0 12px !important;cursor:pointer;}
+  /* 4. Supplies: two-column grid of shop cards instead of one long column */
+  #view-supplies .sup-grid{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch;}
+  #view-supplies .sup-grid > *{margin:0 !important;min-width:0;}
+  #view-supplies .sup-grid > :not(a){grid-column:1 / -1;}
+  #view-supplies .sup-grid > a{padding:14px 16px !important;gap:12px !important;border-width:1px 1px 1px 3px !important;border-radius:14px !important;min-width:0;}
+  #view-supplies .sup-grid > a :is(div,span,b){min-width:0;overflow-wrap:anywhere;}
+  #view-supplies .sup-grid > a > span:first-child,#view-supplies .sup-grid > a > div:first-child:not(:only-child){font-size:24px !important;flex:0 0 auto;}
+  #view-supplies .sup-grid > a [style*="font-size"]{font-size:clamp(15px,1.4vw,18px) !important;line-height:1.3 !important;}
+  #view-supplies .sup-grid > a [style*="font-size"] ~ [style*="font-size"]{font-size:13px !important;}
+  #view-supplies .sup-grid > .vx-label{margin-top:10px !important;padding:0 !important;font-size:13px !important;letter-spacing:0.12em !important;text-transform:uppercase;color:rgba(214,220,240,0.7) !important;}
+  @media(max-width:700px){ #view-supplies .sup-grid{grid-template-columns:minmax(0,1fr);} }
+  /* 5. Label Templates: the repeated group label above each card is hidden (the card already shows the same title) */
+  #view-templates .csv-group-sep.vsec-dup{height:0 !important;min-height:0 !important;margin:0 !important;padding:0 !important;border:0 !important;overflow:hidden !important;opacity:0;scroll-margin-top:150px;}
+  /* 6. Pinned section bar: title + jump chips + close all + top, shown once the page header scrolls away */
+  .vsn{position:sticky;z-index:60;display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:8px 10px;border-radius:14px;
+    background:rgba(12,10,24,0.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);
+    box-shadow:0 12px 30px -18px rgba(0,0,0,0.9);opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .2s,transform .2s;}
+  .vsn.show{opacity:1;pointer-events:auto;transform:none;}
+  .vsn b{flex:0 0 auto;font:800 14px/1 'Inter',system-ui,sans-serif;color:#fff;white-space:nowrap;padding-right:6px;border-right:1px solid rgba(255,255,255,0.12);}
+  .vsn .vsn-chips{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+  .vsn .vsn-chips::-webkit-scrollbar{display:none;}
+  .vsn .vsn-chips button,.vsn .vsn-act{flex:0 0 auto;min-height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);
+    color:#e9e7f5;font:700 12.5px/1 'Inter',system-ui,sans-serif;cursor:pointer;white-space:nowrap;}
+  .vsn .vsn-chips button:hover,.vsn .vsn-act:hover{border-color:#ff2fa8;background:rgba(255,47,168,0.12);}
+  .vsn .vsn-act.top{background:linear-gradient(90deg,#ff2fa8,#9a5cff);border:0;color:#fff;}
+  @media(max-width:700px){ .vsn b{display:none;} .vsn{padding:6px 8px;} }
+  html[data-theme="light"] .vsn{background:rgba(255,255,255,0.96);border-color:rgba(0,0,0,0.12);}
+  html[data-theme="light"] .vsn b,html[data-theme="light"] .vsn .vsn-chips button,html[data-theme="light"] .vsn .vsn-act:not(.top){color:#1b1530;}
+</style>
+<script>
+(function(){
+  var VIEWS = ['vitamins','workouts','supplies','quick-guide','calculator','templates'];
+  /* The site styles some of these pages only when they are opened, so the page-specific tidy-ups run on open */
+  function tidy(id){
+    if (id === 'supplies') {
+      var sv = document.getElementById('view-supplies');
+      /* the container that directly holds the shop links (3+ link cards as direct children) */
+      var box = sv && [].slice.call(sv.querySelectorAll('div')).find(function(d){ return [].filter.call(d.children, function(c){ return c.tagName === 'A'; }).length >= 3; });
+      if (box) box.classList.add('sup-grid');
+    }
+    if (id === 'templates') {
+      /* Hide a group label when the card right after it repeats the same title */
+      document.querySelectorAll('#view-templates .csv-group-sep').forEach(function(sep){
+        var nx = sep.nextElementSibling, t = sep.textContent.replace(/[^\w]+/g,' ').trim().toLowerCase();
+        if (nx && t && nx.textContent.replace(/[^\w]+/g,' ').toLowerCase().indexOf(t) !== -1) sep.classList.add('vsec-dup');
+      });
+    }
+  }
+  /* How far down the page the sticky bar should sit (below any fixed/sticky header on this screen) */
+  function topOffset(){
+    var off = 8;
+    ['.site-header','#vpnSearchBar','.mobile-topbar','#vpn-mtop','.m-header'].forEach(function(s){
+      var el = document.querySelector(s); if (!el) return; var cs = getComputedStyle(el), r = el.getBoundingClientRect();
+      if ((cs.position === 'fixed' || cs.position === 'sticky') && cs.display !== 'none' && r.top <= 1 && r.height > 0) off = Math.max(off, r.bottom + 8);
+    });
+    var hit = document.elementsFromPoint ? document.elementsFromPoint(innerWidth / 2, 4) : [];
+    hit.forEach(function(el){ for (var e = el; e && e !== document.body; e = e.parentElement){ var p = getComputedStyle(e).position; if ((p === 'fixed' || p === 'sticky') && !e.classList.contains('vsn')) { var r = e.getBoundingClientRect(); if (r.top <= 1 && r.height < 160) off = Math.max(off, r.bottom + 8); } } });
+    return off;
+  }
+  function title(view){ var t = view.querySelector('.vh-title'); return t ? t.textContent.trim() : ''; }
+  function build(id){
+    var view = document.getElementById('view-' + id); if (!view) return;
+    var old = view.querySelector('.vsn'); if (old) { if (old.querySelector('.vsn-chips button')) return; old.remove(); }
+    var hero = view.querySelector('.view-hero'); if (!hero) return;
+    var bar = document.createElement('div'); bar.className = 'vsn'; bar.setAttribute('role', 'navigation'); bar.setAttribute('aria-label', 'Jump within this page');
+    var chips = document.createElement('div'); chips.className = 'vsn-chips';
+    var orig = [].slice.call(hero.querySelectorAll('.vh2-chips .vh2-go'));
+    if (orig.length) {
+      orig.forEach(function(o){ var b = document.createElement('button'); b.type = 'button'; b.textContent = o.textContent.trim(); b.addEventListener('click', function(){ o.click(); }); chips.appendChild(b); });
+    } else {
+      /* No jump chips in the header (Supplies): build them from the page's own section labels */
+      [].slice.call(view.querySelectorAll('.vx-label, .px-head, .section-header')).filter(function(h){ return !h.closest('.px-box') && h.textContent.trim().length < 60; }).forEach(function(h){
+        if (!h.offsetParent) return; var b = document.createElement('button'); b.type = 'button'; b.textContent = h.textContent.trim().replace(/\s+/g,' ').slice(0, 40);
+        b.addEventListener('click', function(){ h.style.scrollMarginTop = (topOffset() + 70) + 'px'; h.scrollIntoView({ behavior:'smooth', block:'start' }); }); chips.appendChild(b);
+      });
+    }
+    bar.innerHTML = '<b></b>'; bar.querySelector('b').textContent = title(view);
+    bar.appendChild(chips);
+    var close = document.createElement('button'); close.type = 'button'; close.className = 'vsn-act'; close.textContent = '✕ Close all';
+    close.addEventListener('click', function(){
+      view.querySelectorAll('details[open]').forEach(function(d){ d.open = false; });
+      view.querySelectorAll('.px-tog-bar').forEach(function(t){ var box = t.parentElement, body = box && box.querySelector('[id$="-body"]'); if (body && body.style.display !== 'none' && body.style.display !== '') t.click(); });
+    });
+    var top = document.createElement('button'); top.type = 'button'; top.className = 'vsn-act top'; top.textContent = '↑ Top';
+    top.addEventListener('click', function(){ hero.scrollIntoView({ behavior:'smooth', block:'start' }); });
+    bar.appendChild(close); bar.appendChild(top);
+    hero.parentNode.insertBefore(bar, hero.nextSibling);
+    function place(){ bar.style.top = topOffset() + 'px'; }
+    place(); window.addEventListener('resize', place);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(es){ var gone = !es[0].isIntersecting && es[0].boundingClientRect.top < 0; bar.classList.toggle('show', gone); if (gone) place(); }).observe(hero);
+    } else bar.classList.add('show');
+  }
+  function prep(id){ if (VIEWS.indexOf(id) === -1) return; setTimeout(function(){ tidy(id); build(id); }, 120); }
+  function hook(){
+    if (typeof window.showView === 'function' && !window.showView.__vsn) {
+      var orig = window.showView;
+      window.showView = function(id){ var r = orig.apply(this, arguments); prep(id); return r; };
+      window.showView.__vsn = true;
+    }
+    /* Page opened directly by its address (e.g. home.html#supplies) */
+    VIEWS.forEach(function(id){ var v = document.getElementById('view-' + id); if (v && v.classList.contains('active')) prep(id); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hook); else hook();
+  window.addEventListener('load', hook);
 })();
 </script>
 
