@@ -3042,6 +3042,14 @@ function pmDownloadReport(){
   var cc = document.getElementById('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
 })();
 </script>
+<!-- Results filters as a dropdown menu instead of a row of chips -->
+<script src="vpn-chipmenu.js?v=1"></script>
+<script>
+(function(){
+  var f = document.getElementById('pm-filters');
+  if (f && window.vpnChipMenu) { var m = vpnChipMenu(f, { kind:'filter', label:'Show:' }); if (m) m.classList.add('cm-inline'); }
+})();
+</script>
 
 </body>
 </html>

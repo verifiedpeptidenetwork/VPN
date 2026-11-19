@@ -2288,6 +2288,20 @@ window.addEventListener('scroll',function(){
   });
 })();
 </script>
+<!-- Filters and jump links as dropdown menus instead of rows of chips -->
+<script src="vpn-chipmenu.js?v=1"></script>
+<script>
+(function(){
+  function go(){
+    var f = document.getElementById('ln-chips'), j = document.getElementById('ln-jump');
+    if (f && window.vpnChipMenu) { var m = vpnChipMenu(f, { kind:'filter', label:'Show:' }); if (m) m.classList.add('cm-inline'); }
+    if (j && window.vpnChipMenu) { var m2 = vpnChipMenu(j, { kind:'jump', label:'Jump to a section' }); if (m2) m2.classList.add('cm-inline'); }
+    var t = document.getElementById('ln-tools'); if (t) t.style.cssText += ';display:flex;flex-wrap:wrap;gap:8px;align-items:center;';
+  }
+  /* the jump links are added a moment after load */
+  if (document.readyState === 'complete') setTimeout(go, 300); else window.addEventListener('load', function(){ setTimeout(go, 300); });
+})();
+</script>
 
 </body>
 </html>

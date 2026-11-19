@@ -30278,6 +30278,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initAdminUploadPanel();
 
   // Stamp the initial page load into history so back never exits the site on first press
+  /* Remember which page the address points to BEFORE stamping history, so a refresh stays on that page */
+  var loadHash = (window.location.hash || '').replace('#','');
   var initView = 'home';
   var initEl = document.getElementById('view-' + initView);
   if (!initEl) initView = 'home';
@@ -30297,7 +30299,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Deep-link: if page loaded with a hash (e.g. #klow-glow), navigate there
   (function(){
-    var h = window.location.hash.replace('#','');
+    var h = loadHash;
     if(h && h !== 'home' && document.getElementById('view-'+h)){
       setTimeout(function(){ showView(h); }, 400);
     }
@@ -36245,6 +36247,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
 })();
 </script>
 
+<script src="vpn-chipmenu.js?v=1"></script>
 <!-- ═══ SECTION POLISH: Vitamins, Workouts, Supplies, Tools & Guides, Calculators, Label Templates
      One card style, one font, calmer glows, bigger tap targets, and a pinned "jump to" bar on each page ═══ -->
 <style id="vsec-polish">
@@ -36310,6 +36313,17 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   .vdd-head[aria-expanded="true"] .vdd-hint{display:none;}
   @media(max-width:640px){ .vdd-head{font-size:15px !important;padding:12px 14px;} .vdd-head .vdd-hint{display:none;} }
   html[data-theme="light"] .vdd-head{background:#fff;color:#14112a;border-color:rgba(0,0,0,0.12);}
+  /* The pinned bar already has "Close all", so the floating "Close all open cards" pill (which sits over content on phones) is hidden on these pages */
+  body:has(.view.vsec.active) #vpn-close-cards{display:none !important;}
+  /* Phones (portrait): every button / tap row is at least 44px tall and easy to hit */
+  @media(max-width:640px){
+    .view.vsec :is(button,[role="button"],summary,.qg-filter,.cs-act-btn,.px-btn,.btn-primary,.btn-secondary,.add-btn,a[class*="btn"],a[class*="-go"]){min-height:44px;box-sizing:border-box;}
+    .view.vsec :is(button,[role="button"],a[class*="btn"],a[class*="-go"]):not(.cm-item):not(.vdd-head){display:inline-flex;align-items:center;justify-content:center;}
+    .view.vsec input:not([type="checkbox"]):not([type="radio"]),.view.vsec select{min-height:44px;font-size:16px !important;}  /* 16px stops iPhone zooming in */
+    .view.vsec .vdd-head{min-height:52px;}
+    .view.vsec table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
+    .vsn{gap:6px;} .vsn .vsn-act{padding:0 10px;font-size:12px;}
+  }
   .vsn .vsn-act.open{display:none;}
   .vsn.has-dd .vsn-act.open{display:inline-block;}
   /* 6. Pinned section bar: title + jump chips + close all + top, shown once the page header scrolls away */
@@ -36331,7 +36345,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
 <script>
 (function(){
   var VIEWS = ['vitamins','workouts','supplies','quick-guide','calculator','templates',
-               'tgk','winter','cancer','videos','ruqyah','bloodwork','cheatsheets','studies'];
+               'tgk','winter','cancer','videos','ruqyah','bloodwork','cheatsheets','studies','glp','graymarket'];
   /* Mark these pages so the shared card / font / tap-target polish applies to them */
   function mark(){ VIEWS.forEach(function(id){ var v = document.getElementById('view-' + id); if (v) v.classList.add('vsec'); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mark); else mark();
@@ -36426,6 +36440,8 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     }
     bar.innerHTML = '<b></b>'; bar.querySelector('b').textContent = title(view);
     bar.appendChild(chips);
+    /* no rows of chips: the pinned bar shows them as one "Jump to" dropdown */
+    if (window.vpnChipMenu) { var jm = vpnChipMenu(chips, { kind:'jump', label:'Jump to' }); if (jm) jm.style.margin = '0'; }
     var close = document.createElement('button'); close.type = 'button'; close.className = 'vsn-act'; close.textContent = '✕ Close all';
     close.addEventListener('click', function(){
       setAllDropdowns(view, false);
@@ -36495,10 +36511,14 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     var kids = [].slice.call(view.children).filter(function(c){
       if (c.tagName === 'STYLE' || c.tagName === 'SCRIPT' || c.tagName === 'DETAILS') return false;
       if (DD_SKIP.test(' ' + c.className) || DD_SKIP_ID[c.id]) return false;
+      /* never hide a tool (search box, calculator, cheat-sheet browser, shop grid) inside a dropdown */
+      if (c.querySelector('.vv-app, #calc-duo, #calc-klowglow, .sup-grid, input[type="search"], .qg-search, #studies-search')) return false;
       var hgt = c.getBoundingClientRect().height;
       /* images may not have loaded yet, so galleries / picture blocks count even while they look short */
       return hgt > 350 || /b3-gal/.test(c.className) || (hgt > 100 && c.querySelectorAll('img').length >= 2);
     });
+    /* Pages without the standard header (GLP Hub, Gray Market) open with their own intro block: keep it open */
+    if (!view.querySelector(':scope > .view-hero') && kids.length) kids.shift();
     if (!kids.length) return;
     view.dataset.vdd = '1';
     kids.forEach(function(c){
@@ -36534,7 +36554,20 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     }
     return _siv.apply(target, arguments);
   };
-  function prep(id){ if (VIEWS.indexOf(id) === -1) return; setTimeout(function(){ tidy(id); build(id); dropdowns(id); }, 160); }
+  /* Every row of chips on a page (jump links, topic filters, popular searches) becomes one dropdown menu */
+  function chipMenus(view){
+    if (!window.vpnChipMenu || !view) return;
+    view.querySelectorAll('.vh2-chips').forEach(function(r){ vpnChipMenu(r, { kind:'jump', label:'Jump to a section' }); var jl = r.parentNode && r.parentNode.querySelector('.vh2-jl'); if (jl) jl.style.display = 'none'; });
+    view.querySelectorAll('.qg-filter-bar').forEach(function(r){ vpnChipMenu(r, { kind:'filter', label:'Show:' }); });
+    view.querySelectorAll('.vpn-search-tags').forEach(function(r){ vpnChipMenu(r, { kind:'tags', label:'Popular searches' }); });
+  }
+  window.vpnChipMenusFor = chipMenus;
+  function prep(id){
+    var v = document.getElementById('view-' + id);
+    setTimeout(function(){ chipMenus(v); }, 200);          /* chip rows on any page, not only the polished ones */
+    if (VIEWS.indexOf(id) === -1) return;
+    setTimeout(function(){ tidy(id); build(id); dropdowns(id); chipMenus(v); }, 160);
+  }
   function hook(){
     if (typeof window.showView === 'function' && !window.showView.__vsn) {
       var orig = window.showView;
