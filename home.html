@@ -3299,7 +3299,7 @@
     <!-- Logo -->
     <div id="dg-logo">
       <div id="dg-logo-ring" style="position:relative;">
-        <img id="dg-logo-img" src="VPN-LOGO-RUI.webp?v=2" alt="VPN">
+        <img id="dg-logo-img" src="VPN-LOGO-RUI.webp?v=3" alt="VPN">
       </div>
       <div>
         <div id="dg-logo-text">VERIFY · PROOF · NOTATE · DATA</div>
@@ -3706,7 +3706,7 @@ function dgEnter(){
       <!-- dark mask -->
       <div style="position:absolute;inset:0;border-radius:50%;background:#02010a;z-index:2;"></div>
       <!-- Logo image -->
-      <img src="VPN-LOGO-RUI.webp?v=2" alt="VPN Logo"
+      <img src="VPN-LOGO-RUI.webp?v=3" alt="VPN Logo"
         style="position:relative;z-index:3;width:100%;height:100%;object-fit:contain;display:block;border-radius:50%;animation:helixPulse 2.5s ease-in-out infinite;" />
     </div>
 
@@ -4712,7 +4712,7 @@ document.addEventListener('keydown', function(e){
         <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:3;pointer-events:none;">
           <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.85),transparent);animation:vpnScanLine 3s ease-in-out infinite;"></div>
         </div>
-        <img src="VPN-LOGO-RUI.webp?v=2" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;">
+        <img src="VPN-LOGO-RUI.webp?v=3" alt="VPN Logo" style="height:76px;width:76px;object-fit:cover;border-radius:50%;position:relative;z-index:4;">
       </div>
       <div>
         <div class="retro-nav-logo-title">VERIFY · PROOF · NOTATE · DATA</div>
@@ -9068,15 +9068,21 @@ document.addEventListener('keydown', function(e){
     @media (min-width:1100px){ #vh2-hero .hg{grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);} #vh2-hero .badge{width:min(500px,100%);} }
     @media (min-width:1500px){ #vh2-hero .badge{width:min(560px,100%);} }
     /* Living neon halo: rotating pink → purple → blue ring + big pulsing glow, matching the logo's border */
-    #vh2-hero .badge{position:relative;isolation:isolate;padding:6px;background:transparent !important;box-shadow:none !important;}
+    #vh2-hero .badge{position:relative;isolation:isolate;padding:3px;background:transparent !important;box-shadow:none !important;}
     #vh2-hero .badge::before,#vh2-hero .badge::after{content:'';position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
       background:conic-gradient(from 0deg,#9a5cff,#3f7bff,#2fb4ff,#c43cff,#ff6a2a,#ffb12a,#ff3f80,#ff2fa8,#9a5cff);
-      animation:vpnHaloSpin 6s linear infinite;}
+      animation:vpnHaloSpin 10s linear infinite;}
     #vh2-hero .badge::after{inset:0;}
-    #vh2-hero .badge::before{inset:-2%;filter:blur(16px);opacity:0.9;animation:vpnHaloSpin 6s linear infinite,vpnHaloPulse 3.2s ease-in-out infinite;}
-    #vh2-hero .badge img{position:relative;box-shadow:0 0 0 2px rgba(255,255,255,0.08),0 0 30px rgba(0,0,0,0.6) inset !important;}
+    #vh2-hero .badge::before{inset:-1.5%;filter:blur(14px);opacity:0.6;animation:vpnHaloSpin 10s linear infinite,vpnHaloPulse 4s ease-in-out infinite;}
+    /* Logo sits cleanly inside the thin ring: dark backing, its own neon ring fully visible, soft depth */
+    #vh2-hero .badge img{position:relative;background:#05030a !important;object-fit:cover;
+      box-shadow:0 0 0 1px rgba(255,255,255,0.10),0 18px 40px -18px rgba(0,0,0,0.9) !important;}
+    /* Calmer word highlights on the logo: only show on hover/focus instead of constantly pulsing */
+    #vh2-hero .badge .bg-hot::before{opacity:0 !important;animation:none !important;transition:opacity .2s;}
+    #vh2-hero .badge .bg-hot:hover::before,#vh2-hero .badge .bg-hot:focus-visible::before{opacity:0.45 !important;}
+    #vh2-hero .badge .bg-hot{animation:none !important;}
     @keyframes vpnHaloSpin{to{transform:rotate(360deg);}}
-    @keyframes vpnHaloPulse{0%,100%{opacity:0.7;filter:blur(12px);}50%{opacity:1;filter:blur(20px);}}
+    @keyframes vpnHaloPulse{0%,100%{opacity:0.45;filter:blur(12px);}50%{opacity:0.75;filter:blur(18px);}}
     @media (prefers-reduced-motion: reduce){ #vh2-hero .badge::before,#vh2-hero .badge::after{animation:none;} }
     /* card grid (tools / current / community) */
     .vh2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.75rem;}
@@ -9216,7 +9222,7 @@ window.vpnBadgeGo = function(view, id){
           </a>
         </div>
       </div>
-      <div class="badge"><img src="VPN-LOGO-RUI.webp?v=2" alt="Verify · Proof · Notate · Data badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:14.5%;top:57.5%;width:24.5%;height:7%;" title="Verify: how to check a COA" aria-label="Verify: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:40%;top:57.5%;width:19.5%;height:7%;" title="Proof: how to spot a fake COA" aria-label="Proof: how to spot a fake COA" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:61.5%;top:57.5%;width:24.5%;height:7%;" title="Notate: latest news" aria-label="Notate: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:15%;top:71.5%;width:69%;height:4.5%;" title="Work with your doctor, do your blood work: blood work guide" aria-label="Work with your doctor, do your blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
+      <div class="badge"><img src="VPN-LOGO-RUI.webp?v=3" alt="Verify · Proof · Notate · Data badge"><div class="bg-hots" data-vt-skip data-px-skip><button type="button" class="bg-hot" style="left:19%;top:62%;width:20%;height:5.5%;" title="Verify: how to check a COA" aria-label="Verify: how to check a COA" onclick="vpnBadgeGo('graymarket','gx-steps')"></button><button type="button" class="bg-hot" style="left:40.5%;top:62%;width:18.5%;height:5.5%;" title="Proof: how to spot a fake COA" aria-label="Proof: how to spot a fake COA" onclick="vpnBadgeGo('graymarket','gm-fake-coa')"></button><button type="button" class="bg-hot" style="left:61%;top:62%;width:19.5%;height:5.5%;" title="Notate: latest news" aria-label="Notate: latest news" onclick="location.href='latest-news.html'"></button><button type="button" class="bg-hot" style="left:17%;top:71%;width:65%;height:4.5%;" title="Work with your doctor, do your blood work: blood work guide" aria-label="Work with your doctor, do your blood work: blood work guide" onclick="vpnBadgeGo('bloodwork')"></button></div></div>
     </div>
   </section>
 <style id="vh2-tools-css">
@@ -9715,7 +9721,7 @@ window.vpnBadgeGo = function(view, id){
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
       <canvas id="vpn-logo-matrix"></canvas>
-      <img src="VPN-LOGO-RUI.webp?v=2" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
+      <img src="VPN-LOGO-RUI.webp?v=3" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
       <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
       <div class="vpn-logo-pulse-ring"></div>
       <div class="vpn-logo-pulse-ring"></div>
@@ -18506,7 +18512,7 @@ function csvFilter(cat, btn) {
       if(!inner) return;
       var logoWrap = document.createElement('div');
       logoWrap.className = 'vh-logo-wrap';
-      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="VPN-LOGO-RUI.webp?v=2" class="vh-logo-img" alt="VPN">';
+      logoWrap.innerHTML = '<div class="vh-logo-ring"></div><div class="vh-logo-bg"></div><img src="VPN-LOGO-RUI.webp?v=3" class="vh-logo-img" alt="VPN">';
       inner.insertBefore(logoWrap, inner.firstChild);
       // move text into content wrapper with eyebrow
       var titleEl = inner.querySelector('.vh-title');
@@ -32229,7 +32235,7 @@ function showToast(msg, color) {
       <div class="ms-logo-ring ms-lr2"></div>
       <div class="ms-logo-ring ms-lr3"></div>
       <div class="ms-logo-glow"></div>
-      <img src="VPN-LOGO-RUI.webp?v=2" alt="VPN" class="ms-logo-img">
+      <img src="VPN-LOGO-RUI.webp?v=3" alt="VPN" class="ms-logo-img">
     </div>
     <!-- Text -->
     <div>
