@@ -2,7 +2,7 @@
 <html data-darkbg lang="en">
 <head>
 <meta name="theme-color" content="#0d0a1c"><style>html:not([data-theme=light]){background:#0d0a1c}</style>
-<link rel="icon" href="favicon.ico?v=12" sizes="48x48"><link rel="icon" href="icon-192.png?v=12" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png?v=12" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png?v=12">
+<link rel="icon" href="favicon.ico?v=13" sizes="48x48"><link rel="icon" href="icon-192.png?v=13" type="image/png" sizes="192x192"><link rel="icon" href="icon-32.png?v=13" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="icon-180.png?v=13">
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -4170,35 +4170,98 @@ document.addEventListener('keydown', function(e){
 
 <!-- SAFETY TICKER — sliding doctor / bloodwork reminder -->
 <style>
-  .vpn-safety-ticker{position:relative;z-index:11;width:100%;box-sizing:border-box;overflow:hidden;
-    background:#0c0a16;border-bottom:1px solid rgba(255,255,255,0.08);
-    padding:9px 0;white-space:nowrap;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
-  .vpn-safety-ticker::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);opacity:0.7;}
-  .vpn-safety-ticker .vst-track{display:inline-flex;width:max-content;animation:vstSlide 42s linear infinite;}
-  .vpn-safety-ticker:hover .vst-track{animation-play-state:paused;}
+  /* Pill that lines up with the search bar; swipe/drag to move, auto-scrolls again after you let go */
+  .vpn-safety-ticker{position:relative;z-index:11;width:100%;box-sizing:border-box;margin:10px 0 0;padding:0;border-radius:999px;
+    background:linear-gradient(#0c0a16,#0c0a16) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;border:1px solid transparent;
+    display:flex;align-items:center;overflow:hidden;}
+  .vpn-safety-ticker .vst-view{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:9px 0;cursor:grab;
+    scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x;overscroll-behavior-x:contain;user-select:none;-webkit-user-select:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
+  .vpn-safety-ticker .vst-view::-webkit-scrollbar{display:none;}
+  .vpn-safety-ticker .vst-view.dragging{cursor:grabbing;}
+  .vpn-safety-ticker .vst-track{display:inline-flex;width:max-content;}
+  .vpn-safety-ticker .vst-arrow{flex:0 0 auto;width:34px;height:34px;margin:0 4px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);
+    color:#e9e7f5;font:700 16px/1 'Inter',system-ui,sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;}
+  .vpn-safety-ticker .vst-arrow:hover{background:rgba(255,255,255,0.12);}
+  @media(hover:hover) and (pointer:fine){ .vpn-safety-ticker .vst-arrow{display:inline-flex;} }
   .vpn-safety-ticker .vst-item{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:0.9rem !important;line-height:1.3 !important;font-weight:600;letter-spacing:0.01em;
     color:rgba(214,220,240,0.85);padding:0 1.4rem;}
   .vpn-safety-ticker .vst-item b{font-weight:800;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
   .vpn-safety-ticker .vst-dot{display:inline-block;width:5px;height:5px;margin:0 0.9rem;border-radius:50%;vertical-align:middle;background:linear-gradient(135deg,#ff2fa8,#2fb4ff);font-size:0 !important;}
   html[data-theme="light"] .vpn-safety-ticker{background:#ffffff;border-bottom-color:rgba(30,20,70,0.12);}
   html[data-theme="light"] .vpn-safety-ticker .vst-item{color:#4a4566;}
-  @keyframes vstSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media(min-width:901px){.vpn-safety-ticker{margin-left:272px;width:calc(100% - 272px);}}
-  @media(prefers-reduced-motion:reduce){.vpn-safety-ticker .vst-track{animation-duration:120s;}}
+  html[data-theme="light"] .vpn-safety-ticker{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;}
+  html[data-theme="light"] .vpn-safety-ticker .vst-arrow{color:#2a2540;border-color:rgba(0,0,0,0.15);background:rgba(0,0,0,0.03);}
 </style>
-<div class="vpn-safety-ticker" role="marquee" aria-label="Work with your doctor. Do your bloodwork and inform your doctor before any research. Verify everything." data-vt-skip>
+<div class="vpn-safety-ticker" role="region" aria-label="Safety reminders: Work with your doctor. Do your bloodwork before any research. Inform your doctor. Verify everything." data-vt-skip>
+  <button type="button" class="vst-arrow vst-prev" aria-label="Scroll reminders left">‹</button>
+  <div class="vst-view">
   <div class="vst-track">
     <span class="vst-item">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
     <span class="vst-item" aria-hidden="true">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
   </div>
+  </div>
+  <button type="button" class="vst-arrow vst-next" aria-label="Scroll reminders right">›</button>
 </div>
+<script>
+(function(){
+  var tk = document.querySelector('.vpn-safety-ticker'); if (!tk) return;
+  var view = tk.querySelector('.vst-view'), track = tk.querySelector('.vst-track');
+  /* Sit directly under the search box so it lines up with the page */
+  function place(){ var bar = document.getElementById('vpnSearchBar'); if (bar && tk.parentElement !== bar) bar.appendChild(tk); }
+  place(); document.addEventListener('DOMContentLoaded', place);
+
+  var LOOP_SECONDS = 28, RESUME_MS = 3000;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pausedUntil = 0, hovering = false, last = 0, x = -1;
+  function half(){ return track.scrollWidth / 2; }
+  function wrap(){ var h = half(); if (h <= 0) return; if (view.scrollLeft >= h) view.scrollLeft -= h; else if (view.scrollLeft <= 0) view.scrollLeft += h; }
+  function hold(){ pausedUntil = Date.now() + RESUME_MS; x = -1; }
+  /* Auto-scroll keeps its own fractional position, so it stays smooth on zoomed / high-DPI screens */
+  function tick(t){
+    var dt = last ? Math.min((t - last) / 1000, 0.1) : 0; last = t;
+    var h = half();
+    if (!reduce && !hovering && Date.now() > pausedUntil && !document.hidden && h > 0) {
+      if (x < 0) x = view.scrollLeft;                /* pick up wherever the visitor left it */
+      x += h / LOOP_SECONDS * dt;
+      if (x >= h) x -= h;
+      view.scrollLeft = x;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* Touch swipe is native (overflow-x); these keep it paused while you interact and loop seamlessly */
+  ['touchstart','wheel','keydown'].forEach(function(ev){ view.addEventListener(ev, hold, {passive:true}); });
+  view.addEventListener('scroll', function(){ wrap(); }, {passive:true});
+  view.addEventListener('touchend', hold, {passive:true});
+  tk.addEventListener('mouseenter', function(){ hovering = true; });
+  tk.addEventListener('mouseleave', function(){ hovering = false; hold(); });
+
+  /* Mouse drag on desktop */
+  var down = false, sx = 0, sl = 0, moved = false;
+  view.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = view.scrollLeft; view.classList.add('dragging'); hold(); });
+  window.addEventListener('pointermove', function(e){ if (!down) return; var dx = e.clientX - sx; if (Math.abs(dx) > 3) moved = true; view.scrollLeft = sl - dx; wrap(); hold(); });
+  window.addEventListener('pointerup', function(){ if (!down) return; down = false; view.classList.remove('dragging'); hold(); });
+  view.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+  /* Arrows for people who don't think to drag */
+  function nudge(dir){ hold(); var target = view.scrollLeft + dir * Math.max(200, view.clientWidth * 0.6);
+    if (target <= 0) { view.scrollLeft += half(); target += half(); }
+    view.scrollTo({ left: target, behavior: 'smooth' }); }
+  tk.querySelector('.vst-prev').addEventListener('click', function(){ nudge(-1); });
+  tk.querySelector('.vst-next').addEventListener('click', function(){ nudge(1); });
+  view.setAttribute('tabindex', '0');
+  view.addEventListener('keydown', function(e){ if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-1); } if (e.key === 'ArrowRight') { e.preventDefault(); nudge(1); } });
+  view.scrollLeft = 1; /* start just inside the loop so wrapping works both ways */
+})();
+</script>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="logo" onclick="showView('home'); setActiveNav(document.querySelector('.nav-pill'))">
       <div class="vpn-lockup" data-vt-skip>
-        <img class="vl-em" src="icon-192.png?v=12" alt="" width="40" height="40" style="box-shadow:none;border-radius:0;object-fit:contain">
+        <img class="vl-em" src="icon-192.png?v=13" alt="" width="40" height="40" style="box-shadow:none;border-radius:0;object-fit:contain">
         <div class="vl-text"><div class="vl-word">VPN<span class="vl-rui">RUI</span></div><div class="vl-name">Verify · Proof · Notate · Data</div><div class="vl-tag">Research Unfiltered Information</div></div>
       </div>
     </div>
@@ -4606,7 +4669,7 @@ document.addEventListener('keydown', function(e){
     <div class="sb-logo-bar"></div>
     <div class="sb-logo-inner">
       <div class="vpn-lockup" data-vt-skip>
-        <img class="vl-em" src="icon-192.png?v=12" alt="" width="40" height="40" style="box-shadow:none;border-radius:0;object-fit:contain">
+        <img class="vl-em" src="icon-192.png?v=13" alt="" width="40" height="40" style="box-shadow:none;border-radius:0;object-fit:contain">
         <div class="vl-text"><div class="vl-word">VPN<span class="vl-rui">RUI</span></div><div class="vl-name">Verify · Proof · Notate · Data</div><div class="vl-tag">Research Unfiltered Information</div></div>
       </div>
     </div>
@@ -7433,14 +7496,14 @@ document.addEventListener('keydown', function(e){
       0%,100%{box-shadow:0 0 0 1.5px rgba(255,255,255,0.10),-5px -2px 12px 0 rgba(255,45,149,0.55),5px -2px 12px 0 rgba(64,140,255,0.55),-4px 5px 12px 0 rgba(255,150,40,0.38),3px 6px 12px 0 rgba(176,60,255,0.40);}
       50%    {box-shadow:0 0 0 1.5px rgba(255,255,255,0.14),-6px -2px 16px 1px rgba(255,45,149,0.70),6px -2px 16px 1px rgba(64,140,255,0.70),-5px 6px 16px 1px rgba(255,150,40,0.48),4px 7px 16px 1px rgba(176,60,255,0.52);}
     }
-    img[src^="VPNNEWLOGO.png"],img[src^="vpnlogo.png"]{border-radius:50%;animation:vpnLogoBreath 5s ease-in-out infinite !important;filter:none !important;}
-    html[data-theme="light"] img[src^="VPNNEWLOGO.png"],html[data-theme="light"] img[src^="vpnlogo.png"]{animation:none !important;box-shadow:-4px -2px 10px rgba(255,45,149,0.4),4px -2px 10px rgba(64,140,255,0.4),-3px 4px 10px rgba(255,150,40,0.3);}
+    img[src^="VPN-LOGO-RUI.webp?v=3"],img[src^="vpnlogo.png"]{border-radius:50%;animation:vpnLogoBreath 5s ease-in-out infinite !important;filter:none !important;}
+    html[data-theme="light"] img[src^="VPN-LOGO-RUI.webp?v=3"],html[data-theme="light"] img[src^="vpnlogo.png"]{animation:none !important;box-shadow:-4px -2px 10px rgba(255,45,149,0.4),4px -2px 10px rgba(64,140,255,0.4),-3px 4px 10px rgba(255,150,40,0.3);}
     /* hero badge: thin static ring painted in the logo's colours + the same tight halo on the card (it clips its image) */
     .retro80-card{border:3px solid transparent !important;background:linear-gradient(#05030a,#05030a) padding-box,conic-gradient(from 0deg,#9a5cff,#3f7bff 60deg,#2fb4ff 115deg,#5a62ff 165deg,#c43cff 200deg,#ff6a2a 232deg,#ffb12a 250deg,#ff3f80 290deg,#ff2fa8 330deg,#9a5cff) border-box !important;animation:vpnLogoBreath 5s ease-in-out infinite !important;}
-    .retro80-card img[src^="VPNNEWLOGO.png"]{animation:none !important;box-shadow:none !important;}
+    .retro80-card img[src^="VPN-LOGO-RUI.webp?v=3"]{animation:none !important;box-shadow:none !important;}
     .vpn-halo{display:none !important;} /* old yellow sunburst behind the badge — the tight logo-colour glow replaces it */
     html[data-theme="light"] .retro80-card{animation:none !important;box-shadow:-6px -2px 18px rgba(255,45,149,0.4),6px -2px 18px rgba(64,140,255,0.4),-4px 6px 18px rgba(255,150,40,0.3) !important;}
-    @media(prefers-reduced-motion:reduce){ img[src^="VPNNEWLOGO.png"],img[src^="vpnlogo.png"],.retro80-card{animation:none !important;box-shadow:-5px -2px 12px rgba(255,45,149,0.55),5px -2px 12px rgba(64,140,255,0.55),-4px 5px 12px rgba(255,150,40,0.38) !important;} }
+    @media(prefers-reduced-motion:reduce){ img[src^="VPN-LOGO-RUI.webp?v=3"],img[src^="vpnlogo.png"],.retro80-card{animation:none !important;box-shadow:-5px -2px 12px rgba(255,45,149,0.55),5px -2px 12px rgba(64,140,255,0.55),-4px 5px 12px rgba(255,150,40,0.38) !important;} }
     .retro80-glow{display:none;}
     /* scanline top of card */
     .retro80-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00f5ff,#9d00ff,#ff0080,transparent);opacity:0.8;z-index:10;}
@@ -9387,7 +9450,7 @@ window.vpnBadgeGo = function(view, id){
   <section id="vh2-videos" class="vh2" data-vt-skip aria-label="Video guides">
     <div class="vh2-vids">
       <article class="vh2-vid">
-        <video controls playsinline preload="none" poster="VPNNEWLOGO.png?v=5"><source src="welcomevideovpn.mp4" type="video/mp4"></video>
+        <video controls playsinline preload="none" poster="VPN-LOGO-RUI.webp?v=3"><source src="welcomevideovpn.mp4" type="video/mp4"></video>
         <div class="vb">
           <span class="tag">Watch first</span>
           <h3>Welcome to VPN</h3>
@@ -9721,7 +9784,7 @@ window.vpnBadgeGo = function(view, id){
       <!-- cyber scan line sweep -->
       <div style="position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(0,245,255,1),rgba(157,0,255,0.8),transparent);filter:blur(1.5px);animation:vpnScanLineLg 2.8s ease-in-out infinite;z-index:8;pointer-events:none;"></div>
       <canvas id="vpn-logo-matrix"></canvas>
-      <img src="VPN-LOGO-RUI.webp?v=3" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPNNEWLOGO.png'">
+      <img src="VPN-LOGO-RUI.webp?v=3" alt="Verify · Proof · Notate · Data" class="retro80-img" style="animation:retroLogoFloat 4s ease-in-out infinite,mxImageGlow 4s ease-in-out infinite;" onerror="this.src='VPN-LOGO-RUI.webp?v=3'">
       <div class="vpn-logo-pulse-ring" style="width:440px;height:440px;margin-left:-220px;margin-top:-220px;"></div>
       <div class="vpn-logo-pulse-ring"></div>
       <div class="vpn-logo-pulse-ring"></div>
@@ -35404,7 +35467,7 @@ window.addEventListener('appinstalled', function(){
 <script>
 (function(){
   var LOGO = null;
-  function loadLogo(){ return new Promise(function(res){ if (LOGO) return res(LOGO); var im = new Image(); im.onload = function(){ LOGO = im; res(im); }; im.onerror = function(){ res(null); }; im.src = 'VPNNEWLOGO.png?v=5'; }); }
+  function loadLogo(){ return new Promise(function(res){ if (LOGO) return res(LOGO); var im = new Image(); im.onload = function(){ LOGO = im; res(im); }; im.onerror = function(){ res(null); }; im.src = 'VPN-LOGO-RUI.webp?v=3'; }); }
   function plain(s){ var d = document.createElement('div'); d.innerHTML = String(s || ''); return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
   function wrap(ctx, text, maxW){
     var words = text.split(' '), lines = [], line = '';
