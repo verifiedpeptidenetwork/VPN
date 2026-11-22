@@ -36313,6 +36313,14 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   .vdd-head[aria-expanded="true"] .vdd-hint{display:none;}
   @media(max-width:640px){ .vdd-head{font-size:15px !important;padding:12px 14px;} .vdd-head .vdd-hint{display:none;} }
   html[data-theme="light"] .vdd-head{background:#fff;color:#14112a;border-color:rgba(0,0,0,0.12);}
+  /* Phones / tablets: the fixed bottom menu bar (58px + iPhone home-bar area) must never cover the end of a page.
+     Every page gets that much space below its last section, so you can always scroll everything into view. */
+  @media(max-width:900px){
+    /* (:is(#vpn-x,[id]) gives this ID-level priority so per-page padding rules can't shrink it) */
+    body.has-bnav #site-hero,
+    body.has-bnav > .view.active:is(#vpn-x,[id]){padding-bottom:calc(58px + env(safe-area-inset-bottom, 0px) + 32px) !important;}
+    body.has-bnav .view.active{scroll-margin-bottom:calc(58px + env(safe-area-inset-bottom, 0px) + 32px);}
+  }
   /* The pinned bar already has "Close all", so the floating "Close all open cards" pill (which sits over content on phones) is hidden on these pages */
   body:has(.view.vsec.active) #vpn-close-cards{display:none !important;}
   /* Phones (portrait): every button / tap row is at least 44px tall and easy to hit */
