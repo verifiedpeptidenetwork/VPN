@@ -1,4 +1,4 @@
-const CACHE = 'vpn-v13';
+const CACHE = 'vpn-v14';
 const PRECACHE = ['./home.html', './VPN-LOGO-RUI.webp'];
 
 self.addEventListener('install', e => {
