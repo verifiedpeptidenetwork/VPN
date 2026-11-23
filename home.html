@@ -36828,6 +36828,82 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
 })();
 </script>
 
+<!-- ═══ LOG IN / ACCOUNT — always visible at the top (phone header and desktop top bar) ═══ -->
+<style id="vpn-auth-css">
+  .vpn-auth{position:relative;z-index:120;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .vpn-auth > button,.vpn-auth > a{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 6px;border-radius:999px;cursor:pointer;
+    font:800 14px/1 'Inter',system-ui,sans-serif;text-decoration:none !important;white-space:nowrap;border:0;}
+  .vpn-auth .va-login{color:#fff !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff);box-shadow:0 8px 22px -10px rgba(255,47,168,0.9);}
+  .vpn-auth .va-login:hover{filter:brightness(1.08);}
+  .vpn-auth .va-acct{color:#fff;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18) !important;}
+  .vpn-auth .va-av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px/1 'Inter',sans-serif;color:#fff;
+    background:linear-gradient(135deg,#ff2fa8,#2fb4ff);flex:0 0 auto;}
+  .vpn-auth .va-login .va-av{background:rgba(255,255,255,0.22);font-size:15px;}
+  .vpn-auth .va-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:230px;padding:10px;border-radius:14px;background:#121025;border:1px solid rgba(255,255,255,0.16);
+    box-shadow:0 20px 40px -12px rgba(0,0,0,0.85);display:none;}
+  .vpn-auth.open .va-menu{display:block;}
+  .vpn-auth .va-menu small{display:block;padding:4px 6px 10px;color:rgba(214,220,240,0.7);font:600 12.5px/1.3 'Inter',sans-serif;overflow:hidden;text-overflow:ellipsis;}
+  .vpn-auth .va-menu button{display:block;width:100%;min-height:44px;padding:0 12px;border-radius:10px;border:0;text-align:left;cursor:pointer;
+    background:rgba(255,63,90,0.14);color:#ff8fa1;font:700 14px/1 'Inter',sans-serif;}
+  /* phone header: sits just left of the ☰ menu; the brand text shrinks so Log in and ☰ always fit */
+  .site-header .header-inner .vpn-auth{margin-left:auto;margin-right:0;flex:0 0 auto;}
+  @media(max-width:900px){
+    .site-header .header-inner{gap:8px !important;}
+    .site-header .header-inner .logo{flex:1 1 auto;min-width:0;overflow:hidden;}
+    .site-header .vpn-lockup,.site-header .vl-text{min-width:0;}
+    .site-header .vl-name,.site-header .vl-tag{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .site-header #hamburger-btn{flex:0 0 auto;}
+  }
+  @media(max-width:400px){ .site-header .vl-tag{display:none;} }
+  .site-header .header-inner .vpn-auth + .hamburger-btn,.site-header .header-inner .vpn-auth ~ #hamburger-btn{margin-left:0 !important;}
+  /* desktop top bar: right end of the search row */
+  #vpnSearchBar > .vpn-auth{position:absolute;right:20px;top:4px;}
+  @media(min-width:901px){ #vpnSearchBar #vpnSearchWrap{margin-right:150px !important;} }
+  @media(max-width:900px){ #vpnSearchBar > .vpn-auth{display:none;} }
+  @media(min-width:901px){ .site-header .vpn-auth{display:none;} }
+  @media(max-width:380px){ .vpn-auth .va-login .va-tx{font-size:13px;} .vpn-auth > button,.vpn-auth > a{padding-right:12px;} }
+  html[data-theme="light"] .vpn-auth .va-acct{color:#14112a;background:#fff;border-color:rgba(0,0,0,0.15) !important;}
+  html[data-theme="light"] .vpn-auth .va-menu{background:#fff;border-color:rgba(0,0,0,0.12);}
+</style>
+<script>
+(function(){
+  /* Same account as the sign-in page (Firebase keeps the signed-in user in this storage key) */
+  var KEY = 'firebase:authUser:AIzaSyBu2sWo0V3wL12-g7tafRnlXtIz2WtRW20:[DEFAULT]';
+  function user(){ try { var raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } }
+  function make(){
+    var u = user(), box = document.createElement('div'); box.className = 'vpn-auth';
+    if (!u) {
+      box.innerHTML = '<a class="va-login" href="access.html" aria-label="Log in or create a free account"><span class="va-av" aria-hidden="true">👤</span><span class="va-tx">Log in</span></a>';
+    } else {
+      var email = u.email || 'Signed in', initial = (email.charAt(0) || '•').toUpperCase();
+      box.innerHTML = '<button type="button" class="va-acct" aria-haspopup="true" aria-expanded="false"><span class="va-av" aria-hidden="true"></span><span class="va-tx">Account</span></button>'
+        + '<div class="va-menu" role="menu"><small></small><button type="button" class="va-out" role="menuitem">Log out</button></div>';
+      box.querySelector('.va-av').textContent = initial;
+      box.querySelector('.va-menu small').textContent = 'Signed in as ' + email;
+      var btn = box.querySelector('.va-acct');
+      btn.addEventListener('click', function(e){ e.stopPropagation(); var o = box.classList.toggle('open'); btn.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+      box.querySelector('.va-out').addEventListener('click', function(){
+        try { localStorage.removeItem(KEY); } catch (e) {}
+        location.reload();
+      });
+    }
+    return box;
+  }
+  function place(){
+    /* phone header: just before the ☰ button */
+    var hb = document.getElementById('hamburger-btn');
+    if (hb && !hb.parentNode.querySelector('.vpn-auth')) hb.parentNode.insertBefore(make(), hb);
+    /* desktop: right end of the top search bar */
+    var sb = document.getElementById('vpnSearchBar');
+    if (sb && !sb.querySelector(':scope > .vpn-auth')) sb.appendChild(make());
+  }
+  document.addEventListener('click', function(){ document.querySelectorAll('.vpn-auth.open').forEach(function(b){ b.classList.remove('open'); }); });
+  /* sign-in / sign-out in another tab updates this one */
+  window.addEventListener('storage', function(e){ if (e.key === KEY) { document.querySelectorAll('.vpn-auth').forEach(function(b){ b.remove(); }); place(); } });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
+})();
+</script>
+
 </body>
 </html>
 
