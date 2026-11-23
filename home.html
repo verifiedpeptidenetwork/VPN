@@ -36369,6 +36369,34 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   .vdd-head[aria-expanded="true"] .vdd-hint{display:none;}
   @media(max-width:640px){ .vdd-head{font-size:15px !important;padding:12px 14px;} .vdd-head .vdd-hint{display:none;} }
   html[data-theme="light"] .vdd-head{background:#fff;color:#14112a;border-color:rgba(0,0,0,0.12);}
+  /* ── Blood Work & Supplies header cards on phones: same look as Tools & Guides (gradient card + topic tiles) ── */
+  .vht-tiles{display:none;}
+  @media(max-width:640px){
+    :is(#view-bloodwork,#view-supplies) .view-hero.vh2{border-radius:20px !important;overflow:hidden;
+      background:radial-gradient(120% 80% at 100% 0%,color-mix(in srgb,var(--vht-a) 22%,transparent),transparent 55%),radial-gradient(90% 70% at 0% 100%,color-mix(in srgb,var(--vht-b) 18%,transparent),transparent 60%),#0d0b17 padding-box,
+        linear-gradient(135deg,var(--vht-a),var(--vht-b)) border-box !important;border:1px solid transparent !important;
+      box-shadow:0 24px 50px -28px color-mix(in srgb,var(--vht-a) 60%,transparent) !important;}
+    #view-bloodwork{--vht-a:#ff3f5a;--vht-b:#9a5cff;}
+    #view-supplies{--vht-a:#2fb4ff;--vht-b:#2ee6a0;}
+    :is(#view-bloodwork,#view-supplies) .view-hero .vh-inner{padding:18px 14px 14px !important;}
+    :is(#view-bloodwork,#view-supplies) .view-hero .vh-sub{font-size:15px !important;line-height:1.5 !important;margin-bottom:12px !important;}
+    /* the topic tiles replace the "Jump to" menu inside these two headers on phones */
+    :is(#view-bloodwork,#view-supplies) .view-hero details.cm.cm-jump{display:none !important;}
+    .vht-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px;}
+    html body .view .vht-tiles button{display:flex !important;flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;gap:10px !important;
+      min-height:56px !important;padding:8px 10px !important;text-align:left !important;}
+    .vht-tiles button small{display:none;}
+    .vht-tiles button b{flex:1;min-width:0;text-align:left !important;font-size:13.5px !important;line-height:1.2 !important;letter-spacing:0 !important;word-break:normal !important;overflow-wrap:normal !important;hyphens:none;}
+    .vht-tiles button{border-radius:14px;cursor:pointer;
+      background:linear-gradient(145deg,color-mix(in srgb,var(--c) 14%,transparent),rgba(255,255,255,0.03));border:1px solid color-mix(in srgb,var(--c) 38%,rgba(255,255,255,0.08));
+      color:#fff;font-family:'Inter',system-ui,sans-serif;transition:transform .15s,border-color .15s;}
+    .vht-tiles button:active{transform:scale(0.98);border-color:var(--c);}
+    .vht-tiles .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:18px;
+      background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);}
+    .vht-tiles b{font:800 14px/1.25 'Inter',system-ui,sans-serif !important;color:#fff !important;}
+    .vht-tiles small{font:600 12px/1.2 'Inter',system-ui,sans-serif !important;color:color-mix(in srgb,var(--c) 70%,#fff) !important;}
+    html[data-theme="light"] .vht-tiles b{color:#14112a !important;}
+  }
   /* ── Tools & Guides header card: clearer, prettier, and much shorter on phones ── */
   #view-quick-guide .qg2-hero{position:relative;overflow:hidden;border-radius:22px !important;padding:22px 20px 20px !important;
     background:radial-gradient(120% 80% at 100% 0%,rgba(46,230,160,0.16),transparent 55%),radial-gradient(90% 70% at 0% 100%,rgba(47,180,255,0.14),transparent 60%),#0d0b17 padding-box,
@@ -36712,6 +36740,50 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     view.querySelectorAll('.vpn-search-tags').forEach(function(r){ vpnChipMenu(r, { kind:'tags', label:'Popular searches' }); });
   }
   window.vpnChipMenusFor = chipMenus;
+  /* Blood Work & Supplies: the header's jump links become a grid of colored topic tiles (shown on phones),
+     like the Tools & Guides card. Each tile simply clicks the original jump link, so it opens the right section. */
+  var TILE_COLORS = ['#ff3f5a','#2fb4ff','#9a5cff','#2ee6a0','#ffb020','#ff6a2a','#ff2fa8','#3ad8ff','#c43cff','#7cff9b'];
+  var TILE_ICONS = [[/metabolic|cmp|glucose/i,'🧪'],[/thyroid/i,'🦋'],[/letter|doctor/i,'📝'],[/insulin/i,'🍬'],[/inflam/i,'🔥'],[/testost|hormone/i,'⚖️'],
+                    [/liver/i,'🫁'],[/heart|cholest|lipid/i,'❤️'],[/kidney/i,'🫘'],[/water|bac/i,'💧'],[/lab|suppl/i,'🔬'],[/cool|storage|fridge/i,'❄️'],[/label/i,'🏷️'],[/gym|workout/i,'🏋️']];
+  function niceLabel(t){
+    var s = t.replace(/^[^A-Za-z0-9]+/, '').trim();
+    if (s === s.toUpperCase()) s = s.toLowerCase().replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    return s;
+  }
+  function heroTiles(id){
+    if (id !== 'bloodwork' && id !== 'supplies') return;
+    var view = document.getElementById('view-' + id), hero = view && view.querySelector('.view-hero .vh-inner');
+    if (!hero || hero.querySelector('.vht-tiles')) return;
+    var src = [].slice.call(view.querySelectorAll('.view-hero .vh2-chips .vh2-go'));
+    if (!src.length) src = [].slice.call(view.querySelectorAll('.vsn .vsn-chips button'));
+    if (!src.length) return;
+    var seen = {}, items = [];
+    src.forEach(function(c){
+      var raw = c.textContent.trim(), label = niceLabel(raw);
+      var key = label.toLowerCase().replace(/\b(panel|advanced|for your doctor)\b/g, '').replace(/[^a-z]/g, '');
+      /* "THYROID" and "Thyroid Panel" are the same topic: keep the clearer one */
+      for (var k in seen) { if (k && (k.indexOf(key) === 0 || key.indexOf(k) === 0)) { if (label.length > seen[k].label.length) { seen[k].label = label; seen[k].el = c; seen[k].raw = raw; } return; } }
+      var it = { label:label, el:c, raw:raw }; seen[key] = it; items.push(it);
+    });
+    var grid = document.createElement('div'); grid.className = 'vht-tiles'; grid.setAttribute('role', 'navigation'); grid.setAttribute('aria-label', 'Topics on this page');
+    items.forEach(function(it, i){
+      var em = null;
+      try { em = (it.raw.match(new RegExp('^\\p{Extended_Pictographic}\\uFE0F?', 'u')) || [])[0]; } catch (e) {}  /* older browsers: fall back to the keyword icons */
+      if (!em) { for (var j = 0; j < TILE_ICONS.length; j++) if (TILE_ICONS[j][0].test(it.label)) { em = TILE_ICONS[j][1]; break; } }
+      var b = document.createElement('button'); b.type = 'button'; b.style.setProperty('--c', TILE_COLORS[i % TILE_COLORS.length]);
+      b.innerHTML = '<span class="ic" aria-hidden="true"></span><b></b><small>Open ›</small>';
+      b.querySelector('.ic').textContent = em || (id === 'bloodwork' ? '🩸' : '📦');
+      /* short tile titles: every topic here is a panel, so "Panel" is dropped; the doctor letter gets a short name */
+      var short = it.label.replace(/\s*\(advanced\)/i, '').replace(/\s+panel$/i, '');
+      if (/letter/i.test(short)) short = 'Letter for your doctor';
+      if (/testosterone/i.test(short)) short = 'Hormones';
+      b.querySelector('b').textContent = short;
+      b.title = it.label;
+      b.addEventListener('click', function(){ it.el.click(); });
+      grid.appendChild(b);
+    });
+    hero.appendChild(grid);
+  }
   /* Cards that the page opens by default start closed (once per page), so long pages start short;
      safety notices and "explain it like I'm 5" boxes are left as they are */
   function closeDefaultOpen(view){
@@ -36727,7 +36799,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     var v = document.getElementById('view-' + id);
     setTimeout(function(){ chipMenus(v); }, 200);          /* chip rows on any page, not only the polished ones */
     if (VIEWS.indexOf(id) === -1) return;
-    setTimeout(function(){ tidy(id); build(id); dropdowns(id); chipMenus(v); closeDefaultOpen(v); }, 160);
+    setTimeout(function(){ tidy(id); build(id); dropdowns(id); chipMenus(v); closeDefaultOpen(v); heroTiles(id); }, 160);
   }
   /* Cheap page flags on <body> (instead of page-wide :has() rules, which re-check the whole page on every change) */
   function flags(id){
