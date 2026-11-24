@@ -784,5 +784,80 @@ function unlockForm(){avUnlocked=true;
   sync();
 })();
 </script>
+<!-- ═══ SITE LOOK — same neon card style as ruivpndata.com (gradient borders, soft glow, Inter, pink→purple→blue) ═══ -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style id="ap-site-look">
+  html:not([data-theme="light"]) body{background:radial-gradient(900px 520px at 85% -10%,rgba(154,92,255,0.20),transparent 60%),radial-gradient(800px 520px at 0% 110%,rgba(255,47,168,0.14),transparent 60%),#07050f !important;}
+  body,body .access-card,body .access-card *:not(svg):not(svg *){font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;text-shadow:none !important;}
+
+  /* the main card: gradient border + glow like the site's cards */
+  html:not([data-theme="light"]) .access-card{border-radius:24px !important;overflow:hidden;border:1px solid transparent !important;
+    background:radial-gradient(120% 70% at 100% 0%,rgba(154,92,255,0.12),transparent 55%),#0d0b17 padding-box,
+      linear-gradient(135deg,#ff2fa8,#9a5cff 50%,#2fb4ff) border-box !important;
+    box-shadow:0 30px 70px -34px rgba(154,92,255,0.65),0 0 0 1px rgba(255,255,255,0.03) inset !important;}
+  .access-card .card-head{border-bottom:1px solid rgba(255,255,255,0.08) !important;background:transparent !important;}
+  .access-card .ap-logo{border-radius:12px !important;box-shadow:0 0 0 1px rgba(255,255,255,0.12),0 8px 20px -10px rgba(154,92,255,0.9) !important;}
+  .access-card .brand-name{font-weight:800 !important;letter-spacing:-0.01em !important;}
+  .access-card .theme-pill{border-radius:999px !important;}
+  .access-card .ap-wifi{margin:12px 16px 0 !important;border-radius:14px !important;border:1px solid rgba(47,180,255,0.28) !important;border-left:3px solid #2fb4ff !important;background:rgba(47,180,255,0.07) !important;}
+
+  /* the safety video: rounded, gradient frame, gradient progress bar */
+  .access-card .file-bar{font-weight:800 !important;letter-spacing:0 !important;text-transform:none !important;}
+  .access-card .vid-block{border-radius:18px !important;overflow:hidden;border:1px solid transparent !important;
+    background:#000 padding-box,linear-gradient(135deg,rgba(255,47,168,0.8),rgba(154,92,255,0.7),rgba(47,180,255,0.8)) border-box !important;
+    box-shadow:0 18px 40px -22px rgba(255,47,168,0.6) !important;}
+  .access-card .vid-block video{border-radius:17px;display:block;}
+  .access-card .vid-controls{gap:10px !important;}
+  .access-card .vid-btn,.access-card .vid-controls button{border-radius:10px !important;min-height:38px;}
+  .access-card .vid-bar{height:6px !important;border-radius:99px !important;background:rgba(255,255,255,0.12) !important;overflow:hidden;}
+  .access-card .vid-fill{border-radius:99px !important;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) !important;}
+  .access-card .vid-status{border-radius:12px !important;border:1px solid rgba(255,255,255,0.10) !important;background:rgba(255,255,255,0.04) !important;}
+
+  /* safety notes: the site's card style with a colour stripe */
+  .access-card .disc-grid{gap:10px !important;}
+  .access-card .disc-item{border-radius:14px !important;border:1px solid rgba(255,255,255,0.10) !important;border-left:3px solid #9a5cff !important;background:rgba(255,255,255,0.03) !important;box-shadow:none !important;}
+  .access-card .disc-item:nth-child(4n+1){border-left-color:#ff2fa8 !important;}
+  .access-card .disc-item:nth-child(4n+2){border-left-color:#ffb020 !important;}
+  .access-card .disc-item:nth-child(4n+3){border-left-color:#2fb4ff !important;}
+  .access-card .disc-item:nth-child(4n+4){border-left-color:#ff6a2a !important;}
+  .access-card .disc-ic{border-radius:10px !important;}
+
+  /* sign-in side */
+  .access-card .age-banner{border-radius:16px !important;border:1px solid transparent !important;
+    background:rgba(255,47,168,0.07) padding-box,linear-gradient(90deg,rgba(255,47,168,0.7),rgba(154,92,255,0.6)) border-box !important;}
+  html body .access-card .ap-title{font-size:clamp(28px,3.2vw,36px) !important;font-weight:900 !important;letter-spacing:-0.025em !important;line-height:1.1 !important;
+    background:linear-gradient(90deg,#ffffff 0%,#ffffff 45%,#ff7ac6 75%,#9ab8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;}
+  .access-card .disc-note{border-radius:12px !important;border-left:3px solid #2ee6a0 !important;}
+  .access-card .mode-tabs{padding:4px !important;border-radius:14px !important;background:rgba(255,255,255,0.05) !important;border:1px solid rgba(255,255,255,0.10) !important;}
+  .access-card .mode-tab{min-height:42px;border-radius:10px !important;font-weight:800 !important;}
+  .access-card .mode-tab.active{background:linear-gradient(90deg,#ff2fa8,#9a5cff) !important;color:#fff !important;box-shadow:0 8px 20px -10px rgba(255,47,168,0.9) !important;}
+  .access-card .auth-form input{min-height:50px !important;border-radius:14px !important;font-size:16px !important;
+    background:rgba(255,255,255,0.05) !important;border:1px solid rgba(255,255,255,0.14) !important;}
+  .access-card .auth-form input:focus{border-color:#9a5cff !important;box-shadow:0 0 0 4px rgba(154,92,255,0.18) !important;outline:none !important;}
+  .access-card #submit-btn{min-height:52px !important;border-radius:14px !important;font-weight:800 !important;font-size:16px !important;border:0 !important;
+    background:linear-gradient(90deg,#ff2fa8,#9a5cff 55%,#2fb4ff) !important;color:#fff !important;box-shadow:0 14px 30px -14px rgba(255,47,168,0.9) !important;}
+  .access-card #submit-btn.locked{opacity:0.45;filter:grayscale(0.3);box-shadow:none !important;}
+  .access-card .lock-hint{border-radius:12px !important;}
+  .access-card .create-btn{min-height:48px !important;border-radius:14px !important;font-weight:800 !important;
+    background:transparent !important;border:1px solid rgba(154,92,255,0.6) !important;color:#e9e3ff !important;}
+  .access-card .create-btn:hover{background:rgba(154,92,255,0.12) !important;}
+  .access-card #forgot-link{color:#ff8fd1 !important;}
+
+  /* phones: one clean column, video first, comfortable spacing */
+  @media(max-width:760px){
+    .page-wrap{padding:10px !important;}
+    html body .access-card{border-radius:20px !important;}
+    .access-card .card-body{display:flex !important;flex-direction:column !important;gap:4px;}
+    .access-card .col-video,.access-card .col-login{width:auto !important;padding:14px !important;border:0 !important;}
+    .access-card .disc-grid{grid-template-columns:minmax(0,1fr) !important;}
+    .access-card .ap-wifi{margin:10px 10px 0 !important;}
+    html body .access-card .ap-title{font-size:28px !important;}
+    .access-card .vid-btn,.access-card .vid-controls button{min-height:44px !important;min-width:44px;}
+  }
+  /* light theme keeps a white card with the same gradient edge */
+  html[data-theme="light"] .access-card{border-radius:24px !important;border:1px solid transparent !important;
+    background:#fff padding-box,linear-gradient(135deg,#ff2fa8,#9a5cff,#2fb4ff) border-box !important;}
+  html[data-theme="light"] body .access-card .ap-title{background:linear-gradient(90deg,#14112a,#14112a 45%,#c4147e 75%,#3b5bdb);-webkit-background-clip:text;background-clip:text;}
+</style>
 </body>
 </html>
