@@ -3299,7 +3299,7 @@
     <!-- Logo -->
     <div id="dg-logo">
       <div id="dg-logo-ring" style="position:relative;">
-        <img id="dg-logo-img" src="VPN-LOGO-RUI.webp?v=4" alt="VPN">
+        <img id="dg-logo-img" src="icon-192.png?v=16" alt="RUI VPN Data">
       </div>
       <div>
         <div id="dg-logo-text">VERIFY · PROOF · NOTATE · DATA</div>
@@ -36825,6 +36825,57 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hook); else hook();
   window.addEventListener('load', hook);
+})();
+</script>
+
+<!-- ═══ DISCLAIMER SCREEN — site font (Inter) and neon card look, new app icon top-left ═══ -->
+<style id="dg-site-look">
+  html body #dg{background:radial-gradient(900px 520px at 85% -10%,rgba(154,92,255,0.18),transparent 60%),radial-gradient(800px 520px at 0% 110%,rgba(255,47,168,0.12),transparent 60%),#07050f !important;}
+  html body #dg,html body #dg *:not(svg):not(svg *){font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;text-shadow:none !important;}
+  html body #dg *:not(video){animation:none !important;}
+  /* top-left: the new app icon as a rounded tile (no circular ring) */
+  html body #dg #dg-logo-ring{border-radius:16px !important;background:none !important;border:0 !important;padding:0 !important;
+    box-shadow:0 10px 26px -10px rgba(154,92,255,0.9),0 0 0 1px rgba(255,255,255,0.10) !important;animation:none !important;overflow:hidden;}
+  html body #dg #dg-logo-ring::before,html body #dg #dg-logo-ring::after{display:none !important;}
+  html body #dg #dg-logo-img{border-radius:14px !important;object-fit:cover !important;width:52px !important;height:52px !important;box-shadow:none !important;animation:none !important;}
+  html body #dg #dg-logo-text{font-weight:800 !important;font-size:16px !important;letter-spacing:0.01em !important;color:#fff !important;}
+  html body #dg #dg-logo-sub{font-weight:700 !important;font-size:11px !important;letter-spacing:0.12em !important;color:#5fe3d0 !important;}
+  /* title + hint */
+  html body #dg #dg-title{font-weight:900 !important;font-size:clamp(26px,4.2vw,36px) !important;letter-spacing:-0.02em !important;line-height:1.1 !important;
+    background:linear-gradient(90deg,#ff3f5a,#ff2fa8 55%,#c43cff);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;}
+  html body #dg #dg-scroll-hint-top{font-weight:700 !important;font-size:14px !important;letter-spacing:0.01em !important;color:rgba(230,232,245,0.85) !important;}
+  /* video + disclaimer card: gradient edge like the site's cards */
+  html body #dg .dg-section{border-radius:20px !important;overflow:hidden;border:1px solid transparent !important;border-left-width:1px !important;
+    background:#0d0b17 padding-box,linear-gradient(135deg,#ff2fa8,#9a5cff 50%,#2fb4ff) border-box !important;
+    box-shadow:0 26px 60px -30px rgba(255,47,168,0.55) !important;}
+  html body #dg .dg-section video{border-radius:0;}
+  html body #dg .dg-section > div:first-child > div:nth-child(2){background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) !important;}
+  html body #dg .dg-section > div:last-child > div:first-child{font-weight:800 !important;font-size:15px !important;letter-spacing:0.02em !important;}
+  html body #dg .dg-section > div:last-child > div:not(:first-child){font-size:15px !important;line-height:1.6 !important;letter-spacing:0 !important;}
+  html body #dg .dg-section > div:last-child > div:not(:first-child) strong,html body #dg .dg-section > div:last-child > div:not(:first-child) b{font-weight:800 !important;letter-spacing:0 !important;}
+  /* skip + agree + enter */
+  html body #dg #dg-skip-btn{border:1px solid rgba(255,47,168,0.55) !important;border-style:solid !important;border-radius:14px !important;background:rgba(255,47,168,0.06) !important;
+    font-weight:800 !important;font-size:14px !important;letter-spacing:0.02em !important;min-height:52px;}
+  html body #dg #dg-skip-box{border-radius:14px !important;}
+  html body #dg #dg-agree-wrap{border-radius:16px !important;border:1px solid rgba(255,255,255,0.12) !important;background:rgba(255,255,255,0.03) !important;}
+  html body #dg #dg-agree-label{font-size:15px !important;line-height:1.55 !important;font-weight:600 !important;letter-spacing:0 !important;}
+  html body #dg #dg-check{accent-color:#ff2fa8;width:22px;height:22px;}
+  html body #dg #dg-btn{border-radius:14px !important;min-height:56px;font-weight:800 !important;font-size:15px !important;letter-spacing:0.02em !important;}
+  /* not ticked yet: calm outline; ticked ("ready"): the site's bright gradient */
+  html body #dg #dg-btn{background:rgba(255,255,255,0.04) !important;color:rgba(230,232,245,0.6) !important;border:1px solid rgba(255,255,255,0.16) !important;box-shadow:none !important;}
+  html body #dg #dg-btn.ready{background:linear-gradient(90deg,#ff2fa8,#9a5cff 55%,#2fb4ff) !important;color:#fff !important;border:0 !important;box-shadow:0 14px 30px -14px rgba(255,47,168,0.9) !important;}
+  html body #dg #dg-divider{background:linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent) !important;}
+</style>
+<script>
+/* The page is never meant to move sideways. Some decorative glows reach past the right edge (hidden from view),
+   and a jump to a section could nudge the page sideways with no way to swipe back on a phone.
+   If that ever happens, snap it straight back. */
+(function(){
+  function fix(el){ if (el && el.scrollLeft) el.scrollLeft = 0; }
+  [document.body, document.documentElement].forEach(function(el){
+    el.addEventListener('scroll', function(){ fix(el); }, { passive:true });
+  });
+  window.addEventListener('scroll', function(){ if (window.scrollX) window.scrollTo(0, window.scrollY); }, { passive:true });
 })();
 </script>
 
