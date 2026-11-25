@@ -2302,13 +2302,21 @@ function buildSchedule(silent){
   var concentration = vial / water; // mg/mL
   var rows = [];
   var dose = start;
-  for (var w = 0; w < 4; w++){
+  /* reference peptides: stop at the top dose, then hold it until the usual course length */
+  var refKey = Object.keys(PEPTIDES).filter(function(k){ return PEPTIDES[k].name === name; })[0], refP = refKey && PEPTIDES[refKey];
+  var cap = refP && refP.max ? refP.max : 0, course = refP && refP.course ? refP.course : 0;
+  for (var w = 0; w < (cap ? 12 : 4); w++){
+    if (cap && dose > cap + 1e-9) break;
+    if (course && rows.length * weeksPerStep >= course) break;
     var drawML = dose / concentration;
     var units = drawML * 100;
     rows.push({ dose: dose, weeks: weeksPerStep, units: units, ml: drawML });
-    dose = dose + step;
+    /* set steps (e.g. semaglutide 0.25 → 0.5 → 1 → 1.7 → 2.4) when the reference gives them and the start matches */
+    if (refP && refP.ladder && Math.abs(start - refP.ladder[0]) < 1e-9 && Math.abs(step - refP.step) < 1e-9) dose = refP.ladder[Math.min(w + 1, refP.ladder.length - 1)] + (w + 1 >= refP.ladder.length ? cap : 0);
+    else dose = Math.round((dose + step) * 10000) / 10000;
     if (step === 0) break;
   }
+  if (course && rows.length) { var last = rows[rows.length - 1]; while ((rows.length * weeksPerStep) + weeksPerStep <= course && rows.length < 26) rows.push({ dose: last.dose, weeks: weeksPerStep, units: last.units, ml: last.ml }); }
 
   var html = ''
     + '<div style="background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.22);border-top:3px solid var(--cyan);margin-bottom:1.2rem;overflow:hidden;">'
@@ -3293,6 +3301,8 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
     else if (r.st) { p.start = r.s; p.step = r.st; p.weeks = r.ev; }
     else { p.start = r.s; p.step = 0; p.weeks = course; }
     if (r.pw <= 7) p.freq = r.pw;
+    p.ladder = r.ladder ? r.ladder.slice() : null;
+    p.max = r.ladder ? r.ladder[r.ladder.length - 1] : (r.mx || 0); p.course = r.cd ? Math.max(1, Math.round(r.cd / 7)) : (r.c || 0);
   });
 })();
 
@@ -3511,13 +3521,17 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
       if (x.s.link) L.push('   ' + x.s.link);
     });
     if (typeof SCHEDULES !== 'undefined' && SCHEDULES.length) { L.push('', 'In my plan: ' + SCHEDULES.map(function(s){ return s.name; }).join(', ')); }
+    var order = window.pmOrderText ? pmOrderText() : '';
+    if (order) L.push('', '--- ORDER LIST (copy & paste to your vendor) ---', order);
     L.push('', 'Reference doses: peptidedosages.com', 'Made with Peptide Match: ' + pageUrl(), 'Educational research information only, not medical advice. Verify every dose and talk to a licensed doctor.');
     var body = L.join('\n');
     /* some email apps cut very long links, so keep it to the top matches if needed */
     if (body.length > 1800) {
       var keep = [], n = 0;
       for (var i = 0; i < L.length; i++) { if (/^\d+\. /.test(L[i])) n++; if (n > 6 && /^\d+\. /.test(L[i])) break; keep.push(L[i]); }
-      keep.push('', '…plus ' + (PM_LAST.length - 6) + ' more. Use "Print / Save as PDF" for the full list.', '', 'Reference doses: peptidedosages.com', pageUrl());
+      keep.push('', '…plus ' + (PM_LAST.length - 6) + ' more. Use "Print / Save as PDF" for the full list.');
+      if (order && keep.indexOf(order) === -1) keep.push('', '--- ORDER LIST (copy & paste to your vendor) ---', order);
+      keep.push('', 'Reference doses: peptidedosages.com', pageUrl());
       body = keep.join('\n');
     }
     location.href = 'mailto:?subject=' + encodeURIComponent('My Peptide Match results') + '&body=' + encodeURIComponent(body);
@@ -3556,6 +3570,92 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
     if (p && !p.getAttribute('data-upd')) { p.setAttribute('data-upd', '1'); p.textContent = 'Save every match with its reference dose and how many vials you need, plus any schedule you build below. PDF, email or spreadsheet.'; }
   }
   addButtons();
+})();
+</script>
+<!-- ═══ ORDER LIST: a ready-to-send message for whichever vendor you contact ═══ -->
+<script>
+(function(){
+  function num(s){ var m = String(s || '').match(/[\d.]+/); return m ? +m[0] : 0; }
+  /* What goes on the order: the peptides in your plan, or your top 3 matches if you haven't built a plan */
+  window.pmOrder = function(){
+    var items = [], fromPlan = typeof SCHEDULES !== 'undefined' && SCHEDULES.length && typeof pmBuyList === 'function';
+    var water = 0, doses = 0;
+    if (fromPlan) {
+      var b = pmBuyList();
+      doses = b.doses;
+      b.items.forEach(function(i){
+        /* same vial size and count as the peptide's card, when it is one of ours */
+        var k = Object.keys(PEPTIDES).filter(function(x){ return PEPTIDES[x].name === i.name; })[0];
+        var s = k && window.pmVialSummary ? pmVialSummary(k) : null;
+        if (s && s.vials) {
+          var top = +String(s.vials).split('–').pop();
+          items.push({ name:i.name, size:s.size, vials:String(top), course:s.course });
+          if (!/IU/.test(s.size)) water += top * (PEPTIDES[k].water || 2);
+        } else { items.push({ name:i.name, size:i.vialMg + ' mg', vials:String(i.vials), course:i.weeks + ' weeks' }); water += i.water; }
+      });
+    } else if (typeof PM_LAST !== 'undefined') {
+      PM_LAST.slice(0, 3).forEach(function(it){
+        var p = PEPTIDES[it.key], s = window.pmVialSummary ? pmVialSummary(it.key) : {};
+        if (!s.vials || p.route === 'oral' || p.route === 'topical') return;
+        var top = +String(s.vials).split('–').pop();
+        items.push({ name:p.name, size:s.size, vials:String(top), course:s.course });
+        if (!/IU/.test(s.size)) water += top * ((p && p.water) || 2);
+      });
+    }
+    return { items:items, fromPlan:!!fromPlan, bottles:Math.max(1, Math.ceil(water / 30)), water:water, syringes:doses ? Math.ceil(doses * 1.1) : 0 };
+  };
+  window.pmOrderText = function(){
+    var o = pmOrder(); if (!o.items.length) return '';
+    var L = ['Hi! I\'d like to place an order:', ''];
+    o.items.forEach(function(i){ L.push('• ' + i.name + ' — ' + i.size + ' vials × ' + i.vials); });
+    L.push('• Bacteriostatic water — 30 mL × ' + o.bottles);
+    L.push('', 'Please include the most recent third-party lab test (COA) for each batch, and let me know the total with shipping. Thank you!');
+    return L.join('\n');
+  };
+  function copy(text){
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    var t = document.createElement('textarea'); t.value = text; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); } catch(e){} t.remove(); return Promise.resolve();
+  }
+  window.pmCopyOrder = function(){
+    var text = pmOrderText();
+    if (!text) { alert('Get your matches first (or add peptides to your plan), then copy your order list.'); return; }
+    copy(text).then(function(){
+      var o = pmOrder(), t = document.createElement('div'); t.className = 'pm-toast'; t.setAttribute('role','status');
+      t.innerHTML = '📋 <b>Order list copied.</b> Paste it into your vendor\'s chat, email or order form.' + (o.fromPlan ? '' : '<br><small>It lists your top ' + o.items.length + ' matches. Add peptides to your plan to choose exactly what goes on it.</small>');
+      document.body.appendChild(t); setTimeout(function(){ t.remove(); }, 7000);
+    });
+  };
+
+  /* PDF / downloaded report: a copy-and-paste order box right after the doses table */
+  var _html = window.pmReportHTML;
+  if (typeof _html === 'function') window.pmReportHTML = function(){
+    var h = _html.apply(this, arguments), text = pmOrderText(); if (!text) return h;
+    var o = pmOrder();
+    var box = '<h2>Your order list — copy &amp; paste to your vendor</h2>'
+      + '<p class="tip">' + (o.fromPlan ? 'From the peptides in your plan, with vials for each full schedule.' : 'Your top ' + o.items.length + ' matches, with enough vials for each full course (high end of any range). Add peptides to your plan on the page to choose exactly what goes here.') + '</p>'
+      + '<pre class="order">' + pmEsc(text) + '</pre>'
+      + (o.syringes ? '<p class="tip">Also needed (often sold separately): ' + o.syringes + ' U-100 insulin syringes, alcohol swabs and a sharps container.</p>' : '<p class="tip">Also needed (often sold separately): U-100 insulin syringes (one per dose), alcohol swabs and a sharps container.</p>');
+    h = h.replace('</style>', '.order{white-space:pre-wrap;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;background:#f6f3ff;border:2px dashed #9a5cff;border-radius:12px;padding:14px 16px;margin:6px 0 8px;color:#1b1530;break-inside:avoid;user-select:all}</style>');
+    var at = h.indexOf('<div class="disc">');
+    return at === -1 ? h : h.slice(0, at) + box + h.slice(at);
+  };
+  /* Notes text and email get it too */
+  var _text = window.pmReportText;
+  if (typeof _text === 'function') window.pmReportText = function(){
+    var t = _text.apply(this, arguments), o = pmOrderText(); if (!o) return t;
+    var at = t.indexOf('\nEducational only');
+    var add = '\n\nORDER LIST (copy & paste to your vendor)\n' + o + '\n';
+    return at === -1 ? t + add : t.slice(0, at) + add + t.slice(at);
+  };
+
+  /* buttons */
+  var menu = document.querySelector('#pm-results .pm-save-menu');
+  if (menu && !menu.querySelector('.pm-b-order')) menu.insertAdjacentHTML('afterbegin', '<button type="button" class="pm-b-order" onclick="pmCopyOrder()">📋 Copy order list for vendor</button>');
+  var fin = document.querySelector('#pm-results .pm-finish .pm-res-actions');
+  if (fin && !fin.querySelector('.pm-b-order')) fin.insertAdjacentHTML('afterbegin', '<button class="pm-btn pm-b-order" onclick="pmCopyOrder()">📋 Copy order list for vendor</button>');
+  var buy = document.getElementById('pm-buy-live');
+  if (buy && !document.getElementById('pm-buy-order')) buy.insertAdjacentHTML('afterend', '<p id="pm-buy-order" style="margin:12px 0 0"><button type="button" class="pm-btn pri" onclick="pmCopyOrder()">📋 Copy order list for vendor</button></p>');
 })();
 </script>
 <!-- Results filters as a dropdown menu instead of a row of chips -->
