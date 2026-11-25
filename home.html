@@ -9130,16 +9130,28 @@ document.addEventListener('keydown', function(e){
     #vh2-hero .badge img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;background:#05030a;animation:none!important;box-shadow:none!important;}
     @media (min-width:1100px){ #vh2-hero .hg{grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);} #vh2-hero .badge{width:min(500px,100%);} }
     @media (min-width:1500px){ #vh2-hero .badge{width:min(560px,100%);} }
-    /* Living neon halo: rotating pink → purple → blue ring + big pulsing glow, matching the logo's border */
-    #vh2-hero .badge{position:relative;isolation:isolate;padding:3px;background:transparent !important;box-shadow:none !important;}
-    #vh2-hero .badge::before,#vh2-hero .badge::after{content:'';position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
-      background:conic-gradient(from 0deg,#9a5cff,#3f7bff,#2fb4ff,#c43cff,#ff6a2a,#ffb12a,#ff3f80,#ff2fa8,#9a5cff);
-      animation:vpnHaloSpin 10s linear infinite;}
-    #vh2-hero .badge::after{inset:0;}
-    #vh2-hero .badge::before{inset:-1.5%;filter:blur(14px);opacity:0.6;animation:vpnHaloSpin 10s linear infinite,vpnHaloPulse 4s ease-in-out infinite;}
-    /* Logo sits cleanly inside the thin ring: dark backing, its own neon ring fully visible, soft depth */
-    #vh2-hero .badge img{position:relative;background:#05030a !important;object-fit:cover;
-      box-shadow:0 0 0 1px rgba(255,255,255,0.10),0 18px 40px -18px rgba(0,0,0,0.9) !important;}
+    /* One clean ring: the logo artwork already has its own neon circle, so no second spinning ring.
+       Just a still, soft glow behind it in the logo's own blue → purple → pink. */
+    #vh2-hero .badge{position:relative;isolation:isolate;padding:0 !important;background:transparent !important;box-shadow:none !important;}
+    #vh2-hero .badge::after{content:none !important;display:none !important;}
+    #vh2-hero .badge::before{content:'';position:absolute;inset:6%;border-radius:50%;pointer-events:none;z-index:-1;animation:none !important;
+      background:radial-gradient(circle at 30% 35%,rgba(47,180,255,0.55),transparent 60%),radial-gradient(circle at 72% 68%,rgba(255,47,168,0.55),transparent 60%),rgba(154,92,255,0.35);
+      filter:blur(38px);opacity:0.75;}
+    #vh2-hero .badge img{position:relative;background:transparent !important;object-fit:contain;border-radius:50%;
+      box-shadow:none !important;filter:drop-shadow(0 18px 36px rgba(0,0,0,0.55));}
+    /* Size + position: beside the headline on desktop, compact above it on phones */
+    /* Desktop layout: one tidy, centred block — text left, logo right (centred against each other),
+       then the three tool cards in a full-width row underneath, all on the same edges */
+    @media (min-width:901px){
+      html body #vh2-hero .hg{max-width:1240px;margin:0 auto !important;grid-template-columns:minmax(0,1fr) minmax(280px,400px) !important;gap:48px !important;align-items:center !important;}
+      html body #vh2-hero .badge{width:100% !important;max-width:400px;align-self:center !important;justify-self:center;margin:0 !important;}
+      html body #vh2-hero > .vh2-tools{max-width:1240px;margin:28px auto 0 !important;}
+    }
+    @media (min-width:1200px){
+      html body #vh2-hero > .vh2-tools{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+      html body #vh2-hero > .vh2-tools .vt-dev{grid-row:auto !important;}
+    }
+    @media (max-width:900px){ html body #vh2-hero .badge{width:min(230px,62vw) !important;margin:4px auto 0 !important;} }
     /* Calmer word highlights on the logo: only show on hover/focus instead of constantly pulsing */
     #vh2-hero .badge .bg-hot::before{opacity:0 !important;animation:none !important;transition:opacity .2s;}
     #vh2-hero .badge .bg-hot:hover::before,#vh2-hero .badge .bg-hot:focus-visible::before{opacity:0.45 !important;}
@@ -36876,6 +36888,17 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     el.addEventListener('scroll', function(){ fix(el); }, { passive:true });
   });
   window.addEventListener('scroll', function(){ if (window.scrollX) window.scrollTo(0, window.scrollY); }, { passive:true });
+})();
+</script>
+<script>
+/* Hero: the three tool cards move out of the text column into their own full-width row under the hero
+   (same order on phones: they still come after the headline, intro and stats) */
+(function(){
+  function move(){
+    var hg = document.querySelector('#vh2-hero .hg'), tools = hg && hg.querySelector('.vh2-tools');
+    if (tools && hg) hg.parentNode.insertBefore(tools, hg.nextSibling);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', move); else move();
 })();
 </script>
 
