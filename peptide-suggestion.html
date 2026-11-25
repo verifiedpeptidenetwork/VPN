@@ -1084,7 +1084,7 @@ body.pm .pep-result, body.pm .schedule-row{ clip-path:none !important; border-ra
 <!-- ══════════ PEPTIDE MATCH — guided goal matcher ══════════ -->
 <header class="pm-top">
   <div class="pm-wrap">
-    <a class="pm-brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><svg class="pm-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="pmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fa8"/><stop offset="1" stop-color="#2fb4ff"/></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="#0e1220" stroke="url(#pmg)" stroke-width="1.6"/><path d="M8 27 L14 21 L20 25 L27 14" fill="none" stroke="url(#pmg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/><circle cx="8" cy="27" r="3" fill="#ff2fa8"/><circle cx="14" cy="21" r="3" fill="#c45cff"/><circle cx="20" cy="25" r="3" fill="#7a6bff"/><circle cx="29" cy="13" r="6.2" fill="url(#pmg)"/><path d="M26.2 13.2 L28.3 15.2 L32 11.1" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="pm-long">Peptide Match</span><span class="pm-short">Peptide Match</span><small class="pm-long">by Verify · Proof · Notate · Data</small></span></a>
+    <a class="pm-brand" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img class="pm-mark" src="pm-icon-192.png?v=5" alt="" width="40" height="40" style="border-radius:11px"><span><span class="pm-long">Peptide Match</span><span class="pm-short">Peptide Match</span><small class="pm-long">by Verify · Proof · Notate · Data</small></span></a>
     <nav class="pm-top-links">
       <a href="home.html">← Home</a>
       <a href="pokeme-dex.html">Tracker</a>
@@ -3176,6 +3176,386 @@ function pmDownloadReport(){
   function count(){ var n = (typeof SCHEDULES !== 'undefined') ? SCHEDULES.length : 0, b = nav.querySelector('.pm-bnav-n'); b.hidden = !n; b.textContent = n; }
   var _sync = window.pmSyncPlan; if (typeof _sync === 'function') window.pmSyncPlan = function(){ var r = _sync.apply(this, arguments); count(); return r; };
   count(); mark();
+})();
+</script>
+<!-- ═══ REFERENCE DOSES (peptidedosages.com) + HOW MANY VIALS + SEPARATE START PAGE ═══ -->
+<style id="pm-dose-css">
+  .pm-ref{margin:14px 0 0;padding:14px;border-radius:14px;border:1px solid rgba(47,180,255,0.35);background:linear-gradient(180deg,rgba(47,180,255,0.08),rgba(154,92,255,0.06));}
+  .pm-ref h4{margin:0 0 8px;font:800 14px/1.3 'Inter',system-ui,sans-serif;letter-spacing:.02em;}
+  .pm-ref-line{margin:0 0 4px;font:600 14px/1.5 'Inter',system-ui,sans-serif;color:var(--pm-ink,#ecebf5);}
+  .pm-ref-line b{color:#fff;}
+  .pm-ref-src{display:inline-block;margin-top:4px;font:700 12.5px/1.4 'Inter',system-ui,sans-serif;color:#7fd3ff !important;text-decoration:underline;text-underline-offset:3px;}
+  .pm-vials{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(255,255,255,0.15);}
+  .pm-vials-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 10px;font:700 13.5px/1.3 'Inter',system-ui,sans-serif;}
+  .pm-vials-row > span{min-width:84px;color:var(--pm-sub,#a9a6c0);}
+  .pm-wstep{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,0.18);border-radius:12px;overflow:hidden;}
+  .pm-wstep button{width:44px;height:44px;border:0;background:rgba(255,255,255,0.06);color:inherit;font:800 18px/1 'Inter',sans-serif;cursor:pointer;}
+  .pm-wstep b{min-width:86px;text-align:center;font:800 14px/1 'Inter',sans-serif;}
+  .pm-vsz{display:flex;flex-wrap:wrap;gap:6px;}
+  .pm-vsz button{min-height:40px;padding:0 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.05);color:inherit;font:800 13px/1 'Inter',sans-serif;cursor:pointer;}
+  .pm-vsz button.on{border-color:#ff2fa8;background:rgba(255,47,168,0.16);color:#fff;}
+  .pm-vials-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+  .pm-vials-out > div{padding:10px 12px;border-radius:12px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);}
+  .pm-vials-out b{display:block;font:900 20px/1.1 'Inter',sans-serif;color:#fff;}
+  .pm-vials-out small{display:block;margin-top:3px;font:600 12px/1.35 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);}
+  .pm-vials-out .big b{background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .pm-vials-note{margin:8px 0 0;font:600 12px/1.45 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);}
+  html[data-theme="light"] .pm-ref{background:#f3f8ff;border-color:#b9dcf5;}
+  html[data-theme="light"] .pm-ref-line,html[data-theme="light"] .pm-ref-line b,html[data-theme="light"] .pm-vials-out b{color:#14102a;}
+  html[data-theme="light"] .pm-ref-src{color:#0b5f9e !important;}
+  html[data-theme="light"] .pm-vials-out > div{background:#fff;border-color:#e2ddf2;}
+  html[data-theme="light"] .pm-wstep button,html[data-theme="light"] .pm-vsz button{background:#f1eefb;border-color:#d9d3ef;}
+
+  /* Two pages: the intro page, and the step-by-step start page (?start) */
+  body.pm-intro #pm-wizard,body.pm-intro #pm-results,body.pm-intro #pm-inflam{display:none !important;}
+  body.pm-startpage .pm-hero,body.pm-startpage #pm-search-sec{display:none !important;}
+  .pm-startbar{display:none;}
+  body.pm-startpage .pm-startbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;max-width:980px;margin:18px auto 6px;padding:0 16px;box-sizing:border-box;}
+  .pm-startbar a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.05);color:inherit !important;text-decoration:none;font:800 14px/1 'Inter',sans-serif;white-space:nowrap;}
+  .pm-startbar div{min-width:0;}
+  .pm-startbar h1{margin:0;font:900 clamp(20px,4.6vw,28px)/1.15 'Inter',system-ui,sans-serif !important;letter-spacing:-.01em;}
+  .pm-startbar p{margin:3px 0 0;font:600 13px/1.4 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);}
+  body.pm-startpage #pm-wizard{margin-top:10px !important;}
+  html[data-theme="light"] .pm-startbar a{background:#fff;border-color:#e2ddf2;}
+</style>
+<script>
+/* Reference doses from peptidedosages.com (numbers in mg unless unit says IU).
+   s = first dose, st = increase, ev = increase every N weeks, mx = top dose, ladder = set steps,
+   pw = doses per week, c = typical course in weeks, cd = course in days, range = increase timing not given,
+   v = vial sizes, txt = how the dose reads, u = page path */
+var PM_REF = {
+  reta:{u:'single-peptide-dosages/retatrutide-5-mg-vial-dosage-protocol/',txt:'2–12 mg once a week, starting at 2 mg and going up 2 mg every 4 weeks',s:2,st:2,ev:4,mx:12,pw:1,c:24,v:[5,10,20]},
+  tirz:{u:'single-peptide-dosages/tirzepatide-5-mg-vial-dosage-protocol/',txt:'2.5–15 mg once a week, starting at 2.5 mg and going up 2.5 mg every 4 weeks',s:2.5,st:2.5,ev:4,mx:15,pw:1,c:16,v:[5,10,15,20,30]},
+  cagri:{u:'single-peptide-dosages/cagrilintide-5-mg-vial-dosage-protocol/',txt:'0.6–4.5 mg once a week, stepping 0.6 → 1.2 → 2.4 → 4.5 mg every 2 weeks',ladder:[0.6,1.2,2.4,4.5],ev:2,pw:1,c:26,v:[5,10]},
+  aod:{u:'single-peptide-dosages/aod-9604-2-mg-vial-dosage-protocol/',txt:'300 mcg a day for weeks 1–4, then 500 mcg a day; 8–12 weeks',ladder:[0.3,0.5],ev:4,pw:7,c:8,v:[2,5,10]},
+  mots:{u:'single-peptide-dosages/mots-c-5-mg-vial-dosage-protocol/',txt:'500–1500 mcg a day, going up 500 mcg every 2 weeks; about 8 weeks',s:0.5,st:0.5,ev:2,mx:1.5,pw:7,c:8,v:[5,10,20,40]},
+  bpc:{u:'single-peptide-dosages/bpc-157-5-mg-vial-dosage-protocol/',txt:'200–600 mcg a day, going up 200 mcg every 2 weeks; 8–12 weeks',s:0.2,st:0.2,ev:2,mx:0.6,pw:7,c:8,v:[5,10,20]},
+  tb500:{u:'single-peptide-dosages/tb-500-5-mg-vial-dosage-protocol/',txt:'500–1000 mcg a day, going up a little every 2 weeks; 8–12 weeks',s:0.5,st:0.125,ev:2,mx:1,pw:7,c:8,v:[5,10]},
+  cjcipa:{u:'peptide-blend-dosages/cjc-1295-no-dac-ipamorelin-10-mg-blend-dosage-protocol/',txt:'100–300 mcg of each a day (200–600 mcg of the 5+5 mg blend), going up every 1–2 weeks; 8–12 weeks',s:0.2,mx:0.6,range:1,pw:7,c:8,v:[10]},
+  nad:{u:'single-peptide-dosages/nad-500-mg-10ml-vial-dosage-protocol/',txt:'50 mg a day in week 1, 75 mg in week 2, then 100 mg a day; up to 16 weeks',ladder:[50,75,100],ev:1,pw:7,c:16,v:[500,1000]},
+  ghk:{u:'single-peptide-dosages/ghk-cu-50-mg-vial-dosage-protocol/',txt:'1–2 mg, 5 days a week, going up 0.5 mg every 4 weeks; 12+ weeks',s:1,st:0.5,ev:4,mx:2,pw:5,c:12,v:[50,100]},
+  epi:{u:'single-peptide-dosages/epitalon-epithalon-10-mg-vial-dosage-protocol/',txt:'5 mg a day for a 20-day course',s:5,pw:7,cd:20,v:[10]},
+  tesa:{u:'single-peptide-dosages/tesamorelin-5-mg-vial-dosage-protocol/',txt:'2 mg a day; studied for up to 26 weeks',s:2,pw:7,c:12,v:[2,5,10,20]},
+  dsip:{u:'single-peptide-dosages/dsip-5-mg-vial-dosage-protocol/',txt:'100–300 mcg a day, going up 50 mcg each week; 8–12 weeks',s:0.1,st:0.05,ev:1,mx:0.3,pw:7,c:8,v:[5,10]},
+  semax:{u:'single-peptide-dosages/semax-5-mg-vial-dosage-protocol/',txt:'200–300 mcg in the nose, 2–3 times a day',s:0.2,mx:0.3,range:1,pw:14,c:4,v:[5,10]},
+  selank:{u:'single-peptide-dosages/selank-5-mg-vial-dosage-protocol/',txt:'300 mcg in the nose, 3 times a day, for 14 days',s:0.3,pw:21,cd:14,v:[5,10]},
+  kpv:{u:'single-peptide-dosages/kpv-10-mg-vial-dosage-protocol/',txt:'200–500 mcg a day, going up 100 mcg each week; 8–12 weeks',s:0.2,st:0.1,ev:1,mx:0.5,pw:7,c:8,v:[10]},
+  ss31:{u:'single-peptide-dosages/ss-31-10-mg-vial-dosage-protocol/',txt:'5 mg a day for 2 weeks, then 10 mg a day; about 8 weeks',ladder:[5,10],ev:2,pw:7,c:8,v:[10,30,50]},
+  pt141:{u:'single-peptide-dosages/pt-141-10-mg-vial-dosage-protocol/',txt:'500 mcg up to 1.5 mg per dose',s:0.5,mx:1.5,range:1,pw:2,c:4,v:[10]},
+  kisspeptin:{u:'single-peptide-dosages/kisspeptin-10-mg-vial-dosage-protocol/',txt:'100–200 mcg a day; 8–12 weeks',s:0.1,mx:0.2,range:1,pw:7,c:8,v:[10]},
+  hcg:{u:'single-peptide-dosages/hcg-2000-iu-vial-dosage-protocol/',txt:'500–2000 IU, 3 times a week; 8–16 weeks',unit:'IU',s:500,mx:2000,range:1,pw:3,c:8,v:[2000,5000,10000]},
+  amino1mq:{u:'single-peptide-dosages/5-amino-1mq-5-mg-vial-dosage-protocol/',txt:'2.5 mg for the first 2 days, then 5 mg a day',s:5,pw:7,c:4,v:[5,10,50]},
+  abalo:{u:'single-peptide-dosages/abaloparatide-3-mg-vial-dosage-protocol/',txt:'80 mcg once a day',s:0.08,pw:7,c:12,v:[3]},
+  ahkcu:{u:'single-peptide-dosages/ahk-cu-100-mg-vial-dosage-protocol/',txt:'1–2 mg once a day; 8 or 12 weeks',s:1,mx:2,range:1,pw:7,c:8,v:[100]},
+  cjcdac:{u:'single-peptide-dosages/cjc-1295-dac-2-mg-vial-dosage-protocol/',txt:'1–2 mg once a week; 8–12 weeks',s:1,mx:2,range:1,pw:1,c:8,v:[2,5]},
+  cjcnodac:{u:'single-peptide-dosages/cjc-1295-no-dac-5-mg-vial-dosage-protocol/',txt:'100–300 mcg a day, going up 50 mcg every 2 weeks; 8–12 weeks',s:0.1,st:0.05,ev:2,mx:0.3,pw:7,c:8,v:[5]},
+  foxo4:{u:'single-peptide-dosages/foxo4-dri-10-mg-vial-dosage-protocol/',txt:'250–500 mcg a day, going up 125 mcg every 4 weeks; 8–16 weeks',s:0.25,st:0.125,ev:4,mx:0.5,pw:7,c:8,v:[10]},
+  ghrp2:{u:'single-peptide-dosages/ghrp-2-5-mg-vial-dosage-protocol/',txt:'100–200 mcg a day, going up 50 mcg every 2 weeks; 8–16 weeks',s:0.1,st:0.05,ev:2,mx:0.2,pw:7,c:8,v:[5,10]},
+  ghrp6:{u:'single-peptide-dosages/ghrp-6-2-mg-vial-dosage-protocol/',txt:'100–300 mcg, 3 times a day, going up 100 mcg every 2 weeks; 8–12 weeks',s:0.1,st:0.1,ev:2,mx:0.3,pw:21,c:8,v:[2,5,10]},
+  gluta:{u:'single-peptide-dosages/glutathione-600-mg-vial-dosage-protocol/',txt:'100–200 mg a day, going up 50 mg every 1–2 weeks; 4–8 weeks',s:100,mx:200,range:1,pw:7,c:4,v:[600]},
+  ipam:{u:'single-peptide-dosages/ipamorelin-5-mg-vial-dosage-protocol/',txt:'100 mcg a day (weeks 1–2), 150 (3–4), 200 (5–8), 250 (9–12)',ladder:[0.1,0.15,0.2,0.2,0.25,0.25],ev:2,pw:7,c:12,v:[5,10]},
+  carnitine:{u:'single-peptide-dosages/l-carnitine-200-mg-vial-dosage-protocol/',txt:'50–100 mg a day; 8–12 weeks',s:50,mx:100,range:1,pw:7,c:8,v:[200]},
+  ll37:{u:'single-peptide-dosages/ll-37-5-mg-vial-dosage-protocol/',txt:'50–400 mcg a day, going up 50 mcg each week; 8–12 weeks',s:0.05,st:0.05,ev:1,mx:0.4,pw:7,c:8,v:[5]},
+  mazd:{u:'single-peptide-dosages/mazdutide-5-mg-vial-dosage-protocol/',txt:'2.5–5 mg once a week, going up 2.5 mg after 4 weeks',s:2.5,st:2.5,ev:4,mx:5,pw:1,c:12,v:[5,10]},
+  mt1:{u:'single-peptide-dosages/melanotan-i-10-mg-vial-dosage-protocol/',txt:'dosed by body weight (0.08–0.21 mg per kg), 5 days a week for 2 weeks'},
+  mt2:{u:'single-peptide-dosages/melanotan-ii-10-mg-vial-dosage-protocol/',txt:'250 mcg–1 mg; daily while loading, then 1–2 times a week; 6–8 weeks'},
+  oxytocin:{u:'single-peptide-dosages/oxytocin-5-mg-vial-dosage-protocol/',txt:'100–500 mcg a day, going up 100 mcg every 2 weeks; 8–12 weeks',s:0.1,st:0.1,ev:2,mx:0.5,pw:7,c:8,v:[5,10]},
+  pe2228:{u:'single-peptide-dosages/pe-22-28-10-mg-vial-dosage-protocol/',txt:'50–200 mcg a day, stepping 50 → 100 → 150 → 200 mcg; 12–16 weeks',s:0.05,mx:0.2,range:1,pw:7,c:12,v:[10]},
+  pinealon:{u:'single-peptide-dosages/pinealon-20-mg-vial-dosage-protocol/',txt:'1 mg a day (days 1–5), 1.5 mg (days 6–14), 2 mg (days 15–20)',total:30.5,cd:20,s:1,pw:7,v:[20]},
+  pnc27:{u:'single-peptide-dosages/pnc-27-30-mg-vial-dosage-protocol/',txt:'100–500 mcg a day, going up 100 mcg every 2 weeks; 8–12 weeks',s:0.1,st:0.1,ev:2,mx:0.5,pw:7,c:8,v:[30]},
+  sema:{u:'single-peptide-dosages/semaglutide-5-mg-vial-dosage-protocol/',txt:'0.25 → 0.5 → 1 → 1.7 → 2.4 mg once a week, stepping up every 4 weeks',ladder:[0.25,0.5,1,1.7,2.4],ev:4,pw:1,c:20,v:[5,10,15,20]},
+  sermorelin:{u:'single-peptide-dosages/sermorelin-5-mg-vial-dosage-protocol/',txt:'200–500 mcg a day, going up 100 mcg every 1–2 weeks; 13–26 weeks',s:0.2,mx:0.5,range:1,pw:7,c:13,v:[5,10]},
+  slu332:{u:'single-peptide-dosages/slu-pp-332-5-mg-vial-dosage-protocol/',txt:'see the reference page; it lists more than one dosing schedule'},
+  survo:{u:'single-peptide-dosages/survodutide-10-mg-vial-dosage-protocol/',txt:'0.6–6 mg once a week, going up about 0.6 mg every 2 weeks; 12–16 weeks',s:0.6,st:0.6,ev:2,mx:6,pw:1,c:12,v:[10]},
+  teripar:{u:'single-peptide-dosages/teriparatide-750-mcg-vial-dosage-protocol/',txt:'20 mcg once a day',s:0.02,pw:7,c:12,v:[0.75]},
+  thymalpha:{u:'single-peptide-dosages/thymosin-alpha-1-5-mg-vial-dosage-protocol/',txt:'300 mcg a day in week 1, then 500 mcg a day; about 8 weeks',ladder:[0.3,0.5],ev:1,pw:7,c:8,v:[5,10]},
+  snap8:{u:'single-peptide-dosages/snap-8-10-mg-vial-dosage-protocol/',txt:'used on the skin; see the reference page'},
+  bronchogen:{u:'single-peptide-dosages/bronchogen-20-mg-vial-dosage-protocol/',txt:'1–2 mg once a day for 10–20 days',s:1,mx:2,range:1,pw:7,cd:10,v:[20]},
+  cardiogen:{u:'single-peptide-dosages/cardiogen-20-mg-vial-dosage-protocol/',txt:'1–2 mg once a day for 10–20 days',s:1,mx:2,range:1,pw:7,cd:10,v:[20]},
+  cartalax:{u:'single-peptide-dosages/cartalax-20-mg-vial-dosage-protocol/',txt:'2–5 mg a day, going up 1 mg every 2 weeks; 8–12 weeks',s:2,st:1,ev:2,mx:5,pw:7,c:8,v:[20,40]},
+  chonluten:{u:'single-peptide-dosages/chonluten-20-mg-vial-dosage-protocol/',txt:'250 mcg up to 4 mg a day, going up every 1–2 weeks; 8–16 weeks',s:0.25,mx:4,range:1,pw:7,c:8,v:[20]},
+  cortagen:{u:'single-peptide-dosages/cortagen-20-mg-vial-dosage-protocol/',txt:'1–2 mg a day; about 4 weeks',s:1,mx:2,range:1,pw:7,c:4,v:[20]},
+  livagen:{u:'single-peptide-dosages/livagen-20-mg-vial-dosage-protocol/',txt:'0.5–2 mg a day, going up 0.5 mg every 1–2 weeks; 8–12 weeks',s:0.5,mx:2,range:1,pw:7,c:8,v:[20]},
+  ovagen:{u:'single-peptide-dosages/ovagen-20-mg-vial-dosage-protocol/',txt:'10–150 mcg a day, going up slowly; about 16 weeks',s:0.01,mx:0.15,range:1,pw:7,c:16,v:[20]},
+  prostamax:{u:'single-peptide-dosages/prostamax-20-mg-vial-dosage-protocol/',txt:'500 mcg–1 mg a day, going up about 250 mcg every 2 weeks; 8–12 weeks',s:0.5,st:0.25,ev:2,mx:1,pw:7,c:8,v:[20]},
+  testagen:{u:'single-peptide-dosages/testagen-20-mg-vial-dosage-protocol/',txt:'100–300 mcg a day, going up 50 mcg every 2 weeks; 8–12 weeks',s:0.1,st:0.05,ev:2,mx:0.3,pw:7,c:8,v:[20]},
+  vesugen:{u:'single-peptide-dosages/vesugen-20-mg-vial-dosage-protocol/',txt:'500 mcg–2 mg a day, going up 500 mcg each week; 8–12 weeks',s:0.5,st:0.5,ev:1,mx:2,pw:7,c:8,v:[20]},
+  vilon:{u:'single-peptide-dosages/vilon-20-mg-vial-dosage-protocol/',txt:'starts at 67 mcg and goes up a little each day to 667 mcg; about 4 weeks',total:15.7,cd:28,s:0.067,pw:7,v:[20]}
+};
+var PM_REF_SITE = 'https://peptidedosages.com/';
+/* The protocol shown on each card and used by the schedule builder follows the reference */
+(function(){
+  Object.keys(PM_REF).forEach(function(k){
+    var r = PM_REF[k], p = typeof PEPTIDES !== 'undefined' && PEPTIDES[k];
+    if (!p || r.unit || p.route === 'oral' || p.route === 'topical' || (r.s == null && !r.ladder)) return;
+    var course = r.cd ? Math.max(1, Math.round(r.cd / 7)) : r.c;
+    if (r.ladder) { p.start = r.ladder[0]; p.step = Math.round((r.ladder[1] - r.ladder[0]) * 1000) / 1000; p.weeks = r.ev; }
+    else if (r.st) { p.start = r.s; p.step = r.st; p.weeks = r.ev; }
+    else { p.start = r.s; p.step = 0; p.weeks = course; }
+    if (r.pw <= 7) p.freq = r.pw;
+  });
+})();
+
+(function(){
+  function fmt(mg, unit){
+    if (unit === 'IU') return Math.round(mg).toLocaleString() + ' IU';
+    if (mg < 1) return Math.round(mg * 1000) + ' mcg';
+    return (Math.round(mg * 100) / 100) + ' mg';
+  }
+  function courseWeeks(r){ return r.cd ? r.cd / 7 : r.c; }
+  /* dose for a given week of the course (0 = first week) */
+  function doseAt(r, w, high){
+    if (r.ladder) return r.ladder[Math.min(Math.floor(w / r.ev), r.ladder.length - 1)];
+    if (r.range) return high ? r.mx : r.s;
+    if (r.st) return Math.min(r.s + r.st * Math.floor(w / r.ev), r.mx || Infinity);
+    return r.s;
+  }
+  function total(r, weeks, high){
+    if (r.total) return r.total * weeks / courseWeeks(r);
+    var days = Math.round(weeks * 7), t = 0;
+    for (var d = 0; d < days; d++) t += doseAt(r, Math.floor(d / 7), high) * r.pw / 7;
+    return t;
+  }
+  /* the tool's own numbers, for peptides the reference site does not list */
+  function ownRef(p){
+    if (!p || p.route === 'oral' || p.route === 'topical') return null;
+    return { s:p.start, st:p.step, ev:p.weeks || 4, pw:p.freq || 7, c:(p.step ? (p.weeks || 4) * 3 : (p.weeks || 8)), v:[p.vial], own:1 };
+  }
+  function weeksLabel(w){ var d = Math.round(w * 7); return (d % 7 === 0) ? (d / 7) + ' week' + (d === 7 ? '' : 's') : d + ' days'; }
+
+  window.pmVialBox = function(key){
+    var p = PEPTIDES[key], r = PM_REF[key];
+    var calc = (r && (r.s != null || r.ladder)) ? r : (r ? null : ownRef(p));
+    var html = '<div class="pm-ref" data-k="' + key + '">';
+    if (r) {
+      html += '<h4>📏 Reference dose</h4><p class="pm-ref-line"><b>' + pmEsc(r.txt) + '</b></p>'
+           + '<a class="pm-ref-src" href="' + PM_REF_SITE + r.u + '" target="_blank" rel="noopener">Reference: peptidedosages.com ↗</a>';
+    } else if (calc) {
+      html += '<h4>📏 Dose used for this estimate</h4><p class="pm-ref-line">This tool\'s typical starting point: <b>' + fmt(p.start) + '</b>, ' + (p.freq >= 7 ? 'every day' : p.freq + '× a week') + '. Not listed on peptidedosages.com.</p>';
+    }
+    if (calc) {
+      var w = courseWeeks(calc), sizes = calc.v.slice(0, 4), need = total(calc, w, !!calc.range);
+      /* open on the smallest vial size that keeps it to about a dozen vials or fewer */
+      var pick = sizes.filter(function(s){ return need / s <= 12; })[0] || sizes[sizes.length - 1];
+      html += '<div class="pm-vials" data-w="' + w + '" data-base="' + w + '" data-size="' + pick + '">'
+           + '<h4>🧪 How many vials for this protocol?</h4>'
+           + '<div class="pm-vials-row"><span>Course</span><span class="pm-wstep"><button type="button" data-d="-1" aria-label="Shorter">−</button><b class="pm-w"></b><button type="button" data-d="1" aria-label="Longer">+</button></span></div>'
+           + '<div class="pm-vials-row"><span>Vial size</span><span class="pm-vsz">' + sizes.map(function(s){ return '<button type="button" data-s="' + s + '">' + (calc.unit === 'IU' ? s.toLocaleString() + ' IU' : (s < 1 ? Math.round(s * 1000) + ' mcg' : s + ' mg')) + '</button>'; }).join('') + '</span></div>'
+           + '<div class="pm-vials-out"></div><p class="pm-vials-note"></p></div>';
+    } else if (r) {
+      html += '<p class="pm-vials-note">Vial count isn\'t shown for this one because its dose depends on body weight or more than one schedule. Check the reference page.</p>';
+    }
+    return html + '</div>';
+  };
+
+  function draw(box){
+    var wrap = box.closest('.pm-ref'), key = wrap.getAttribute('data-k'), p = PEPTIDES[key];
+    var r = PM_REF[key] && (PM_REF[key].s != null || PM_REF[key].ladder) ? PM_REF[key] : ownRef(p);
+    var w = +box.getAttribute('data-w'), size = +box.getAttribute('data-size'), unit = r.unit;
+    box.querySelector('.pm-w').textContent = weeksLabel(w);
+    box.querySelectorAll('.pm-vsz button').forEach(function(b){ b.classList.toggle('on', +b.getAttribute('data-s') === size); });
+    var lo = total(r, w, false), hi = r.range ? total(r, w, true) : lo;
+    var vLo = Math.max(1, Math.ceil(lo / size - 1e-9)), vHi = Math.max(1, Math.ceil(hi / size - 1e-9));
+    var water = (p && p.water) || 2, first = doseAt(r, 0, false);
+    var units = first / (size / water) * 100;
+    var out = '<div class="big"><b>' + (vLo === vHi ? vLo : vLo + '–' + vHi) + ' vial' + (vHi > 1 ? 's' : '') + '</b><small>of ' + (unit === 'IU' ? size.toLocaleString() + ' IU' : fmt(size)) + ' for ' + weeksLabel(w) + '</small></div>'
+      + '<div><b>' + (lo === hi ? fmt(lo, unit) : fmt(lo, unit) + '–' + fmt(hi, unit)) + '</b><small>total for the course</small></div>'
+      + (units >= 1 && units <= 100 ? '<div><b>' + (Math.round(units * 10) / 10) + ' units</b><small>first dose on a U-100 syringe (' + fmt(size, unit) + ' + ' + water + ' mL water)</small></div>' : '');
+    box.querySelector('.pm-vials-out').innerHTML = out;
+    box.querySelector('.pm-vials-note').textContent = r.range
+      ? 'A range because the reference gives a low and a high dose without exact timing. Buy for the high end if you plan to go up.'
+      : (r.own ? 'Estimate from this tool\'s typical dose.' : 'Follows the reference schedule, including any increases.') + ' Round up and keep a spare vial.';
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.pm-vials button'); if (!b) return;
+    var box = b.closest('.pm-vials');
+    if (b.hasAttribute('data-d')) {
+      /* courses given in days move 5 days at a time, the rest a week at a time */
+      var base = +box.getAttribute('data-base'), step = Math.round(base * 7) % 7 ? 5 / 7 : 1;
+      var w = +box.getAttribute('data-w') + (+b.getAttribute('data-d')) * step;
+      box.setAttribute('data-w', Math.max(step, Math.min(52, Math.round(w * 7) / 7)));
+    }
+    if (b.hasAttribute('data-s')) box.setAttribute('data-size', b.getAttribute('data-s'));
+    draw(box);
+  });
+  function fill(root){ (root || document).querySelectorAll('.pm-vials').forEach(function(b){ if (!b.querySelector('.pm-vials-out').innerHTML) draw(b); }); }
+  window.pmVialFill = fill;
+  /* one summary per peptide for the PDF, email and spreadsheet: uses what the person set on the card */
+  window.pmVialSummary = function(key){
+    var p = PEPTIDES[key], R = PM_REF[key], r = R && (R.s != null || R.ladder) ? R : (R ? null : ownRef(p));
+    var o = { ref: R ? R.txt : '', link: R ? PM_REF_SITE + R.u : '', course:'', size:'', vials:'', total:'', units:'' };
+    if (!r) return o;
+    var box = document.querySelector('#pm-list .pm-ref[data-k="' + key + '"] .pm-vials');
+    var sizes = r.v.slice(0, 4), w = box ? +box.getAttribute('data-w') : courseWeeks(r);
+    var need = total(r, w, !!r.range), size = box ? +box.getAttribute('data-size') : (sizes.filter(function(s){ return need / s <= 12; })[0] || sizes[sizes.length - 1]);
+    var lo = total(r, w, false), hi = r.range ? total(r, w, true) : lo;
+    var vLo = Math.max(1, Math.ceil(lo / size - 1e-9)), vHi = Math.max(1, Math.ceil(hi / size - 1e-9));
+    var water = (p && p.water) || 2, units = doseAt(r, 0, false) / (size / water) * 100;
+    o.course = weeksLabel(w); o.size = r.unit === 'IU' ? size.toLocaleString() + ' IU' : fmt(size);
+    o.vials = vLo === vHi ? String(vLo) : vLo + '–' + vHi;
+    o.total = lo === hi ? fmt(lo, r.unit) : fmt(lo, r.unit) + '–' + fmt(hi, r.unit);
+    o.units = units >= 1 && units <= 100 ? (Math.round(units * 10) / 10) + ' units (' + o.size + ' + ' + water + ' mL)' : '';
+    if (!R) o.ref = 'This tool\'s typical dose: ' + fmt(p.start) + ', ' + (p.freq >= 7 ? 'every day' : p.freq + '× a week') + ' (not listed on peptidedosages.com)';
+    return o;
+  };
+  /* add the box to every result card */
+  var _card = window.pmCard;
+  if (typeof _card === 'function') window.pmCard = function(item){
+    var h = _card.apply(this, arguments), box = window.pmVialBox(item.key), i = h.lastIndexOf('</details>');
+    return i === -1 ? h : h.slice(0, i) + box + h.slice(i);
+  };
+  ['pm-list','pm-search-out','pm-inflam-list'].forEach(function(id){
+    var el = document.getElementById(id); if (!el || !window.MutationObserver) return;
+    new MutationObserver(function(){ fill(el); }).observe(el, { childList:true });
+  });
+  fill();
+})();
+
+/* ── Two pages: "Start matching" opens its own step-by-step page (?start) ── */
+(function(){
+  var q = new URLSearchParams(location.search), body = document.body;
+  var startPage = q.has('start');
+  body.classList.add(startPage ? 'pm-startpage' : 'pm-intro');
+  function startUrl(goals){ var u = location.pathname + '?start'; if (goals && goals.length) u += '&goals=' + goals.map(encodeURIComponent).join(','); return u; }
+  window.pmOpenStart = function(goals){ location.href = startUrl(goals); };
+  if (!startPage) {
+    window.pmStart = function(){ pmOpenStart(); };
+    window.pmStartWithGoal = function(g){ pmOpenStart([g]); };
+    document.addEventListener('click', function(e){
+      var lab = e.target.closest('#pm-lab-go');
+      var nav = e.target.closest('.pm-bnav button[data-go="match"],.pm-bnav button[data-go="results"]');
+      var how = e.target.closest('a[href="#pm-wizard"]');
+      if (!lab && !nav && !how) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      pmOpenStart(lab && typeof SELECTED_GOALS !== 'undefined' ? Array.from(SELECTED_GOALS) : null);
+    }, true);
+    return;
+  }
+  /* start page: a simple header with a way back, then the 3 questions */
+  var bar = document.createElement('div'); bar.className = 'pm-startbar';
+  bar.innerHTML = '<a href="' + location.pathname + '">← Back</a><div><h1>Find your peptide match</h1><p>3 quick questions · about a minute · nothing leaves your device</p></div>';
+  var wiz = document.getElementById('pm-wizard'); if (wiz) wiz.parentNode.insertBefore(bar, wiz);
+  document.title = 'Start · ' + document.title;
+  var goals = (q.get('goals') || '').split(',').filter(Boolean);
+  if (goals.length && typeof SELECTED_GOALS !== 'undefined') { goals.forEach(function(g){ if (document.querySelector('.pm-goal[data-g="' + g + '"]')) SELECTED_GOALS.add(g); }); if (window.pmSyncGoals) pmSyncGoals(); }
+  /* the "Look up" icon goes back to the intro page's search box */
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.pm-bnav button[data-go="find"]'); if (!b) return;
+    e.preventDefault(); e.stopImmediatePropagation(); location.href = location.pathname + '#find';
+  }, true);
+  setTimeout(function(){ window.scrollTo(0, 0); dispatchEvent(new Event('scroll')); }, 0);
+})();
+(function(){ if (location.hash === '#find') setTimeout(function(){ var f = document.querySelector('.pm-hero-find'); if (f) { f.scrollIntoView({block:'center'}); var i = document.getElementById('peptide-search'); if (i) i.focus({preventScroll:true}); } }, 120); })();
+</script>
+<!-- ═══ SAVE / SHARE: vials in the report, Email my results, Save for Google Sheets ═══ -->
+<style id="pm-save-css">
+  .pm-toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147483647;max-width:min(92vw,460px);padding:12px 16px;border-radius:14px;background:rgba(14,11,26,0.97);border:1px solid rgba(47,180,255,0.5);color:#fff;font:600 14px/1.45 'Inter',system-ui,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,0.5);}
+  .pm-toast a{color:#7fd3ff;}
+  html[data-theme="light"] .pm-toast{background:#fff;color:#14102a;border-color:#b9dcf5;}
+  #pm-results .pm-finish .pm-res-actions{display:grid !important;grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;gap:8px !important;}
+  #pm-results .pm-finish .pm-res-actions .pm-btn{width:100% !important;flex-direction:row !important;gap:6px;white-space:normal;text-align:left;justify-content:flex-start !important;padding:10px 14px !important;font-size:14px !important;line-height:1.25 !important;}
+  #pm-results .pm-finish .pm-res-actions .pm-btn.pri{grid-column:1 / -1;justify-content:center !important;}
+  @media (max-width:560px){#pm-results .pm-finish .pm-res-actions{grid-template-columns:1fr 1fr !important;}}
+</style>
+<script>
+(function(){
+  function have(){ return (typeof PM_LAST !== 'undefined' && PM_LAST.length) || (typeof SCHEDULES !== 'undefined' && SCHEDULES.length); }
+  function rows(){
+    return PM_LAST.map(function(it, i){ var p = PEPTIDES[it.key], s = window.pmVialSummary ? pmVialSummary(it.key) : {}; return { i:i + 1, it:it, p:p, s:s }; });
+  }
+  function toast(html, ms){
+    var t = document.createElement('div'); t.className = 'pm-toast'; t.setAttribute('role', 'status'); t.innerHTML = html;
+    document.body.appendChild(t); setTimeout(function(){ t.remove(); }, ms || 6000);
+  }
+  function stamp(){ return new Date().toISOString().slice(0, 10); }
+  function pageUrl(){ return location.origin + location.pathname; }
+
+  /* 1. The printable / downloadable report gets a "Doses & vials" table */
+  var _html = window.pmReportHTML;
+  if (typeof _html === 'function') window.pmReportHTML = function(){
+    var h = _html.apply(this, arguments), R = rows();
+    if (!R.length) return h;
+    var t = '<h2>Doses &amp; vials needed</h2><table><tr><th>#</th><th>Peptide</th><th>Reference dose</th><th>Course</th><th>Vials</th><th>Total</th><th>First dose</th></tr>'
+      + R.map(function(x){ return '<tr><td>' + x.i + '</td><td><b>' + pmEsc(x.p.name) + '</b></td><td>' + pmEsc(x.s.ref || '—') + (x.s.link ? '<br><a href="' + x.s.link + '">peptidedosages.com</a>' : '') + '</td><td>' + (x.s.course || '—') + '</td><td>' + (x.s.vials ? x.s.vials + ' × ' + x.s.size : '—') + '</td><td>' + (x.s.total || '—') + '</td><td>' + pmEsc(x.s.units || '—') + '</td></tr>'; }).join('')
+      + '</table><p class="tip">Reference doses: peptidedosages.com. Vial counts cover the whole course, including any dose increases. Round up and keep a spare.</p>';
+    var at = h.indexOf('<div class="disc">');
+    return at === -1 ? h : h.slice(0, at) + t + h.slice(at);
+  };
+
+  /* 2. The Notes / share text gets the reference dose and vials for each match */
+  var _text = window.pmReportText;
+  if (typeof _text === 'function') window.pmReportText = function(){
+    var L = _text.apply(this, arguments).split('\n'), R = rows();
+    if (R.length) {
+      var add = ['', 'DOSES & VIALS (reference: peptidedosages.com)'];
+      R.forEach(function(x){
+        add.push(x.i + '. ' + x.p.name + ': ' + (x.s.ref || '—'));
+        if (x.s.vials) add.push('   ' + x.s.vials + ' × ' + x.s.size + ' vials for ' + x.s.course + ' (' + x.s.total + ' total)' + (x.s.units ? ' · first dose ' + x.s.units : ''));
+        if (x.s.link) add.push('   ' + x.s.link);
+      });
+      var at = L.findIndex(function(l){ return /^Educational only/.test(l); });
+      if (at === -1) L = L.concat(add); else L.splice(at - 1, 0, ...add);
+    }
+    return L.join('\n').replace(location.origin + '/peptide-suggestion.html', pageUrl());
+  };
+
+  /* 3. Email my results: opens the person's own email app, filled in */
+  window.pmEmailResults = function(){
+    if (!have()) { alert('Get your matches first, then email them to yourself.'); return; }
+    var goals = []; SELECTED_GOALS.forEach(function(g){ goals.push(pmLabel(g)); });
+    var L = ['My Peptide Match results (' + new Date().toLocaleDateString() + ')', goals.length ? 'Goals: ' + goals.join(', ') : '', ''];
+    rows().forEach(function(x){
+      L.push(x.i + '. ' + x.p.name + (x.it.best ? ' (best match)' : ''));
+      if (x.s.ref) L.push('   Dose: ' + x.s.ref);
+      if (x.s.vials) L.push('   Vials: ' + x.s.vials + ' × ' + x.s.size + ' for ' + x.s.course + ' (' + x.s.total + ')' + (x.s.units ? '; first dose ' + x.s.units : ''));
+      if (x.s.link) L.push('   ' + x.s.link);
+    });
+    if (typeof SCHEDULES !== 'undefined' && SCHEDULES.length) { L.push('', 'In my plan: ' + SCHEDULES.map(function(s){ return s.name; }).join(', ')); }
+    L.push('', 'Reference doses: peptidedosages.com', 'Made with Peptide Match: ' + pageUrl(), 'Educational research information only, not medical advice. Verify every dose and talk to a licensed doctor.');
+    var body = L.join('\n');
+    /* some email apps cut very long links, so keep it to the top matches if needed */
+    if (body.length > 1800) {
+      var keep = [], n = 0;
+      for (var i = 0; i < L.length; i++) { if (/^\d+\. /.test(L[i])) n++; if (n > 6 && /^\d+\. /.test(L[i])) break; keep.push(L[i]); }
+      keep.push('', '…plus ' + (PM_LAST.length - 6) + ' more. Use "Print / Save as PDF" for the full list.', '', 'Reference doses: peptidedosages.com', pageUrl());
+      body = keep.join('\n');
+    }
+    location.href = 'mailto:?subject=' + encodeURIComponent('My Peptide Match results') + '&body=' + encodeURIComponent(body);
+  };
+
+  /* 4. Save for Google Sheets: a spreadsheet file (CSV) that Sheets, Excel and Numbers open */
+  window.pmSheetResults = function(){
+    if (!have()) { alert('Get your matches first, then save them as a spreadsheet.'); return; }
+    var q = function(v){ v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var total = SELECTED_GOALS.size;
+    var out = [['Rank','Peptide','Best match','Goals matched','Matches','Reference dose','Course','Vial size','Vials needed','Total for course','First dose (U-100 syringe)','How often','Reference link'].join(',')];
+    rows().forEach(function(x){
+      var proto = pmProto(x.p), often = (proto.filter(function(r){ return r[0] === 'How often'; })[0] || [,''])[1];
+      out.push([x.i, x.p.name, x.it.best ? 'Yes' : '', x.it.goals.map(pmLabel).join('; '), total ? x.it.count + ' of ' + total : '', x.s.ref, x.s.course, x.s.size, x.s.vials, x.s.total, x.s.units, often, x.s.link].map(q).join(','));
+    });
+    out.push('', q('Educational research information only, not medical advice. Reference doses: peptidedosages.com. Made with Peptide Match: ' + pageUrl()));
+    var blob = new Blob(['﻿' + out.join('\r\n')], { type:'text/csv;charset=utf-8' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'peptide-match-' + stamp() + '.csv';
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    toast('📊 Saved <b>peptide-match-' + stamp() + '.csv</b>. To open it in Google Sheets: go to <a href="https://sheets.new" target="_blank" rel="noopener">sheets.new</a>, then <b>File → Import → Upload</b>. Excel and Numbers open it directly.', 9000);
+  };
+
+  /* buttons: in the Save ▾ menu and in "Keep your results" */
+  function addButtons(){
+    var menu = document.querySelector('#pm-results .pm-save-menu');
+    if (menu && !menu.querySelector('.pm-b-mail')) {
+      menu.insertAdjacentHTML('beforeend', '<button type="button" class="pm-b-mail" onclick="pmEmailResults()">✉️ Email my results</button><button type="button" class="pm-b-sheet" onclick="pmSheetResults()">📊 Save for Google Sheets</button>');
+    }
+    var fin = document.querySelector('#pm-results .pm-finish .pm-res-actions');
+    if (fin && !fin.querySelector('.pm-b-mail')) {
+      var dl = fin.querySelector('.pri');
+      var html = '<button class="pm-btn pm-b-mail" onclick="pmEmailResults()">✉️ Email my results</button><button class="pm-btn pm-b-sheet" onclick="pmSheetResults()">📊 Save for Google Sheets</button>';
+      if (dl) dl.insertAdjacentHTML('beforebegin', html); else fin.insertAdjacentHTML('beforeend', html);
+    }
+    var p = document.querySelector('#pm-results .pm-finish p');
+    if (p && !p.getAttribute('data-upd')) { p.setAttribute('data-upd', '1'); p.textContent = 'Save every match with its reference dose and how many vials you need, plus any schedule you build below. PDF, email or spreadsheet.'; }
+  }
+  addButtons();
 })();
 </script>
 <!-- Results filters as a dropdown menu instead of a row of chips -->
