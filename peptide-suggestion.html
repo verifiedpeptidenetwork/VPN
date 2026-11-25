@@ -2869,7 +2869,7 @@ function pmDownloadReport(){
 }
 </script>
 
-<script src="theme-toggle.js?v=39" defer></script><script src="readable.js?v=4" defer></script>
+<script src="theme-toggle.js?v=40" defer></script><script src="readable.js?v=4" defer></script>
 <style id="pm-lab-css">
   /* Match Lab: Peptide Match's signature scanner */
   .pm-lab{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:22px;background:radial-gradient(120% 80% at 100% 0%,rgba(154,92,255,0.22),transparent 60%),radial-gradient(90% 70% at 0% 100%,rgba(255,47,168,0.18),transparent 60%),#0c0b18;border:1px solid rgba(255,255,255,0.12);box-shadow:0 0 0 1px rgba(255,47,168,0.15),0 30px 60px -28px rgba(154,92,255,0.7);color:#f4f5fb;font-family:'Inter',system-ui,sans-serif;min-width:0;}
@@ -3108,6 +3108,74 @@ function pmDownloadReport(){
   if (h && $(h)) setTimeout(function(){ $(h).scrollIntoView({block:'start'}); }, 80);
 
   var cc = $('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
+})();
+</script>
+<!-- ═══ PHONES: app-style bottom icon bar ═══ -->
+<nav id="vpn-bottom-nav" class="pm-bnav" aria-label="Peptide Match sections">
+  <button type="button" data-go="match"><span class="i">🎯</span><span class="t">Match</span></button>
+  <button type="button" data-go="find"><span class="i">🔎</span><span class="t">Look up</span></button>
+  <button type="button" data-go="results"><span class="i">⭐</span><span class="t">Results</span></button>
+  <button type="button" data-go="plan"><span class="i">🧾</span><span class="t">Plan</span><b class="pm-bnav-n" hidden>0</b></button>
+  <button type="button" data-go="guide"><span class="i">📚</span><span class="t">Guide</span></button>
+</nav>
+<style id="pm-bnav-css">
+  .pm-bnav{display:none;}
+  @media (max-width:900px){
+    .pm-bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:2147483645;height:calc(64px + env(safe-area-inset-bottom,0px));padding:0 4px env(safe-area-inset-bottom,0px);box-sizing:border-box;
+      background:rgba(12,10,22,0.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.1);box-shadow:0 -6px 20px rgba(0,0,0,0.35);}
+    .pm-bnav button{flex:1 1 0;min-width:0;display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:0;padding:6px 2px;margin:0;cursor:pointer;position:relative;
+      color:rgba(230,228,245,0.62);font:700 11px/1 'Inter',system-ui,sans-serif !important;letter-spacing:0;-webkit-tap-highlight-color:transparent;min-height:0 !important;}
+    .pm-bnav button .i{font-size:21px;line-height:1;filter:grayscale(0.5);opacity:0.85;transition:transform .15s;}
+    .pm-bnav button .t{white-space:nowrap;}
+    .pm-bnav button.on{color:#fff;}
+    .pm-bnav button.on .i{filter:none;opacity:1;transform:translateY(-1px) scale(1.08);}
+    .pm-bnav button.on::before{content:'';position:absolute;top:0;left:26%;right:26%;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);}
+    .pm-bnav-n{position:absolute;top:6px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#ff2fa8;color:#fff;font:800 10px/17px 'Inter',sans-serif;text-align:center;}
+    html[data-theme="light"] .pm-bnav{background:rgba(255,255,255,0.97);border-top-color:#e4e0f0;}
+    html[data-theme="light"] .pm-bnav button{color:#6a6784;}
+    html[data-theme="light"] .pm-bnav button.on{color:#14102a;}
+    /* keep page content, the plan tray and the floating quiz buttons above the bar */
+    body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px)) !important;}
+    #pm-tray{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;}
+    #pm-tray:not(.show){transform:translateY(calc(100% + 90px)) !important;visibility:hidden;}
+    .pm-navfloat{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;}
+    .pm-navfix #vt-dock{bottom:calc(64px + 136px) !important;}
+    .pm-navfix #vt-top-btn{bottom:calc(64px + 190px) !important;}
+    body #vt-dock{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px)) !important;}
+    body #vt-top-btn{bottom:calc(64px + 14px + 42px + 8px + env(safe-area-inset-bottom,0px)) !important;}
+    body:has(#pm-tray.show) #vt-dock{bottom:calc(64px + 72px + env(safe-area-inset-bottom,0px)) !important;}
+    body:has(#pm-tray.show) #vt-top-btn{bottom:calc(64px + 72px + 50px + env(safe-area-inset-bottom,0px)) !important;}
+  }
+  @media print{.pm-bnav{display:none !important;}}
+</style>
+<script>
+(function(){
+  var nav = document.getElementById('vpn-bottom-nav'); if (!nav) return;
+  var $ = function(id){ return document.getElementById(id); };
+  function go(where){
+    var t;
+    if (where === 'match') t = $('pm-wizard');
+    else if (where === 'find') { t = document.querySelector('.pm-hero-find') || $('pm-search-sec'); setTimeout(function(){ var i = $('peptide-search'); if (i) i.focus({preventScroll:true}); }, 450); }
+    else if (where === 'results') t = ($('pm-results') && !$('pm-results').hidden) ? $('pm-results') : $('pm-wizard');
+    else if (where === 'plan') { document.body.classList.add('pm-has-plan'); t = $('pm-builder-sec'); }
+    else if (where === 'guide') t = $('pm-resources');
+    if (t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  nav.addEventListener('click', function(e){ var b = e.target.closest('button[data-go]'); if (b) go(b.getAttribute('data-go')); });
+  /* highlight the section you are looking at */
+  var map = [['match','pm-wizard'],['results','pm-results'],['results','pm-inflam'],['plan','pm-builder-sec'],['guide','pm-resources']];
+  function mark(){
+    var y = innerHeight * 0.35, cur = 'match';
+    var hero = document.querySelector('.pm-hero'); if (hero && hero.getBoundingClientRect().bottom > y) cur = 'find';
+    map.forEach(function(m){ var el = $(m[1]); if (!el || el.hidden || !el.offsetParent) return; var r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > 0) cur = m[0]; });
+    if (hero && hero.getBoundingClientRect().bottom > y) cur = 'find';
+    nav.querySelectorAll('button').forEach(function(b){ var on = b.getAttribute('data-go') === cur; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); });
+  }
+  var raf = 0; addEventListener('scroll', function(){ if (!raf) raf = requestAnimationFrame(function(){ raf = 0; mark(); }); }, {passive:true});
+  /* plan count badge */
+  function count(){ var n = (typeof SCHEDULES !== 'undefined') ? SCHEDULES.length : 0, b = nav.querySelector('.pm-bnav-n'); b.hidden = !n; b.textContent = n; }
+  var _sync = window.pmSyncPlan; if (typeof _sync === 'function') window.pmSyncPlan = function(){ var r = _sync.apply(this, arguments); count(); return r; };
+  count(); mark();
 })();
 </script>
 <!-- Results filters as a dropdown menu instead of a row of chips -->

@@ -531,6 +531,13 @@
       +'@media (orientation:portrait) and (max-width:900px){body:has(#vpn-bottom-nav) #vt-top-btn{bottom:calc(64px + 15px + env(safe-area-inset-bottom,0px));}}'
       +'body:has(#dg:not(.hidden)) #vt-top-btn{display:none!important;}'
       +'@media print{#vt-dock{display:none!important;}}'
+      /* Desktop + landscape too: the theme and A+/A− buttons live inside the ⚙ menu (home.html keeps its own #vpn-gear) */
+      +'@media (orientation:landscape),(min-width:1101px){'
+      +  'body:not(:has(#vpn-gear)) :is(#vt-toggle-btn,#vt-text-ctrl,#vpn-mp-fab,#vpn-back-top){display:none!important;}'
+      +  'body:not(:has(#vpn-gear)) #vt-dock{display:flex;flex-direction:column;align-items:flex-end;gap:10px;position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:2147483646;font:700 15px/1 Rajdhani,Arial,sans-serif;}'
+      +  'body:not(:has(#vpn-gear)) #vt-dock-btn{width:48px;height:48px;font-size:22px;}'
+      +  'body:not(:has(#vpn-gear)) #vt-top-btn{right:76px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:48px;height:48px;}'
+      +'}'
       /* light mode readability: clearer font for small condensed text + darker accents that pass contrast */
       +'html[data-theme="light"] .vt-lm-read{font-family:Rajdhani,"Segoe UI",Roboto,Arial,sans-serif!important;font-weight:700!important;letter-spacing:0.03em!important;}'
       +'html[data-theme="light"] .hf-t,html[data-theme="light"] .hf-btn:not(.hf-pri){color:#0b5f9e!important;}'
