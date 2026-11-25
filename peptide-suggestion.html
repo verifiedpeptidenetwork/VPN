@@ -2972,20 +2972,50 @@ function pmDownloadReport(){
 })();
 </script>
 
-<!-- ═══ EASIER FOR ALL AGES: one thing at a time (tabs), bigger tap targets, clear labels ═══ -->
+<!-- ═══ EASIER FOR ALL AGES: one simple path top to bottom, bigger tap targets, clear labels ═══ -->
 <style id="pm-easy">
-  /* Tabs: Match (quiz + results) shows first; each other tool only when its tab is chosen */
-  body[data-pm-tab] #pm-search-sec,body[data-pm-tab] #pm-inflam,body[data-pm-tab] #pm-resources,body[data-pm-tab] #pm-builder-sec{display:none !important;}
-  body[data-pm-tab="pm-search-sec"] #pm-search-sec,
-  body[data-pm-tab="pm-inflam"] #pm-inflam,
-  body[data-pm-tab="pm-resources"] #pm-resources,
-  body[data-pm-tab="pm-builder-sec"] #pm-builder-sec,
-  body.pm-has-plan[data-pm-tab="pm-wizard"] #pm-builder-sec{display:block !important;}
-  body[data-pm-tab]:not([data-pm-tab="pm-wizard"]) #pm-wizard,
-  body[data-pm-tab]:not([data-pm-tab="pm-wizard"]) #pm-results{display:none !important;}
-  #pm-subnav a[data-sec]{display:inline-flex;align-items:center;min-height:44px;padding-left:14px;padding-right:14px;}
-  #pm-subnav a[data-sec].on{font-weight:800;}
-  .pm-tab-hint{margin:6px 0 0;font-size:14px;color:var(--pm-sub,#a9a6c0);}
+  /* No tab row: hero → 3 questions → matches → (your plan → schedule) → before you start */
+  #pm-subnav,.pm-tab-hint{display:none !important;}
+  /* The schedule builder appears once something is in the plan (or you jump to it) */
+  body:not(.pm-has-plan) #pm-builder-sec{display:none !important;}
+  /* The inflammation guide shows with the results when Inflammation is one of your goals */
+  body:not(.pm-inflam-on) #pm-inflam{display:none !important;}
+  #pm-inflam{margin-top:22px;}
+  /* Look-up lives in the hero as a small search box; its section only shows the answer */
+  #pm-search-sec{padding-top:0 !important;padding-bottom:0 !important;}
+  #pm-search-sec > .pm-sec-h{display:none !important;}
+  #pm-search-out:empty{display:none;}
+  #pm-search-out:not(:empty){margin:4px 0 22px !important;}
+  .pm-hero-find{margin-top:16px;max-width:520px;}
+  .pm-hero-find label{display:block;margin:0 0 6px;font:700 13px/1.3 'Inter',system-ui,sans-serif;color:var(--pm-sub,#a9a6c0);}
+  .pm-hero-find .pm-search{display:flex !important;flex-wrap:nowrap !important;grid-template-columns:none !important;gap:8px;padding:6px !important;margin:0 !important;border-radius:14px;}
+  .pm-hero-find .pm-search input{flex:1 1 auto;min-width:0;min-height:44px;font-size:16px;}
+  .pm-hero-find .pm-search .pm-btn{flex:0 0 auto;background:rgba(255,255,255,0.08) !important;color:inherit !important;border:1px solid rgba(255,255,255,0.18) !important;box-shadow:none !important;}
+  html[data-theme="light"] .pm-hero-find .pm-search .pm-btn{background:#f1eefb !important;border-color:#d9d3ef !important;}
+  .pm-hero-safe{margin:12px 0 0 !important;font:600 13px/1.45 'Inter',system-ui,sans-serif !important;color:var(--pm-sub,#a9a6c0);}
+  .pm-hero-safe a{color:inherit !important;text-decoration:underline;text-underline-offset:3px;}
+  .pm-hero-find label{font-size:13px !important;}
+  .pm-hero-safe b{color:#f5b84b;}
+  /* "Before you start" is closed until you open it */
+  .pm-res-toggle{border:1px solid rgba(255,255,255,0.12);border-radius:16px;background:rgba(255,255,255,0.03);overflow:hidden;}
+  .pm-res-toggle > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 18px;min-height:44px;}
+  .pm-res-toggle > summary::-webkit-details-marker{display:none;}
+  .pm-res-toggle > summary .pm-sec-h{margin:0 !important;flex:1 1 auto;}
+  .pm-res-toggle > .pm-res-body{padding:0 18px 18px;}
+  html[data-theme="light"] .pm-res-toggle{border-color:#e2ddf2;background:#fff;}
+  /* One main (pink) button per screen: Save in the results header is secondary */
+  #pm-results .pm-res-head .pm-save > summary.pri{background:rgba(255,255,255,0.08) !important;color:inherit !important;border:1px solid rgba(255,255,255,0.18) !important;box-shadow:none !important;}
+  html[data-theme="light"] #pm-results .pm-res-head .pm-save > summary.pri{background:#f1eefb !important;border-color:#d9d3ef !important;}
+  #pm-results .pm-res-head .pm-res-actions{display:flex !important;flex-wrap:wrap !important;align-items:center;gap:8px !important;grid-template-columns:none !important;}
+  #pm-results .pm-res-head .pm-res-actions > .pm-btn,#pm-results .pm-res-head .pm-res-actions > .pm-save > summary{width:auto !important;flex:0 0 auto !important;flex-direction:row !important;white-space:nowrap;padding:0 14px !important;font-size:14px !important;gap:6px;}
+  .pm-res-toggle > summary{flex-wrap:wrap;}
+  .pm-res-toggle .pm-res-open{margin-left:auto;white-space:nowrap;}
+  .pm-res-toggle .pm-res-open::before{content:'Open ▾';}
+  .pm-res-toggle[open] .pm-res-open::before{content:'Close ▴';}
+  html body details.pm-res-toggle > summary.px-sum::after,html body details.pm-res-toggle > summary::after{display:none !important;content:none !important;}
+  #pm-results .pm-res-head .pm-save > summary{display:inline-flex !important;align-items:center !important;min-width:max-content !important;white-space:nowrap !important;}
+  #pm-results .pm-res-head .pm-save > summary::after{display:none !important;}
+  .pm-restart{background:none !important;border:0 !important;box-shadow:none !important;color:var(--pm-sub,#a9a6c0) !important;text-decoration:underline;text-underline-offset:3px;padding-left:6px !important;padding-right:6px !important;}
 
   /* Bigger, easier tap targets everywhere (44px is the recommended minimum) */
   .pm-btn,.pm-btn.sm,.pm-filter,.pm-lab-chips button,.pm-top-links a,.add-btn,.btn-primary,.btn-secondary,
@@ -2998,48 +3028,86 @@ function pmDownloadReport(){
 </style>
 <script>
 (function(){
-  var TABS = ['pm-wizard','pm-search-sec','pm-inflam','pm-resources','pm-builder-sec'];
-  var body = document.body;
-  function setTab(id, scroll){
-    if (TABS.indexOf(id) === -1) return;
-    body.setAttribute('data-pm-tab', id);
-    document.querySelectorAll('#pm-subnav a[data-sec]').forEach(function(a){
-      var on = a.getAttribute('data-sec') === id; a.classList.toggle('on', on); a.setAttribute('aria-current', on ? 'page' : 'false');
-    });
-    if (scroll) { var nav = document.getElementById('pm-subnav'); (nav || document.getElementById(id)).scrollIntoView({behavior:'smooth', block:'start'}); }
+  var body = document.body, $ = function(id){ return document.getElementById(id); };
+  var wizard = $('pm-wizard'), results = $('pm-results'), search = $('pm-search-sec'), inflam = $('pm-inflam'),
+      builder = $('pm-builder-sec'), resources = $('pm-resources');
+
+  /* 1. Hero: the "Look up a peptide" button becomes a small search box; the answer shows just under the hero */
+  var cta = document.querySelector('.pm-hero .pm-cta'), box = search && search.querySelector('.pm-search');
+  if (cta && box) {
+    var ghost = cta.querySelector('a[href="#pm-search-sec"]'); if (ghost) ghost.remove();
+    var find = document.createElement('div'); find.className = 'pm-hero-find';
+    find.innerHTML = '<label for="peptide-search">Know the name? Look it up</label>';
+    find.appendChild(box); cta.parentNode.insertBefore(find, cta.nextSibling);
+    var safe = document.createElement('p'); safe.className = 'pm-hero-safe';
+    safe.innerHTML = '<b>⚠</b> Research and education only, not medical advice. Full details in <a href="#pm-resources">Before you start</a>.';
+    var trust = document.querySelector('.pm-hero .pm-trust'), after = trust || find;
+    after.parentNode.insertBefore(safe, after.nextSibling);
   }
-  /* Which tab panel holds an element? */
-  function panelOf(el){
-    for (var i = 0; i < TABS.length; i++){ var s = document.getElementById(TABS[i]); if (s && (s === el || s.contains(el))) return TABS[i]; }
-    if (document.getElementById('pm-results') && document.getElementById('pm-results').contains(el)) return 'pm-wizard';
-    return null;
+  if (search && wizard) wizard.parentNode.insertBefore(search, wizard);
+  var _search = window.pmSearch;
+  if (typeof _search === 'function') window.pmSearch = function(){
+    var r = _search.apply(this, arguments), out = $('pm-search-out');
+    if (out && out.innerHTML.trim()) setTimeout(function(){ out.scrollIntoView({behavior:'smooth', block:'start'}); }, 40);
+    return r;
+  };
+
+  /* 2-3. Results, then the inflammation guide when that goal is picked */
+  if (inflam && results) results.parentNode.insertBefore(inflam, results.nextSibling);
+  function inflamSync(){ body.classList.toggle('pm-inflam-on', !results.hidden && typeof SELECTED_GOALS !== 'undefined' && SELECTED_GOALS.has('inflammation')); }
+  var _show = window.pmShowResults;
+  if (typeof _show === 'function') window.pmShowResults = function(){ var r = _show.apply(this, arguments); inflamSync(); return r; };
+
+  /* "Start over" next to Edit answers */
+  var acts = results && results.querySelector('.pm-res-head .pm-res-actions');
+  if (acts && !acts.querySelector('.pm-restart')) {
+    var rs = document.createElement('button'); rs.type = 'button'; rs.className = 'pm-btn sm pm-restart'; rs.textContent = '↺ Start over';
+    rs.onclick = function(){
+      SELECTED_GOALS.clear(); SELECTED_GENDER = null; PM_SEX_SET = false;
+      document.querySelectorAll('#pm-sex .pm-opt').forEach(function(o){ o.classList.remove('sel'); });
+      var n1 = $('pm-next-1'); if (n1) n1.disabled = true;
+      var ag = $('pm-agree'); if (ag) { ag.checked = false; var n3 = $('pm-next-3'); if (n3) n3.disabled = true; }
+      if (window.pmSexGoals) pmSexGoals(); else if (window.pmSyncGoals) pmSyncGoals();
+      results.hidden = true; inflamSync(); pmGo(1);
+      wizard.scrollIntoView({behavior:'smooth', block:'start'});
+    };
+    acts.insertBefore(rs, acts.firstChild);
   }
-  /* Any built-in jump to a section (buttons, "Adjust dose", "Look up a peptide") opens the right tab first */
+
+  /* 4. Schedule builder opens once something is added (or anything jumps to it) */
   var orig = Element.prototype.scrollIntoView;
   Element.prototype.scrollIntoView = function(){
-    var p = panelOf(this), cur = body.getAttribute('data-pm-tab');
-    if (p === 'pm-builder-sec' && cur === 'pm-wizard') body.classList.add('pm-has-plan');
-    else if (p && p !== cur) setTab(p, false);
+    if (builder && (this === builder || builder.contains(this) || this.id === 'pm-builder')) body.classList.add('pm-has-plan');
+    if (resources && (this === resources || resources.contains(this))) { var d = resources.querySelector('.pm-res-toggle'); if (d) d.open = true; }
     return orig.apply(this, arguments);
   };
-  document.addEventListener('click', function(e){
-    var a = e.target.closest('a[href^="#pm-"]'); if (!a) return;
-    var id = a.getAttribute('href').slice(1), p = panelOf(document.getElementById(id) || document.body);
-    if (!p) return;
-    e.preventDefault();
-    if (p === 'pm-builder-sec' && a.closest('#pm-results')) { body.classList.add('pm-has-plan'); orig.call(document.getElementById('pm-builder-sec'), {behavior:'smooth', block:'start'}); return; }
-    setTab(p, true);
-  }, true);
-  /* Once something is in the plan, keep the schedule builder under the results */
   var _add = window.pmAdd;
   if (typeof _add === 'function') window.pmAdd = function(){ body.classList.add('pm-has-plan'); return _add.apply(this, arguments); };
-  var start = (location.hash || '').slice(1);
-  setTab(TABS.indexOf(start) !== -1 ? start : 'pm-wizard', false);
-  /* Hint under the tabs so first-time visitors know the other tools are one tap away */
-  var nav = document.getElementById('pm-subnav');
-  if (nav && !document.querySelector('.pm-tab-hint')) { var h = document.createElement('p'); h.className = 'pm-tab-hint pm-wrap'; h.textContent = 'Start with Match. Tap a tab above to see one tool at a time.'; nav.parentNode.insertBefore(h, nav.nextSibling); }
-  /* Give the one unlabelled button a name screen readers can read */
-  var cc = document.getElementById('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
+  if (typeof SCHEDULES !== 'undefined' && SCHEDULES.length) body.classList.add('pm-has-plan');
+
+  /* 5. "Before you start" goes last, closed by default */
+  if (resources) {
+    var last = builder || $('pm-builder'); if (last && last.parentNode) last.parentNode.insertBefore(resources, last.nextSibling);
+    var head = resources.querySelector('.pm-sec-h');
+    if (head && !resources.querySelector('.pm-res-toggle')) {
+      var det = document.createElement('details'); det.className = 'pm-res-toggle';
+      var sum = document.createElement('summary'); sum.appendChild(head); var op = document.createElement('span'); op.className = 'pm-btn sm pm-res-open'; op.setAttribute('aria-hidden', 'true'); sum.appendChild(op); det.appendChild(sum);
+      var wrap = document.createElement('div'); wrap.className = 'pm-res-body';
+      while (resources.firstChild) wrap.appendChild(resources.firstChild);
+      det.appendChild(wrap); resources.appendChild(det);
+    }
+  }
+
+  /* In-page links (#pm-...) still work: open what they point at, then scroll */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#pm-"]'); if (!a) return;
+    var t = $(a.getAttribute('href').slice(1)); if (!t) return;
+    e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'});
+  }, true);
+  var h = (location.hash || '').slice(1);
+  if (h && $(h)) setTimeout(function(){ $(h).scrollIntoView({block:'start'}); }, 80);
+
+  var cc = $('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
 })();
 </script>
 <!-- Results filters as a dropdown menu instead of a row of chips -->
