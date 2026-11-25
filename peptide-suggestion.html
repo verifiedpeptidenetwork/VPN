@@ -3118,72 +3118,223 @@ function pmDownloadReport(){
   var cc = $('vpn-close-cards'); if (cc && !cc.getAttribute('aria-label')) cc.setAttribute('aria-label', 'Close all open cards');
 })();
 </script>
-<!-- ═══ PHONES: app-style bottom icon bar ═══ -->
-<nav id="vpn-bottom-nav" class="pm-bnav" aria-label="Peptide Match sections">
-  <button type="button" data-go="match"><span class="i">🎯</span><span class="t">Match</span></button>
+<!-- ═══ PHONES: the bottom bar is the one control center (Start · Look up · Plan · Guide · Settings) ═══ -->
+<nav id="vpn-bottom-nav" class="pm-bnav" aria-label="Peptide Match">
+  <button type="button" data-go="start"><span class="i">🎯</span><span class="t">Start</span></button>
   <button type="button" data-go="find"><span class="i">🔎</span><span class="t">Look up</span></button>
-  <button type="button" data-go="results"><span class="i">⭐</span><span class="t">Results</span></button>
   <button type="button" data-go="plan"><span class="i">🧾</span><span class="t">Plan</span><b class="pm-bnav-n" hidden>0</b></button>
   <button type="button" data-go="guide"><span class="i">📚</span><span class="t">Guide</span></button>
+  <button type="button" data-go="settings"><span class="i">⚙️</span><span class="t">Settings</span></button>
 </nav>
-<style id="pm-bnav-css">
+<div id="pm-sheet" hidden>
+  <div class="pm-sheet-bg" data-close></div>
+  <section class="pm-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="pm-sheet-title">
+    <header class="pm-sheet-head"><span class="pm-sheet-grab" aria-hidden="true"></span><h2 id="pm-sheet-title"></h2><button type="button" class="pm-sheet-x" data-close aria-label="Close">✕</button></header>
+    <div class="pm-sheet-body"></div>
+  </section>
+</div>
+<style id="pm-hub-css">
+  /* ── slide-up panel (phones) / side panel (computers) ── */
+  #pm-sheet[hidden]{display:none !important;}
+  #pm-sheet{position:fixed;inset:0;z-index:2147483646;}
+  .pm-sheet-bg{position:absolute;inset:0;background:rgba(4,2,12,0.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:pmFade .2s ease;}
+  .pm-sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:88vh;max-height:88dvh;display:flex;flex-direction:column;background:#100d1e;border:1px solid rgba(255,255,255,0.12);border-bottom:0;border-radius:22px 22px 0 0;box-shadow:0 -20px 60px rgba(0,0,0,0.55);animation:pmUp .25s cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom,0px);}
+  .pm-sheet-head{position:relative;display:flex;align-items:center;gap:10px;padding:18px 16px 10px 20px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-sheet-grab{position:absolute;top:7px;left:50%;width:42px;height:4px;margin-left:-21px;border-radius:4px;background:rgba(255,255,255,0.25);}
+  .pm-sheet-head h2{flex:1;margin:0;font:900 19px/1.2 'Inter',system-ui,sans-serif !important;color:#fff;}
+  .pm-sheet-x{flex:0 0 auto;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:#fff;font:700 18px/1 'Inter',sans-serif;cursor:pointer;}
+  .pm-sheet-body{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 16px 22px;}
+  @keyframes pmUp{from{transform:translateY(100%);}to{transform:none;}}
+  @keyframes pmSide{from{transform:translateX(100%);}to{transform:none;}}
+  @keyframes pmFade{from{opacity:0;}to{opacity:1;}}
+  @media (min-width:901px){
+    .pm-sheet-panel{left:auto;top:0;width:min(580px,92vw);max-height:none;border-radius:22px 0 0 22px;border:1px solid rgba(255,255,255,0.12);border-right:0;animation:pmSide .25s cubic-bezier(.2,.8,.2,1);}
+    .pm-sheet-grab{display:none;}
+    .pm-sheet-head{padding-top:16px;}
+  }
+  body.pm-sheet-open{overflow:hidden !important;}
+  body.pm-sheet-open #pm-tray{visibility:hidden !important;}
+  body.pm-sheet-open #vt-dock,body.pm-sheet-open #vt-top-btn{display:none !important;}
+  html[data-theme="light"] .pm-sheet-panel{background:#fff;border-color:#e2ddf2;}
+  html[data-theme="light"] .pm-sheet-head h2{color:#14102a;}
+  html[data-theme="light"] .pm-sheet-x{background:#f1eefb;border-color:#d9d3ef;color:#14102a;}
+  /* what goes in the panel */
+  .pm-sheet-body .pm-hero-find{margin:0;max-width:none;}
+  .pm-sheet-body #pm-search-out{margin-top:14px !important;}
+  .pm-sheet-body .pm-res-body{padding:0 !important;}
+  .pm-sheet-intro{margin:0 0 14px;font:600 14px/1.5 'Inter',system-ui,sans-serif;color:var(--pm-sub,#a9a6c0);}
+  .pm-set{display:grid;gap:10px;}
+  .pm-set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);font:700 15px/1.3 'Inter',sans-serif;}
+  .pm-set-row small{display:block;font-weight:600;font-size:12.5px;color:var(--pm-sub,#a9a6c0);}
+  .pm-set-row button,.pm-set-big{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:inherit;font:800 14px/1 'Inter',sans-serif;cursor:pointer;}
+  .pm-set-txt{display:flex;align-items:center;gap:6px;}
+  .pm-set-txt button{width:48px;padding:0;}
+  .pm-set-txt b{min-width:52px;text-align:center;}
+  .pm-set-big{width:100%;}
+  html[data-theme="light"] .pm-set-row{background:#faf9ff;border-color:#e2ddf2;}
+  html[data-theme="light"] .pm-set-row button,html[data-theme="light"] .pm-set-big{background:#f1eefb;border-color:#d9d3ef;}
+
+  /* ── Before you start: rows line up, mobile + desktop ── */
+  .pm-res-body > details{margin:0 0 10px !important;padding:0 !important;border:0 !important;background:none !important;}
+  .pm-res-body > details > summary{margin:0 !important;}
+
+  /* ── computers: a "Before you start" button in the top bar opens the same panel ── */
+  .pm-top-guide{display:none;}
+  @media (min-width:901px){
+    .pm-top-guide{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;margin-left:auto;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.05);color:inherit;font:800 14px/1 'Inter',sans-serif;cursor:pointer;white-space:nowrap;}
+    .pm-top .pm-wrap{display:flex;align-items:center;gap:14px;}
+    .pm-top .pm-top-links{margin-left:0 !important;}
+    html[data-theme="light"] .pm-top-guide{background:#fff;border-color:#e2ddf2;}
+  }
+
+  /* ── phones: one control center at the bottom, a simpler top ── */
   .pm-bnav{display:none;}
   @media (max-width:900px){
     .pm-bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:2147483645;height:calc(64px + env(safe-area-inset-bottom,0px));padding:0 4px env(safe-area-inset-bottom,0px);box-sizing:border-box;
       background:rgba(12,10,22,0.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.1);box-shadow:0 -6px 20px rgba(0,0,0,0.35);}
     .pm-bnav button{flex:1 1 0;min-width:0;display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:0;padding:6px 2px;margin:0;cursor:pointer;position:relative;
-      color:rgba(230,228,245,0.62);font:700 11px/1 'Inter',system-ui,sans-serif !important;letter-spacing:0;-webkit-tap-highlight-color:transparent;min-height:0 !important;}
-    .pm-bnav button .i{font-size:21px;line-height:1;filter:grayscale(0.5);opacity:0.85;transition:transform .15s;}
+      color:rgba(230,228,245,0.66);font:700 11px/1 'Inter',system-ui,sans-serif !important;-webkit-tap-highlight-color:transparent;min-height:0 !important;}
+    .pm-bnav button .i{font-size:21px;line-height:1;transition:transform .15s;}
     .pm-bnav button .t{white-space:nowrap;}
     .pm-bnav button.on{color:#fff;}
-    .pm-bnav button.on .i{filter:none;opacity:1;transform:translateY(-1px) scale(1.08);}
+    .pm-bnav button.on .i{transform:translateY(-1px) scale(1.08);}
     .pm-bnav button.on::before{content:'';position:absolute;top:0;left:26%;right:26%;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);}
+    .pm-bnav button.off{opacity:0.45;}
     .pm-bnav-n{position:absolute;top:6px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#ff2fa8;color:#fff;font:800 10px/17px 'Inter',sans-serif;text-align:center;}
+    /* "Start here" on the intro page */
+    body.pm-intro .pm-bnav button[data-go="start"]{color:#fff;}
+    body.pm-intro .pm-bnav button[data-go="start"] .i{position:relative;}
+    body.pm-intro .pm-bnav button[data-go="start"] .i::after{content:'';position:absolute;inset:-7px;border-radius:50%;box-shadow:0 0 0 2px rgba(255,47,168,0.75),0 0 16px rgba(255,47,168,0.6);animation:pmPulse 1.8s ease-in-out infinite;}
+    body.pm-intro .pm-bnav button[data-go="start"] .t{background:linear-gradient(90deg,#ff2fa8,#9a5cff);color:#fff;padding:3px 7px;border-radius:999px;}
+    @keyframes pmPulse{0%,100%{opacity:.35;transform:scale(.92);}50%{opacity:1;transform:scale(1.05);}}
     html[data-theme="light"] .pm-bnav{background:rgba(255,255,255,0.97);border-top-color:#e4e0f0;}
     html[data-theme="light"] .pm-bnav button{color:#6a6784;}
     html[data-theme="light"] .pm-bnav button.on{color:#14102a;}
-    /* keep page content, the plan tray and the floating quiz buttons above the bar */
+    /* the bar replaces the floating ⚙ and ↑ buttons */
+    #vt-dock,#vt-top-btn{display:none !important;}
+    /* keep content and the plan bar above the bottom bar */
     body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px)) !important;}
-    #pm-tray{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;}
+    #pm-tray{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;right:10px !important;}
     #pm-tray:not(.show){transform:translateY(calc(100% + 90px)) !important;visibility:hidden;}
     .pm-navfloat{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;}
-    .pm-navfix #vt-dock{bottom:calc(64px + 136px) !important;}
-    .pm-navfix #vt-top-btn{bottom:calc(64px + 190px) !important;}
-    body #vt-dock{bottom:calc(64px + 14px + env(safe-area-inset-bottom,0px)) !important;}
-    body #vt-top-btn{bottom:calc(64px + 14px + 42px + 8px + env(safe-area-inset-bottom,0px)) !important;}
-    body:has(#pm-tray.show) #vt-dock{bottom:calc(64px + 72px + env(safe-area-inset-bottom,0px)) !important;}
-    body:has(#pm-tray.show) #vt-top-btn{bottom:calc(64px + 72px + 50px + env(safe-area-inset-bottom,0px)) !important;}
+    /* simpler top: the bar does Start and Look up, Match Lab is the way in */
+    body.pm-intro .pm-hero .pm-cta,body.pm-intro .pm-hero-find,body.pm-intro .pm-hero .pm-trust,body.pm-intro .pm-hero .pm-how{display:none !important;}
+    body.pm-intro #pm-search-sec{display:none !important;}
+    /* "Before you start" lives under Guide */
+    #pm-resources{display:none !important;}
   }
-  @media print{.pm-bnav{display:none !important;}}
+  @media print{.pm-bnav,#pm-sheet{display:none !important;}}
 </style>
 <script>
 (function(){
-  var nav = document.getElementById('vpn-bottom-nav'); if (!nav) return;
-  var $ = function(id){ return document.getElementById(id); };
+  var nav = document.getElementById('vpn-bottom-nav'), sheet = document.getElementById('pm-sheet'); if (!nav || !sheet) return;
+  var $ = function(id){ return document.getElementById(id); }, body = document.body;
+  var startPage = /(^|[?&])start(=|&|$)/.test(location.search.slice(1));
+  var bodyEl = sheet.querySelector('.pm-sheet-body'), titleEl = $('pm-sheet-title'), moved = [], openKind = null;
+
+  function borrow(el){ if (!el) return; moved.push({ el:el, parent:el.parentNode, next:el.nextSibling }); bodyEl.appendChild(el); }
+  function giveBack(){ moved.reverse().forEach(function(m){ if (m.parent) m.parent.insertBefore(m.el, m.next); }); moved = []; }
+  function textPct(){ var p = $('vt-dock-pct'); return p ? p.textContent : '100%'; }
+  function themeName(){ return document.documentElement.getAttribute('data-theme') === 'light' ? 'Light' : 'Dark'; }
+
+  function open(kind){
+    if (openKind) closeNow();
+    openKind = kind; bodyEl.innerHTML = '';
+    if (kind === 'find') {
+      titleEl.textContent = '🔎 Look up a peptide';
+      borrow(document.querySelector('.pm-hero-find')); borrow($('pm-search-out'));
+      setTimeout(function(){ var i = $('peptide-search'); if (i) i.focus(); }, 280);
+    } else if (kind === 'guide') {
+      titleEl.textContent = '📚 Before you start';
+      bodyEl.insertAdjacentHTML('beforeend', '<p class="pm-sheet-intro">Baseline blood work to ask your doctor for, plus vitamins, supplements and peptides by condition with studies and dosages.</p>');
+      var res = document.querySelector('#pm-resources .pm-res-body'); borrow(res);
+      if (res) res.querySelectorAll(':scope > details').forEach(function(d){ d.open = false; });
+    } else if (kind === 'settings') {
+      titleEl.textContent = '⚙️ Settings';
+      bodyEl.insertAdjacentHTML('beforeend', '<div class="pm-set">'
+        + '<div class="pm-set-row"><span>Appearance<small>Now: <span id="pm-set-theme">' + themeName() + '</span></small></span><button type="button" data-set="theme">Switch</button></div>'
+        + '<div class="pm-set-row"><span>Text size<small>Bigger text is easier to read</small></span><span class="pm-set-txt"><button type="button" data-set="minus" aria-label="Smaller text">A−</button><b id="pm-set-pct">' + textPct() + '</b><button type="button" data-set="plus" aria-label="Bigger text">A+</button></span></div>'
+        + '<button type="button" class="pm-set-big" data-set="top">↑ Back to the top</button>'
+        + (window.pmInstallState && window.pmInstallState.can ? '<div class="pm-set-row"><span>📲 Install app<small>Free, works offline, opens like an app</small></span><button type="button" data-set="install">Install</button></div>' : '')
+        + (window.pmInstallState && window.pmInstallState.ios ? '<div class="pm-set-row"><span>📲 Get the app<small>Tap Share ⬆, then <b>Add to Home Screen</b>. Works offline.</small></span></div>' : '')
+        + (startPage ? '<button type="button" class="pm-set-big" data-set="intro">← Back to the Peptide Match home</button>' : '')
+        + '</div>');
+    }
+    sheet.hidden = false; body.classList.add('pm-sheet-open');
+    try { history.pushState({ pmSheet:kind }, ''); } catch(e){}
+    mark();
+  }
+  function closeNow(){ giveBack(); sheet.hidden = true; body.classList.remove('pm-sheet-open'); openKind = null; mark(); }
+  function close(){ if (history.state && history.state.pmSheet) history.back(); else closeNow(); }
+  addEventListener('popstate', function(){ if (openKind) closeNow(); });
+  sheet.addEventListener('click', function(e){
+    if (e.target.closest('[data-close]')) { close(); return; }
+    var s = e.target.closest('[data-set]'); if (!s) return;
+    var k = s.getAttribute('data-set'), click = function(id){ var b = $(id); if (b) b.click(); };
+    if (k === 'theme') { click('vt-dock-theme'); setTimeout(function(){ var t = $('pm-set-theme'); if (t) t.textContent = themeName(); }, 60); }
+    if (k === 'plus' || k === 'minus') { click(k === 'plus' ? 'vt-dock-plus' : 'vt-dock-minus'); setTimeout(function(){ var p = $('pm-set-pct'); if (p) p.textContent = textPct(); }, 60); }
+    if (k === 'top') { close(); setTimeout(function(){ window.scrollTo({ top:0, behavior:'smooth' }); }, 60); }
+    if (k === 'intro') location.href = location.pathname;
+    if (k === 'install' && window.pmInstallState) { close(); window.pmInstallState.run(); }
+  });
+  addEventListener('keydown', function(e){ if (e.key === 'Escape' && openKind) close(); });
+  window.pmOpenSheet = open;
+  /* jumping to the schedule from inside the panel closes it first */
+  var _build = window.pmBuild; if (typeof _build === 'function') window.pmBuild = function(){ if (openKind) closeNow(); return _build.apply(this, arguments); };
+
+  function toast(html){ var t = document.createElement('div'); t.className = 'pm-toast'; t.setAttribute('role','status'); t.innerHTML = html; body.appendChild(t); setTimeout(function(){ t.remove(); }, 5000); }
+  function hasPlan(){ return typeof SCHEDULES !== 'undefined' && SCHEDULES.length > 0; }
+  function resultsShown(){ var r = $('pm-results'); return r && !r.hidden && r.offsetParent; }
+
   function go(where){
-    var t;
-    if (where === 'match') t = $('pm-wizard');
-    else if (where === 'find') { t = document.querySelector('.pm-hero-find') || $('pm-search-sec'); setTimeout(function(){ var i = $('peptide-search'); if (i) i.focus({preventScroll:true}); }, 450); }
-    else if (where === 'results') t = ($('pm-results') && !$('pm-results').hidden) ? $('pm-results') : $('pm-wizard');
-    else if (where === 'plan') { document.body.classList.add('pm-has-plan'); t = $('pm-builder-sec'); }
-    else if (where === 'guide') t = $('pm-resources');
-    if (t) t.scrollIntoView({behavior:'smooth', block:'start'});
+    if (where === 'find' || where === 'guide' || where === 'settings') { open(where); return; }
+    if (openKind) closeNow();
+    if (where === 'start') {
+      if (!startPage) { if (window.pmOpenStart) pmOpenStart(typeof SELECTED_GOALS !== 'undefined' ? Array.from(SELECTED_GOALS) : null); else location.href = location.pathname + '?start'; return; }
+      (resultsShown() ? $('pm-results') : $('pm-wizard')).scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+    if (where === 'plan') {
+      if (hasPlan()) { body.classList.add('pm-has-plan'); ($('schedule-box') || $('pm-builder-sec')).scrollIntoView({ behavior:'smooth', block:'start' }); return; }
+      if (resultsShown()) { $('pm-results').scrollIntoView({ behavior:'smooth', block:'start' }); toast('🧾 Tap <b>+ Add to plan</b> on a match to start your plan.'); return; }
+      toast('🧾 Your plan is empty. Tap <b>Start</b>, find your matches, then <b>+ Add to plan</b>.');
+    }
   }
-  nav.addEventListener('click', function(e){ var b = e.target.closest('button[data-go]'); if (b) go(b.getAttribute('data-go')); });
-  /* highlight the section you are looking at */
-  var map = [['match','pm-wizard'],['results','pm-results'],['results','pm-inflam'],['plan','pm-builder-sec'],['guide','pm-resources']];
+  /* this bar handles its own taps (older handlers for the previous bar are skipped) */
+  nav.addEventListener('click', function(e){ var b = e.target.closest('button[data-go]'); if (!b) return; e.stopImmediatePropagation(); go(b.getAttribute('data-go')); }, true);
+
+  /* "Before you start" links anywhere open the Guide panel */
+  addEventListener('click', function(e){
+    var a = e.target.closest('a[href="#pm-resources"]'); if (!a) return;
+    e.preventDefault(); e.stopImmediatePropagation(); open('guide');
+  }, true);
+
+  /* computers: Guide button in the top bar */
+  var wrap = document.querySelector('.pm-top .pm-wrap');
+  if (wrap && !wrap.querySelector('.pm-top-guide')) {
+    var g = document.createElement('button'); g.type = 'button'; g.className = 'pm-top-guide'; g.textContent = '📚 Before you start';
+    g.onclick = function(){ open('guide'); };
+    var links = wrap.querySelector('.pm-top-links'); if (links) wrap.insertBefore(g, links); else wrap.appendChild(g);
+  }
+
+  /* labels and highlight */
+  if (startPage) nav.querySelector('[data-go="start"] .t').textContent = 'Match';
+  var lab = $('pm-lab-go'); if (lab && !startPage) lab.textContent = 'Start with these goals →';
   function mark(){
-    var y = innerHeight * 0.35, cur = 'match';
-    var hero = document.querySelector('.pm-hero'); if (hero && hero.getBoundingClientRect().bottom > y) cur = 'find';
-    map.forEach(function(m){ var el = $(m[1]); if (!el || el.hidden || !el.offsetParent) return; var r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > 0) cur = m[0]; });
-    if (hero && hero.getBoundingClientRect().bottom > y) cur = 'find';
-    nav.querySelectorAll('button').forEach(function(b){ var on = b.getAttribute('data-go') === cur; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); });
+    var cur = openKind;
+    if (!cur) {
+      var y = innerHeight * 0.4, b = $('pm-builder-sec');
+      if (startPage) cur = 'start';
+      if (b && b.offsetParent && b.getBoundingClientRect().top < y) cur = 'plan';
+    }
+    nav.querySelectorAll('button[data-go]').forEach(function(x){ var on = x.getAttribute('data-go') === cur; x.classList.toggle('on', on); if (on) x.setAttribute('aria-current', 'true'); else x.removeAttribute('aria-current'); });
+    var pb = nav.querySelector('[data-go="plan"]'); if (pb) pb.classList.toggle('off', !hasPlan());
   }
-  var raf = 0; addEventListener('scroll', function(){ if (!raf) raf = requestAnimationFrame(function(){ raf = 0; mark(); }); }, {passive:true});
-  /* plan count badge */
-  function count(){ var n = (typeof SCHEDULES !== 'undefined') ? SCHEDULES.length : 0, b = nav.querySelector('.pm-bnav-n'); b.hidden = !n; b.textContent = n; }
+  var raf = 0; addEventListener('scroll', function(){ if (!raf) raf = requestAnimationFrame(function(){ raf = 0; mark(); }); }, { passive:true });
+  function count(){ var n = hasPlan() ? SCHEDULES.length : 0, b = nav.querySelector('.pm-bnav-n'); b.hidden = !n; b.textContent = n; mark(); }
   var _sync = window.pmSyncPlan; if (typeof _sync === 'function') window.pmSyncPlan = function(){ var r = _sync.apply(this, arguments); count(); return r; };
-  count(); mark();
+  count();
+  /* old links to #find (e.g. bookmarks) open the Look up panel on phones */
+  if (location.hash === '#find' && matchMedia('(max-width:900px)').matches) setTimeout(function(){ open('find'); }, 150);
 })();
 </script>
 <!-- ═══ REFERENCE DOSES (peptidedosages.com) + HOW MANY VIALS + SEPARATE START PAGE ═══ -->
@@ -3448,11 +3599,6 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
   document.title = 'Start · ' + document.title;
   var goals = (q.get('goals') || '').split(',').filter(Boolean);
   if (goals.length && typeof SELECTED_GOALS !== 'undefined') { goals.forEach(function(g){ if (document.querySelector('.pm-goal[data-g="' + g + '"]')) SELECTED_GOALS.add(g); }); if (window.pmSyncGoals) pmSyncGoals(); }
-  /* the "Look up" icon goes back to the intro page's search box */
-  document.addEventListener('click', function(e){
-    var b = e.target.closest('.pm-bnav button[data-go="find"]'); if (!b) return;
-    e.preventDefault(); e.stopImmediatePropagation(); location.href = location.pathname + '#find';
-  }, true);
   setTimeout(function(){ window.scrollTo(0, 0); dispatchEvent(new Event('scroll')); }, 0);
 })();
 (function(){ if (location.hash === '#find') setTimeout(function(){ var f = document.querySelector('.pm-hero-find'); if (f) { f.scrollIntoView({block:'center'}); var i = document.getElementById('peptide-search'); if (i) i.focus({preventScroll:true}); } }, 120); })();
