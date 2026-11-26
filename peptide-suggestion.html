@@ -3131,6 +3131,7 @@ function pmDownloadReport(){
   <button type="button" data-go="find"><span class="i">🔎</span><span class="t">Look up</span></button>
   <button type="button" data-go="plan"><span class="i">🧾</span><span class="t">Plan</span><b class="pm-bnav-n" hidden>0</b></button>
   <button type="button" data-go="guide"><span class="i">📚</span><span class="t">Guide</span></button>
+  <button type="button" data-go="tools"><span class="i">🧰</span><span class="t">Tools</span></button>
   <button type="button" data-go="settings"><span class="i">⚙️</span><span class="t">Settings</span></button>
 </nav>
 <div id="pm-sheet" hidden>
@@ -3171,6 +3172,29 @@ function pmDownloadReport(){
   .pm-lab-row .t small.pm-lab-rv{color:#8fd6ff !important;font-weight:700 !important;margin-top:2px;}
   html[data-theme="light"] .pm-lab-row .t small.pm-lab-rv{color:#0b5f9e !important;}
   html[data-theme="light"] .pm-lab-vials{background:#eaf6ff;color:#0b5f9e;border-color:#b9dcf5;}
+  /* Tools: phone panel cards + desktop dropdown */
+  .pm-tool-card,.pm-tool-row{display:flex;align-items:center;gap:12px;text-decoration:none !important;color:inherit !important;}
+  .pm-tool-card{margin:0 0 10px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);min-height:64px;}
+  .pm-tool-card:active{background:rgba(255,47,168,0.12);}
+  .pm-tool-card .ti,.pm-tool-row .ti{flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(255,47,168,0.25),rgba(47,180,255,0.25));font-size:22px;}
+  .pm-tool-card .tt,.pm-tool-row .tt{flex:1;min-width:0;}
+  .pm-tool-card b,.pm-tool-row b{display:block;font:800 15px/1.25 'Inter',system-ui,sans-serif;}
+  .pm-tool-card small,.pm-tool-row small{display:block;margin-top:2px;font:600 12.5px/1.35 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);}
+  .pm-tool-card .tg,.pm-tool-row .tg{flex:0 0 auto;opacity:.55;font-weight:800;}
+  .pm-top-tools{display:none;position:relative;}
+  @media (min-width:901px){
+    .pm-top-tools{display:block;}
+    .pm-top-tools > summary{list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.05);font:800 14px/1 'Inter',sans-serif;cursor:pointer;white-space:nowrap;}
+    .pm-top-tools > summary::-webkit-details-marker{display:none;}
+    .pm-top-tools > summary::after{display:none !important;content:none !important;}
+    .pm-top-tools[open] > summary{border-color:#ff2fa8;}
+    .pm-tools-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:2147483640;width:360px;padding:8px;border-radius:16px;background:#100d1e;border:1px solid rgba(255,255,255,0.14);box-shadow:0 20px 50px rgba(0,0,0,0.55);}
+    .pm-tool-row{padding:10px;border-radius:12px;}
+    .pm-tool-row:hover,.pm-tool-row:focus-visible{background:rgba(255,255,255,0.07);}
+    html[data-theme="light"] .pm-top-tools > summary{background:#fff;border-color:#e2ddf2;}
+    html[data-theme="light"] .pm-tools-menu{background:#fff;border-color:#e2ddf2;}
+  }
+  html[data-theme="light"] .pm-tool-card{background:#faf9ff;border-color:#e2ddf2;}
   /* Look up panel */
   .pm-find-box{position:sticky;top:-14px;z-index:2;display:flex;align-items:center;gap:8px;margin:-14px -16px 10px;padding:12px 16px;background:inherit;background:#100d1e;border-bottom:1px solid rgba(255,255,255,0.08);}
   .pm-find-box[hidden]{display:none;}
@@ -3278,6 +3302,9 @@ function pmDownloadReport(){
       bodyEl.insertAdjacentHTML('beforeend', '<p class="pm-sheet-intro">Baseline blood work to ask your doctor for, plus vitamins, supplements and peptides by condition with studies and dosages.</p>');
       var res = document.querySelector('#pm-resources .pm-res-body'); borrow(res);
       if (res) res.querySelectorAll(':scope > details').forEach(function(d){ d.open = false; });
+    } else if (kind === 'tools') {
+      titleEl.textContent = '🧰 Tools';
+      bodyEl.insertAdjacentHTML('beforeend', '<p class="pm-sheet-intro">More free tools from the same team. Each opens in a new tab.</p>' + toolsHTML('pm-tool-card'));
     } else if (kind === 'settings') {
       titleEl.textContent = '⚙️ Settings';
       bodyEl.insertAdjacentHTML('beforeend', '<div class="pm-set">'
@@ -3292,6 +3319,16 @@ function pmDownloadReport(){
     sheet.hidden = false; body.classList.add('pm-sheet-open');
     try { history.pushState({ pmSheet:kind }, ''); } catch(e){}
     mark();
+  }
+  /* Tools: the other free sites */
+  var TOOLS = [
+    { url:'https://pepfitcoach.com/', icon:'💪', name:'PepFitCoach', text:'Your own workout, nutrition and peptide plan in about 2 minutes' },
+    { url:'https://pokemedex.com/', icon:'📟', name:'PokeMe-Dex', text:'Dose tracker: log injections, rotate sites, keep your streak' },
+    { url:'https://glowklowcalc.com/', icon:'🧪', name:'GLOW / KLOW Calc', text:'Mixing and dose calculator for GLOW and KLOW blends' },
+    { url:'https://ruivpndata.com/', icon:'🛡️', name:'RUI VPN Data', text:'Research guides, studies, COA checks and peptide index' }
+  ];
+  function toolsHTML(cls){
+    return TOOLS.map(function(x){ return '<a class="' + cls + '" role="menuitem" href="' + x.url + '" target="_blank" rel="noopener"><span class="ti" aria-hidden="true">' + x.icon + '</span><span class="tt"><b>' + x.name + '</b><small>' + x.text + '</small></span><span class="tg" aria-hidden="true">↗</span></a>'; }).join('');
   }
   /* Look up: one clean search box over an A–Z list of every peptide; tapping one opens its card right here */
   function buildFinder(query){
@@ -3357,7 +3394,7 @@ function pmDownloadReport(){
   function resultsShown(){ var r = $('pm-results'); return r && !r.hidden && r.offsetParent; }
 
   function go(where){
-    if (where === 'find' || where === 'guide' || where === 'settings') { open(where); return; }
+    if (where === 'find' || where === 'guide' || where === 'settings' || where === 'tools') { open(where); return; }
     if (openKind) closeNow();
     if (where === 'start') {
       if (!startPage) { if (window.pmOpenStart) pmOpenStart(typeof SELECTED_GOALS !== 'undefined' ? Array.from(SELECTED_GOALS) : null); else location.href = location.pathname + '?start'; return; }
@@ -3393,6 +3430,12 @@ function pmDownloadReport(){
     var g = document.createElement('button'); g.type = 'button'; g.className = 'pm-top-guide'; g.textContent = '📚 Before you start';
     g.onclick = function(){ open('guide'); };
     var links = wrap.querySelector('.pm-top-links'); if (links) wrap.insertBefore(g, links); else wrap.appendChild(g);
+    /* Tools dropdown next to it */
+    var t = document.createElement('details'); t.className = 'pm-top-tools';
+    t.innerHTML = '<summary>🧰 Tools <span aria-hidden="true">▾</span></summary><div class="pm-tools-menu" role="menu">' + toolsHTML('pm-tool-row') + '</div>';
+    g.insertAdjacentElement('afterend', t);
+    document.addEventListener('click', function(e){ if (t.open && !t.contains(e.target)) t.open = false; });
+    addEventListener('keydown', function(e){ if (e.key === 'Escape' && t.open) { t.open = false; t.querySelector('summary').focus(); } });
   }
 
   /* labels and highlight */
