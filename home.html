@@ -36057,7 +36057,8 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     { id:'glp', e:'💊', t:'GLP-1 support', d:'For people on a prescribed GLP-1: switching, muscle, vitamins and cravings.', c:'#9a5cff', re:/GLP TOOLS|SWITCH BETWEEN|GLP-1 MEDICATION SUCCESS|MEDICATION GUIDE|MUSCLE LOSS|VITAMINS|REWARD SYSTEM/ },
     { id:'nutri', e:'🌙', t:'Nutrition, sleep & training', d:'Protein, sleep, GlyNAC and workout guides.', c:'#2ee6a0', re:/PROTEIN|SLEEP|GLYNAC|WORKOUT/ },
     { id:'research', e:'📚', t:'Research reading', d:'Myths and hard questions, autoimmune and mitochondria deep-dives.', c:'#ffb020', re:/MYTH|AUTOIMMUNE|MITOCHONDRIA/ },
-    { id:'links', e:'🔗', t:'Downloads, apps & sites', d:'Free PDFs, peptide databases and helpful apps.', c:'#ec4899', re:/PEP-PEDIA|PDF|FIELD GUIDE|FIELD MANUAL|LOSE IT|PEPTIDEFOX|DOSAGE|DATABASE|BEGINNER/ }
+    { id:'links', e:'🔗', t:'Downloads, apps & sites', d:'Free PDFs, peptide databases and helpful apps.', c:'#ec4899', re:/PEP-PEDIA|PDF|FIELD GUIDE|FIELD MANUAL|LOSE IT|PEPTIDEFOX|DOSAGE|DATABASE|BEGINNER/ },
+    { id:'supplies', e:'🧫', t:'Supplies', d:'BAC water, syringes, vials, cold storage and trusted places to buy.', c:'#2ee6a0', re:/(?!)/ }
   ];
   function txt(el){ return (el.textContent || '').replace(/\s+/g, ' ').trim().toUpperCase().slice(0, 220); }
   // the units to sort: top-level blocks, but split the two big multi-guide containers into their guides
@@ -36070,7 +36071,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   });
   // hero + topic bar + sections
   var hero = document.createElement('section'); hero.className = 'qg2-hero'; hero.setAttribute('data-vt-skip', ''); hero.setAttribute('data-px-skip', '');
-  hero.innerHTML = '<span class="qg2-kick"><i></i>Guides · tools · downloads</span><h1>Tools <span>&amp;</span> Guides</h1><p>Practical, plain-English guides for mixing, storing and injecting, GLP-1 support, nutrition and sleep, plus free downloads and trusted research sites. Pick a topic or search.</p>'
+  hero.innerHTML = '<span class="qg2-kick"><i></i>Guides · tools · supplies</span><h1>Tools, Guides <span>&amp;</span> Supplies</h1><p>Practical, plain-English guides for mixing, storing and injecting, GLP-1 support, nutrition and sleep, plus free downloads, trusted research sites and the supplies you need. Pick a topic or search.</p>'
     + '<label class="qg2-search"><input type="search" id="qg2-q" placeholder="Search guides, e.g. bac water, sleep, GHK-Cu" aria-label="Search guides" autocomplete="off"></label>'
     + '<div class="qg2-tiles">' + TOPICS.map(function(t){ return '<button type="button" class="qg2-tile" data-go="' + t.id + '" style="--c:' + t.c + '"><span class="ic">' + t.e + '</span><span><b>' + t.t + '</b><small id="qg2-n-' + t.id + '"></small></span></button>'; }).join('') + '</div>';
   var bar = document.createElement('nav'); bar.className = 'qg2-bar'; bar.setAttribute('aria-label', 'Guide topics'); bar.setAttribute('data-vt-skip', '');
@@ -36088,7 +36089,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     var t = txt(u.el);
     if (/^📋 HOW-TO GUIDES$/.test(t) || (u.el.children.length === 0 && t.length < 40 && /HOW-TO GUIDES/.test(t))) { u.el.classList.add('qg2-hide'); return; }
     if (/TELEGRAM/.test(t) && u.el.id === 'qg-community') { tail.appendChild(u.el); return; }
-    var topic = TOPICS.find(function(x){ return x.re.test(t); }) || TOPICS[TOPICS.length - 1];
+    var topic = (u.el.id === 'view-supplies') ? TOPICS[TOPICS.length - 1] : (TOPICS.find(function(x){ return x.re.test(t); }) || TOPICS[TOPICS.length - 2]);
     secs[topic.id].querySelector('.qg2-items').appendChild(u.el);
     u.el.setAttribute('data-qg2-text', t);
   });
@@ -36119,7 +36120,7 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
       var t = txt(c), nx = c.nextElementSibling;
       if (c.tagName === 'DIV' && nx && nx.tagName === 'DETAILS' && /csv-section/.test(nx.className) && t.length < 140) { c.classList.add('qg2-hide'); return; }
       if (!t) { c.classList.add('qg2-hide'); return; }
-      var topic = TOPICS.find(function(x){ return x.re.test(t); }) || TOPICS[TOPICS.length - 1];
+      var topic = (c.id === 'view-supplies') ? TOPICS[TOPICS.length - 1] : (TOPICS.find(function(x){ return x.re.test(t); }) || TOPICS[TOPICS.length - 2]);
       c.setAttribute('data-qg2-text', t); secs[topic.id].querySelector('.qg2-items').appendChild(c); moved = true;
     });
     var com = document.getElementById('qg-community'); if (com && com.previousElementSibling !== empty && view.lastElementChild !== com) view.appendChild(com);
@@ -36929,8 +36930,7 @@ html body .vh2-tools .vt-lab .vt-lab-sum{margin:2px 2px 0;font:500 12.5px/1.45 '
     sv.setAttribute('data-merged', '1');
     sv.classList.remove('view', 'active');
     sv.classList.add('vsec');
-    var h = document.createElement('h2'); h.className = 'qg-sup-h'; h.id = 'qg-supplies'; h.textContent = '🧫 Research supplies';
-    qg.appendChild(h); qg.appendChild(sv);
+    qg.appendChild(sv);
     var box = [].slice.call(sv.querySelectorAll('div')).find(function(d){ return [].filter.call(d.children, function(c){ return c.tagName === 'A'; }).length >= 3; });
     if (box) box.classList.add('sup-grid');
   }
@@ -36940,7 +36940,8 @@ html body .vh2-tools .vt-lab .vt-lab-sum{margin:2px 2px 0;font:500 12.5px/1.45 '
     if (n === 'supplies') {
       merge();
       var r = prev.apply(this, ['quick-guide'].concat([].slice.call(arguments, 1)));
-      setTimeout(function(){ var t = document.getElementById('qg-supplies'); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }, 200);
+      function jump(){ var t = document.getElementById('qg2-supplies') || document.getElementById('view-supplies'); if (t) t.scrollIntoView({ behavior:'auto', block:'start', inline:'nearest' }); }
+      setTimeout(jump, 350); setTimeout(jump, 1000);
       return r;
     }
     return prev.apply(this, arguments);
