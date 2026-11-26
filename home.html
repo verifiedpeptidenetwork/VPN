@@ -27799,12 +27799,13 @@ function showViewInternal(name) {
     document.getElementById('vpnSearchBar')
   ].forEach(function(el){ if (el) el.style.display = hideAll ? 'none' : ''; });
 
-  // Mobile: restore header shell so hamburger stays accessible, just hide the logo
+  // Mobile: restore header shell so the hamburger stays accessible, and keep the
+  // RUIVPNDATA branding beside it (hiding it left an empty bar on every non-home page)
   if (hideAll && window.innerWidth < 901) {
     var sh = document.querySelector('header.site-header');
     if (sh) sh.style.display = '';
     var hl = document.querySelector('.site-header .logo');
-    if (hl) hl.style.display = 'none';
+    if (hl) hl.style.display = '';
   } else {
     // back on home (or desktop): bring the header logo back
     var hl2 = document.querySelector('.site-header .logo');
@@ -36105,8 +36106,9 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
   function counts(){
     TOPICS.forEach(function(t){
       var items = [].slice.call(secs[t.id].querySelectorAll('.qg2-items > *')).filter(function(x){ return !x.hidden && !x.classList.contains('qg2-hide'); });
-      secs[t.id].querySelector('.n').textContent = items.length + (items.length === 1 ? ' guide' : ' guides');
-      var tl = document.getElementById('qg2-n-' + t.id); if (tl) tl.textContent = items.length + (items.length === 1 ? ' guide' : ' guides');
+      var lbl = t.id === 'supplies' ? 'Gear & where to buy' : items.length + (items.length === 1 ? ' guide' : ' guides');
+      secs[t.id].querySelector('.n').textContent = lbl;
+      var tl = document.getElementById('qg2-n-' + t.id); if (tl) tl.textContent = lbl;
       secs[t.id].hidden = items.length === 0;
     });
   }
@@ -36940,7 +36942,7 @@ html body .vh2-tools .vt-lab .vt-lab-sum{margin:2px 2px 0;font:500 12.5px/1.45 '
     if (n === 'supplies') {
       merge();
       var r = prev.apply(this, ['quick-guide'].concat([].slice.call(arguments, 1)));
-      function jump(){ var t = document.getElementById('qg2-supplies') || document.getElementById('view-supplies'); if (t) t.scrollIntoView({ behavior:'auto', block:'start', inline:'nearest' }); }
+      function jump(){ var t = document.getElementById('qg2-supplies') || document.getElementById('view-supplies'); if (t) t.scrollIntoView({ behavior:'auto', block:'start', inline:'nearest' }); document.body.scrollLeft = 0; document.documentElement.scrollLeft = 0; }
       setTimeout(jump, 350); setTimeout(jump, 1000);
       return r;
     }
