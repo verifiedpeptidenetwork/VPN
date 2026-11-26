@@ -4168,92 +4168,51 @@ document.addEventListener('keydown', function(e){
   #site-hero > #home-prayer{order:2 !important;}
 </style>
 
-<!-- SAFETY TICKER — sliding doctor / bloodwork reminder -->
+<!-- SAFETY STEPS: static doctor / bloodwork / gray-market reminder under the search box -->
 <style>
-  /* Pill that lines up with the search bar; swipe/drag to move, auto-scrolls again after you let go */
-  .vpn-safety-ticker{position:relative;z-index:11;width:100%;box-sizing:border-box;margin:10px 0 0;padding:0;border-radius:999px;
+  .vpn-safety{position:relative;z-index:11;width:100%;box-sizing:border-box;margin:10px 0 0;padding:10px;border-radius:16px;
     background:linear-gradient(#0c0a16,#0c0a16) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;border:1px solid transparent;
-    display:flex;align-items:center;overflow:hidden;}
-  .vpn-safety-ticker .vst-view{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:9px 0;cursor:grab;
-    scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x;overscroll-behavior-x:contain;user-select:none;-webkit-user-select:none;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
-  .vpn-safety-ticker .vst-view::-webkit-scrollbar{display:none;}
-  .vpn-safety-ticker .vst-view.dragging{cursor:grabbing;}
-  .vpn-safety-ticker .vst-track{display:inline-flex;width:max-content;}
-  .vpn-safety-ticker .vst-arrow{flex:0 0 auto;width:34px;height:34px;margin:0 4px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);
-    color:#e9e7f5;font:700 16px/1 'Inter',system-ui,sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;}
-  .vpn-safety-ticker .vst-arrow:hover{background:rgba(255,255,255,0.12);}
-  @media(hover:hover) and (pointer:fine){ .vpn-safety-ticker .vst-arrow{display:inline-flex;} }
-  .vpn-safety-ticker .vst-item{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:0.9rem !important;line-height:1.3 !important;font-weight:600;letter-spacing:0.01em;
-    color:rgba(214,220,240,0.85);padding:0 1.4rem;}
-  .vpn-safety-ticker .vst-item b{font-weight:800;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
-  .vpn-safety-ticker .vst-dot{display:inline-block;width:5px;height:5px;margin:0 0.9rem;border-radius:50%;vertical-align:middle;background:linear-gradient(135deg,#ff2fa8,#2fb4ff);font-size:0 !important;}
-  html[data-theme="light"] .vpn-safety-ticker{background:#ffffff;border-bottom-color:rgba(30,20,70,0.12);}
-  html[data-theme="light"] .vpn-safety-ticker .vst-item{color:#4a4566;}
-  html[data-theme="light"] .vpn-safety-ticker{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;}
-  html[data-theme="light"] .vpn-safety-ticker .vst-arrow{color:#2a2540;border-color:rgba(0,0,0,0.15);background:rgba(0,0,0,0.03);}
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .vpn-safety .vs-head{display:flex;align-items:center;gap:8px;margin:0 2px 9px;font-size:0.82rem !important;line-height:1.3 !important;font-weight:600;color:rgba(235,232,255,0.78);}
+  .vpn-safety .vs-head b{font-weight:800;letter-spacing:0.02em;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+  .vpn-safety .vs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+  .vpn-safety .vs-step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:9px;min-height:52px;padding:8px 10px;border-radius:12px;cursor:pointer;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);transition:background .15s,border-color .15s;}
+  .vpn-safety .vs-step:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18);}
+  .vpn-safety .vs-step:focus-visible{outline:2px solid #9a5cff;outline-offset:2px;}
+  .vpn-safety .vs-ico{flex:0 0 auto;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:1rem !important;background:var(--c);box-shadow:0 0 12px -2px var(--c);}
+  .vpn-safety .vs-txt{min-width:0;display:flex;flex-direction:column;gap:1px;}
+  .vpn-safety .vs-txt b{font-size:0.84rem !important;line-height:1.2 !important;font-weight:700;color:#fff;}
+  .vpn-safety .vs-txt small{font-size:0.72rem !important;line-height:1.25 !important;font-weight:500;color:rgba(220,215,245,0.65);}
+  @media(max-width:900px){ .vpn-safety .vs-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+  @media(max-width:360px){ .vpn-safety .vs-ico{width:28px;height:28px;} .vpn-safety .vs-step{padding:8px;gap:7px;} }
+  html[data-theme="light"] .vpn-safety{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;}
+  html[data-theme="light"] .vpn-safety .vs-head{color:#4a4566;}
+  html[data-theme="light"] .vpn-safety .vs-step{background:#f7f5fd;border-color:rgba(30,20,70,0.10);}
+  html[data-theme="light"] .vpn-safety .vs-step:hover{background:#efebfb;}
+  html[data-theme="light"] .vpn-safety .vs-txt b{color:#1a1530;}
+  html[data-theme="light"] .vpn-safety .vs-txt small{color:#625c80;}
 </style>
-<div class="vpn-safety-ticker" role="region" aria-label="Safety reminders: Work with your doctor. Do your bloodwork before any research. Inform your doctor. Verify everything." data-vt-skip>
-  <button type="button" class="vst-arrow vst-prev" aria-label="Scroll reminders left">‹</button>
-  <div class="vst-view">
-  <div class="vst-track">
-    <span class="vst-item">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
-    <span class="vst-item" aria-hidden="true">🩺 <b>WORK WITH YOUR DOCTOR</b> <span class="vst-dot">•</span> 🩸 DO YOUR BLOODWORK BEFORE ANY RESEARCH <span class="vst-dot">•</span> 📋 <b>INFORM YOUR DOCTOR</b> <span class="vst-dot">•</span> ✅ VERIFY EVERYTHING <span class="vst-dot">•</span></span>
+<section class="vpn-safety" aria-label="Safety first" data-vt-skip>
+  <div class="vs-head"><span aria-hidden="true">✅</span><span><b>VERIFY EVERYTHING</b> · before and during any research</span></div>
+  <div class="vs-grid">
+    <button type="button" class="vs-step" data-go="bloodwork" style="--c:rgba(47,180,255,0.22)"><span class="vs-ico" aria-hidden="true">🩺</span><span class="vs-txt"><b>Work with your doctor</b><small>Tell them what you research</small></span></button>
+    <button type="button" class="vs-step" data-go="bloodwork" style="--c:rgba(255,47,90,0.22)"><span class="vs-ico" aria-hidden="true">🩸</span><span class="vs-txt"><b>Bloodwork first</b><small>A baseline before you start</small></span></button>
+    <button type="button" class="vs-step" data-go="bloodwork" style="--c:rgba(154,92,255,0.25)"><span class="vs-ico" aria-hidden="true">🔁</span><span class="vs-txt"><b>Retest every 3 months</b><small>The whole time you research</small></span></button>
+    <button type="button" class="vs-step" data-go="graymarket" style="--c:rgba(255,176,32,0.22)"><span class="vs-ico" aria-hidden="true">⚠️</span><span class="vs-txt"><b>Gray market? Know the risks</b><small>Check COAs, do your own due diligence</small></span></button>
   </div>
-  </div>
-  <button type="button" class="vst-arrow vst-next" aria-label="Scroll reminders right">›</button>
-</div>
+</section>
 <script>
 (function(){
-  var tk = document.querySelector('.vpn-safety-ticker'); if (!tk) return;
-  var view = tk.querySelector('.vst-view'), track = tk.querySelector('.vst-track');
+  var box = document.querySelector('.vpn-safety'); if (!box) return;
   /* Sit directly under the search box so it lines up with the page */
-  function place(){ var bar = document.getElementById('vpnSearchBar'); if (bar && tk.parentElement !== bar) bar.appendChild(tk); }
+  function place(){ var bar = document.getElementById('vpnSearchBar'); if (bar && box.parentElement !== bar) bar.appendChild(box); }
   place(); document.addEventListener('DOMContentLoaded', place);
-
-  var LOOP_SECONDS = 28, RESUME_MS = 3000;
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var pausedUntil = 0, hovering = false, last = 0, x = -1;
-  function half(){ return track.scrollWidth / 2; }
-  function wrap(){ var h = half(); if (h <= 0) return; if (view.scrollLeft >= h) view.scrollLeft -= h; else if (view.scrollLeft <= 0) view.scrollLeft += h; }
-  function hold(){ pausedUntil = Date.now() + RESUME_MS; x = -1; }
-  /* Auto-scroll keeps its own fractional position, so it stays smooth on zoomed / high-DPI screens */
-  function tick(t){
-    var dt = last ? Math.min((t - last) / 1000, 0.1) : 0; last = t;
-    var h = half();
-    if (!reduce && !hovering && Date.now() > pausedUntil && !document.hidden && h > 0) {
-      if (x < 0) x = view.scrollLeft;                /* pick up wherever the visitor left it */
-      x += h / LOOP_SECONDS * dt;
-      if (x >= h) x -= h;
-      view.scrollLeft = x;
-    }
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-
-  /* Touch swipe is native (overflow-x); these keep it paused while you interact and loop seamlessly */
-  ['touchstart','wheel','keydown'].forEach(function(ev){ view.addEventListener(ev, hold, {passive:true}); });
-  view.addEventListener('scroll', function(){ wrap(); }, {passive:true});
-  view.addEventListener('touchend', hold, {passive:true});
-  tk.addEventListener('mouseenter', function(){ hovering = true; });
-  tk.addEventListener('mouseleave', function(){ hovering = false; hold(); });
-
-  /* Mouse drag on desktop */
-  var down = false, sx = 0, sl = 0, moved = false;
-  view.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = view.scrollLeft; view.classList.add('dragging'); hold(); });
-  window.addEventListener('pointermove', function(e){ if (!down) return; var dx = e.clientX - sx; if (Math.abs(dx) > 3) moved = true; view.scrollLeft = sl - dx; wrap(); hold(); });
-  window.addEventListener('pointerup', function(){ if (!down) return; down = false; view.classList.remove('dragging'); hold(); });
-  view.addEventListener('click', function(e){ if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
-
-  /* Arrows for people who don't think to drag */
-  function nudge(dir){ hold(); var target = view.scrollLeft + dir * Math.max(200, view.clientWidth * 0.6);
-    if (target <= 0) { view.scrollLeft += half(); target += half(); }
-    view.scrollTo({ left: target, behavior: 'smooth' }); }
-  tk.querySelector('.vst-prev').addEventListener('click', function(){ nudge(-1); });
-  tk.querySelector('.vst-next').addEventListener('click', function(){ nudge(1); });
-  view.setAttribute('tabindex', '0');
-  view.addEventListener('keydown', function(e){ if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-1); } if (e.key === 'ArrowRight') { e.preventDefault(); nudge(1); } });
-  view.scrollLeft = 1; /* start just inside the loop so wrapping works both ways */
+  box.addEventListener('click', function(e){
+    var b = e.target.closest('.vs-step'); if (!b || typeof showView !== 'function') return;
+    var v = b.getAttribute('data-go'); showView(v);
+    var sb = document.querySelector('.sb-item[data-view="' + v + '"]'); if (sb && typeof setSbActive === 'function') setSbActive(sb);
+  });
 })();
 </script>
 
@@ -33364,57 +33323,91 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
 </style>
 
 <div id="vpn-bottom-nav" role="navigation" aria-label="Quick navigation">
-  <button class="vpn-bnav-btn vpn-bnav-active" id="bnav-home"
+  <button class="vpn-bnav-btn vpn-bnav-active" id="bnav-home" type="button"
     style="color:#00f5ff;"
-    onclick="showView('home');setActiveNav(document.querySelector('.nav-pill'));vpnBnavSetActive('bnav-home')">
+    onclick="vpnUpClose();showView('home');setActiveNav(document.querySelector('.nav-pill'));vpnBnavSetActive('bnav-home')">
     <span class="vpn-bnav-icon">🏠</span>
     <span class="vpn-bnav-label">HOME</span>
   </button>
-  <button class="vpn-bnav-btn" id="bnav-index"
+  <button class="vpn-bnav-btn" id="bnav-index" type="button"
     style="color:#ff2fa8;"
-    onclick="showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'));vpnBnavSetActive('bnav-index')">
+    onclick="vpnUpClose();showView('all-peptides');setActiveNav(document.querySelector('[onclick*=all-peptides]'));vpnBnavSetActive('bnav-index')">
     <span class="vpn-bnav-icon">🔬</span>
     <span class="vpn-bnav-label">INDEX</span>
   </button>
-  <a class="vpn-bnav-btn" id="bnav-pokedex" href="https://pokemedex.com" target="_blank" rel="noopener" aria-label="PokeMe-Dex dose tracker (opens pokemedex.com)"
-    style="color:#ffcb05;">
-    <span class="vpn-bnav-icon">🔴</span>
-    <span class="vpn-bnav-label">POKEDEX</span>
-  </a>
-  <button class="vpn-bnav-btn" id="bnav-blood"
-    style="color:#ff4d6d;"
-    onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'));vpnBnavSetActive('bnav-blood')">
-    <span class="vpn-bnav-icon">🩸</span>
-    <span class="vpn-bnav-label">BLOOD</span>
+  <button class="vpn-bnav-btn" id="bnav-learn" type="button" data-up="learn" aria-haspopup="menu" aria-expanded="false" aria-controls="vpn-up-learn"
+    style="color:#ff4d6d;">
+    <span class="vpn-bnav-icon">📚</span>
+    <span class="vpn-bnav-label">LEARN <i class="vpn-bnav-caret" aria-hidden="true">▴</i></span>
   </button>
-  <button class="vpn-bnav-btn" id="bnav-guides" aria-label="Tools, guides and supplies"
-    style="color:#2ee6a6;"
-    onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'));vpnBnavSetActive('bnav-guides')">
+  <button class="vpn-bnav-btn" id="bnav-tools" type="button" data-up="tools" aria-haspopup="menu" aria-expanded="false" aria-controls="vpn-up-tools"
+    style="color:#2ee6a6;">
     <span class="vpn-bnav-icon">🛠️</span>
-    <span class="vpn-bnav-label">TOOLS</span>
+    <span class="vpn-bnav-label">TOOLS <i class="vpn-bnav-caret" aria-hidden="true">▴</i></span>
   </button>
-  <a class="vpn-bnav-btn" id="bnav-calc" href="https://glowklowcalc.com" target="_blank" rel="noopener" aria-label="Peptide calculator (opens glowklowcalc.com)"
-    style="color:#9d00ff;">
-    <span class="vpn-bnav-icon">🧮</span>
-    <span class="vpn-bnav-label">CALC</span>
-  </a>
-  <a class="vpn-bnav-btn" id="bnav-coach" href="https://pepfitcoach.com" target="_blank" rel="noopener" aria-label="Workout coach (opens pepfitcoach.com)"
-    style="color:#2bc8ff;">
-    <span class="vpn-bnav-icon">🏋️</span>
-    <span class="vpn-bnav-label">COACH</span>
-  </a>
-  <a class="vpn-bnav-btn" id="bnav-store" href="https://noorlabs.best" target="_blank" rel="noopener" aria-label="Store (opens noorlabs.best)"
-    style="color:#ff8a3d;">
-    <span class="vpn-bnav-icon">🛒</span>
-    <span class="vpn-bnav-label">STORE</span>
-  </a>
-  <button class="vpn-bnav-btn" id="bnav-menu"
+  <button class="vpn-bnav-btn" id="bnav-menu" type="button"
     style="color:#ff2d78;"
-    onclick="toggleMobileNav();vpnBnavSetActive('bnav-menu')">
+    onclick="vpnUpClose();toggleMobileNav();vpnBnavSetActive('bnav-menu')">
     <span class="vpn-bnav-icon">☰</span>
     <span class="vpn-bnav-label">MENU</span>
   </button>
 </div>
+
+<!-- Bottom bar drop-ups -->
+<div id="vpn-up-scrim" hidden></div>
+<div class="vpn-up" id="vpn-up-learn" role="menu" aria-label="Learn" hidden>
+  <div class="vpn-up-h"><span>LEARN</span><small>Before and during any research</small></div>
+  <button type="button" class="vpn-up-row" role="menuitem" data-view="bloodwork" style="--c:#ff4d6d"><span class="vpn-up-ico">🩸</span><span class="vpn-up-t"><b>Blood work</b><small>What to test before you start, then every 3 months</small></span><span class="vpn-up-go" aria-hidden="true">›</span></button>
+  <button type="button" class="vpn-up-row" role="menuitem" data-view="graymarket" style="--c:#ffb020"><span class="vpn-up-ico">⚠️</span><span class="vpn-up-t"><b>Gray market risks</b><small>Spot fake COAs and do your own due diligence</small></span><span class="vpn-up-go" aria-hidden="true">›</span></button>
+  <button type="button" class="vpn-up-row" role="menuitem" data-view="quick-guide" style="--c:#2ee6a6"><span class="vpn-up-ico">📘</span><span class="vpn-up-t"><b>Guides &amp; supplies</b><small>Mixing, storing, injecting and gear</small></span><span class="vpn-up-go" aria-hidden="true">›</span></button>
+  <button type="button" class="vpn-up-row" role="menuitem" data-view="studies" style="--c:#2bc8ff"><span class="vpn-up-ico">📄</span><span class="vpn-up-t"><b>Research studies</b><small>Read the papers behind each peptide</small></span><span class="vpn-up-go" aria-hidden="true">›</span></button>
+</div>
+<div class="vpn-up" id="vpn-up-tools" role="menu" aria-label="Tools" hidden>
+  <div class="vpn-up-h"><span>TOOLS</span><small>Free tools · each opens in a new tab</small></div>
+  <a class="vpn-up-row" role="menuitem" href="https://pepfitcoach.com" target="_blank" rel="noopener" style="--c:#2bc8ff"><span class="vpn-up-ico">🏋️</span><span class="vpn-up-t"><b>PepFitCoach</b><small>Workout, nutrition and peptide plan</small></span><span class="vpn-up-go" aria-hidden="true">↗</span></a>
+  <a class="vpn-up-row" role="menuitem" href="https://pokemedex.com" target="_blank" rel="noopener" style="--c:#ffcb05"><span class="vpn-up-ico">🔴</span><span class="vpn-up-t"><b>PokeMe-Dex</b><small>Injection and vial tracker</small></span><span class="vpn-up-go" aria-hidden="true">↗</span></a>
+  <a class="vpn-up-row" role="menuitem" href="https://glowklowcalc.com" target="_blank" rel="noopener" style="--c:#9d5cff"><span class="vpn-up-ico">🧮</span><span class="vpn-up-t"><b>GLOW / KLOW Calc</b><small>Mixing and dose calculator</small></span><span class="vpn-up-go" aria-hidden="true">↗</span></a>
+  <a class="vpn-up-row" role="menuitem" href="https://noorlabs.best" target="_blank" rel="noopener" style="--c:#ff8a3d"><span class="vpn-up-ico">🛒</span><span class="vpn-up-t"><b>Noor Labs</b><small>Third-party tested research peptides · 21+</small></span><span class="vpn-up-go" aria-hidden="true">↗</span></a>
+  <a class="vpn-up-row" role="menuitem" href="https://labelmaker.psik1435.workers.dev/" target="_blank" rel="noopener" style="--c:#ff2fa8"><span class="vpn-up-ico">🏷️</span><span class="vpn-up-t"><b>Label Maker</b><small>Custom labels for vials and bottles</small></span><span class="vpn-up-go" aria-hidden="true">↗</span></a>
+</div>
+<style>
+  /* 5-button bar: roomier labels */
+  #vpn-bottom-nav .vpn-bnav-label{font-size:10px !important;letter-spacing:0.08em;}
+  #vpn-bottom-nav .vpn-bnav-icon{font-size:1.15rem;}
+  .vpn-bnav-caret{font-style:normal;font-size:8px;display:inline-block;transition:transform .18s;opacity:.8;}
+  .vpn-bnav-btn[aria-expanded="true"] .vpn-bnav-caret{transform:rotate(180deg);}
+  .vpn-bnav-btn[aria-expanded="true"]{background:rgba(255,255,255,0.06);}
+  .vpn-bnav-btn[aria-expanded="true"] .vpn-bnav-label{opacity:1;}
+  #vpn-up-scrim{position:fixed;inset:0;z-index:9997;background:rgba(2,0,10,0.55);-webkit-tap-highlight-color:transparent;}
+  #vpn-up-scrim[hidden],.vpn-up[hidden]{display:none !important;}
+  .vpn-up{position:fixed;z-index:9998;left:10px;right:10px;bottom:calc(58px + env(safe-area-inset-bottom,0px) + 10px);max-width:440px;margin:0 auto;
+    max-height:calc(100dvh - 58px - env(safe-area-inset-bottom,0px) - 90px);overflow-y:auto;overscroll-behavior:contain;
+    box-sizing:border-box;padding:8px;border-radius:18px;
+    background:linear-gradient(rgba(10,6,26,0.98),rgba(10,6,26,0.98)) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;border:1px solid transparent;
+    box-shadow:0 -10px 40px rgba(0,0,0,0.6),0 0 30px -10px rgba(154,92,255,0.5);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;animation:vpnUpIn .18s ease-out;}
+  @keyframes vpnUpIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @media(prefers-reduced-motion:reduce){.vpn-up{animation:none;}}
+  .vpn-up-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:4px 8px 8px;}
+  .vpn-up-h span{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.14em;background:linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+  .vpn-up-h small{font-size:0.72rem;color:rgba(220,215,245,0.6);text-align:right;}
+  .vpn-up-row{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 10px;border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .vpn-up-row + .vpn-up-row{margin-top:2px;}
+  .vpn-up-row:hover,.vpn-up-row:active{background:rgba(255,255,255,0.06);}
+  .vpn-up-row:focus-visible{outline:2px solid #9a5cff;outline-offset:-2px;}
+  .vpn-up-ico{flex:0 0 auto;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:1.1rem;
+    background:color-mix(in srgb,var(--c) 20%,transparent);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);box-shadow:0 0 14px -4px var(--c);}
+  .vpn-up-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .vpn-up-t b{font-size:0.95rem;font-weight:700;color:#fff;line-height:1.2;}
+  .vpn-up-t small{font-size:0.76rem;color:rgba(220,215,245,0.65);line-height:1.3;}
+  .vpn-up-go{flex:0 0 auto;color:var(--c);font-size:1.1rem;opacity:.85;}
+  html[data-theme="light"] .vpn-up{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fa8,#9a5cff,#2fb4ff) border-box;box-shadow:0 -10px 40px rgba(30,20,70,0.18);}
+  html[data-theme="light"] .vpn-up-t b{color:#1a1530;}
+  html[data-theme="light"] .vpn-up-t small,html[data-theme="light"] .vpn-up-h small{color:#625c80;}
+  html[data-theme="light"] .vpn-up-row:hover{background:#f3f0fc;}
+  html[data-theme="light"] #vpn-up-scrim{background:rgba(20,10,50,0.25);}
+  @media(min-width:901px){ .vpn-up,#vpn-up-scrim{display:none !important;} }
+</style>
 
 <script>
 function vpnBnavSetActive(id) {
@@ -33424,8 +33417,35 @@ function vpnBnavSetActive(id) {
   var el = document.getElementById(id);
   if (el) el.classList.add('vpn-bnav-active');
 }
+/* Drop-up menus (Learn, Tools) above the bottom bar */
+function vpnUpClose(){
+  document.querySelectorAll('.vpn-up').forEach(function(p){ p.hidden = true; });
+  var s = document.getElementById('vpn-up-scrim'); if (s) s.hidden = true;
+  document.querySelectorAll('#vpn-bottom-nav [data-up]').forEach(function(b){ b.setAttribute('aria-expanded', 'false'); });
+}
 (function(){
-  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood','quick-guide':'bnav-guides',supplies:'bnav-guides'};
+  var scrim = document.getElementById('vpn-up-scrim');
+  document.querySelectorAll('#vpn-bottom-nav [data-up]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var panel = document.getElementById('vpn-up-' + btn.getAttribute('data-up'));
+      var open = panel.hidden;
+      vpnUpClose();
+      if (open) { panel.hidden = false; scrim.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+  scrim.addEventListener('click', vpnUpClose);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') vpnUpClose(); });
+  document.querySelectorAll('.vpn-up a.vpn-up-row').forEach(function(a){ a.addEventListener('click', function(){ setTimeout(vpnUpClose, 50); }); });
+  document.querySelectorAll('.vpn-up [data-view]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var v = b.getAttribute('data-view'); vpnUpClose();
+      showView(v);
+      var sb = document.querySelector('.sb-item[data-view="' + v + '"]'); if (sb && typeof setSbActive === 'function') setSbActive(sb);
+    });
+  });
+})();
+(function(){
+  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-learn',graymarket:'bnav-learn',studies:'bnav-learn','quick-guide':'bnav-learn',supplies:'bnav-learn'};
   var orig = window.showView; if (typeof orig !== 'function') return;
   window.showView = function(v){ var r = orig.apply(this, arguments); document.querySelectorAll('.vpn-bnav-btn').forEach(function(b){ b.classList.toggle('vpn-bnav-active', b.id === map[v]); }); return r; };
 })();
