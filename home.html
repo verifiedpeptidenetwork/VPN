@@ -4324,7 +4324,7 @@ document.addEventListener('keydown', function(e){
       <button class="mnav-card" style="color:#00ff64;border-color:rgba(0,255,100,0.4);" onclick="mobileNav('bloodwork')"><span class="mnav-icon">🩸</span><span class="mnav-label">BLOOD<br>WORK</span></button>
       <button class="mnav-card" style="color:#00ff64;border-color:rgba(0,255,100,0.4);" onclick="mobileNav('vitamins')"><span class="mnav-icon">💊</span><span class="mnav-label">VITAMINS</span></button>
       <button class="mnav-card" style="color:#00ff64;border-color:rgba(0,255,100,0.4);" onclick="mobileNav('workouts')"><span class="mnav-icon">💪</span><span class="mnav-label">WORKOUTS</span></button>
-      <button class="mnav-card" style="color:#ff6b00;border-color:rgba(255,107,0,0.4);" onclick="mobileNav('supplies')"><span class="mnav-icon">🧫</span><span class="mnav-label">SUPPLIES</span></button>
+      <button class="mnav-card" style="color:#ff6b00;border-color:rgba(255,107,0,0.4);" onclick="mobileNav('quick-guide')"><span class="mnav-icon">🛠️</span><span class="mnav-label">TOOLS &amp;<br>SUPPLIES</span></button>
     </div>
 
     <!-- TOOLS -->
@@ -4706,8 +4706,7 @@ document.addEventListener('keydown', function(e){
   <div class="sb-section">Health</div>
   <button class="sb-item" data-view="vitamins" onclick="showView('vitamins');setSbActive(this)"><span class="sb-icon">💊</span>Vitamins &amp; Supps</button>
   <button class="sb-item" data-view="workouts" onclick="showView('workouts');setSbActive(this)"><span class="sb-icon">💪</span>Workout Guides</button>
-  <button class="sb-item" data-view="supplies" onclick="showView('supplies');setSbActive(this)"><span class="sb-icon">🧫</span>Supplies</button>
-  <button class="sb-item" data-view="quick-guide" onclick="showView('quick-guide');setSbActive(this)"><span class="sb-icon">🛠️</span>Tools &amp; Guides</button>
+  <button class="sb-item" data-view="quick-guide" onclick="showView('quick-guide');setSbActive(this)"><span class="sb-icon">🛠️</span>Tools, Guides &amp; Supplies</button>
 
   <div class="sb-divider"></div>
 
@@ -4804,7 +4803,7 @@ document.addEventListener('keydown', function(e){
         <span class="rnav-group-label">TOOLS</span>
         <button class="rtab rtab-yellow" onclick="showView('calculator');setRTab(this)">🧮 CALCULATOR</button>
         <button class="rtab rtab-yellow" onclick="showView('cheatsheets');setRTab(this)">🗄 VAULT</button>
-        <button class="rtab rtab-orange" onclick="showView('quick-guide');setRTab(this)">🛠 TOOLS & GUIDES</button>
+        <button class="rtab rtab-orange" onclick="showView('quick-guide');setRTab(this)">🛠 TOOLS & SUPPLIES</button>
         <button class="rtab rtab-purple" onclick="showView('templates');setRTab(this)">🏷 TEMPLATES</button>
         <a href="peptide-suggestion.html" class="rtab rtab-pink">🧬 PEPTIDE MATCH</a>
       </div>
@@ -4836,7 +4835,7 @@ document.addEventListener('keydown', function(e){
         <button class="rtab rtab-pink" onclick="showView('bloodwork');setRTab(this)">🩸 BLOOD WORK</button>
         <button class="rtab rtab-green" onclick="showView('vitamins');setRTab(this)">💊 VITAMINS</button>
         <button class="rtab rtab-purple" onclick="showView('workouts');setRTab(this)">💪 WORKOUTS</button>
-        <button class="rtab rtab-cyan" onclick="showView('supplies');setRTab(this)">🧫 SUPPLIES</button>
+
       </div>
       <div class="rnav-group">
         <span class="rnav-group-label">COMMUNITY</span>
@@ -9936,12 +9935,6 @@ window.vpnBadgeGo = function(view, id){
        onmouseout="this.style.boxShadow='none'">
       <span class="qnav-icon">🧮</span><span class="qnav-label">RECONSTITUTION</span><span class="qnav-sub">Dose & draw amounts</span>
     </div>
-    <div class="qnav-card" style="color:#00ffcc;border-color:rgba(0,255,204,0.35);"
-       onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'))"
-       onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,204,0.35),0 4px 20px rgba(0,255,204,0.15)'"
-       onmouseout="this.style.boxShadow='none'">
-      <span class="qnav-icon">🧫</span><span class="qnav-label">SUPPLIES</span><span class="qnav-sub">Syringes · BAC water</span>
-    </div>
     <div class="qnav-card" style="color:#ff4dc4;border-color:rgba(255,77,196,0.35);"
        onclick="showView('vitamins');setActiveNav(document.querySelector('[onclick*=vitamins]'))"
        onmouseover="this.style.boxShadow='0 0 20px rgba(255,77,196,0.4),0 4px 20px rgba(255,77,196,0.2)'"
@@ -9958,7 +9951,7 @@ window.vpnBadgeGo = function(view, id){
        onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'))"
        onmouseover="this.style.boxShadow='0 0 20px rgba(0,255,100,0.35),0 4px 20px rgba(0,255,100,0.15)'"
        onmouseout="this.style.boxShadow='none'">
-      <span class="qnav-icon">🛠️</span><span class="qnav-label">TOOLS & GUIDES</span><span class="qnav-sub">Protocols & resources</span>
+      <span class="qnav-icon">🛠️</span><span class="qnav-label">TOOLS & SUPPLIES</span><span class="qnav-sub">Guides, BAC water, syringes</span>
     </div>
     <a href="peptide-suggestion.html" class="qnav-card" style="color:#ff2d78;border-color:rgba(255,45,120,0.35);"
        onmouseover="this.style.boxShadow='0 0 20px rgba(255,45,120,0.4),0 4px 20px rgba(255,45,120,0.2)'"
@@ -15552,7 +15545,7 @@ window.vpnBadgeGo = function(view, id){
     <div class="vh-inner">
       <div class="vh-icon">🛠</div>
       <div>
-        <div class="vh-title">TOOLS & GUIDES</div>
+        <div class="vh-title">TOOLS, GUIDES & SUPPLIES</div>
         <div class="vh-sub">Research guides, PDFs, calculators, databases — everything you need for safe and informed research.</div>
         <div class="vh-badges"><span class="vh-badge">PDFs</span><span class="vh-badge">DATABASES</span><span class="vh-badge">PROTOCOLS</span><span class="vh-badge">GLP-1</span><span class="vh-badge">RESEARCH CARDS</span></div>
       </div>
@@ -33357,6 +33350,11 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
   .vpn-bnav-btn.vpn-bnav-active .vpn-bnav-label {
     opacity: 1;
   }
+  /* 9 buttons: tighter icons/labels so they fit a portrait phone */
+  #vpn-bottom-nav .vpn-bnav-btn { min-width: 0; }
+  #vpn-bottom-nav .vpn-bnav-icon { font-size: 1.05rem; }
+  #vpn-bottom-nav .vpn-bnav-label { font-size: 9px !important; letter-spacing: 0.04em; white-space: nowrap; }
+  @media (max-width: 360px) { #vpn-bottom-nav .vpn-bnav-label { font-size: 8px !important; letter-spacing: 0; } #vpn-bottom-nav .vpn-bnav-icon { font-size: 0.95rem; } }
   /* pad main content so bottom nav doesn't cover it */
   main, #view-about, #view-contact, #view-intel-feed {
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
@@ -33377,30 +33375,38 @@ try { localStorage.removeItem('vpn-theme'); } catch(e) {} /* retire the old inve
     <span class="vpn-bnav-icon">🔬</span>
     <span class="vpn-bnav-label">INDEX</span>
   </button>
+  <a class="vpn-bnav-btn" id="bnav-pokedex" href="https://pokemedex.com" target="_blank" rel="noopener" aria-label="PokeMe-Dex dose tracker (opens pokemedex.com)"
+    style="color:#ffcb05;">
+    <span class="vpn-bnav-icon">🔴</span>
+    <span class="vpn-bnav-label">POKEDEX</span>
+  </a>
   <button class="vpn-bnav-btn" id="bnav-blood"
     style="color:#ff4d6d;"
     onclick="showView('bloodwork');setActiveNav(document.querySelector('[onclick*=bloodwork]'));vpnBnavSetActive('bnav-blood')">
     <span class="vpn-bnav-icon">🩸</span>
     <span class="vpn-bnav-label">BLOOD</span>
   </button>
-  <button class="vpn-bnav-btn" id="bnav-guides"
+  <button class="vpn-bnav-btn" id="bnav-guides" aria-label="Tools, guides and supplies"
     style="color:#2ee6a6;"
     onclick="showView('quick-guide');setActiveNav(document.querySelector('[onclick*=quick-guide]'));vpnBnavSetActive('bnav-guides')">
     <span class="vpn-bnav-icon">🛠️</span>
-    <span class="vpn-bnav-label">GUIDES</span>
+    <span class="vpn-bnav-label">TOOLS</span>
   </button>
-  <button class="vpn-bnav-btn" id="bnav-supplies"
-    style="color:#ffcc00;"
-    onclick="showView('supplies');setActiveNav(document.querySelector('[onclick*=supplies]'));vpnBnavSetActive('bnav-supplies')">
-    <span class="vpn-bnav-icon">📦</span>
-    <span class="vpn-bnav-label">SUPPLIES</span>
-  </button>
-  <button class="vpn-bnav-btn" id="bnav-calc"
-    style="color:#9d00ff;"
-    onclick="showView('calculator');setActiveNav(document.querySelector('[onclick*=calculator]'));vpnBnavSetActive('bnav-calc')">
+  <a class="vpn-bnav-btn" id="bnav-calc" href="https://glowklowcalc.com" target="_blank" rel="noopener" aria-label="Peptide calculator (opens glowklowcalc.com)"
+    style="color:#9d00ff;">
     <span class="vpn-bnav-icon">🧮</span>
     <span class="vpn-bnav-label">CALC</span>
-  </button>
+  </a>
+  <a class="vpn-bnav-btn" id="bnav-coach" href="https://pepfitcoach.com" target="_blank" rel="noopener" aria-label="Workout coach (opens pepfitcoach.com)"
+    style="color:#2bc8ff;">
+    <span class="vpn-bnav-icon">🏋️</span>
+    <span class="vpn-bnav-label">COACH</span>
+  </a>
+  <a class="vpn-bnav-btn" id="bnav-store" href="https://noorlabs.best" target="_blank" rel="noopener" aria-label="Store (opens noorlabs.best)"
+    style="color:#ff8a3d;">
+    <span class="vpn-bnav-icon">🛒</span>
+    <span class="vpn-bnav-label">STORE</span>
+  </a>
   <button class="vpn-bnav-btn" id="bnav-menu"
     style="color:#ff2d78;"
     onclick="toggleMobileNav();vpnBnavSetActive('bnav-menu')">
@@ -33418,7 +33424,7 @@ function vpnBnavSetActive(id) {
   if (el) el.classList.add('vpn-bnav-active');
 }
 (function(){
-  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood','quick-guide':'bnav-guides',supplies:'bnav-supplies',calculator:'bnav-calc'};
+  var map = {home:'bnav-home','all-peptides':'bnav-index',bloodwork:'bnav-blood','quick-guide':'bnav-guides',supplies:'bnav-guides'};
   var orig = window.showView; if (typeof orig !== 'function') return;
   window.showView = function(v){ var r = orig.apply(this, arguments); document.querySelectorAll('.vpn-bnav-btn').forEach(function(b){ b.classList.toggle('vpn-bnav-active', b.id === map[v]); }); return r; };
 })();
@@ -36908,5 +36914,39 @@ html body .vh2-tools .vt-pfc small{display:block !important;font:500 12.5px/1.45
 html body .vh2-tools .vt-lab .vt-lab-sum{margin:2px 2px 0;font:500 12.5px/1.45 'Inter',system-ui,sans-serif !important;color:rgba(236,226,255,.78);flex:1 1 auto;}
 @media (max-width:560px){html body .vh2-tools .vt-pfc small{-webkit-line-clamp:3;font-size:12px !important;}html body .vh2-tools .vt-lab .vt-lab-sum{font-size:12px !important;}}
 </style>
+<!-- TOOLS & GUIDES + SUPPLIES are one page: the Supplies block moves to the bottom of Tools & Guides; old Supplies links land there -->
+<style>
+  #view-quick-guide .qg-sup-h{margin:2.2rem 0 0.8rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.10);font:800 clamp(1.3rem,3vw,1.7rem)/1.2 'Inter',system-ui,sans-serif;letter-spacing:-0.02em;color:#f1f3fb;scroll-margin-top:80px;}
+  html[data-theme="light"] #view-quick-guide .qg-sup-h{color:#14112a;border-top-color:rgba(30,20,70,0.12);}
+  #view-quick-guide #view-supplies{display:block !important;padding:0 !important;margin:0 !important;background:transparent !important;}
+  #view-quick-guide #view-supplies > .view-hero{display:none !important;}
+</style>
+<script>
+(function(){
+  function merge(){
+    var sv = document.getElementById('view-supplies'), qg = document.getElementById('view-quick-guide');
+    if (!sv || !qg || sv.getAttribute('data-merged')) return;
+    sv.setAttribute('data-merged', '1');
+    sv.classList.remove('view', 'active');
+    sv.classList.add('vsec');
+    var h = document.createElement('h2'); h.className = 'qg-sup-h'; h.id = 'qg-supplies'; h.textContent = '🧫 Research supplies';
+    qg.appendChild(h); qg.appendChild(sv);
+    var box = [].slice.call(sv.querySelectorAll('div')).find(function(d){ return [].filter.call(d.children, function(c){ return c.tagName === 'A'; }).length >= 3; });
+    if (box) box.classList.add('sup-grid');
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', merge); else merge();
+  var prev = window.showView;
+  if (typeof prev === 'function') window.showView = function(n){
+    if (n === 'supplies') {
+      merge();
+      var r = prev.apply(this, ['quick-guide'].concat([].slice.call(arguments, 1)));
+      setTimeout(function(){ var t = document.getElementById('qg-supplies'); if (t) t.scrollIntoView({ behavior:'smooth', block:'start' }); }, 200);
+      return r;
+    }
+    return prev.apply(this, arguments);
+  };
+  if (location.hash === '#supplies') setTimeout(function(){ window.showView('supplies'); }, 0);
+})();
+</script>
 </body>
 </html>
