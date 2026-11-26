@@ -2953,14 +2953,21 @@ function pmDownloadReport(){
     document.getElementById('pm-ring-n').textContent = top ? top.count + '/' + total : '0';
     document.getElementById('pm-lab-best').textContent = top ? PEPTIDES[top.key].name : 'Pick a goal';
     document.getElementById('pm-lab-why').textContent = top ? top.goals.map(pmLabel).join(' · ') : 'Tap one or more goals above.';
+    /* how many vials to buy, from the reference dose (shows once the dose data has loaded) */
+    function vialsOf(k){ var s = window.pmVialSummary ? pmVialSummary(k) : null; return s && s.vials ? { n:String(s.vials).split('–').pop(), size:s.size, course:s.course } : null; }
+    var vl = document.getElementById('pm-lab-vials');
+    if (!vl) { vl = document.createElement('span'); vl.id = 'pm-lab-vials'; vl.className = 'pm-lab-vials'; document.getElementById('pm-lab-why').insertAdjacentElement('afterend', vl); }
+    var tv = top && vialsOf(top.key);
+    vl.textContent = tv ? '🧪 Buy ' + tv.n + ' × ' + tv.size + ' vial' + (tv.n === '1' ? '' : 's') + ' · ' + tv.course : '';
+    vl.hidden = !tv;
     var rows = res.slice(1, 3).map(function(it, i){
-      var w = Math.round(it.count / total * 100);
-      return '<div class="pm-lab-row"><span class="n">' + (i + 2) + '</span><span class="t"><b>' + pmEsc(PEPTIDES[it.key].name) + '</b><small>' + pmEsc(it.goals.map(pmLabel).join(' · ')) + '</small></span><span class="m"><b>' + it.count + ' of ' + total + '</b><i><u style="width:' + w + '%"></u></i></span></div>';
+      var w = Math.round(it.count / total * 100), rv = vialsOf(it.key);
+      return '<div class="pm-lab-row"><span class="n">' + (i + 2) + '</span><span class="t"><b>' + pmEsc(PEPTIDES[it.key].name) + '</b><small>' + pmEsc(it.goals.map(pmLabel).join(' · ')) + '</small>' + (rv ? '<small class="pm-lab-rv">🧪 Buy ' + rv.n + ' × ' + rv.size + '</small>' : '') + '</span><span class="m"><b>' + it.count + ' of ' + total + '</b><i><u style="width:' + w + '%"></u></i></span></div>';
     }).join('');
     document.getElementById('pm-lab-rows').innerHTML = rows || (total ? '' : '');
     var go = document.getElementById('pm-lab-go');
     go.disabled = false;
-    go.textContent = demo() ? 'Tap your own goals, or start the quiz →' : ('See my ' + res.length + ' matches →');
+    go.textContent = demo() ? 'Tap your goals, or start the quiz →' : ('Start with these goals · ' + res.length + ' matches →');
   }
   host.addEventListener('click', function(e){
     var b = e.target.closest('button'); if (!b) return;
@@ -3159,6 +3166,29 @@ function pmDownloadReport(){
   html[data-theme="light"] .pm-sheet-head h2{color:#14102a;}
   html[data-theme="light"] .pm-sheet-x{background:#f1eefb;border-color:#d9d3ef;color:#14102a;}
   /* what goes in the panel */
+  .pm-lab-vials{display:inline-flex;align-items:center;margin-top:6px;padding:4px 10px;border-radius:999px;background:rgba(47,180,255,0.14);border:1px solid rgba(47,180,255,0.4);color:#bfe8ff;font:800 12.5px/1.3 'Inter',system-ui,sans-serif;width:max-content;max-width:100%;}
+  .pm-lab-vials[hidden]{display:none;}
+  .pm-lab-row .t small.pm-lab-rv{color:#8fd6ff !important;font-weight:700 !important;margin-top:2px;}
+  html[data-theme="light"] .pm-lab-row .t small.pm-lab-rv{color:#0b5f9e !important;}
+  html[data-theme="light"] .pm-lab-vials{background:#eaf6ff;color:#0b5f9e;border-color:#b9dcf5;}
+  /* Look up panel */
+  .pm-find-box{position:sticky;top:-14px;z-index:2;display:flex;align-items:center;gap:8px;margin:-14px -16px 10px;padding:12px 16px;background:inherit;background:#100d1e;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pm-find-box[hidden]{display:none;}
+  .pm-find-box > span{font-size:18px;}
+  .pm-find-box input{flex:1;min-width:0;height:48px;padding:0 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.05);color:inherit;font:600 16px/1 'Inter',system-ui,sans-serif;outline:none;-webkit-appearance:none;appearance:none;}
+  .pm-find-box input:focus{border-color:#ff2fa8;box-shadow:0 0 0 3px rgba(255,47,168,0.2);}
+  .pm-find-box input::-webkit-search-cancel-button{display:none;}
+  .pm-find-clear{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:inherit;font:700 16px/1 'Inter',sans-serif;cursor:pointer;}
+  .pm-find-letter{margin:12px 2px 6px;font:900 12px/1 'Inter',sans-serif;letter-spacing:.12em;color:#ff6fc4;}
+  .pm-find-item{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px;width:100%;margin:0 0 6px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.035);color:inherit;text-align:left;cursor:pointer;min-height:52px;}
+  .pm-find-item b{font:800 15px/1.3 'Inter',sans-serif;}
+  .pm-find-item small{grid-column:1;font:600 12.5px/1.35 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);margin-top:2px;}
+  .pm-find-item i{grid-row:1 / span 2;grid-column:2;font-style:normal;font-size:22px;opacity:.5;}
+  .pm-find-item:active{background:rgba(255,47,168,0.12);}
+  .pm-find-none{margin:14px 2px;font:600 14px/1.5 'Inter',sans-serif;color:var(--pm-sub,#a9a6c0);}
+  .pm-find-back{min-height:44px;margin:0 0 12px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06);color:inherit;font:800 14px/1 'Inter',sans-serif;cursor:pointer;}
+  html[data-theme="light"] .pm-find-box{background:#fff;border-color:#e2ddf2;}
+  html[data-theme="light"] .pm-find-box input,html[data-theme="light"] .pm-find-item,html[data-theme="light"] .pm-find-back,html[data-theme="light"] .pm-find-clear{background:#faf9ff;border-color:#e2ddf2;}
   .pm-sheet-body .pm-hero-find{margin:0;max-width:none;}
   .pm-sheet-body #pm-search-out{margin-top:14px !important;}
   .pm-sheet-body .pm-res-body{padding:0 !important;}
@@ -3218,7 +3248,7 @@ function pmDownloadReport(){
     #pm-tray:not(.show){transform:translateY(calc(100% + 90px)) !important;visibility:hidden;}
     .pm-navfloat{bottom:calc(64px + 10px + env(safe-area-inset-bottom,0px)) !important;}
     /* simpler top: the bar does Start and Look up, Match Lab is the way in */
-    body.pm-intro .pm-hero .pm-cta,body.pm-intro .pm-hero-find,body.pm-intro .pm-hero .pm-trust,body.pm-intro .pm-hero .pm-how{display:none !important;}
+    body.pm-intro .pm-hero .pm-cta,body.pm-intro .pm-hero .pm-hero-find,body.pm-intro .pm-hero .pm-trust,body.pm-intro .pm-hero .pm-how{display:none !important;}
     body.pm-intro #pm-search-sec{display:none !important;}
     /* "Before you start" lives under Guide */
     #pm-resources{display:none !important;}
@@ -3237,13 +3267,12 @@ function pmDownloadReport(){
   function textPct(){ var p = $('vt-dock-pct'); return p ? p.textContent : '100%'; }
   function themeName(){ return document.documentElement.getAttribute('data-theme') === 'light' ? 'Light' : 'Dark'; }
 
-  function open(kind){
+  function open(kind, query){
     if (openKind) closeNow();
     openKind = kind; bodyEl.innerHTML = '';
     if (kind === 'find') {
       titleEl.textContent = '🔎 Look up a peptide';
-      borrow(document.querySelector('.pm-hero-find')); borrow($('pm-search-out'));
-      setTimeout(function(){ var i = $('peptide-search'); if (i) i.focus(); }, 280);
+      buildFinder(query);
     } else if (kind === 'guide') {
       titleEl.textContent = '📚 Before you start';
       bodyEl.insertAdjacentHTML('beforeend', '<p class="pm-sheet-intro">Baseline blood work to ask your doctor for, plus vitamins, supplements and peptides by condition with studies and dosages.</p>');
@@ -3263,6 +3292,47 @@ function pmDownloadReport(){
     sheet.hidden = false; body.classList.add('pm-sheet-open');
     try { history.pushState({ pmSheet:kind }, ''); } catch(e){}
     mark();
+  }
+  /* Look up: one clean search box over an A–Z list of every peptide; tapping one opens its card right here */
+  function buildFinder(query){
+    var keys = Object.keys(PEPTIDES).sort(function(a, b){ return PEPTIDES[a].name.localeCompare(PEPTIDES[b].name); });
+    bodyEl.insertAdjacentHTML('beforeend',
+      '<div class="pm-find">'
+      + '<label class="pm-find-box"><span aria-hidden="true">🔎</span><input id="pm-find-q" type="search" inputmode="search" autocomplete="off" placeholder="Search ' + keys.length + ' peptides…" aria-label="Search peptides"><button type="button" class="pm-find-clear" aria-label="Clear search" hidden>✕</button></label>'
+      + '<div class="pm-find-list" role="list"></div>'
+      + '<div class="pm-find-card" hidden><button type="button" class="pm-find-back">← All peptides</button><div class="pm-list pm-find-out"></div></div>'
+      + '</div>');
+    var q = $('pm-find-q'), list = bodyEl.querySelector('.pm-find-list'), card = bodyEl.querySelector('.pm-find-card'), out = bodyEl.querySelector('.pm-find-out'), clr = bodyEl.querySelector('.pm-find-clear');
+    function goalsOf(k){ try { return (typeof getPepGoals === 'function' ? getPepGoals(k) : []) || []; } catch(e){ return []; } }
+    function render(){
+      var s = q.value.trim().toLowerCase(), last = '', html = '', n = 0;
+      clr.hidden = !s;
+      keys.forEach(function(k){
+        var p = PEPTIDES[k]; if (s && p.name.toLowerCase().indexOf(s) === -1 && k.toLowerCase().indexOf(s) === -1) return;
+        var L = /[a-z]/i.test(p.name[0]) ? p.name[0].toUpperCase() : '#';
+        if (!s && L !== last) { html += '<div class="pm-find-letter">' + L + '</div>'; last = L; }
+        var g = goalsOf(k).slice(0, 3).map(function(x){ return pmIcon(x) + ' ' + pmLabel(x); }).join(' · ');
+        html += '<button type="button" class="pm-find-item" role="listitem" data-k="' + k + '"><b>' + pmEsc(p.name) + '</b>' + (g ? '<small>' + g + '</small>' : '') + '<i aria-hidden="true">›</i></button>';
+        n++;
+      });
+      list.innerHTML = n ? html : '<p class="pm-find-none">No peptide matches “' + pmEsc(q.value) + '”. Check the spelling or try fewer letters.</p>';
+    }
+    function show(k){
+      out.innerHTML = pmCard({ key:k, count:0, goals:goalsOf(k) }, 1, 0).replace(' best"', '"');
+      var d = out.querySelector('details.pm-more'); if (d) d.open = true;
+      if (window.pmVialFill) pmVialFill(out);
+      list.hidden = true; q.closest('.pm-find-box').hidden = true; card.hidden = false; bodyEl.scrollTop = 0;
+      titleEl.textContent = PEPTIDES[k].name;
+    }
+    function back(){ card.hidden = true; list.hidden = false; q.closest('.pm-find-box').hidden = false; titleEl.textContent = '🔎 Look up a peptide'; q.focus(); }
+    q.addEventListener('input', render);
+    q.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var first = list.querySelector('.pm-find-item'); if (first) show(first.getAttribute('data-k')); } });
+    clr.addEventListener('click', function(){ q.value = ''; render(); q.focus(); });
+    list.addEventListener('click', function(e){ var b = e.target.closest('.pm-find-item'); if (b) show(b.getAttribute('data-k')); });
+    card.querySelector('.pm-find-back').addEventListener('click', back);
+    if (query) q.value = query;
+    render();
+    if (matchMedia('(min-width:901px)').matches || query) setTimeout(function(){ q.focus(); var n = q.value.length; try { q.setSelectionRange(n, n); } catch(e){} }, 260);
   }
   function closeNow(){ giveBack(); sheet.hidden = true; body.classList.remove('pm-sheet-open'); openKind = null; mark(); }
   function close(){ if (history.state && history.state.pmSheet) history.back(); else closeNow(); }
@@ -3308,6 +3378,15 @@ function pmDownloadReport(){
     e.preventDefault(); e.stopImmediatePropagation(); open('guide');
   }, true);
 
+  /* the search box at the top (computers) opens the same A–Z list */
+  var heroIn = $('peptide-search');
+  if (heroIn) {
+    heroIn.setAttribute('readonly', ''); heroIn.removeAttribute('list'); heroIn.placeholder = 'Search or browse all ' + Object.keys(PEPTIDES).length + ' peptides…'; heroIn.style.cursor = 'pointer';
+    var openFromHero = function(e){ if (e) e.preventDefault(); open('find', ''); };
+    heroIn.addEventListener('click', openFromHero); heroIn.addEventListener('focus', function(){ if (!openKind) openFromHero(); });
+    var heroBtn = heroIn.parentNode && heroIn.parentNode.querySelector('button'); if (heroBtn) { heroBtn.textContent = 'Browse all'; heroBtn.onclick = openFromHero; }
+  }
+
   /* computers: Guide button in the top bar */
   var wrap = document.querySelector('.pm-top .pm-wrap');
   if (wrap && !wrap.querySelector('.pm-top-guide')) {
@@ -3318,7 +3397,7 @@ function pmDownloadReport(){
 
   /* labels and highlight */
   if (startPage) nav.querySelector('[data-go="start"] .t').textContent = 'Match';
-  var lab = $('pm-lab-go'); if (lab && !startPage) lab.textContent = 'Start with these goals →';
+  /* Match Lab's button label is set by the card itself */
   function mark(){
     var cur = openKind;
     if (!cur) {
@@ -3486,7 +3565,8 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
 
   window.pmVialBox = function(key){
     var p = PEPTIDES[key], r = PM_REF[key];
-    var calc = (r && (r.s != null || r.ladder)) ? r : (r ? null : ownRef(p));
+    var notInjected = p && (p.route === 'oral' || p.route === 'topical');
+    var calc = notInjected ? null : ((r && (r.s != null || r.ladder)) ? r : (r ? null : ownRef(p)));
     var html = '<div class="pm-ref" data-k="' + key + '">';
     if (r) {
       html += '<h4>📏 Reference dose</h4><p class="pm-ref-line"><b>' + pmEsc(r.txt) + '</b></p>'
@@ -3503,6 +3583,8 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
            + '<div class="pm-vials-row"><span>Course</span><span class="pm-wstep"><button type="button" data-d="-1" aria-label="Shorter">−</button><b class="pm-w"></b><button type="button" data-d="1" aria-label="Longer">+</button></span></div>'
            + '<div class="pm-vials-row"><span>Vial size</span><span class="pm-vsz">' + sizes.map(function(s){ return '<button type="button" data-s="' + s + '">' + (calc.unit === 'IU' ? s.toLocaleString() + ' IU' : (s < 1 ? Math.round(s * 1000) + ' mcg' : s + ' mg')) + '</button>'; }).join('') + '</span></div>'
            + '<div class="pm-vials-out"></div><p class="pm-vials-note"></p></div>';
+    } else if (notInjected && r) {
+      html += '<p class="pm-vials-note">This tool lists it ' + (p.route === 'oral' ? 'by mouth' : 'on the skin') + ', so there are no vials to mix. The reference page covers the injectable form.</p>';
     } else if (r) {
       html += '<p class="pm-vials-note">Vial count isn\'t shown for this one because its dose depends on body weight or more than one schedule. Check the reference page.</p>';
     }
@@ -3541,9 +3623,11 @@ var PM_REF_SITE = 'https://peptidedosages.com/';
   });
   function fill(root){ (root || document).querySelectorAll('.pm-vials').forEach(function(b){ if (!b.querySelector('.pm-vials-out').innerHTML) draw(b); }); }
   window.pmVialFill = fill;
+  /* Match Lab: redraw now that vial counts can be worked out */
+  setTimeout(function(){ if (window.pmLabDraw) pmLabDraw(); }, 0);
   /* one summary per peptide for the PDF, email and spreadsheet: uses what the person set on the card */
   window.pmVialSummary = function(key){
-    var p = PEPTIDES[key], R = PM_REF[key], r = R && (R.s != null || R.ladder) ? R : (R ? null : ownRef(p));
+    var p = PEPTIDES[key], R = PM_REF[key], r = (p && (p.route === 'oral' || p.route === 'topical')) ? null : (R && (R.s != null || R.ladder) ? R : (R ? null : ownRef(p)));
     var o = { ref: R ? R.txt : '', link: R ? PM_REF_SITE + R.u : '', course:'', size:'', vials:'', total:'', units:'' };
     if (!r) return o;
     var box = document.querySelector('#pm-list .pm-ref[data-k="' + key + '"] .pm-vials');
