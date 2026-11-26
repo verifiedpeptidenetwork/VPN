@@ -36460,6 +36460,8 @@ html body .vh2-tools .vt-pfc .pfc-mascot{height:112px !important;max-width:86px;
     body.has-bnav #site-hero,
     body.has-bnav > .view.active:is(#vpn-x,[id]){padding-bottom:calc(58px + env(safe-area-inset-bottom, 0px) + 32px) !important;}
     body.has-bnav .view.active{scroll-margin-bottom:calc(58px + env(safe-area-inset-bottom, 0px) + 32px);}
+    /* On other pages the hero is empty (the page lives outside it), so its bar padding was just an empty band under the header */
+    body.has-bnav.vpn-nonhome #site-hero:not(:has(.view.active)){padding-bottom:0 !important;}
   }
   /* The pinned bar already has "Close all", so the floating "Close all open cards" pill (which sits over content on phones) is hidden on these pages */
   body.vpn-v-vsec #vpn-close-cards{display:none !important;}
